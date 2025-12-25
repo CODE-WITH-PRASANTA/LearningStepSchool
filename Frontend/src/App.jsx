@@ -4,6 +4,7 @@ import './App.css'
 import Navbar from './Components/Navbar/Navbar'
 import Footer from './Components/Footer/Footer'
 import Home from '../src/Pages/Home/Home'
+import ContactBreadcrum from './Components/ContactBreadcrum/ContactBreadcrum'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<ContactBreadcrum />} />
       </Routes>
 
       <Footer />

@@ -14,22 +14,21 @@ import {
 } from "react-icons/fa";
 
 const Navbar = () => {
-  const [pagesOpen, setPagesOpen] = useState(false);
-  const [eventOpen, setEventOpen] = useState(false);
-  const [blogOpen, setBlogOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [academicOpen, setAcademicOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
     <>
-      {/* ===== Top Info Bar (Desktop Only) ===== */}
+      {/* ===== Top Info Bar ===== */}
       <div className="top-bar">
         <div className="top-left">
-          <span><FaMapMarkerAlt /> Nexus Esplanade , Bhubaneswar</span>
-          <span><FaEnvelope /> sarojkumarmallik94@gmail.com</span>
+          <span><FaMapMarkerAlt /> Bhubaneswar, Odisha</span>
+          <span><FaEnvelope /> info@schoolname.edu.in</span>
         </div>
 
         <div className="top-right">
-          <span>Follow Us:</span>
+          <span>Follow:</span>
           <FaFacebookF />
           <FaTwitter />
           <FaLinkedinIn />
@@ -37,72 +36,57 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* ===== Navbar ===== */}
+      {/* ===== Main Navbar ===== */}
       <nav className="navbar">
         {/* Logo */}
         <div className="logo">
           <img
             src="https://kidsa.vercel.app/_next/static/media/logo.5f815319.svg"
-            alt="Kidsa Logo"
+            alt="School Logo"
           />
         </div>
 
-        {/* ===== Desktop Menu (UNCHANGED) ===== */}
+        {/* ===== Desktop Menu ===== */}
         <ul className="nav-links">
-          <li>Home </li>
-          <li>About Us</li>
-          <li>Programs </li>
 
-          {/* Pages */}
+          <li>Home</li>
+
+          {/* About */}
           <li
             className="dropdown"
-            onMouseEnter={() => setPagesOpen(true)}
-            onMouseLeave={() => {
-              setPagesOpen(false);
-              setEventOpen(false);
-            }}
+            onMouseEnter={() => setAboutOpen(true)}
+            onMouseLeave={() => setAboutOpen(false)}
           >
-            Pages <FaChevronDown />
-
-            <div className={`dropdown-menu ${pagesOpen ? "open" : ""}`}>
-              <div
-                className="dropdown-item has-sub"
-                onMouseEnter={() => setEventOpen(true)}
-                onMouseLeave={() => setEventOpen(false)}
-              >
-                Event <FaChevronDown />
-
-                <div className={`sub-menu ${eventOpen ? "open" : ""}`}>
-                  <span>Event Grid</span>
-                  <span>Event Carousel</span>
-                  <span>Event Details</span>
-                </div>
-              </div>
-
-              <span className="dropdown-item">Teacher</span>
-              <span className="dropdown-item">Pricing</span>
-              <span className="dropdown-item">FAQ’s</span>
-              <span className="dropdown-item">404 Page</span>
+            About Us <FaChevronDown />
+            <div className={`dropdown-menu ${aboutOpen ? "open" : ""}`}>
+              <span className="dropdown-item">About School</span>
+              <span className="dropdown-item">Principal’s Message</span>
+              <span className="dropdown-item">Vision & Mission</span>
+              <span className="dropdown-item">Infrastructure</span>
             </div>
           </li>
 
-          {/* Blog */}
+          {/* Academics */}
           <li
             className="dropdown"
-            onMouseEnter={() => setBlogOpen(true)}
-            onMouseLeave={() => setBlogOpen(false)}
+            onMouseEnter={() => setAcademicOpen(true)}
+            onMouseLeave={() => setAcademicOpen(false)}
           >
-            Blog <FaChevronDown />
-
-            <div className={`dropdown-menu ${blogOpen ? "open" : ""}`}>
-              <span className="dropdown-item">Blog Grid</span>
-              <span className="dropdown-item">Blog List</span>
-              <span className="dropdown-item">Blog Carousel</span>
-              <span className="dropdown-item">Blog Details</span>
+            Academics <FaChevronDown />
+            <div className={`dropdown-menu ${academicOpen ? "open" : ""}`}>
+              <span className="dropdown-item">Pre-Primary</span>
+              <span className="dropdown-item">Primary</span>
+              <span className="dropdown-item">Secondary</span>
+              <span className="dropdown-item">Academic Calendar</span>
+              <span className="dropdown-item">Examination System</span>
             </div>
           </li>
 
-          <li>Contact Us</li>
+          <li>Admissions</li>
+          <li>Student Life</li>
+          <li>Notices</li>
+          <li>News</li>
+          <li>Contact</li>
         </ul>
 
         {/* ===== Right Actions ===== */}
@@ -112,14 +96,14 @@ const Navbar = () => {
               <FaPhoneAlt />
             </div>
             <div>
-              <p>Call Us Now</p>
+              <p>Call Us</p>
               <strong>8117048317</strong>
             </div>
           </div>
 
-          <button className="visit-btn">Book A Visit →</button>
+          <button className="visit-btn">Apply Admission</button>
 
-          {/* ===== Mobile Hamburger ===== */}
+          {/* Mobile Hamburger */}
           <div className="hamburger" onClick={() => setDrawerOpen(true)}>
             <FaBars />
           </div>
@@ -131,7 +115,7 @@ const Navbar = () => {
         <div className="drawer-header">
           <img
             src="https://kidsa.vercel.app/_next/static/media/logo.5f815319.svg"
-            alt="Logo"
+            alt="School Logo"
           />
           <FaTimes onClick={() => setDrawerOpen(false)} />
         </div>
@@ -139,20 +123,19 @@ const Navbar = () => {
         <ul className="drawer-menu">
           <li>Home</li>
           <li>About Us</li>
-          <li>Programs</li>
-          <li>Pages</li>
-          <li>Blog</li>
-          <li>Contact Us</li>
+          <li>Academics</li>
+          <li>Admissions</li>
+          <li>Student Life</li>
+          <li>Notices</li>
+          <li>News</li>
+          <li>Contact</li>
+          <li className="drawer-login">Login</li>
         </ul>
 
         <div className="drawer-contact">
-          <h4>Contact Info</h4>
-          <p><FaMapMarkerAlt /> Main Street, Melbourne, Australia</p>
-          <p><FaEnvelope /> info@example.com</p>
-          <p>Mon-Friday, 09am - 05pm</p>
+          <p><FaMapMarkerAlt /> Bhubaneswar, Odisha</p>
+          <p><FaEnvelope /> info@schoolname.edu.in</p>
           <p><FaPhoneAlt /> 8117048317</p>
-
-          <button className="drawer-btn">Get A Quote →</button>
 
           <div className="drawer-socials">
             <FaFacebookF />
