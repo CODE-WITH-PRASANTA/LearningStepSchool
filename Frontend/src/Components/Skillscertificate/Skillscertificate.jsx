@@ -3,15 +3,15 @@ import "./SkillsCertificate.css";
 import globe from "../../assets/parasuit-2.webp";
 import pencil from "../../assets/pencil-3.webp";
 import globe2 from "../../assets/parasuit-1.png";
-import cloudBg from "../../assets/cta-shape-3.png"; // SHAPE IMAGE
-import girl from '../../assets/cta-3.webp'
+import cloudBg from "../../assets/cta-shape-3.png";
+import girl from "../../assets/cta-3.webp";
 
 const SkillsCertificate = () => {
   return (
-    <section className="skills-wrapper">
+    <section className="SkillsCertificate-wrapper">
       {/* WAVE */}
       <svg
-        className="wave"
+        className="SkillsCertificate-wave"
         viewBox="0 0 1440 90"
         preserveAspectRatio="none"
       >
@@ -21,11 +21,11 @@ const SkillsCertificate = () => {
         />
       </svg>
 
-      <div className="skills-hero">
+      <div className="SkillsCertificate-hero">
         {/* LEFT */}
-        <div className="skills-text">
-          <div className="quality">
-            <span className="bulb">💡</span>
+        <div className="SkillsCertificate-text">
+          <div className="SkillsCertificate-quality">
+            <span className="SkillsCertificate-bulb">💡</span>
             <span>Get Your Quality</span>
           </div>
 
@@ -34,32 +34,29 @@ const SkillsCertificate = () => {
             <span>Kidsa</span>
           </h1>
 
-          <button className="apply-btn">
+          <button className="SkillsCertificate-apply-btn">
             Apply Now <span>→</span>
           </button>
 
-          <span className="icon pencil">
+          <span className="SkillsCertificate-icon SkillsCertificate-pencil">
             <img src={pencil} alt="pencil" />
           </span>
 
-          <span className="icon cloud">
+          <span className="SkillsCertificate-icon SkillsCertificate-cloud">
             <img src={globe2} alt="cloud" />
           </span>
         </div>
 
         {/* RIGHT */}
-        <div className="skills-image">
+        <div className="SkillsCertificate-image">
           <div
-            className="cloud-shape"
+            className="SkillsCertificate-cloud-shape"
             style={{ backgroundImage: `url(${cloudBg})` }}
           >
-            <img
-              src={girl}
-              alt="Kid learning"
-            />
+            <img src={girl} alt="Kid learning" />
           </div>
 
-          <span className="icon balloon">
+          <span className="SkillsCertificate-icon SkillsCertificate-balloon">
             <img src={globe} alt="balloon" />
           </span>
         </div>
