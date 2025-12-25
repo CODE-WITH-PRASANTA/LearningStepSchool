@@ -5,6 +5,7 @@ import Navbar from './Components/Navbar/Navbar'
 import Footer from './Components/Footer/Footer'
 import Home from '../src/Pages/Home/Home'
 import ContactBreadcrum from './Components/ContactBreadcrum/ContactBreadcrum'
+import ContactPage from './Pages/ContactPage/ContactPage'
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<ContactBreadcrum />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
 
       <Footer />
