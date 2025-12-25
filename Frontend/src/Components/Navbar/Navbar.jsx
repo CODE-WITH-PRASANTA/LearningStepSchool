@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logo from '../../assets/Logo.png'
 import {
@@ -76,11 +77,11 @@ const Navbar = () => {
             </div>
           </li>
 
-          <li>Admissions</li>
-          <li>Student Life</li>
-          <li>Notices</li>
-          <li>News</li>
-          <li>Contact</li>
+          <li><Link to="/admissions">Admissions</Link></li>
+          <li><Link to="/student-life">Student Life</Link></li>
+          <li><Link to="/notices">Notices</Link></li>
+          <li><Link to="/news">News</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
         </ul>
 
         <div className="Navbar-nav-actions">
@@ -90,7 +91,9 @@ const Navbar = () => {
             </div>
             <div>
               <p>Call Us</p>
-              <strong>8117048317</strong>
+              <strong>
+                <a href="tel:8117048317">8117048317</a>
+              </strong>
             </div>
           </div>
 
