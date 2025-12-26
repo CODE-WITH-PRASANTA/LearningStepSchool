@@ -6,6 +6,7 @@ import Footer from './Components/Footer/Footer'
 import Home from '../src/Pages/Home/Home'
 import ContactBreadcrum from './Components/ContactBreadcrum/ContactBreadcrum'
 import ContactPage from './Pages/ContactPage/ContactPage'
+import FAQ from './Pages/FAQ/FAQ'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faq" element={<FAQ />} />
       </Routes>
 
       <Footer />
