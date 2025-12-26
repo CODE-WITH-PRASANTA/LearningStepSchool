@@ -7,6 +7,7 @@ import Home from '../src/Pages/Home/Home'
 import ContactBreadcrum from './Components/ContactBreadcrum/ContactBreadcrum'
 import ContactPage from './Pages/ContactPage/ContactPage'
 import FAQ from './Pages/FAQ/FAQ'
+import Blog from './Pages/Blog/Blog'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/blog" element={<Blog />} />
       </Routes>
 
       <Footer />
