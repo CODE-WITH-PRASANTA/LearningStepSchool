@@ -33,7 +33,7 @@ const MyServices = () => {
   };
 
   return (
-    <section className="services">
+    <section className="my-services">
       <div className="services-container">
         {/* Background elements */}
         <div className="background-elements">
@@ -50,36 +50,39 @@ const MyServices = () => {
             <div className="tag-line"></div>
           </div>
 
-          <h1>
-            <span className="gradient-text">Learn To Play</span>
+         <h1>
+            <span className="gradient-text">Our Core Values</span>
             <br />
-            <span className="highlight-text">Converse With Confidence</span>
+            <span className="highlight-text">Shaping Young Minds for a Better Future</span>
           </h1>
 
-          <p className="description">
-            Experience transformative learning through our innovative approach.
-            We combine modern teaching methodologies with personalized care to
-            help you achieve your full potential.
+
+         <p className="myservice-description">
+            At our school, we believe that education is the foundation of a successful
+            and meaningful life. Through quality teaching, strong moral values, and
+            modern learning practices, we prepare students to face academic challenges
+            with confidence and integrity.
           </p>
 
-          <div className="benefits-list">
+
+       <div className="benefits-list">
             <div className="benefit-item">
               <IoCheckmarkCircle className="benefit-icon" />
-              <span>Personalized Learning Plans</span>
+              <span>Quality Education with Strong Values</span>
             </div>
             <div className="benefit-item">
               <IoCheckmarkCircle className="benefit-icon" />
-              <span>Certified Expert Instructors</span>
+              <span>Safe, Supportive & Student-Friendly Environment</span>
             </div>
             <div className="benefit-item">
               <IoCheckmarkCircle className="benefit-icon" />
-              <span>Flexible Scheduling Options</span>
+              <span>Creative Learning with Life Skills</span>
             </div>
           </div>
 
           <div className="services-actions">
             <button className="btn-primary" onClick={handleBookVisit}>
-              <span className="btn-text">Book A Session</span>
+              <span className="btn-text">Register Now</span>
               <span className="btn-arrow">→</span>
               <div className="btn-shine"></div>
             </button>
@@ -93,8 +96,11 @@ const MyServices = () => {
               </div>
               <div className="call-info">
                 <span>Call Us Now</span>
-                <strong>+208-555-0112</strong>
+                <a href="tel:+917014627894" className="call-number">
+                  <strong>+91 70146 27894</strong>
+                </a>
               </div>
+
             </div>
           </div>
         </div>
@@ -111,21 +117,25 @@ const MyServices = () => {
             </div>
             <div className="service-content">
               <div className="service-header">
-                <h3>Mathematics</h3>
+              <h3>Value of Education</h3>
                 <div className="service-badge">Popular</div>
               </div>
-              <p>
-                Master mathematical concepts through interactive lessons.
-                Build confidence in problem-solving and analytical thinking.
-              </p>
+             <p>
+              We believe education shapes character, builds confidence, and sparks
+              curiosity. Our teaching approach focuses on academic excellence,
+              discipline, ethics, and essential life skills to help students grow into
+              responsible and successful individuals.
+            </p>
+
               <div className="service-stats">
                 <div className="stat">
-                  <span className="stat-value">24+</span>
-                  <span className="stat-label">Modules</span>
+                 <span className="stat-value">100%</span>
+                <span className="stat-label">Focused Learning</span>
                 </div>
                 <div className="stat">
-                  <span className="stat-value">98%</span>
-                  <span className="stat-label">Success Rate</span>
+                 <span className="stat-value">Holistic</span>
+                  <span className="stat-label">Development</span>
+
                 </div>
               </div>
             </div>
@@ -141,21 +151,23 @@ const MyServices = () => {
             </div>
             <div className="service-content">
               <div className="service-header">
-                <h3>Bible Studies</h3>
+              <h3>Best Environment</h3>
                 <div className="service-badge new">New</div>
               </div>
-              <p>
-                Explore spiritual teachings in a welcoming environment.
-                Connect faith with daily life through meaningful discussions.
+             <p>
+                We provide a safe, welcoming, and motivating environment where children
+                feel confident to explore, learn, and grow. Our campus promotes emotional
+                well-being, discipline, and positivity in a joyful and secure atmosphere.
               </p>
+
               <div className="service-stats">
                 <div className="stat">
-                  <span className="stat-value">12+</span>
-                  <span className="stat-label">Studies</span>
+                 <span className="stat-value">Safe</span>
+                 <span className="stat-label">Campus</span>
                 </div>
                 <div className="stat">
-                  <span className="stat-value">Flexible</span>
-                  <span className="stat-label">Schedule</span>
+                 <span className="stat-value">Positive</span>
+                  <span className="stat-label">Learning Space</span>
                 </div>
               </div>
             </div>
@@ -171,21 +183,24 @@ const MyServices = () => {
             </div>
             <div className="service-content">
               <div className="service-header">
-                <h3>Flex-Care</h3>
+                <h3>Creative Curriculum</h3>
                 <div className="service-badge trending">Trending</div>
               </div>
-              <p>
-                Personalized care that adapts to your unique needs and schedule.
-                A holistic approach to support and development.
+             <p>
+                Our creative curriculum blends academics with arts, activities, and
+                innovation. It encourages curiosity, critical thinking, and
+                problem-solving, making learning engaging, meaningful, and enjoyable for
+                every child.
               </p>
+
               <div className="service-stats">
                 <div className="stat">
-                  <span className="stat-value">100%</span>
-                  <span className="stat-label">Customizable</span>
+                 <span className="stat-value">Activity</span>
+                  <span className="stat-label">Based Learning</span>
                 </div>
                 <div className="stat">
-                  <span className="stat-value">24/7</span>
-                  <span className="stat-label">Support</span>
+                 <span className="stat-value">Skill</span>
+                  <span className="stat-label">Oriented</span>
                 </div>
               </div>
             </div>

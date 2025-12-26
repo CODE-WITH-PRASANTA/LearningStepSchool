@@ -7,7 +7,29 @@ import heroImg1 from "../../assets/slider-1.png";
 import heroImg2 from "../../assets/slider-2.png";
 import heroImg3 from "../../assets/slider-3.png";
 
-const slides = [heroImg1, heroImg2, heroImg3];
+const slides = [
+  {
+    image: heroImg1,
+    badge: "Best RBSE School in Rajgarh",
+    title: "Learning Step International School",
+    highlight: "Building Bright Futures",
+    text: "Learning Step International School is one of the top-rated schools near Tehla Bypass, Alwar Road, Rajgarh, offering world-class education with modern infrastructure and experienced faculty.",
+  },
+  {
+    image: heroImg2,
+    badge: "Quality Education • Modern Campus",
+    title: "Top School Near Tehla Bypass",
+    highlight: "Alwar Road, Rajgarh",
+    text: "We provide a student-focused learning environment with smart classrooms, activity-based education, and holistic development for every child.",
+  },
+  {
+    image: heroImg3,
+    badge: "Admissions Open 2025–26",
+    title: "Trusted International School",
+    highlight: "For Academic Excellence",
+    text: "Enroll your child in a school that nurtures academic excellence, discipline, creativity, and confidence—recognized as a leading school in Rajgarh.",
+  },
+];
 
 const Herosection = () => {
   const [active, setActive] = useState(0);
@@ -22,11 +44,11 @@ const Herosection = () => {
   return (
     <section
       className="hero"
-      style={{ backgroundImage: `url(${slides[active]})` }}
+      style={{ backgroundImage: `url(${slides[active].image})` }}
     >
       <div className="hero-overlay" />
 
-      {/* LEFT DOT COUNTER */}
+      {/* DOT COUNTER */}
       <div className="dot-counter">
         <span className="line" />
         {slides.map((_, index) => (
@@ -45,25 +67,22 @@ const Herosection = () => {
       <div className="hero-container">
         <div className="hero-content">
           <span className="hero-badge">
-            <HiSparkles /> Welcome To Kidsa
+            <HiSparkles /> {slides[active].badge}
           </span>
 
           <h1 className="hero-title">
-            Trial Nanny Free <br />
-            On <span>First Day.</span>
+            {slides[active].title} <br />
+            <span>{slides[active].highlight}</span>
           </h1>
 
-          <p className="hero-text">
-            Suspendisse eget lectus vitae elit malesuada lacinia.
-            Vestibulum scelerisque, ligula sit amet consequat.
-          </p>
+          <p className="hero-text">{slides[active].text}</p>
 
           <div className="hero-buttons">
             <button className="btn-primary">
-              Explore More <FiArrowRight />
+              Explore School <FiArrowRight />
             </button>
             <button className="btn-outline">
-              Get In Touch <FiArrowRight />
+              Contact Admission <FiArrowRight />
             </button>
           </div>
         </div>

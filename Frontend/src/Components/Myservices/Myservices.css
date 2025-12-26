@@ -1,6 +1,6 @@
 /* MyServices.css - Premium Design (Fixed Icon Float) */
-.services {
-  padding: 120px 0;
+.my-services {
+  padding: 50px 0;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-family: "Inter", sans-serif;
   position: relative;
@@ -8,7 +8,7 @@
 }
 
 .services-container {
-  max-width: 1400px;
+  max-width: 1700px;
   margin: auto;
   padding: 0 40px;
   display: grid;
@@ -26,7 +26,6 @@
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 1;
   overflow: hidden;
 }
 
@@ -154,7 +153,7 @@
   z-index: -1;
 }
 
-.description {
+.myservice-description {
   max-width: 520px;
   color: #4b5563;
   line-height: 1.8;
@@ -295,22 +294,37 @@
   z-index: 2;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
-
 .call-info {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  padding-left: 14px;
+  border-left: 3px solid #49a6a8;
 }
 
+/* Label */
 .call-info span {
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   color: #6b7280;
 }
 
+/* Phone number */
 .call-info strong {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 800;
   color: #1f2937;
-  font-weight: 700;
+  line-height: 1.2;
+  transition: color 0.3s ease;
 }
+
+/* Hover effect (optional) */
+.call-info:hover strong {
+  color: #49a6a8;
+}
+
 
 /* RIGHT SIDE STYLING - Fixed Icon Float */
 .services-right {
@@ -520,7 +534,7 @@
 
 .service-content p {
   margin: 12px 0 20px;
-  color: #6b7280;
+  color: #ffffff;
   line-height: 1.7;
   font-size: 15px;
   position: relative;
@@ -568,6 +582,7 @@
 }
 
 .stat-value {
+  margin-bottom: 10px;
   font-size: 20px;
   font-weight: 700;
   color: #1f2937;
@@ -657,7 +672,7 @@
     font-size: 32px;
   }
   
-  .description {
+  .myservice-description {
     font-size: 16px;
   }
   
@@ -697,11 +712,5 @@
     color: #f1f5f9;
   }
   
-  .description,
-  .service-content p,
-  .benefit-item,
-  .call-info span,
-  .stat-label {
-    color: #cbd5e1;
-  }
+  
 }

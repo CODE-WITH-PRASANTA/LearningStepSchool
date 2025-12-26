@@ -22,22 +22,30 @@ const SkillsCertificate = () => {
       </svg>
 
       <div className="SkillsCertificate-hero">
-        {/* LEFT */}
+        {/* LEFT CONTENT */}
         <div className="SkillsCertificate-text">
           <div className="SkillsCertificate-quality">
             <span className="SkillsCertificate-bulb">💡</span>
-            <span>Get Your Quality</span>
+            <span>Recognised Excellence in Learning</span>
           </div>
 
           <h1>
-            Skills Certificate From The <br />
-            <span>Kidsa</span>
+            Learning Excellence At <br />
+            <span>Learning Step International School</span>
           </h1>
 
+          <p className="SkillsCertificate-desc">
+            At Learning Step International School, we focus on nurturing
+            academic excellence, creativity, confidence, and strong moral
+            values. Our learning environment prepares students to succeed
+            academically and grow into responsible global citizens.
+          </p>
+
           <button className="SkillsCertificate-apply-btn">
-            Apply Now <span>→</span>
+            Enroll Now <span>→</span>
           </button>
 
+          {/* Decorative Icons */}
           <span className="SkillsCertificate-icon SkillsCertificate-pencil">
             <img src={pencil} alt="pencil" />
           </span>
@@ -47,17 +55,17 @@ const SkillsCertificate = () => {
           </span>
         </div>
 
-        {/* RIGHT */}
+        {/* RIGHT IMAGE */}
         <div className="SkillsCertificate-image">
           <div
             className="SkillsCertificate-cloud-shape"
             style={{ backgroundImage: `url(${cloudBg})` }}
           >
-            <img src={girl} alt="Kid learning" />
+            <img src={girl} alt="Student learning happily" />
           </div>
 
           <span className="SkillsCertificate-icon SkillsCertificate-balloon">
-            <img src={globe} alt="balloon" />
+            <img src={globe} alt="education balloon" />
           </span>
         </div>
       </div>
