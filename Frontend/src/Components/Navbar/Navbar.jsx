@@ -84,14 +84,10 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
 
           <li><Link to="/admissions">Admissions</Link></li>
           <li><Link to="/student-life">Student Life</Link></li>
-
-          <li><Link to="/blog">Blog</Link></li>
-          <li><Link to="/faq">FAQ</Link></li>
-
           <li><Link to="/notice">Notice</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
           <li><Link to="/faq">FAQ</Link></li>
           <li><Link to="/blog">Blog</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
         </ul>
 
 
