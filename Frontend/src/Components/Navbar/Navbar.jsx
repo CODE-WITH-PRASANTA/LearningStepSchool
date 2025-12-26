@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import logo from '../../assets/Logo.png'
+import logo from '../../assets/Learning Step Logo.png'
 import {
   FaFacebookF,
   FaTwitter,
@@ -82,6 +82,8 @@ const Navbar = () => {
           <li><Link to="/notices">Notices</Link></li>
           <li><Link to="/news">News</Link></li>
           <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/faq">FAQ</Link></li>
+          <li><Link to="/blog">Blog</Link></li>
         </ul>
 
         <div className="Navbar-nav-actions">
