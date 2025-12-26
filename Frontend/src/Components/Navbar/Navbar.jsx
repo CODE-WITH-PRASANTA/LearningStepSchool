@@ -19,15 +19,19 @@ const Navbar = () => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [academicOpen, setAcademicOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
+
 
   return (
     <>
       {/* ===== Top Bar ===== */}
       <div className="Navbar-top-bar">
-        <div className="Navbar-top-left">
-          <span><FaMapMarkerAlt /> Bhubaneswar, Odisha</span>
-          <span><FaEnvelope /> info@schoolname.edu.in</span>
+      <div className="Navbar-top-left">
+          <span><FaMapMarkerAlt /> Tehla Bypass, Alwar Road, Rajgarh – 301408</span>
+          <span><FaEnvelope /> learningstep19@gmail.com</span>
         </div>
+
 
         <div className="Navbar-top-right">
           <span>Follow:</span>
@@ -47,8 +51,8 @@ const Navbar = () => {
           />
         </div>
 
-        <ul className="Navbar-nav-links">
-          <li>Home</li>
+     <ul className="Navbar-nav-links">
+          <li><Link to="/">Home</Link></li>
 
           <li
             onMouseEnter={() => setAboutOpen(true)}
@@ -56,10 +60,11 @@ const Navbar = () => {
           >
             About Us <FaChevronDown />
             <div className={`Navbar-dropdown-menu ${aboutOpen ? "open" : ""}`}>
-              <span className="Navbar-dropdown-item">About School</span>
-              <span className="Navbar-dropdown-item">Principal’s Message</span>
-              <span className="Navbar-dropdown-item">Vision & Mission</span>
-              <span className="Navbar-dropdown-item">Infrastructure</span>
+              <Link to="/about" className="Navbar-dropdown-item">About School</Link>
+              <Link to="/ourteacher" className="Navbar-dropdown-item">Our Teachers</Link>
+              <Link to="/principal" className="Navbar-dropdown-item">Principal’s Message</Link>
+              <Link to="/vision-mission" className="Navbar-dropdown-item">Vision & Mission</Link>
+              <Link to="/infrastructure" className="Navbar-dropdown-item">Infrastructure</Link>
             </div>
           </li>
 
@@ -69,22 +74,27 @@ const Navbar = () => {
           >
             Academics <FaChevronDown />
             <div className={`Navbar-dropdown-menu ${academicOpen ? "open" : ""}`}>
-              <span className="Navbar-dropdown-item">Pre-Primary</span>
-              <span className="Navbar-dropdown-item">Primary</span>
-              <span className="Navbar-dropdown-item">Secondary</span>
-              <span className="Navbar-dropdown-item">Academic Calendar</span>
-              <span className="Navbar-dropdown-item">Examination System</span>
+              <Link to="/academics/pre-primary" className="Navbar-dropdown-item">Pre-Primary</Link>
+              <Link to="/academics/primary" className="Navbar-dropdown-item">Primary</Link>
+              <Link to="/academics/secondary" className="Navbar-dropdown-item">Secondary</Link>
+              <Link to="/academics/calendar" className="Navbar-dropdown-item">Academic Calendar</Link>
+              <Link to="/academics/exams" className="Navbar-dropdown-item">Examination System</Link>
             </div>
           </li>
 
           <li><Link to="/admissions">Admissions</Link></li>
           <li><Link to="/student-life">Student Life</Link></li>
-          <li><Link to="/notices">Notices</Link></li>
-          <li><Link to="/news">News</Link></li>
+
+          <li><Link to="/blog">Blog</Link></li>
+          <li><Link to="/faq">FAQ</Link></li>
+
+          <li><Link to="/notice">Notice</Link></li>
           <li><Link to="/contact">Contact</Link></li>
           <li><Link to="/faq">FAQ</Link></li>
           <li><Link to="/blog">Blog</Link></li>
         </ul>
+
+
 
         <div className="Navbar-nav-actions">
           <div className="Navbar-call-box">
@@ -94,7 +104,7 @@ const Navbar = () => {
             <div>
               <p>Call Us</p>
               <strong>
-                <a href="tel:8117048317">8117048317</a>
+                <a href="tel:7014627894">+91 7014627894</a>
               </strong>
             </div>
           </div>
@@ -112,29 +122,133 @@ const Navbar = () => {
 
       {/* ===== Mobile Drawer ===== */}
       <div className={`Navbar-mobile-drawer ${drawerOpen ? "open" : ""}`}>
-        <div className="Navbar-drawer-header">
-          <img
-            src={logo}
-            alt="School Logo"
-          />
-          <FaTimes onClick={() => setDrawerOpen(false)} />
-        </div>
+     <div className="Navbar-drawer-header">
+        <img src={logo} alt="School Logo" />
+        <FaTimes onClick={() => setDrawerOpen(false)} />
+      </div>
 
-        <ul className="Navbar-drawer-menu">
-          <li>Home</li>
-          <li>About Us</li>
-          <li>Academics</li>
-          <li>Admissions</li>
-          <li>Student Life</li>
-          <li>Notices</li>
-          <li>News</li>
-          <li>Contact</li>
-        </ul>
+     <ul className="Navbar-drawer-menu">
+        <li><Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link></li>
+
+        {/* ABOUT */}
+        <li
+          className="Navbar-mobile-item"
+          onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+        >
+          About Us <FaChevronDown className={mobileAboutOpen ? "rotate" : ""} />
+        </li>
+
+      {mobileAboutOpen && (
+          <div className="navbar-mobile-submenu">
+            <Link
+              to="/about"
+              className="navbar-mobile-submenu__item"
+              onClick={() => setDrawerOpen(false)}
+            >
+              About School
+            </Link>
+            <Link
+              to="/ourteacher"
+              className="navbar-mobile-submenu__item"
+              onClick={() => setDrawerOpen(false)}
+            >
+              Our Teachers
+            </Link>
+
+            <Link
+              to="/principal"
+              className="navbar-mobile-submenu__item"
+              onClick={() => setDrawerOpen(false)}
+            >
+              Principal’s Message
+            </Link>
+
+            <Link
+              to="/vision-mission"
+              className="navbar-mobile-submenu__item"
+              onClick={() => setDrawerOpen(false)}
+            >
+              Vision & Mission
+            </Link>
+
+            <Link
+              to="/infrastructure"
+              className="navbar-mobile-submenu__item"
+              onClick={() => setDrawerOpen(false)}
+            >
+              Infrastructure
+            </Link>
+          </div>
+        )}
+
+        {/* ACADEMICS */}
+        <li
+          className="Navbar-mobile-item"
+          onClick={() => setMobileAcademicOpen(!mobileAcademicOpen)}
+        >
+          Academics <FaChevronDown className={mobileAcademicOpen ? "rotate" : ""} />
+        </li>
+          {mobileAcademicOpen && (
+            <div className="navbar-mobile-submenu navbar-mobile-submenu--academic">
+              <Link
+                to="/academics/pre-primary"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Pre-Primary
+              </Link>
+
+              <Link
+                to="/academics/primary"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Primary
+              </Link>
+
+              <Link
+                to="/academics/secondary"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Secondary
+              </Link>
+
+              <Link
+                to="/academics/calendar"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Academic Calendar
+              </Link>
+
+              <Link
+                to="/academics/exams"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Examination System
+              </Link>
+            </div>
+          )}
+
+
+        <li><Link to="/admissions" onClick={() => setDrawerOpen(false)}>Admissions</Link></li>
+        <li><Link to="/student-life" onClick={() => setDrawerOpen(false)}>Student Life</Link></li>
+
+        <li><Link to="/blog" onClick={() => setDrawerOpen(false)}>Blog</Link></li>
+        <li><Link to="/faq" onClick={() => setDrawerOpen(false)}>FAQ</Link></li>
+
+        <li><Link to="/notice" onClick={() => setDrawerOpen(false)}>Notice</Link></li>
+        <li><Link to="/contact" onClick={() => setDrawerOpen(false)}>Contact</Link></li>
+      </ul>
+
 
         <div className="Navbar-drawer-contact">
-          <p><FaMapMarkerAlt /> Bhubaneswar, Odisha</p>
-          <p><FaEnvelope /> info@schoolname.edu.in</p>
-          <p><FaPhoneAlt /> 8117048317</p>
+         <p><FaMapMarkerAlt /> Tehla Bypass, Alwar Road, Rajgarh – 301408</p>
+          <p><FaEnvelope /> learningstep19@gmail.com</p>
+          <p><FaPhoneAlt /> +91 7014627894</p>
+
 
           <div className="Navbar-drawer-socials">
             <FaFacebookF />
