@@ -8,6 +8,7 @@ import ContactBreadcrum from './Components/ContactBreadcrum/ContactBreadcrum'
 import ContactPage from './Pages/ContactPage/ContactPage'
 import FAQ from './Pages/FAQ/FAQ'
 import Blog from './Pages/Blog/Blog'
+import OurTeacher from './Pages/OurTeacher/OurTeacher'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/ourteacher" elememt={<OurTeacher />} />
       </Routes>
 
       <Footer />
