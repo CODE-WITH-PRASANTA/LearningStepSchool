@@ -1,5 +1,5 @@
 import React from "react";
-import "./SkillsCertificate.css";
+import "./Skillscertificate.css";
 import globe from "../../assets/parasuit-2.webp";
 import pencil from "../../assets/pencil-3.webp";
 import globe2 from "../../assets/parasuit-1.png";
