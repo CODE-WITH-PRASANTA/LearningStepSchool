@@ -1,0 +1,249 @@
+/* ===============================
+   BASE
+================================ */
+.about-section {
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at left,
+    rgba(255,154,61,0.07),
+    transparent 60%
+  );
+}
+
+/* ===============================
+   CONTAINER
+================================ */
+.about-container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 80px 20px;
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  position: relative;
+}
+
+/* ===============================
+   REVEAL SYSTEM
+================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.9s ease;
+}
+
+.about-section.show .reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===============================
+   DECORATIVE ICONS
+================================ */
+.sun-icon {
+      position: absolute;
+    top: 200px;
+    left: -56px;
+    width: 70px;
+    animation: float 7s ease-in-out infinite;
+}
+
+.circle-icon {
+  position: absolute;
+    top: 191px;
+    left: 420px;
+    width: 156px;
+    
+    animation: float 9s ease-in-out infinite;
+}
+
+/* ===============================
+   LEFT IMAGE
+================================ */
+.about-image-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.bg-shape {
+  position: absolute;
+  left: -30px;
+  bottom: 106px;
+  width: 263px;
+  z-index: -1;
+}
+
+.image-blob {
+  width: 620px;
+  height: 620px;
+  border-radius: 60% 40% 50% 50%;
+  overflow: hidden;
+}
+
+.image-blob img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===============================
+   RIGHT CONTENT
+================================ */
+.about-content {
+  flex: 1;
+}
+
+.about-tag {
+  color: #ff9a3d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.about-content h2 {
+  font-size: 42px;
+  color: #223344;
+  margin: 15px 0;
+}
+
+.about-desc {
+  color: #666;
+  line-height: 1.8;
+  max-width: 520px;
+  margin-bottom: 40px;
+}
+
+/* ===============================
+   FEATURES
+================================ */
+.about-features {
+  display: flex;
+  gap: 35px;
+  margin-bottom: 45px;
+}
+
+.feature {
+  display: flex;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.95),
+    rgba(255,255,255,0.75)
+  );
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  background: #fff5eb;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s;
+}
+
+.premium-icon svg {
+  font-size: 22px;
+  color: #ff9a3d;
+}
+
+.feature:hover .icon {
+  background: #ff9a3d;
+  transform: rotate(8deg);
+}
+
+.feature:hover svg {
+  color: #fff;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.about-footer {
+  display: flex;
+  gap: 45px;
+  align-items: center;
+}
+
+.founder {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.founder img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #ff9a3d;
+}
+
+.call-box {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.call-icon {
+  width: 54px;
+  height: 54px;
+  background: #ff9a3d;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===============================
+   ZEBRA
+================================ */
+.zebra-img {
+      position: absolute;
+    right: -93px;
+    top: 39%;
+    width: 160px;
+    height: 300px;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* ===============================
+   FLOAT
+================================ */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+  100% { transform: translateY(0); }
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .about-features {
+    flex-direction: column;
+  }
+
+  .sun-icon,
+  .circle-icon,
+  .zebra-img {
+    display: none;
+  }
+}
