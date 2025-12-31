@@ -13,6 +13,7 @@ import Blog from "./Pages/Blog/Blog";
 import OurTeacher from "./Pages/OurTeacher/OurTeacher";
 import FloatingActions from "./Components/FloatingActions/FloatingActions";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
+import About from "./Pages/About/About";
 
 function App() {
   return (
@@ -25,12 +26,11 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/ourteacher" element={<OurTeacher />} />
+        <Route path="/about" element={<About/>}/>
       </Routes>
 
       <Footer />
-            <FloatingForm /> {/* 👈 Popup Form */}
-
-
+      <FloatingForm /> {/* 👈 Popup Form */}
       {/* Floating Call & WhatsApp Icons */}
       <FloatingActions />
     </Router>
