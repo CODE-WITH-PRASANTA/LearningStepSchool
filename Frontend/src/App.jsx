@@ -11,6 +11,8 @@ import ContactPage from "./Pages/ContactPage/ContactPage";
 import FAQ from "./Pages/FAQ/FAQ";
 import Blog from "./Pages/Blog/Blog";
 import OurTeacher from "./Pages/OurTeacher/OurTeacher";
+import FloatingActions from "./Components/FloatingActions/FloatingActions";
+import FloatingForm from "./Components/FloatingForm/FloatingForm";
 
 function App() {
   return (
@@ -26,6 +28,11 @@ function App() {
       </Routes>
 
       <Footer />
+            <FloatingForm /> {/* 👈 Popup Form */}
+
+
+      {/* Floating Call & WhatsApp Icons */}
+      <FloatingActions />
     </Router>
   );
 }
