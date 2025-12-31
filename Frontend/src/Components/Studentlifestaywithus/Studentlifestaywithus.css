@@ -1,0 +1,151 @@
+.Studentlifestaywithus {
+  background: linear-gradient(180deg, #fff2e5, #fffaf6);
+  padding: 60px 20px;
+  position: relative;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* WRAPPER */
+.Studentlifestaywithus-wrapper {
+  max-width: 1400px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  align-items: center;
+  gap: 50px;
+}
+
+/* CONTENT */
+.Studentlifestaywithus-content {
+  max-width: 540px;
+}
+
+.Studentlifestaywithus-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #333;
+}
+
+.Studentlifestaywithus-tag svg {
+  color: #ff9f1c;
+}
+
+.Studentlifestaywithus-title {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 18px;
+  color: #111;
+}
+
+.Studentlifestaywithus-title span {
+  color: #ff9f1c;
+}
+
+.Studentlifestaywithus-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 28px;
+}
+
+/* BUTTON */
+.Studentlifestaywithus-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff9f1c, #ffb347);
+  color: #fff;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(255, 159, 28, 0.35);
+  transition: all 0.3s ease;
+}
+
+.Studentlifestaywithus-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 60px rgba(255, 159, 28, 0.45);
+}
+
+/* IMAGE */
+.Studentlifestaywithus-image {
+  display: flex;
+  justify-content: center;
+}
+
+.Studentlifestaywithus-imageCard {
+  width: 300px;
+  height: 300px;
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: transform 0.4s ease;
+}
+
+.Studentlifestaywithus-imageCard:hover {
+  transform: scale(1.05);
+}
+
+.Studentlifestaywithus-imageCard img {
+  width: 82%;
+  height: auto;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .Studentlifestaywithus-wrapper {
+    grid-template-columns: 1fr;
+    text-align: left;
+    gap: 40px;
+  }
+
+  .Studentlifestaywithus-content {
+    margin: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .Studentlifestaywithus-title {
+    font-size: 32px;
+  }
+
+  .Studentlifestaywithus-desc {
+    font-size: 14px;
+  }
+
+  .Studentlifestaywithus-imageCard {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Studentlifestaywithus {
+    padding: 70px 16px;
+  }
+
+  .Studentlifestaywithus-title {
+    font-size: 26px;
+  }
+
+  .Studentlifestaywithus-btn {
+    padding: 12px 26px;
+    font-size: 14px;
+  }
+
+  .Studentlifestaywithus-imageCard {
+    width: 220px;
+    height: 220px;
+  }
+}

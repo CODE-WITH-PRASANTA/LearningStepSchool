@@ -12,6 +12,7 @@ import FAQ from "./Pages/FAQ/FAQ";
 import Blog from "./Pages/Blog/Blog";
 import OurTeacher from "./Pages/OurTeacher/OurTeacher";
 import About from "./Pages/About/About";
+import Studentlife from "./Pages/Studentlife/Studentlife";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About/>}/>
+        <Route path="/student-life" element={<Studentlife/>}/>
       </Routes>
 
       <Footer />
