@@ -113,12 +113,12 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </button>
 
 
-            <button className="Navbar-visit-btn">
+            {/* <button className="Navbar-visit-btn">
                <ul> 
                   <li><a href="/register">Register </a></li>
                    
                </ul>
-            </button>
+            </button> */}
 
             
        
