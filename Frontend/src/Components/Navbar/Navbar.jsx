@@ -105,7 +105,7 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </div>
           </div>
 
-          <button className="Navbar-visit-btn">Apply Admission</button>
+          <button className="Navbar-visit-btn">Login</button>
 
           <div
             className="Navbar-hamburger"

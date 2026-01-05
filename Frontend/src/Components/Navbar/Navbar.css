@@ -286,13 +286,12 @@
 @media (max-width: 768px) {
   .Navbar-top-bar,
   .Navbar-nav-links,
-  .Navbar-call-box,
-  .Navbar-visit-btn {
+  .Navbar-call-box {
     display: none;
   }
 
   .Navbar-navbar {
-    padding: 0 20px;
+    padding: 0 21px;
   }
 
   .Navbar-hamburger {
@@ -326,12 +325,7 @@
 /* ================= TABLET FIX (768px – 991px) ================= */
 @media (max-width: 991px) {
 
-  /* Hide desktop menu items */
-  .Navbar-nav-links,
-  .Navbar-call-box,
-  .Navbar-visit-btn {
-    display: none;
-  }
+ 
 
   /* Show hamburger properly */
   .Navbar-hamburger {
