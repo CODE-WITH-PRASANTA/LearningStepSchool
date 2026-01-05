@@ -15,6 +15,8 @@ import FloatingActions from "./Components/FloatingActions/FloatingActions";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import About from "./Pages/About/About";
 import Studentlife from "./Pages/Studentlife/Studentlife";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Regisrter/Register";
 
 function App() {
   return (
@@ -24,14 +26,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faq" element={<FAQ />} />
+        <Route path="/faq" element={<FAQ />} />c
         <Route path="/blog" element={<Blog />} />
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About/>}/>
         <Route path="/student-life" element={<Studentlife/>}/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />}/>
       </Routes>
 
-      <Footer />
+      <Footer /> 
       <FloatingForm /> {/* 👈 Popup Form */}
       {/* Floating Call & WhatsApp Icons */}
       <FloatingActions />
