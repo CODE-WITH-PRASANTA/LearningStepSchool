@@ -15,6 +15,8 @@ import FloatingActions from "./Components/FloatingActions/FloatingActions";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import About from "./Pages/About/About";
 import Studentlife from "./Pages/Studentlife/Studentlife";
+import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
+import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About/>}/>
         <Route path="/student-life" element={<Studentlife/>}/>
+        <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
+        <Route path="/vision-mission" element={<VisionAndMission/>}/>
       </Routes>
 
       <Footer />
