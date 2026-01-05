@@ -105,7 +105,23 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </div>
           </div>
 
-          <button className="Navbar-visit-btn">Login</button>
+          <button className="Navbar-visit-btn">
+               <ul> 
+                  <li><a href="/login">Login </a></li>
+                   
+               </ul>
+            </button>
+
+
+            {/* <button className="Navbar-visit-btn">
+               <ul> 
+                  <li><a href="/register">Register </a></li>
+                   
+               </ul>
+            </button> */}
+
+            
+       
 
           <div
             className="Navbar-hamburger"

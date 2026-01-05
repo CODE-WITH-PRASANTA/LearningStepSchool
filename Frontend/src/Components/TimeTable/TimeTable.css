@@ -1,19 +1,57 @@
+<<<<<<< HEAD
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
 
 /* ================= BASE ================= */
 .ctt-section {
+=======
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ---------- Section ---------- */
+.TimeTable-section {
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
   padding: 80px 20px;
   background: #ffffff;
   text-align: center;
   font-family: "Fredoka", sans-serif;
 }
 
+<<<<<<< HEAD
 .ctt-title {
+=======
+/* ---------- Text Reveal ---------- */
+.TimeTable-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: TimeTable-textReveal 0.8s ease forwards;
+}
+
+.TimeTable-delay {
+  animation-delay: 0.2s;
+}
+
+.TimeTable-delay2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes TimeTable-textReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.TimeTable-heading {
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
   font-size: 42px;
   font-weight: 700;
   margin-bottom: 12px;
 }
 
+<<<<<<< HEAD
 .ctt-subtitle {
   max-width: 720px;
   margin: 0 auto 50px;
@@ -31,6 +69,17 @@
 
 .ctt-tabs {
   position: relative;
+=======
+.TimeTable-description {
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* ---------- Tabs ---------- */
+.TimeTable-tabs {
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
   display: flex;
   justify-content: center;
   gap: 36px;
@@ -38,16 +87,22 @@
   margin: auto;
 }
 
+<<<<<<< HEAD
 .ctt-tab-btn {
   background: none;
   border: none;
   font-size: 18px;
+=======
+.TimeTable-tab {
+  cursor: pointer;
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
   font-weight: 600;
   color: #777;
   cursor: pointer;
   padding: 6px 0;
 }
 
+<<<<<<< HEAD
 .ctt-tab-active {
   color: #111;
 }
@@ -86,12 +141,68 @@
 }
 
 .ctt-time {
+=======
+.TimeTable-tab:hover,
+.TimeTable-tabActive {
+  border-color: #000;
+}
+
+/* ---------- Scroll Reveal ---------- */
+.TimeTable-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+
+.TimeTable-scrollShow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Timetable Grid ---------- */
+.TimeTable-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  background: #fff7ec;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.TimeTable-dayColumn {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.TimeTable-dayHeader {
+  background: #fde7cd;
+  padding: 16px;
+  font-weight: 700;
+}
+
+/* ---------- Class Box ---------- */
+.TimeTable-classBox {
+  padding: 20px 10px;
+  color: #fff;
+  opacity: 0;
+  animation: TimeTable-stagger 0.5s ease forwards;
+}
+
+@keyframes TimeTable-stagger {
+  to {
+    opacity: 1;
+  }
+}
+
+.TimeTable-classTime {
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
   display: block;
   font-size: 14px;
   margin-bottom: 6px;
   opacity: 0.9;
 }
 
+<<<<<<< HEAD
 .ctt-class-name {
   font-size: 18px;
   font-weight: 600;
@@ -104,10 +215,36 @@
 .ctt-blue { background: #00b0e6; }
 .ctt-pink { background: #ff5c8a; }
 .ctt-salmon { background: #ff8a80; }
+=======
+.TimeTable-classType {
+  font-size: 16px;
+}
+
+/* ---------- Class Colors ---------- */
+.TimeTable-sports {
+  background: #00c2a8;
+}
+
+.TimeTable-dancing {
+  background: #7c83fd;
+}
+
+.TimeTable-drawing {
+  background: #ff7a7a;
+}
+
+.TimeTable-play {
+  background: #ffa63d;
+}
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
+<<<<<<< HEAD
   .ctt-grid {
+=======
+  .TimeTable-grid {
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -129,11 +266,20 @@
 }
 
 @media (max-width: 600px) {
+<<<<<<< HEAD
   .ctt-grid {
     grid-template-columns: 1fr;
   }
 
   .ctt-time-box {
     border-bottom: 8px solid #fff;
+=======
+  .TimeTable-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .TimeTable-heading {
+    font-size: 30px;
+>>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
   }
 }
