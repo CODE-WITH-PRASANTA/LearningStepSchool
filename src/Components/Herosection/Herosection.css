@@ -1,0 +1,278 @@
+/* ================= ROOT HERO ================= */
+.hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 1s ease-in-out;
+  overflow: hidden;
+}
+
+
+/* ================= CONTAINER ================= */
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px 24px 80px;
+}
+
+/* ================= CONTENT ================= */
+.hero-content {
+  max-width: 650px;
+  animation: contentFade 1s ease forwards;
+}
+
+@keyframes contentFade {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= BADGE ================= */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f97316;
+  background: linear-gradient(
+    135deg,
+    rgba(251, 146, 60, 0.18),
+    rgba(255, 237, 213, 0.8)
+  );
+  padding: 7px 16px;
+  border-radius: 50px;
+  box-shadow: 0 6px 18px rgba(251, 146, 60, 0.25);
+  margin-bottom: 22px;
+}
+
+/* ================= TITLE ================= */
+.hero-title {
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #1e293b;
+  letter-spacing: -0.6px;
+  margin-bottom: 22px;
+}
+
+.hero-title span {
+  color: #fb923c;
+  background: linear-gradient(90deg, #fb923c, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ================= TEXT ================= */
+.hero-text {
+  font-size: 17px;
+  color: #475569;
+  margin-bottom: 40px;
+  line-height: 1.75;
+  max-width: 520px;
+}
+
+/* ================= BUTTONS ================= */
+.hero-buttons {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.btn-primary,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  white-space: nowrap;
+}
+
+/* PRIMARY */
+.btn-primary {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  color: #fff;
+  border: none;
+  box-shadow: 0 18px 40px rgba(251, 146, 60, 0.45);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 22px 55px rgba(251, 146, 60, 0.55);
+}
+
+/* OUTLINE */
+.btn-outline {
+  background: rgba(255, 255, 255, 0.75);
+  border: 2px solid #fb923c;
+  color: #fb923c;
+  backdrop-filter: blur(4px);
+}
+
+.btn-outline:hover {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ================= DOT COUNTER ================= */
+.dot-counter {
+  position: absolute;
+  left: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.dot-counter .line {
+  width: 2px;
+  height: 52px;
+  background: linear-gradient(
+    to bottom,
+    #fb923c,
+    rgba(251, 146, 60, 0.1)
+  );
+}
+
+/* DOT */
+.dot-wrap {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fb923c;
+  opacity: 0.4;
+}
+
+/* ACTIVE DOT */
+.dot-wrap.active {
+  border: 2px solid #fb923c;
+  box-shadow: 0 0 0 6px rgba(251, 146, 60, 0.2);
+}
+
+.dot-wrap.active .dot {
+  opacity: 1;
+}
+/* ================= LARGE DESKTOP (1600px+) ================= */
+@media (min-width: 1600px) {
+  .hero-container {
+    max-width: 1400px;
+  }
+
+  .hero-title {
+    font-size: 64px;
+  }
+
+  .hero-text {
+    font-size: 18px;
+  }
+}
+
+/* ================= LAPTOP (1200px – 1599px) ================= */
+@media (max-width: 1599px) {
+  .hero-title {
+    font-size: 56px;
+  }
+}
+
+/* ================= SMALL LAPTOP (992px – 1199px) ================= */
+@media (max-width: 1199px) {
+
+  .hero-title {
+    font-size: 50px;
+  }
+
+  .hero-text {
+    font-size: 16px;
+  }
+}
+
+/* ================= TABLET (768px – 991px) ================= */
+@media (max-width: 991px) {
+  .hero-title {
+    font-size: 44px;
+    line-height: 1.2;
+  }
+
+  .hero-text {
+    font-size: 15.5px;
+  }
+
+  .hero-buttons {
+    gap: 14px;
+  }
+  .dot-counter{
+    right: 10px;
+    left: auto;
+    }
+    .hero-container{
+      padding: 40px 24px 40px;
+    }
+}
+
+/* ================= MOBILE (576px – 767px) ================= */
+@media (max-width: 767px) {
+  .hero-title {
+    font-size: 38px;
+  }
+
+  .hero-text {
+    font-size: 15px;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    padding: 13px 24px;
+    font-size: 14px;
+  }
+}
+
+/* ================= SMALL MOBILE (≤575px) ================= */
+@media (max-width: 575px) {
+
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-text {
+    font-size: 14.5px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+  }
+}

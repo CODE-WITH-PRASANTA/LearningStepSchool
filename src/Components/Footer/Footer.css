@@ -1,0 +1,385 @@
+/* ======================================================
+   ROOT HELPERS (Safe – no global pollution)
+====================================================== */
+.Footer-sec-top,
+.Footer-sec-main,
+.Footer-sec-bottom {
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* ======================================================
+   FOOTER TOP (Wave Area)
+====================================================== */
+.Footer-sec-top {
+  position: relative;
+  background: linear-gradient(180deg, #fdf7ef 0%, #f7efe3 100%);
+  padding-top: 100px;
+  overflow: hidden;
+}
+
+.Footer-sec-top-bg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.Footer-sec-top-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 48px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.Footer-sec-top-item {
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+
+.Footer-sec-top-item:hover {
+  transform: translateY(-6px);
+}
+
+.Footer-sec-top-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px dashed #f7941d;
+  background: radial-gradient(circle, #fff 40%, #fff6ec 100%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7941d;
+  font-size: 21px;
+  margin-bottom: 12px;
+  animation: floatIcon 3.2s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+.Footer-sec-top-item p {
+  font-size: 13.5px;
+  color: #8a7d6f;
+}
+
+.Footer-sec-top-item h4 {
+  color: #1f2937;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* ======================================================
+   FOOTER MAIN
+====================================================== */
+.Footer-sec-main {
+  position: relative;
+  background: #f7efe3;
+  padding: 20px 0 80px;
+  overflow: hidden;
+}
+
+.Footer-sec-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+  gap: 44px;
+  padding: 0 20px;
+}
+
+/* ======================================================
+   SCHOOL INFO
+====================================================== */
+.Footer-sec-school-name {
+  font-size: 23px;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 14px;
+}
+
+.Footer-sec-desc {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: #6b7280;
+}
+
+/* ======================================================
+   SOCIAL ICONS
+====================================================== */
+.Footer-sec-socials {
+  display: flex;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.Footer-sec-socials a {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fff 0%, #fff4e8 100%);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7941d;
+  transition: all 0.35s ease;
+}
+
+.Footer-sec-socials a:hover {
+  background: linear-gradient(135deg, #f7941d, #ffae4d);
+  color: #fff;
+  transform: translateY(-6px) scale(1.05);
+}
+
+/* ======================================================
+   TITLES
+====================================================== */
+.Footer-sec-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1f2937;
+  position: relative;
+}
+
+.Footer-sec-title::after {
+  content: "";
+  width: 34px;
+  height: 3px;
+  background: linear-gradient(90deg, #f7941d, #ffb703);
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  border-radius: 3px;
+}
+
+/* ======================================================
+   LISTS
+====================================================== */
+.Footer-sec-list li {
+  list-style: none;
+  font-size: 14.5px;
+  color: #6b7280;
+  margin-bottom: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.Footer-sec-list li svg {
+  color: #f7941d;
+  margin-right: 8px;
+  font-size: 12px;
+}
+
+.Footer-sec-list li:hover {
+  color: #f7941d;
+  transform: translateX(6px);
+}
+
+/* ======================================================
+   UPDATES
+====================================================== */
+.Footer-sec-post {
+  margin-bottom: 16px;
+  padding-left: 6px;
+  position: relative;
+}
+
+.Footer-sec-post::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: #f7941d;
+  border-radius: 50%;
+  position: absolute;
+  left: -6px;
+  top: 6px;
+}
+
+.Footer-sec-post span {
+  font-size: 12px;
+  color: #f7941d;
+  font-weight: 600;
+}
+
+.Footer-sec-post p {
+  font-size: 14.5px;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+/* ======================================================
+   DECORATIONS (ALWAYS FLOATING)
+====================================================== */
+.Footer-sec-zebra {
+  position: absolute;
+  right: 24px;
+  bottom: 40px;
+  width: 125px;
+  animation: floatImg 4.5s ease-in-out infinite;
+}
+
+.Footer-sec-frame {
+  position: absolute;
+  left: 100px;
+  top: 0px;
+  width: 150px;
+  animation: floatImg 6s ease-in-out infinite;
+}
+
+@keyframes floatImg {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ======================================================
+   FOOTER BOTTOM
+====================================================== */
+.Footer-sec-bottom {
+  background: linear-gradient(90deg, #efe3d2, #f7efe3);
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6b5e52;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.Footer-sec-bottom p {
+  font-size: 14px;
+}
+
+.Footer-sec-bottom span {
+  color: #f7941d;
+  font-weight: 700;
+}
+
+.Footer-sec-heart {
+  color: #e25555;
+  margin: 0 6px;
+  animation: heartbeat 1.6s infinite;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.Footer-sec-bottom-links span {
+  margin-left: 18px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.Footer-sec-bottom-links span:hover {
+  color: #f7941d;
+  text-decoration: underline;
+}
+
+.Footer-sec-dev {
+  color: #f7941d;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: all 0.3s ease;
+}
+
+.Footer-sec-dev:hover {
+  color: #1f2937;
+  text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+
+  /* Footer Top */
+  .Footer-sec-top-container {
+    flex-direction: column;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .Footer-sec-top {
+    padding-top: 0px;
+  }
+
+  /* Footer Main */
+  .Footer-sec-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .Footer-sec-school-name {
+    text-align: center;
+  }
+
+  .Footer-sec-desc {
+    text-align: center;
+  }
+
+  .Footer-sec-socials {
+    justify-content: center;
+  }
+
+  /* Decorative images hide on mobile */
+  .Footer-sec-zebra,
+  .Footer-sec-frame {
+    display: none;
+  }
+
+  /* Footer Bottom */
+  .Footer-sec-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .Footer-sec-bottom-links span {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Footer-sec-main{
+    padding-bottom: 0px;
+  }
+
+  .Footer-sec-top-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .Footer-sec-school-name {
+    font-size: 20px;
+  }
+
+  .Footer-sec-desc {
+    font-size: 13.5px;
+  }
+
+  .Footer-sec-title {
+    font-size: 16px;
+  }
+
+  .Footer-sec-list li {
+    font-size: 13.5px;
+  }
+
+  .Footer-sec-bottom p {
+    font-size: 13px;
+  }
+  
+}
+
+
+
