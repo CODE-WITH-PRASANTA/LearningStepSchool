@@ -660,3 +660,8 @@
     display: none;
   }
 }
+
+
+.Navbar-visit-btn li {
+  list-style: none;
+}
