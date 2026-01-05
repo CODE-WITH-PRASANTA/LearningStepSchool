@@ -1,0 +1,127 @@
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.blend-section {
+  padding: 100px 20px;
+  background: #fff;
+}
+
+/* ---------- Scroll Reveal ---------- */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 1s ease;
+}
+
+.scroll-reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Layout ---------- */
+.blend-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* ---------- Text Reveal ---------- */
+.text-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: textReveal 0.8s ease forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.delay-2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes textReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Text ---------- */
+.blend-text h1 {
+  font-size: 42px;
+  line-height: 1.3;
+  margin-bottom: 24px;
+  color: #111;
+}
+
+.blend-text p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #777;
+  margin-bottom: 36px;
+}
+
+/* ---------- Button ---------- */
+.join-btn {
+  background: #5f5af6;
+  color: #fff;
+  border: none;
+  padding: 14px 36px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.join-btn:hover {
+  background: #4b46e5;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(95, 90, 246, 0.35);
+}
+
+/* ---------- Image ---------- */
+.blend-image {
+  display: flex;
+  justify-content: center;
+}
+
+.blend-image img {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .blend-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .blend-text h1 {
+    font-size: 34px;
+  }
+
+  .blend-image {
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .blend-text h1 {
+    font-size: 28px;
+  }
+
+  .join-btn {
+    width: 100%;
+  }
+}

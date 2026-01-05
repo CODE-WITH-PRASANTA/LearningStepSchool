@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* ================= BASE ================= */
+.vm-section {
+  padding: 100px 20px;
+  text-align: center;
+  background: #ffffff;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ================= TEXT REVEAL ================= */
+.vm-text-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: vm-textReveal 0.8s ease forwards;
+}
+
+.vm-delay-1 {
+  animation-delay: 0.2s;
+}
+.vm-delay-2 {
+  animation-delay: 0.4s;
+}
+.vm-delay-3 {
+  animation-delay: 0.6s;
+}
+
+@keyframes vm-textReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vm-section h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+/* Underline */
+.vm-title-line {
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #ff4f8b;
+  margin: 10px auto 60px;
+  border-radius: 10px;
+}
+
+/* ================= GRID ================= */
+.vm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ================= CARDS ================= */
+.vm-card {
+  padding: 60px 40px;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.vm-card-title {
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+
+.vm-card-text {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.7;
+}
+
+/* Scroll reveal */
+.vm-scroll-card {
+  transition: all 1s ease;
+}
+
+.vm-show .vm-scroll-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= ICONS ================= */
+.vm-icon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: #ffffff;
+}
+
+/* ================= COLORS ================= */
+.vm-blue {
+  background: linear-gradient(180deg, #eef0ff, #ffffff);
+  border: 1px solid #e0e4ff;
+}
+.vm-blue-icon {
+  background: #5b5ff1;
+}
+
+.vm-pink {
+  background: linear-gradient(180deg, #fff0f5, #ffffff);
+  border: 1px solid #ffd6e5;
+}
+.vm-pink-icon {
+  background: #ff2e73;
+}
+
+.vm-green {
+  background: linear-gradient(180deg, #f3ffe0, #ffffff);
+  border: 1px solid #e3f3c6;
+}
+.vm-green-icon {
+  background: #9cc241;
+}
+
+/* Hover lift */
+.vm-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .vm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .vm-section h1 {
+    font-size: 34px;
+  }
+
+  .vm-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vm-card {
+    padding: 50px 30px;
+  }
+}
