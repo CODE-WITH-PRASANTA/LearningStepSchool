@@ -15,8 +15,12 @@ import FloatingActions from "./Components/FloatingActions/FloatingActions";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import About from "./Pages/About/About";
 import Studentlife from "./Pages/Studentlife/Studentlife";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Regisrter/Register";
+import Notice from "./Pages/Notice/Notice";
 import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
 import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
+import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 
 function App() {
   return (
@@ -26,17 +30,21 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faq" element={<FAQ />} />
+        <Route path="/faq" element={<FAQ />} />c
         <Route path="/blog" element={<Blog />} />
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About/>}/>
         <Route path="/student-life" element={<Studentlife/>}/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />}/>
+        <Route path="/notice" element={<Notice />}/>
         <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
         <Route path="/vision-mission" element={<VisionAndMission/>}/>
+        <Route path="/academics/pre-primary" element={<PrePrimery/>}/>
       </Routes>
 
-      <Footer />
-      <FloatingForm /> {/* 👈 Popup Form dskjvhfkdvfskdhvkjdsf */}
+      <Footer /> 
+      <FloatingForm /> {/* 👈 Popup Form */}
       {/* Floating Call & WhatsApp Icons */}
       <FloatingActions />
     </Router>
