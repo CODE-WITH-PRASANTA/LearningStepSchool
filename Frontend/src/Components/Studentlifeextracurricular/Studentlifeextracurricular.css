@@ -1,0 +1,150 @@
+.StudentLifeExtraPremium-section {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  font-family: "Inter", sans-serif;
+}
+
+.StudentLifeExtraPremium-wrapper {
+  max-width: 1440px;
+  margin: auto;
+  padding: 0 32px;
+}
+
+/* ===== HEADING ===== */
+.StudentLifeExtraPremium-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 70px;
+}
+
+.StudentLifeExtraPremium-giraffe {
+  width: 140px;
+  max-width: 100%;
+}
+
+.StudentLifeExtraPremium-headingText {
+  text-align: center;
+}
+
+.StudentLifeExtraPremium-tag {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff8a00;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.StudentLifeExtraPremium-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.3;
+}
+
+/* ===== CARDS ===== */
+.StudentLifeExtraPremium-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.StudentLifeExtraPremium-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px;
+  transition: all 0.4s ease;
+  border-top: 4px solid transparent;
+}
+
+.StudentLifeExtraPremium-card.active,
+.StudentLifeExtraPremium-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+}
+
+.card-badge {
+  background: var(--accent);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  float: right;
+}
+
+.StudentLifeExtraPremium-card-icon {
+  font-size: 32px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.StudentLifeExtraPremium-card-img img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.card-content h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.feature-icon {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.StudentLifeExtraPremium-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link-arrow {
+  width: 32px;
+  height: 32px;
+  background: var(--gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .StudentLifeExtraPremium-heading {
+    flex-direction: column;
+  }
+
+  .StudentLifeExtraPremium-title {
+    font-size: 28px;
+  }
+}

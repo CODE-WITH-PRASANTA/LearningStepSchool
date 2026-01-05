@@ -1,0 +1,227 @@
+/* SECTION */
+.Studentlifeaboutus-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #ffffff, #f8fafc, #ffffff);
+  font-family: "Inter", sans-serif;
+}
+
+.Studentlifeaboutus-wrapper {
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 96px;
+  align-items: center;
+}
+
+/* LEFT */
+.Studentlifeaboutus-left {
+  text-align: left;
+}
+
+.Studentlifeaboutus-tag {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(255, 159, 28, 0.12);
+  color: #ff9f1c;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.Studentlifeaboutus-title {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 26px;
+  color: #0f172a;
+}
+
+.Studentlifeaboutus-description {
+  font-size: 15.5px;
+  color: #64748b;
+  line-height: 1.85;
+  max-width: 520px;
+  margin-bottom: 18px;
+}
+
+.Studentlifeaboutus-actions {
+  display: flex;
+  gap: 18px;
+  margin-top: 34px;
+}
+
+/* BUTTONS */
+.Studentlifeaboutus-btn-primary {
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff9f1c, #ffb703);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  box-shadow: 0 18px 40px rgba(255, 159, 28, 0.35);
+}
+
+.Studentlifeaboutus-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 55px rgba(255, 159, 28, 0.45);
+}
+
+.Studentlifeaboutus-btn-outline {
+  padding: 14px 36px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 159, 28, 0.4);
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.Studentlifeaboutus-btn-outline:hover {
+  background: #ff9f1c;
+  color: #fff;
+}
+
+/* RIGHT SIDE */
+.Studentlifeaboutus-right {
+  display: flex;
+  gap: 28px;
+  align-items: stretch; /* 🔥 equal height */
+}
+
+/* LEFT COLUMN */
+.Studentlifeaboutus-right-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* STATS */
+.Studentlifeaboutus-stats-box {
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  text-align: center;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.1);
+}
+
+.Studentlifeaboutus-stats-icon {
+  font-size: 36px;
+  color: #ff9f1c;
+  margin-bottom: 8px;
+}
+
+.Studentlifeaboutus-stats-box h3 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  color: #0f172a;
+}
+
+.Studentlifeaboutus-stats-box span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* SMALL IMAGE */
+.Studentlifeaboutus-image-small {
+  flex: 1;
+  
+  overflow: hidden;
+  
+}
+
+.Studentlifeaboutus-image-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* LARGE IMAGE */
+.Studentlifeaboutus-image-large {
+  flex: 1;
+  overflow: hidden;
+  
+}
+
+.Studentlifeaboutus-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+  .Studentlifeaboutus-wrapper {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .Studentlifeaboutus-right {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .Studentlifeaboutus-right-left {
+    width: 100%;
+    flex-direction: row;
+    gap: 24px;
+  }
+
+  .Studentlifeaboutus-image-large {
+    width: 100%;
+    height: 420px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .Studentlifeaboutus-section {
+    padding: 90px 0;
+  }
+
+  .Studentlifeaboutus-title {
+    font-size: 34px;
+  }
+
+  .Studentlifeaboutus-left {
+    text-align: left; /* 🔥 keep left */
+  }
+
+  .Studentlifeaboutus-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .Studentlifeaboutus-btn-primary,
+  .Studentlifeaboutus-btn-outline {
+    width: 100%;
+  }
+
+  .Studentlifeaboutus-right-left {
+    flex-direction: column;
+  }
+
+  .Studentlifeaboutus-image-large {
+    height: 360px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .Studentlifeaboutus-title {
+    font-size: 30px;
+  }
+}
