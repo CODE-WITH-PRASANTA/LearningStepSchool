@@ -1,0 +1,157 @@
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ---------- Section ---------- */
+.TimeTable-section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+/* ---------- Text Reveal ---------- */
+.TimeTable-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: TimeTable-textReveal 0.8s ease forwards;
+}
+
+.TimeTable-delay {
+  animation-delay: 0.2s;
+}
+
+.TimeTable-delay2 {
+  animation-delay: 0.4s;
+}
+
+@keyframes TimeTable-textReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.TimeTable-heading {
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+
+.TimeTable-description {
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* ---------- Tabs ---------- */
+.TimeTable-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.TimeTable-tab {
+  cursor: pointer;
+  font-weight: 600;
+  padding-bottom: 6px;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.TimeTable-tab:hover,
+.TimeTable-tabActive {
+  border-color: #000;
+}
+
+/* ---------- Scroll Reveal ---------- */
+.TimeTable-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+
+.TimeTable-scrollShow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Timetable Grid ---------- */
+.TimeTable-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  background: #fff7ec;
+  border-radius: 30px;
+  padding: 20px;
+}
+
+.TimeTable-dayColumn {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.TimeTable-dayHeader {
+  background: #fde7cd;
+  padding: 16px;
+  font-weight: 700;
+}
+
+/* ---------- Class Box ---------- */
+.TimeTable-classBox {
+  padding: 20px 10px;
+  color: #fff;
+  opacity: 0;
+  animation: TimeTable-stagger 0.5s ease forwards;
+}
+
+@keyframes TimeTable-stagger {
+  to {
+    opacity: 1;
+  }
+}
+
+.TimeTable-classTime {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.TimeTable-classType {
+  font-size: 16px;
+}
+
+/* ---------- Class Colors ---------- */
+.TimeTable-sports {
+  background: #00c2a8;
+}
+
+.TimeTable-dancing {
+  background: #7c83fd;
+}
+
+.TimeTable-drawing {
+  background: #ff7a7a;
+}
+
+.TimeTable-play {
+  background: #ffa63d;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .TimeTable-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .TimeTable-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .TimeTable-heading {
+    font-size: 30px;
+  }
+}

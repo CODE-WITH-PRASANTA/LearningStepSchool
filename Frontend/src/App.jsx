@@ -18,6 +18,8 @@ import Studentlife from "./Pages/Studentlife/Studentlife";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Regisrter/Register";
 import Notice from "./Pages/Notice/Notice";
+import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
+import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />}/>
         <Route path="/notice" element={<Notice />}/>
+        <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
+        <Route path="/vision-mission" element={<VisionAndMission/>}/>
       </Routes>
 
       <Footer /> 
