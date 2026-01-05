@@ -54,6 +54,7 @@ const Studentlifeaboutus = () => {
             </div>
           </div>
 
+          {/* LARGE IMAGE (HIDDEN ON SMALL DEVICES VIA CSS) */}
           <div className="Studentlifeaboutus-right-right">
             <div className="Studentlifeaboutus-image-large">
               <img src={about3} alt="Teacher and student" />
