@@ -1,0 +1,306 @@
+/* ==================================================
+   WAVE
+================================================== */
+.homeclasses-wave {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.homeclasses-wave img {
+  width: 200%;
+  display: block;
+  animation: wave 18s linear infinite reverse;
+}
+
+/* ==================================================
+   SECTION
+================================================== */
+.homeclasses {
+  padding: 40px 20px 50px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.homeclasses-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ==================================================
+   HEADER
+================================================== */
+.homeclasses-header {
+  text-align: center;
+}
+
+.homeclasses-subtitle {
+  display: inline-block;
+  padding: 7px 20px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.homeclasses-title {
+  margin-top: 16px;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+/* ==================================================
+   SLIDER
+================================================== */
+.homeclasses-slider {
+  overflow: hidden;
+  position: relative;
+}
+
+.homeclasses-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* ==================================================
+   PAGE
+================================================== */
+.homeclasses-page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.homeclasses-card {
+  flex: 0 0 calc(33.333% - 24px);
+  max-width: calc(33.333% - 24px);
+  margin: 0 12px;
+}
+
+
+/* ==================================================
+   CARD
+================================================== */
+.homeclasses-card {
+  background: linear-gradient(180deg, #ffffff, #fff4ea);
+  padding: 22px;
+  border-radius: 28px;
+  flex: 0 0 calc(100% / 3);
+  max-width: calc(100% / 3);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  position: relative;
+}
+
+/* Hover (desktop only) */
+@media (hover: hover) {
+  .homeclasses-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* Decorative top bar */
+.homeclasses-card::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 6px;
+  background: #ff9b50;
+  border-radius: 0 0 10px 10px;
+}
+
+/* ==================================================
+   IMAGE
+================================================== */
+.homeclasses-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================================================
+   CONTENT
+================================================== */
+.homeclasses-card h4 {
+  font-size: 19px;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.homeclasses-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* ==================================================
+   META INFO
+================================================== */
+.homeclasses-meta {
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px dashed #ffd6b8;
+  padding-top: 14px;
+}
+
+.homeclasses-meta div {
+  text-align: center;
+  flex: 1;
+}
+
+.homeclasses-meta span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #ff9b50;
+  text-transform: uppercase;
+}
+
+.homeclasses-meta strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #374151;
+}
+
+/* ==================================================
+   PAGINATION
+================================================== */
+.homeclasses-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  gap: 10px;
+}
+
+.pagination-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-dot.active {
+  width: 26px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #49a6a8, #3b8e90);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .homeclasses-title {
+    font-size: 34px;
+  }
+
+  .homeclasses-card {
+    flex: 0 0 calc(100% / 2);
+    max-width: calc(100% / 2);
+  }
+
+  .homeclasses-card img {
+    height: 180px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .homeclasses {
+    padding: 70px 14px 90px;
+  }
+
+  .homeclasses-title {
+    font-size: 26px;
+    line-height: 1.35;
+  }
+
+  .homeclasses-page {
+    gap: 0;
+    padding: 10px;
+  }
+
+  .homeclasses-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .homeclasses-card img {
+    height: 190px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .homeclasses-title {
+    font-size: 23px;
+  }
+
+  .homeclasses-card {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .homeclasses-card img {
+    height: 170px;
+    border-radius: 18px;
+  }
+
+  .homeclasses-card h4 {
+    font-size: 17px;
+  }
+
+  .homeclasses-card p {
+    font-size: 13px;
+  }
+
+  .pagination-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .pagination-dot.active {
+    width: 22px;
+  }
+}
+
+/* ==================================================
+   WAVE ANIMATION
+================================================== */
+@keyframes wave {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.homeclasses-slider {
+  overflow: hidden;
+  padding: 0 12px;   /* prevents edge cutting */
+}

@@ -1,0 +1,141 @@
+/* SECTION */
+.Abouttestimonials-section {
+  padding: 80px 6%;
+  background: #ffffff;
+}
+
+/* CARD */
+.Abouttestimonials-wrapper {
+  position: relative;
+  background: #f1f7f7;
+  border-radius: 80px;
+  padding: 90px 10%;
+  text-align: center;
+}
+
+/* SUBTITLE */
+.Abouttestimonials-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f59e0b;
+}
+
+/* TITLE */
+.Abouttestimonials-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #3b556d;
+  margin: 12px 0 30px;
+}
+
+/* TEXT */
+.Abouttestimonials-text {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #6b7f93;
+}
+
+/* AUTHOR */
+.Abouttestimonials-author {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+
+.Abouttestimonials-author img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+/* DESKTOP NAV */
+.Abouttestimonials-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.Abouttestimonials-nav.left {
+  left: -27px;
+  background: #6fa4b2;
+  color: #fff;
+}
+
+.Abouttestimonials-nav.right {
+  right: -27px;
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* DECORATIONS */
+.Abouttestimonials-scribble-left {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+}
+
+.Abouttestimonials-scribble-right {
+  position: absolute;
+  bottom: 40px;
+  right: 60px;
+}
+
+/* ===================== */
+/* MOBILE DESIGN */
+/* ===================== */
+.Abouttestimonials-nav-mobile {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .Abouttestimonials-wrapper {
+    padding: 45px 24px;
+    border-radius: 36px;
+  }
+
+  .Abouttestimonials-title {
+    font-size: 22px;
+  }
+
+  .Abouttestimonials-text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* TOP NAV */
+  .Abouttestimonials-nav-mobile {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 18px 0 22px;
+  }
+
+  .Abouttestimonials-nav-mobile button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: #f59e0b;
+    color: #fff;
+  }
+
+  /* HIDE SIDE ARROWS */
+  .Abouttestimonials-nav {
+    display: none;
+  }
+
+  /* DECORATIONS SMALL */
+  .Abouttestimonials-scribble-left img,
+  .Abouttestimonials-scribble-right img {
+    width: 45px;
+  }
+}
