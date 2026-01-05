@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Timetable.css";
+import "./TimeTable.css";
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -25,18 +25,18 @@ export default function Timetable() {
   const [activeTab, setActiveTab] = useState("All");
   const tableRef = useRef(null);
 
-  /* Scroll Reveal */
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("show");
+          entry.target.classList.add("TimeTable-scrollShow");
         }
       },
       { threshold: 0.2 }
     );
 
     if (tableRef.current) observer.observe(tableRef.current);
+    return () => observer.disconnect();
   }, []);
 
   const filtered =
@@ -45,20 +45,25 @@ export default function Timetable() {
       : classesData.filter((item) => item.type === activeTab);
 
   return (
-    <section className="timetable-section">
-      {/* Text reveal */}
-      <h1 className="reveal">All Classes Time Table</h1>
-      <p className="reveal delay">
+    <section className="TimeTable-section">
+      {/* Heading */}
+      <h1 className="TimeTable-heading TimeTable-reveal">
+        All Classes Time Table
+      </h1>
+
+      <p className="TimeTable-description TimeTable-reveal TimeTable-delay">
         Our multi-level kindergarten programs cater to the age group of 2–5
-        years with a curriculum focussing children.
+        years with a curriculum focusing on children.
       </p>
 
       {/* Tabs */}
-      <div className="tabs reveal delay2">
+      <div className="TimeTable-tabs TimeTable-reveal TimeTable-delay2">
         {tabs.map((tab) => (
           <span
             key={tab}
-            className={`tab ${activeTab === tab ? "active" : ""}`}
+            className={`TimeTable-tab ${
+              activeTab === tab ? "TimeTable-tabActive" : ""
+            }`}
             onMouseEnter={() => setActiveTab(tab)}
           >
             {tab} Class
@@ -67,21 +72,23 @@ export default function Timetable() {
       </div>
 
       {/* Timetable */}
-      <div className="timetable scroll-reveal" ref={tableRef}>
+      <div className="TimeTable-grid TimeTable-scroll" ref={tableRef}>
         {days.map((day) => (
-          <div key={day} className="day-col">
-            <div className="day-head">{day}</div>
+          <div key={day} className="TimeTable-dayColumn">
+            <div className="TimeTable-dayHeader">{day}</div>
 
             {filtered
               .filter((item) => item.day === day)
               .map((item, i) => (
                 <div
                   key={i}
-                  className={`class-box ${item.type.toLowerCase()}`}
+                  className={`TimeTable-classBox TimeTable-${item.type.toLowerCase()}`}
                   style={{ animationDelay: `${i * 0.1}s` }}
                 >
-                  <span>{item.time}</span>
-                  <strong>{item.type} Class</strong>
+                  <span className="TimeTable-classTime">{item.time}</span>
+                  <strong className="TimeTable-classType">
+                    {item.type} Class
+                  </strong>
                 </div>
               ))}
           </div>

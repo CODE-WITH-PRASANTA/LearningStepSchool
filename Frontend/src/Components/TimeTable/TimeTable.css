@@ -1,41 +1,43 @@
+/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
 
-.timetable-section {
+/* ---------- Section ---------- */
+.TimeTable-section {
   padding: 80px 20px;
   text-align: center;
 }
 
 /* ---------- Text Reveal ---------- */
-.reveal {
+.TimeTable-reveal {
   opacity: 0;
   transform: translateY(30px);
-  animation: textReveal 0.8s ease forwards;
+  animation: TimeTable-textReveal 0.8s ease forwards;
 }
 
-.delay {
+.TimeTable-delay {
   animation-delay: 0.2s;
 }
 
-.delay2 {
+.TimeTable-delay2 {
   animation-delay: 0.4s;
 }
 
-@keyframes textReveal {
+@keyframes TimeTable-textReveal {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-h1 {
+.TimeTable-heading {
   font-size: 42px;
   margin-bottom: 16px;
 }
 
-p {
+.TimeTable-description {
   max-width: 600px;
   margin: auto;
   margin-bottom: 30px;
@@ -43,14 +45,14 @@ p {
 }
 
 /* ---------- Tabs ---------- */
-.tabs {
+.TimeTable-tabs {
   display: flex;
   justify-content: center;
   gap: 30px;
   margin-bottom: 40px;
 }
 
-.tab {
+.TimeTable-tab {
   cursor: pointer;
   font-weight: 600;
   padding-bottom: 6px;
@@ -58,25 +60,25 @@ p {
   transition: all 0.3s ease;
 }
 
-.tab:hover,
-.tab.active {
+.TimeTable-tab:hover,
+.TimeTable-tabActive {
   border-color: #000;
 }
 
 /* ---------- Scroll Reveal ---------- */
-.scroll-reveal {
+.TimeTable-scroll {
   opacity: 0;
   transform: translateY(50px);
   transition: all 1s ease;
 }
 
-.scroll-reveal.show {
+.TimeTable-scrollShow {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ---------- Timetable ---------- */
-.timetable {
+/* ---------- Timetable Grid ---------- */
+.TimeTable-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 16px;
@@ -85,68 +87,71 @@ p {
   padding: 20px;
 }
 
-.day-col {
+.TimeTable-dayColumn {
   border-radius: 16px;
   overflow: hidden;
 }
 
-.day-head {
+.TimeTable-dayHeader {
   background: #fde7cd;
   padding: 16px;
   font-weight: 700;
 }
 
 /* ---------- Class Box ---------- */
-.class-box {
+.TimeTable-classBox {
   padding: 20px 10px;
   color: #fff;
-  animation: stagger 0.5s ease forwards;
   opacity: 0;
+  animation: TimeTable-stagger 0.5s ease forwards;
 }
 
-@keyframes stagger {
+@keyframes TimeTable-stagger {
   to {
     opacity: 1;
   }
 }
 
-.class-box span {
+.TimeTable-classTime {
   display: block;
   font-size: 14px;
   margin-bottom: 6px;
 }
 
-.class-box strong {
+.TimeTable-classType {
   font-size: 16px;
 }
 
-/* Colors */
-.sports {
+/* ---------- Class Colors ---------- */
+.TimeTable-sports {
   background: #00c2a8;
 }
-.dancing {
+
+.TimeTable-dancing {
   background: #7c83fd;
 }
-.drawing {
+
+.TimeTable-drawing {
   background: #ff7a7a;
 }
-.play {
+
+.TimeTable-play {
   background: #ffa63d;
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
-  .timetable {
+  .TimeTable-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  .timetable {
+  .TimeTable-grid {
     grid-template-columns: 1fr;
   }
 
-  h1 {
+  .TimeTable-heading {
     font-size: 30px;
   }
 }
