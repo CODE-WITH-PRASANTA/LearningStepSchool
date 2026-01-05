@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from "react";
-=======
-import React, { useEffect, useRef, useState } from "react";
->>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
 import "./TimeTable.css";
 
 const cttDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -60,7 +56,6 @@ const ClassTimeTable = () => {
   const cttTabRefs = useRef([]);
   const cttUnderlineRef = useRef(null);
 
-<<<<<<< HEAD
   useEffect(() => {
     const index = cttTabs.indexOf(cttActiveTab);
     const tab = cttTabRefs.current[index];
@@ -103,78 +98,6 @@ const ClassTimeTable = () => {
         {cttDays.map((day) => (
           <div key={day} className="ctt-day-header">
             {day}
-=======
-export default function Timetable() {
-  const [activeTab, setActiveTab] = useState("All");
-  const tableRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("TimeTable-scrollShow");
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (tableRef.current) observer.observe(tableRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const filtered =
-    activeTab === "All"
-      ? classesData
-      : classesData.filter((item) => item.type === activeTab);
-
-  return (
-    <section className="TimeTable-section">
-      {/* Heading */}
-      <h1 className="TimeTable-heading TimeTable-reveal">
-        All Classes Time Table
-      </h1>
-
-      <p className="TimeTable-description TimeTable-reveal TimeTable-delay">
-        Our multi-level kindergarten programs cater to the age group of 2–5
-        years with a curriculum focusing on children.
-      </p>
-
-      {/* Tabs */}
-      <div className="TimeTable-tabs TimeTable-reveal TimeTable-delay2">
-        {tabs.map((tab) => (
-          <span
-            key={tab}
-            className={`TimeTable-tab ${
-              activeTab === tab ? "TimeTable-tabActive" : ""
-            }`}
-            onMouseEnter={() => setActiveTab(tab)}
-          >
-            {tab} Class
-          </span>
-        ))}
-      </div>
-
-      {/* Timetable */}
-      <div className="TimeTable-grid TimeTable-scroll" ref={tableRef}>
-        {days.map((day) => (
-          <div key={day} className="TimeTable-dayColumn">
-            <div className="TimeTable-dayHeader">{day}</div>
-
-            {filtered
-              .filter((item) => item.day === day)
-              .map((item, i) => (
-                <div
-                  key={i}
-                  className={`TimeTable-classBox TimeTable-${item.type.toLowerCase()}`}
-                  style={{ animationDelay: `${i * 0.1}s` }}
-                >
-                  <span className="TimeTable-classTime">{item.time}</span>
-                  <strong className="TimeTable-classType">
-                    {item.type} Class
-                  </strong>
-                </div>
-              ))}
->>>>>>> 36f83a662d31011a0f711f9b464d2ae6bdf49baa
           </div>
         ))}
 
