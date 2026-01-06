@@ -1,0 +1,171 @@
+.school-fee {
+    padding: 100px 80px;
+    text-align: center;
+    background: #fff;
+}
+
+.fee-title {
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.fee-line {
+    display: block;
+    width: 120px;
+    height: 4px;
+    margin: 14px auto 70px;
+    background: linear-gradient(to right, #ff6ea1, #ff9ac2);
+    border-radius: 4px;
+}
+
+
+/* GRID */
+
+.fee-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+
+/* CARD */
+
+.fee-card {
+    border-radius: 22px;
+    overflow: hidden;
+    color: #fff;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+}
+
+.fee-header {
+    padding: 22px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.fee-price {
+    padding: 30px 0;
+    font-size: 46px;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.35);
+    color: #000;
+}
+
+.fee-price small {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.currency {
+    font-size: 24px;
+    vertical-align: super;
+}
+
+.fee-card ul {
+    list-style: none;
+    padding: 35px 30px;
+    text-align: left;
+}
+
+.fee-card ul li {
+    font-size: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.fee-card ul li::before {
+    content: "✓";
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.fee-card ul li.no::before {
+    content: "✕";
+    opacity: 0.7;
+}
+
+
+/* BUTTON */
+
+.fee-btn {
+    margin: 20px auto 30px;
+    padding: 12px 40px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* COLOR VARIANTS */
+
+.blue {
+    background: #6ecbff;
+}
+
+.blue .fee-header {
+    background: #5bbdf4;
+}
+
+.blue .fee-btn {
+    background: #bfeaff;
+}
+
+.yellow {
+    background: #f4b400;
+}
+
+.yellow .fee-header {
+    background: #e2a500;
+}
+
+.yellow .fee-btn {
+    background: #ffe08a;
+}
+
+.purple {
+    background: #b79cff;
+}
+
+.purple .fee-header {
+    background: #a78bfa;
+}
+
+.purple .fee-btn {
+    background: #e0d6ff;
+}
+
+.red {
+    background: #ff6b6b;
+}
+
+.red .fee-header {
+    background: #ff5a5a;
+}
+
+.red .fee-btn {
+    background: #ffc1c1;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1024px) {
+    .fee-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .school-fee {
+        padding: 80px 20px;
+    }
+    .fee-title {
+        font-size: 32px;
+    }
+    .fee-cards {
+        grid-template-columns: 1fr;
+    }
+}

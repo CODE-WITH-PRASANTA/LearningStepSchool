@@ -15,6 +15,8 @@ import FloatingActions from "./Components/FloatingActions/FloatingActions";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import About from "./Pages/About/About";
 import Studentlife from "./Pages/Studentlife/Studentlife";
+import Admissions from "./Pages/Admissions/Admissions";
+import Infrastructure from "./Pages/Infrastructure/Infrastructure";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About/>}/>
         <Route path="/student-life" element={<Studentlife/>}/>
+        <Route path="/admissions" element={<Admissions />} />
+        <Route path="/infrastructure" element={<Infrastructure />} />
       </Routes>
 
       <Footer />
