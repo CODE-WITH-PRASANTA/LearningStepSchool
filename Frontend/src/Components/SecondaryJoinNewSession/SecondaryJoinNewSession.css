@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
+
+/* ================= ROOT ================= */
+.secondary-join-session {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center;
+  margin: 100px auto;
+}
+
+/* ================= OVERLAY ================= */
+.secondary-join-session__overlay {
+  background: rgba(0, 185, 167, 0.85);
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  padding: 0 20px;
+  font-family: "Fredoka", sans-serif;
+}
+
+/* ================= TEXT ================= */
+.secondary-join-session__overlay h2 {
+  font-size: 48px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.secondary-join-session__overlay p {
+  max-width: 720px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #f2fefe;
+  margin-bottom: 28px;
+}
+
+/* ================= BUTTON ================= */
+.secondary-join-session__btn {
+  background: #ff9f2a;
+  color: #fff;
+  border: none;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.secondary-join-session__btn:hover {
+  background: #ff8a00;
+  transform: translateY(-2px);
+}
+
+/* ================= DECOR ================= */
+.secondary-decor {
+  position: absolute;
+  font-size: 40px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.secondary-decor-left {
+  left: 80px;
+  top: 50%;
+}
+
+.secondary-decor-right {
+  right: 80px;
+  top: 55%;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .secondary-join-session__overlay h2 {
+    font-size: 36px;
+  }
+
+  .secondary-join-session__overlay p {
+    font-size: 15px;
+  }
+
+  .secondary-decor {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .secondary-join-session,
+  .secondary-join-session__overlay {
+    min-height: 360px;
+  }
+
+  .secondary-join-session__overlay h2 {
+    font-size: 30px;
+  }
+}

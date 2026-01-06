@@ -1,0 +1,176 @@
+/* ================= SECTION ================= */
+
+.fees-faq {
+    padding: 100px 80px;
+    background: #fff;
+}
+
+.fees-faq-title {
+    text-align: center;
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.fees-faq-line {
+    display: block;
+    width: 120px;
+    height: 4px;
+    margin: 14px auto 40px;
+    background: linear-gradient(to right, #ff6ea1, #ff9ac2);
+    border-radius: 4px;
+}
+
+
+/* ================= TABS (HORIZONTAL LIKE IMAGE) ================= */
+
+.fees-faq-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto 70px;
+}
+
+.fees-faq-tab {
+    padding: 18px 0;
+    border-radius: 14px;
+    border: none;
+    background: #f6f6f6;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+
+.fees-faq-tab.active {
+    background: #5e5df0;
+    color: #fff;
+}
+
+
+/* ================= FAQ GRID ================= */
+
+.fees-faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 80px;
+}
+
+.fees-faq-item {
+    display: flex;
+    gap: 20px;
+}
+
+.fees-faq-item h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.fees-faq-item p {
+    font-size: 16px;
+    color: #7a7a7a;
+    line-height: 1.7;
+}
+
+
+/* ================= ICONS ================= */
+
+.fees-faq-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+
+/* ================= COLORS ================= */
+
+.purple {
+    background: #5e5df0;
+}
+
+.purple-text {
+    color: #5e5df0;
+}
+
+.blue {
+    background: #5ac8fa;
+}
+
+.blue-text {
+    color: #5ac8fa;
+}
+
+.green {
+    background: #9cc84b;
+}
+
+.green-text {
+    color: #9cc84b;
+}
+
+.yellow {
+    background: #f4b400;
+}
+
+.yellow-text {
+    color: #f4b400;
+}
+
+.pink {
+    background: #ff5c8d;
+}
+
+.pink-text {
+    color: #ff5c8d;
+}
+
+.violet {
+    background: #7c3aed;
+}
+
+.violet-text {
+    color: #7c3aed;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+    .fees-faq-tabs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .fees-faq-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .fees-faq {
+        padding: 80px 20px;
+    }
+    .fees-faq-title {
+        font-size: 32px;
+    }
+    .fees-faq-tabs {
+        grid-template-columns: 1fr;
+    }
+}
+
+.fees-faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 80px;
+}
+
+@media (max-width: 1024px) {
+    .fees-faq-grid {
+        grid-template-columns: 1fr;
+    }
+}

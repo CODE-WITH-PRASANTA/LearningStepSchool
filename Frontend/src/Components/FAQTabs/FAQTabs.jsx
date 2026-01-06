@@ -135,11 +135,11 @@ export default function FaqTabs() {
   }, [activeTab]);
 
   return (
-    <section ref={sectionRef} className={`faq-wrapper ${animate ? "reveal" : ""}`}>
-      <div className="faq-layout">
+    <section ref={sectionRef} className={`faqtabs-wrapper ${animate ? "reveal" : ""}`}>
+      <div className="faqtabs-layout">
 
         {/* LEFT STICKY TABS */}
-        <div className="faq-tabs">
+        <div className="faqtabs-tabs">
           {Object.keys(FAQ_DATA).map(tab => (
             <button
               key={tab}
@@ -155,23 +155,23 @@ export default function FaqTabs() {
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className={`faq-content ${animate ? "animate-in" : ""}`}>
+        <div className={`faqtabs-content ${animate ? "animate-in" : ""}`}>
           {FAQ_DATA[activeTab].map((item, index) => (
             <div
               key={index}
-              className={`faq-item ${
+              className={`faqtabs-item ${
                 openIndex === index ? "open active" : ""
               }`}
               onClick={() =>
                 setOpenIndex(openIndex === index ? -1 : index)
               }
             >
-              <div className="faq-question">
+              <div className="faqtabs-question">
                 <h4>{item.q}</h4>
-                <span className="arrow">{openIndex === index ? "⌃" : "›"}</span>
+                <span className="faqtabs-arrow">{openIndex === index ? "⌃" : "›"}</span>
               </div>
 
-              <div className="faq-answer">
+              <div className="faqtabs-answer">
                 <p>{item.a}</p>
               </div>
             </div>

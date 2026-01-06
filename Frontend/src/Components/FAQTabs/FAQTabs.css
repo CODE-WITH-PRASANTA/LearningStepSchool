@@ -1,4 +1,4 @@
-.faq-wrapper {
+.faqtabs-wrapper {
   padding: 90px 6%;
   background: #ffffff;
   opacity: 0;
@@ -6,20 +6,20 @@
   transition: all 0.8s ease;
 }
 
-.faq-wrapper.reveal {
+.faqtabs-wrapper.reveal {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* layout */
-.faq-layout {
+.faqtabs-layout {
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: 50px;
 }
 
 /* STICKY LEFT MENU */
-.faq-tabs {
+.faqtabs-tabs {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -51,7 +51,7 @@
 }
 
 /* CONTENT */
-.faq-content {
+.faqtabs-content {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -59,7 +59,7 @@
   transform: translateY(16px);
 }
 
-.faq-content.animate-in {
+.faqtabs-content.animate-in {
   animation: fadeSlide 0.45s ease forwards;
 }
 
@@ -75,7 +75,7 @@
 }
 
 /* FAQ CARD */
-.faq-item {
+.faqtabs-item {
   background: #ffffff;
   border-radius: 12px;
   padding: 22px 26px;
@@ -84,60 +84,60 @@
   transition: all 0.3s ease;
 }
 
-.faq-item:hover {
+.faqtabs-item:hover {
   transform: translateY(-3px);
 }
 
 /* ACTIVE QUESTION COLOR */
-.faq-item.active {
+.faqtabs-item.active {
   border-left: 4px solid #f2994a;
   background: #fffaf4;
 }
 
 /* QUESTION */
-.faq-question {
+.faqtabs-question {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.faq-question h4 {
+.faqtabs-question h4 {
   font-size: 18px;
   font-weight: 600;
   color: #2c3e50;
   transition: color 0.3s ease;
 }
 
-.faq-item.active .faq-question h4 {
+.faqtabs-item.active .faqtabs-question h4 {
   color: #f2994a;
 }
 
 /* ARROW */
-.arrow {
+.faqtabs-arrow {
   font-size: 22px;
   color: #3f4fd6;
   transition: transform 0.3s ease;
 }
 
-.faq-item.open .arrow {
+.faqtabs-item.open .faqtabs-arrow {
   transform: rotate(90deg);
 }
 
 /* ANSWER */
-.faq-answer {
+.faqtabs-answer {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
   transition: max-height 0.45s ease, opacity 0.3s ease;
 }
 
-.faq-item.open .faq-answer {
+.faqtabs-item.open .faqtabs-answer {
   max-height: 300px;
   opacity: 1;
   margin-top: 14px;
 }
 
-.faq-answer p {
+.faqtabs-answer p {
   color: #5f6c7b;
   font-size: 15px;
   line-height: 1.7;
@@ -145,11 +145,11 @@
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  .faq-layout {
+  .faqtabs-layout {
     grid-template-columns: 1fr;
   }
 
-  .faq-tabs {
+  .faqtabs-tabs {
     position: relative;
     top: 0;
     flex-direction: row;

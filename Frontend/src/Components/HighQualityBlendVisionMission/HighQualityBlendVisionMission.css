@@ -96,7 +96,8 @@
   width: 100%;
   max-width: 100%;
   object-fit: cover;
-  border-radius: 0% 0% 50% 50%;}
+  border-radius: 0% 0% 50% 50%;
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
