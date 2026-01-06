@@ -48,7 +48,7 @@ const SectionArea = () => {
           <h3>SCHOOL FEATURES</h3>
           <h4>POPULAR EDUCATION FOR YOUR CHILD</h4>
 
-          <div className="feature open">
+          <div className="Infrastructure-feature open">
             <span className="symbol">−</span>
             <strong>Award for Best School 2017</strong>
             <p>
@@ -58,27 +58,27 @@ const SectionArea = () => {
             </p>
           </div>
 
-          <div className="feature">
+          <div className="Infrastructure-feature">
             <span className="symbol">+</span>
             <span>Great Facilities at Enfant</span>
           </div>
 
-          <div className="feature">
+          <div className="Infrastructure-feature">
             <span className="symbol">+</span>
             <span>Writing and Reading Classes</span>
           </div>
 
-          <div className="feature">
+          <div className="Infrastructure-feature">
             <span className="symbol">+</span>
             <span>Individual Attention in Small Classes</span>
           </div>
 
-          <div className="feature">
+          <div className="Infrastructure-feature">
             <span className="symbol">+</span>
             <span>Positive Learning Environment</span>
           </div>
 
-          <div className="feature">
+          <div className="Infrastructure-feature">
             <span className="symbol">+</span>
             <span>Opportunities to Scientific Experiments</span>
           </div>
