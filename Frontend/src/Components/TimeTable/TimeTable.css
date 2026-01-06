@@ -1,157 +1,139 @@
-/* ---------- Base ---------- */
-* {
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
 
-/* ---------- Section ---------- */
-.TimeTable-section {
+/* ================= BASE ================= */
+.ctt-section {
   padding: 80px 20px;
+  background: #ffffff;
   text-align: center;
+  font-family: "Fredoka", sans-serif;
 }
 
-/* ---------- Text Reveal ---------- */
-.TimeTable-reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: TimeTable-textReveal 0.8s ease forwards;
-}
-
-.TimeTable-delay {
-  animation-delay: 0.2s;
-}
-
-.TimeTable-delay2 {
-  animation-delay: 0.4s;
-}
-
-@keyframes TimeTable-textReveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.TimeTable-heading {
+.ctt-title {
   font-size: 42px;
-  margin-bottom: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
-.TimeTable-description {
-  max-width: 600px;
-  margin: auto;
-  margin-bottom: 30px;
-  color: #555;
+.ctt-subtitle {
+  max-width: 720px;
+  margin: 0 auto 50px;
+  color: #666;
 }
 
-/* ---------- Tabs ---------- */
-.TimeTable-tabs {
+/* ================= TABS ================= */
+.ctt-tabs-wrapper {
+  position: sticky;
+  top: 80px;
+  background: #fff;
+  z-index: 50;
+  padding: 20px 0;
+}
+
+.ctt-tabs {
+  position: relative;
   display: flex;
   justify-content: center;
-  gap: 30px;
-  margin-bottom: 40px;
+  gap: 36px;
+  max-width: 800px;
+  margin: auto;
 }
 
-.TimeTable-tab {
-  cursor: pointer;
+.ctt-tab-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
   font-weight: 600;
-  padding-bottom: 6px;
-  border-bottom: 3px solid transparent;
-  transition: all 0.3s ease;
+  color: #777;
+  cursor: pointer;
+  padding: 6px 0;
 }
 
-.TimeTable-tab:hover,
-.TimeTable-tabActive {
-  border-color: #000;
+.ctt-tab-active {
+  color: #111;
 }
 
-/* ---------- Scroll Reveal ---------- */
-.TimeTable-scroll {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 1s ease;
+.ctt-tab-underline {
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  height: 3px;
+  background: #111;
+  border-radius: 4px;
+  transition: transform 0.35s ease, width 0.35s ease;
 }
 
-.TimeTable-scrollShow {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ---------- Timetable Grid ---------- */
-.TimeTable-grid {
+/* ================= GRID ================= */
+.ctt-grid {
+  max-width: 1200px;
+  margin: 60px auto 0;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
-  background: #fff7ec;
-  border-radius: 30px;
-  padding: 20px;
-}
-
-.TimeTable-dayColumn {
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
 }
 
-.TimeTable-dayHeader {
-  background: #fde7cd;
-  padding: 16px;
-  font-weight: 700;
+.ctt-day-header {
+  background: #fff3e0;
+  padding: 24px 10px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-/* ---------- Class Box ---------- */
-.TimeTable-classBox {
-  padding: 20px 10px;
+/* ================= BOXES ================= */
+.ctt-time-box {
+  padding: 28px 10px;
   color: #fff;
-  opacity: 0;
-  animation: TimeTable-stagger 0.5s ease forwards;
 }
 
-@keyframes TimeTable-stagger {
-  to {
-    opacity: 1;
-  }
-}
-
-.TimeTable-classTime {
+.ctt-time {
   display: block;
   font-size: 14px;
   margin-bottom: 6px;
+  opacity: 0.9;
 }
 
-.TimeTable-classType {
-  font-size: 16px;
+.ctt-class-name {
+  font-size: 18px;
+  font-weight: 600;
 }
 
-/* ---------- Class Colors ---------- */
-.TimeTable-sports {
-  background: #00c2a8;
-}
+/* ================= COLORS ================= */
+.ctt-orange { background: #ffa726; }
+.ctt-teal { background: #00bfa5; }
+.ctt-purple { background: #7c83fd; }
+.ctt-blue { background: #00b0e6; }
+.ctt-pink { background: #ff5c8a; }
+.ctt-salmon { background: #ff8a80; }
 
-.TimeTable-dancing {
-  background: #7c83fd;
-}
-
-.TimeTable-drawing {
-  background: #ff7a7a;
-}
-
-.TimeTable-play {
-  background: #ffa63d;
-}
-
-/* ---------- Responsive ---------- */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
-  .TimeTable-grid {
+  .ctt-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ctt-day-header {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .ctt-tabs {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 20px;
+  }
+
+  .ctt-tab-btn {
+    font-size: 16px;
   }
 }
 
 @media (max-width: 600px) {
-  .TimeTable-grid {
+  .ctt-grid {
     grid-template-columns: 1fr;
   }
 
-  .TimeTable-heading {
-    font-size: 30px;
+  .ctt-time-box {
+    border-bottom: 8px solid #fff;
   }
 }

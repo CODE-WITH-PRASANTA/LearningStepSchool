@@ -1,0 +1,98 @@
+/* ================= ROOT ================= */
+
+.stats-section {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ================= BACKGROUND ================= */
+
+.stats-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 150%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+
+/* ================= DARK OVERLAY ================= */
+
+.stats-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+}
+
+
+/* ================= CONTENT ================= */
+
+.stats-container {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+
+/* ================= STAT ITEM ================= */
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat-icon {
+    font-size: 42px;
+    margin-bottom: 6px;
+}
+
+.stat-item h2 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.stat-item p {
+    font-size: 16px;
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 30px;
+    }
+    .stats-section {
+        height: auto;
+        padding: 40px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    .stat-item h2 {
+        font-size: 36px;
+    }
+}

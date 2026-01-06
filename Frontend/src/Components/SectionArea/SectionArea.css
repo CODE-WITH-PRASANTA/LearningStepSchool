@@ -1,0 +1,164 @@
+/* ================= ROOT ================= */
+
+.enfant-school {
+    padding: 80px 0;
+    background: #ffffff;
+    font-family: "Arial", sans-serif;
+    color: #444;
+}
+
+
+/* ================= HEADER ================= */
+
+.enfant-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.enfant-header h2 {
+    font-size: 30px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.enfant-header p {
+    font-size: 16px;
+    color: #666;
+}
+
+.divider {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.divider span {
+    width: 90px;
+    height: 2px;
+    background: #ff4d2e;
+    position: relative;
+}
+
+.divider span::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ff4d2e;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* ================= GRID ================= */
+
+.enfant-content {
+    width: 85%;
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+}
+
+
+/* ================= LEFT ================= */
+
+.left h3,
+.right h3 {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.left h4,
+.right h4 {
+    font-size: 18px;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.left p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+
+/* Check list */
+
+.check-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.check-list li {
+    margin-bottom: 12px;
+    padding-left: 28px;
+    position: relative;
+}
+
+.check-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #ff4d2e;
+    font-weight: bold;
+}
+
+
+/* ================= RIGHT ================= */
+
+.feature {
+    border-top: 1px solid #eee;
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    color: #1f3c5a;
+}
+
+.feature:last-child {
+    border-bottom: 1px solid #eee;
+}
+
+.feature .symbol {
+    font-size: 24px;
+    color: #ff4d2e;
+    width: 20px;
+    text-align: center;
+}
+
+.feature.open {
+    display: block;
+}
+
+.feature.open strong {
+    display: block;
+    font-size: 20px;
+    color: #1f3c5a;
+    margin-bottom: 10px;
+}
+
+.feature.open p {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.7;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+    .enfant-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+}

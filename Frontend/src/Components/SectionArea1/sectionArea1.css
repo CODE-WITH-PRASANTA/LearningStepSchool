@@ -1,0 +1,131 @@
+/* ================= EVENTS HEADER ================= */
+
+.events-header {
+    text-align: center;
+    padding: 80px 20px 60px;
+    background: #ffffff;
+}
+
+.events-header h2 {
+    font-size: 30px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.events-header p {
+    font-size: 16px;
+    color: #666;
+}
+
+
+/* Divider */
+
+.divider {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.divider span {
+    width: 90px;
+    height: 2px;
+    background: #ff4d2e;
+    position: relative;
+}
+
+.divider span::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ff4d2e;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* ================= CTA BAR ================= */
+
+.cta-bar {
+    background: #062c4c;
+    padding: 50px 20px;
+}
+
+.cta-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+
+/* Left */
+
+.cta-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #fff;
+}
+
+.cta-icon {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    color: #ff4d2e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.cta-left h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.cta-left p {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+
+/* Button */
+
+.cta-button {
+    padding: 14px 34px;
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background: #ffffff;
+    color: #062c4c;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .cta-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cta-left {
+        flex-direction: column;
+    }
+}

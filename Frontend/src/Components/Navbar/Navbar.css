@@ -78,6 +78,7 @@
 }
 
 .Navbar-nav-links li {
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -659,4 +660,9 @@
   .navbar-mobile-submenu {
     display: none;
   }
+}
+
+
+.Navbar-visit-btn li {
+  list-style: none;
 }

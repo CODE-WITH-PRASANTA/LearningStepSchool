@@ -15,11 +15,14 @@ import FloatingActions from "./Components/FloatingActions/FloatingActions";
 import FloatingForm from "./Components/FloatingForm/FloatingForm";
 import About from "./Pages/About/About";
 import Studentlife from "./Pages/Studentlife/Studentlife";
+import Admissions from "./Pages/Admissions/Admissions";
+import Infrastructure from "./Pages/Infrastructure/Infrastructure";
 import Login from "./Pages/Login/Login";
 import Register from "./Pages/Regisrter/Register";
 import Notice from "./Pages/Notice/Notice";
 import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
 import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
+import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 
 function App() {
   return (
@@ -34,11 +37,14 @@ function App() {
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About/>}/>
         <Route path="/student-life" element={<Studentlife/>}/>
+        <Route path="/admissions" element={<Admissions />} />
+        <Route path="/infrastructure" element={<Infrastructure />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />}/>
         <Route path="/notice" element={<Notice />}/>
         <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
         <Route path="/vision-mission" element={<VisionAndMission/>}/>
+        <Route path="/academics/pre-primary" element={<PrePrimery/>}/>
       </Routes>
 
       <Footer /> 

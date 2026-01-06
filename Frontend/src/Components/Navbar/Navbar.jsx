@@ -62,7 +62,7 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             <div className={`Navbar-dropdown-menu ${aboutOpen ? "open" : ""}`}>
               <Link to="/about" className="Navbar-dropdown-item">About School</Link>
               <Link to="/ourteacher" className="Navbar-dropdown-item">Our Teachers</Link>
-              <Link to="/principal" className="Navbar-dropdown-item">Principal’s Message</Link>
+              <Link to="/whychooseus" className="Navbar-dropdown-item">Why Choose Us</Link>
               <Link to="/vision-mission" className="Navbar-dropdown-item">Vision & Mission</Link>
               <Link to="/infrastructure" className="Navbar-dropdown-item">Infrastructure</Link>
             </div>
@@ -113,16 +113,12 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </button>
 
 
-            <button className="Navbar-visit-btn">
+            {/* <button className="Navbar-visit-btn">
                <ul> 
                   <li><a href="/register">Register </a></li>
                    
                </ul>
-            </button>
-
-            
-       
-
+            </button> */}
           <div
             className="Navbar-hamburger"
             onClick={() => setDrawerOpen(true)}
@@ -168,11 +164,11 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </Link>
 
             <Link
-              to="/principal"
+              to="/whychooseus"
               className="navbar-mobile-submenu__item"
               onClick={() => setDrawerOpen(false)}
             >
-              Principal’s Message
+              Why Choose Us
             </Link>
 
             <Link
