@@ -141,7 +141,7 @@
   .preprimery-card {
     flex-direction: column;
     height: auto;
-    padding: 18px;
+    padding:0px 18px;
   }
 
   .preprimery-card__image-wrapper {
