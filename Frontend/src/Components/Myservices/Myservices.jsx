@@ -19,45 +19,45 @@ const MyServices = () => {
       { threshold: 0.1 }
     );
 
-    const elements = document.querySelectorAll(".service-item, .services-left");
+    const elements = document.querySelectorAll(".Myservices-homepage__service-item, .Myservices-homepage__left");
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
   const handleBookVisit = () => {
-    const btn = document.querySelector(".btn-primary");
+    const btn = document.querySelector(".Myservices-homepage__btn-primary");
     btn.classList.add("clicked");
     setTimeout(() => btn.classList.remove("clicked"), 300);
     console.log("Booking visit...");
   };
 
   return (
-    <section className="my-services">
-      <div className="services-container">
+    <section className="Myservices-homepage">
+      <div className="Myservices-homepage__container">
         {/* Background elements */}
-        <div className="background-elements">
-          <div className="bg-circle circle-1"></div>
-          <div className="bg-circle circle-2"></div>
-          <div className="bg-circle circle-3"></div>
-          <div className="bg-grid"></div>
+        <div className="Myservices-homepage__background-elements">
+          <div className="Myservices-homepage__bg-circle Myservices-homepage__circle-1"></div>
+          <div className="Myservices-homepage__bg-circle Myservices-homepage__circle-2"></div>
+          <div className="Myservices-homepage__bg-circle Myservices-homepage__circle-3"></div>
+          <div className="Myservices-homepage__bg-grid"></div>
         </div>
 
         {/* LEFT */}
-        <div className="services-left">
-          <div className="tag-wrapper">
-            <span className="services-tag">Premium Services</span>
-            <div className="tag-line"></div>
+        <div className="Myservices-homepage__left">
+          <div className="Myservices-homepage__tag-wrapper">
+            <span className="Myservices-homepage__services-tag">Premium Services</span>
+            <div className="Myservices-homepage__tag-line"></div>
           </div>
 
          <h1>
-            <span className="gradient-text">Our Core Values</span>
+            <span className="Myservices-homepage__gradient-text">Our Core Values</span>
             <br />
-            <span className="highlight-text">Shaping Young Minds for a Better Future</span>
+            <span className="Myservices-homepage__highlight-text">Shaping Young Minds for a Better Future</span>
           </h1>
 
 
-         <p className="myservice-description">
+         <p className="Myservices-homepage__description">
             At our school, we believe that education is the foundation of a successful
             and meaningful life. Through quality teaching, strong moral values, and
             modern learning practices, we prepare students to face academic challenges
@@ -65,38 +65,38 @@ const MyServices = () => {
           </p>
 
 
-       <div className="benefits-list">
-            <div className="benefit-item">
-              <IoCheckmarkCircle className="benefit-icon" />
+       <div className="Myservices-homepage__benefits-list">
+            <div className="Myservices-homepage__benefit-item">
+              <IoCheckmarkCircle className="Myservices-homepage__benefit-icon" />
               <span>Quality Education with Strong Values</span>
             </div>
-            <div className="benefit-item">
-              <IoCheckmarkCircle className="benefit-icon" />
+            <div className="Myservices-homepage__benefit-item">
+              <IoCheckmarkCircle className="Myservices-homepage__benefit-icon" />
               <span>Safe, Supportive & Student-Friendly Environment</span>
             </div>
-            <div className="benefit-item">
-              <IoCheckmarkCircle className="benefit-icon" />
+            <div className="Myservices-homepage__benefit-item">
+              <IoCheckmarkCircle className="Myservices-homepage__benefit-icon" />
               <span>Creative Learning with Life Skills</span>
             </div>
           </div>
 
-          <div className="services-actions">
-            <button className="btn-primary" onClick={handleBookVisit}>
-              <span className="btn-text">Register Now</span>
-              <span className="btn-arrow">→</span>
-              <div className="btn-shine"></div>
+          <div className="Myservices-homepage__actions">
+            <button className="Myservices-homepage__btn-primary" onClick={handleBookVisit}>
+              <span className="Myservices-homepage__btn-text">Register Now</span>
+              <span className="Myservices-homepage__btn-arrow">→</span>
+              <div className="Myservices-homepage__btn-shine"></div>
             </button>
 
-            <div className="call-box">
-              <div className="call-icon-wrapper">
-                <div className="call-icon-pulse"></div>
-                <div className="call-icon">
+            <div className="Myservices-homepage__call-box">
+              <div className="Myservices-homepage__call-icon-wrapper">
+                <div className="Myservices-homepage__call-icon-pulse"></div>
+                <div className="Myservices-homepage__call-icon">
                   <FiPhoneCall />
                 </div>
               </div>
-              <div className="call-info">
+              <div className="Myservices-homepage__call-info">
                 <span>Call Us Now</span>
-                <a href="tel:+917014627894" className="call-number">
+                <a href="tel:+917014627894" className="Myservices-homepage__call-number">
                   <strong>+91 70146 27894</strong>
                 </a>
               </div>
@@ -106,19 +106,19 @@ const MyServices = () => {
         </div>
 
         {/* RIGHT */}
-        <div className="services-right">
-          <div className="service-item">
-            <div className="icon-container">
-              <div className="icon-bg orange"></div>
-              <div className="icon orange">
+        <div className="Myservices-homepage__right">
+          <div className="Myservices-homepage__service-item">
+            <div className="Myservices-homepage__icon-container">
+              <div className="Myservices-homepage__icon-bg orange"></div>
+              <div className="Myservices-homepage__icon orange">
                 <FaGraduationCap />
-                <div className="icon-glow"></div>
+                <div className="Myservices-homepage__icon-glow"></div>
               </div>
             </div>
-            <div className="service-content">
-              <div className="service-header">
+            <div className="Myservices-homepage__service-content">
+              <div className="Myservices-homepage__service-header">
               <h3>Value of Education</h3>
-                <div className="service-badge">Popular</div>
+                <div className="Myservices-homepage__service-badge">Popular</div>
               </div>
              <p>
               We believe education shapes character, builds confidence, and sparks
@@ -127,32 +127,32 @@ const MyServices = () => {
               responsible and successful individuals.
             </p>
 
-              <div className="service-stats">
-                <div className="stat">
-                 <span className="stat-value">100%</span>
-                <span className="stat-label">Focused Learning</span>
+              <div className="Myservices-homepage__service-stats">
+                <div className="Myservices-homepage__stat">
+                 <span className="Myservices-homepage__stat-value">100%</span>
+                <span className="Myservices-homepage__stat-label">Focused Learning</span>
                 </div>
-                <div className="stat">
-                 <span className="stat-value">Holistic</span>
-                  <span className="stat-label">Development</span>
+                <div className="Myservices-homepage__stat">
+                 <span className="Myservices-homepage__stat-value">Holistic</span>
+                  <span className="Myservices-homepage__stat-label">Development</span>
 
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="service-item">
-            <div className="icon-container">
-              <div className="icon-bg blue"></div>
-              <div className="icon blue">
+          <div className="Myservices-homepage__service-item">
+            <div className="Myservices-homepage__icon-container">
+              <div className="Myservices-homepage__icon-bg blue"></div>
+              <div className="Myservices-homepage__icon blue">
                 <TbBible />
-                <div className="icon-glow"></div>
+                <div className="Myservices-homepage__icon-glow"></div>
               </div>
             </div>
-            <div className="service-content">
-              <div className="service-header">
+            <div className="Myservices-homepage__service-content">
+              <div className="Myservices-homepage__service-header">
               <h3>Best Environment</h3>
-                <div className="service-badge new">New</div>
+                <div className="Myservices-homepage__service-badge new">New</div>
               </div>
              <p>
                 We provide a safe, welcoming, and motivating environment where children
@@ -160,31 +160,31 @@ const MyServices = () => {
                 well-being, discipline, and positivity in a joyful and secure atmosphere.
               </p>
 
-              <div className="service-stats">
-                <div className="stat">
-                 <span className="stat-value">Safe</span>
-                 <span className="stat-label">Campus</span>
+              <div className="Myservices-homepage__service-stats">
+                <div className="Myservices-homepage__stat">
+                 <span className="Myservices-homepage__stat-value">Safe</span>
+                 <span className="Myservices-homepage__stat-label">Campus</span>
                 </div>
-                <div className="stat">
-                 <span className="stat-value">Positive</span>
-                  <span className="stat-label">Learning Space</span>
+                <div className="Myservices-homepage__stat">
+                 <span className="Myservices-homepage__stat-value">Positive</span>
+                  <span className="Myservices-homepage__stat-label">Learning Space</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="service-item">
-            <div className="icon-container">
-              <div className="icon-bg green"></div>
-              <div className="icon green">
+          <div className="Myservices-homepage__service-item">
+            <div className="Myservices-homepage__icon-container">
+              <div className="Myservices-homepage__icon-bg green"></div>
+              <div className="Myservices-homepage__icon green">
                 <HiOutlineHeart />
-                <div className="icon-glow"></div>
+                <div className="Myservices-homepage__icon-glow"></div>
               </div>
             </div>
-            <div className="service-content">
-              <div className="service-header">
+            <div className="Myservices-homepage__service-content">
+              <div className="Myservices-homepage__service-header">
                 <h3>Creative Curriculum</h3>
-                <div className="service-badge trending">Trending</div>
+                <div className="Myservices-homepage__service-badge trending">Trending</div>
               </div>
              <p>
                 Our creative curriculum blends academics with arts, activities, and
@@ -193,14 +193,14 @@ const MyServices = () => {
                 every child.
               </p>
 
-              <div className="service-stats">
-                <div className="stat">
-                 <span className="stat-value">Activity</span>
-                  <span className="stat-label">Based Learning</span>
+              <div className="Myservices-homepage__service-stats">
+                <div className="Myservices-homepage__stat">
+                 <span className="Myservices-homepage__stat-value">Activity</span>
+                  <span className="Myservices-homepage__stat-label">Based Learning</span>
                 </div>
-                <div className="stat">
-                 <span className="stat-value">Skill</span>
-                  <span className="stat-label">Oriented</span>
+                <div className="Myservices-homepage__stat">
+                 <span className="Myservices-homepage__stat-value">Skill</span>
+                  <span className="Myservices-homepage__stat-label">Oriented</span>
                 </div>
               </div>
             </div>
