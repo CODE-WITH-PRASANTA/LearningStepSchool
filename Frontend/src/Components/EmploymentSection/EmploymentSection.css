@@ -1,0 +1,159 @@
+/* ================= ROOT ================= */
+
+.employment-section {
+    padding: 80px 20px 100px;
+    background: #ffffff;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: #555;
+}
+
+
+/* ================= HEADER ================= */
+
+.employment-header h2 {
+    font-size: 30px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.employment-header p {
+    font-size: 16px;
+    color: #666;
+}
+
+
+/* Divider */
+
+.divider {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.divider span {
+    width: 90px;
+    height: 2px;
+    background: #ff4d2e;
+    position: relative;
+}
+
+.divider span::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ff4d2e;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* ================= STEPS ================= */
+
+.steps-wrapper {
+    position: relative;
+    max-width: 1200px;
+    margin: 70px auto 50px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+}
+
+.steps-line {
+    position: absolute;
+    top: 42px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-top: 2px dashed #ccc;
+    z-index: 0;
+}
+
+.step {
+    position: relative;
+    z-index: 1;
+    padding: 0 10px;
+}
+
+.step-circle {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.step-circle.blue {
+    background: #062c4c;
+}
+
+.step-circle.orange {
+    background: #ff4d2e;
+}
+
+.step h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+.step p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #777;
+}
+
+
+/* ================= CONTROLS ================= */
+
+.step-controls {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+.step-controls button {
+    padding: 8px 18px;
+    border: 2px solid #ff4d2e;
+    background: transparent;
+    color: #ff4d2e;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.step-controls button:hover {
+    background: #ff4d2e;
+    color: #ffffff;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+    .steps-wrapper {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 60px;
+    }
+    .steps-line {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .steps-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
