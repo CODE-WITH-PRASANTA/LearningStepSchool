@@ -170,15 +170,15 @@ const FeesFAQ = () => {
 
   return (
     <section className="fees-faq">
-      <h2 className="faq-title">Questions About Fees</h2>
-      <span className="faq-line"></span>
+      <h2 className="fees-faq-title">Questions About Fees</h2>
+      <span className="fees-faq-line"></span>
 
       {/* Tabs */}
-      <div className="faq-tabs">
+      <div className="fees-faq-tabs">
         {Object.keys(faqData).map((tab) => (
           <button
             key={tab}
-            className={`faq-tab ${activeTab === tab ? "active" : ""}`}
+            className={`fees-faq-tab ${activeTab === tab ? "active" : ""}`}
             onClick={() => setActiveTab(tab)}
           >
             {tab}
@@ -187,10 +187,10 @@ const FeesFAQ = () => {
       </div>
 
       {/* FAQ Content */}
-      <div className="faq-grid">
+      <div className="fees-faq-grid">
         {faqData[activeTab].map((item, index) => (
-          <div className="faq-item" key={index}>
-            <div className={`faq-icon ${item.color}`}>{item.icon}</div>
+          <div className="fees-faq-item" key={index}>
+            <div className={`fees-faq-icon ${item.color}`}>{item.icon}</div>
             <div>
               <h4 className={`${item.color}-text`}>{item.title}</h4>
               <p>{item.text}</p>

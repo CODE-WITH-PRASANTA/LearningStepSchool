@@ -1,4 +1,4 @@
-.preprimery-more-program {
+.secondary-more-program {
   max-width: 1350px;
   margin: 120px auto;
   padding: 0 20px;
@@ -7,12 +7,12 @@
 }
 
 /* ================= HEADER ================= */
-.preprimery-more-program__header h2 {
+.secondary-more-program__header h2 {
   font-size: 48px;
   margin-bottom: 12px;
 }
 
-.preprimery-more-program__header p {
+.secondary-more-program__header p {
   max-width: 720px;
   margin: 0 auto 80px;
   color: #666;
@@ -20,15 +20,14 @@
 }
 
 /* ================= CARD ROW ================= */
-.program-row {
+.secondary-program-row {
   display: flex;
   justify-content: center;
   gap: 30px;
-  flex-wrap: nowrap;
 }
 
 /* ================= CARD ================= */
-.program-card {
+.secondary-program-card {
   width: 100%;
   max-width: 380px;
   padding: 26px;
@@ -36,7 +35,7 @@
   transition: transform 0.3s ease;
 }
 
-.program-card img {
+.secondary-program-card img {
   width: 100%;
   height: 240px;
   object-fit: cover;
@@ -44,12 +43,12 @@
   margin-bottom: 24px;
 }
 
-.program-card h3 {
+.secondary-program-card h3 {
   font-size: 28px;
   margin-bottom: 14px;
 }
 
-.program-card p {
+.secondary-program-card p {
   font-size: 16px;
   color: #555;
   margin-bottom: 28px;
@@ -57,7 +56,7 @@
 }
 
 /* ================= META ================= */
-.program-meta {
+.secondary-program-meta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding: 18px;
@@ -66,32 +65,32 @@
   font-size: 15px;
 }
 
-.program-meta span {
+.secondary-program-meta span {
   border-right: 1px dashed rgba(255,255,255,0.5);
 }
 
-.program-meta span:last-child {
+.secondary-program-meta span:last-child {
   border-right: none;
 }
 
 /* ================= COLORS ================= */
-.bg-mint { background: #e8fffb; }
-.bg-cream { background: #fff4e8; }
-.bg-pink { background: #ffe8ee; }
+.secondary-bg-mint { background: #e8fffb; }
+.secondary-bg-cream { background: #e8f6ff; }
+.secondary-bg-pink { background: #ffe8ee; }
 
-.program-meta.mint { background: #00b9a7; }
-.program-meta.orange { background: #ff9f2a; }
-.program-meta.pink { background: #ff5b7f; }
+.secondary-program-meta.mint { background: #00b9a7; }
+.secondary-program-meta.orange { background: #ff9f2a; }
+.secondary-program-meta.pink { background: #ff5b7f; }
 
 /* ================= DOTS ================= */
-.program-pagination {
+.secondary-program-pagination {
   margin-top: 40px;
   display: flex;
   justify-content: center;
   gap: 12px;
 }
 
-.dot {
+.secondary-dot {
   width: 10px;
   height: 10px;
   background: #c0bfbf;
@@ -100,9 +99,7 @@
   transition: all 0.3s ease;
 }
 
-.dot.active {
+.secondary-dot.active {
   background: #111;
   transform: scale(1.4);
 }
-
-/* ================*

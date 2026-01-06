@@ -1,4 +1,4 @@
-.preprimery-more-program {
+.primery-more-program {
   max-width: 1350px;
   margin: 120px auto;
   padding: 0 20px;
@@ -7,12 +7,12 @@
 }
 
 /* ================= HEADER ================= */
-.preprimery-more-program__header h2 {
+.primery-more-program__header h2 {
   font-size: 48px;
   margin-bottom: 12px;
 }
 
-.preprimery-more-program__header p {
+.primery-more-program__header p {
   max-width: 720px;
   margin: 0 auto 80px;
   color: #666;
@@ -104,5 +104,3 @@
   background: #111;
   transform: scale(1.4);
 }
-
-/* ================*

@@ -23,6 +23,8 @@ import Notice from "./Pages/Notice/Notice";
 import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
 import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
 import PrePrimery from "./Pages/PrePrimery/PrePrimery";
+import Primery from "./Pages/Primery/Primery";
+import Secondary from "./Pages/Secondary/Secondary";
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
         <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
         <Route path="/vision-mission" element={<VisionAndMission/>}/>
         <Route path="/academics/pre-primary" element={<PrePrimery/>}/>
+        <Route path="/academics/primary" element={<Primery/>}/>
+        <Route path="/academics/secondary" element={<Secondary/>}/>
       </Routes>
 
       <Footer /> 

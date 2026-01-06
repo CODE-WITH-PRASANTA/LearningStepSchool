@@ -115,7 +115,7 @@
 
 /* ================= RIGHT ================= */
 
-.feature {
+.Infrastructure-feature {
     border-top: 1px solid #eee;
     padding: 16px 0;
     display: flex;
@@ -125,29 +125,29 @@
     color: #1f3c5a;
 }
 
-.feature:last-child {
+.Infrastructure-feature:last-child {
     border-bottom: 1px solid #eee;
 }
 
-.feature .symbol {
+.Infrastructure-feature .symbol {
     font-size: 24px;
     color: #ff4d2e;
     width: 20px;
     text-align: center;
 }
 
-.feature.open {
+.Infrastructure-feature.open {
     display: block;
 }
 
-.feature.open strong {
+.Infrastructure-feature.open strong {
     display: block;
     font-size: 20px;
     color: #1f3c5a;
     margin-bottom: 10px;
 }
 
-.feature.open p {
+.Infrastructure-feature.open p {
     font-size: 15px;
     color: #666;
     line-height: 1.7;
