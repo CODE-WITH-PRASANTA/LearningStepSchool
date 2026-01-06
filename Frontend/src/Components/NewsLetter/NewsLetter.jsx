@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import "./Newsletter.css";
+import "./NewsLetter.css";
 
 export default function Newsletter() {
   const cardRef = useRef(null);
