@@ -1,0 +1,34 @@
+import React from "react";
+import "./SecondaryMoreInformation.css";
+
+import moreInfoImg from "../../assets/details-2.webp";
+
+export default function SecondaryMoreInformation() {
+  return (
+    <section className="secondary-more-info">
+      {/* LEFT IMAGE */}
+      <div className="secondary-more-info__image">
+        <img src={moreInfoImg} alt="More Information" />
+      </div>
+
+      {/* RIGHT CONTENT */}
+      <div className="secondary-more-info__content">
+        <h2>More Information</h2>
+
+        <p>
+          Secondary education provides students with structured academic
+          guidance, expanded subject choices, and opportunities for research,
+          leadership, and personal growth.
+        </p>
+
+        <ul className="secondary-more-info__list">
+          <li>Academic calendar & examination schedule</li>
+          <li>Curriculum & assessment structure</li>
+          <li>Student support services</li>
+          <li>Clubs, sports & extracurricular activities</li>
+          <li>University & career guidance</li>
+        </ul>
+      </div>
+    </section>
+  );
+}

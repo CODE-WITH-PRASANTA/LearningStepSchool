@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./PrePrimeryMoreProgram.css";
+import "./SecondaryMoreProgram.css";
 
 import img1 from "../../assets/home-program-1.webp";
 import img2 from "../../assets/home-program-2.webp";
@@ -12,45 +12,45 @@ const programs = [
     title: "Settling",
     desc: "To round out our weekend of celebrations, we are holding our reunion.",
     img: img1,
-    bg: "bg-mint",
+    bg: "secondary-bg-mint",
     metaColor: "mint",
-    meta: ["6–7 Yrs", "5 Days", "3.30 Hrs"],
+    meta: ["11–14 Yrs", "5 Days", "6.00 Hrs"],
   },
   {
     title: "Play Group",
-    desc: "We will magical transform the School Sports Centre into a game field.",
+    desc: "Structured group activities encouraging teamwork and leadership.",
     img: img2,
-    bg: "bg-cream",
+    bg: "secondary-bg-cream",
     metaColor: "orange",
-    meta: ["3–4 Yrs", "5 Days", "3.30 Hrs"],
+    meta: ["11–14 Yrs", "5 Days", "6.00 Hrs"],
   },
   {
     title: "Junior Nursery",
-    desc: "Kindedo not only for all our dedicated 2023 reunion year groups program.",
+    desc: "Focused academic preparation with creative exploration.",
     img: img3,
-    bg: "bg-pink",
+    bg: "secondary-bg-pink",
     metaColor: "pink",
-    meta: ["3–4 Yrs", "5 Days", "3.30 Hrs"],
+    meta: ["11–14 Yrs", "5 Days", "6.00 Hrs"],
   },
   {
     title: "Nursery",
-    desc: "In collaboration with licensed providers and local partners.",
+    desc: "Advanced learning with subject specialization support.",
     img: img4,
-    bg: "bg-cream",
+    bg: "secondary-bg-cream",
     metaColor: "orange",
-    meta: ["3–4 Yrs", "5 Days", "4.30 Hrs"],
+    meta: ["11–14 Yrs", "5 Days", "6.00 Hrs"],
   },
   {
     title: "Junior KG",
-    desc: "The kindergarten program was developed in the nineteenth century.",
+    desc: "Foundation for higher secondary and future academics.",
     img: img5,
-    bg: "bg-mint",
+    bg: "secondary-bg-mint",
     metaColor: "mint",
-    meta: ["4–5 Yrs", "5 Days", "4.30 Hrs"],
+    meta: ["11–14 Yrs", "5 Days", "6.00 Hrs"],
   },
 ];
 
-export default function PrePrimeryMoreProgram() {
+export default function SecondaryMoreProgram() {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(3);
 
@@ -64,31 +64,29 @@ export default function PrePrimeryMoreProgram() {
     return () => window.removeEventListener("resize", resize);
   }, []);
 
-  const maxIndex = programs.length - visible;
-  const pages = maxIndex + 1;
-
+  const pages = programs.length - visible + 1;
   const visiblePrograms = programs.slice(index, index + visible);
 
   return (
-    <section className="preprimery-more-program">
+    <section className="secondary-more-program">
       {/* HEADER */}
-      <div className="preprimery-more-program__header">
+      <div className="secondary-more-program__header">
         <h2>More Programs</h2>
         <p>
-          Kindedo opened its doors in 1984 with a unique vision to provide its
-          students with a globally focused study of arts.
+          Secondary programs are designed to strengthen academic skills,
+          independence, and critical thinking.
         </p>
       </div>
 
       {/* CARDS */}
-      <div className="program-row">
+      <div className="secondary-program-row">
         {visiblePrograms.map((item, i) => (
-          <div key={i} className={`program-card ${item.bg}`}>
+          <div key={i} className={`secondary-program-card ${item.bg}`}>
             <img src={item.img} alt={item.title} />
             <h3>{item.title}</h3>
             <p>{item.desc}</p>
 
-            <div className={`program-meta ${item.metaColor}`}>
+            <div className={`secondary-program-meta ${item.metaColor}`}>
               <span>{item.meta[0]}<br />age</span>
               <span>{item.meta[1]}<br />weekly</span>
               <span>{item.meta[2]}<br />period</span>
@@ -98,11 +96,11 @@ export default function PrePrimeryMoreProgram() {
       </div>
 
       {/* DOTS */}
-      <div className="program-pagination">
+      <div className="secondary-program-pagination">
         {Array.from({ length: pages }).map((_, i) => (
           <span
             key={i}
-            className={`dot ${i === index ? "active" : ""}`}
+            className={`secondary-dot ${i === index ? "active" : ""}`}
             onClick={() => setIndex(i)}
           />
         ))}

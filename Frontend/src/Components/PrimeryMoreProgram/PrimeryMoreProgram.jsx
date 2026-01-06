@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./PrePrimeryMoreProgram.css";
+import "./PrimeryMoreProgram.css";
 
 import img1 from "../../assets/home-program-1.webp";
 import img2 from "../../assets/home-program-2.webp";
@@ -50,7 +50,7 @@ const programs = [
   },
 ];
 
-export default function PrePrimeryMoreProgram() {
+export default function PrimeryMoreProgram() {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(3);
 
@@ -70,9 +70,9 @@ export default function PrePrimeryMoreProgram() {
   const visiblePrograms = programs.slice(index, index + visible);
 
   return (
-    <section className="preprimery-more-program">
+    <section className="primery-more-program">
       {/* HEADER */}
-      <div className="preprimery-more-program__header">
+      <div className="primery-more-program__header">
         <h2>More Programs</h2>
         <p>
           Kindedo opened its doors in 1984 with a unique vision to provide its

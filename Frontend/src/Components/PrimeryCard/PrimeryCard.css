@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
 
 /* ROOT CARD */
-.preprimery-card {
+.primery-card {
   display: flex;
   gap: 28px;
   max-width: 1350px;
-  height: 500px;              /* FIXED HEIGHT */
-  margin: 90px auto 90px;        /* TOP MARGIN FIX */
+  height: 500px;
+  margin: 90px auto;
   padding: 24px;
   background: #ffffff;
   border-radius: 32px;
@@ -14,29 +14,29 @@
 }
 
 /* ================= IMAGE CAROUSEL ================= */
-.preprimery-card__image-wrapper {
+.primery-card__image-wrapper {
   position: relative;
   width: 50%;
-  height: 100%;               /* MATCH CARD HEIGHT */
+  height: 100%;
   overflow: hidden;
   border-radius: 32px;
 }
 
-.preprimery-card__slider {
+.primery-card__slider {
   display: flex;
   height: 100%;
   transition: transform 0.5s ease-in-out;
 }
 
-.preprimery-card__slider img {
+.primery-card__slider img {
   width: 100%;
-  height: 100%;               /* FULL HEIGHT IMAGE */
+  height: 100%;
   flex-shrink: 0;
   object-fit: cover;
 }
 
 /* ================= ARROWS ================= */
-.preprimery-card__arrow {
+.primery-card__arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -52,18 +52,18 @@
   justify-content: center;
 }
 
-.preprimery-card__arrow--left {
+.primery-card__arrow--left {
   left: 18px;
 }
 
-.preprimery-card__arrow--right {
+.primery-card__arrow--right {
   right: 18px;
 }
 
 /* ================= CONTENT ================= */
-.preprimery-card__content {
+.primery-card__content {
   width: 50%;
-  height: 100%;               /* MATCH CARD HEIGHT */
+  height: 100%;
   background: #fff4e8;
   border-radius: 32px;
   padding: 42px;
@@ -72,13 +72,13 @@
   justify-content: space-between;
 }
 
-.preprimery-card__content h2 {
+.primery-card__content h2 {
   font-size: 38px;
   font-weight: 600;
   margin-bottom: 18px;
 }
 
-.preprimery-card__content p {
+.primery-card__content p {
   font-size: 16px;
   line-height: 1.8;
   font-weight: 400;
@@ -87,7 +87,7 @@
 }
 
 /* ================= FOOTER ================= */
-.preprimery-card__footer {
+.primery-card__footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -95,71 +95,71 @@
 }
 
 /* Teacher */
-.preprimery-card__teacher {
+.primery-card__teacher {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.preprimery-card__teacher img {
+.primery-card__teacher img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.preprimery-card__teacher span {
+.primery-card__teacher span {
   font-size: 13px;
   color: #888;
   display: block;
 }
 
-.preprimery-card__teacher strong {
+.primery-card__teacher strong {
   font-size: 16px;
   font-weight: 600;
 }
 
 /* Details */
-.preprimery-card__details {
+.primery-card__details {
   display: flex;
   gap: 42px;
 }
 
-.preprimery-card__details span {
+.primery-card__details span {
   font-size: 13px;
   color: #888;
   display: block;
 }
 
-.preprimery-card__details strong {
+.primery-card__details strong {
   font-size: 16px;
   font-weight: 600;
 }
 
 /* ================= MOBILE ================= */
 @media (max-width: 900px) {
-  .preprimery-card {
+  .primery-card {
     flex-direction: column;
     height: auto;
-    padding:0px 18px;
+    padding: 0 18px;
   }
 
-  .preprimery-card__image-wrapper {
+  .primery-card__image-wrapper {
     width: 100%;
     height: 260px;
   }
 
-  .preprimery-card__slider img {
+  .primery-card__slider img {
     height: 260px;
   }
 
-  .preprimery-card__content {
+  .primery-card__content {
     width: 100%;
     height: auto;
     padding: 28px;
   }
 
-  .preprimery-card__content h2 {
+  .primery-card__content h2 {
     font-size: 30px;
   }
 }
