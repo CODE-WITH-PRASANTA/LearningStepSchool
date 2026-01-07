@@ -1,0 +1,93 @@
+/* Layout */
+.privacy-wrapper {
+  padding: 80px 16px;
+  background: #ffffff;
+}
+
+.privacy-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Section spacing */
+.privacy-section {
+  margin-bottom: 64px;
+}
+
+/* Headings */
+.privacy-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #0b1c39;
+}
+
+/* Text */
+.privacy-section p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #6b7a99;
+  margin-bottom: 16px;
+}
+
+/* List */
+.privacy-list {
+  padding-left: 20px;
+  margin-top: 16px;
+}
+
+.privacy-list li {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #6b7a99;
+  margin-bottom: 12px;
+}
+
+/* ===== Scroll Reveal Animation ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger support */
+.stagger {
+  will-change: transform, opacity;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .privacy-section h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .privacy-wrapper {
+    padding: 60px 14px;
+  }
+
+  .privacy-section h2 {
+    font-size: 24px;
+  }
+
+  .privacy-section p,
+  .privacy-list li {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-section h2 {
+    font-size: 22px;
+  }
+
+  .privacy-section {
+    margin-bottom: 48px;
+  }
+}
