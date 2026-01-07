@@ -1,0 +1,198 @@
+.admission-faq-section {
+    background: #fff;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Two-column permanent layout */
+
+.faq-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    gap: 60px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease;
+}
+
+.admission-faq-section.animate .faq-container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* LEFT SIDE */
+
+.faq-left {
+    flex: 1;
+    min-width: 400px;
+}
+
+.faq-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ff8a00;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.faq-icon {
+    color: #ff8a00;
+}
+
+.faq-title {
+    font-size: 45px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+.faq-title span {
+    color: #ff8a00;
+}
+
+.faq-desc {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.faq-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+}
+
+.faq-checklist li {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.faq-checklist li:hover {
+    color: #ff8a00;
+    transform: translateX(5px);
+}
+
+.faq-btn {
+    background: #ff8a00;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px 10px rgba(255, 138, 0, 0);
+    }
+}
+
+.faq-btn:hover {
+    background: #e07800;
+}
+
+
+/* RIGHT SIDE */
+
+.faq-right {
+    flex: 1;
+    min-width: 400px;
+}
+
+.faq-item {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border: 1px solid #e6e6e6;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.faq-item.active {
+    border-left: 4px solid #046c63;
+    background: #fdfbf8;
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.faq-question:hover {
+    background: #f3f9f7;
+}
+
+.faq-question h4 {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+    margin-left: 10px;
+}
+
+.faq-qicon {
+    background: #046c63;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 16px;
+}
+
+.faq-arrow {
+    font-size: 22px;
+    color: #046c63;
+    font-weight: bold;
+}
+
+.faq-answer {
+    background: #fff;
+    color: #555;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+
+/* 💡 No responsive stacking — stays side by side on all screens */
+
+body,
+html {
+    overflow-x: auto;
+    /* allows horizontal scroll if small screens */
+}
