@@ -10,9 +10,7 @@
     justify-content: center;
 }
 
-
 /* ================= BACKGROUND ================= */
-
 .stats-bg {
     position: absolute;
     inset: 0;
@@ -77,22 +75,76 @@
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 1024px) {
-    .stats-container {
-        grid-template-columns: repeat(2, 1fr);
-        row-gap: 30px;
-    }
-    .stats-section {
-        height: auto;
-        padding: 40px 0;
-    }
+/* Large laptops & desktops (default already 4 in row) */
+@media (min-width: 1200px) {
+  .stats-section {
+    height: 360px;
+  }
 }
 
-@media (max-width: 480px) {
-    .stats-container {
-        grid-template-columns: 1fr;
+/* Tablets (2 items per row) */
+@media (max-width: 991px) {
+  .stats-section {
+    height: auto;
+    padding: 50px 0;
+  }
+
+  .stat-item h2 {
+    font-size: 36px;
+  }
+
+  .stat-icon {
+    font-size: 38px;
+  }
+
+  .stat-item p {
+    font-size: 15px;
+  }
+}
+
+/* Mobile devices (1 item per row) */
+@media (max-width: 576px) {
+  .stats-section {
+    height: auto;
+    padding: 40px 0;
+  }
+  .stat-item h2 {
+    font-size: 32px;
+  }
+
+  .stat-icon {
+    font-size: 34px;
+  }
+
+  .stat-item p {
+    font-size: 14px;
+  }
+}
+
+/* ================= STAR EFFECT LAYER ================= */
+
+.stars-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.8), transparent),
+        radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,.6), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,.7), transparent),
+        radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,.5), transparent),
+        radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,.8), transparent);
+    background-size: 200px 200px;
+    animation: starsFloat 18s linear infinite;
+    opacity: 0.;
+}
+
+/* Smooth floating animation */
+@keyframes starsFloat {
+    from {
+        background-position: 0 0;
     }
-    .stat-item h2 {
-        font-size: 36px;
+    to {
+        background-position: 0 -400px;
     }
 }
