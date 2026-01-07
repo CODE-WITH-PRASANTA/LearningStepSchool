@@ -63,7 +63,7 @@ const AppSidebar = ({ isOpen, onClose }) => {
             <div className="profile-actions">
               <a href="#"><FiUser /> My Profile</a>
               <a href="#"><FiSettings /> Settings</a>
-              <a href="#" className="logout"><FiLogOut /> Log Out</a>
+              <a href="/logout" className="logout"><FiLogOut /> Log Out</a>
             </div>
           )}
         </div>
