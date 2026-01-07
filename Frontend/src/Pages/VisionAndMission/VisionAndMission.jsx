@@ -4,7 +4,11 @@ import VisionMission from '../../Components/VisionMission/VisionMission'
 import VMAboutUs from '../../Components/VMAboutUs/VMAboutUs'
 import HighQualityBlendVisionMission from '../../Components/HighQualityBlendVisionMission/HighQualityBlendVisionMission'
 import VMSlider from '../../Components/VMSlider/VMSlider'
-import VMFAQ from '../../Components/VMFAQ/VMFAQ'
+import VMFAQ from '../../Components/VMFAQ/VMFAQ' 
+import ContactForm from '../../Components/ContactForm/ContactForm'
+
+
+
 const VisionAndMission = () => {
   return (
     <div>
@@ -14,6 +18,7 @@ const VisionAndMission = () => {
       <HighQualityBlendVisionMission/>
       <VMSlider/>
       <VMFAQ/>
+      <ContactForm />
     </div>
   )
 }

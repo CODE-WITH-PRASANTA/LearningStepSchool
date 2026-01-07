@@ -3,6 +3,7 @@ import AdmissionsBreadcrumb from "../../Components/AdmissionsBreadcrumb/Admissio
 import EnrollWithUs from "../../Components/EnrollWithUs/EnrollWithUs";
 import SchoolFee from "../../Components/SchoolFee/SchoolFee";
 import FeesFAQ from "../../Components/FeesFAQ/FeesFAQ";
+import ContactForm from '../../Components/ContactForm/ContactForm'
 const Admissions = () => {
   return (
     <div>
@@ -10,6 +11,7 @@ const Admissions = () => {
       <EnrollWithUs />
       <SchoolFee />
       <FeesFAQ />
+      <ContactForm />
     </div>
   );
 };

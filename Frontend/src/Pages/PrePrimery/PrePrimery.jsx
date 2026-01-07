@@ -7,6 +7,7 @@ import PrePrimeryFullDayLerning from '../../Components/PrePrimeryFullDayLerning/
 import PrePrimeryMoreInformation from '../../Components/PrePrimeryMoreInformation/PrePrimeryMoreInformation'
 import PrePrimeryJoinNewSession from '../../Components/PrePrimeryJoinNewSession/PrePrimeryJoinNewSession'
 import PrePrimeryMoreProgram from '../../Components/PrePrimeryMoreProgram/PrePrimeryMoreProgram'
+import ContactForm from '../../Components/ContactForm/ContactForm'
 
 const PrePrimery = () => {
   return (
@@ -19,6 +20,7 @@ const PrePrimery = () => {
       <PrePrimeryMoreInformation/>
       <PrePrimeryJoinNewSession/>
       <PrePrimeryMoreProgram/>
+      <ContactForm />
     </>
   )
 }
