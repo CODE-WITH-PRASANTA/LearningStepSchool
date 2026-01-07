@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
+
+/* ================= ROOT ================= */
+.secondary-full-day {
+  max-width: 1350px;
+  margin: 90px auto;
+  padding: 0 20px;
+  font-family: "Fredoka", sans-serif;
+}
+
+/* ================= HEADER ================= */
+.secondary-full-day__header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.secondary-full-day__header h2 {
+  font-size: 42px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.secondary-full-day__header p {
+  font-size: 16px;
+  color: #555;
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ================= TABLES ================= */
+.secondary-full-day__tables {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+/* ================= TABLE ================= */
+.secondary-schedule-table {
+  border-radius: 28px;
+  overflow: hidden;
+  background: #e8f6ff;
+}
+
+/* HEADER ROW */
+.secondary-schedule-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #00b9a7;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 22px 28px;
+}
+
+/* ROW */
+.secondary-schedule-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 22px 28px;
+  font-size: 16px;
+  color: #111;
+}
+
+/* ALTERNATE ROW */
+.secondary-schedule-row.alt {
+  background: #dff4f1;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .secondary-full-day__tables {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .secondary-full-day__header h2 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  .secondary-schedule-header,
+  .secondary-schedule-row {
+    font-size: 15px;
+    padding: 18px 20px;
+  }
+}

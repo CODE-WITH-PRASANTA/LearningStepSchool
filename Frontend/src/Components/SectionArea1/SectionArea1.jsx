@@ -12,7 +12,7 @@ const SectionArea1 = () => {
       <section className="events-header">
         <h2>OUR EVENTS</h2>
         <p>We do all the work, you get all the credit</p>
-        <div className="divider">
+        <div className="ztl-divider">
           <span></span>
         </div>
       </section>

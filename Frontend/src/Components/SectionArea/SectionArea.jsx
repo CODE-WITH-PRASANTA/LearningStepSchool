@@ -47,7 +47,7 @@ const SectionArea = () => {
       <div className="enfant-header">
         <h2>Learning Step</h2>
         <p>We want children at Enfant to learn, to lead and to make a difference</p>
-        <div className="divider">
+        <div className="ztl-divider">
           <span></span>
         </div>
       </div>
@@ -82,7 +82,6 @@ const SectionArea = () => {
         <div className="right">
           <h3>SCHOOL FEATURES</h3>
           <h4>POPULAR EDUCATION FOR YOUR CHILD</h4>
-
           <div className="feature-container">
             {features.map((feature, index) => (
               <div

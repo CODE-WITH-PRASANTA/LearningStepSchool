@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PrePrimeryMoreProgram.css";
 
 import img1 from "../../assets/home-program-1.webp";
@@ -18,7 +18,7 @@ const programs = [
   },
   {
     title: "Play Group",
-    desc: "We will magically transform the school sports centre into a game field.",
+    desc: "We will magical transform the School Sports Centre into a game field.",
     img: img2,
     bg: "bg-cream",
     metaColor: "orange",
@@ -26,7 +26,7 @@ const programs = [
   },
   {
     title: "Junior Nursery",
-    desc: "Kindedo offers dedicated programs for our 2023 reunion year groups.",
+    desc: "Kindedo not only for all our dedicated 2023 reunion year groups program.",
     img: img3,
     bg: "bg-pink",
     metaColor: "pink",
@@ -34,7 +34,7 @@ const programs = [
   },
   {
     title: "Nursery",
-    desc: "In collaboration with licensed child care providers and local partners.",
+    desc: "In collaboration with licensed providers and local partners.",
     img: img4,
     bg: "bg-cream",
     metaColor: "orange",
@@ -50,9 +50,24 @@ const programs = [
   },
 ];
 
-
 export default function PrePrimeryMoreProgram() {
-  const [current, setCurrent] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(3);
+
+  useEffect(() => {
+    const resize = () => {
+      setVisible(window.innerWidth < 768 ? 1 : 3);
+      setIndex(0);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
+
+  const maxIndex = programs.length - visible;
+  const pages = maxIndex + 1;
+
+  const visiblePrograms = programs.slice(index, index + visible);
 
   return (
     <section className="preprimery-more-program">
@@ -65,28 +80,30 @@ export default function PrePrimeryMoreProgram() {
         </p>
       </div>
 
-      {/* CARD */}
-      <div className="preprimery-more-program__slider">
-        <div className={`program-card ${programs[current].bg}`}>
-          <img src={programs[current].img} alt={programs[current].title} />
-          <h3>{programs[current].title}</h3>
-          <p>{programs[current].desc}</p>
+      {/* CARDS */}
+      <div className="program-row">
+        {visiblePrograms.map((item, i) => (
+          <div key={i} className={`program-card ${item.bg}`}>
+            <img src={item.img} alt={item.title} />
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
 
-          <div className={`program-meta ${programs[current].metaColor}`}>
-            <span>{programs[current].meta[0]}<br />age</span>
-            <span>{programs[current].meta[1]}<br />weekly</span>
-            <span>{programs[current].meta[2]}<br />period</span>
+            <div className={`program-meta ${item.metaColor}`}>
+              <span>{item.meta[0]}<br />age</span>
+              <span>{item.meta[1]}<br />weekly</span>
+              <span>{item.meta[2]}<br />period</span>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
 
-      {/* PAGINATION DOTS */}
+      {/* DOTS */}
       <div className="program-pagination">
-        {programs.map((_, index) => (
+        {Array.from({ length: pages }).map((_, i) => (
           <span
-            key={index}
-            className={index === current ? "dot active" : "dot"}
-            onClick={() => setCurrent(index)}
+            key={i}
+            className={`dot ${i === index ? "active" : ""}`}
+            onClick={() => setIndex(i)}
           />
         ))}
       </div>

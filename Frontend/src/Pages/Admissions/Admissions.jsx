@@ -3,6 +3,7 @@ import AdmissionsBreadcrumb from "../../Components/AdmissionsBreadcrumb/Admissio
 import EnrollWithUs from "../../Components/EnrollWithUs/EnrollWithUs";
 import SchoolFee from "../../Components/SchoolFee/SchoolFee";
 import HowToApplySection from "../../Components/HowToApplySection/HowToApplySection";
+import ViedoSection from "../../Components/ViedoSection/ViedoSection";
 import KnowAndAid from "../../Components/KnowAndAid/KnowAndAid";
 import Features from "../../Components/Features/Features";
 import FeesFAQ from "../../Components/FeesFAQ/FeesFAQ";
@@ -14,6 +15,7 @@ const Admissions = () => {
       <EnrollWithUs />
       <SchoolFee />
       <HowToApplySection />
+      <ViedoSection />
       <KnowAndAid />
       <Features />
       <FeesFAQ />

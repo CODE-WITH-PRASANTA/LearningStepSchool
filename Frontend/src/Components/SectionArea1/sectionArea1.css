@@ -19,33 +19,25 @@
     color: #666;
 }
 
-
-/* Divider */
-
-.divider {
-    margin-top: 20x;
+.ztl-divider {
+    float: none;
     display: flex;
     justify-content: center;
+    margin-top: 12px;
 }
 
-.divider span {
-    width: 90px;
-    height: 2px;
-    background: #ff4d2e;
-    position: relative;
-}
-
-.divider span::after {
-    content: "";
-    width: 14px;
-    height: 14px;
-    border: 2px solid #ff4d2e;
-    background: #fff;
+.ztl-divider>span.circle {
+    border: 2px solid #ff4e31;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 0 20px;
+}
+
+.ztl-divider>span {
+    width: 80px;
+    height: 2px;
+    background-color: #ff4e31;
 }
 
 

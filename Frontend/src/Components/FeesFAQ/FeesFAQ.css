@@ -5,13 +5,13 @@
     background: #fff;
 }
 
-.faq-title {
+.fees-faq-title {
     text-align: center;
     font-size: 42px;
     font-weight: 800;
 }
 
-.faq-line {
+.fees-faq-line {
     display: block;
     width: 120px;
     height: 4px;
@@ -23,7 +23,7 @@
 
 /* ================= TABS (HORIZONTAL LIKE IMAGE) ================= */
 
-.faq-tabs {
+.fees-faq-tabs {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
@@ -31,7 +31,7 @@
     margin: 0 auto 70px;
 }
 
-.faq-tab {
+.fees-faq-tab {
     padding: 18px 0;
     border-radius: 14px;
     border: none;
@@ -42,7 +42,7 @@
     text-align: center;
 }
 
-.faq-tab.active {
+.fees-faq-tab.active {
     background: #5e5df0;
     color: #fff;
 }
@@ -50,24 +50,24 @@
 
 /* ================= FAQ GRID ================= */
 
-.faq-grid {
+.fees-faq-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px 80px;
 }
 
-.faq-item {
+.fees-faq-item {
     display: flex;
     gap: 20px;
 }
 
-.faq-item h4 {
+.fees-faq-item h4 {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
-.faq-item p {
+.fees-faq-item p {
     font-size: 16px;
     color: #7a7a7a;
     line-height: 1.7;
@@ -76,7 +76,7 @@
 
 /* ================= ICONS ================= */
 
-.faq-icon {
+.fees-faq-icon {
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -143,10 +143,10 @@
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 1024px) {
-    .faq-tabs {
+    .fees-faq-tabs {
         grid-template-columns: repeat(2, 1fr);
     }
-    .faq-grid {
+    .fees-faq-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -155,22 +155,22 @@
     .fees-faq {
         padding: 80px 20px;
     }
-    .faq-title {
+    .fees-faq-title {
         font-size: 32px;
     }
-    .faq-tabs {
+    .fees-faq-tabs {
         grid-template-columns: 1fr;
     }
 }
 
-.faq-grid {
+.fees-faq-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px 80px;
 }
 
 @media (max-width: 1024px) {
-    .faq-grid {
+    .fees-faq-grid {
         grid-template-columns: 1fr;
     }
 }
