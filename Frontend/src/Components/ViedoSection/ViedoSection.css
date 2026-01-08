@@ -1,0 +1,174 @@
+/* ===== Base Layout ===== */
+
+.video-section {
+    width: 100%;
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+}
+
+
+/* ===== Background Image Wrapper ===== */
+
+.video-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 1300px;
+    height: 550px;
+    border-radius: 150px 150px 150px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: slideUp 1.2s ease forwards;
+}
+
+
+/* ===== Play Button ===== */
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: #ff8a00;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.6);
+    animation: pulsePlay 2s infinite;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.play-button:hover {
+    background: #e07800;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+
+/* ===== Video Overlay (Modal) ===== */
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.video-popup {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    height: 60%;
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    animation: zoomIn 0.6s ease forwards;
+}
+
+/* Responsive player wrapper for correct aspect ratio */
+.player-wrapper {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+}
+
+.player-wrapper .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* ===== Animations ===== */
+
+@keyframes pulsePlay {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 25px rgba(255, 138, 0, 0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(80px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* ===== Responsive Tweaks ===== */
+
+@media (max-width: 1024px) {
+    .video-wrapper {
+        height: 400px;
+        border-radius: 100px 100px 100px 0;
+    }
+    .play-button {
+        width: 80px;
+        height: 80px;
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-wrapper {
+        height: 300px;
+        border-radius: 80px 80px 80px 0;
+    }
+    .play-button {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+    }
+}

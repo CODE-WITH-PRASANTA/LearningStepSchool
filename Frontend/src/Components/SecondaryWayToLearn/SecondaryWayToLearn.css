@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
+
+/* ================= ROOT ================= */
+.secondary-way-to-learn {
+  display: flex;
+  gap: 40px;
+  max-width: 1350px;
+  margin: 90px auto;
+  padding: 0 20px;
+  font-family: "Fredoka", sans-serif;
+}
+
+/* ================= LEFT CONTENT ================= */
+.secondary-way-to-learn__content {
+  width: 50%;
+  background: #e8f6ff;
+  border-radius: 32px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.secondary-way-to-learn__content h2 {
+  font-size: 42px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.secondary-way-to-learn__content p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 18px;
+}
+
+/* BUTTON */
+.secondary-way-to-learn__btn {
+  margin-top: 20px;
+  align-self: flex-start;
+  background: #00b9a7;
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.secondary-way-to-learn__btn:hover {
+  background: #009c8c;
+  transform: translateY(-2px);
+}
+
+/* ================= RIGHT IMAGE ================= */
+.secondary-way-to-learn__image {
+  width: 50%;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.secondary-way-to-learn__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .secondary-way-to-learn {
+    flex-direction: column;
+  }
+
+  .secondary-way-to-learn__content,
+  .secondary-way-to-learn__image {
+    width: 100%;
+  }
+
+  .secondary-way-to-learn__content {
+    padding: 36px;
+  }
+
+  .secondary-way-to-learn__content h2 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 576px) {
+  .secondary-way-to-learn__content {
+    padding: 28px;
+  }
+
+  .secondary-way-to-learn__content h2 {
+    font-size: 30px;
+  }
+
+  .secondary-way-to-learn__btn {
+    padding: 12px 28px;
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,94 @@
+/* Wrapper */
+.policy-wrapper {
+  padding: 90px 16px;
+  background-color: #ffffff;
+}
+
+/* Container */
+.policy-container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* Section */
+.policy-section {
+  margin-bottom: 70px;
+}
+
+/* Headings */
+.policy-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0b1c39;
+  margin-bottom: 18px;
+}
+
+/* Paragraph */
+.policy-section p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #6b7a99;
+  margin-bottom: 16px;
+  max-width: 100%;
+}
+
+/* List */
+.policy-list {
+  padding-left: 22px;
+  margin-top: 18px;
+}
+
+.policy-list li {
+  font-size: 15px;
+  color: #6b7a99;
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+
+/* ===== Scroll Reveal Animation ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stagger {
+  will-change: transform, opacity;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .policy-section h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .policy-wrapper {
+    padding: 70px 14px;
+  }
+
+  .policy-section h2 {
+    font-size: 24px;
+  }
+
+  .policy-section p,
+  .policy-list li {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .policy-section h2 {
+    font-size: 22px;
+  }
+
+  .policy-section {
+    margin-bottom: 50px;
+  }
+}

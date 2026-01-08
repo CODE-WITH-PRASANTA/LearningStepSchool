@@ -1,167 +1,71 @@
-.enroll {
-    padding: 100px 80px;
-    text-align: center;
-    background: #fff;
+.enroll-wrapper {
+    position: relative;
+    background-color: #fff;
+    padding: 4rem 0;
+    margin-top: 5rem;
+    /* ✅ creates space between this section and the one above */
+    overflow-x: hidden;
 }
 
-.enroll-title {
-    font-size: 42px;
-    font-weight: 800;
-}
-
-.enroll-line {
-    width: 120px;
-    height: 4px;
-    margin: 14px auto 80px;
-    background: linear-gradient(to right, #ff6ea1, #ff9ac2);
-    border-radius: 4px;
-}
-
-
-/* GRID */
-
-.enroll-steps {
+.enroll-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    position: relative;
+    z-index: 2;
 }
 
-
-/* CARD */
-
-.step {
+.enroll-card {
     width: 260px;
-    padding: 45px 30px;
-    border-radius: 22px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
-    background: #fff;
+    min-height: 320px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem 1rem;
+    transition: transform 0.3s ease;
 }
 
-.step h3 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 18px 0 12px;
+.enroll-card:hover {
+    transform: translateY(-6px);
 }
 
-.step p {
-    font-size: 16px;
-    color: #7a7a7a;
-    line-height: 1.7;
-}
-
-
-/* ICON */
-
-.icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto;
+.enroll-icon {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
+    margin: 0 auto 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 2rem;
 }
 
-.icon svg {
-    width: 30px;
-    height: 30px;
-    fill: #fff;
+.enroll-card h2 {
+    color: #222;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
 }
 
-
-/* COLORS */
-
-.step-blue {
-    background: linear-gradient(180deg, #eaf8ff, #fff);
-}
-
-.icon.blue {
-    background: #5ac8fa;
-}
-
-.step-yellow {
-    background: linear-gradient(180deg, #fff6df, #fff);
-}
-
-.icon.yellow {
-    background: #f4b400;
-}
-
-.step-purple {
-    background: linear-gradient(180deg, #f2ebff, #fff);
-}
-
-.icon.purple {
-    background: #a78bfa;
-}
-
-.step-red {
-    background: linear-gradient(180deg, #ffeaea, #fff);
-}
-
-.icon.red {
-    background: #ff6b6b;
+.enroll-card p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 
-/* ARROWS */
+/* SVG Zig-Zag Arrows */
 
-.step-wrap {
-    display: flex;
-    align-items: center;
-}
-
-.arrow {
-    width: 120px;
-    height: 2px;
-    border-top: 2px dashed;
-    margin: 0 20px;
-    position: relative;
-}
-
-.arrow::after {
-    content: "";
+.enroll-arrows {
     position: absolute;
-    right: -6px;
-    top: -4px;
-    border-left: 8px solid;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
+    top: 0;
+    left: 0;
+    width: 1600px;
+    height: 500px;
+    z-index: 1;
+    pointer-events: none;
 }
 
-.arrow.blue {
-    border-color: #5ac8fa;
-}
-
-.arrow.blue::after {
-    border-left-color: #5ac8fa;
-}
-
-.arrow.yellow {
-    border-color: #f4b400;
-}
-
-.arrow.yellow::after {
-    border-left-color: #f4b400;
-}
-
-.arrow.purple {
-    border-color: #a78bfa;
-}
-
-.arrow.purple::after {
-    border-left-color: #a78bfa;
-}
-
-
-/* RESPONSIVE */
-
-@media (max-width: 1024px) {
-    .enroll-steps {
-        flex-wrap: wrap;
-        gap: 40px;
-    }
-    .arrow {
-        display: none;
-    }
+.enroll-arrows path {
+    color: inherit;
 }
