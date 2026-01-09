@@ -8,7 +8,7 @@ import plane from "../../assets/vs-1.webp";
 import bee from "../../assets/vs-2.webp";
 import dots from "../../assets/vs-3.webp";
 
-const AdmissionSection = () => {
+const Whyadmission = () => {
   return (
     <section className="admission">
       <div className="admission-container">
@@ -59,4 +59,4 @@ const AdmissionSection = () => {
   );
 };
 
-export default AdmissionSection;
+export default Whyadmission;
