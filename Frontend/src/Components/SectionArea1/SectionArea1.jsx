@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./SectionArea1.css";
+import "./sectionArea1.css";
 
 // ✅ Import your image from assets
 //import eventImage from "../../assets/event-icon.png"; // <-- change the filename as per your image name

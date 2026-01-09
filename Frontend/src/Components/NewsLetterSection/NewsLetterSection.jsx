@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
-import "./NewsletterSection.css";
+import "./NewsLetterSection.css";
 
 import img1 from "../../assets/news1.jpg";
 import img2 from "../../assets/news2.jpg";
