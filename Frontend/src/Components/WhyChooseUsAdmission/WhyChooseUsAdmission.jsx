@@ -1,5 +1,5 @@
-import React from "react";
-import "./whyadmission.css";
+import React from 'react'
+import './WhyChooseUsAdmission.css'
 
 // Images
 import childImg from "../../assets/rg-1.webp";
@@ -8,9 +8,12 @@ import plane from "../../assets/vs-1.webp";
 import bee from "../../assets/vs-2.webp";
 import dots from "../../assets/vs-3.webp";
 
-const Whyadmission = () => {
+
+
+const WhyChooseUsAdmission = () => {
   return (
-    <section className="admission">
+    <div>
+        <section className="admission">
       <div className="admission-container">
         
         {/* LEFT IMAGE */}
@@ -56,7 +59,8 @@ const Whyadmission = () => {
 
       </div>
     </section>
-  );
-};
+    </div>
+  )
+}
 
-export default Whyadmission;
+export default WhyChooseUsAdmission

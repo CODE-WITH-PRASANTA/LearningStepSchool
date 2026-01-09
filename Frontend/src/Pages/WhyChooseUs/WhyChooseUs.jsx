@@ -3,7 +3,7 @@ import Whybreadcrum from '../../Components/Whybreadcrum/Whybreadcrum'
 import Whyfeature from '../../Components/Whyfeature/Whyfeature'
 import Whylearning from '../../Components/Whylearning/Whylearning'
 import Whyguide from '../../Components/Whyguide/Whyguide'
-import Whyadmission from '../../Components/whyadmission/whyadmission'
+import WhyChooseUsAdmission from '../../Components/WhyChooseUsAdmission/WhyChooseUsAdmission'
 
 const WhyChooseUs = () => {
   return (
@@ -11,7 +11,7 @@ const WhyChooseUs = () => {
       <Whybreadcrum />
       <Whyfeature />
       <Whylearning />
-      <Whyadmission />
+      <WhyChooseUsAdmission />
       <Whyguide />
     </div>
   )
