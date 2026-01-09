@@ -1,0 +1,255 @@
+:root {
+  --blue: #2b59ff;
+  --orange: #f4a11a;
+  --dark: #1d1f2c;
+  --gray: #666;
+}
+
+/* ================= SECTION ================= */
+.guide-section {
+  padding: 90px 20px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* ================= CONTAINER ================= */
+.guide-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ================= HEADING ================= */
+.guide-heading {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.guide-subtitle {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--blue);
+  animation: fadeDown 1s ease forwards;
+}
+
+.guide-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-top: 10px;
+  animation: fadeUp 1.2s ease forwards;
+}
+
+/* ================= CONTENT GRID ================= */
+.guide-content {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  align-items: center;
+  gap: 60px;
+}
+
+/* ================= FEATURES ================= */
+.guide-features {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* ================= FEATURE ================= */
+.guide-feature {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* LEFT COLUMN → icon RIGHT */
+.guide-features:first-child .guide-feature {
+  padding-right: 110px;
+  text-align: right;
+}
+
+/* RIGHT COLUMN → icon LEFT */
+.guide-features:last-child .guide-feature {
+  padding-left: 110px;
+  text-align: left;
+}
+
+/* TEXT */
+.guide-feature h4 {
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: var(--dark);
+}
+
+.guide-feature p {
+  font-size: 15px;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+/* ================= ICON (REFERENCE STYLE) ================= */
+.guide-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dotted #fff;
+  transition: all 0.4s ease;
+}
+
+/* Left column → icon right side */
+.guide-features:first-child .guide-icon {
+  right: 0;
+}
+
+/* Right column → icon left side */
+.guide-features:last-child .guide-icon {
+  left: 0;
+}
+
+.guide-icon img {
+  width: 40px;
+  height: 40px;
+  filter: brightness(0) invert(1);
+}
+
+/* Hover */
+.guide-feature:hover .guide-icon {
+  background: var(--blue);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* ================= CENTER IMAGE ================= */
+.guide-center {
+  position: relative;
+  text-align: center;
+}
+
+.guide-center img {
+  max-width: 100%;
+  height: auto;
+  z-index: 2;
+  position: relative;
+}
+
+/* ================= PURPLE CIRCLE ================= */
+.guide-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 210px;
+  height: 210px;
+  background: radial-gradient(circle, #9b5cff, #6c2bd9);
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.guide-circle span {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.guide-circle h3 {
+  font-size: 48px;
+  margin-top: 5px;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .guide-content {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .guide-features {
+    align-items: center;
+  }
+
+  .guide-feature {
+    padding: 0 !important;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .guide-icon {
+    position: static;
+    transform: none;
+    margin-bottom: 12px;
+  }
+
+  .guide-circle {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .guide-title {
+    font-size: 30px;
+  }
+
+  .guide-feature h4 {
+    font-size: 18px;
+  }
+
+  .guide-feature p {
+    font-size: 14px;
+  }
+
+  .guide-icon {
+    width: 72px;
+    height: 72px;
+  }
+
+  .guide-icon img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .guide-circle {
+    width: 145px;
+    height: 145px;
+  }
+
+  .guide-circle h3 {
+    font-size: 34px;
+  }
+}

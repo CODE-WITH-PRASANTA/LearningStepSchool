@@ -1,0 +1,213 @@
+/* ================= ROOT ================= */
+:root {
+  --blue: #2c2c6c;
+  --orange: #f4a11a;
+  --white: #ffffff;
+  --text-gray: #555;
+}
+
+/* ================= SECTION ================= */
+.ckf-section {
+  padding: 26px 20px; /* reduced background height */
+  background-size: cover;
+  background-position: center;
+}
+
+/* ================= CONTAINER ================= */
+.ckf-container {
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+}
+
+/* ================= TOP ROW ================= */
+.ckf-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 26px;
+}
+
+/* ================= HEADING ================= */
+.ckf-heading {
+  position: relative;
+}
+
+.ckf-plane {
+  position: absolute;
+  left: -60px;
+  top: -25px;
+  width: 60px;
+  animation: floatPlane 4s ease-in-out infinite;
+}
+
+.ckf-subtitle {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #5b5b5b;
+}
+
+.ckf-title {
+  font-size: 38px;
+  font-weight: 800;
+  margin-top: 8px;
+  animation: titleReveal 1.5s ease forwards;
+}
+
+.ckf-title span {
+  color: var(--orange);
+}
+
+/* ================= RIGHT TEXT ================= */
+.ckf-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 420px;
+}
+
+.ckf-info span {
+  width: 4px;
+  height: 38px;
+  background: var(--orange);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.ckf-info p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-gray);
+  margin: 0;
+}
+
+/* ================= CARDS ================= */
+.ckf-card-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.ckf-card {
+  background: var(--white);
+  padding: 26px 24px;
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+/* Side strip */
+.ckf-card::after {
+  content: "";
+  position: absolute;
+  right: -15px;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  background: var(--orange);
+  border-radius: 0 18px 18px 0;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover */
+.ckf-card:hover {
+  transform: translateY(-5px);
+}
+
+.ckf-card:hover::after {
+  background: var(--blue);
+}
+
+/* Card content */
+.ckf-icon img {
+  width: 50px;
+  margin-bottom: 14px;
+}
+
+.ckf-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #1f1f1f;
+}
+
+.ckf-card p {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #666;
+}
+
+/* Button */
+.ckf-btn {
+  margin-top: 14px;
+  background: none;
+  border: none;
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--blue);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatPlane {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 991px) {
+  .ckf-card-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ckf-title {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ckf-top {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .ckf-info {
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .ckf-card-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .ckf-plane {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ckf-title {
+    font-size: 26px;
+  }
+}
