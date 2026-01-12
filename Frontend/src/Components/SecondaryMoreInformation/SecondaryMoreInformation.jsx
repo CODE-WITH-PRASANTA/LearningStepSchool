@@ -16,9 +16,7 @@ export default function SecondaryMoreInformation() {
         <h2>More Information</h2>
 
         <p>
-          Secondary education provides students with structured academic
-          guidance, expanded subject choices, and opportunities for research,
-          leadership, and personal growth.
+          At Learning Step International School, our secondary program offers a structured academic framework supported by strong student guidance, enrichment opportunities, and future-focused learning pathways.
         </p>
 
         <ul className="secondary-more-info__list">

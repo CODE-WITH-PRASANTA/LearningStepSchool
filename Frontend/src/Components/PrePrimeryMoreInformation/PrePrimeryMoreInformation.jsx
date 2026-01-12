@@ -15,17 +15,15 @@ export default function PrePrimeryMoreInformation() {
         <h2>More Information</h2>
 
         <p>
-          The past thirteen years have been memorable for the free kinder
-          garden movement in the United States. Previous to that time, the work
-          was largely private, experimental.
+          At Learning Step International School, we value clarity, quality, and academic excellence. Our structured academic system, recognized standards, and child-focused approach ensure a smooth and transparent learning journey for both students and parents.
         </p>
 
         <ul className="more-info__list">
-          <li>Semester start and end dates, holidays</li>
-          <li>Accreditation &amp; Bear Facts</li>
-          <li>Graduate Division</li>
-          <li>Research at Our School</li>
-          <li>Textbooks: Cal Student Store</li>
+          <li>Academic calendar, semesters, and holidays</li>
+          <li>School accreditation &amp; institutional policies</li>
+          <li>Grade progression and academic pathways</li>
+          <li>Curriculum development and educational research</li>
+          <li>Approved learning resources and textbooks</li>
         </ul>
       </div>
     </section>
