@@ -21,7 +21,7 @@ const GuideSection = () => {
         {/* HEADING */}
         <div className="guide-heading">
           <span className="guide-subtitle">WHAT WE PROVIDE</span>
-          <h2 className="guide-title">We Are Here To Guide</h2>
+          <h2 className="guide-title">We Are Here To Guide Every Child at Learning Step International School</h2>
         </div>
 
         <div className="guide-content">
@@ -30,13 +30,13 @@ const GuideSection = () => {
           <div className="guide-features">
             <Feature
               icon={icon1}
-              title="Kids Club & Gaming"
-              text="Pre-School Has Open Door & Also Offer Free Trial Sessions."
+              title="Creative Play & Activity Learning"
+              text="Activity-based learning that supports early childhood development and curiosity."
             />
             <Feature
               icon={icon2}
-              title="Kids Club & Gaming"
-              text="Pre-School Has Open Door & Also Offer Free Trial Sessions."
+              title="Healthy Meals & Daily Care"
+              text="Balanced daily care and hygienic food practices for healthy child growth."
             />
           </div>
 
@@ -53,13 +53,13 @@ const GuideSection = () => {
           <div className="guide-features">
             <Feature
               icon={icon3}
-              title="Kids Club & Gaming"
-              text="Pre-School Has Open Door & Also Offer Free Trial Sessions."
+              title="Music, Art & Expression"
+              text="Creative activities that build confidence, communication, and self-expression."
             />
             <Feature
               icon={icon4}
-              title="Kids Club & Gaming"
-              text="Pre-School Has Open Door & Also Offer Free Trial Sessions."
+              title="Safe & Supportive Environment"
+              text="A secure, child-friendly school environment focused on learning and well-being."
             />
           </div>
 

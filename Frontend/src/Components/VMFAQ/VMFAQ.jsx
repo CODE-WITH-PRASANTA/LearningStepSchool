@@ -4,29 +4,29 @@ import faqImage from "../../assets/vmfaq.jpg";
 
 const faqs = [
   {
-    question: "How and when do I register for courses?",
+    question: "How and when do I register for Admission?",
     answer:
-      "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec."
+      "Admissions at Learning Step International School are open year-round, subject to seat availability. Parents can register online or visit the campus to complete the admission process."
   },
   {
-    question: "What are the safety standards?",
+    question: "What are the safety standards followed by the school?",
     answer:
-      "Our school follows strict safety and hygiene standards to ensure a safe learning environment for all children."
+      "We follow strict child safety standards, including secure campus access, trained staff supervision, hygienic facilities, and child-friendly safety protocols."
   },
   {
-    question: "What are my offer of admission?",
+    question: "What programs and age groups do you offer",
     answer:
-      "Admission offers depend on age eligibility, availability of seats, and documentation verification."
+      "We offer early childhood education programs for toddlers, preschool, and kindergarten, designed to support learning, social development, and school readiness."
   },
   {
-    question: "How can I become a teacher in PA?",
+    question: "How can I apply to become a teacher at Learning Step School?",
     answer:
-      "You can apply through our careers page by submitting your qualifications and experience."
+      "Qualified and experienced early childhood educators can apply by submitting their resume through our official contact channels or visiting the school office."
   },
   {
-    question: "When will I receive my diploma?",
+    question: "When will my child receive certificates or progress reports",
     answer:
-      "Diplomas are issued after successful completion of the academic program."
+      "Children receive regular progress updates, and completion certificates are provided at the end of each academic level or learning program."
   }
 ];
 

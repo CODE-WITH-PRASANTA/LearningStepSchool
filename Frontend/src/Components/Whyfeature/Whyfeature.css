@@ -69,7 +69,7 @@
 
 .ckf-info span {
   width: 4px;
-  height: 38px;
+  height: 25px;
   background: var(--orange);
   margin-top: 4px;
   flex-shrink: 0;
