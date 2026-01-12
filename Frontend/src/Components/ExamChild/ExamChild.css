@@ -1,0 +1,201 @@
+/* ===============================
+   WRAPPER
+================================ */
+.preschool-wrapper {
+  padding: 90px 40px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* ===============================
+   HEADING (SCROLL / KEYFRAME)
+================================ */
+.preschool-heading {
+  text-align: center;
+  margin-bottom: 50px;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.preschool-heading.animate {
+  animation: slideFade 1s ease forwards;
+}
+
+.preschool-heading span {
+  display: block;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #7c6cff;
+  font-weight: 600;
+}
+
+.preschool-heading h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  margin-top: 10px;
+  color: #1e2a39;
+  font-weight: 700;
+}
+
+@keyframes slideFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
+   SLIDER
+================================ */
+.preschool-slider {
+  overflow: hidden;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.preschool-track {
+  display: flex;
+  will-change: transform;
+}
+
+/* ===============================
+   CARD (ONE-BY-ONE SLIDE)
+================================ */
+.preschool-card {
+  min-width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.preschool-card img {
+  width: 100%;
+  display: block;
+  border-radius: 20px 20px 0 0;
+}
+
+/* ===============================
+   CARD CONTENT
+================================ */
+.card-content {
+  background: #ffffff;
+  border-radius: 0 0 20px 20px;
+  padding: 25px;
+  border: 2px dashed #e6e6e6;
+  transition: all 0.4s ease;
+}
+
+.preschool-card:hover .card-content {
+  background: #fff7ef;
+  border-color: #ff9f43;
+}
+
+/* ===============================
+   TAGS (TOP INFO BOXES)
+================================ */
+.card-tags {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.card-tags span {
+  flex: 1;
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.card-tags .orange {
+  background: #f39c12;
+}
+
+.card-tags .green {
+  background: #27ae60;
+}
+
+.card-tags .purple {
+  background: #8e44ad;
+}
+
+/* ===============================
+   TEXT
+================================ */
+.card-content h3 {
+  font-size: 20px;
+  color: #1e2a39;
+  margin-bottom: 8px;
+}
+
+.card-content h4 {
+  font-size: 18px;
+  color: #f39c12;
+  margin-bottom: 12px;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ===============================
+   DOT PAGINATION (6 DOTS)
+================================ */
+.preschool-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.preschool-dots span {
+  width: 10px;
+  height: 10px;
+  background: #d0d0d0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.preschool-dots span.active {
+  background: #f39c12;
+  transform: scale(1.3);
+}
+
+/* ===============================
+   RESPONSIVE BREAKPOINTS
+================================ */
+
+/* TABLET → SHOW 2 CARDS, MOVE 1 */
+@media (min-width: 768px) {
+  .preschool-card {
+    min-width: 50%;
+  }
+}
+
+/* DESKTOP → SHOW 3 CARDS, MOVE 1 */
+@media (min-width: 1024px) {
+  .preschool-card {
+    min-width: 33.33%;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .preschool-wrapper {
+    padding: 60px 20px;
+  }
+
+  .card-tags {
+    flex-direction: column;
+  }
+
+  .card-tags span {
+    font-size: 13px;
+  }
+}

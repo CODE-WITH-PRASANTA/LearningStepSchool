@@ -1,0 +1,188 @@
+.how-apply-section {
+    background: #fff;
+    padding: 80px 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+/* Main Layout */
+
+.how-apply-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    gap: 60px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease;
+}
+
+.how-apply-section.animate .how-apply-container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* LEFT SIDE */
+
+.how-apply-left {
+    flex: 1;
+    min-width: 400px;
+}
+
+.apply-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ff8a00;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.apply-icon {
+    color: #ff8a00;
+    font-size: 20px;
+}
+
+.apply-title {
+    font-size: 45px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.apply-title span {
+    color: #ff8a00;
+}
+
+.apply-desc {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+
+/* Checklist grid */
+
+.apply-checklist {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    margin-bottom: 40px;
+}
+
+.apply-checklist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.apply-checklist li {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.apply-checklist li svg {
+    color: #046c63;
+    font-size: 18px;
+}
+
+
+/* Button */
+
+.apply-btn {
+    background: #ff8a00;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
+}
+
+.apply-btn:hover {
+    background: #e07800;
+    transform: translateY(-2px);
+}
+
+
+/* RIGHT SIDE */
+
+.how-apply-right {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+}
+
+
+/* Decorative background shape */
+
+.image-bg-shape {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #046c63 0%, #019e8a 100%);
+    border-radius: 120px 120px 120px 0;
+    z-index: 0;
+    transform: rotate(180deg);
+    transition: transform 0.4s ease;
+}
+
+
+/* Main image */
+
+.content-img {
+    position: relative;
+    z-index: 2;
+}
+
+.content-img img {
+    border-radius: 100px 100px 100px 0;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease-out;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+
+.content-img img:hover {
+    transform: scale(1.03);
+}
+
+.image-wrapper:hover .image-bg-shape {
+    transform: rotate(6deg);
+}
+
+
+/* Keep layout side-by-side always */
+
+body,
+html {
+    overflow-x: auto;
+}

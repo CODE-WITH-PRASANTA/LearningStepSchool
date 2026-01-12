@@ -1,0 +1,222 @@
+/* ================= BASE ================= */
+.school-section {
+  padding: 80px 5%;
+  position: relative;
+  overflow: hidden;
+
+  background-image: url("../../assets/vm-about-full-bg.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.side-bg {
+  position: absolute;
+  top: 139px;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  width: 220px;
+  opacity: 0.25;
+}
+
+/* ================= FEATURE BOXES ================= */
+.info-boxes {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 70px;
+}
+
+.box {
+  flex: 1;
+  padding: 26px 30px;
+  border-radius: 22px;
+  color: #fff;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.box img {
+  width: 54px;
+  height: 54px;
+  background: #fff;
+  padding: 12px;
+  border-radius: 50%;
+}
+
+.box h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.box p {
+  margin-top: 4px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.green { background: #5b8f1b; }
+.purple { background: #6a1b9a; }
+.orange { background: #d9820d; }
+
+/* ================= CONTENT ================= */
+.content-wrapper {
+  display: flex;
+  gap: 55px;
+  align-items: center;
+}
+
+/* IMAGE */
+.image-grid {
+  position: relative;
+  flex: 1;
+}
+
+.image-grid img {
+  width: 100%;
+  border-radius: 22px;
+}
+
+/* TEXT */
+.text-content {
+  flex: 1;
+}
+
+.small-title {
+  text-transform: uppercase; 
+  font-weight: 600; 
+  letter-spacing: 1px; 
+  color: #888;
+}
+
+
+.main-heading {
+  font-size: 44px;
+  margin: 12px 0;
+}
+
+.main-heading span {
+  color: #d9820d;
+}
+
+/* HEADING ANIMATION */
+.animate {
+  animation: fadeUp 1.2s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= TABS ================= */
+.tabs {
+  display: flex;
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.tabs button {
+  padding: 9px 22px;
+  border-radius: 25px;
+  border: 2px dashed #d9820d;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tabs button.active {
+  background: #d9820d;
+  color: #fff;
+  border-style: solid;
+}
+
+.tab-content {
+  max-width: 480px;
+  margin-bottom: 18px;
+  color: #555;
+}
+
+/* LIST */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+/* BUTTON */
+.contact-btn {
+  margin-top: 22px;
+  padding: 14px 34px;
+  border-radius: 35px;
+  border: 2px dashed #d9820d;
+  background: #d9820d;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact-btn:hover {
+  background: #1976d2;
+  border-color: #1976d2;
+}
+
+/* ================= SCROLL REVEAL ================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: 1s ease;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .main-heading {
+    font-size: 34px;
+  }
+
+  .experience-card {
+    left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .info-boxes {
+    flex-direction: column;
+  }
+
+  .main-heading {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-heading {
+    font-size: 26px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+}

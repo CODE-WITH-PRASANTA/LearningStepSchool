@@ -8,6 +8,8 @@ const StatsSection = () => {
     <section className="stats-section">
       {/* Background */}
       <img src={bg} alt="stats background" className="stats-bg" />
+      <div className="stats-overlay"></div>
+<div className="stars-layer"></div>
 
       {/* Overlay */}
       <div className="stats-overlay"></div>

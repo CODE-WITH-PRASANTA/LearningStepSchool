@@ -1,0 +1,189 @@
+.admission {
+  width: 100%;
+  padding: 0;
+}
+
+.admission-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* LEFT */
+.admission-left {
+  flex: 1;
+}
+
+.admission-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RIGHT */
+.admission-right {
+  flex: 1;
+  padding: 60px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.admission-tag {
+  letter-spacing: 2px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.admission-right h2 {
+  font-size: 44px;
+  margin: 10px 0 30px;
+}
+
+.admission-right h2 span {
+  color: #f5a623;
+}
+
+/* FORM */
+.admission-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.admission-form input {
+  padding: 14px 18px;
+  border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: #fff;
+  outline: none;
+}
+
+.admission-form input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.admission-form input:nth-child(5) {
+  grid-column: span 2;
+}
+
+/* Checkbox */
+.checkbox {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+/* Button */
+/* .admission-form button {
+  grid-column: span 2;
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: 40px;
+  background: #f5a623;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admission-form button:hover {
+  background: #ffb83f;
+} */
+.admission-form button {
+  grid-column: span 2;
+  justify-self: flex-start;   /* ⬅ LEFT ALIGN */
+  width: auto;
+  padding: 12px 26px;
+  font-size: 14px;
+  border-radius: 28px;
+  margin-top: 14px;
+  background: linear-gradient(
+    270deg,
+    #f5a623,
+    #ff7a18,
+    #f5a623
+  );
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.admission-form button:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: #ff7a18;
+  color: #fff;
+}
+
+
+/* FLOATING ICONS */
+.float {
+  position: absolute;
+  animation: float 4s ease-in-out infinite;
+}
+
+.plane {
+  top: 15%;
+  right: 15%;
+  width: 120px;
+}
+
+.bee {
+  bottom: 20%;
+  right: 30%;
+  width: 85px;
+  animation-delay: 1s;
+}
+
+.dots {
+  bottom: 10%;
+  right: 20%;
+  width: 80px;
+  animation-delay: 2s;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .admission-container {
+    flex-direction: column;
+  }
+
+  .admission-right {
+    padding: 40px 25px;
+  }
+
+  .admission-right h2 {
+    font-size: 34px;
+  }
+
+  .admission-form {
+    grid-template-columns: 1fr;
+  }
+
+  .admission-form input,
+  .checkbox,
+  .admission-form button {
+    grid-column: span 1;
+  }
+
+  .float {
+    display: none;
+  }
+}

@@ -1,13 +1,28 @@
 import React from "react";
-import "./NewsletterSection.css";
+import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
+import "./NewsLetterSection.css";
 
 import img1 from "../../assets/news1.jpg";
 import img2 from "../../assets/news2.jpg";
 import img3 from "../../assets/news3.jpg";
 import img4 from "../../assets/news4.jpg";
-import img5 from "../../assets/news5.jpg"
+import img5 from "../../assets/news5.jpg";
 
 const NewsletterSection = () => {
+  const navigate = useNavigate(); // ✅ Create navigation function
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent page refresh
+    const emailValue = e.target.email.value.trim();
+
+    if (emailValue) {
+      navigate("/login"); // ✅ Redirect to login page
+    } else {
+      alert("Please enter a valid email address.");
+    }
+  };
+
   return (
     <section className="newsletter-section">
       {/* ===== IMAGE COLLAGE ===== */}
@@ -26,15 +41,12 @@ const NewsletterSection = () => {
 
       {/* ===== NEWSLETTER ===== */}
       <div className="newsletter-box">
-        <div className="mail-icon">
-          ✉️
-        </div>
-
         <h2>Want to Hear From Us?</h2>
 
-        <form className="newsletter-form">
+        <form className="newsletter-form" onSubmit={handleSubmit}>
           <input
             type="email"
+            name="email"
             placeholder="Your email address"
             required
           />

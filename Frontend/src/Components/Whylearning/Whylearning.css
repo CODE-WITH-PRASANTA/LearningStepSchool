@@ -1,0 +1,220 @@
+:root {
+  --orange: #f4a11a;
+  --blue: #23264b;
+  --bg: #fdf8ef;
+}
+
+/* SECTION */
+.wl-section {
+  background-color: var(--bg);
+  padding: 90px 20px;
+  overflow: hidden;
+}
+
+/* CONTAINER */
+.wl-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* ================= IMAGE SIDE ================= */
+.wl-image-wrap {
+  position: relative;
+}
+
+/* curved bg */
+.wl-curve-bg {
+  position: absolute;
+  left: -80px;
+  top: -60px;
+  width: 260px;
+  height: 420px;
+  background: #9cc3f1;
+  border-radius: 200px;
+  z-index: 0;
+}
+
+/* target icon */
+.wl-target-icon {
+  position: absolute;
+  left: -55px;
+  top: 110px;
+  width: 95px;
+  animation: float 3s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* main image */
+.wl-main-image {
+  position: relative;
+  z-index: 1;
+  border-radius: 26px;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  padding: 8px;
+}
+
+.wl-main-image img {
+  width: 100%;
+  border-radius: 22px;
+  display: block;
+}
+
+/* ================= CONTENT ================= */
+.wl-content {
+  max-width: 520px;
+}
+
+.wl-subtitle {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #777;
+}
+
+.wl-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--blue);
+  margin: 12px 0 20px;
+}
+
+.wl-title span {
+  color: var(--orange);
+}
+
+/* TABS */
+.wl-tabs {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.wl-tabs button {
+  padding: 10px 24px;
+  border-radius: 30px;
+  border: 2px dashed var(--orange);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.wl-tabs button:hover,
+.wl-tabs button.active {
+  background: var(--orange);
+  color: white;
+}
+
+/* HISTORY BUTTON */
+.wl-history-btn {
+  padding: 10px 26px;
+  border-radius: 30px;
+  border: 2px dashed var(--orange);
+  background: transparent;
+  font-weight: 700;
+  color: var(--orange);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.wl-history-btn.active,
+.wl-history-btn:hover {
+  background: var(--orange);
+  color: #fff;
+}
+
+/* TEXT */
+.wl-text {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+/* LIST */
+.wl-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.wl-list li {
+  position: relative;
+  padding-left: 38px;
+  margin-bottom: 14px;
+  font-weight: 600;
+  color: #23264b;
+}
+
+/* ORANGE CHECK ICON */
+.wl-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BUTTON */
+.wl-btn {
+  padding: 14px 38px;
+  border-radius: 40px;
+  border: none;
+  background: var(--orange);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  transition: 0.3s;
+}
+
+.wl-btn:hover {
+  background: var(--blue);
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(244,161,26,0.6); }
+  70% { box-shadow: 0 0 0 18px rgba(244,161,26,0); }
+  100% { box-shadow: 0 0 0 0 rgba(244,161,26,0); }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .wl-container {
+    grid-template-columns: 1fr;
+  }
+
+  .wl-image-wrap {
+    max-width: 420px;
+    margin: auto;
+  }
+
+  .wl-title {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wl-curve-bg,
+  .wl-target-icon {
+    display: none;
+  }
+}

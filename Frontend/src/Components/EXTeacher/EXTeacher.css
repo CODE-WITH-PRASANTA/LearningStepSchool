@@ -1,0 +1,150 @@
+/* SECTION */
+.mot-section {
+  padding: 90px 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.mot-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HEADING */
+.mot-heading {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.mot-heading span {
+  display: block;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #7b61ff;
+  margin-bottom: 10px;
+}
+
+.mot-heading h2 {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1f2937;
+  animation: mot-title 2.5s ease-in-out infinite alternate;
+}
+
+/* Keyframe heading animation */
+@keyframes mot-title {
+  0% {
+    letter-spacing: 1px;
+    transform: translateY(0);
+  }
+  100% {
+    letter-spacing: 3px;
+    transform: translateY(-6px);
+  }
+}
+
+/* GRID */
+.mot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+/* CARD */
+.mot-card {
+  background: #fff;
+  border-radius: 28px;
+  padding: 24px;
+  position: relative;
+  transition: all 0.35s ease;
+}
+
+.mot-card:hover {
+  background: #7b61ff;
+}
+
+/* IMAGE */
+.mot-img-box {
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.mot-img-box img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.mot-card:hover img {
+  transform: scale(1.08);
+}
+
+/* INFO */
+.mot-info {
+  margin-top: 20px;
+}
+
+.mot-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  transition: color 0.3s ease;
+}
+
+.mot-info p {
+  font-size: 15px;
+  color: #6b7280;
+  margin-top: 6px;
+  transition: color 0.3s ease;
+}
+
+.mot-card:hover h3,
+.mot-card:hover p {
+  color: #fff;
+}
+
+/* SHARE ICON */
+.mot-share {
+  position: absolute;
+  bottom: -18px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #7b61ff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mot-card:hover .mot-share {
+  background: #fff;
+  color: #7b61ff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .mot-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mot-heading h2 {
+    font-size: 32px;
+  }
+
+  .mot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mot-img-box img {
+    height: 220px;
+  }
+}

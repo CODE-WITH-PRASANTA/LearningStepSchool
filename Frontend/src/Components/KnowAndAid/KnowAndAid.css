@@ -1,0 +1,109 @@
+.know-section {
+    background-color: #fff;
+    padding: 4rem 2rem 2rem;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+}
+
+.know-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* LEFT COLUMN */
+
+.know-left {
+    flex: 1;
+}
+
+.know-left h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.know-left p {
+    color: #6b7280;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 16x;
+}
+
+
+/* RIGHT COLUMN */
+
+.know-right {
+    flex: 1;
+}
+
+.know-right-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.title-icon {
+    font-size: 1.5rem;
+    color: #f59e0b;
+    /* orange-yellow accent */
+}
+
+.know-right h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.right-desc {
+    color: #6b7280;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+
+/* CHECKLIST POINTS */
+
+.know-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.know-checklist li {
+    display: flex;
+    align-items: flex-start;
+    color: #4b5563;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+}
+
+.check-icon {
+    color: #059669;
+    /* green check */
+    margin-right: 0.8rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 992px) {
+    .know-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .features-label {
+        margin-top: 2rem;
+    }
+}
