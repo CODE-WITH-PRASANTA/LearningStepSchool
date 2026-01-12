@@ -53,7 +53,7 @@ function App() {
         <Route path="/vision-mission" element={<VisionAndMission/>}/>
         <Route path="/academics/pre-primary" element={<PrePrimery/>}/>
         <Route path="/academics/exams" element={<ExaminationSystem/>}/>
-        <Route path="WhyChooseUs" element={<WhyChooseUs/>}/> 
+        <Route path="/WhyChooseUs" element={<WhyChooseUs/>}/> 
         <Route path="/academics/primary" element={<Primery/>}/>
         <Route path="/academics/secondary" element={<Secondary/>}/>
         <Route path="/privacy" element={<PrivacyPolicy/>}/>

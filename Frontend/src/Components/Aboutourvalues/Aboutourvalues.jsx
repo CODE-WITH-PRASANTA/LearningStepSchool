@@ -48,7 +48,7 @@ const Aboutourvalues = () => {
       <div className="Aboutourvalues-container">
         <span className="Aboutourvalues-subtitle">Our Values</span>
         <h2 className="Aboutourvalues-title">
-          The Best Playschool <br /> For Your Kid
+         The Best Playschool for  <br />Your School
         </h2>
 
         <div className="Aboutourvalues-grid">
@@ -62,10 +62,9 @@ const Aboutourvalues = () => {
                 <FaChalkboardTeacher />
               </div>
               <div className="Aboutourvalues-content">
-                <h4>Teacher Training And Progress</h4>
+                <h4>Teacher Training & Child Progress</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                 At Learning Step International School, we strongly believe that great learning begins with great teachers. Our educators undergo continuous professional training to stay updated with modern teaching methods and child psychology. Every child’s progress is closely monitored, ensuring personalized attention, emotional well-being, and steady academic growth in a safe and nurturing environment.
                 </p>
               </div>
             </div>
@@ -78,10 +77,9 @@ const Aboutourvalues = () => {
                 <FaBaby />
               </div>
               <div className="Aboutourvalues-content">
-                <h4>Nanny Selection 24/7</h4>
+                <h4>Nanny Selection & Child Safety (24/7)</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                 Child safety is our top priority. We follow a strict and transparent nanny selection process, including background verification and regular performance evaluation. Our trained caregivers provide round-the-clock supervision, ensuring that children feel secure, cared for, and comfortable throughout the day—just like a second home.
                 </p>
               </div>
             </div>
@@ -101,10 +99,9 @@ const Aboutourvalues = () => {
               className="Aboutourvalues-card Aboutourvalues-card-right"
             >
               <div className="Aboutourvalues-content">
-                <h4>Advanced Placement Courses</h4>
+                <h4>Advanced Learning & Skill Placement</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                 We focus on building strong foundations through age-appropriate learning activities. Our advanced placement programs encourage early development of cognitive, communication, and creative skills. By combining play-based learning with structured education, we help children develop confidence, curiosity, and readiness for future academic success.
                 </p>
               </div>
               <div className="Aboutourvalues-icon Aboutourvalues-cyan">
@@ -117,10 +114,9 @@ const Aboutourvalues = () => {
               className="Aboutourvalues-card Aboutourvalues-card-right"
             >
               <div className="Aboutourvalues-content">
-                <h4>Self-Contained Gifted Programs</h4>
+                <h4>Self-Contained Gifted & Creative Programs</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                  Every child is unique, and we celebrate individuality through our self-contained gifted programs. These programs include music, art, storytelling, movement, and interactive play that support creativity and emotional expression. Our curriculum helps children discover their talents while developing social skills and independent thinking.
                 </p>
               </div>
               <div className="Aboutourvalues-icon Aboutourvalues-pink">
