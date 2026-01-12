@@ -52,21 +52,19 @@ export default function SecondaryCard() {
         <h2>Secondary</h2>
 
         <p>
-          The Secondary program builds academic strength, critical thinking, and
-          subject mastery through structured learning.
+         The Secondary program at Learning Step International School focuses on building strong academic depth, critical thinking, and subject understanding through a structured and disciplined learning approach.
         </p>
 
         <p>
-          Students develop independence, collaboration skills, and confidence
-          to prepare for higher education.
+          Students are encouraged to think independently, collaborate effectively, and take responsibility for their learning. With experienced educators, focused instruction, and continuous guidance, we prepare learners with the confidence, skills, and academic readiness required for higher education and future success.
         </p>
 
         <div className="secondary-card__footer">
           <div className="secondary-card__teacher">
             <img src={auther1} alt="Daniel Roberts" />
             <div>
-              <span>Secondary Teacher</span>
-              <strong>Daniel Roberts</strong>
+              <span>Head of department (HOD)</span>
+              <strong>Ms. Nikku Sharma</strong>
             </div>
           </div>
 
@@ -77,7 +75,7 @@ export default function SecondaryCard() {
             </div>
             <div>
               <span>Per / Month</span>
-              <strong>$220</strong>
+              <strong>15000</strong>
             </div>
           </div>
         </div>
