@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
 
 /* ================= ROOT ================= */
-.way-to-learn {
+.primery-way-to-learn {
   display: flex;
   gap: 40px;
   max-width: 1350px;
@@ -11,7 +11,7 @@
 }
 
 /* ================= LEFT CONTENT ================= */
-.way-to-learn__content {
+.primery-way-to-learn__content {
   width: 50%;
   background: #fff4e8;
   border-radius: 32px;
@@ -21,22 +21,23 @@
   justify-content: center;
 }
 
-.way-to-learn__content h2 {
+.primery-way-to-learn__content h2 {
   font-size: 42px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #111;
 }
 
-.way-to-learn__content p {
+.primery-way-to-learn__content p {
   font-size: 16px;
   line-height: 1.8;
   color: #555;
   margin-bottom: 18px;
+  text-align: justify;
 }
 
-/* BUTTON */
-.way-to-learn__btn {
+/* ================= BUTTON ================= */
+.primery-way-to-learn__btn {
   margin-top: 20px;
   align-self: flex-start;
   background: #ff9f2a;
@@ -50,19 +51,19 @@
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.way-to-learn__btn:hover {
+.primery-way-to-learn__btn:hover {
   background: #ff8a00;
   transform: translateY(-2px);
 }
 
 /* ================= RIGHT IMAGE ================= */
-.way-to-learn__image {
+.primery-way-to-learn__image {
   width: 50%;
   border-radius: 32px;
   overflow: hidden;
 }
 
-.way-to-learn__image img {
+.primery-way-to-learn__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -70,34 +71,34 @@
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
-  .way-to-learn {
+  .primery-way-to-learn {
     flex-direction: column;
   }
 
-  .way-to-learn__content,
-  .way-to-learn__image {
+  .primery-way-to-learn__content,
+  .primery-way-to-learn__image {
     width: 100%;
   }
 
-  .way-to-learn__content {
+  .primery-way-to-learn__content {
     padding: 36px;
   }
 
-  .way-to-learn__content h2 {
+  .primery-way-to-learn__content h2 {
     font-size: 34px;
   }
 }
 
 @media (max-width: 576px) {
-  .way-to-learn__content {
+  .primery-way-to-learn__content {
     padding: 28px;
   }
 
-  .way-to-learn__content h2 {
+  .primery-way-to-learn__content h2 {
     font-size: 30px;
   }
 
-  .way-to-learn__btn {
+  .primery-way-to-learn__btn {
     padding: 12px 28px;
     font-size: 15px;
   }

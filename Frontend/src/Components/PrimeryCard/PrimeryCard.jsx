@@ -52,21 +52,19 @@ export default function PrimeryCard() {
         <h2>Primary</h2>
 
         <p>
-          The Primary program focuses on early childhood development through
-          play-based learning and structured activities.
+         At Learning Step International School, our Primary program builds strong academic foundations while nurturing confidence, curiosity, and independent thinking through structured, engaging, and child-centered learning.
         </p>
 
         <p>
-          Children gain confidence, independence, and strong foundational skills
-          in a nurturing environment.
+          Through guided instruction, interactive activities, and continuous support, students develop strong literacy, numeracy, problem-solving, and communication skills in a positive and nurturing environment. 
         </p>
 
         <div className="primery-card__footer">
           <div className="primery-card__teacher">
             <img src={auther1} alt="Alexia Honix" />
             <div>
-              <span>Primary Teacher</span>
-              <strong>Alexia Honix</strong>
+              <span>Head of department (HOD)</span>
+              <strong>Ms. Nikku Sharma</strong>
             </div>
           </div>
 
@@ -77,7 +75,7 @@ export default function PrimeryCard() {
             </div>
             <div>
               <span>Per / Month</span>
-              <strong>$175</strong>
+              <strong>15000</strong>
             </div>
           </div>
         </div>

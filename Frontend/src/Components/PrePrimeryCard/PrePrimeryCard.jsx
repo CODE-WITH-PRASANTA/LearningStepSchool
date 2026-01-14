@@ -52,21 +52,19 @@ export default function PrePrimeryCard() {
         <h2>Pre-Primary</h2>
 
         <p>
-          The Pre-Primary program focuses on early childhood development through
-          play-based learning and structured activities.
+          Our Pre-Primary program at Learning Step International School is designed to support early childhood development through structured play, exploration, and personalized guidance—laying a strong foundation for lifelong learning.
         </p>
 
         <p>
-          Children gain confidence, independence, and strong foundational skills
-          in a nurturing environment.
+          Our goal is to help every child enjoy learning while building the skills needed for lifelong success.
         </p>
 
         <div className="preprimery-card__footer">
           <div className="preprimery-card__teacher">
             <img src={auther1} alt="Alexia Honix" />
             <div>
-              <span>Pre-Primary Teacher</span>
-              <strong>Alexia Honix</strong>
+              <span>Head of department (HOD)</span>
+              <strong>Ms. Nikku Sharma</strong>
             </div>
           </div>
 
@@ -77,7 +75,7 @@ export default function PrePrimeryCard() {
             </div>
             <div>
               <span>Per / Month</span>
-              <strong>$175</strong>
+              <strong>15000</strong>
             </div>
           </div>
         </div>

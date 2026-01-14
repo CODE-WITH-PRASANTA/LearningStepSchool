@@ -21,6 +21,7 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .employment-header h2 {
@@ -34,32 +35,16 @@
 .employment-header p {
     font-size: 20px;
     color: #666;
+    margin-bottom: 10px;
 }
 
-.divider {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.divider span {
-    width: 90px;
-    height: 2px;
-    background: #ff4d2e;
-    position: relative;
-}
-
-.divider span::after {
-    content: "";
-    width: 14px;
-    height: 14px;
-    border: 2px solid #ff4d2e;
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
+.enroll-underline {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background-color: #ff4d2d;
 }
 
 

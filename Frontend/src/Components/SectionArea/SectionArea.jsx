@@ -6,34 +6,34 @@ const SectionArea = () => {
 
   const features = [
     {
-      title: "Award for Best School 2017",
+      title: "Award-Recognized School Excellence",
       description:
-        "Alterum accommodare duo cu. Ius labore luptatum efficiendi ex, ne vim enim rebum honestatis, ad his consulatu pertinacia deterruisset. Te bonorum ancillae nec.",
+        "Learning Step International School is recognized for its commitment to quality early childhood education, maintaining high academic standards and a strong focus on overall child development.",
     },
     {
-      title: "Great Facilities at Enfant",
+      title: "Modern Classrooms & Child-Friendly Facilities",
       description:
-        "Our modern facilities provide children with a safe, clean, and inspiring learning environment.",
+        "Our school offers well-designed classrooms, safe play areas, and age-appropriate facilities that support comfortable, engaging, and effective learning for young children.",
     },
     {
-      title: "Writing and Reading Classes",
+      title: "Writing and Reading Skill Development Programs",
       description:
-        "We strengthen literacy through engaging reading and writing activities designed for every skill level.",
+        "We focus on early literacy through structured reading and writing activities that strengthen language skills, vocabulary, and communication from the foundation level.",
     },
     {
-      title: "Individual Attention in Small Classes",
+      title: "Individual Attention in Small Class Sizes",
       description:
-        "Each child receives focused support and encouragement from teachers in small classroom settings.",
+        "Small class sizes allow our experienced teachers to give personal attention, understand each child’s learning needs, and support steady academic progress.",
     },
     {
-      title: "Positive Learning Environment",
+      title: "Positive, Safe, and Supportive Learning Environment",
       description:
-        "Our teachers foster curiosity and confidence by creating joyful and inclusive learning spaces.",
+        "We provide a secure and nurturing school environment where children feel confident, valued, and encouraged to explore and learn at their own pace.",
     },
     {
-      title: "Opportunities to Scientific Experiments",
+      title: "Hands-On Learning & Scientific Exploration Activities",
       description:
-        "Hands-on science projects help children develop curiosity, problem-solving, and discovery skills.",
+        "Children engage in hands-on activities and simple scientific exploration that promote curiosity, critical thinking, and problem-solving skills.",
     },
   ];
 
@@ -45,8 +45,8 @@ const SectionArea = () => {
     <section className="enfant-school">
       {/* ===== TOP HEADING ===== */}
       <div className="enfant-header">
-        <h2>Learning Step</h2>
-        <p>We want children at Enfant to learn, to lead and to make a difference</p>
+        <h2>Learning Step International School</h2>
+        <p>A leading preschool in Tehla byepass, Alwar Road, Rajgarh for confident early learners.</p>
         <div className="ztl-divider">
           <span></span>
         </div>
@@ -60,21 +60,17 @@ const SectionArea = () => {
           <h4>QUALITY CHILDREN EDUCATION</h4>
 
           <p>
-            Alterum accommodare duo cu. Ius labore luptatum efficiendi ex, ne vim enim
-            rebum honestatis, ad his consulatu pertinacia deterruisset. Te bonorum
-            ancillae nec. Mea errem alterum in, harum iudico vel et, nec atqui propriae id.
+            Learning Step International School was established with a clear vision to provide high-quality early childhood education in a safe, nurturing, and engaging environment. Over the years, we have focused on building strong learning foundations through structured academics, play-based learning, and personalized care for every child.
           </p>
 
           <p>
-            Alterum accommodare duo cu. Ius labore luptatum efficiendi ex, ne vim enim
-            rebum honestatis, ad his consulatu pertinacia deterruisset. Te bonorum
-            ancillae nec. Mea errem alterum in, harum iudico vel et, nec atqui propriae id.
+           Our approach combines modern teaching methods with traditional values, helping children develop confidence, curiosity, and essential life skills. With experienced educators and child-friendly facilities, we continue to support each child’s academic, emotional, and social growth.
           </p>
 
           <ul className="check-list">
-            <li>Learning program with after-school</li>
-            <li>Positive learning environment</li>
-            <li>Learning through play</li>
+            <li>Learning program with after-school support</li>
+            <li>Positive and child-friendly learning environment</li>
+            <li>Learning through play and hands-on activities</li>
           </ul>
         </div>
 

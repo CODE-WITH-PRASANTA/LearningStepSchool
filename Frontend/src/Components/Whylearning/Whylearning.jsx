@@ -33,7 +33,7 @@ const SchoolFacilities = () => {
           <span className="wl-subtitle">SCHOOL FACILITIES</span>
 
           <h2 className="wl-title">
-            Learning <span>Opportunity</span> For Kids
+            Learning <span>Opportunity</span> For Kids <br />
           </h2>
 
           {/* TABS */}
@@ -61,16 +61,13 @@ const SchoolFacilities = () => {
           {/* TAB CONTENT */}
           {activeTab === "school" && (
             <p className="wl-text">
-              Pre-school has open doors and offers free trial sessions that help
-              children explore creative learning opportunities in a joyful
-              environment.
+              With years of experience in early childhood education, Learning Step International School has helped young learners build strong academic and life foundations.
             </p>
           )}
 
           {activeTab === "kids" && (
             <p className="wl-text">
-              Kids learn best when they feel safe, playful and encouraged to
-              express creativity through guided activities.
+              We focus on each child’s growth, helping them develop independence, social skills, and self-confidence.
             </p>
           )}
 
@@ -84,8 +81,8 @@ const SchoolFacilities = () => {
 
           {/* LIST */}
           <ul className="wl-list">
-            <li>Learning Opportunity For Kids</li>
-            <li>Your Child Will Take Confidence</li>
+            <li>Learning Opportunities for Every Child</li>
+            <li>Building Confidence Through Early Education</li>
           </ul>
 
           <button className="wl-btn">CONTACT US</button>

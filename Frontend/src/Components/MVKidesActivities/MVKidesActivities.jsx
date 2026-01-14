@@ -74,8 +74,7 @@ const KidsActivities = () => {
               Kids Activities And <br /> Fun
             </h2>
             <p>
-              Pre-School has open doors & offers constantly expanding children
-              activities. Our goal is to carefully educate.
+              Engaging preschool activities that support learning, creativity, and overall child development.
             </p>
           </div>
 
@@ -106,25 +105,25 @@ const KidsActivities = () => {
           <div className="activity green">
             <img src={playground} alt="" />
             <h4>Play Ground</h4>
-            <p>Pre-School Has Open Doors Constantly Expand</p>
+            <p>Safe outdoor play that improves physical development and social skills in children.</p>
           </div>
 
           <div className="activity purple">
             <img src={earlyclub} alt="" />
             <h4>Early Club</h4>
-            <p>Pre-School Has Open Doors Constantly Expand</p>
+            <p>Structured early learning programs that build confidence and school readiness.</p>
           </div>
 
           <div className="activity pink">
             <img src={music} alt="" />
             <h4>Music Club</h4>
-            <p>Pre-School Has Open Doors Constantly Expand</p>
+            <p>Music activities that enhance creativity, rhythm, and early communication skills.</p>
           </div>
 
           <div className="activity orange">
             <img src={lunch} alt="" />
             <h4>Lunch Club</h4>
-            <p>Pre-School Has Open Doors Constantly Expand</p>
+            <p>Nutritious meal programs that support healthy growth and daily routines.</p>
           </div>
         </div>
       </div>

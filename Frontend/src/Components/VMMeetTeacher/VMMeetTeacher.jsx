@@ -13,12 +13,12 @@ import { FaShareAlt } from "react-icons/fa";
 const teachers = [
   {
     name: "John Harris",
-    role: "Principal",
+    role: "Drawing Teacher",
     img: t1,
   },
   {
-    name: "Arika Max",
-    role: "Drawing Teacher",
+    name: "Ms.Reena Sharma",
+    role: "Principal",
     img: t2,
   },
   {
