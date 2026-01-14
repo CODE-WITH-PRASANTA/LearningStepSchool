@@ -1,210 +1,281 @@
+/* ===========================
+   STUDENT LIFE PRODUCT SECTION
+=========================== */
+
 .Studentlifeproduct {
-  background: #fff2e6;
-  padding: 80px 20px 0;
-  font-family: "Poppins", sans-serif;
-  overflow: hidden;
+    background: #fff2e6;
+    padding: 80px 20px 0;
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
 }
 
-/* LOGO SLIDER */
+
+/* ===========================
+   LOGO SLIDER
+=========================== */
+
 .Studentlifeproduct-logoSlider {
-  max-width: 1400px;
-  margin: auto;
-  overflow: hidden;
-  opacity: 0.6;
-  margin-bottom: 60px;
+    max-width: 1400px;
+    margin: 0 auto 60px;
+    overflow: hidden;
+    opacity: 0.6;
 }
 
 .Studentlifeproduct-logoTrack {
-  display: flex;
-  width: max-content;
-  animation: Studentlifeproduct-scroll 22s linear infinite;
+    display: flex;
+    width: max-content;
+    animation: Studentlifeproduct-scroll 22s linear infinite;
 }
 
 .Studentlifeproduct-logoItem {
-  flex-shrink: 0;
-  padding: 0 40px;
+    flex-shrink: 0;
+    padding: 0 40px;
 }
 
 .Studentlifeproduct-logoItem img {
-  width: 90px;
-  display: block;
+    width: 90px;
+    height: auto;
+    display: block;
 }
 
 @keyframes Studentlifeproduct-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
 }
 
-/* HERO */
+
+/* ===========================
+   HERO SECTION
+=========================== */
+
 .Studentlifeproduct-hero {
-  max-width: 1400px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 60px;
-  align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 60px;
+    align-items: center;
 }
 
 .Studentlifeproduct-tag {
-  color: #00b3a4;
-  font-size: 14px;
-  font-weight: 600;
+    color: #00b3a4;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .Studentlifeproduct-title {
-  font-size: 44px;
-  font-weight: 800;
-  margin: 16px 0;
+    font-size: 45px;
+    font-weight: 800;
+    margin: 16px 0;
+    line-height: 1.2;
 }
 
 .Studentlifeproduct-title span {
-  color: #ff2c55;
+    color: #ff2c55;
 }
 
 .Studentlifeproduct-subtitle {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 14px;
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom: 14px;
 }
 
 .Studentlifeproduct-price {
-  font-size: 30px;
-  font-weight: 800;
-  color: #ff2c55;
-  margin-bottom: 14px;
+    font-size: 32px;
+    font-weight: 800;
+    color: #ff2c55;
+    margin-bottom: 14px;
 }
 
 .Studentlifeproduct-desc {
-  font-size: 15px;
-  color: #555;
-  max-width: 460px;
-  margin-bottom: 26px;
+    font-size: 16px;
+    color: #555;
+    max-width: 460px;
+    margin-bottom: 26px;
+    line-height: 1.6;
 }
 
-/* BUTTONS */
+
+/* ===========================
+   BUTTONS
+=========================== */
+
 .Studentlifeproduct-actions {
-  display: flex;
-  gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .Studentlifeproduct-actions button {
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-size: 14px;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .Studentlifeproduct-actions .primary {
-  background: #ff2c55;
-  color: #fff;
+    background: #ff2c55;
+    color: #fff;
 }
 
 .Studentlifeproduct-actions .primary:hover {
-  transform: translateY(-2px);
+    transform: translateY(-2px);
 }
 
 .Studentlifeproduct-actions .secondary {
-  background: transparent;
-  border: 1.5px solid #ff2c55;
-  color: #ff2c55;
+    background: transparent;
+    border: 1.5px solid #ff2c55;
+    color: #ff2c55;
 }
 
-/* IMAGE FADE */
+.Studentlifeproduct-actions .secondary:hover {
+    background: #ff2c55;
+    color: #fff;
+}
+
+
+/* ===========================
+   IMAGE FADE WRAPPER
+=========================== */
+
 .Studentlifeproduct-imageWrap {
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #ffe1c7, #ffd4b0);
-  padding: 20px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffe1c7, #ffd4b0);
+    padding: 20px;
 }
 
 .Studentlifeproduct-imageWrap img {
-  width: 100%;
-  position: relative;
-  z-index: 1;
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
 }
 
 .Studentlifeproduct-imageFade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    #fff2e6 0%,
-    rgba(128, 66, 8, 0.103) 50%,
-    rgba(128, 66, 8, 0.103) 100%
-  );
-  z-index: 2;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient( to bottom, #fff2e6 0%, rgba(128, 66, 8, 0.1) 50%, rgba(128, 66, 8, 0.1) 100%);
+    z-index: 2;
 }
 
-/* ================= ILLUSTRATION (FIXED) ================= */
+
+/* ===========================
+   ILLUSTRATION
+=========================== */
+
 .Studentlifeproduct-illustration {
-  margin-top: 100px;
-  position: relative;
+    margin-top: 100px;
+    position: relative;
 }
 
-/* ✅ RESPONSIVE SUN */
 .Studentlifeproduct-illustration .sun {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 500px;
-  display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    display: block;
 }
 
 .Studentlifeproduct-illustration .object {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
-/* RESPONSIVE */
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+
+
+/* --- Large Tablets / Small Desktops --- */
+
 @media (max-width: 1024px) {
-  .Studentlifeproduct-hero {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .Studentlifeproduct-desc {
-    margin: auto auto 26px;
-  }
-
-  .Studentlifeproduct-actions {
-    justify-content: center;
-  }
-
-  .Studentlifeproduct-illustration .sun {
-    max-width: 270px;
-  }
+    .Studentlifeproduct-hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    .Studentlifeproduct-title {
+        font-size: 40px;
+    }
+    .Studentlifeproduct-desc {
+        margin: 0 auto 26px;
+    }
+    .Studentlifeproduct-actions {
+        justify-content: center;
+    }
+    .Studentlifeproduct-imageWrap {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .Studentlifeproduct-illustration .sun {
+        max-width: 300px;
+    }
 }
+
+
+/* --- Tablets --- */
 
 @media (max-width: 768px) {
-  .Studentlifeproduct-title {
-    font-size: 34px;
-  }
-
-  .Studentlifeproduct-logoItem img {
-    width: 70px;
-  }
-
-  .Studentlifeproduct-illustration .sun {
-    max-width: 250px;
-  }
+    .Studentlifeproduct-title {
+        font-size: 32px;
+    }
+    .Studentlifeproduct-subtitle {
+        font-size: 20px;
+    }
+    .Studentlifeproduct-price {
+        font-size: 26px;
+    }
+    .Studentlifeproduct-desc {
+        font-size: 15px;
+    }
+    .Studentlifeproduct-logoItem img {
+        width: 70px;
+    }
+    .Studentlifeproduct-illustration .sun {
+        max-width: 250px;
+    }
 }
 
+
+/* --- Mobile Phones --- */
+
 @media (max-width: 480px) {
-  .Studentlifeproduct-title {
-    font-size: 28px;
-  }
-
-  .Studentlifeproduct-price {
-    font-size: 24px;
-  }
-
-  .Studentlifeproduct-illustration .sun {
-    max-width: 200px;
-  }
+    .Studentlifeproduct {
+        padding: 60px 16px 0;
+    }
+    .Studentlifeproduct-title {
+        font-size: 26px;
+    }
+    .Studentlifeproduct-price {
+        font-size: 22px;
+    }
+    .Studentlifeproduct-desc {
+        font-size: 14px;
+    }
+    .Studentlifeproduct-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    .Studentlifeproduct-actions button {
+        width: 100%;
+        max-width: 240px;
+    }
+    .Studentlifeproduct-logoItem img {
+        width: 60px;
+    }
+    .Studentlifeproduct-illustration .sun {
+        max-width: 200px;
+    }
 }

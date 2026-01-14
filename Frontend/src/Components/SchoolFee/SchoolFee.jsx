@@ -18,14 +18,14 @@ const SchoolFee = () => {
         <div className="fee-card blue animate">
           <div className="fee-header">Kinder School</div>
           <div className="fee-price">
-            <span className="currency">$</span>750 <small>/per year</small>
+            <span className="currency">₹</span>75,000 <small>/per year</small>
           </div>
           <ul>
-            <li className="yes">Travel Bus Fees</li>
-            <li className="yes">Tuition Fees All Subject</li>
-            <li className="yes">Food & Snacks</li>
-            <li className="yes">Dress & Books Notes</li>
-            <li className="yes">Other Activities</li>
+            <li className="yes">Travel & Transportion Fee</li>
+            <li className="yes">Tuition Fee(All Subject)</li>
+            <li className="yes">MidDay Meals & Healthy Snacks</li>
+            <li className="yes">Unidrom,Books & Stationery</li>
+            <li className="yes">Creative & Physical Activities</li>
           </ul>
           <button className="fee-btn" onClick={handleRegisterClick}>
             Register
@@ -33,16 +33,16 @@ const SchoolFee = () => {
         </div>
 
         <div className="fee-card yellow animate delay-1">
-          <div className="fee-header">Small School</div>
+          <div className="fee-header">Primary School</div>
           <div className="fee-price">
-            <span className="currency">$</span>950 <small>/per year</small>
+            <span className="currency">₹</span>95,000 <small>/per year</small>
           </div>
           <ul>
-            <li className="yes">Travel Bus Fees</li>
-            <li className="yes">Tuition Fees All Subject</li>
-            <li className="yes">Food & Snacks</li>
-            <li className="yes">Dress & Books Notes</li>
-            <li className="no">Other Activities</li>
+            <li className="yes">Full Transportation & Safety monitoring</li>
+            <li className="yes">Comprehensive Tuition Fee (All Subject)</li>
+            <li className="yes">Nutritious & Snacks</li>
+            <li className="yes">Textbooks,WorkBooks & School Supplies</li>
+            <li className="yes">Creative & Physical Activities</li>
           </ul>
           <button className="fee-btn" onClick={handleRegisterClick}>
             Register
@@ -52,14 +52,14 @@ const SchoolFee = () => {
         <div className="fee-card purple animate delay-2">
           <div className="fee-header">Middle School</div>
           <div className="fee-price">
-            <span className="currency">$</span>850 <small>/per year</small>
+            <span className="currency">₹</span>85,000 <small>/per year</small>
           </div>
           <ul>
-            <li className="yes">Travel Bus Fees</li>
-            <li className="yes">Tuition Fees All Subject</li>
-            <li className="yes">Food & Snacks</li>
-            <li className="yes">Dress & Books Notes</li>
-            <li className="yes">Other Activities</li>
+            <li className="yes">Travel Bus Facility</li>
+            <li className="yes"> All Subject Tuition Fees(STEM,Languages & Arts)</li>
+            <li className="yes">Balanced Meals & Nutrition Support</li>
+            <li className="yes">Dress Code & Eduational Material Kits </li>
+            <li className="yes">Extracurricular Activity</li>
           </ul>
           <button className="fee-btn" onClick={handleRegisterClick}>
             Register
@@ -69,14 +69,14 @@ const SchoolFee = () => {
         <div className="fee-card red animate delay-3">
           <div className="fee-header">High School</div>
           <div className="fee-price">
-            <span className="currency">$</span>650 <small>/per year</small>
+            <span className="currency">₹</span>65,000 <small>/per year</small>
           </div>
           <ul>
-            <li className="yes">Travel Bus Fees</li>
-            <li className="no">Tuition Fees All Subject</li>
-            <li className="yes">Food & Snacks</li>
-            <li className="yes">Dress & Books Notes</li>
-            <li className="no">Other Activities</li>
+            <li className="yes">Bus & Transportation Services</li>
+            <li className="no">Tuition Fees (Selective Elective Only)</li>
+            <li className="yes">Meals & Refreshments</li>
+            <li className="yes">Books Uniform & Study Resorces</li>
+            <li className="no">Optimal Club Activities(Separate Fee)</li>
           </ul>
           <button className="fee-btn" onClick={handleRegisterClick}>
             Register

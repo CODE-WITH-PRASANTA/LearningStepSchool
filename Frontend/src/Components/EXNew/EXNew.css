@@ -1,0 +1,188 @@
+/* SECTION */
+.news-section {
+  padding: 100px 20px;
+  background-size: cover;
+  background-position: center;
+}
+
+.news-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* HEADING */
+.news-heading {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.news-heading span {
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #6a6a6a;
+}
+
+.news-heading h2 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-top: 10px;
+  animation: fadeUp 1.2s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* GRID */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* CARD */
+.news-card {
+  background: #f9f6ea;
+  border-radius: 26px;
+  padding: 18px;
+  outline: 2px dashed #e2dcc7;
+  outline-offset: -8px;
+  box-shadow: 14px 14px 0 #1b2142;
+  transition: all 0.4s ease;
+}
+
+.news-card:hover {
+  box-shadow: 14px 14px 0 #ff8a00;
+}
+
+/* IMAGE */
+.news-img {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.news-img img {
+  width: 100%;
+  display: block;
+  border-radius: 18px;
+  transition: transform 0.4s ease;
+}
+
+.news-card:hover .news-img img {
+  transform: scale(1.05);
+}
+/* CARD */
+.news-card {
+  position: relative;
+  background: #f9f6ea;
+  border-radius: 26px;
+  padding: 18px;
+  outline: 2px dashed #e2dcc7;
+  outline-offset: -8px;
+  box-shadow: 14px 14px 0 #1b2142;
+  transition: all 0.4s ease;
+}
+
+.news-card:hover {
+  box-shadow: 14px 14px 0 #ff8a00;
+}
+
+/* SHARE ICON – reference placement */
+.news-share {
+  position: absolute;
+  bottom: 26px;     /* ⬅️ matches reference */
+  right: 26px;      /* ⬅️ matches reference */
+  width: 44px;
+  height: 44px;
+  background: #1b2142;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  z-index: 3;
+}
+
+/* Hover color like reference */
+.news-card:hover .news-share {
+  background: #ff8a00;
+}
+
+/* IMAGE POP (soft – reference style) */
+.news-card:hover .news-img img {
+  transform: scale(1.04);
+}
+
+
+/* SHARE ICON */
+.news-share {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  background: #1b2142;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CONTENT */
+.news-content {
+  padding: 22px 12px 10px;
+}
+
+.news-date {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: #444;
+}
+
+.news-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.news-content p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.news-read {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 600;
+  color: #1b2142;
+  text-decoration: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .news-heading h2 {
+    font-size: 32px;
+  }
+}

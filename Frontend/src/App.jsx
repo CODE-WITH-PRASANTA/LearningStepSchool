@@ -23,6 +23,8 @@ import Notice from "./Pages/Notice/Notice";
 import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
 import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
 import PrePrimery from "./Pages/PrePrimery/PrePrimery";
+import ExaminationSystem from "./Pages/ExaminationSystem/ExaminationSystem";
+import WhyChooseUs from "./Pages/WhyChooseUs/WhyChooseUs";
 import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
 import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy";
@@ -50,6 +52,8 @@ function App() {
         <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
         <Route path="/vision-mission" element={<VisionAndMission/>}/>
         <Route path="/academics/pre-primary" element={<PrePrimery/>}/>
+        <Route path="/academics/exams" element={<ExaminationSystem/>}/>
+        <Route path="/WhyChooseUs" element={<WhyChooseUs/>}/> 
         <Route path="/academics/primary" element={<Primery/>}/>
         <Route path="/academics/secondary" element={<Secondary/>}/>
         <Route path="/privacy" element={<PrivacyPolicy/>}/>

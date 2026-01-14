@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./ViedoSection.css";
 import { FaPlay } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
-import ReactPlayer from "react-player";
 import backgroundImage from "../../assets/apply.jpg"; // ✅ Your background image
 
 export default function ViedoSection() {

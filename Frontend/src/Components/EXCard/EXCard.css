@@ -1,0 +1,97 @@
+/* Wrapper */
+.edu-feature-wrapper {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Card */
+.edu-feature-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 2rem;
+  border-radius: 18px;
+  color: #ffffff;
+  border: 2px dashed rgba(255, 255, 255, 0.35);
+}
+
+/* Top decorative pins */
+.edu-feature-pin {
+  position: absolute;
+  top: -10px;
+  left: 32px;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+}
+
+.edu-feature-pin--second {
+  left: 52px;
+}
+
+/* Icon */
+.edu-feature-icon {
+  width: 70px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.edu-feature-icon img {
+ 
+  object-fit: contain;
+}
+
+/* Content */
+.edu-feature-content h3 {
+  margin: 0 0 6px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.edu-feature-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  opacity: 0.95;
+}
+
+/* Color Variants */
+.edu-feature-card--green {
+  background-color: #5c8f1b;
+}
+
+.edu-feature-card--purple {
+  background-color: #6b1b7c;
+}
+
+.edu-feature-card--orange {
+  background-color: #d8890f;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .edu-feature-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .edu-feature-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .edu-feature-card {
+    padding: 1.3rem 1.5rem;
+  }
+}
