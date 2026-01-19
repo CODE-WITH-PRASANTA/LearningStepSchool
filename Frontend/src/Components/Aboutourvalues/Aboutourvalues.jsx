@@ -46,9 +46,9 @@ const Aboutourvalues = () => {
       </div>
 
       <div className="Aboutourvalues-container">
-        <span className="Aboutourvalues-subtitle">Our Values</span>
+        <span className="Aboutourvalues-subtitle">Our Core Values</span>
         <h2 className="Aboutourvalues-title">
-         The Best Playschool for  <br />Your School
+         Shaping Strong Foundations   <br />for Lifelong Learning
         </h2>
 
         <div className="Aboutourvalues-grid">
@@ -62,9 +62,9 @@ const Aboutourvalues = () => {
                 <FaChalkboardTeacher />
               </div>
               <div className="Aboutourvalues-content">
-                <h4>Teacher Training & Child Progress</h4>
+                <h4>Qualified Teachers & Continuous Child Development</h4>
                 <p>
-                 At Learning Step International School, we strongly believe that great learning begins with great teachers. Our educators undergo continuous professional training to stay updated with modern teaching methods and child psychology. Every child’s progress is closely monitored, ensuring personalized attention, emotional well-being, and steady academic growth in a safe and nurturing environment.
+                  At Learning Step International School, we understand that a child’s growth depends on the quality of guidance they receive. Our teachers are professionally trained, experienced, and regularly upskilled through workshops and modern teaching programs. Each child’s academic, emotional, and social progress is carefully observed and supported, ensuring individual attention and steady development in a positive learning environment.
                 </p>
               </div>
             </div>
@@ -77,9 +77,9 @@ const Aboutourvalues = () => {
                 <FaBaby />
               </div>
               <div className="Aboutourvalues-content">
-                <h4>Nanny Selection & Child Safety (24/7)</h4>
+                <h4>Safe Environment with Trusted Caregivers</h4>
                 <p>
-                 Child safety is our top priority. We follow a strict and transparent nanny selection process, including background verification and regular performance evaluation. Our trained caregivers provide round-the-clock supervision, ensuring that children feel secure, cared for, and comfortable throughout the day—just like a second home.
+                  Your child’s safety and comfort are our highest priorities. We follow a thorough nanny and caregiver selection process that includes background verification, training, and regular evaluations. With round-the-clock supervision, secure premises, and caring staff, we ensure every child feels protected, supported, and at home throughout their time with us.
                 </p>
               </div>
             </div>
@@ -99,9 +99,9 @@ const Aboutourvalues = () => {
               className="Aboutourvalues-card Aboutourvalues-card-right"
             >
               <div className="Aboutourvalues-content">
-                <h4>Advanced Learning & Skill Placement</h4>
+                <h4>Smart Learning for Early Skill Development</h4>
                 <p>
-                 We focus on building strong foundations through age-appropriate learning activities. Our advanced placement programs encourage early development of cognitive, communication, and creative skills. By combining play-based learning with structured education, we help children develop confidence, curiosity, and readiness for future academic success.
+                  Our curriculum is designed to build strong academic and life skills from an early age. Through a balanced approach of structured learning and play-based activities, children develop communication skills, problem-solving abilities, creativity, and confidence. We prepare young learners to adapt easily to future academic challenges while enjoying the learning process.
                 </p>
               </div>
               <div className="Aboutourvalues-icon Aboutourvalues-cyan">
@@ -114,9 +114,9 @@ const Aboutourvalues = () => {
               className="Aboutourvalues-card Aboutourvalues-card-right"
             >
               <div className="Aboutourvalues-content">
-                <h4>Self-Contained Gifted & Creative Programs</h4>
+                <h4>Encouraging Creativity and Individual Talents</h4>
                 <p>
-                  Every child is unique, and we celebrate individuality through our self-contained gifted programs. These programs include music, art, storytelling, movement, and interactive play that support creativity and emotional expression. Our curriculum helps children discover their talents while developing social skills and independent thinking.
+                  Every child has unique abilities, and we focus on nurturing them through creative and gifted programs. Activities such as music, art, storytelling, movement, and hands-on learning help children express themselves freely. These programs strengthen emotional intelligence, social interaction, and independent thinking, laying the foundation for confident and well-rounded personalities.
                 </p>
               </div>
               <div className="Aboutourvalues-icon Aboutourvalues-pink">
