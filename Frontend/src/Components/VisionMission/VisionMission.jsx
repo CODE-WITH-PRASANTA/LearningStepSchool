@@ -31,8 +31,7 @@ export default function VisionMission() {
           <div className="vm-icon vm-blue-icon">🍎</div>
           <h3 className="vm-card-title">Day Care</h3>
           <p className="vm-card-text">
-            Cum sociis natoque penatibus et magnis dis parturient montes,
-            nascetur aur ridiculus mus.
+           Safe, caring day care that supports children’s comfort, routine, and early development.
           </p>
         </div>
 
@@ -41,8 +40,7 @@ export default function VisionMission() {
           <div className="vm-icon vm-pink-icon">✏️</div>
           <h3 className="vm-card-title">Education</h3>
           <p className="vm-card-text">
-            Cum sociis natoque penatibus et magnis dis parturient montes,
-            nascetur aur ridiculus mus.
+            Quality early education that builds strong learning foundations and lifelong curiosity.
           </p>
         </div>
 
@@ -51,8 +49,7 @@ export default function VisionMission() {
           <div className="vm-icon vm-green-icon">🌍</div>
           <h3 className="vm-card-title">International</h3>
           <p className="vm-card-text">
-            Cum sociis natoque penatibus et magnis dis parturient montes,
-            nascetur aur ridiculus mus.
+           An international learning approach that prepares children for a global future.
           </p>
         </div>
       </div>

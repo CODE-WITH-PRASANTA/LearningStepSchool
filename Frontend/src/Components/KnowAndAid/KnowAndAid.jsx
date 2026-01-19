@@ -29,19 +29,11 @@ const KnowAndAid = () => {
         <div className="know-left">
           <h2>Things To Know First</h2>
           <p>
-            There are many variations of passages of Lorem Ipsum available, but the
-            majority have suffered alteration in some form, by injected humour, or
-            randomised words which don't look even slightly believable. If you are
-            going to use a passage of Lorem Ipsum, you need to be sure there isn't
-            anything embarrassing hidden in the middle of text.
+           Our school follows a student-centered approach that combines the latest CBSE curriculum standards with creative teaching methods. We focus on concept-based learning, digital classrooms, and activity-driven sessions to ensure holistic growth for every child.
           </p>
           <p>
-            It is a long established fact that a reader will be distracted by the
-            readable content of a page when looking at its layout. The point of
-            using Lorem Ipsum is that it has a more-or-less normal distribution of
-            letters, as opposed to using Content here content here making it look
-            like readable English.
-          </p>
+          We also maintain a limited student–teacher ratio, giving every learner personalized attention, emotional support, and space to grow.
+          Parents are encouraged to be active partners in their child’s progress through regular interactions, workshops, and open-house sessionsChoosing Learning Step School means choosing a place where your child feels seen, heard, and inspired every day.</p>
         </div>
 
         {/* RIGHT COLUMN */}
@@ -53,33 +45,35 @@ const KnowAndAid = () => {
 
           {/* Paragraph under heading */}
           <p className="right-desc">
-            There are many variations of passages of Lorem Ipsum available, but the
-            majority have suffered alteration in some form, by injected humour, or
-            randomised words which don't look even slightly believable.
+           To ensure a smooth admission process at Learning Step School, we request all parents to submit valid and updated documentation at the time of application.
+           Our admission office is available to assist families with every step — including form completion, fee structure guidance, and financial aid queries.
           </p>
 
           {/* Checklist points */}
           <ul className="know-checklist">
             <li>
               <FaCheckCircle className="check-icon" />
-              Sed ut perspiciatis unde omnis iste natus error sit doloremque
-              laudantium.
+             Birth Certificate (Original & Photocopy)
             </li>
             <li>
               <FaCheckCircle className="check-icon" />
-              Totam rem aperiam eaque ipsa quae ab illo inventore veritatis.
+              Recent Passport-Size Photographs (Student & Parents)
             </li>
             <li>
               <FaCheckCircle className="check-icon" />
-              Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit.
+             Transfer Certificate (for Grades II & above)
             </li>
             <li>
               <FaCheckCircle className="check-icon" />
-              Dolores eos qui ratione voluptatem sequi nesciunte porro quisquam est.
+             Previous Academic Record / Report Card
             </li>
             <li>
               <FaCheckCircle className="check-icon" />
-              Adipisci velit sed quia non numquam eius modi tempora incidunt.
+            Address & ID Proof of Parents / Guardians
+            </li>
+             <li>
+              <FaCheckCircle className="check-icon" />
+            Medical Fitness Certificate
             </li>
           </ul>
         </div>

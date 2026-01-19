@@ -3,12 +3,7 @@ import "./Studentlifeourblogs.css";
 import { motion } from "framer-motion";
 
 // Icons
-import {
-  FaGraduationCap,
-  FaLanguage,
-  FaBrain,
-  FaArrowRight
-} from "react-icons/fa";
+import { FaGraduationCap, FaLanguage, FaBrain, FaArrowRight } from "react-icons/fa";
 
 // Images
 import img1 from "../../assets/blog2.png";
@@ -19,38 +14,49 @@ const data = [
   {
     img: img1,
     title: "Tutoring Services",
-    desc: "Personalized academic support to strengthen concepts and build confidence.",
+    desc: "At Learning Step School, our Tutoring Services focus on personalized academic guidance that strengthens understanding and builds lasting confidence. Each child receives focused support designed to improve conceptual clarity and overall academic performance.",
     icon: <FaGraduationCap />,
     color: "#6366f1",
     gradient: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-    features: ["One-on-One Sessions", "Homework Help", "Exam Preparation"],
+    features: [
+      "Personalized One-on-One Learning",
+      "Homework and Concept Support",
+      "Regular Progress Assessments",
+    ],
     stats: "98% Success Rate",
   },
   {
     img: img2,
     title: "Language Lessons",
-    desc: "Interactive language programs designed for real-world communication.",
+    desc: "Our Language Lessons program encourages communication and global awareness. Students learn through immersive activities, improving vocabulary, fluency, and cultural understanding in a fun, interactive way that enhances confidence in real-world communication.",
     icon: <FaLanguage />,
     color: "#10b981",
     gradient: "linear-gradient(135deg, #10b981, #34d399)",
-    features: ["Conversational Practice", "Cultural Immersion", "Certification"],
+    features: [
+      "Interactive Conversational Practice",
+      "Cultural and Global Language Exposure",
+      "Certified Language Enrichment Program",
+    ],
     stats: "15+ Languages",
   },
   {
     img: img3,
     title: "Study Skills Coaching",
-    desc: "Proven techniques for time management, focus, and exam preparation.",
+    desc: "The Study Skills Coaching program at Learning Step School helps students master effective learning techniques. We focus on time management, focus enhancement, and exam strategies that empower students to learn independently and succeed with confidence.",
     icon: <FaBrain />,
     color: "#f59e0b",
     gradient: "linear-gradient(135deg, #f59e0b, #fbbf24)",
-    features: ["Time Management", "Note-taking Strategies", "Stress Management"],
+    features: [
+      "Smart Time Management Techniques",
+      "Effective Note-taking and Recall Strategies",
+      "Exam and Stress Management Support",
+    ],
     stats: "87% Improvement",
   },
 ];
 
 const Studentlifeourblogs = () => {
   const [active, setActive] = useState(0);
-  const [hovered, setHovered] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -79,11 +85,7 @@ const Studentlifeourblogs = () => {
           {data.map((item, index) => (
             <motion.div
               key={index}
-              className={`Studentlifeourblogs-card ${
-                active === index ? "active" : ""
-              }`}
-              onMouseEnter={() => setHovered(index)}
-              onMouseLeave={() => setHovered(null)}
+              className={`Studentlifeourblogs-card ${active === index ? "active" : ""}`}
               onClick={() => setActive(index)}
               style={{
                 "--accent": item.color,
@@ -94,9 +96,7 @@ const Studentlifeourblogs = () => {
             >
               <div className="Studentlifeourblogs-badge">{item.stats}</div>
 
-              <div className="Studentlifeourblogs-card-icon">
-                {item.icon}
-              </div>
+              <div className="Studentlifeourblogs-card-icon">{item.icon}</div>
 
               <div className="Studentlifeourblogs-card-img">
                 <img src={item.img} alt={item.title} />
@@ -125,7 +125,6 @@ const Studentlifeourblogs = () => {
             </motion.div>
           ))}
         </motion.div>
-
       </div>
     </section>
   );

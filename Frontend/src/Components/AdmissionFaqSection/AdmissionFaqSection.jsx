@@ -5,24 +5,33 @@ import { useNavigate } from "react-router-dom";
 
 const faqData = [
   {
-    question: "How Can I Apply?",
+    question: "How Can I Apply For Admission?",
     answer:
-      "We denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment so blinded by desire ante odio dignissim quam vitae pulvinar turpis.",
+      "You can start the admission process online through our Apply Now form on the official website. Once submitted, our admission counselor will contact you to guide you through the next steps, including document submission and orientation.",
   },
   {
-    question: "How Can I Become A Member?",
+    question: "How can I become a member of Learning Step School?",
     answer:
-      "To become a member, simply fill out the registration form and submit it. Our team will get in touch with you shortly after reviewing your details.",
+      "Once your child’s admission is confirmed, you automatically become part of the Learning Step Parent Community. Members receive updates on academic programs, events, and exclusive parent-teacher workshops.",
   },
   {
-    question: "What Payment Gateway You Support?",
+    question: "What payment options do you support?",
     answer:
-      "We support all major payment gateways including PayPal, Stripe, and Razorpay for safe and secure transactions.",
+      "We offer multiple secure payment methods, including credit/debit cards, UPI, net banking, and EMI plans. All transactions are processed through encrypted gateways to ensure safety and transparency..",
   },
   {
-    question: "How Can I Cancel My Request?",
+    question: "Can I cancel or modify my admission request?",
+    answer:" Yes. If you wish to withdraw or make changes before final confirmation, please contact our admissions office. Refunds or adjustments follow our fair and transparent cancellation policy, ensuring parents’ peace of mind.",
+  },
+   {
+    question: "Does the school provide 24/7 support?",
     answer:
-      "If you wish to cancel a request, please visit your dashboard or contact our support team for further assistance.",
+      "Absolutely. Our student support team and parent help desk are available round-the-clock to assist with admissions, learning schedules, and technical issues related to online classes.",
+   },
+  {
+    question: "How can I schedule a school visit before enrolling?",
+    answer:
+      "You can book a campus visit appointment directly from our website or by contacting our admissions counselor. We encourage parents to experience our learning environment before enrolling.",
   },
 ];
 
@@ -65,26 +74,22 @@ export default function AdmissionFaqSection() {
             General <span>Frequently</span> Asked Questions
           </h2>
           <p className="faq-desc">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomised words which don't look even.
+            At Learning Step School, we believe in maintaining complete transparency with parents and students.
+Our FAQs are designed to answer the most common queries about admissions, fees, support, and learning options, helping families make informed decisions with confidence.
           </p>
           <p className="faq-desc">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo.
+           Our admission process is simple, our communication is clear, and our support team is always available to guide you every step of the way.
           </p>
 
           <ul className="faq-checklist">
-            <li>✔ Easy admission process</li>
-            <li>✔ 24/7 student support</li>
-            <li>✔ Secure payment gateway</li>
-            <li>✔ Transparent cancellation policy</li>
+            <li>✔ Easy and hassle-free admission process</li>
+            <li>✔ 24 × 7 student and parent support</li>
+            <li>✔ Secure and transparent fee payment gateway</li>
+            <li>✔ Clear refund and cancellation policy</li>
           </ul>
 
           <button className="faq-btn" onClick={() => navigate("/faq")}>
-            Have Any Question ?
+            Need More Help ?
           </button>
         </div>
 

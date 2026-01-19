@@ -18,15 +18,18 @@ const Studentlifeaboutus = () => {
           </h2>
 
           <p className="Studentlifeaboutus-description">
-            Lorem ipsum dolor sit amet consectetur. Amet lectus mi ultricies
-            dictum facilisis sem. Imperdiet massa turpis sit proin metus
-            volutpat lorem ipsum dolor sit amet consectetur.
+            At <strong>Learning Step School</strong>, we believe that education is the most powerful
+            investment for a brighter future. Our mission is to create a nurturing environment
+            where students develop curiosity, confidence, and a lifelong love for learning.
+            Through innovative teaching methods and personalized attention, we aim to help every
+            child discover their unique potential and grow into responsible, future-ready individuals.
           </p>
 
           <p className="Studentlifeaboutus-description">
-            Lorem ipsum dolor sit amet consectetur. Amet lectus mi ultricies
-            dictum facilisis sem. Imperdiet massa turpis sit proin metus
-            volutpat lorem ipsum dolor sit amet consectetur.
+            With a blend of academic excellence, creative exploration, and character development,
+            we focus on the holistic growth of each learner. Our dedicated educators inspire students
+            to think critically, act compassionately, and lead with integrity—preparing them not just
+            for exams, but for life.
           </p>
 
           <div className="Studentlifeaboutus-actions">
@@ -50,14 +53,14 @@ const Studentlifeaboutus = () => {
             </div>
 
             <div className="Studentlifeaboutus-image-small">
-              <img src={about2} alt="Child learning" />
+              <img src={about2} alt="Child learning at Learning Step School" />
             </div>
           </div>
 
           {/* LARGE IMAGE (HIDDEN ON SMALL DEVICES VIA CSS) */}
           <div className="Studentlifeaboutus-right-right">
             <div className="Studentlifeaboutus-image-large">
-              <img src={about3} alt="Teacher and student" />
+              <img src={about3} alt="Teacher guiding a student during class" />
             </div>
           </div>
 

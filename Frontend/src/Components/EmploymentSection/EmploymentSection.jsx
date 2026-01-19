@@ -5,27 +5,27 @@ const stepsData = [
   {
     title: "Contact",
     description:
-      "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+      "Parents can reach Learning Step International School through phone, email, or campus visit to get complete information about preschool programs, facilities, and admissions.",
   },
   {
     title: "Application",
     description:
-      "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+      "Submit the admission application with basic child details to begin the preschool enrollment process smoothly and efficiently.",
   },
   {
     title: "Counseling",
     description:
-      "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+      "Our experienced educators guide parents through curriculum options, child development goals, and the best learning approach for their child.",
   },
   {
     title: "Admission",
     description:
-      "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+      "After review, admission is confirmed based on age eligibility and program availability, ensuring the right learning environment for every child.",
   },
   {
     title: "Registration",
     description:
-      "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+      "Complete the final registration process to secure your child’s place in our nurturing and child-friendly international school.",
   },
 ];
 
@@ -60,10 +60,9 @@ const EmploymentSection = () => {
       {/* ===== HEADER ===== */}
       <div className="employment-header">
         <h2>ENROLLMENT</h2>
-        <p>Steps done with heart, soul, mind & strength</p>
-        <div className="divider">
-          <span></span>
-        </div>
+        <p>Simple Admission Process Focused on Your Child’s Growth</p>
+        <span class="enroll-underline"></span>
+        
       </div>
 
       {/* ===== STEPS ===== */}
