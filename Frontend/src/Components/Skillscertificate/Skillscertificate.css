@@ -3,23 +3,31 @@
 ============================== */
 .SkillsCertificate-wrapper {
   position: relative;
-  background: linear-gradient(135deg, #f6a15c 0%, #ff8e3c 100%);
+  background: linear-gradient(
+    135deg,
+    #2F80ED 0%,
+    #4f6fff 35%,
+    #F2994A 70%,
+    #F2C94C 100%
+  );
   overflow: hidden;
   box-shadow:
-    inset 0 12px 40px rgba(255, 255, 255, 0.25),
-    0 30px 80px rgba(0, 0, 0, 0.2);
+    inset 0 12px 40px rgba(255, 255, 255, 0.2),
+    0 30px 80px rgba(0, 0, 0, 0.18);
 }
+
 
 .SkillsCertificate-wrapper::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 25% 50%, rgba(255,255,255,0.15), transparent 65%),
-    radial-gradient(circle at 75% 30%, rgba(255,255,255,0.1), transparent 60%);
+    radial-gradient(circle at 20% 40%, rgba(242,201,76,0.25), transparent 60%),
+    radial-gradient(circle at 80% 30%, rgba(235,87,87,0.18), transparent 55%);
   z-index: 1;
   pointer-events: none;
 }
+
 
 /* ==============================
    WAVE
@@ -61,10 +69,10 @@
   gap: 10px;
   padding: 12px 22px;
   border-radius: 40px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.45);
   backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 28px rgba(47,128,237,0.35);
   margin-bottom: 22px;
   transition: transform 0.4s ease;
 }
@@ -83,10 +91,11 @@
 }
 
 .SkillsCertificate-text h1 span {
-  background: linear-gradient(135deg, #ffffff, #e6f7ff);
+  background: linear-gradient(135deg, #ffffff, #F2C94C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 
 .SkillsCertificate-desc {
   font-size: 17px;
@@ -106,25 +115,26 @@
   border: none;
   font-weight: 700;
   cursor: pointer;
-  background: #ffffff;
-  color: #1f2937;
+  background: linear-gradient(135deg, #2F80ED, #4f6fff);
+  color: #ffffff;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   transition: all 0.4s ease;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  box-shadow: 0 12px 32px rgba(47,128,237,0.45);
 }
+
 
 .SkillsCertificate-apply-btn span {
   transition: transform 0.3s ease;
 }
 
 .SkillsCertificate-apply-btn:hover {
-  background: linear-gradient(135deg, #3556d8, #4f6fff);
-  color: #ffffff;
+  background: linear-gradient(135deg, #EB5757, #F2994A);
   transform: translateY(-4px);
-  box-shadow: 0 18px 45px rgba(53,86,216,0.45);
+  box-shadow: 0 18px 45px rgba(235,87,87,0.45);
 }
+
 
 .SkillsCertificate-apply-btn:hover span {
   transform: translateX(6px);
