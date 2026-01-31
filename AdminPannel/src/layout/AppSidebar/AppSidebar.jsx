@@ -1,173 +1,161 @@
-import React, { useState } from "react";
-import "./AppSidebar.css";
+import { NavLink, useLocation } from "react-router-dom";
+import { useState } from "react";
 import {
   FiHome,
+  FiBookOpen,
   FiUsers,
-  FiUser,
-  FiBook,
-  FiLayers,
-  FiFileText,
-  FiCalendar,
-  FiMessageSquare,
+  FiAward,
   FiDollarSign,
-  FiShield,
-  FiSettings,
+  FiClipboard,
+  FiLayers,
+  FiStar,
+  FiUserPlus,
+  FiCalendar,
   FiChevronDown,
-  FiChevronRight,
-  FiLogOut,
-  FiX,
 } from "react-icons/fi";
-import logo from "../../Assets/Learning Step Logo.png";
 
-const AppSidebar = ({ isOpen, onClose }) => {
-  const [openMenu, setOpenMenu] = useState("dashboard"); // 🔥 Dashboard open by default
-  const [activeSub, setActiveSub] = useState("school");
-  const [profileOpen, setProfileOpen] = useState(false);
+const menu = [
+  { label: "Dashboard", icon: FiHome, path: "/dashboard" },
 
-  const toggleMenu = (menu) => {
-    setOpenMenu(openMenu === menu ? "" : menu);
-  };
+  {
+    label: "Blog Management",
+    icon: FiBookOpen,
+    children: [
+      { label: "Blog Posts", path: "/blogs" },
+      { label: "Blog View", path: "/blogs/view" },
+    ],
+  },
+
+  { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
+  { label: "Award Management", icon: FiAward, path: "/awards" },
+  { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
+  { label: "Notice Management", icon: FiClipboard, path: "/notices" },
+
+  {
+    label: "Learning Management",
+    icon: FiLayers,
+    children: [
+      { label: "Pre-Primary", path: "/learning/pre" },
+      { label: "Primary", path: "/learning/primary" },
+      { label: "Secondary", path: "/learning/secondary" },
+    ],
+  },
+
+  { label: "Testimonials", icon: FiStar, path: "/testimonials" },
+  { label: "Admission Data", icon: FiUserPlus, path: "/admissions" },
+  { label: "Upcoming Events", icon: FiCalendar, path: "/events" },
+];
+
+export default function AppSidebar({
+  sidebarOpen,
+  mobileOpen,
+  setMobileOpen,
+}) {
+  const location = useLocation();
+  const [openGroup, setOpenGroup] = useState(null);
 
   return (
-    <aside className={`app-sidebar ${isOpen ? "open" : ""}`}>
-      {/* ===== MOBILE HEADER ===== */}
-      <div className="sidebar-mobile-header">
-        <img src={logo} alt="Logo" className="sidebar-logo" />
-        <button className="sidebar-close" onClick={onClose}>
-          <FiX />
-        </button>
-      </div>
+    <>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div
+          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+        />
+      )}
 
-      {/* ===== STICKY PROFILE ===== */}
-      <div className="sidebar-sticky">
-        <div className="profile-card">
-          <div
-            className="profile-main"
-            onClick={() => setProfileOpen(!profileOpen)}
-          >
-            <img
-              src="https://i.pravatar.cc/100"
-              alt="Profile"
-              className="profile-avatar"
-            />
-            <div className="profile-text">
-              <h4>Jone Copper</h4>
-              <p>Admin</p>
-            </div>
-            <FiChevronDown
-              className={`profile-arrow ${profileOpen ? "rotate" : ""}`}
-            />
-          </div>
-
-          {profileOpen && (
-            <div className="profile-actions">
-              <a href="#"><FiUser /> My Profile</a>
-              <a href="#"><FiSettings /> Settings</a>
-              <a href="/logout" className="logout"><FiLogOut /> Log Out</a>
-            </div>
-          )}
+      <aside
+        className={`fixed top-0 left-0 z-50 h-screen bg-white border-r
+        transition-all duration-300 ease-in-out
+        ${sidebarOpen ? "w-72" : "w-20"}
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+      >
+        {/* LOGO */}
+        <div className="h-16 flex items-center justify-center border-b font-bold">
+          {sidebarOpen ? "School Admin" : "SA"}
         </div>
-      </div>
 
-      {/* ===== SCROLLABLE MENU ===== */}
-      <div className="sidebar-scroll">
-        <ul className="sidebar-menu">
+        {/* MENU */}
+        <nav className="flex-1 overflow-y-auto p-3 space-y-1">
+          {menu.map((item, i) => {
+            const Icon = item.icon;
+            const isActive =
+              item.path && location.pathname === item.path;
 
-          {/* ================= DASHBOARD ================= */}
-          <li>
-            <div
-              className={`menu-item ${openMenu === "dashboard" ? "active" : ""}`}
-              onClick={() => toggleMenu("dashboard")}
-            >
-              <FiHome />
-              <span>Dashboard</span>
-              {openMenu === "dashboard" ? <FiChevronDown /> : <FiChevronRight />}
-            </div>
+            if (item.children) {
+              const isOpen = openGroup === item.label;
 
-            {openMenu === "dashboard" && (
-              <ul className="submenu">
-                <li>
-                  <a
-                    className={activeSub === "school" ? "active" : ""}
-                    onClick={() => setActiveSub("school")}
+              return (
+                <div key={i}>
+                  <button
+                    onClick={() =>
+                      setOpenGroup(isOpen ? null : item.label)
+                    }
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg
+                    hover:bg-slate-100 transition
+                    ${isOpen ? "bg-slate-100" : ""}`}
                   >
-                    School
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className={activeSub === "student" ? "active" : ""}
-                    onClick={() => setActiveSub("student")}
-                  >
-                    Student
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className={activeSub === "teacher" ? "active" : ""}
-                    onClick={() => setActiveSub("teacher")}
-                  >
-                    Teacher
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className={activeSub === "parent" ? "active" : ""}
-                    onClick={() => setActiveSub("parent")}
-                  >
-                    Parent
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className={activeSub === "lms" ? "active" : ""}
-                    onClick={() => setActiveSub("lms")}
-                  >
-                    LMS
-                  </a>
-                </li>
-              </ul>
-            )}
-          </li>
+                    <Icon className="text-lg shrink-0" />
 
-          {/* ================= STUDENTS ================= */}
-          <li>
-            <div
-              className={`menu-item ${openMenu === "students" ? "active" : ""}`}
-              onClick={() => toggleMenu("students")}
-            >
-              <FiUsers />
-              <span>Students</span>
-              {openMenu === "students" ? <FiChevronDown /> : <FiChevronRight />}
-            </div>
+                    {sidebarOpen && (
+                      <>
+                        <span className="text-sm flex-1 text-left">
+                          {item.label}
+                        </span>
+                        <FiChevronDown
+                          className={`transition-transform duration-300
+                          ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </>
+                    )}
+                  </button>
 
-            {openMenu === "students" && (
-              <ul className="submenu">
-                <li><a className={activeSub === "add" ? "active" : ""} onClick={() => setActiveSub("add")}>Add New Student</a></li>
-                <li><a className={activeSub === "list" ? "active" : ""} onClick={() => setActiveSub("list")}>Student List</a></li>
-                <li><a className={activeSub === "suspend" ? "active" : ""} onClick={() => setActiveSub("suspend")}>Suspend Student</a></li>
-                <li><a className={activeSub === "category" ? "active" : ""} onClick={() => setActiveSub("category")}>Student Categories</a></li>
-                <li><a className={activeSub === "edit" ? "active" : ""} onClick={() => setActiveSub("edit")}>Edit Student</a></li>
-                <li><a className={activeSub === "details" ? "active" : ""} onClick={() => setActiveSub("details")}>Student Details</a></li>
-              </ul>
-            )}
-          </li>
+                  {/* DROPDOWN */}
+                  <div
+                    className={`overflow-hidden transition-all duration-300
+                    ${isOpen && sidebarOpen ? "max-h-40" : "max-h-0"}`}
+                  >
+                    {item.children.map((sub, j) => (
+                      <NavLink
+                        key={j}
+                        to={sub.path}
+                        className={({ isActive }) =>
+                          `block pl-11 pr-3 py-2 text-sm rounded-lg transition
+                          ${
+                            isActive
+                              ? "bg-indigo-50 text-indigo-600 font-medium"
+                              : "text-slate-600 hover:bg-slate-100"
+                          }`
+                        }
+                      >
+                        {sub.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
 
-          {/* ================= OTHERS (UNCHANGED) ================= */}
-          <li><a className="menu-item" href="#"><FiUser /><span>Teachers</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiLayers /><span>Classes</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiFileText /><span>Examinations</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiDollarSign /><span>Fees Collection</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiCalendar /><span>Attendance</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiBook /><span>Library</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiMessageSquare /><span>Notice Board</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiShield /><span>Authentication</span><FiChevronRight /></a></li>
-          <li><a className="menu-item" href="#"><FiSettings /><span>Settings</span><FiChevronRight /></a></li>
-
-        </ul>
-      </div>
-    </aside>
+            return (
+              <NavLink
+                key={i}
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-lg transition
+                  ${
+                    isActive
+                      ? "bg-indigo-50 text-indigo-600 font-medium"
+                      : "text-slate-700 hover:bg-slate-100"
+                  }`
+                }
+              >
+                <Icon className="text-lg shrink-0" />
+                {sidebarOpen && <span className="text-sm">{item.label}</span>}
+              </NavLink>
+            );
+          })}
+        </nav>
+      </aside>
+    </>
   );
-};
-
-export default AppSidebar;
+}

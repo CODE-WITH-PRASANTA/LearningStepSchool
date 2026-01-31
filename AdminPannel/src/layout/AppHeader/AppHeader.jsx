@@ -1,38 +1,56 @@
-import React from "react";
-import "./AppHeader.css";
-import { FiSearch, FiBell, FiSun, FiMenu } from "react-icons/fi";
-import logo from "../../Assets/Learning Step Logo.png";
+import { FiMenu, FiBell, FiSearch } from "react-icons/fi";
 
-const AppHeader = ({ onMenuClick }) => {
+export default function AppHeader({
+  sidebarOpen,
+  setSidebarOpen,
+  setMobileOpen,
+}) {
   return (
-    <header className="app-header">
-      <div className="header-left">
-        <button className="menu-btn" onClick={onMenuClick}>
+    <header className="h-16 bg-white border-b flex items-center justify-between px-6">
+      {/* Left */}
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() =>
+            window.innerWidth >= 1024
+              ? setSidebarOpen(!sidebarOpen)
+              : setMobileOpen(true)
+          }
+          className="text-xl text-slate-700"
+        >
           <FiMenu />
         </button>
 
-        <img src={logo} alt="Admin Logo" className="logo" />
+        <span className="hidden sm:block text-sm text-slate-500">
+          School Management System
+        </span>
       </div>
 
-      <div className="header-search">
-        <FiSearch className="search-icon" />
-        <input type="text" placeholder="Search" />
+      {/* Search */}
+      <div className="hidden lg:flex items-center bg-slate-100 rounded-full px-4 py-2 w-96">
+        <FiSearch className="text-slate-400" />
+        <input
+          placeholder="Search..."
+          className="bg-transparent outline-none ml-2 text-sm w-full"
+        />
       </div>
 
-      <div className="header-right">
-        <button className="icon-btn">
-          <FiSun />
+      {/* Right */}
+      <div className="flex items-center gap-5">
+        <button className="relative">
+          <FiBell className="text-xl text-slate-600" />
+          <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
         </button>
 
-        <button className="icon-btn flag">🇺🇸</button>
-
-        <button className="icon-btn notification">
-          <FiBell />
-          <span className="dot"></span>
-        </button>
+        <div className="flex items-center gap-2">
+          <img
+            src="https://i.pravatar.cc/40"
+            className="w-9 h-9 rounded-full"
+          />
+          <span className="hidden sm:block text-sm font-medium">
+            Admin
+          </span>
+        </div>
       </div>
     </header>
   );
-};
-
-export default AppHeader;
+}
