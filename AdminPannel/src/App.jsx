@@ -10,6 +10,7 @@ import Fees from "./Pages/FeeManagement";
 import Notices from "./Pages/NoticeManagement";
 import ProfilePage from "./Pages/ProfilePage";
 import SettingsPage from "./Pages/SettingsPage";
+import EventManagement from "./Pages/EventManagement";
 // import Testimonials from "./pages/Testimonials";
 // import Admissions from "./pages/Admissions";
 // import Events from "./pages/Events";
@@ -31,6 +32,7 @@ export default function App() {
         {/* <Route path="/events" element={<Events />} /> */}
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/events" element={<EventManagement/>} />
       </Route>
     </Routes>
   );
