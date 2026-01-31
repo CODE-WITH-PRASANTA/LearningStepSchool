@@ -9,6 +9,11 @@ import Dashboard from "./Pages/Dashbord";
 import Fees from "./Pages/FeeManagement";
 import Notices from "./Pages/NoticeManagement";
 import BlogView from "./Component/BlogView/BlogView";
+import ProfilePage from "./Pages/ProfilePage";
+import SettingsPage from "./Pages/SettingsPage";
+
+import TestimonialPage from "./Component/Testimonial/TestimonialPage";
+import BlogManagerPage from "./Component/BlogManager/BlogManagerPage";
 // import Testimonials from "./pages/Testimonials";
 // import Admissions from "./pages/Admissions";
 // import Events from "./pages/Events";
@@ -29,7 +34,11 @@ export default function App() {
         {/* <Route path="/admissions" element={<Admissions />} /> */}
         {/* <Route path="/events" element={<Events />} /> */}
         <Route path="/blogs/view" element={<BlogView />} />
-      </Route>
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/blogs" element={<BlogManagerPage />} />
+        <Route path="/testimonials" element={<TestimonialPage />} />
+       </Route>
     </Routes>
   );
 }

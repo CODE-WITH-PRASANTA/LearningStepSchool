@@ -1,0 +1,193 @@
+/* REMOVE BODY SCROLL COMPLETELY */
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;   /* 🚫 No page scroll */
+}
+
+
+/* MAIN CONTAINER */
+
+.adm-blog-manager-container{
+  display:flex;
+  height:100vh;
+  padding:20px;
+  gap:22px;
+  overflow:hidden; /* BLOCK SCREEN SCROLL */
+}
+
+/* WIDTH LIKE REFERENCE */
+
+.adm-blog-left-panel{
+  width:55%;
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:6px;
+}
+.adm-blog-form-box{
+  background:#fff;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+  max-height:88vh;      /* 👈 reduce height slightly */
+  overflow-y:auto;     /* 👈 form scroll */
+}
+.adm-content-textarea{
+  height:150px;   /* was 180px */
+}
+
+
+.adm-blog-right-panel{
+  width:45%;
+}
+
+/* FORM */
+
+.adm-blog-form-box{
+  background:#fff;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.adm-blog-form-heading{
+  font-size:22px;
+  margin-bottom:20px;
+}
+
+.adm-input-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:14px;
+}
+
+.adm-input-group input,
+.adm-input-group textarea,
+.adm-input-group select{
+  padding:11px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.adm-content-textarea{
+  height:180px;
+  resize:none;
+}
+
+.adm-image-preview{
+  width:90px;
+  height:90px;
+  border-radius:10px;
+  object-fit:cover;
+  margin-top:8px;
+}
+
+.adm-submit-btn{
+  width:100%;
+  padding:14px;
+  background:#ff9f43;
+  border:none;
+  color:#fff;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* TABLE */
+
+.adm-blog-table-box{
+  background:#f4f6fb;
+  padding:18px;
+  border-radius:18px;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.adm-table-heading{
+  font-size:20px;
+}
+
+.adm-table-scroll-area{
+  margin-top:15px;
+  overflow-x:auto;
+}
+
+/* ACTUAL TABLE */
+
+.adm-blog-table{
+  min-width:900px;
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+}
+
+.adm-blog-table th{
+  background:#ff9f43;
+  color:#fff;
+  padding:12px;
+}
+
+.adm-blog-table td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+}
+
+.adm-table-img{
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.adm-desc-cell{
+  max-width:220px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* BUTTONS */
+
+.adm-edit-btn{
+  background:#28a745;
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  margin-right:6px;
+}
+
+.adm-delete-btn{
+  background:#dc3545;
+  color:#fff;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+}
+
+.adm-empty-row{
+  text-align:center;
+  padding:20px;
+  color:#777;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+  .adm-blog-manager-container{
+    flex-direction:column;
+    height:auto;
+  }
+
+  .adm-blog-left-panel,
+  .adm-blog-right-panel{
+    width:100%;
+  }
+}

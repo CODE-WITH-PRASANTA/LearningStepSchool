@@ -1,0 +1,183 @@
+.adm-testimonial-wrapper{
+  display:flex;
+  max-width:1300px;
+  margin:auto;
+  gap:30px;
+  padding:40px;
+  min-height:100vh;
+}
+
+/* LEFT FORM */
+.adm-testimonial-form-section{
+  width:50%;
+}
+
+/* RIGHT LIST */
+.adm-testimonial-list-section{
+  width:50%;
+  overflow-y:auto;
+  max-height:100vh;
+}
+
+/* FORM */
+
+.adm-testimonial-form{
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.adm-form-title{
+  font-size:24px;
+  margin-bottom:20px;
+}
+
+.adm-form-group{
+  margin-bottom:18px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.adm-form-group input,
+.adm-form-group textarea{
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:15px;
+}
+
+.adm-form-group textarea{
+  resize:none;
+  height:120px;
+}
+
+.adm-preview-img{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:50%;
+  margin-top:10px;
+}
+
+/* STARS */
+
+.adm-star-rating-box{
+  display:flex;
+  gap:8px;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.adm-star{
+  color:#ccc;
+  transition:0.3s;
+}
+
+.adm-star.active{
+  color:#ffc107;
+}
+
+/* BUTTON */
+
+.adm-submit-btn{
+  width:100%;
+  background:#6c63ff;
+  color:#fff;
+  border:none;
+  padding:14px;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.adm-submit-btn:hover{
+  opacity:0.9;
+}
+
+/* LIST */
+
+.adm-testimonial-list{
+  background:#f8f9fc;
+  padding:25px;
+  border-radius:16px;
+}
+
+.adm-list-title{
+  font-size:22px;
+  margin-bottom:20px;
+}
+
+.adm-testimonial-card{
+  display:flex;
+  gap:15px;
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.adm-client-photo{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.adm-card-content{
+  flex:1;
+}
+
+.adm-feedback-text{
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.adm-rating-view{
+  color:#ffc107;
+  font-size:18px;
+}
+
+.adm-card-actions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.adm-edit-btn{
+  background:#28a745;
+  color:#fff;
+  border:none;
+  padding:6px 14px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.adm-delete-btn{
+  background:#dc3545;
+  color:#fff;
+  border:none;
+  padding:6px 14px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.adm-empty-text{
+  color:#777;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+  .adm-testimonial-wrapper{
+    flex-direction:column;
+  }
+
+  .adm-testimonial-form-section,
+  .adm-testimonial-list-section{
+    width:100%;
+    max-height:none;
+  }
+}

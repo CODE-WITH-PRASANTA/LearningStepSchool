@@ -35,9 +35,24 @@ const menu = [
     label: "Learning Management",
     icon: FiLayers,
     children: [
-      { label: "Pre-Primary", path: "/learning/pre" },
-      { label: "Primary", path: "/learning/primary" },
-      { label: "Secondary", path: "/learning/secondary" },
+      {
+        label: "Pre-Primary",
+        path: "/learning/pre",
+        color:
+          "from-rose-200 to-pink-200 text-rose-800 hover:from-rose-300 hover:to-pink-300",
+      },
+      {
+        label: "Primary",
+        path: "/learning/primary",
+        color:
+          "from-sky-200 to-blue-200 text-sky-800 hover:from-sky-300 hover:to-blue-300",
+      },
+      {
+        label: "Secondary",
+        path: "/learning/secondary",
+        color:
+          "from-emerald-200 to-green-200 text-emerald-800 hover:from-emerald-300 hover:to-green-300",
+      },
     ],
   },
 
@@ -56,7 +71,6 @@ export default function AppSidebar({
 
   return (
     <>
-      {/* Mobile overlay */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
@@ -65,13 +79,15 @@ export default function AppSidebar({
       )}
 
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen bg-white border-r
-        transition-all duration-300 ease-in-out
+        className={`fixed top-0 left-0 z-50 h-screen
+        bg-gradient-to-b from-indigo-50 via-white to-violet-50
+        border-r border-indigo-100
+        transition-all duration-300
         ${sidebarOpen ? "w-72" : "w-20"}
         ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* LOGO */}
-        <div className="h-16 flex items-center justify-center border-b font-bold">
+        <div className="h-16 flex items-center justify-center border-b border-indigo-100 font-bold text-indigo-700">
           {sidebarOpen ? "School Admin" : "SA"}
         </div>
 
@@ -79,8 +95,6 @@ export default function AppSidebar({
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
           {menu.map((item, i) => {
             const Icon = item.icon;
-            const isActive =
-              item.path && location.pathname === item.path;
 
             if (item.children) {
               const isOpen = openGroup === item.label;
@@ -91,15 +105,21 @@ export default function AppSidebar({
                     onClick={() =>
                       setOpenGroup(isOpen ? null : item.label)
                     }
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg
-                    hover:bg-slate-100 transition
-                    ${isOpen ? "bg-slate-100" : ""}`}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
+                    transition soft-card
+                    ${
+                      isOpen
+                        ? "bg-indigo-100 text-indigo-700"
+                        : "text-slate-700 hover:bg-sky-100"
+                    }`}
                   >
-                    <Icon className="text-lg shrink-0" />
+                    <span className="icon-bubble bg-indigo-200 text-indigo-700">
+                      <Icon />
+                    </span>
 
                     {sidebarOpen && (
                       <>
-                        <span className="text-sm flex-1 text-left">
+                        <span className="text-sm flex-1 text-left font-medium">
                           {item.label}
                         </span>
                         <FiChevronDown
@@ -110,21 +130,22 @@ export default function AppSidebar({
                     )}
                   </button>
 
-                  {/* DROPDOWN */}
+                  {/* CHILD DROPDOWN */}
                   <div
                     className={`overflow-hidden transition-all duration-300
-                    ${isOpen && sidebarOpen ? "max-h-40" : "max-h-0"}`}
+                    ${isOpen && sidebarOpen ? "max-h-48" : "max-h-0"}`}
                   >
                     {item.children.map((sub, j) => (
                       <NavLink
                         key={j}
                         to={sub.path}
                         className={({ isActive }) =>
-                          `block pl-11 pr-3 py-2 text-sm rounded-lg transition
+                          `block pl-12 pr-3 py-2 text-sm rounded-xl transition
+                          bg-gradient-to-r ${sub.color}
                           ${
                             isActive
-                              ? "bg-indigo-50 text-indigo-600 font-medium"
-                              : "text-slate-600 hover:bg-slate-100"
+                              ? "ring-2 ring-white"
+                              : "opacity-90"
                           }`
                         }
                       >
@@ -141,21 +162,46 @@ export default function AppSidebar({
                 key={i}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-lg transition
+                  `flex items-center gap-3 px-3 py-2 rounded-xl transition soft-card
                   ${
                     isActive
-                      ? "bg-indigo-50 text-indigo-600 font-medium"
-                      : "text-slate-700 hover:bg-slate-100"
+                      ? "bg-gradient-to-r from-indigo-200 to-violet-200 text-indigo-800 font-semibold"
+                      : "text-slate-700 hover:bg-sky-100"
                   }`
                 }
               >
-                <Icon className="text-lg shrink-0" />
-                {sidebarOpen && <span className="text-sm">{item.label}</span>}
+                <span className="icon-bubble bg-indigo-200 text-indigo-700">
+                  <Icon />
+                </span>
+                {sidebarOpen && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
               </NavLink>
             );
           })}
         </nav>
       </aside>
+
+      {/* STYLES */}
+      <style>
+        {`
+          .soft-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+          }
+          .soft-card:hover {
+            transform: translateY(-1px);
+          }
+          .icon-bubble {
+            width: 34px;
+            height: 34px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+          }
+        `}
+      </style>
     </>
   );
 }
