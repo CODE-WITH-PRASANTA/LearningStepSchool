@@ -55,6 +55,7 @@ export default function App() {
 
           <Route path="survey" element={<AdmissionSurvey />} />
           <Route path="events" element={<EventManagement />} />
+          <Route path="survey/view" element={<AdmissionSurvey />} />
 
         </Route>
 
