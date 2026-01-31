@@ -75,7 +75,7 @@ const VMVideoHero = () => {
             <span className="phone-icon">📞</span>
             <div>
               <span class="icon-call-title">Call Support</span>
-              <a href="tel:+1344688955" class="icon-call-number">+1 344 688 955</a>
+              <a href="tel:+1344688955" class="icon-call-number">+7014627894</a>
             </div>
           </div>
         </div>

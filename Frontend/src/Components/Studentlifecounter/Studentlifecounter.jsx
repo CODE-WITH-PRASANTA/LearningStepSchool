@@ -11,22 +11,22 @@ const COUNTERS = [
   {
     icon: <FaUsers />,
     value: 1230,
-    label: "Team Members",
+    label: "Qualified Educators",
   },
   {
     icon: <FaStar />,
     value: 210,
-    label: "Client Reviews",
+    label: "Parent Satisfaction Rate",
   },
   {
     icon: <FaAward />,
     value: 1200,
-    label: "Winning Awards",
+    label: "National & State Recognitions",
   },
   {
     icon: <FaCheckCircle />,
     value: 230,
-    label: "Completed Projects",
+    label: "Student Success Stories",
   },
 ];
 

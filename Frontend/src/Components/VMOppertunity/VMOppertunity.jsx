@@ -10,11 +10,11 @@ import img1 from "../../assets/vm-about-1.webp";
 
 const tabsData = {
   history:
-    "Our pre-school has a strong history of nurturing young minds with creativity and care.",
+    "With years of experience in early childhood education, Learning Step International School has helped young learners build strong academic and life foundations.",
   school:
-    "We provide modern infrastructure, safe environment, and experienced teachers.",
+    "Our school offers a safe campus, trained educators, and child-friendly classrooms designed for joyful learning.",
   kids:
-    "Kids enjoy interactive learning, creative play, and joyful activities every day.",
+    "We focus on each child’s growth, helping them develop independence, social skills, and self-confidence.",
 };
 
 const VMOppertunity = () => {
@@ -47,7 +47,7 @@ const VMOppertunity = () => {
           <img src={learningIcon} alt="Learning & Fun" />
           <div>
             <h4>Learning & Fun</h4>
-            <p>Pre-school has open doors free session child.</p>
+            <p>Play-based learning that helps children grow, explore, and enjoy early education.</p>
           </div>
         </div>
 
@@ -55,7 +55,7 @@ const VMOppertunity = () => {
           <img src={onlineIcon} alt="Online Class" />
           <div>
             <h4>Online Class</h4>
-            <p>Pre-school has open doors free session child.</p>
+            <p>Interactive online classes designed to support continuous learning from home.</p>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ const VMOppertunity = () => {
           <img src={playgroundIcon} alt="Own Playground" />
           <div>
             <h4>Own Playground</h4>
-            <p>Pre-school has open doors free session child.</p>
+            <p>A safe and engaging playground that promotes physical activity and social skills.</p>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ const VMOppertunity = () => {
           <span className="small-title animate">School Facilities</span>
 
           <h2 className="main-heading animate">
-            Learning <span>Opportunity</span> For Kids
+            Learning <span>Opportunity</span> For Kids <span>at Learning Step International School</span>
           </h2>
 
           {/* TABS */}
@@ -103,8 +103,8 @@ const VMOppertunity = () => {
           <p className="tab-content">{tabsData[activeTab]}</p>
 
           <ul>
-            <li>✔ Training Opportunity For Kids</li>
-            <li>✔ Your Child Will Take Confidence</li>
+            <li>✔ Learning Opportunities for Every Child</li>
+            <li>✔ Building Confidence Through Early Education</li>
           </ul>
 
           <button className="contact-btn">CONTACT US</button>

@@ -23,8 +23,12 @@ const Studentlifeherosection = () => {
           </h1>
 
           <p className="Studentlifeherosection-text">
-            Empowering young minds with creativity, curiosity, and confidence.
-            Our student life programs focus on holistic development and joyful learning.
+            At <strong>Learning Step School</strong>, we believe that every child deserves
+            an inspiring start to their educational journey. Our programs encourage
+            creativity, curiosity, and confidence—helping students learn through
+            exploration, collaboration, and play. We focus on holistic development,
+            nurturing not only academic excellence but also emotional intelligence,
+            communication, and lifelong learning skills.
           </p>
 
           <div className="Studentlifeherosection-actions">
@@ -41,7 +45,7 @@ const Studentlifeherosection = () => {
         <div className="Studentlifeherosection-right">
           <img
             src={rightImg}
-            alt="student life"
+            alt="student life at Learning Step School"
             className="Studentlifeherosection-image"
           />
         </div>

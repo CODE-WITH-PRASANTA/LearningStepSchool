@@ -12,18 +12,18 @@ import icon3 from "../../assets/why-choose-us-3.webp";
 const features = [
   {
     icon: icon1,
-    title: "Learning For Kids",
-    desc: "Pre-School Is Open Door & Also Free Trial Session.",
+    title: "Quality Learning for Every Child",
+    desc: "At Learning Step International School, we provide a strong academic foundation through interactive and age-appropriate learning. Our approach encourages curiosity, creativity, and confidence in young learners.",
   },
   {
     icon: icon2,
-    title: "Cute Environment",
-    desc: "Pre-School Is Open Door & Also Free Trial Session.",
+    title: "Safe & Child-Friendly Environment",
+    desc: "We offer a warm, engaging, and nurturing environment where children feel comfortable and motivated to learn. Our classrooms are designed to support emotional, social, and creative development.",
   },
   {
     icon: icon3,
-    title: "Children Safety",
-    desc: "Pre-School Is Open Door & Also Free Trial Session.",
+    title: "Safety Comes First",
+    desc: "Child safety is our top priority. We maintain a secure campus, trained staff supervision, and clear safety protocols to ensure a protected and caring learning space for every child.",
   },
 ];
 
@@ -39,9 +39,9 @@ const CoreKidsFeature = () => {
           {/* LEFT HEADING */}
           <div className="ckf-heading">
             <img src={planeImg} alt="plane" className="ckf-plane" />
-            <span className="ckf-subtitle">WHY CHOOSE TODDLY</span>
+            <span className="ckf-subtitle">Why Choose Learning Step International School</span>
             <h2 className="ckf-title">
-              Our Core <span>Kids</span> Feature
+              Our Core <span>Learning</span> Values
             </h2>
           </div>
 
@@ -49,8 +49,7 @@ const CoreKidsFeature = () => {
           <div className="ckf-info">
             <span></span>
             <p>
-              Pre-School Has Open Door And Also Offer Free Trial
-              Child Creative For Kids Hised
+              Nurturing Young Minds with Care, Learning, and Safety
             </p>
           </div>
         </div>

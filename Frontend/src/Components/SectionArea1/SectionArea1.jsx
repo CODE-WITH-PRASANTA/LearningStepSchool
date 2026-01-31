@@ -11,7 +11,7 @@ const SectionArea1 = () => {
       {/* ===== TOP TITLE ===== */}
       <section className="events-header">
         <h2>OUR EVENTS</h2>
-        <p>We do all the work, you get all the credit</p>
+        <p>At Learning Step International School, we organize engaging school events that encourage creativity, confidence, and social development. Our events provide children with opportunities to express themselves, participate in group activities, and build meaningful connections in a joyful learning environment.</p>
         <div className="ztl-divider">
           <span></span>
         </div>
@@ -28,7 +28,7 @@ const SectionArea1 = () => {
 
             <div>
               <h3>FIND OUT MORE</h3>
-              <p>We'll be happy to answer any questions</p>
+              <p>We’re Here to Support Parents Every Step of the Way</p>
             </div>
           </div>
 

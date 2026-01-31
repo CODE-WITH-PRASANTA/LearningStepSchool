@@ -7,19 +7,19 @@ import mascot from "../../assets/man.webp";
 const AGE_DATA = {
   "1-4": {
     title: "Play. Explore. Learn.",
-    desc: "Building curiosity and motor skills through playful learning."
+    desc: "At Learning Step School, our Early Explorers program (1–4 years) focuses on joyful discovery. Through play-based learning, we nurture curiosity, creativity, and emotional confidence—helping children develop essential motor and social skills for lifelong learning."
   },
   "5-7": {
     title: "Think. Ask. Discover.",
-    desc: "Encouraging questions, creativity, and early problem-solving."
+    desc: "In the Creative Thinkers program (5–7 years), students are encouraged to question, imagine, and express themselves. We combine fun classroom activities with foundational literacy and numeracy to strengthen communication, reasoning, and teamwork skills."
   },
   "8-12": {
     title: "Create. Analyze. Grow.",
-    desc: "Strengthening logic, confidence, and independent thinking."
+    desc: "Our Young Scholars program (8–12 years) helps students build strong academic and analytical foundations. With hands-on projects, digital learning, and skill-based workshops, children learn to think critically, solve problems, and grow with confidence."
   },
   "13-15": {
     title: "Lead. Innovate. Succeed.",
-    desc: "Preparing young minds for real-world challenges."
+    desc: "In the Future Leaders program (13–15 years), students are guided to develop leadership, innovation, and resilience. We prepare them for real-world challenges through mentorship, academic excellence, and holistic development for lifelong success."
   }
 };
 

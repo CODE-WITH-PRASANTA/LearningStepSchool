@@ -3,9 +3,45 @@
     background-color: #fff;
     padding: 4rem 0;
     margin-top: 5rem;
-    /* ✅ creates space between this section and the one above */
     overflow-x: hidden;
 }
+
+.enroll-heading {
+    text-align: center;
+    font-size: 2.4rem;
+    /* slightly larger for better hierarchy */
+    font-weight: 800;
+    color: #0b0b0b;
+    margin-bottom: 3.5rem;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+
+/* Optional subtle underline accent */
+
+.enroll-heading::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    background-color: #293eff;
+    border-radius: 2px;
+    margin: 1rem auto 0;
+}
+
+
+/* =============================== */
+
+
+/* Main Container (Existing) */
+
+
+/* =============================== */
 
 .enroll-container {
     display: flex;
@@ -14,21 +50,34 @@
     gap: 3rem;
     position: relative;
     z-index: 2;
+    flex-wrap: wrap;
+    /* ✅ Ensures wrapping on smaller screens */
 }
+
+
+/* Each Card */
 
 .enroll-card {
     width: 260px;
-    min-height: 320px;
+    height: 340px;
+    /* ✅ Uniform height */
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     padding: 2rem 1rem;
     transition: transform 0.3s ease;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .enroll-card:hover {
     transform: translateY(-6px);
 }
+
+
+/* Icon Styling */
 
 .enroll-icon {
     width: 80px;
@@ -41,11 +90,18 @@
     font-size: 2rem;
 }
 
+
+/* Title */
+
 .enroll-card h2 {
     color: #222;
     font-size: 1.4rem;
     margin-bottom: 0.8rem;
+    font-weight: 700;
 }
+
+
+/* Description */
 
 .enroll-card p {
     color: #555;
@@ -68,4 +124,122 @@
 
 .enroll-arrows path {
     color: inherit;
+}
+
+
+/* =============================== */
+
+
+/* 📱 Responsive Design Enhancements */
+
+
+/* =============================== */
+
+
+/* 💻 Tablet (≤1024px) */
+
+@media (max-width: 1024px) {
+    .enroll-wrapper {
+        padding: 3rem 1rem;
+        margin-top: 4rem;
+    }
+    .enroll-heading {
+        font-size: 2rem;
+        margin-bottom: 2.5rem;
+    }
+    .enroll-container {
+        gap: 2rem;
+    }
+    .enroll-card {
+        width: 220px;
+        min-height: 300px;
+        padding: 1.8rem 1rem;
+    }
+    .enroll-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    .enroll-card h2 {
+        font-size: 1.2rem;
+    }
+    .enroll-card p {
+        font-size: 0.9rem;
+    }
+    .enroll-arrows {
+        display: none;
+        /* hide decorative lines on tablet for clarity */
+    }
+}
+
+
+/* 📱 Mobile (≤768px) */
+
+@media (max-width: 768px) {
+    .enroll-wrapper {
+        padding: 3rem 0.8rem;
+    }
+    .enroll-heading {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+    .enroll-heading::after {
+        width: 70px;
+        height: 3px;
+    }
+    .enroll-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+    .enroll-card {
+        width: 90%;
+        max-width: 380px;
+        min-height: 300px;
+        padding: 2rem 1.5rem;
+    }
+    .enroll-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    .enroll-card h2 {
+        font-size: 1.3rem;
+    }
+    .enroll-card p {
+        font-size: 0.95rem;
+    }
+    .enroll-arrows {
+        display: none;
+        /* hide the curved arrows for simplicity on small screens */
+    }
+}
+
+
+/* 📞 Extra Small (≤480px) */
+
+@media (max-width: 480px) {
+    .enroll-wrapper {
+        margin-top: 3rem;
+        padding: 2rem 0.5rem;
+    }
+    .enroll-heading {
+        font-size: 1.6rem;
+        margin-bottom: 1.8rem;
+    }
+    .enroll-heading::after {
+        width: 60px;
+        height: 3px;
+    }
+    .enroll-card {
+        width: 100%;
+        padding: 1.5rem 1rem;
+    }
+    .enroll-card h2 {
+        font-size: 1.15rem;
+    }
+    .enroll-card p {
+        font-size: 0.9rem;
+    }
 }

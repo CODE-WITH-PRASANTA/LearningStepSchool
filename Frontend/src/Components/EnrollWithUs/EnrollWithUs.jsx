@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet"; // ✅ Added Helmet for SEO
 import "./EnrollWithUs.css";
 import { FaAppleAlt, FaPenAlt, FaDraftingCompass, FaFlask } from "react-icons/fa";
 
@@ -6,36 +7,54 @@ const EnrollWithUs = () => {
   const steps = [
     {
       icon: <FaAppleAlt />,
-      title: "Create User",
-      desc: "Cum sociis natoque penatibus et magnis dis parturient montes.",
+      title: "Enroll With Ease",
+      desc: "Create your learner profile in just a few steps. Gain instant access to our secure student dashboard and begin your personalized learning journey.",
       color: "#e3f2fd",
       iconColor: "#29b6f6",
     },
     {
       icon: <FaPenAlt />,
-      title: "Select Course",
-      desc: "Cum sociis natoque penatibus et magnis dis parturient montes.",
+      title: "Choose Your Learning Path",
+      desc: "Explore a wide range of expert-led programs tailored to your interests. Select the perfect course designed to match your goals and learning style.",
       color: "#fff8e1",
       iconColor: "#ffca28",
     },
     {
       icon: <FaDraftingCompass />,
-      title: "Registration",
-      desc: "Cum sociis natoque penatibus et magnis dis parturient montes.",
+      title: "Register & Start Learning",
+      desc: "Complete your registration and dive into interactive lessons, live sessions, and progress-tracking tools designed for real-world learning success.",
       color: "#f3e5f5",
       iconColor: "#ba68c8",
     },
     {
       icon: <FaFlask />,
-      title: "Track Status",
-      desc: "Cum sociis natoque penatibus et magnis dis parturient montes.",
+      title: "Track Progress & Achieve Success",
+      desc: "Monitor your learning milestones in real-time through analytics dashboards. Earn certifications, stay motivated, and achieve your educational goals.",
       color: "#ffebee",
       iconColor: "#ef5350",
     },
   ];
-
-  return (
+return (
     <div className="enroll-wrapper">
+      {/* ✅ SEO Metadata */}
+      <Helmet>
+        <title>Our Learning Process – Empowering Students Every Step of the Way</title>
+        <meta
+          name="description"
+          content="Discover our structured 4-step learning process designed to help students enroll, learn, and achieve success through personalized, flexible, and measurable education."
+        />
+        <meta
+          name="keywords"
+          content="learning process, online education, student success, personalized learning, flexible courses"
+        />
+      </Helmet>
+
+      {/* ✅ Visible Section Heading */}
+      <h2 className="enroll-heading">
+        Our Learning Process – Empowering Students Every Step of the Way
+      </h2>
+
+      {/* Existing 4-step cards */}
       <div className="enroll-container">
         {steps.map((step, index) => (
           <div
@@ -55,8 +74,13 @@ const EnrollWithUs = () => {
         ))}
       </div>
 
+
       {/* Zig-Zag Dotted Arrows */}
-      <svg className="enroll-arrows" viewBox="0 0 1600 500" preserveAspectRatio="none">
+      <svg
+        className="enroll-arrows"
+        viewBox="0 0 1600 500"
+        preserveAspectRatio="none"
+      >
         {/* 1 -> 2 (Upward Curve) */}
         <path
           d="M 250 280 C 400 150, 500 150, 650 280"

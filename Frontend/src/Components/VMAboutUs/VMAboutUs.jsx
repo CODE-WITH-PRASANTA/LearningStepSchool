@@ -34,9 +34,7 @@ const AboutVideoSection = () => {
       <div className="avs-content">
         <h2>About Us</h2>
         <p>
-          Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-          Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-          Aenean imperdiet. Etiam ultricies nisi vel augue.
+          Learning Step International School is a child-focused early education institution dedicated to nurturing young minds through quality learning, care, and creativity. We provide a safe, supportive environment where children develop strong academic foundations, confidence, and essential life skills through guided learning and play-based experiences.
         </p>
       </div>
 
