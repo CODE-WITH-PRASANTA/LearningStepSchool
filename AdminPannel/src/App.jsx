@@ -11,6 +11,7 @@ import LoginPage from "./Pages/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
 import AdmissionSurvey from "./Pages/AdmissionSurvey";
+import EventManagement from "./Pages/EventManagement";
 
 export default function App() {
   return (
@@ -36,6 +37,8 @@ export default function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="survey" element={<AdmissionSurvey />} />
+          <Route path="events" element={<EventManagement />} />
+
 
         </Route>
 

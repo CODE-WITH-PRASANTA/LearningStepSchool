@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import {
   FiHome,
@@ -13,6 +13,8 @@ import {
   FiCalendar,
   FiChevronDown,
 } from "react-icons/fi";
+
+/* ================= MENU CONFIG ================= */
 
 const menu = [
   { label: "Dashboard", icon: FiHome, path: "/dashboard" },
@@ -58,20 +60,21 @@ const menu = [
 
   { label: "Testimonials", icon: FiStar, path: "/testimonials" },
   { label: "Admission Data", icon: FiUserPlus, path: "/admissions" },
-  {
-    label: "Admission Survey",
-    icon: FiClipboard,
-    path: "/survey",
-  },
-  { label: "Upcoming Events", icon: FiCalendar, path: "/events" },
+
+  /* ✅ ADMISSION SURVEY */
+  { label: "Admission Survey", icon: FiClipboard, path: "/survey" },
+
+  { label: "Event Management", icon: FiCalendar, path: "/events" },
 ];
 
+/* ================= SIDEBAR ================= */
+
 export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
-  const location = useLocation();
   const [openGroup, setOpenGroup] = useState(null);
 
   return (
     <>
+      {/* MOBILE OVERLAY */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
@@ -103,7 +106,9 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               return (
                 <div key={i}>
                   <button
-                    onClick={() => setOpenGroup(isOpen ? null : item.label)}
+                    onClick={() =>
+                      setOpenGroup(isOpen ? null : item.label)
+                    }
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
                     transition soft-card
                     ${
@@ -122,8 +127,9 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           {item.label}
                         </span>
                         <FiChevronDown
-                          className={`transition-transform duration-300
-                          ${isOpen ? "rotate-180" : ""}`}
+                          className={`transition-transform duration-300 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
                         />
                       </>
                     )}
@@ -131,8 +137,9 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
                   {/* CHILD DROPDOWN */}
                   <div
-                    className={`overflow-hidden transition-all duration-300
-                    ${isOpen && sidebarOpen ? "max-h-48" : "max-h-0"}`}
+                    className={`overflow-hidden transition-all duration-300 ${
+                      isOpen && sidebarOpen ? "max-h-48" : "max-h-0"
+                    }`}
                   >
                     {item.children.map((sub, j) => (
                       <NavLink
@@ -141,7 +148,11 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                         className={({ isActive }) =>
                           `block pl-12 pr-3 py-2 text-sm rounded-xl transition
                           bg-gradient-to-r ${sub.color}
-                          ${isActive ? "ring-2 ring-white" : "opacity-90"}`
+                          ${
+                            isActive
+                              ? "ring-2 ring-white"
+                              : "opacity-90"
+                          }`
                         }
                       >
                         {sub.label}
@@ -168,8 +179,11 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 <span className="icon-bubble bg-indigo-200 text-indigo-700">
                   <Icon />
                 </span>
+
                 {sidebarOpen && (
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-sm font-medium">
+                    {item.label}
+                  </span>
                 )}
               </NavLink>
             );
@@ -177,7 +191,7 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         </nav>
       </aside>
 
-      {/* STYLES */}
+      {/* LOCAL STYLES */}
       <style>
         {`
           .soft-card {
