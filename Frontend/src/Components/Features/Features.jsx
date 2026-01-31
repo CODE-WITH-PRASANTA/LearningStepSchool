@@ -5,27 +5,27 @@ import { FaGraduationCap, FaChalkboardTeacher, FaBook, FaMoneyBillWave } from "r
 const features = [
   {
     id: "01",
-    title: "Scholarship Facility",
+    title: "Scholarship Program",
     icon: <FaGraduationCap />,
-    text: "It is a long established fact that a reader will be distracted.",
+    text: "Learning Step School offers merit and need-based scholarships to support deserving students.We believe financial limits should never restrict a child’s access to quality education.",
   },
   {
     id: "02",
-    title: "Skilled Lecturers",
+    title: "Expert & Caring Educators",
     icon: <FaChalkboardTeacher />,
-    text: "It is a long established fact that a reader will be distracted.",
+    text: "Our experienced faculty combines academic excellence with child-focused teaching. Every teacher nurtures curiosity, confidence, and lifelong learning in each student.",
   },
   {
     id: "03",
-    title: "Book Library Facility",
+    title: "Modern Library & Learning Hub",
     icon: <FaBook />,
-    text: "It is a long established fact that a reader will be distracted.",
+    text: "Our well-equipped digital library encourages reading, research, and creative exploration.It’s a space where students discover knowledge beyond textbooks.",
   },
   {
     id: "04",
-    title: "Affordable Price",
+    title: "Affordable & Transparent Fees",
     icon: <FaMoneyBillWave />,
-    text: "It is a long established fact that a reader will be distracted.",
+    text: "We maintain an affordable and transparent fee structure to make education accessible.\nNo hidden charges — just quality learning for every child.",
   },
 ];
 
@@ -55,8 +55,7 @@ export default function Features() {
           Our Awesome <span>Features</span>
         </h2>
         <p className="features-desc">
-          It is a long established fact that a reader will be 
-          distracted by the readable content of a page when looking at its layout.
+         At Learning Step School, we combine modern teaching practices with strong moral foundations.Every feature of our institution is designed to nurture excellence, creativity, and confidence in every learner.
         </p>
       </div>
 

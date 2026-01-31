@@ -33,20 +33,15 @@ export default function HowToApplySection() {
             <FaBookOpen className="apply-icon" /> HOW TO APPLY
           </h6>
           <h2 className="apply-title">
-            Details About <span>How To Apply</span> Eduka.
+            Details About <span>How To Apply</span> Learning Step school.
           </h2>
 
           <p className="apply-desc">
-            There are many variations of passages available but the majority
-            have suffered alteration in some form by injected humour randomised
-            words which don't look even slightly believable. If you are going to
-            use a passage, make sure there isn't anything embarrassing first
-            true generator on the Internet.
-          </p>
+           Choosing the right school is one of the most important decisions for your child’s future.
+At Learning Step School, we believe that education begins with understanding — that’s why our application process is designed to give parents and students time, clarity, and personal support.</p>
           <p className="apply-desc">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium veritatis et quasi architecto beatae vitae dicta sunt
-            explicabo.
+            You can start your admission journey online, submit all documents digitally, and track every update through our admissions portal.
+We encourage parents to visit our campus, meet our counselors, and experience how Learning Step School nurtures curiosity, creativity, and confidence in every learner.
           </p>
 
           <div className="apply-checklist">
@@ -55,21 +50,21 @@ export default function HowToApplySection() {
                 <FaCheckCircle /> Start Online Submission
               </li>
               <li>
-                <FaCheckCircle /> Submit The Form
+                <FaCheckCircle /> Submit the Application Form
               </li>
               <li>
-                <FaCheckCircle /> Review The Submission
+                <FaCheckCircle /> Review and Verification
               </li>
             </ul>
             <ul>
               <li>
-                <FaCheckCircle /> Gather Necessary Documents
+                <FaCheckCircle /> Document Submission
               </li>
               <li>
-                <FaCheckCircle /> Interviewing Process
+                <FaCheckCircle /> Interaction & Evaluation
               </li>
               <li>
-                <FaCheckCircle /> Last Decision
+                <FaCheckCircle /> Final Submission Decision
               </li>
             </ul>
           </div>
