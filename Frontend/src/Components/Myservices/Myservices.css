@@ -1,7 +1,7 @@
 /* MyServices.css - Premium Design (Fixed Icon Float) */
 .Myservices-homepage {
   padding: 50px 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(135deg, #f5f9ff 0%, #fff7ed 100%);
   font-family: "Inter", sans-serif;
   position: relative;
   overflow: hidden;
@@ -40,7 +40,7 @@
 .Myservices-homepage__circle-1 {
   width: 400px;
   height: 400px;
-  background: linear-gradient(135deg, #f59e0b, #f97316);
+  background: linear-gradient(135deg, #2F80ED, #56CCF2);
   top: 10%;
   left: -10%;
   animation-delay: 0s;
@@ -49,7 +49,7 @@
 .Myservices-homepage__circle-2 {
   width: 300px;
   height: 300px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #EB5757, #F2994A);
   bottom: 10%;
   right: -5%;
   animation-delay: 5s;
@@ -58,7 +58,7 @@
 .Myservices-homepage__circle-3 {
   width: 200px;
   height: 200px;
-  background: linear-gradient(135deg, #10b981, #06b6d4);
+  background: linear-gradient(135deg, #F2C94C, #F2994A);
   top: 50%;
   right: 20%;
   animation-delay: 10s;
@@ -97,8 +97,8 @@
 
 .Myservices-homepage__services-tag {
   color: #fff;
-  background: linear-gradient(90deg, #f59e0b, #f97316);
-  font-weight: 600;
+  background: linear-gradient(90deg, #F2994A, #F2C94C);
+  box-shadow: 0 4px 12px rgba(242, 153, 74, 0.35);  font-weight: 600;
   font-size: 14px;
   padding: 8px 20px;
   border-radius: 30px;
@@ -149,7 +149,7 @@
   left: 0;
   width: 100%;
   height: 8px;
-  background: linear-gradient(90deg, rgba(245, 158, 11, 0.3), transparent);
+  background: linear-gradient(90deg, rgba(242, 201, 76, 0.4), transparent);
   z-index: -1;
 }
 
@@ -161,7 +161,7 @@
   margin: 30px 0;
   position: relative;
   padding-left: 20px;
-  border-left: 3px solid #f59e0b;
+  border-left: 3px solid #F2994A;
 }
 
 .Myservices-homepage__benefits-list {
@@ -195,8 +195,8 @@
 
 /* Button Styling */
 .Myservices-homepage__btn-primary {
-  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #2F80ED, #56CCF2);
+  box-shadow: 0 8px 20px rgba(47, 128, 237, 0.35);  color: #fff;
   border: none;
   padding: 18px 36px;
   border-radius: 12px;
@@ -208,12 +208,11 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
 }
 
 .Myservices-homepage__btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 12px 25px rgba(47, 128, 237, 0.45);
 }
 
 .Myservices-homepage__btn-primary.clicked {
@@ -285,7 +284,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #f59e0b, #f97316);
+  background: linear-gradient(135deg, #EB5757, #F2994A);
   display: grid;
   place-items: center;
   color: white;
@@ -300,7 +299,7 @@
   flex-direction: column;
   gap: 4px;
   padding-left: 14px;
-  border-left: 3px solid #49a6a8;
+  border-left: 3px solid #2F80ED;
 }
 
 /* Label */
@@ -316,7 +315,7 @@
 .Myservices-homepage__call-info strong {
   font-size: 20px;
   font-weight: 800;
-  color: #1f2937;
+  color: #2F80ED;
   line-height: 1.2;
   transition: color 0.3s ease;
 }
@@ -407,9 +406,9 @@
   transform: scale(1.1);
 }
 
-.Myservices-homepage__icon-bg.orange { background: #f59e0b; }
-.Myservices-homepage__icon-bg.blue { background: #3b82f6; }
-.Myservices-homepage__icon-bg.green { background: #10b981; }
+.Myservices-homepage__icon-bg.orange { background: #F2994A; }
+.Myservices-homepage__icon-bg.blue { background: #2F80ED; }
+.Myservices-homepage__icon-bg.green { background: #F2C94C; }
 
 .Myservices-homepage__icon {
   width: 72px;
@@ -431,17 +430,17 @@
 }
 
 .Myservices-homepage__icon.orange {
-  background: linear-gradient(135deg, #f59e0b, #f97316);
+  background: linear-gradient(135deg, #F2994A, #F2C94C);
   color: white;
 }
 
 .Myservices-homepage__icon.blue {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #2F80ED, #56CCF2);
   color: white;
 }
 
 .Myservices-homepage__icon.green {
-  background: linear-gradient(135deg, #10b981, #06b6d4);
+  background: linear-gradient(135deg, #F2C94C, #F2994A);
   color: white;
 }
 
@@ -521,16 +520,17 @@
 }
 
 .Myservices-homepage__service-badge:not(.new):not(.trending) {
-  background: linear-gradient(135deg, #f59e0b, #f97316);
+  background: linear-gradient(135deg, #2F80ED, #56CCF2);
 }
 
 .Myservices-homepage__service-badge.new {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #EB5757, #F2994A);
 }
 
 .Myservices-homepage__service-badge.trending {
-  background: linear-gradient(135deg, #10b981, #06b6d4);
+  background: linear-gradient(135deg, #F2C94C, #F2994A);
 }
+
 
 .Myservices-homepage__service-content p {
   margin: 12px 0 20px;
@@ -568,7 +568,7 @@
   left: -12px;
   width: 2px;
   height: 100%;
-  background: linear-gradient(to bottom, transparent, #f59e0b, transparent);
+  background: linear-gradient(to bottom, transparent, #2F80ED, transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -590,7 +590,7 @@
 }
 
 .Myservices-homepage__service-item:hover .Myservices-homepage__stat-value {
-  color: #f59e0b;
+  color: #2F80ED;
 }
 
 .Myservices-homepage__stat-label {
