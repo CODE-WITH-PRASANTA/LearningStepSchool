@@ -59,10 +59,26 @@ const menu = [
   },
 
   { label: "Testimonials", icon: FiStar, path: "/testimonials" },
-  { label: "Admission Data", icon: FiUserPlus, path: "/admissions" },
 
-  /* ✅ ADMISSION SURVEY */
-  { label: "Admission Survey", icon: FiClipboard, path: "/survey" },
+  /* ✅ ADMISSION MANAGEMENT (DROPDOWN) */
+  {
+    label: "Admission Management",
+    icon: FiUserPlus,
+    children: [
+      {
+        label: "Admission Survey",
+        path: "/survey",
+        color:
+          "from-indigo-200 to-violet-200 text-indigo-800 hover:from-indigo-300 hover:to-violet-300",
+      },
+      {
+        label: "Admission Data View",
+        path: "/admissions",
+        color:
+          "from-emerald-200 to-green-200 text-emerald-800 hover:from-emerald-300 hover:to-green-300",
+      },
+    ],
+  },
 
   { label: "Event Management", icon: FiCalendar, path: "/events" },
 ];
@@ -74,7 +90,6 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
   return (
     <>
-      {/* MOBILE OVERLAY */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
@@ -135,7 +150,6 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     )}
                   </button>
 
-                  {/* CHILD DROPDOWN */}
                   <div
                     className={`overflow-hidden transition-all duration-300 ${
                       isOpen && sidebarOpen ? "max-h-48" : "max-h-0"
@@ -148,11 +162,7 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                         className={({ isActive }) =>
                           `block pl-12 pr-3 py-2 text-sm rounded-xl transition
                           bg-gradient-to-r ${sub.color}
-                          ${
-                            isActive
-                              ? "ring-2 ring-white"
-                              : "opacity-90"
-                          }`
+                          ${isActive ? "ring-2 ring-white" : "opacity-90"}`
                         }
                       >
                         {sub.label}
@@ -191,11 +201,10 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         </nav>
       </aside>
 
-      {/* LOCAL STYLES */}
       <style>
         {`
           .soft-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease;
           }
           .soft-card:hover {
             transform: translateY(-1px);
