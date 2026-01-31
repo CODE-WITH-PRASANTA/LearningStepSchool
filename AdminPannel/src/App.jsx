@@ -8,6 +8,8 @@ import Dashboard from "./Pages/Dashbord";
 // import Awards from "./pages/Awards";
 import Fees from "./Pages/FeeManagement";
 import Notices from "./Pages/NoticeManagement";
+import ProfilePage from "./Pages/ProfilePage";
+import SettingsPage from "./Pages/SettingsPage";
 // import Testimonials from "./pages/Testimonials";
 // import Admissions from "./pages/Admissions";
 // import Events from "./pages/Events";
@@ -27,6 +29,8 @@ export default function App() {
         {/* <Route path="/testimonials" element={<Testimonials />} /> */}
         {/* <Route path="/admissions" element={<Admissions />} /> */}
         {/* <Route path="/events" element={<Events />} /> */}
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Route>
     </Routes>
   );
