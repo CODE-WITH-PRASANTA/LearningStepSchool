@@ -58,14 +58,15 @@ const menu = [
 
   { label: "Testimonials", icon: FiStar, path: "/testimonials" },
   { label: "Admission Data", icon: FiUserPlus, path: "/admissions" },
+  {
+    label: "Admission Survey",
+    icon: FiClipboard,
+    path: "/survey",
+  },
   { label: "Upcoming Events", icon: FiCalendar, path: "/events" },
 ];
 
-export default function AppSidebar({
-  sidebarOpen,
-  mobileOpen,
-  setMobileOpen,
-}) {
+export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const location = useLocation();
   const [openGroup, setOpenGroup] = useState(null);
 
@@ -102,9 +103,7 @@ export default function AppSidebar({
               return (
                 <div key={i}>
                   <button
-                    onClick={() =>
-                      setOpenGroup(isOpen ? null : item.label)
-                    }
+                    onClick={() => setOpenGroup(isOpen ? null : item.label)}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
                     transition soft-card
                     ${
@@ -142,11 +141,7 @@ export default function AppSidebar({
                         className={({ isActive }) =>
                           `block pl-12 pr-3 py-2 text-sm rounded-xl transition
                           bg-gradient-to-r ${sub.color}
-                          ${
-                            isActive
-                              ? "ring-2 ring-white"
-                              : "opacity-90"
-                          }`
+                          ${isActive ? "ring-2 ring-white" : "opacity-90"}`
                         }
                       >
                         {sub.label}
