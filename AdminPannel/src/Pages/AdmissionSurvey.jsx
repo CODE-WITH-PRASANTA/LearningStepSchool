@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API from "../api/axios"; // adjust path if needed
 
 export default function AdmissionSurvey() {
   const initialForm = {
@@ -19,27 +20,37 @@ export default function AdmissionSurvey() {
   };
 
   const [form, setForm] = useState(initialForm);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!form.parentName || !form.mobile) {
       alert("Parent Name and Mobile Number are required");
       return;
     }
 
-    // Simulate submit (API ready)
-    console.log("Survey Submitted:", form);
+    try {
+      setLoading(true);
 
-    alert("Survey submitted successfully ✅");
+      const res = await API.post("/survey/submit", form);
 
-    // Reset form
-    setForm(initialForm);
+      if (res.data.success) {
+        alert("Survey submitted successfully ✅");
+        setForm(initialForm);
+      } else {
+        alert(res.data.message || "Submission failed");
+      }
+    } catch (error) {
+      console.error("Submit Error:", error);
+      alert("Server error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,16 +63,13 @@ export default function AdmissionSurvey() {
         <p className="text-sm text-slate-500">School Admission Survey</p>
       </div>
 
-      {/* FORM + PREVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* ================= FORM ================= */}
         <form
           onSubmit={handleSubmit}
           className="bg-gradient-to-br from-sky-50 via-white to-indigo-50
           rounded-2xl shadow-md border border-indigo-100
-          p-6 lg:p-8
-          max-h-[calc(100vh-200px)]
-          overflow-y-auto"
+          p-6 lg:p-8 max-h-[calc(100vh-200px)] overflow-y-auto"
         >
           <h2 className="text-lg font-semibold text-indigo-700 mb-6">
             Parent Details
@@ -109,6 +117,7 @@ export default function AdmissionSurvey() {
             </Field>
           </div>
 
+          {/* ---- CHILD DETAILS ---- */}
           <h2 className="text-lg font-semibold text-indigo-700 mt-8 mb-4">
             Child Details
           </h2>
@@ -167,6 +176,7 @@ export default function AdmissionSurvey() {
             </Field>
           </div>
 
+          {/* ---- SCHOOL PREFERENCES ---- */}
           <h2 className="text-lg font-semibold text-indigo-700 mt-8 mb-4">
             School Preferences
           </h2>
@@ -257,43 +267,19 @@ export default function AdmissionSurvey() {
           </div>
 
           <button
-          type="submit"
-          className="mt-8 w-full rounded-xl py-3 text-white font-semibold
-          bg-gradient-to-r from-indigo-600 to-violet-600
-          hover:scale-[1.01] transition cursor-pointer"
-        >
-          Submit Survey
-        </button>
-
+            type="submit"
+            disabled={loading}
+            className={`mt-8 w-full rounded-xl py-3 text-white font-semibold
+            bg-gradient-to-r from-indigo-600 to-violet-600
+            transition cursor-pointer
+            ${loading ? "opacity-70 cursor-not-allowed" : "hover:scale-[1.01]"}`}
+          >
+            {loading ? "Submitting..." : "Submit Survey"}
+          </button>
         </form>
 
         {/* ================= LIVE PREVIEW ================= */}
-        <div
-          className="bg-gradient-to-br from-emerald-50 to-sky-50
-          rounded-2xl shadow-md border border-emerald-200 p-6 lg:p-8"
-        >
-          <h2 className="text-lg font-semibold text-emerald-700 mb-4">
-            Live Preview
-          </h2>
-
-          <div className="bg-white rounded-xl p-6 space-y-2 text-sm">
-            <Preview label="Parent" value={form.parentName} />
-            <Preview label="Mobile" value={form.mobile} />
-            <Preview label="Village" value={form.village} />
-            <Preview label="Children" value={form.children} />
-            <Preview
-              label="Age / Class"
-              value={`${form.age} / ${form.className}`}
-            />
-            <Preview label="Medium" value={form.medium} />
-            <Preview label="School" value={form.currentSchool} />
-            <Preview label="Fee Range" value={form.feeRange} />
-            <Preview label="Transport" value={form.transport} />
-            <Preview label="Distance" value={form.distance} />
-            <Preview label="Interest" value={form.interest} />
-            <Preview label="Concern" value={form.concern} />
-          </div>
-        </div>
+        <LivePreview form={form} />
       </div>
 
       {/* INPUT STYLE */}
@@ -315,7 +301,7 @@ export default function AdmissionSurvey() {
   );
 }
 
-/* ---------- SMALL COMPONENTS ---------- */
+/* ---------- COMPONENTS ---------- */
 function Field({ label, children }) {
   return (
     <div>
@@ -327,12 +313,24 @@ function Field({ label, children }) {
   );
 }
 
-function Preview({ label, value }) {
-  if (!value) return null;
+function LivePreview({ form }) {
   return (
-    <p>
-      <span className="font-semibold text-slate-600">{label}:</span>{" "}
-      <span className="text-slate-700">{value}</span>
-    </p>
+    <div className="bg-gradient-to-br from-emerald-50 to-sky-50 rounded-2xl shadow-md border border-emerald-200 p-6 lg:p-8">
+      <h2 className="text-lg font-semibold text-emerald-700 mb-4">
+        Live Preview
+      </h2>
+
+      <div className="bg-white rounded-xl p-6 space-y-2 text-sm">
+        {Object.entries(form).map(
+          ([key, value]) =>
+            value && (
+              <p key={key}>
+                <span className="font-semibold text-slate-600">{key}:</span>{" "}
+                <span className="text-slate-700">{value}</span>
+              </p>
+            )
+        )}
+      </div>
+    </div>
   );
 }
