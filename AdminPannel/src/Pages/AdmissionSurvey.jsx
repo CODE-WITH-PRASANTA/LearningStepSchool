@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function AdmissionSurvey() {
-  const [form, setForm] = useState({
+  const initialForm = {
     parentName: "",
     mobile: "",
     whatsapp: "Yes",
@@ -16,36 +16,53 @@ export default function AdmissionSurvey() {
     distance: "",
     interest: "",
     concern: "",
-  });
+  };
+
+  const [form, setForm] = useState(initialForm);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (!form.parentName || !form.mobile) {
+      alert("Parent Name and Mobile Number are required");
+      return;
+    }
+
+    // Simulate submit (API ready)
+    console.log("Survey Submitted:", form);
+
+    alert("Survey submitted successfully ✅");
+
+    // Reset form
+    setForm(initialForm);
+  };
+
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 p-4">
       {/* HEADER */}
       <div className="text-center">
         <h1 className="text-2xl font-bold text-indigo-700">
           LEARNING STEP INTERNATIONAL SCHOOL
         </h1>
-        <p className="text-sm text-slate-500">
-          School Admission Survey
-        </p>
+        <p className="text-sm text-slate-500">School Admission Survey</p>
       </div>
 
-      {/* ================= LEFT + RIGHT ================= */}
+      {/* FORM + PREVIEW */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* ================= FORM ================= */}
-          <div
-            className="bg-gradient-to-br from-sky-50 via-white to-indigo-50
-            rounded-2xl shadow-md border border-indigo-100
-            p-6 lg:p-8
-            max-h-[calc(100vh-200px)]
-            overflow-y-auto
-            scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-transparent"
-          >
-
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gradient-to-br from-sky-50 via-white to-indigo-50
+          rounded-2xl shadow-md border border-indigo-100
+          p-6 lg:p-8
+          max-h-[calc(100vh-200px)]
+          overflow-y-auto"
+        >
           <h2 className="text-lg font-semibold text-indigo-700 mb-6">
             Parent Details
           </h2>
@@ -65,6 +82,7 @@ export default function AdmissionSurvey() {
                 name="mobile"
                 value={form.mobile}
                 onChange={handleChange}
+                maxLength={10}
                 className="input"
               />
             </Field>
@@ -239,12 +257,15 @@ export default function AdmissionSurvey() {
           </div>
 
           <button
-            className="mt-8 w-full rounded-xl py-3 text-white font-semibold
-            bg-gradient-to-r from-indigo-600 to-violet-600"
-          >
-            Submit Survey
-          </button>
-        </div>
+          type="submit"
+          className="mt-8 w-full rounded-xl py-3 text-white font-semibold
+          bg-gradient-to-r from-indigo-600 to-violet-600
+          hover:scale-[1.01] transition cursor-pointer"
+        >
+          Submit Survey
+        </button>
+
+        </form>
 
         {/* ================= LIVE PREVIEW ================= */}
         <div
@@ -260,7 +281,10 @@ export default function AdmissionSurvey() {
             <Preview label="Mobile" value={form.mobile} />
             <Preview label="Village" value={form.village} />
             <Preview label="Children" value={form.children} />
-            <Preview label="Age / Class" value={`${form.age} / ${form.className}`} />
+            <Preview
+              label="Age / Class"
+              value={`${form.age} / ${form.className}`}
+            />
             <Preview label="Medium" value={form.medium} />
             <Preview label="School" value={form.currentSchool} />
             <Preview label="Fee Range" value={form.feeRange} />
@@ -272,18 +296,21 @@ export default function AdmissionSurvey() {
         </div>
       </div>
 
-      {/* STYLES */}
-      <style>
-        {`
-          .input {
-            width: 100%;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 0.6rem 0.9rem;
-            font-size: 14px;
-          }
-        `}
-      </style>
+      {/* INPUT STYLE */}
+      <style>{`
+        .input {
+          width: 100%;
+          border: 1px solid #e2e8f0;
+          border-radius: 0.75rem;
+          padding: 0.6rem 0.9rem;
+          font-size: 14px;
+        }
+        .input:focus {
+          outline: none;
+          border-color: #6366f1;
+          box-shadow: 0 0 0 1px #6366f1;
+        }
+      `}</style>
     </div>
   );
 }
