@@ -23,32 +23,42 @@ const AdmissionSurveyView = () => {
   ];
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+    <div className="p-6 bg-gradient-to-br from-indigo-50 to-blue-50 min-h-screen">
+      {/* Header */}
+      <h2 className="text-3xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-600">
         LEARNING STEP INTERNATIONAL SCHOOL – Admission Survey
       </h2>
 
       {/* Scroll Wrapper */}
-      <div className="overflow-x-auto bg-white rounded-lg shadow">
-        <table className="min-w-[1800px] w-full border-collapse">
-          <thead className="bg-indigo-600 text-white">
+      <div className="relative overflow-x-auto rounded-xl shadow-lg bg-white">
+        <table className="min-w-[1900px] w-full border-collapse">
+          <thead className="sticky top-0 z-10 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
             <tr>
-              <th className="table-th">SL No</th>
-              <th className="table-th">Application No</th>
-              <th className="table-th">Parent Name</th>
-              <th className="table-th">Mobile No</th>
-              <th className="table-th">WhatsApp</th>
-              <th className="table-th">Village</th>
-              <th className="table-th">No. of Children</th>
-              <th className="table-th">Age</th>
-              <th className="table-th">Class</th>
-              <th className="table-th">Medium</th>
-              <th className="table-th">Current School</th>
-              <th className="table-th">Annual Fee</th>
-              <th className="table-th">Transport</th>
-              <th className="table-th">Distance</th>
-              <th className="table-th">Admission Interest</th>
-              <th className="table-th">Main Concern</th>
+              {[
+                "SL No",
+                "Application No",
+                "Parent Name",
+                "Mobile No",
+                "WhatsApp",
+                "Village",
+                "Children",
+                "Age",
+                "Class",
+                "Medium",
+                "Current School",
+                "Annual Fee",
+                "Transport",
+                "Distance",
+                "Interest",
+                "Concern",
+              ].map((head, i) => (
+                <th
+                  key={i}
+                  className="px-4 py-3 text-sm font-semibold text-left whitespace-nowrap"
+                >
+                  {head}
+                </th>
+              ))}
             </tr>
           </thead>
 
@@ -56,31 +66,78 @@ const AdmissionSurveyView = () => {
             {surveyData.map((item, index) => (
               <tr
                 key={item.id}
-                className="odd:bg-gray-50 hover:bg-indigo-50 transition"
+                className="odd:bg-gray-50 even:bg-white hover:bg-indigo-50 transition-all"
               >
                 <td className="table-td">{index + 1}</td>
-                <td className="table-td">{item.appNo}</td>
+                <td className="table-td font-medium text-indigo-600">
+                  {item.appNo}
+                </td>
                 <td className="table-td">{item.parentName}</td>
                 <td className="table-td">{item.mobile}</td>
-                <td className="table-td">{item.whatsapp}</td>
+
+                {/* WhatsApp Badge */}
+                <td className="table-td">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      item.whatsapp === "Yes"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {item.whatsapp}
+                  </span>
+                </td>
+
                 <td className="table-td">{item.village}</td>
                 <td className="table-td text-center">{item.children}</td>
                 <td className="table-td text-center">{item.age}</td>
-                <td className="table-td">{item.className}</td>
+
+                <td className="table-td font-semibold text-purple-600">
+                  {item.className}
+                </td>
+
                 <td className="table-td">{item.medium}</td>
                 <td className="table-td">{item.currentSchool}</td>
-                <td className="table-td">{item.fee}</td>
-                <td className="table-td">{item.transport}</td>
-                <td className="table-td">{item.distance}</td>
-                <td className="table-td font-semibold text-indigo-600">
-                  {item.interest}
+                <td className="table-td font-medium text-emerald-600">
+                  {item.fee}
                 </td>
-                <td className="table-td">{item.concern}</td>
+
+                {/* Transport Badge */}
+                <td className="table-td">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      item.transport === "Yes"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {item.transport}
+                  </span>
+                </td>
+
+                <td className="table-td">{item.distance}</td>
+
+                {/* Interest */}
+                <td className="table-td">
+                  <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-xs">
+                    {item.interest}
+                  </span>
+                </td>
+
+                {/* Concern */}
+                <td className="table-td text-rose-600 font-medium">
+                  {item.concern}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Scroll Hint */}
+      <p className="text-sm text-gray-500 mt-3 text-right">
+        ⟶ Scroll right to view more details
+      </p>
     </div>
   );
 };
