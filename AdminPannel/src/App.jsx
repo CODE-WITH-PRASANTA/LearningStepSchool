@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./layout/AppLayout/AppLayout";
 
 // Pages
-import Dashboard from "./Pages/Dashbord";
+
 import Fees from "./Pages/FeeManagement";
 import Notices from "./Pages/NoticeManagement";
 import ProfilePage from "./Pages/ProfilePage";
@@ -20,6 +20,9 @@ import TestimonialPage from "./Component/Testimonial/TestimonialPage";
 // Auth
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
+import TeacherAdminPage from "./Component/Adminteachers/TeacherAdminPage";
+import AwardAdminPage from "./Component/Adminawards/AwardAdminPage";
+import Dashboard from "./Component/Admindashboard/Dashboard";
 
 export default function App() {
   return (
@@ -56,6 +59,9 @@ export default function App() {
           <Route path="survey" element={<AdmissionSurvey />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="survey/view" element={<AdmissionSurvey />} />
+          <Route path="/teachers" element={<TeacherAdminPage />}/>
+          <Route path="/awards" element={<AwardAdminPage />} />
+          
 
         </Route>
 

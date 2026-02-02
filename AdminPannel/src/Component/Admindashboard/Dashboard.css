@@ -1,0 +1,132 @@
+.dashboard-container {
+  padding: 25px;
+  max-width: 1500px;
+  margin: auto;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.dashboard-primary-btn {
+  background: #2b50ed;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 20px;
+  margin: 25px 0;
+}
+
+.stats-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.stats-icon {
+  font-size: 40px;
+  color: #2b50ed;
+}
+
+.positive-text { color: green; }
+.negative-text { color: red; }
+
+.dashboard-middle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+.dashboard-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.dashboard-tools {
+  display: flex;
+  gap: 12px;
+}
+
+.dashboard-dropdown button {
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: white;
+}
+
+.dashboard-dropdown-menu {
+  position: absolute;
+  background: white;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+.dashboard-dropdown-menu div {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.three-dot-menu {
+  position: relative;
+  cursor: pointer;
+}
+
+.three-dot-dropdown {
+  position: absolute;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+.three-dot-dropdown div {
+  padding: 8px 14px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 8px;
+}
+
+.calendar-day {
+  padding: 12px;
+  text-align: center;
+  border-radius: 8px;
+  background: #f5f6fa;
+}
+
+.calendar-controls svg {
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .dashboard-middle-grid {
+    grid-template-columns: 1fr;
+  }
+}
