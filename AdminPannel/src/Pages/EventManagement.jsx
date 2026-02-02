@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function AdminEvents() {
+export default function EventManagement() {
   const [events, setEvents] = useState([]);
 
   const [form, setForm] = useState({

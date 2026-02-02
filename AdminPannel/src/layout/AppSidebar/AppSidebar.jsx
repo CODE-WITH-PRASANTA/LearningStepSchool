@@ -23,8 +23,8 @@ const menu = [
     label: "Blog Management",
     icon: FiBookOpen,
     children: [
-      { label: "Blog Posts", path: "/blogs" },
-      { label: "Blog View", path: "/blogs/view" },
+      { label: "Blog Posts", path: "/blogs", color: "from-indigo-200 to-violet-200 text-indigo-800" },
+      { label: "Blog View", path: "/blogs/view", color: "from-sky-200 to-blue-200 text-sky-800" },
     ],
   },
 
@@ -40,37 +40,46 @@ const menu = [
       {
         label: "Pre-Primary",
         path: "/learning/pre",
-        color:
-          "from-rose-200 to-pink-200 text-rose-800 hover:from-rose-300 hover:to-pink-300",
+        color: "from-rose-200 to-pink-200 text-rose-800",
       },
       {
         label: "Primary",
         path: "/learning/primary",
-        color:
-          "from-sky-200 to-blue-200 text-sky-800 hover:from-sky-300 hover:to-blue-300",
+        color: "from-sky-200 to-blue-200 text-sky-800",
       },
       {
         label: "Secondary",
         path: "/learning/secondary",
-        color:
-          "from-emerald-200 to-green-200 text-emerald-800 hover:from-emerald-300 hover:to-green-300",
+        color: "from-emerald-200 to-green-200 text-emerald-800",
       },
     ],
   },
 
   { label: "Testimonials", icon: FiStar, path: "/testimonials" },
-  { label: "Admission Data", icon: FiUserPlus, path: "/admissions" },
+
+  {
+    label: "Admission Management",
+    icon: FiUserPlus,
+    children: [
+      {
+        label: "Admission Survey",
+        path: "/survey",
+        color: "from-indigo-200 to-violet-200 text-indigo-800",
+      },
+      {
+        label: "Admission Data View",
+        path: "/survey/data",
+        color: "from-emerald-200 to-green-200 text-emerald-800",
+      },
+    ],
+  },
 
   { label: "Event Management", icon: FiCalendar, path: "/events" },
 ];
 
 /* ================= SIDEBAR ================= */
 
-export default function AppSidebar({
-  sidebarOpen,
-  mobileOpen,
-  setMobileOpen,
-}) {
+export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const [openGroup, setOpenGroup] = useState(null);
 
   return (
@@ -92,29 +101,27 @@ export default function AppSidebar({
         ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* LOGO */}
-        <div className="h-16 flex items-center justify-center border-b border-indigo-100 font-bold text-indigo-700">
+        <div className="h-16 flex items-center justify-center border-b border-indigo-100 font-bold text-indigo-700 tracking-wide">
           {sidebarOpen ? "School Admin" : "SA"}
         </div>
 
         {/* MENU */}
-        <nav className="flex-1 overflow-y-auto p-3 space-y-1">
+         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-3">
           {menu.map((item, i) => {
             const Icon = item.icon;
+            const isOpen = openGroup === item.label;
 
+            /* ---------- DROPDOWN ---------- */
             if (item.children) {
-              const isOpen = openGroup === item.label;
-
               return (
                 <div key={i}>
                   <button
-                    onClick={() =>
-                      setOpenGroup(isOpen ? null : item.label)
-                    }
+                    onClick={() => setOpenGroup(isOpen ? null : item.label)}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
-                    transition soft-card
+                    transition-all duration-200 soft-card
                     ${
                       isOpen
-                        ? "bg-indigo-100 text-indigo-700"
+                        ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-700 shadow-sm"
                         : "text-slate-700 hover:bg-sky-100"
                     }`}
                   >
@@ -124,7 +131,7 @@ export default function AppSidebar({
 
                     {sidebarOpen && (
                       <>
-                        <span className="text-sm flex-1 text-left font-medium">
+                        <span className="text-sm font-medium flex-1 text-left">
                           {item.label}
                         </span>
                         <FiChevronDown
@@ -136,10 +143,14 @@ export default function AppSidebar({
                     )}
                   </button>
 
-                  {/* CHILD DROPDOWN */}
+                  {/* SUB MENU */}
                   <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      isOpen && sidebarOpen ? "max-h-48" : "max-h-0"
+                    className={`ml-4 mt-2 space-y-1 overflow-hidden
+                    transition-all duration-300 ease-in-out
+                    ${
+                      isOpen && sidebarOpen
+                        ? "max-h-96 opacity-100 translate-y-0"
+                        : "max-h-0 opacity-0 -translate-y-1"
                     }`}
                   >
                     {item.children.map((sub, j) => (
@@ -147,15 +158,12 @@ export default function AppSidebar({
                         key={j}
                         to={sub.path}
                         className={({ isActive }) =>
-                          `block pl-12 pr-3 py-2 text-sm rounded-xl transition
-                          bg-gradient-to-r ${
-                            sub.color ||
-                            "from-indigo-100 to-violet-100 text-indigo-700 hover:from-indigo-200 hover:to-violet-200"
-                          }
+                          `block px-4 py-2 text-sm rounded-xl transition-all duration-200
+                          bg-gradient-to-r ${sub.color}
                           ${
                             isActive
-                              ? "ring-2 ring-white"
-                              : "opacity-90"
+                              ? "ring-2 ring-white shadow-md scale-[1.02]"
+                              : "opacity-90 hover:opacity-100 hover:scale-[1.02]"
                           }`
                         }
                       >
@@ -167,15 +175,16 @@ export default function AppSidebar({
               );
             }
 
+            /* ---------- NORMAL LINK ---------- */
             return (
               <NavLink
                 key={i}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-xl transition soft-card
+                  `flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200 soft-card
                   ${
                     isActive
-                      ? "bg-gradient-to-r from-indigo-200 to-violet-200 text-indigo-800 font-semibold"
+                      ? "bg-gradient-to-r from-indigo-200 to-violet-200 text-indigo-800 font-semibold shadow-sm"
                       : "text-slate-700 hover:bg-sky-100"
                   }`
                 }
@@ -185,9 +194,7 @@ export default function AppSidebar({
                 </span>
 
                 {sidebarOpen && (
-                  <span className="text-sm font-medium">
-                    {item.label}
-                  </span>
+                  <span className="text-sm font-medium">{item.label}</span>
                 )}
               </NavLink>
             );
@@ -195,23 +202,39 @@ export default function AppSidebar({
         </nav>
       </aside>
 
-      {/* LOCAL STYLES */}
+      {/* EXTRA POLISH */}
       <style>
         {`
           .soft-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
           }
           .soft-card:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.06);
           }
+
           .icon-bubble {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
+            transition: transform 0.3s ease;
+          }
+
+          nav a:hover .icon-bubble,
+          nav button:hover .icon-bubble {
+            transform: scale(1.08);
+          }
+
+          nav::-webkit-scrollbar {
+            width: 6px;
+          }
+          nav::-webkit-scrollbar-thumb {
+            background: #c7d2fe;
+            border-radius: 10px;
           }
         `}
       </style>
