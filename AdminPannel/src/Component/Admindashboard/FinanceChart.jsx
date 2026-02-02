@@ -4,6 +4,7 @@ import "chart.js/auto";
 
 import DashboardDropdown from "./DashboardDropdown";
 import ThreeDotMenu from "./ThreeDotMenu";
+import CircleProgress from "./CircleProgress";   // 👈 ADD
 
 const FinanceChart = () => {
 
@@ -33,6 +34,7 @@ const FinanceChart = () => {
   return (
     <div className="dashboard-card">
 
+      {/* HEADER */}
       <div className="dashboard-card-header">
         <h3>School Finance</h3>
 
@@ -42,6 +44,31 @@ const FinanceChart = () => {
         </div>
       </div>
 
+      {/* ===== FINANCE CIRCLE SUMMARY ===== */}
+
+      <div className="finance-circle-row">
+
+        <div className="finance-circle-box">
+          <CircleProgress percent={75} color="#2b50ed" size={70} />
+
+          <div>
+            <h2>$23,445</h2>
+            <p>total Income</p>
+          </div>
+        </div>
+
+        <div className="finance-circle-box">
+          <CircleProgress percent={25} color="#ff4d4f" size={70} />
+
+          <div>
+            <h2>$1,564</h2>
+            <p>total Expense</p>
+          </div>
+        </div>
+
+      </div>
+
+      {/* ===== BAR CHART ===== */}
       <Bar data={data} options={options} />
 
     </div>

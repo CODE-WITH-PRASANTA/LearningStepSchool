@@ -1,24 +1,84 @@
+html, body {
+  height: auto;
+  overflow-y: auto;
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+
 .dashboard-container {
   padding: 25px;
   max-width: 1500px;
   margin: auto;
+  background:#f7f7f7;
 }
+
+/* ================= HEADER ================= */
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap:20px;
+}
+
+.dashboard-header-actions{
+  display:flex;
+  gap:16px;
+  align-items:center;
+}
+
+.period-btn{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 20px;
+  background:white;
+  border-radius:40px;
+  border:none;
+  box-shadow:0 6px 15px rgba(0,0,0,.08);
+  cursor:pointer;
+}
+
+.period-icon{
+  font-size:20px;
+  color:#2b50ed;
+}
+
+.period-text{
+  display:flex;
+  flex-direction:column;
+  text-align:left;
+}
+
+.period-text span{
+  font-weight:600;
+}
+
+.period-text small{
+  color:#777;
+  font-size:12px;
 }
 
 .dashboard-primary-btn {
   background: #2b50ed;
   color: white;
   border: none;
-  padding: 12px 22px;
+  padding: 14px 26px;
   border-radius: 30px;
   font-weight: 600;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(43,80,237,.35);
 }
+
+/* ================= STATS ================= */
 
 .dashboard-stats-grid {
   display: grid;
@@ -43,6 +103,8 @@
 
 .positive-text { color: green; }
 .negative-text { color: red; }
+
+/* ================= MIDDLE GRID ================= */
 
 .dashboard-middle-grid {
   display: grid;
@@ -69,24 +131,41 @@
   gap: 12px;
 }
 
+/* ================= DROPDOWN ================= */
+
+.dashboard-dropdown{
+  position:relative;
+}
+
 .dashboard-dropdown button {
   border: 1px solid #ddd;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   background: white;
+  cursor:pointer;
 }
 
 .dashboard-dropdown-menu {
   position: absolute;
+  top:40px;
+  right:0;
   background: white;
   box-shadow: 0 5px 12px rgba(0,0,0,0.1);
   border-radius: 10px;
+  overflow:hidden;
 }
 
 .dashboard-dropdown-menu div {
   padding: 8px 14px;
   cursor: pointer;
 }
+
+.dashboard-dropdown-menu div:hover{
+  background:#f0f4ff;
+  color:#2b50ed;
+}
+
+/* ================= THREE DOT ================= */
 
 .three-dot-menu {
   position: relative;
@@ -95,15 +174,25 @@
 
 .three-dot-dropdown {
   position: absolute;
-  right: 0;
+  top:30px;
+  right:0;
   background: white;
   border-radius: 10px;
   box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+  overflow:hidden;
 }
 
 .three-dot-dropdown div {
   padding: 8px 14px;
+  cursor:pointer;
 }
+
+.three-dot-dropdown div:hover{
+  background:#f0f4ff;
+  color:#2b50ed;
+}
+
+/* ================= CALENDAR ================= */
 
 .calendar-grid {
   display: grid;
@@ -114,19 +203,419 @@
 .calendar-day {
   padding: 12px;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 50%;
   background: #f5f6fa;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.calendar-day:hover{
+  background:#e6edff;
+  color:#2b50ed;
+  font-weight:600;
+}
+
+.calendar-controls{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .calendar-controls svg {
   cursor: pointer;
-  margin-left: 6px;
+  transition:.3s;
+}
+
+.calendar-controls svg:hover{
+  color:#2b50ed;
+}
+
+/* ===== PROGRESS CARDS ===== */
+
+.progress-card{
+  align-items:center;
+  gap:25px;
+}
+
+.progress-card h2{
+  margin:0;
+  font-size:32px;
+}
+
+.progress-card p{
+  margin:4px 0 0;
+  font-weight:600;
+}
+body {
+  overflow: hidden;
+}
+
+/* ===== FINANCE CIRCLE SUMMARY ===== */
+
+.finance-circle-row{
+  display:flex;
+  gap:40px;
+  margin:20px 0 10px;
+  align-items:center;
+}
+
+.finance-circle-box{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.finance-circle-box h2{
+  margin:0;
+  font-size:22px;
+}
+
+.finance-circle-box p{
+  margin:0;
+  color:#777;
+  font-size:14px;
+}
+.three-dot{
+  font-size:22px;
+  cursor:pointer;
+}
+
+canvas{
+  margin-top:10px;
+}
+/* ===== WAVE CHART FULL ROW ===== */
+
+.dashboard-wave-row{
+  margin-top:20px;
+}
+
+.dashboard-wave-row .dashboard-card{
+  width:100%;
+}
+/* ===== SCHOOL PERFORMANCE 3 DOT DROPDOWN ===== */
+
+.fancy-dropdown{
+  margin-top:8px;
+  padding:8px 0;
+  min-width:140px;
+  background:white;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.12);
+  animation: dropdownFade .2s ease;
+}
+
+.fancy-dropdown div{
+  padding:10px 18px;
+  cursor:pointer;
+  font-size:14px;
+  color:#444;
+}
+
+.fancy-dropdown div:hover{
+  background:#f0f4ff;
+  color:#2b50ed;
+}
+
+/* small smooth popup effect */
+@keyframes dropdownFade{
+  from{
+    opacity:0;
+    transform:translateY(-5px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ===== UNPAID STUDENTS ===== */
+
+.unpaid-card{
+  margin-top:20px;
+}
+
+.unpaid-list{
+  margin-top:10px;
+}
+
+.unpaid-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 0;
+  border-bottom:1px solid #eee;
+}
+
+.unpaid-row:last-child{
+  border-bottom:none;
+}
+
+/* STUDENT INFO */
+
+.student-info{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  min-width:240px;
+}
+
+.student-info img{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.student-info h4{
+  margin:0;
+}
+
+.student-info span{
+  font-size:13px;
+  color:#777;
+}
+
+/* CLASS */
+
+.student-class{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#2b50ed;
+}
+
+.student-class strong{
+  font-size:18px;
+}
+
+.student-class span{
+  display:block;
+  font-size:13px;
+  color:#777;
+}
+
+.tick-icon{
+  font-size:22px;
+}
+
+/* AMOUNT */
+
+.student-amount{
+  font-size:20px;
+  font-weight:600;
+  color:#1b2a57;
 }
 
 /* RESPONSIVE */
 
+@media(max-width:900px){
+  .unpaid-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+}
+
+/* FULL WIDTH SECTIONS */
+
+.dashboard-wave-row{
+  margin-top:20px;
+}
+
+.dashboard-wave-row .dashboard-card{
+  width:100%;
+}
+
+/* FANCY 3 DOT DROPDOWN */
+
+.fancy-dropdown{
+  margin-top:8px;
+  padding:8px 0;
+  min-width:140px;
+  background:white;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.12);
+  animation: dropdownFade .2s ease;
+}
+
+.fancy-dropdown div{
+  padding:10px 18px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.fancy-dropdown div:hover{
+  background:#f0f4ff;
+  color:#2b50ed;
+}
+
+@keyframes dropdownFade{
+  from{opacity:0; transform:translateY(-5px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.three-dot-menu{
+  position: relative;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.three-dot-dropdown{
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  overflow: hidden;
+  min-width: 140px;
+}
+
+.three-dot-dropdown div{
+  padding:10px 18px;
+  cursor:pointer;
+}
+
+.three-dot-dropdown div:hover{
+  background:#f0f4ff;
+  color:#2b50ed;
+}
+
+/* ================= FOOD + STUDENTS GRID ================= */
+
+.food-student-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:20px;
+}
+
+/* -------- FOOD CARD -------- */
+
+.food-card p{
+  color:#777;
+}
+
+.food-scroll{
+  margin-top:10px;
+  max-height:520px;
+  overflow-y:auto;
+  padding-right:6px;
+}
+
+.food-item{
+  margin-bottom:20px;
+}
+
+.food-item img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-radius:14px;
+}
+
+.food-item h4{
+  margin:12px 0 6px;
+}
+
+.food-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.food-type{
+  color:#2b50ed;
+  font-weight:600;
+}
+
+.food-stats{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#2b50ed;
+}
+
+/* scrollbar style */
+
+.food-scroll::-webkit-scrollbar{
+  width:6px;
+}
+
+.food-scroll::-webkit-scrollbar-thumb{
+  background:#d0d7ff;
+  border-radius:10px;
+}
+
+/* -------- RECENT STUDENTS -------- */
+
+.students-list{
+  margin-top:10px;
+}
+
+.student-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 0;
+}
+
+.student-row img{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.student-row h4{
+  margin:0;
+}
+
+.student-row span{
+  font-size:13px;
+  color:#777;
+}
+
+/* VIEW MORE */
+
+.view-more-btn{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#2b50ed;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+  .food-student-grid{
+    grid-template-columns:1fr;
+  }
+
+  .food-scroll{
+    max-height:400px;
+  }
+}
+
+
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 900px) {
   .dashboard-middle-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .dashboard-header-actions{
+    flex-wrap:wrap;
   }
 }
