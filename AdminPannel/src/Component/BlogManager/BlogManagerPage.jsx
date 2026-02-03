@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BlogForm from "./BlogForm";
 import BlogTable from "./BlogTable";
-import "./blogManager.css";
+import "./BlogManager.css";
 
 const BlogManagerPage = () => {
 

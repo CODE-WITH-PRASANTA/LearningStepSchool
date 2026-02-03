@@ -20,9 +20,7 @@ import TestimonialPage from "./Component/Testimonial/TestimonialPage";
 // Auth
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
-import TeacherAdminPage from "./Component/Adminteachers/TeacherAdminPage";
-import AwardAdminPage from "./Component/Adminawards/AwardAdminPage";
-import Dashboard from "./Component/Admindashboard/Dashboard";
+import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurveyView";
 
 export default function App() {
   return (
@@ -44,24 +42,22 @@ export default function App() {
 
           <Route index element={<Navigate to="dashboard" replace />} />
 
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="fees" element={<Fees />} />
-          <Route path="notices" element={<Notices />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/fees" element={<Fees />} />
+          <Route path="/notices" element={<Notices />} />
 
-          <Route path="blogs" element={<BlogManagerPage />} />
-          <Route path="blogs/view" element={<BlogView />} />
+          <Route path="/blogs" element={<BlogManagerPage />} />
+          <Route path="/blogs/view" element={<BlogView />} />
 
-          <Route path="testimonials" element={<TestimonialPage />} />
+          <Route path="/testimonials" element={<TestimonialPage />} />
 
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
 
-          <Route path="survey" element={<AdmissionSurvey />} />
-          <Route path="events" element={<EventManagement />} />
-          <Route path="survey/view" element={<AdmissionSurvey />} />
-          <Route path="/teachers" element={<TeacherAdminPage />}/>
-          <Route path="/awards" element={<AwardAdminPage />} />
-          
+          <Route path="/survey" element={<AdmissionSurvey />} />
+          <Route path="/events" element={<EventManagement />} />
+          <Route path="/survey/view" element={<AdmissionSurvey />} />
+          <Route path="/survey/data" element={<AdmissionSurveyView />} />
 
         </Route>
 
