@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "chartjs-plugin-dragdata": "^2.3.1"
+  }
+}
