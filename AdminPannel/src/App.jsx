@@ -26,6 +26,7 @@ import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
+import AdminPostsPage from "./Pages/AdvirtisementPage/AdvirtisementPage";
 
 export default function App() {
   return (
@@ -71,6 +72,7 @@ export default function App() {
           <Route path="events" element={<EventManagement />} />
           <Route path="/awards" element={<AwardAdminPage />} />
           <Route path="/teachers" element={<TeacherAdminPage />} />
+          <Route path="/advertisements" element={<AdminPostsPage />} />
 
         </Route>
 
