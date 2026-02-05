@@ -7,6 +7,7 @@ import PrimeryFullDayLearning from '../../Components/PrimeryFullDayLerning/Prime
 import PrimeryMoreInformation from '../../Components/PrimeryMoreInformation/PrimeryMoreInformation'
 import PrimeryJoinNewSession from '../../Components/PrimeryJoinNewSession/PrimeryJoinNewSession'
 import PrimeryMoreProgram from '../../Components/PrimeryMoreProgram/PrimeryMoreProgram'
+import ContactForm from '../../Components/ContactForm/ContactForm'
 
 const Primery = () => {
   return (
@@ -19,6 +20,7 @@ const Primery = () => {
      <PrimeryMoreInformation/>
      <PrimeryJoinNewSession/>
      <PrimeryMoreProgram/>
+     <ContactForm />
     </>
   )
 }
