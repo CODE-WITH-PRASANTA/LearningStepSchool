@@ -6,6 +6,8 @@ import Aboutuscounter from '../../Components/Aboutuscounter/Aboutuscounter'
 import Aboutteachercard from '../../Components/Aboutteachercard/Aboutteachercard'
 import Aboutfollowinstagram from '../../Components/Aboutfollowinstagram/Aboutfollowinstagram'
 import Abouttestimonials from '../../Components/Abouttestimonials/Abouttestimonials'
+import ContactForm from '../../Components/ContactForm/ContactForm'
+
 
 const About = () => {
   return (
@@ -17,6 +19,7 @@ const About = () => {
     <Aboutteachercard/>
     <Abouttestimonials/>
     <Aboutfollowinstagram/>
+    <ContactForm />
     </>
   )
 }

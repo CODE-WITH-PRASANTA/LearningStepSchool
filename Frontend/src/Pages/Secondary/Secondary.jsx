@@ -7,6 +7,7 @@ import SecondaryFullDayLearning from '../../Components/SecondaryFullDayLearning/
 import SecondaryMoreInformation from '../../Components/SecondaryMoreInformation/SecondaryMoreInformation'
 import SecondaryJoinNewSession from '../../Components/SecondaryJoinNewSession/SecondaryJoinNewSession'
 import SecondaryMoreProgram from '../../Components/SecondaryMoreProgram/SecondaryMoreProgram'
+import ContactForm from '../../Components/ContactForm/ContactForm'
 
 const Secondary = () => {
   return (
@@ -19,6 +20,7 @@ const Secondary = () => {
       <SecondaryMoreInformation/>
       <SecondaryJoinNewSession/>
       <SecondaryMoreProgram/>
+      <ContactForm />
     </>
   )
 }
