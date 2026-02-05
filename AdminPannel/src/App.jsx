@@ -2,8 +2,9 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import AppLayout from "./layout/AppLayout/AppLayout";
 
-// Pages
-import Dashboard from "./Pages/Dashbord";
+// Pages (✅ correct paths)
+
+import Dashboard from "./Pages/Dashboard/Dashboard";
 import Fees from "./Pages/FeeManagement";
 import Notices from "./Pages/NoticeManagement";
 import ProfilePage from "./Pages/ProfilePage";
@@ -13,15 +14,19 @@ import AdmissionSurvey from "./Pages/AdmissionSurvey";
 import EventManagement from "./Pages/EventManagement";
 
 // Components
-import BlogView from "./Component/BlogView/BlogView";
-import BlogManagerPage from "./Component/BlogManager/BlogManagerPage";
-import TestimonialPage from "./Component/Testimonial/TestimonialPage";
+
+import BlogView from "./Pages/BlogView/BlogView";
+import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
+import TestimonialPage from "./Pages/TestimonialPage/TestimonialPage";
+import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurveyView";
 
 // Auth
+
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
-import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurveyView";
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
+import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
+import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
 
 export default function App() {
   return (
@@ -41,6 +46,7 @@ export default function App() {
           }
         >
 
+          {/* Default redirect */}
           <Route index element={<Navigate to="dashboard" replace />} />
 
           <Route path="/dashboard" element={<Dashboard />} />
@@ -48,18 +54,24 @@ export default function App() {
           <Route path="/notices" element={<Notices />} />
           <Route path="/class-data" element={<ClsWiseDataManagements />} />
 
-          <Route path="/blogs" element={<BlogManagerPage />} />
-          <Route path="/blogs/view" element={<BlogView />} />
+          {/* Blogs */}
+          <Route path="blogs" element={<BlogManagerPage />} />
+          <Route path="blogs/view" element={<BlogView />} />
 
-          <Route path="/testimonials" element={<TestimonialPage />} />
+          {/* Testimonials */}
+          <Route path="testimonials" element={<TestimonialPage />} />
 
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          {/* User */}
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<SettingsPage />} />
 
-          <Route path="/survey" element={<AdmissionSurvey />} />
-          <Route path="/events" element={<EventManagement />} />
-          <Route path="/survey/view" element={<AdmissionSurvey />} />
-          <Route path="/survey/data" element={<AdmissionSurveyView />} />
+          {/* Survey & Events */}
+          <Route path="survey" element={<AdmissionSurvey />} />
+          <Route path="survey/view" element={<AdmissionSurvey />} />
+          <Route path="survey/data" element={<AdmissionSurveyView />} />
+          <Route path="events" element={<EventManagement />} />
+          <Route path="/awards" element={<AwardAdminPage />} />
+          <Route path="/teachers" element={<TeacherAdminPage />} />
 
         </Route>
 

@@ -1,4 +1,4 @@
-import { FiPhone, FiMapPin, FiUser } from "react-icons/fi";
+import { useState } from "react";
 
 /* ================= SAMPLE DATA ================= */
 const surveyData = [
@@ -19,149 +19,157 @@ const surveyData = [
     distance: "4-6 km",
     interest: "Confirm",
     concern: "Fee",
+    starred: false,
   },
 ];
 
 export default function AdmissionSurveyView() {
+  const [data, setData] = useState(surveyData);
+  const [search, setSearch] = useState("");
+
+  /* ================= SEARCH ================= */
+  const filteredData = data.filter((item) =>
+    `${item.appNo} ${item.parentName} ${item.mobile} ${item.village}`
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+
+  /* ================= STAR ================= */
+  const toggleStar = (id) => {
+    setData((prev) =>
+      prev.map((row) =>
+        row.id === id ? { ...row, starred: !row.starred } : row
+      )
+    );
+  };
+
   return (
-    <div className="space-y-6">
-      {/* ================= HEADER ================= */}
-      <div>
-        <h1 className="text-2xl font-bold text-indigo-700">
-          Admission Survey Data
-        </h1>
-        <p className="text-sm text-slate-500">
-          View submitted school admission surveys
-        </p>
+    <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 h-[80vh] overflow-auto">
+      {/* ================= TOOLBAR ================= */}
+      <div className="flex justify-end mb-4">
+        <input
+          type="text"
+          placeholder="Search App No, Parent, Mobile, Village..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-[320px] px-4 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        />
       </div>
 
-      {/* ================= MOBILE VIEW ================= */}
-      <div className="grid gap-4 sm:hidden">
-        {surveyData.map((s) => (
-          <div
-            key={s.id}
-            className="rounded-xl bg-white border border-indigo-100 shadow-sm p-4 space-y-3"
-          >
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-indigo-600">
-                {s.appNo}
-              </span>
-              <span className="px-3 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700">
-                {s.interest}
-              </span>
-            </div>
+      {/* ================= TABLE ================= */}
+      <table className="w-[1500px] bg-white border border-slate-200 rounded-lg overflow-hidden">
+        <thead className="sticky top-0 z-10 bg-slate-100">
+          <tr>
+            <th className="px-4 py-3 text-center text-xs font-semibold uppercase text-slate-600">
+              ★
+            </th>
+            {[
+              "App No",
+              "Parent Name",
+              "Mobile",
+              "WhatsApp",
+              "Village",
+              "Children",
+              "Age",
+              "Class",
+              "Medium",
+              "Current School",
+              "Fee",
+              "Transport",
+              "Distance",
+              "Interest",
+              "Concern",
+            ].map((head) => (
+              <th
+                key={head}
+                className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-600"
+              >
+                {head}
+              </th>
+            ))}
+          </tr>
+        </thead>
 
-            <h3 className="font-semibold text-slate-800">{s.parentName}</h3>
+        <tbody>
+          {filteredData.length === 0 ? (
+            <tr>
+              <td
+                colSpan={16}
+                className="text-center py-10 text-slate-500 text-sm"
+              >
+                No records found
+              </td>
+            </tr>
+          ) : (
+            filteredData.map((item, index) => (
+              <tr
+                key={item.id}
+                className={`border-b border-slate-200 hover:bg-indigo-50 transition ${
+                  index % 2 === 0 ? "bg-white" : "bg-slate-50"
+                }`}
+              >
+                {/* STAR */}
+                <td className="text-center">
+                  <button
+                    onClick={() => toggleStar(item.id)}
+                    className={`text-xl transition ${
+                      item.starred ? "text-yellow-400" : "text-slate-300"
+                    } hover:scale-110`}
+                  >
+                    ★
+                  </button>
+                </td>
 
-            <p className="text-sm flex items-center gap-2 text-slate-600">
-              <FiPhone /> {s.mobile} (WhatsApp: {s.whatsapp})
-            </p>
+                <td className="px-4 py-3 font-mono text-sm">{item.appNo}</td>
+                <td className="px-4 py-3 font-semibold">
+                  {item.parentName}
+                </td>
+                <td className="px-4 py-3 font-mono">{item.mobile}</td>
 
-            <p className="text-sm flex items-center gap-2 text-slate-600">
-              <FiMapPin /> {s.village}
-            </p>
+                <td className="px-4 py-3">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      item.whatsapp === "Yes"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {item.whatsapp}
+                  </span>
+                </td>
 
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <p><b>Child:</b> {s.children}</p>
-              <p><b>Age:</b> {s.age}</p>
-              <p><b>Class:</b> {s.className}</p>
-              <p><b>Medium:</b> {s.medium}</p>
-            </div>
+                <td className="px-4 py-3">{item.village}</td>
+                <td className="px-4 py-3 text-center">{item.children}</td>
+                <td className="px-4 py-3 text-center">{item.age}</td>
+                <td className="px-4 py-3 text-center">{item.className}</td>
+                <td className="px-4 py-3">{item.medium}</td>
 
-            <div className="text-sm space-y-1">
-              <p><b>Fee:</b> {s.fee}</p>
-              <p><b>Transport:</b> {s.transport} ({s.distance})</p>
-              <p><b>Concern:</b> {s.concern}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+                <td className="px-4 py-3 max-w-[220px] truncate">
+                  {item.currentSchool}
+                </td>
 
-      {/* ================= DESKTOP / LARGE SCREEN TABLE ================= */}
-      <div className="hidden sm:block">
-        <div className="bg-white rounded-2xl border border-indigo-100 shadow-md">
-          {/* 🔥 SCROLL CONTAINER (THIS IS THE KEY FIX) */}
-          <div
-            className="overflow-x-scroll overflow-y-auto scrollbar"
-            style={{
-              maxWidth: "calc(100vw - 320px)", // accounts for sidebar
-              maxHeight: "65vh",
-            }}
-          >
-            <table className="min-w-[1500px] text-sm">
-              <thead className="bg-indigo-50 text-indigo-700 sticky top-0 z-10">
-                <tr>
-                  <th className="px-4 py-3 text-left">App No</th>
-                  <th className="px-4 py-3 text-left">Parent</th>
-                  <th className="px-4 py-3">Mobile</th>
-                  <th className="px-4 py-3">Village</th>
-                  <th className="px-4 py-3">Child</th>
-                  <th className="px-4 py-3">Class</th>
-                  <th className="px-4 py-3">Medium</th>
-                  <th className="px-4 py-3">Fee</th>
-                  <th className="px-4 py-3">Transport</th>
-                  <th className="px-4 py-3">Interest</th>
-                  <th className="px-4 py-3">Concern</th>
-                </tr>
-              </thead>
+                <td className="px-4 py-3">{item.fee}</td>
+                <td className="px-4 py-3">{item.transport}</td>
+                <td className="px-4 py-3">{item.distance}</td>
 
-              <tbody>
-                {surveyData.map((s) => (
-                  <tr key={s.id} className="border-b hover:bg-slate-50">
-                    <td className="px-4 py-3 font-medium text-indigo-600">
-                      {s.appNo}
-                    </td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      item.interest === "Confirm"
+                        ? "bg-blue-100 text-blue-700"
+                        : "bg-orange-100 text-orange-700"
+                    }`}
+                  >
+                    {item.interest}
+                  </span>
+                </td>
 
-                    <td className="px-4 py-3 flex items-center gap-2">
-                      <FiUser className="text-slate-400" />
-                      {s.parentName}
-                    </td>
-
-                    <td className="px-4 py-3">
-                      {s.mobile}
-                      <span className="block text-xs text-slate-400">
-                        WhatsApp: {s.whatsapp}
-                      </span>
-                    </td>
-
-                    <td className="px-4 py-3">{s.village}</td>
-                    <td className="px-4 py-3 text-center">{s.children}</td>
-                    <td className="px-4 py-3">
-                      {s.className} ({s.age} yrs)
-                    </td>
-                    <td className="px-4 py-3">{s.medium}</td>
-                    <td className="px-4 py-3">{s.fee}</td>
-                    <td className="px-4 py-3">
-                      {s.transport} ({s.distance})
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className="px-3 py-1 rounded-full text-xs bg-emerald-100 text-emerald-700">
-                        {s.interest}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">{s.concern}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      {/* ================= SCROLLBAR STYLE ================= */}
-      <style>{`
-        .scrollbar::-webkit-scrollbar {
-          height: 10px;
-        }
-        .scrollbar::-webkit-scrollbar-track {
-          background: #eef2ff;
-          border-radius: 10px;
-        }
-        .scrollbar::-webkit-scrollbar-thumb {
-          background: #6366f1;
-          border-radius: 10px;
-        }
-      `}</style>
+                <td className="px-4 py-3">{item.concern}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 }
