@@ -31,6 +31,9 @@ import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
+import VisitorBook from "./Pages/VisitorBook/VisitorBook";
+import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
+import PostalReceive from "./Pages/PostalReceive/PostalReceive";
 
 export default function App() {
   return (
@@ -78,6 +81,9 @@ export default function App() {
           <Route path="/learning/pre" element={<PrePrimery />} />   
           <Route path="/learning/primary" element={<Primery />} />   
           <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/front-office/visitors" element={<VisitorBook />} />   
+          <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
+          <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
 
         </Route>
