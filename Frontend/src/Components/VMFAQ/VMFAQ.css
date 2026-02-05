@@ -24,14 +24,15 @@
 .faqq-image {
   display: flex;
   justify-content: center;
+  height: auto;
+    max-width: 100%;
 }
 
 .faqq-image img {
   width: 100%;
-  max-width: 420px;
-  aspect-ratio: 1 / 1;
+  max-width: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 50% 50% 0% 0%;
 }
 
 /* ---------- Content ---------- */

@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 import "./SchoolFee.css";
 
 const SchoolFee = () => {
+  const navigate = useNavigate(); // ✅ Initialize navigation
+
+  const handleRegisterClick = () => {
+    navigate("/register"); // ✅ Navigate to Register page
+  };
+
   return (
     <section className="school-fee">
       <h2 className="fee-title">School Fee Information</h2>
@@ -20,7 +27,9 @@ const SchoolFee = () => {
             <li className="yes">Dress & Books Notes</li>
             <li className="yes">Other Activities</li>
           </ul>
-          <button className="fee-btn">Register</button>
+          <button className="fee-btn" onClick={handleRegisterClick}>
+            Register
+          </button>
         </div>
 
         <div className="fee-card yellow animate delay-1">
@@ -35,7 +44,9 @@ const SchoolFee = () => {
             <li className="yes">Dress & Books Notes</li>
             <li className="no">Other Activities</li>
           </ul>
-          <button className="fee-btn">Register</button>
+          <button className="fee-btn" onClick={handleRegisterClick}>
+            Register
+          </button>
         </div>
 
         <div className="fee-card purple animate delay-2">
@@ -50,7 +61,9 @@ const SchoolFee = () => {
             <li className="yes">Dress & Books Notes</li>
             <li className="yes">Other Activities</li>
           </ul>
-          <button className="fee-btn">Register</button>
+          <button className="fee-btn" onClick={handleRegisterClick}>
+            Register
+          </button>
         </div>
 
         <div className="fee-card red animate delay-3">
@@ -65,7 +78,9 @@ const SchoolFee = () => {
             <li className="yes">Dress & Books Notes</li>
             <li className="no">Other Activities</li>
           </ul>
-          <button className="fee-btn">Register</button>
+          <button className="fee-btn" onClick={handleRegisterClick}>
+            Register
+          </button>
         </div>
       </div>
     </section>

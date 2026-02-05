@@ -5,7 +5,8 @@
   max-width: 1200px;
   margin: 0 auto;  
   padding: 100px 20px;
-  background: #ffffff;
+  background-color: transparent;
+  background-image: linear-gradient(180deg, #f6f6f6 0%, rgba(255, 255, 255, 0) 100%);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -18,7 +19,7 @@
 }
 
 .vms-small-title {
-  font-size: 20px;
+  font-size: 42px;
   font-weight: 600;
   color: #111;
 }

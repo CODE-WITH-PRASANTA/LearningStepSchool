@@ -22,7 +22,7 @@
 
 /* ================= TABS ================= */
 .ctt-tabs-wrapper {
-  position: sticky;
+ 
   top: 80px;
   background: #fff;
   z-index: 50;
