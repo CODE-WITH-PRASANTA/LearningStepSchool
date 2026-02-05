@@ -101,7 +101,6 @@ export default function FaqPosting() {
           {editIndex !== null ? "Update" : "Submit"}
         </button>
 
-        {/* Version */}
         <p className="faq-version">Version 1.0.0</p>
       </form>
 
@@ -112,6 +111,7 @@ export default function FaqPosting() {
         <table className="faq-table">
           <thead>
             <tr>
+              <th>SL. No</th>
               <th>Question</th>
               <th>Answer</th>
               <th>Category</th>
@@ -122,6 +122,7 @@ export default function FaqPosting() {
           <tbody>
             {records.map((r, i) => (
               <tr key={i}>
+                <td>{i + 1}</td>
                 <td>{r.question}</td>
                 <td>{r.answer}</td>
                 <td>{r.category}</td>
@@ -141,7 +142,7 @@ export default function FaqPosting() {
 
             {records.length === 0 && (
               <tr>
-                <td colSpan="4" className="faq-empty">
+                <td colSpan="5" className="faq-empty">
                   No FAQ added yet
                 </td>
               </tr>
@@ -153,4 +154,3 @@ export default function FaqPosting() {
     </div>
   );
 }
-
