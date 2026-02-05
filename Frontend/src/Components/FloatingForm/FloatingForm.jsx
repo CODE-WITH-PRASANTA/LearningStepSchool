@@ -34,7 +34,7 @@ const FloatingForm = () => {
 
         {/* Header */}
         <div className="floatingform-header">
-          <h2>Learning Step School</h2>
+          <h2>Learning Step International School</h2>
           <span>Admission & Enquiry Form</span>
         </div>
 

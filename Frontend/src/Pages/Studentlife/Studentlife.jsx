@@ -18,7 +18,6 @@ const Studentlife = () => {
         <Studentlifecounter/>
         <Studentlifeextracurricular/>
         <Studentlifeproduct/>
-        
         <Studentlifeourpricing/>
         <Studentlifecraft/>
         <Studentlifeourblogs/>

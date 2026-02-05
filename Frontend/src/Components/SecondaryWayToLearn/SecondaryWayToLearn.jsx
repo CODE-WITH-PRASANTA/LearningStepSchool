@@ -11,17 +11,14 @@ export default function SecondaryWayToLearn() {
         <h2>Way to Learn</h2>
 
         <p>
-          Secondary education encourages independent thinking, problem-solving,
-          and deeper subject understanding through structured and interactive
-          learning environments.
+          At Learning Step International School, our secondary learning approach is built around developing independent thinkers with strong academic discipline. We combine structured teaching with interactive learning to deepen subject understanding and analytical skills.
         </p>
 
         <p>
-          Students are guided to explore concepts critically, collaborate with
-          peers, and build skills essential for academic and personal growth.
+          Students are encouraged to question concepts, collaborate with peers, and apply knowledge in practical ways. Through guided instruction and a supportive academic environment, we help learners build confidence, responsibility, and the skills essential for academic and personal growth.
         </p>
 
-        <button className="secondary-way-to-learn__btn">Know More</button>
+        <button className="secondary-way-to-learn__btn">Contact Us</button>
       </div>
 
       {/* RIGHT IMAGE */}

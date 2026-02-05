@@ -1,0 +1,163 @@
+.grade-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 40px;
+  padding: 80px 60px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  height: 650px;
+}
+
+/* LEFT */
+.grade-left {
+  color: #fff;
+  max-width: 420px;
+}
+
+.grade-left h2 {
+  font-size: clamp(28px, 4vw, 44px);
+  margin: 10px 0;
+}
+
+.grade-left p {
+  font-size: clamp(14px, 2vw, 16px);
+}
+
+/* ARROWS */
+.grade-arrows {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.grade-arrows button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px dashed #fff;
+  background: transparent;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.grade-arrows button:hover{
+  background: #fff;
+  color: #7a1fa2;
+  border-color: #7a1fa2;
+}
+
+/* SLIDER */
+.grade-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.grade-track {
+  display: flex;
+  gap: 40px;
+}
+
+.grade-circle {
+  min-width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* OUTER DASHED CIRCLE */
+.grade-dashed-ring {
+  width: 260px;
+  height: 260px;
+  border: 3px dashed #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* INNER WHITE CIRCLE */
+.grade-card {
+  width: 210px;
+  height: 210px;
+  background: #fff;
+  border-radius: 50%;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.grade-inner {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.grade-inner span {
+  font-size: 12px;
+}
+
+.grade-inner strong {
+  font-size: 24px;
+}
+
+.grade-card h4 {
+  font-size: 18px;
+  margin: 8px 0 5px;
+  color: #1e2a39;
+}
+
+.grade-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .grade-wrapper {
+    grid-template-columns: 1fr;
+    padding: 60px 30px;
+  }
+
+  .grade-left {
+    text-align: center;
+  }
+
+  .grade-arrows {
+    justify-content: center;
+  }
+
+  .grade-dashed-ring {
+    width: 240px;
+    height: 240px;
+  }
+
+  .grade-card {
+    width: 190px;
+    height: 190px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .grade-wrapper {
+    padding: 50px 20px;
+  }
+
+  .grade-dashed-ring {
+    width: 200px;
+    height: 200px;
+  }
+
+  .grade-card {
+    width: 160px;
+    height: 160px;
+  }
+}

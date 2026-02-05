@@ -4,47 +4,47 @@ import "./Studentlifeourpricing.css";
 const plans = [
   {
     name: "Starter Plan",
-    price: 19,
+    price: "₹1,590",
     highlight: false,
     features: [
-      { text: "Mistakes To Avoid", ok: true },
-      { text: "Your Startup", ok: true },
-      { text: "Knew About Fonts", ok: false },
-      { text: "Winning Metric", ok: false },
-      { text: "Your Startup", ok: true },
-      { text: "Knew About Fonts", ok: true },
-      { text: "Winning Metric for Your Startup", ok: true },
-      { text: "Your Startup", ok: true },
+      { text: "Access to foundational learning modules", ok: true },
+      { text: "Homework and concept support", ok: true },
+      { text: "Monthly progress report", ok: true },
+      { text: "Parent–teacher consultation sessions", ok: true },
+      { text: "Limited access to digital learning tools", ok: true },
+      { text: "Weekend doubt-solving classes", ok: false },
+      { text: "Skill-building workshops", ok: false },
+      { text: "Personal mentorship", ok: false },
     ],
   },
   {
     name: "Golden Plan",
-    price: 39,
+    price: "₹3,290",
     highlight: true,
     features: [
-      { text: "Mistakes To Avoid", ok: true },
-      { text: "Your Startup", ok: true },
-      { text: "Knew About Fonts", ok: true },
-      { text: "Winning Metric", ok: false },
-      { text: "Your Startup", ok: true },
-      { text: "Knew About Fonts", ok: true },
-      { text: "Winning Metric for Your Startup", ok: true },
-      { text: "Your Startup", ok: true },
+      { text: "Everything in Starter Plan", ok: true },
+      { text: "Weekly one-on-one tutoring sessions", ok: true },
+      { text: "Access to creative and language programs", ok: true },
+      { text: "Weekly performance feedback", ok: true },
+      { text: "Comprehensive exam preparation", ok: true },
+      { text: "Skill-building and personality workshops", ok: true },
+      { text: "Parent counseling and academic guidance", ok: true },
+      { text: "Access to e-learning resources", ok: true },
     ],
   },
   {
     name: "Platinum Plan",
-    price: 79,
+    price: "₹6,490",
     highlight: false,
     features: [
-      { text: "Mistakes To Avoid", ok: true },
-      { text: "Your Startup", ok: true },
-      { text: "Knew About Fonts", ok: true },
-      { text: "Winning Metric", ok: true },
-      { text: "Your Startup", ok: true },
-      { text: "Knew About Fonts", ok: true },
-      { text: "Winning Metric for Your Startup", ok: true },
-      { text: "Your Startup", ok: true },
+      { text: "All features of the Golden Plan", ok: true },
+      { text: "Dedicated academic mentor", ok: true },
+      { text: "Advanced exam preparation and testing", ok: true },
+      { text: "Leadership and communication training", ok: true },
+      { text: "24/7 student academic support", ok: true },
+      { text: "Exclusive access to premium workshops", ok: true },
+      { text: "Yearly skill assessment and career counseling", ok: true },
+      { text: "Priority access to school events and competitions", ok: true },
     ],
   },
 ];
@@ -68,7 +68,7 @@ const Studentlifeourpricing = () => {
           </div>
 
           <p className="Studentlifeourpricing-subtitle">
-            Simple and transparent plans designed to support every stage of learning.
+            Transparent and flexible plans designed to nurture every learner’s growth—whether starting strong, learning consistently, or striving for excellence.
           </p>
         </div>
 
@@ -87,9 +87,9 @@ const Studentlifeourpricing = () => {
 
               <div className="Studentlifeourpricing-price">
                 <span className="Studentlifeourpricing-amount">
-                  ${plan.price}
+                  {plan.price}
                 </span>
-                <span className="Studentlifeourpricing-duration">/mo</span>
+                <span className="Studentlifeourpricing-duration">/month</span>
               </div>
 
               <ul className="Studentlifeourpricing-features">

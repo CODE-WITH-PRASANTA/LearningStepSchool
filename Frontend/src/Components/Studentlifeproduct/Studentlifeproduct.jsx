@@ -45,14 +45,17 @@ const Studentlifeproduct = () => {
 
           <h3 className="Studentlifeproduct-subtitle">
             Empowering Children Through <br />
-            Education Igniting Curiosity
+            Learning, Creativity, and Discovery
           </h3>
 
-          <div className="Studentlifeproduct-price">29.80$</div>
+          <div className="Studentlifeproduct-price">₹2,490</div>
 
           <p className="Studentlifeproduct-desc">
-            Our learning tools inspire creativity, curiosity, and hands-on
-            exploration—making education joyful and meaningful.
+            At <strong>Learning Step School</strong>, we design educational tools that inspire
+            creativity, nurture curiosity, and encourage hands-on exploration.
+            Each learning product is crafted to make education joyful, meaningful,
+            and connected to real-world experiences—helping every child grow with
+            confidence and imagination.
           </p>
 
           <div className="Studentlifeproduct-actions">
@@ -63,15 +66,15 @@ const Studentlifeproduct = () => {
 
         {/* IMAGE WITH FADE */}
         <div className="Studentlifeproduct-imageWrap">
-          <img src={car} alt="Product" />
+          <img src={car} alt="Learning Product Vehicle" />
           <div className="Studentlifeproduct-imageFade" />
         </div>
       </div>
 
       {/* ILLUSTRATION */}
       <div className="Studentlifeproduct-illustration">
-        <img src={sun} className="sun" alt="Sun" />
-        <img src={object} className="object" alt="Object" />
+        <img src={sun} className="sun" alt="Sun Illustration" />
+        <img src={object} className="object" alt="Decorative Object" />
       </div>
 
     </section>

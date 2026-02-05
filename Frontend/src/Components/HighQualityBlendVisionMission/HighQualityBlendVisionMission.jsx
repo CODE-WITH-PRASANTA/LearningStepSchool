@@ -30,11 +30,7 @@ export default function HighQualityBlend() {
           </h1>
 
           <p className="text-reveal delay-1">
-            Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-            Phasellus viverra nulla ut metus varius laoreet. Aliquam lorem
-            ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus
-            viverra nulla ut metus varius laoreet. Etiam ultricies nisi vel
-            augue.
+           At Learning Step International School, we believe in balanced education. Our curriculum combines strong academics with co-curricular activities and sports to support intellectual growth, physical development, and creativity. This holistic approach helps children build confidence, discipline, and essential life skills from an early age.
           </p>
 
           <button className="join-btn text-reveal delay-2">

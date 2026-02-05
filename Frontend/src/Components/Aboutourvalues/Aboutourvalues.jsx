@@ -46,9 +46,9 @@ const Aboutourvalues = () => {
       </div>
 
       <div className="Aboutourvalues-container">
-        <span className="Aboutourvalues-subtitle">Our Values</span>
+        <span className="Aboutourvalues-subtitle">Our Core Values</span>
         <h2 className="Aboutourvalues-title">
-          The Best Playschool <br /> For Your Kid
+         Shaping Strong Foundations   <br />for Lifelong Learning
         </h2>
 
         <div className="Aboutourvalues-grid">
@@ -62,10 +62,9 @@ const Aboutourvalues = () => {
                 <FaChalkboardTeacher />
               </div>
               <div className="Aboutourvalues-content">
-                <h4>Teacher Training And Progress</h4>
+                <h4>Qualified Teachers & Continuous Child Development</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                  At Learning Step International School, we understand that a child’s growth depends on the quality of guidance they receive. Our teachers are professionally trained, experienced, and regularly upskilled through workshops and modern teaching programs. Each child’s academic, emotional, and social progress is carefully observed and supported, ensuring individual attention and steady development in a positive learning environment.
                 </p>
               </div>
             </div>
@@ -78,10 +77,9 @@ const Aboutourvalues = () => {
                 <FaBaby />
               </div>
               <div className="Aboutourvalues-content">
-                <h4>Nanny Selection 24/7</h4>
+                <h4>Safe Environment with Trusted Caregivers</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                  Your child’s safety and comfort are our highest priorities. We follow a thorough nanny and caregiver selection process that includes background verification, training, and regular evaluations. With round-the-clock supervision, secure premises, and caring staff, we ensure every child feels protected, supported, and at home throughout their time with us.
                 </p>
               </div>
             </div>
@@ -101,10 +99,9 @@ const Aboutourvalues = () => {
               className="Aboutourvalues-card Aboutourvalues-card-right"
             >
               <div className="Aboutourvalues-content">
-                <h4>Advanced Placement Courses</h4>
+                <h4>Smart Learning for Early Skill Development</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                  Our curriculum is designed to build strong academic and life skills from an early age. Through a balanced approach of structured learning and play-based activities, children develop communication skills, problem-solving abilities, creativity, and confidence. We prepare young learners to adapt easily to future academic challenges while enjoying the learning process.
                 </p>
               </div>
               <div className="Aboutourvalues-icon Aboutourvalues-cyan">
@@ -117,10 +114,9 @@ const Aboutourvalues = () => {
               className="Aboutourvalues-card Aboutourvalues-card-right"
             >
               <div className="Aboutourvalues-content">
-                <h4>Self-Contained Gifted Programs</h4>
+                <h4>Encouraging Creativity and Individual Talents</h4>
                 <p>
-                  Adipiscing elit Praesent luctus laoreet iaculis
-                  Curabitur rutrum lectus augue.
+                  Every child has unique abilities, and we focus on nurturing them through creative and gifted programs. Activities such as music, art, storytelling, movement, and hands-on learning help children express themselves freely. These programs strengthen emotional intelligence, social interaction, and independent thinking, laying the foundation for confident and well-rounded personalities.
                 </p>
               </div>
               <div className="Aboutourvalues-icon Aboutourvalues-pink">

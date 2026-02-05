@@ -41,15 +41,15 @@
   gap: 8px;
   font-size: 13px;
   font-weight: 700;
-  color: #f97316;
+  color: #2f80ed;
   background: linear-gradient(
     135deg,
-    rgba(251, 146, 60, 0.18),
-    rgba(255, 237, 213, 0.8)
+    rgba(47, 128, 237, 0.15),
+    rgba(242, 201, 76, 0.35)
   );
   padding: 7px 16px;
   border-radius: 50px;
-  box-shadow: 0 6px 18px rgba(251, 146, 60, 0.25);
+  box-shadow: 0 6px 18px rgba(47, 128, 237, 0.25);
   margin-bottom: 22px;
 }
 
@@ -64,8 +64,7 @@
 }
 
 .hero-title span {
-  color: #fb923c;
-  background: linear-gradient(90deg, #fb923c, #f97316);
+  background: linear-gradient(90deg, #2f80ed, #f2994a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -102,27 +101,34 @@
 
 /* PRIMARY */
 .btn-primary {
-  background: linear-gradient(135deg, #fb923c, #f97316);
+ background: linear-gradient(135deg, #2f80ed, #f2994a);
   color: #fff;
   border: none;
-  box-shadow: 0 18px 40px rgba(251, 146, 60, 0.45);
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 18px 40px rgba(47, 128, 237, 0.4);
+  transition: 0.35s;
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 22px 55px rgba(251, 146, 60, 0.55);
+   transform: translateY(-3px);
+  box-shadow: 0 22px 55px rgba(47, 128, 237, 0.55);
 }
 
 /* OUTLINE */
 .btn-outline {
-  background: rgba(255, 255, 255, 0.75);
-  border: 2px solid #fb923c;
-  color: #fb923c;
-  backdrop-filter: blur(4px);
+  background: #ffffff;
+  border: 2px solid #2f80ed;
+  color: #2f80ed;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .btn-outline:hover {
-  background: linear-gradient(135deg, #fb923c, #f97316);
+  background: linear-gradient(135deg, #2f80ed, #f2994a);
   color: #fff;
   transform: translateY(-2px);
 }
@@ -141,13 +147,9 @@
 }
 
 .dot-counter .line {
-  width: 2px;
+   width: 2px;
   height: 52px;
-  background: linear-gradient(
-    to bottom,
-    #fb923c,
-    rgba(251, 146, 60, 0.1)
-  );
+  background: linear-gradient(to bottom, #2f80ed, transparent);
 }
 
 /* DOT */
@@ -172,12 +174,13 @@
 
 /* ACTIVE DOT */
 .dot-wrap.active {
-  border: 2px solid #fb923c;
-  box-shadow: 0 0 0 6px rgba(251, 146, 60, 0.2);
+  border: 2px solid #2f80ed;
+  box-shadow: 0 0 0 6px rgba(47, 128, 237, 0.25);
 }
 
 .dot-wrap.active .dot {
   opacity: 1;
+  background: #f2c94c;
 }
 /* ================= LARGE DESKTOP (1600px+) ================= */
 @media (min-width: 1600px) {
