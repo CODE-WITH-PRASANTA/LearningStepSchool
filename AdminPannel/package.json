@@ -12,6 +12,10 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
     "axios": "^1.13.4",
+<<<<<<< HEAD
+=======
+    "chart.js": "^4.5.1",
+>>>>>>> f550d0e068c949844d081df87194cc04eceb63dc
     "chartjs-plugin-dragdata": "^2.3.1",
     "react": "^19.2.0",
     "react-chartjs-2": "^5.3.1",

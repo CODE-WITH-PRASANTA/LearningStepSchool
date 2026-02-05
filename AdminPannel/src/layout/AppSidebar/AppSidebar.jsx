@@ -32,6 +32,7 @@ const menu = [
   { label: "Award Management", icon: FiAward, path: "/awards" },
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
   { label: "Notice Management", icon: FiClipboard, path: "/notices" },
+  { label: "Class Wise Data Management", icon: FiClipboard, path: "/class-data" },
 
   {
     label: "Learning Management",
@@ -75,6 +76,7 @@ const menu = [
   },
 
   { label: "Event Management", icon: FiCalendar, path: "/events" },
+  { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 ];
 
 /* ================= SIDEBAR ================= */
