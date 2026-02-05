@@ -27,6 +27,10 @@ import { AuthProvider } from "./Auth/AuthContext";
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
+import PrePrimery from "./Pages/PrePrimery/PrePrimery";
+import Primery from "./Pages/Primery/Primery";
+import Secondary from "./Pages/Secondary/Secondary";
+import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 
 export default function App() {
   return (
@@ -71,7 +75,10 @@ export default function App() {
           <Route path="survey/data" element={<AdmissionSurveyView />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="/awards" element={<AwardAdminPage />} />
-          <Route path="/teachers" element={<TeacherAdminPage />} />
+          <Route path="/learning/pre" element={<PrePrimery />} />   
+          <Route path="/learning/primary" element={<Primery />} />   
+          <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/faq" element={<FaqPosting />} />   
 
         </Route>
 
