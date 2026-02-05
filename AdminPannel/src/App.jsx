@@ -21,6 +21,7 @@ import TestimonialPage from "./Component/Testimonial/TestimonialPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
 import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurveyView";
+import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/fees" element={<Fees />} />
           <Route path="/notices" element={<Notices />} />
+          <Route path="/class-data" element={<ClsWiseDataManagements />} />
 
           <Route path="/blogs" element={<BlogManagerPage />} />
           <Route path="/blogs/view" element={<BlogView />} />
