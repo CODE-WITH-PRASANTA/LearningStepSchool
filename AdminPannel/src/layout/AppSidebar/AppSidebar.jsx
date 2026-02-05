@@ -76,6 +76,7 @@ const menu = [
   },
 
   { label: "Event Management", icon: FiCalendar, path: "/events" },
+  { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 ];
 
 /* ================= SIDEBAR ================= */
