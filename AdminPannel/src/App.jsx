@@ -17,7 +17,7 @@ import EventManagement from "./Pages/EventManagement";
 
 import BlogView from "./Pages/BlogView/BlogView";
 import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
-import TestimonialPage from "./Component/Testimonial/TestimonialPage";
+import TestimonialPage from "./Pages/TestimonialPage/TestimonialPage";
 import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurveyView";
 
 // Auth
