@@ -24,6 +24,7 @@ import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurvey
 
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
+import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
 
@@ -48,10 +49,10 @@ export default function App() {
           {/* Default redirect */}
           <Route index element={<Navigate to="dashboard" replace />} />
 
-          {/* Main pages */}
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="fees" element={<Fees />} />
-          <Route path="notices" element={<Notices />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/fees" element={<Fees />} />
+          <Route path="/notices" element={<Notices />} />
+          <Route path="/class-data" element={<ClsWiseDataManagements />} />
 
           {/* Blogs */}
           <Route path="blogs" element={<BlogManagerPage />} />
