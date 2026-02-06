@@ -26,7 +26,7 @@ import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
-import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
+import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
 import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
@@ -85,6 +85,7 @@ export default function App() {
           <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
+          <Route path="/teachers" element={<TeacherAdminPage />} />
 
         </Route>
 
