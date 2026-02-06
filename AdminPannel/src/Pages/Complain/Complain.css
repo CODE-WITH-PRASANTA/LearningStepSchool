@@ -1,0 +1,166 @@
+/* Main wrapper */
+.cmp-wrapper {
+  padding: 30px;
+  background: #f5f7fa;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.cmp-main-heading {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Section card box */
+.cmp-criteria-box,
+.cmp-table-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
+}
+
+.cmp-title {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Grid layout */
+.cmp-criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.cmp-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cmp-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cfd6e1;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+/* Search button */
+.cmp-search-btn {
+  background: #005eb8;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+.cmp-search-btn:hover {
+  background: #004e9d;
+}
+
+/* Table header section */
+.cmp-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cmp-search-input {
+  padding: 10px;
+  border: 1px solid #cfd6e1;
+  border-radius: 6px;
+  width: 200px;
+}
+
+/* Add button */
+.cmp-add-btn {
+  background: #28a745;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.cmp-add-btn:hover {
+  background: #218838;
+}
+
+/* Table */
+.cmp-table-scroll {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cmp-table th,
+.cmp-table td {
+  border: 1px solid #e1e6ed;
+  padding: 10px;
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.cmp-table th {
+  background: #f1f3f6;
+  font-weight: 600;
+}
+
+.cmp-empty {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+/* Action buttons */
+.cmp-edit-btn {
+  background: #ffc107;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.cmp-delete-btn {
+  background: #dc3545;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Responsive Fix */
+@media (max-width: 600px) {
+  .cmp-main-heading {
+    font-size: 24px;
+  }
+
+  .cmp-table-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cmp-search-input {
+    width: 100%;
+  }
+}

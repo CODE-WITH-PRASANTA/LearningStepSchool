@@ -8,8 +8,12 @@ import Ourevents from '../../Components/Ourevents/Ourevents'
 import Ourblogs from '../../Components/Ourblogs/Ourblogs'
 import HomeAbout from '../../Components/HomeAbout/HomeAbout'
 import HomeClasses from '../../Components/HomeClasses/HomeClasses'
+<<<<<<< HEAD
+import ContactForm from '../../Components/ContactForm/ContactForm'
+=======
 import AdmissionNav from '../../Components/AdmissionNav/AdmissionNav'
 import NewsTicker from '../../Components/NewsTicker/NewsTicker'
+>>>>>>> 9fc8d073930b0b970cea2ae0581e7d6bbbe76be1
 
 const Home = () => {
   return (
@@ -25,6 +29,7 @@ const Home = () => {
       <Ourevents/>
       {/* <Ourblogs/> */}
       <Skillscertificate/>
+      <ContactForm />
     </div>
   )
 }

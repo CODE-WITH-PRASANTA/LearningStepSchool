@@ -8,6 +8,7 @@ import Studentlifecraft from '../../Components/Studentlifecraft/Studentlifecraft
 import Studentlifestaywithus from '../../Components/Studentlifestaywithus/Studentlifestaywithus'
 import Studentlifeourblogs from '../../Components/Studentlifeourblogs/Studentlifeourblogs'
 import Studentlifeproduct from '../../Components/Studentlifeproduct/Studentlifeproduct'
+import ContactForm from '../../Components/ContactForm/ContactForm'
 
 const Studentlife = () => {
   return (
@@ -21,6 +22,7 @@ const Studentlife = () => {
         <Studentlifecraft/>
         <Studentlifeourblogs/>
         <Studentlifestaywithus/>
+        <ContactForm />
     </>
   )
 }
