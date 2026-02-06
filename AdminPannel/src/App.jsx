@@ -27,10 +27,6 @@ import { AuthProvider } from "./Auth/AuthContext";
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
-<<<<<<< HEAD
-import AdminPostsPage from "./Pages/AdvirtisementPage/AdvirtisementPage";
-=======
->>>>>>> b152c2c32d5decee5a9397f20391238956f1e364
 import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
@@ -38,10 +34,6 @@ import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import VisitorBook from "./Pages/VisitorBook/VisitorBook";
 import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
 import PostalReceive from "./Pages/PostalReceive/PostalReceive";
-<<<<<<< HEAD
-import GatePass from "./Pages/GatePass/GatePass";
-=======
->>>>>>> b152c2c32d5decee5a9397f20391238956f1e364
 
 export default function App() {
   return (
@@ -86,11 +78,6 @@ export default function App() {
           <Route path="survey/data" element={<AdmissionSurveyView />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="/awards" element={<AwardAdminPage />} />
-<<<<<<< HEAD
-          <Route path="/teachers" element={<TeacherAdminPage />} />
-          <Route path="/advertisements" element={<AdminPostsPage />} />
-=======
->>>>>>> b152c2c32d5decee5a9397f20391238956f1e364
           <Route path="/learning/pre" element={<PrePrimery />} />   
           <Route path="/learning/primary" element={<Primery />} />   
           <Route path="/learning/secondary" element={<Secondary />} />   
@@ -98,10 +85,6 @@ export default function App() {
           <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
-<<<<<<< HEAD
-          <Route path="/front-office/gate-pass" element={<GatePass />} />
-=======
->>>>>>> b152c2c32d5decee5a9397f20391238956f1e364
 
         </Route>
 
