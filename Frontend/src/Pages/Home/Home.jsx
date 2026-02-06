@@ -8,6 +8,7 @@ import Ourevents from '../../Components/Ourevents/Ourevents'
 import Ourblogs from '../../Components/Ourblogs/Ourblogs'
 import HomeAbout from '../../Components/HomeAbout/HomeAbout'
 import HomeClasses from '../../Components/HomeClasses/HomeClasses'
+import ContactForm from '../../Components/ContactForm/ContactForm'
 import AdmissionNav from '../../Components/AdmissionNav/AdmissionNav'
 import NewsTicker from '../../Components/NewsTicker/NewsTicker'
 
@@ -25,6 +26,7 @@ const Home = () => {
       <Ourevents/>
       {/* <Ourblogs/> */}
       <Skillscertificate/>
+      <ContactForm />
     </div>
   )
 }

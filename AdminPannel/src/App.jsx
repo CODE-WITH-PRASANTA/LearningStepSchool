@@ -24,8 +24,16 @@ import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurvey
 
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import { AuthProvider } from "./Auth/AuthContext";
+import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
+import PrePrimery from "./Pages/PrePrimery/PrePrimery";
+import Primery from "./Pages/Primery/Primery";
+import Secondary from "./Pages/Secondary/Secondary";
+import FaqPosting from "./Pages/FaqPosting/FaqPosting";
+import VisitorBook from "./Pages/VisitorBook/VisitorBook";
+import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
+import PostalReceive from "./Pages/PostalReceive/PostalReceive";
 
 export default function App() {
   return (
@@ -48,10 +56,10 @@ export default function App() {
           {/* Default redirect */}
           <Route index element={<Navigate to="dashboard" replace />} />
 
-          {/* Main pages */}
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="fees" element={<Fees />} />
-          <Route path="notices" element={<Notices />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/fees" element={<Fees />} />
+          <Route path="/notices" element={<Notices />} />
+          <Route path="/class-data" element={<ClsWiseDataManagements />} />
 
           {/* Blogs */}
           <Route path="blogs" element={<BlogManagerPage />} />
@@ -70,7 +78,13 @@ export default function App() {
           <Route path="survey/data" element={<AdmissionSurveyView />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="/awards" element={<AwardAdminPage />} />
-          <Route path="/teachers" element={<TeacherAdminPage />} />
+          <Route path="/learning/pre" element={<PrePrimery />} />   
+          <Route path="/learning/primary" element={<Primery />} />   
+          <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/front-office/visitors" element={<VisitorBook />} />   
+          <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
+          <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
+          <Route path="/faq" element={<FaqPosting />} />   
 
         </Route>
 
