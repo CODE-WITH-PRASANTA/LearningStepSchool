@@ -12,6 +12,7 @@ import {
   FiUserPlus,
   FiCalendar,
   FiChevronDown,
+  FiMonitor,
   FiBriefcase,
 } from "react-icons/fi";
 
@@ -24,16 +25,37 @@ const menu = [
     label: "Blog Management",
     icon: FiBookOpen,
     children: [
-      { label: "Blog Posts", path: "/blogs", color: "from-indigo-200 to-violet-200 text-indigo-800" },
-      { label: "Blog View", path: "/blogs/view", color: "from-sky-200 to-blue-200 text-sky-800" },
+      {
+        label: "Blog Posts",
+        path: "/blogs",
+        color: "from-indigo-200 to-violet-200 text-indigo-800",
+      },
+      {
+        label: "Blog View",
+        path: "/blogs/view",
+        color: "from-sky-200 to-blue-200 text-sky-800",
+      },
     ],
   },
 
   { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
+
   { label: "Award Management", icon: FiAward, path: "/awards" },
+
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
+
   { label: "Notice Management", icon: FiClipboard, path: "/notices" },
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
+
+  /* ===== NEW ADVERTISEMENT SECTION ===== */
+
+  {
+    label: "Advertisement Management",
+    icon: FiMonitor,
+    path: "/advertisements",
+  },
+
+  /* ================================= */
 
   {
     label: "Learning Management",
@@ -116,6 +138,7 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
           {sidebarOpen ? "School Admin" : "SA"}
         </div>
 
+        {/* MENU */}
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-3">
           {menu.map((item, i) => {
             if (item.type === "divider") {
