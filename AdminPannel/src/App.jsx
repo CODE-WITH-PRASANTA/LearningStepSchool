@@ -27,9 +27,7 @@ import { AuthProvider } from "./Auth/AuthContext";
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import TeacherAdminPage from "./Pages/Adminteachers/TeacherAdminPage";
-<<<<<<< HEAD
 import AdminPostsPage from "./Pages/AdvirtisementPage/AdvirtisementPage";
-=======
 import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
@@ -37,7 +35,7 @@ import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import VisitorBook from "./Pages/VisitorBook/VisitorBook";
 import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
 import PostalReceive from "./Pages/PostalReceive/PostalReceive";
->>>>>>> 3a9e5c2ad10e95c611497886eea4e8f83d37276c
+import GatePass from "./Pages/GatePass/GatePass";
 
 export default function App() {
   return (
@@ -82,10 +80,8 @@ export default function App() {
           <Route path="survey/data" element={<AdmissionSurveyView />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="/awards" element={<AwardAdminPage />} />
-<<<<<<< HEAD
           <Route path="/teachers" element={<TeacherAdminPage />} />
           <Route path="/advertisements" element={<AdminPostsPage />} />
-=======
           <Route path="/learning/pre" element={<PrePrimery />} />   
           <Route path="/learning/primary" element={<Primery />} />   
           <Route path="/learning/secondary" element={<Secondary />} />   
@@ -93,7 +89,7 @@ export default function App() {
           <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
->>>>>>> 3a9e5c2ad10e95c611497886eea4e8f83d37276c
+          <Route path="/front-office/gate-pass" element={<GatePass />} />
 
         </Route>
 
