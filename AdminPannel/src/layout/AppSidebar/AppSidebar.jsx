@@ -97,6 +97,29 @@ const menu = [
       { label: "Entrance Examination Form", path: "/front-office/exam-form", color: "from-purple-200 to-fuchsia-200 text-purple-800" },
     ],
   },
+    { type: "divider" },
+  {
+  label: "Income",
+  icon: FiBriefcase,
+  children: [
+    {
+      label: "Add Income",
+      path: "/income/add-income",
+      color: "from-emerald-200 to-green-200 text-emerald-800"
+    },
+    {
+      label: "Search Income",
+      path: "/income/search-income",
+      color: "from-blue-200 to-sky-200 text-blue-800"
+    },
+    {
+      label: "Income Head",
+      path: "/income/income-head",
+      color: "from-violet-200 to-purple-200 text-violet-800"
+    }
+  ]
+}
+
 ];
 
 /* ================= SIDEBAR ================= */

@@ -34,8 +34,8 @@ import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import VisitorBook from "./Pages/VisitorBook/VisitorBook";
 import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
 import PostalReceive from "./Pages/PostalReceive/PostalReceive";
-import Complain from "./Pages/Complain/Complain";
-import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
+
+
 
 export default function App() {
   return (
@@ -78,13 +78,13 @@ export default function App() {
           <Route path="survey/data" element={<AdmissionSurveyView />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="/awards" element={<AwardAdminPage />} />
-          <Route path="/learning/pre" element={<PrePrimery />} />
-          <Route path="/learning/primary" element={<Primery />} />
-          <Route path="/learning/secondary" element={<Secondary />} />
-          <Route path="/front-office/visitors" element={<VisitorBook />} />
-          <Route path="/front-office/complain" element={<Complain />} />
-          <Route path="/front-office/complain/add" element={<ComplainAdd />} />   
-   
+          <Route path="/learning/pre" element={<PrePrimery />} />   
+          <Route path="/learning/primary" element={<Primery />} />   
+          <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/front-office/visitors" element={<VisitorBook />} />   
+          <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
+          <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
+          <Route path="/faq" element={<FaqPosting />} />   
 
           <Route
             path="/front-office/postal-dispatch"
