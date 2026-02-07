@@ -34,6 +34,8 @@ import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import VisitorBook from "./Pages/VisitorBook/VisitorBook";
 import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
 import PostalReceive from "./Pages/PostalReceive/PostalReceive";
+import GatePass from "./Pages/GatePass/GatePass";
+
 
 export default function App() {
   return (
@@ -86,6 +88,9 @@ export default function App() {
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
+
+          <Route path="/front-office/gate-pass" element={<GatePass />} />
+          
 
         </Route>
 

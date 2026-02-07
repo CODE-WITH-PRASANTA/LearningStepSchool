@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 
 const GatePassForm = ({ onAdd }) => {
-  const [form, setForm] = useState({
-    student: "",
+
+  const [issuedTo, setIssuedTo] = useState("Student");
+  const [imageType, setImageType] = useState("upload");
+
+  const [preview, setPreview] = useState(null);
+
+  const [formData, setFormData] = useState({
+    name: "",
     person: "",
     startDate: "",
     endDate: "",
@@ -12,21 +18,37 @@ const GatePassForm = ({ onAdd }) => {
     image: null,
   });
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
+  /* ================= INPUT HANDLER ================= */
 
-    if (files) {
-      setForm({ ...form, image: URL.createObjectURL(files[0]) });
-    } else {
-      setForm({ ...form, [name]: value });
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  /* ================= IMAGE UPLOAD ================= */
+
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      setFormData({ ...formData, image: url });
     }
   };
 
-  const submit = (e) => {
+  /* ================= SUBMIT ================= */
+
+  const submitForm = (e) => {
     e.preventDefault();
-    onAdd(form);
-    setForm({
-      student: "",
+
+    onAdd({
+      ...formData,
+      issuedTo,
+    });
+
+    setFormData({
+      name: "",
       person: "",
       startDate: "",
       endDate: "",
@@ -35,45 +57,194 @@ const GatePassForm = ({ onAdd }) => {
       note: "",
       image: null,
     });
+
+    setPreview(null);
+    setImageType("upload");
+    setIssuedTo("Student");
   };
 
   return (
     <div className="gatepass-form-card">
-      <h3>Add Gate Pass</h3>
 
-      <form onSubmit={submit}>
-        <input
-          name="student"
-          placeholder="Student Name"
-          value={form.student}
-          onChange={handleChange}
-          required
-        />
+      {/* ===== HEADER ===== */}
+      <div className="card-header">
+        Add Gate Pass
+      </div>
 
-        <input
-          name="person"
-          placeholder="Person Carrying Student"
-          value={form.person}
-          onChange={handleChange}
-          required
-        />
+      {/* ===== FORM BODY ===== */}
+      <form className="form-body" onSubmit={submitForm}>
 
-        <input type="date" name="startDate" onChange={handleChange} required />
-        <input type="date" name="endDate" onChange={handleChange} required />
+        {/* ===== ISSUED TO ===== */}
+        <div className="form-group">
+          <label>Issued To *</label>
 
-        <input type="time" name="inTime" onChange={handleChange} />
-        <input type="time" name="outTime" onChange={handleChange} />
+          <select
+            value={issuedTo}
+            onChange={(e) => setIssuedTo(e.target.value)}
+          >
+            <option>Student</option>
+            <option>Staff</option>
+          </select>
+        </div>
 
-        <input type="file" onChange={handleChange} />
+        {/* ===== NAME FIELD (DYNAMIC) ===== */}
+        <div className="form-group">
+          <label>{issuedTo} Name *</label>
 
-        <textarea
-          name="note"
-          placeholder="Note"
-          value={form.note}
-          onChange={handleChange}
-        />
+          <input
+            name="name"
+            placeholder={`${issuedTo} Name`}
+            value={formData.name}
+            onChange={handleInput}
+            required
+          />
+        </div>
 
-        <button className="btn-primary">Save</button>
+        {/* ===== START DATE ===== */}
+        <div className="form-group">
+          <label>Start Date *</label>
+
+          <input
+            type="date"
+            name="startDate"
+            value={formData.startDate}
+            onChange={handleInput}
+            required
+          />
+        </div>
+
+        {/* ===== END DATE ===== */}
+        <div className="form-group">
+          <label>End Date *</label>
+
+          <input
+            type="date"
+            name="endDate"
+            value={formData.endDate}
+            onChange={handleInput}
+            required
+          />
+        </div>
+
+        {/* ===== IN TIME ===== */}
+        <div className="form-group">
+          <label>In Time</label>
+
+          <input
+            type="time"
+            name="inTime"
+            value={formData.inTime}
+            onChange={handleInput}
+          />
+        </div>
+
+        {/* ===== OUT TIME ===== */}
+        <div className="form-group">
+          <label>Out Time</label>
+
+          <input
+            type="time"
+            name="outTime"
+            value={formData.outTime}
+            onChange={handleInput}
+          />
+        </div>
+
+        {/* ===== IMAGE SECTION ===== */}
+        <div className="form-group">
+
+          <label>Image</label>
+
+          {/* Radio Buttons */}
+          <div className="image-options">
+
+            <label>
+              <input
+                type="radio"
+                checked={imageType === "upload"}
+                onChange={() => setImageType("upload")}
+              />
+              Upload
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                checked={imageType === "capture"}
+                onChange={() => setImageType("capture")}
+              />
+              Capture
+            </label>
+
+          </div>
+
+          {/* ===== UPLOAD MODE ===== */}
+          {imageType === "upload" && (
+            <div className="image-box">
+
+              {preview ? (
+                <img
+                  src={preview}
+                  className="preview-img"
+                  alt="preview"
+                />
+              ) : (
+                <span>⬆</span>
+              )}
+
+              <input type="file" onChange={handleImage} />
+
+            </div>
+          )}
+
+          {/* ===== CAPTURE MODE ===== */}
+          {imageType === "capture" && (
+            <div className="capture-section">
+
+              <div className="capture-placeholder"></div>
+
+              <button
+                type="button"
+                className="btn-primary capture-btn"
+                onClick={() => alert("Camera integration coming soon")}
+              >
+                Capture image
+              </button>
+
+            </div>
+          )}
+
+        </div>
+
+        {/* ===== PERSON CARRYING ===== */}
+        <div className="form-group">
+          <label>Name of Person Carrying Student</label>
+
+          <input
+            name="person"
+            placeholder="Name of Person Carrying Student"
+            value={formData.person}
+            onChange={handleInput}
+          />
+        </div>
+
+        {/* ===== NOTE ===== */}
+        <div className="form-group">
+          <label>Note</label>
+
+          <textarea
+            name="note"
+            placeholder="Note"
+            value={formData.note}
+            onChange={handleInput}
+          />
+        </div>
+
+        {/* ===== SAVE BUTTON ===== */}
+        <button className="btn-primary" type="submit">
+          Save
+        </button>
+
       </form>
     </div>
   );
