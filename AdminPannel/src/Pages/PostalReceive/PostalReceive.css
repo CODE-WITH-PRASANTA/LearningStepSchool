@@ -1,0 +1,152 @@
+/* PAGE WRAPPER */
+.pr-wrapper {
+  padding: 25px;
+  background: #eef1f7;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.pr-heading {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #1f2d5c;
+}
+
+/* GRID */
+.pr-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+/* CARD STYLE */
+.pr-card {
+  flex: 1;
+  min-width: 320px;
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
+  backdrop-filter: blur(8px);
+}
+
+.pr-card-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #1d335e;
+}
+
+/* INPUTS */
+.pr-input,
+.pr-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+  background: #f9fafb;
+}
+
+.pr-input:focus,
+.pr-textarea:focus {
+  border-color: #2563eb;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.pr-textarea {
+  min-height: 80px;
+}
+
+/* SUBMIT BUTTON */
+.pr-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.pr-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+}
+
+/* TABLE CARD */
+.pr-table-card {
+  flex: 2;
+}
+
+/* SEARCH BOX */
+.pr-search-box {
+  margin-bottom: 15px;
+}
+
+.pr-search-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+}
+
+/* TABLE */
+.pr-table-scroll {
+  overflow-x: auto;
+}
+
+.pr-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.pr-table th {
+  background: #f1f5f9;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.pr-table th,
+.pr-table td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px;
+}
+
+.pr-edit {
+  padding: 6px 10px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  margin-right: 6px;
+}
+
+.pr-delete {
+  padding: 6px 10px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.pr-no-data {
+  text-align: center;
+  padding: 15px;
+  color: #888;
+}
+
+.pr-footer {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #475569;
+}
+

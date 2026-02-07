@@ -35,13 +35,18 @@ import VisitorBook from "./Pages/VisitorBook/VisitorBook";
 import PostalDispatch from "./Pages/PostalDispatch/PostalDispatch";
 import PostalReceive from "./Pages/PostalReceive/PostalReceive";
 import GatePass from "./Pages/GatePass/GatePass";
+import AddIncome from "./Pages/AddIncome/AddIncome";
+import SearchIncome from "./Pages/SearchIncome/SearchIncome";
+import IncomeHead from "./Pages/IncomeHead/IncomeHead";
+import Complain from "./Pages/Complain/Complain";
+import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
+
 
 
 export default function App() {
   return (
     <AuthProvider>
       <Routes>
-
         {/* ===== PUBLIC ROUTE ===== */}
         <Route path="/login" element={<LoginPage />} />
 
@@ -54,7 +59,6 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-
           {/* Default redirect */}
           <Route index element={<Navigate to="dashboard" replace />} />
 
@@ -88,15 +92,36 @@ export default function App() {
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
+          <Route path="/income/add-income" element={<AddIncome />} />
+          <Route path="/income/search-income" element={<SearchIncome />} />
+          <Route path="/income/income-head" element={<IncomeHead />} />
+           <Route path="/front-office/complain" element={<Complain />} />
+           <Route path="/front-office/complain/add" element={<ComplainAdd />} />
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
           
 
+
+          
+
+          <Route
+            path="/front-office/postal-dispatch"
+            element={<PostalDispatch />}
+          />
+          <Route
+            path="/front-office/postal-receive"
+            element={<PostalReceive />}
+          />
+          <Route
+            path="/front-office/postal-receive"
+            element={<PostalReceive />}
+          />
+
+          <Route path="/faq" element={<FaqPosting />} />
         </Route>
 
         {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/login" replace />} />
-
       </Routes>
     </AuthProvider>
   );
