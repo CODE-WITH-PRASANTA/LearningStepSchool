@@ -37,7 +37,7 @@ export default function PrePrimery() {
   return (
     <div className="pp-container">
 
-      {/* ========== FORM ========== */}
+      {/* LEFT FORM */}
       <form className="pp-form" onSubmit={handleSubmit}>
         <h2 className="pp-title">
           {editIndex !== null ? "Edit Activity" : "Add Activity"}
@@ -71,51 +71,51 @@ export default function PrePrimery() {
           {editIndex !== null ? "Update" : "Submit"}
         </button>
 
-        {/* Version text */}
         <p className="pp-version">Version 1.0.0</p>
       </form>
 
-      {/* ========== TABLE ========== */}
+      {/* RIGHT TABLE */}
       <div className="pp-table-box">
         <h2 className="pp-title mb-4">Today's Activities</h2>
 
-        <table className="pp-table">
-          <thead>
-            <tr>
-              <th>Hour</th>
-              <th>Activity</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {records.map((r, i) => (
-              <tr key={i}>
-                <td>{r.hour}</td>
-                <td>{r.activity}</td>
-                <td className="pp-actions">
-                  <button className="pp-edit" onClick={() => editRecord(i)}>
-                    Edit
-                  </button>
-                  <button className="pp-delete" onClick={() => deleteRecord(i)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-
-            {records.length === 0 && (
+        <div className="pp-table-wrapper">
+          <table className="pp-table">
+            <thead>
               <tr>
-                <td colSpan="3" className="pp-empty">
-                  No records added yet
-                </td>
+                <th>Hour</th>
+                <th>Activity</th>
+                <th>Actions</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {records.map((r, i) => (
+                <tr key={i}>
+                  <td>{r.hour}</td>
+                  <td>{r.activity}</td>
+                  <td className="pp-actions">
+                    <button className="pp-edit" onClick={() => editRecord(i)}>
+                      Edit
+                    </button>
+                    <button className="pp-delete" onClick={() => deleteRecord(i)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {records.length === 0 && (
+                <tr>
+                  <td colSpan="3" className="pp-empty">
+                    No records added yet
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>
   );
 }
-

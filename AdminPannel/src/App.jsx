@@ -37,6 +37,8 @@ import PostalReceive from "./Pages/PostalReceive/PostalReceive";
 import AddIncome from "./Pages/AddIncome/AddIncome";
 import SearchIncome from "./Pages/SearchIncome/SearchIncome";
 import IncomeHead from "./Pages/IncomeHead/IncomeHead";
+import Complain from "./Pages/Complain/Complain";
+import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
 
 
 
@@ -89,10 +91,11 @@ export default function App() {
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
-          <Route path="/income/add" element={<AddIncome />} />
-          <Route path="/income/search" element={<SearchIncome />} />
-          <Route path="/income/head" element={<IncomeHead />} />
-
+          <Route path="/income/add-income" element={<AddIncome />} />
+          <Route path="/income/search-income" element={<SearchIncome />} />
+          <Route path="/income/income-head" element={<IncomeHead />} />
+           <Route path="/front-office/complain" element={<Complain />} />
+           <Route path="/front-office/complain/add" element={<ComplainAdd />} />
 
 
           
