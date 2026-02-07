@@ -39,6 +39,9 @@ import SearchIncome from "./Pages/SearchIncome/SearchIncome";
 import IncomeHead from "./Pages/IncomeHead/IncomeHead";
 import Complain from "./Pages/Complain/Complain";
 import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
+import DailyTimeTable from "./Pages/DailyTimeTable/DailyTimeTable";
+import ClassTimeTable from "./Pages/ClassTimeTable/ClassTimeTable";
+import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
 
 
 
@@ -96,8 +99,9 @@ export default function App() {
           <Route path="/income/income-head" element={<IncomeHead />} />
            <Route path="/front-office/complain" element={<Complain />} />
            <Route path="/front-office/complain/add" element={<ComplainAdd />} />
-
-
+           <Route path="/academics/daily-time-table" element={<DailyTimeTable />} />
+           <Route path="/academics/class-time-table" element={<ClassTimeTable />} />
+           <Route path="/academics/teacher-timetable" element={<TeacherTimeTable/>}/>
           
 
           <Route
