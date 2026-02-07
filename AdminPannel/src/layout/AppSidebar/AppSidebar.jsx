@@ -75,6 +75,29 @@ const menu = [
       { label: "Entrance Examination Form", path: "/front-office/exam-form", color: "from-purple-200 to-fuchsia-200 text-purple-800" },
     ],
   },
+  { type: "divider" },
+ {
+  label: "Attendance",
+  icon: FiCalendar,
+  children: [
+    {
+      label: "Student Attendance",
+      path: "/attendance/student-attendance",
+      color: "from-indigo-200 to-indigo-300 text-indigo-900",
+    },
+    {
+      label: "Student Leave",
+      path: "/attendance/student-leave",
+      color: "from-amber-200 to-orange-300 text-amber-900",
+    },
+    {
+      label: "Attendance Report",
+      path: "/attendance/attendance-report",
+      color: "from-emerald-200 to-green-300 text-emerald-900",
+    },
+  ],
+}
+
 ];
 
 /* ================= SIDEBAR ================= */
