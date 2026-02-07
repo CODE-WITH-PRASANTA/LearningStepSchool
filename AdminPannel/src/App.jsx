@@ -40,6 +40,9 @@ import SearchIncome from "./Pages/SearchIncome/SearchIncome";
 import IncomeHead from "./Pages/IncomeHead/IncomeHead";
 import Complain from "./Pages/Complain/Complain";
 import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
+import AssignClassTeacher from "./Pages/AssignClassTeacher/AssignClassTeacher";
+import ClassPage from "./Pages/ClassPage/ClassPage";
+import SectionPage from "./Pages/SectionPage/SectionPage";
 
 
 
@@ -86,10 +89,10 @@ export default function App() {
           <Route path="/awards" element={<AwardAdminPage />} />
           <Route path="/learning/pre" element={<PrePrimery />} />   
           <Route path="/learning/primary" element={<Primery />} />   
-          <Route path="/learning/secondary" element={<Secondary />} />   
-          <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
+          <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
           <Route path="/income/add-income" element={<AddIncome />} />
@@ -99,6 +102,10 @@ export default function App() {
            <Route path="/front-office/complain/add" element={<ComplainAdd />} />
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
+
+          <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
+          <Route path="/academics/class" element={<ClassPage />} />
+          <Route path="/academics/section" element={<SectionPage />} />
           
 
 
