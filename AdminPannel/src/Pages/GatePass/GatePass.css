@@ -1,0 +1,412 @@
+/* ================= WRAPPER ================= */
+
+.gatepass-wrapper {
+  background: #f1f1f6;
+  padding: 18px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ================= MAIN LAYOUT ================= */
+
+.gatepass-container {
+  display: flex;
+  gap: 18px;
+  height: 100%;
+}
+
+/* ================= HIDE SCROLLBAR ================= */
+
+.gatepass-form-card,
+.gatepass-list-card {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.gatepass-form-card::-webkit-scrollbar,
+.gatepass-list-card::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================= CARDS ================= */
+
+.gatepass-form-card,
+.gatepass-list-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= TOP BAR ================= */
+
+.card-header {
+  background: #fde8ee;
+  padding: 14px 18px;
+  border-radius: 16px 16px 0 0;
+  font-weight: 600;
+  font-size: 17px;
+  color: #050a5c;
+  border-bottom: 1px solid #f7cfd9;
+}
+
+/* ================= FORM ================= */
+
+.gatepass-form-card {
+  width: 360px;
+}
+
+.form-body {
+  padding: 16px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #050a5c;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid #cfd6ff;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9aa4d6;
+}
+
+/* ================= IMAGE ================= */
+
+.image-options {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+
+.image-box {
+  width: 130px;
+  height: 130px;
+  border: 2px solid #2563eb;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.image-box span {
+  background: #2563eb;
+  width: 36px;
+  height: 36px;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.image-box input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ===== CAPTURE ===== */
+
+.capture-placeholder {
+  height: 180px;
+  border: 2px dashed #cfd6ff;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+/* ================= BUTTON ================= */
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  align-self: flex-end;
+}
+
+/* ================= LIST ================= */
+
+.gatepass-list-card {
+  flex: 1;
+}
+
+.list-body {
+  padding: 16px;
+}
+
+/* ================= TABLE ================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  background: #fde8ee;
+  padding: 10px;
+  color: #050a5c;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.table-img {
+  width: 46px;
+  border-radius: 8px;
+}
+
+/* ================= ACTION ================= */
+
+.action-cell {
+  position: relative;
+}
+
+.btn-action {
+  background: #2563eb;
+  color: white;
+  padding: 1px 17px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== DROPDOWN ===== */
+
+.action-menu {
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+  padding: 10px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.action-item {
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.action-item:hover {
+  background: #f2f4ff;
+}
+
+.delete-btn {
+  color: red;
+}
+
+/* ================= PAGINATION ================= */
+
+.pagination {
+  margin-top: 14px;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+
+.pagination .active {
+  background: #2563eb;
+  color: white;
+}
+
+/* ================= PRINT MODAL ================= */
+
+.print-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* ================= PRINT MODAL ================= */
+
+.print-wrapper{
+  width: 600px;
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* ===== TOP BAR ===== */
+
+.print-top{
+  background:#050a5c;
+  color:white;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:18px;
+}
+
+.print-icon{
+  cursor:pointer;
+  font-size:20px;
+}
+
+.print-close{
+  background:none;
+  border:none;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* ================= ID CARD ================= */
+
+.id-card{
+  margin:18px;
+  border-radius:12px;
+  overflow:hidden;
+  border:2px solid #050a5c;
+}
+
+/* ===== HEADER ===== */
+
+.id-header{
+  background:linear-gradient(135deg,#050a5c,#2d2fa3);
+  display:flex;
+  align-items:center;
+  padding:14px;
+  gap:14px;
+  color:white;
+}
+
+.id-logo{
+  width:90px;
+}
+
+.id-title{
+  font-size:16px;
+  font-weight:600;
+}
+
+.id-sub{
+  font-size:13px;
+  margin-top:2px;
+}
+
+/* ===== BODY ===== */
+
+.id-body{
+  display:flex;
+  justify-content:space-between;
+  padding:16px;
+}
+
+.id-info p{
+  margin:6px 0;
+  font-size:14px;
+}
+
+/* ===== PHOTO ===== */
+
+.id-photo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+.id-photo img{
+  width:120px;
+  height:140px;
+  object-fit:cover;
+  border:1px solid #aaa;
+}
+
+.photo-placeholder{
+  width:120px;
+  height:140px;
+  border:1px solid #aaa;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  color:#777;
+}
+
+.id-photo span{
+  font-size:12px;
+}
+
+/* ===== FOOTER ===== */
+
+.id-footer{
+  background:linear-gradient(135deg,#2d2fa3,#050a5c);
+  color:white;
+  padding:10px 14px;
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+}
+
+.sign-text{
+  font-style:italic;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+  .gatepass-container{
+    flex-direction: column;
+  }
+
+  .gatepass-form-card{
+    width: 100%;
+  }
+}

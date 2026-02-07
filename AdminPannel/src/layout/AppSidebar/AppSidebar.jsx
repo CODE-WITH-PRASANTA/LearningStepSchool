@@ -12,6 +12,7 @@ import {
   FiUserPlus,
   FiCalendar,
   FiChevronDown,
+  FiMonitor,
   FiBriefcase,
 } from "react-icons/fi";
 
@@ -24,16 +25,37 @@ const menu = [
     label: "Blog Management",
     icon: FiBookOpen,
     children: [
-      { label: "Blog Posts", path: "/blogs", color: "from-indigo-200 to-violet-200 text-indigo-800" },
-      { label: "Blog View", path: "/blogs/view", color: "from-sky-200 to-blue-200 text-sky-800" },
+      {
+        label: "Blog Posts",
+        path: "/blogs",
+        color: "from-indigo-200 to-violet-200 text-indigo-800",
+      },
+      {
+        label: "Blog View",
+        path: "/blogs/view",
+        color: "from-sky-200 to-blue-200 text-sky-800",
+      },
     ],
   },
 
   { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
+
   { label: "Award Management", icon: FiAward, path: "/awards" },
+
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
+
   { label: "Notice Management", icon: FiClipboard, path: "/notices" },
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
+
+  /* ===== NEW ADVERTISEMENT SECTION ===== */
+
+  {
+    label: "Advertisement Management",
+    icon: FiMonitor,
+    path: "/advertisements",
+  },
+
+  /* ================================= */
 
   {
     label: "Learning Management",
@@ -75,6 +97,7 @@ const menu = [
       { label: "Entrance Examination Form", path: "/front-office/exam-form", color: "from-purple-200 to-fuchsia-200 text-purple-800" },
     ],
   },
+<<<<<<< HEAD
   { type: "divider" },
  {
   label: "Attendance",
@@ -98,6 +121,89 @@ const menu = [
   ],
 }
 
+=======
+    { type: "divider" },
+  {
+  label: "Income",
+  icon: FiBriefcase,
+  children: [
+    {
+      label: "Add Income",
+      path: "/income/add-income",
+      color: "from-emerald-200 to-green-200 text-emerald-800"
+    },
+    {
+      label: "Search Income",
+      path: "/income/search-income",
+      color: "from-blue-200 to-sky-200 text-blue-800"
+    },
+    {
+      label: "Income Head",
+      path: "/income/income-head",
+      color: "from-violet-200 to-purple-200 text-violet-800"
+    }
+  ]
+  },
+    { type: "divider" },
+{
+  label: "Academics",
+  icon: FiBookOpen, // you can change icon if needed
+  children: [
+    {
+      label: "Class Time Table",
+      path: "/academics/class-time-table",
+      color: "from-blue-200 to-indigo-200 text-blue-800"
+    },
+    {
+      label: "Teacher Timetable",
+      path: "/academics/teacher-timetable",
+      color: "from-purple-200 to-violet-200 text-purple-800"
+    },
+    {
+      label: "Daily Time Table",
+      path: "/academics/daily-time-table",
+      color: "from-cyan-200 to-sky-200 text-cyan-800"
+    },
+    {
+      label: "Co-Curricular Subject",
+      path: "/academics/co-curricular-subject",
+      color: "from-pink-200 to-rose-200 text-pink-800"
+    },
+    {
+      label: "Subject",
+      path: "/academics/subject",
+      color: "from-emerald-200 to-green-200 text-emerald-800"
+    },
+    {
+      label: "Assign Subjects",
+      path: "/academics/assign-subjects",
+      color: "from-yellow-200 to-amber-200 text-yellow-800"
+    },
+    {
+      label: "Student Subjects",
+      path: "/academics/student-subjects",
+      color: "from-orange-200 to-red-200 text-orange-800"
+    },
+    {
+      label: "Assign Class Teacher",
+      path: "/academics/assign-class-teacher",
+      color: "from-teal-200 to-cyan-200 text-teal-800"
+    },
+    {
+      label: "Class",
+      path: "/academics/class",
+      color: "from-slate-200 to-gray-200 text-slate-800"
+    },
+    {
+      label: "Section",
+      path: "/academics/section",
+      color: "from-neutral-200 to-zinc-200 text-neutral-800"
+    }
+  ]
+}
+
+
+>>>>>>> dd7b1e7a684c32760b527f1b83ef7107a90f56a4
 ];
 
 /* ================= SIDEBAR ================= */
@@ -139,6 +245,7 @@ export default function AppSidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
           {sidebarOpen ? "School Admin" : "SA"}
         </div>
 
+        {/* MENU */}
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-3">
           {menu.map((item, i) => {
             if (item.type === "divider") {

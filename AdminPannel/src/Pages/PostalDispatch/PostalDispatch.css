@@ -1,0 +1,183 @@
+/* PostalDispatch.css */
+
+.pd-main-wrapper {
+  padding: 30px;
+  background: #f5f7fa;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.pd-main-heading {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* CONTAINER */
+.pd-container {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+/* LEFT FORM */
+.pd-form {
+  width: 35%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pd-title {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.pd-input,
+.pd-textarea,
+.pd-search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.pd-textarea {
+  height: 70px;
+  resize: none;
+}
+
+.pd-submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pd-submit-btn:hover {
+  background: #3576c6;
+}
+
+/* RIGHT TABLE SECTION */
+.pd-table-box {
+  flex: 1;
+  min-width: 350px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  overflow-x: auto; /* ✅ Horizontal scroll */
+  overflow-y: hidden;
+}
+
+/* NEW: Scroll container for table */
+.pd-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pd-table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pd-table-scroll::-webkit-scrollbar-thumb {
+  background: #b5b5b5;
+  border-radius: 10px;
+}
+
+.pd-table-scroll::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.pd-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* TABLE */
+.pd-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.pd-table th,
+.pd-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.pd-table th {
+  background: #e9eef5;
+  font-weight: bold;
+}
+
+.pd-edit,
+.pd-delete {
+  padding: 5px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.pd-edit {
+  background: #4caf50;
+  color: white;
+}
+
+.pd-delete {
+  background: #e63946;
+  color: white;
+}
+
+.pd-empty {
+  text-align: center;
+  padding: 18px;
+  color: #999;
+}
+
+.pd-footer {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+  .pd-container {
+    flex-direction: column;
+  }
+  .pd-form,
+  .pd-table-box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .pd-main-heading {
+    font-size: 26px;
+  }
+
+  .pd-title {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,178 @@
+/* PAGE BASE */
+.income-head-page {
+  padding: 25px;
+  background: #f2f3f7;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.page-header h2 {
+  font-size: 28px;
+  color: #0c1b52;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* MAIN LAYOUT */
+.income-layout {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+@media (max-width: 900px) {
+  .income-layout {
+    flex-direction: column;
+  }
+}
+
+/* LEFT FORM BOX */
+.form-box {
+  width: 350px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border-top: 6px solid #ffdde6;
+  padding: 20px;
+}
+
+.form-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffeef2;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.form-title-icon {
+  color: #0c1b52;
+  font-size: 20px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #0c1b52;
+  font-size: 14px;
+}
+
+.req {
+  color: red;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  background: #eaeaf7;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* SAVE BUTTON */
+.btn-save {
+  width: 100%;
+  background: #071d80;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background: #062063;
+}
+
+/* RIGHT SIDE TABLE */
+.list-box {
+  flex: 1;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border-top: 6px solid #ffdde6;
+  padding: 20px;
+}
+
+.list-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffeef2;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Toolbar */
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.export-buttons button {
+  background: #071d80;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  margin-right: 6px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.table-search {
+  padding: 8px 12px;
+  background: #eaeaf7;
+  border: none;
+  border-radius: 8px;
+  width: 200px;
+}
+
+/* TABLE */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.income-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.income-table th {
+  background: #ffeaf1;
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  color: #0c1b52;
+}
+
+.income-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: gray;
+}
+
