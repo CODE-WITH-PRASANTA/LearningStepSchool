@@ -1,0 +1,203 @@
+/* ================= GLOBAL ================= */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, sans-serif;
+  background: #f6f7fb;
+  overflow-x: hidden; /* ❌ NO page horizontal scroll */
+}
+
+/* ================= PAGE ================= */
+.vlist-wrapper {
+  padding: 20px;
+}
+
+.page-title {
+  margin-bottom: 15px;
+}
+
+/* ================= LAYOUT ================= */
+.vlist-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+}
+
+/* ================= FORM ================= */
+.visitor-form-card {
+  background: #fff;
+  border: 2px solid #f7c6d0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.visitor-form-header {
+  background: #fff1f4;
+  padding: 14px 18px;
+  font-weight: 600;
+  color: #0a158a;
+  border-bottom: 1px solid #f7c6d0;
+}
+
+.visitor-form-body {
+  padding: 18px;
+}
+
+.visitor-form-body label {
+  display: block;
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.visitor-form-body label span {
+  color: red;
+}
+
+.visitor-form-body input,
+.visitor-form-body select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 9px 10px;
+  border: 1px solid #c7d2fe;
+  border-radius: 6px;
+}
+
+.save-btn {
+  margin-top: 20px;
+  width: 100%;
+  background: #0a158a;
+  color: #fff;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ================= TABLE ================= */
+.visitor-table-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #f1c6d0;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.visitor-table-header {
+  background: #ffeef3;
+  padding: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* ⭐ ONLY TABLE SCROLLS */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.visitor-table {
+  width: 100%;
+  min-width: 1100px; /* forces horizontal scroll */
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.visitor-table th,
+.visitor-table td {
+  border: 1px solid #d1d5db;
+  padding: 9px;
+  text-align: left;
+}
+
+.visitor-table th {
+  background: #fff1f4;
+  position: sticky;
+  top: 0;
+}
+
+/* ================= ACTION ================= */
+.action-cell {
+  position: relative;
+  text-align: center;
+}
+
+.dot-btn {
+  background: #eef2ff;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.action-menu {
+  position: absolute;
+  right: 0;
+  top: 34px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  z-index: 99;
+}
+
+.action-menu button,
+.action-menu .lnk {
+  width: 100%;
+  padding: 8px 12px;
+  display: flex;
+  gap: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+}
+
+.action-menu button:hover,
+.action-menu .lnk:hover {
+  background: #f4f6ff;
+}
+
+/* ================= MODAL ================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  background: #fff;
+  width: 420px;
+  border-radius: 10px;
+}
+
+.modal-header {
+  background: #0a158a;
+  color: #fff;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px 10px 0 0;
+}
+
+.modal-header span {
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 15px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .vlist-layout {
+    grid-template-columns: 1fr;
+  }
+}
