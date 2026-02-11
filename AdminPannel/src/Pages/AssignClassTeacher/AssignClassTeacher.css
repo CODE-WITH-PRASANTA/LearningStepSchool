@@ -1,0 +1,249 @@
+/* ================= WRAPPER ================= */
+.ct-wrapper {
+  padding: 20px;
+  background: #f1f1f6;
+  min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+.ct-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* ================= GRID ================= */
+.ct-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+}
+
+/* ================= CARD ================= */
+.ct-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 2px solid #ffd6df;
+  overflow: hidden;
+}
+
+.ct-card-header {
+  background: #fff2f5;
+  padding: 14px 18px;
+  font-weight: 600;
+  color: #0a0a5a;
+  font-size: 16px;
+}
+
+.ct-body {
+  padding: 16px;
+}
+
+.ct-body label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ct-body select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cfd4ff;
+  font-size: 14px;
+}
+
+/* ================= BUTTON ================= */
+.ct-btn {
+  margin-top: 18px;
+  float: right;
+  padding: 8px 20px;
+  background: #0a0a5a;
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ================= TABLE CARD ================= */
+.ct-table-card {
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= TABLE ================= */
+.ct-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 👈 keeps heading & data aligned */
+}
+
+/* TABLE HEAD */
+.ct-table th {
+  background: #ffe9ef;
+  font-weight: 600;
+  color: #0a0a5a;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* TABLE CELLS */
+.ct-table th,
+.ct-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle; /* 👈 key alignment fix */
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* ROW HEIGHT */
+.ct-table tr {
+  height: 52px;
+}
+
+/* STRIPED ROWS */
+.ct-table tr:nth-child(even) {
+  background: #f4f6ff;
+}
+
+/* HOVER */
+.ct-table tr:hover {
+  background: #eef1ff;
+}
+
+/* ================= COLUMN ALIGNMENT ================= */
+
+/* CLASS */
+.ct-table th:nth-child(1),
+.ct-table td:nth-child(1) {
+  width: 120px;
+  text-align: center;
+}
+
+/* SECTION */
+.ct-table th:nth-child(2),
+.ct-table td:nth-child(2) {
+  width: 120px;
+  text-align: center;
+}
+
+/* CLASS TEACHER */
+.ct-table th:nth-child(3),
+.ct-table td:nth-child(3) {
+  text-align: left;
+  padding-left: 20px;
+}
+
+/* ACTION */
+.ct-table th:nth-child(4),
+.ct-table td:nth-child(4) {
+  width: 140px;
+  text-align: right;
+  padding-right: 20px;
+}
+
+/* ================= TABLE SCROLL ================= */
+.ct-table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.ct-table-scroll::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+/* ================= ACTION BUTTON ================= */
+.ct-action {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ct-action-btn {
+  background: #0a0a5a;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ct-action-btn .caret {
+  margin-left: 6px;
+  font-size: 10px;
+}
+
+/* ================= DROPDOWN MENU ================= */
+.ct-action-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #fff;
+  border-radius: 10px;
+  min-width: 150px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+  border: 1px solid #eee;
+  z-index: 999;
+  overflow: hidden;
+}
+
+.ct-menu-item {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ct-menu-item:hover {
+  background: #3f5bda;
+  color: #fff;
+}
+
+.ct-menu-item.delete {
+  color: #e63946;
+}
+
+/* ================= PAGINATION ================= */
+.ct-pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 12px;
+}
+
+.ct-pagination button {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.ct-pagination .active {
+  background: #0a0a5a;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .ct-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-table th,
+  .ct-table td {
+    font-size: 13px;
+  }
+}

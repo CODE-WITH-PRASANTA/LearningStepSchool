@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import TestimonialForm from "./TestimonialForm";
-import TestimonialList from "./TestimonialList";
-import "./testimonialAdmin.css";
+import TestimonialForm from "../../Component/Testimonialpages/TestimonialForm";
+import TestimonialList from "../../Component/Testimonialpages/TestimonialList";
+import "./Testimonialpage.css";
 
 const TestimonialPage = () => {
 

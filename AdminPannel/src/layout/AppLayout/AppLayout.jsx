@@ -8,7 +8,7 @@ export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-<div className="bg-slate-100 flex h-screen overflow-hidden">
+    <div className="h-screen w-full overflow-hidden bg-slate-100">
       {/* SIDEBAR */}
       <AppSidebar
         sidebarOpen={sidebarOpen}
@@ -16,9 +16,9 @@ export default function AppLayout() {
         setMobileOpen={setMobileOpen}
       />
 
-      {/* RIGHT CONTENT */}
+      {/* CONTENT WRAPPER */}
       <div
-        className={`flex-1 flex flex-col transition-all duration-300
+        className={`flex h-full flex-col transition-all duration-300
         ${sidebarOpen ? "lg:ml-72" : "lg:ml-20"}`}
       >
         {/* HEADER */}
@@ -28,8 +28,8 @@ export default function AppLayout() {
           setMobileOpen={setMobileOpen}
         />
 
-        {/* MAIN CONTENT */}
-<main className="flex-1 overflow-y-auto overflow-x-auto p-6 lg:p-8">
+        {/* MAIN CONTENT – ONLY SCROLL AREA */}
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           <Outlet />
         </main>
       </div>

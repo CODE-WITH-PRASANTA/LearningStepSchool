@@ -1,0 +1,200 @@
+/* WRAPPER */
+.ctt-wrapper {
+  padding: 24px;
+  font-family: "Inter", sans-serif;
+  color: #1c2a53;
+}
+
+/* HEADER */
+.ctt-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ctt-head h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.ctt-head p {
+  font-size: 14px;
+  color: #7681a0;
+}
+
+/* CRITERIA BOX */
+.ctt-box {
+  background: #ffffff;
+  padding: 18px 22px;
+  border-radius: 12px;
+  border: 1px solid #e6e7ef;
+}
+
+.ctt-title {
+  font-size: 19px;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.ctt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.ctt-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374060;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* INPUTS */
+.ctt-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: #f7f9ff;
+  border: 1px solid #cbd3eb;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+/* DROPDOWN BUTTON */
+.ctt-dropdown {
+  position: relative;
+}
+
+.ctt-drop-btn {
+  width: 100%;
+  padding: 10px 12px;
+  background: #f7f9ff;
+  border: 1px solid #cbd3eb;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* DROPDOWN MENU */
+.ctt-day-menu {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #d4d6e6;
+  border-radius: 10px;
+  padding: 10px 0;
+  margin-top: 6px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+}
+
+.ctt-day-item {
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.ctt-day-item:hover {
+  background: #f3f6ff;
+}
+
+/* SEARCH BUTTON */
+.btn-field {
+  display: flex;
+  align-items: flex-end;
+}
+
+.ctt-search-btn {
+  width: 100%;
+  padding: 10px 22px;
+  background: #0a2cc3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* TABLE */
+.ctt-table-box {
+  background: #fff;
+  margin-top: 22px;
+  border-radius: 12px;
+  border: 1px solid #e6e7ef;
+  padding: 18px;
+}
+
+.ctt-table-top h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.ctt-scroll {
+  overflow-x: auto;
+}
+
+.ctt-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ctt-table th {
+  padding: 12px;
+  background: #ffe4ef;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 2px solid #e1e4ef;
+}
+
+.ctt-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ececf6;
+  text-align: center;
+}
+
+/* PERIOD COLUMN */
+.ctt-period {
+  background: #faf5ff;
+  font-weight: 600;
+  width: 160px;
+}
+
+/* SUBJECT SELECT */
+.ctt-select {
+  width: 100%;
+  padding: 9px;
+  border-radius: 10px;
+  border: 1px solid #c8d0ec;
+  margin-bottom: 8px;
+  background: #ffffff;
+}
+
+/* TEACHER BOX */
+.ctt-teacher-box {
+  height: 45px;
+  background: #e6e7f5;
+  border-radius: 8px;
+}
+
+/* SAVE BUTTON */
+.ctt-save-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.ctt-save-btn {
+  background: #091e9d;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}

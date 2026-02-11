@@ -1,0 +1,194 @@
+/* PAGE */
+.income-page {
+  padding: 30px;
+  background: #f4f5fa;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.header-icon {
+  font-size: 28px;
+  color: #00083d;
+}
+
+.page-header h2 {
+  font-size: 30px;
+  color: #00083d;
+}
+
+.breadcrumb {
+  margin-left: auto;
+  color: #666;
+  font-size: 15px;
+}
+
+/* FILTER BOX */
+.filter-box {
+  background: #fff5fa;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 3px 10px #00000010;
+  margin-bottom: 30px;
+}
+
+.filter-title {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title-icon {
+  margin-right: 10px;
+  font-size: 22px;
+  color: #00083d;
+}
+
+/* GRID */
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #00083d;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eef0ff;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+/* TWO SEARCH BUTTONS */
+.two-search-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 18px;
+}
+
+.btn-date-search,
+.btn-history-search {
+  background: #00083d;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  font-size: 15px;
+}
+
+/* LIST BOX */
+.list-box {
+  background: #fff5fa;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 3px 10px #00000010;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.list-header h3 {
+  font-size: 22px;
+  color: #00083d;
+}
+
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* EXPORT BUTTONS */
+.export-buttons button {
+  background: #00083d;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+/* TABLE SEARCH BAR AREA */
+.table-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.entries-select {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: white;
+}
+
+.search-label {
+  font-size: 16px;
+  color: #00083d;
+}
+
+.table-search {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 200px;
+}
+
+/* TABLE */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.income-table {
+  width: 1300px;
+  min-width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.income-table th {
+  background: #ffe9f5;
+  padding: 14px;
+  text-align: left;
+  color: #00083d;
+  font-size: 15px;
+}
+
+.income-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #444;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
