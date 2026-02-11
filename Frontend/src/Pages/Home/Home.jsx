@@ -10,6 +10,7 @@ import HomeAbout from '../../Components/HomeAbout/HomeAbout'
 import HomeClasses from '../../Components/HomeClasses/HomeClasses'
 import AdmissionNav from '../../Components/AdmissionNav/AdmissionNav'
 import NewsTicker from '../../Components/NewsTicker/NewsTicker'
+import HomeGallery from '../../Components/HomeGallery/HomeGallery'
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
       <Awardwining/>
       <Testimonials/>
       <Ourevents/>
+      <HomeGallery/>
       {/* <Ourblogs/> */}
       <Skillscertificate/>
     </div>
