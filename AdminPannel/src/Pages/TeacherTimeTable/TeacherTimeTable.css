@@ -1,0 +1,229 @@
+/* MAIN WRAPPER */
+.tt-wrapper {
+  padding: 25px;
+  font-family: 'Inter', sans-serif;
+  background: #f5f6ff;
+}
+
+/* TOP HEADING */
+.tt-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1b1c52;
+}
+
+.tt-header p {
+  color: #777;
+  margin-top: -5px;
+  font-size: 14px;
+}
+
+/* BOX */
+.tt-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  margin-top: 20px;
+  border: 1px solid #e4e4fc;
+  box-shadow: 0px 4px 10px rgba(147, 147, 255, 0.08);
+}
+
+.tt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 25px;
+}
+
+.tt-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #30335f;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.tt-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #c9c9f8;
+  background: #fafaff;
+  font-size: 14px;
+  outline: none;
+}
+
+.tt-btn-field {
+  display: flex;
+  align-items: flex-end;
+}
+
+.tt-search-btn {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background: #001b75;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* TABLE SECTION */
+.tt-table-box {
+  margin-top: 25px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e4e4fc;
+  box-shadow: 0px 4px 10px rgba(147,147,255,0.08);
+}
+
+.tt-title {
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1b1c52;
+}
+
+/* SCROLL */
+.tt-scroll {
+  overflow-x: auto;
+}
+
+/* TABLE */
+.tt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: center;
+}
+
+.tt-table thead th {
+  padding: 15px 10px;
+  background: #ffe6ef;
+  color: #1b1c52;
+  font-weight: 700;
+  border: 1px solid #e4e4fc;
+  white-space: nowrap;
+}
+
+.period-col {
+  background: #ffe6ef;
+  font-weight: 700;
+  border-right: 1px solid #e4e4fc;
+}
+
+.tt-table tbody td {
+  height: 60px;
+  background: #f5f6ff;
+  border: 1px solid #e1e1f8;
+}
+
+.tt-cell {
+  background: #f5f6ff !important;
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+
+/* --- For Laptops & Tablets (≤ 1024px) --- */
+@media (max-width: 1024px) {
+  .tt-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 20px;
+  }
+
+  .tt-table thead th,
+  .period-col {
+    font-size: 13px;
+    padding: 12px 8px;
+  }
+}
+
+/* --- For Tablets (≤ 768px) --- */
+@media (max-width: 768px) {
+  .tt-wrapper {
+    padding: 15px;
+  }
+
+  .tt-grid {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+  }
+
+  .tt-title {
+    font-size: 18px;
+  }
+
+  .tt-table thead th {
+    font-size: 12px;
+  }
+
+  .tt-table tbody td {
+    height: 50px;
+  }
+
+  .tt-header h1 {
+    font-size: 22px;
+  }
+}
+
+/* --- For Small Mobile (≤ 576px) --- */
+@media (max-width: 576px) {
+  .tt-header h1 {
+    font-size: 20px;
+  }
+
+  .tt-header p {
+    font-size: 12px;
+  }
+
+  .tt-box, .tt-table-box {
+    padding: 15px;
+  }
+
+  .tt-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .tt-search-btn {
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .tt-table {
+    font-size: 12px;
+  }
+
+  .tt-table thead th,
+  .period-col {
+    padding: 8px;
+  }
+
+  .tt-scroll {
+    overflow-x: auto;
+  }
+}
+
+/* --- For Extra Small Mobile (≤ 400px) --- */
+@media (max-width: 400px) {
+  .tt-header h1 {
+    font-size: 18px;
+  }
+
+  .tt-table {
+    font-size: 11px;
+  }
+
+  .tt-table tbody td {
+    height: 45px;
+  }
+
+  .tt-table thead th {
+    padding: 6px;
+  }
+}
+

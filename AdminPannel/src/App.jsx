@@ -45,6 +45,12 @@ import SearchIncome from "./Pages/SearchIncome/SearchIncome";
 import IncomeHead from "./Pages/IncomeHead/IncomeHead";
 import Complain from "./Pages/Complain/Complain";
 import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
+import AssignClassTeacher from "./Pages/AssignClassTeacher/AssignClassTeacher";
+import ClassPage from "./Pages/ClassPage/ClassPage";
+import SectionPage from "./Pages/SectionPage/SectionPage";
+import DailyTimeTable from "./Pages/DailyTimeTable/DailyTimeTable";
+import ClassTimeTable from "./Pages/ClassTimeTable/ClassTimeTable";
+import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
 
 
 
@@ -56,6 +62,7 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import Editleave from "./Pages/Editleave/Editleave";
+<<<<<<< HEAD
 import Cocurricular from "./Pages/cocurricular/cocurricular";
 import Subject from "./Pages/Subject/Subject";
 import AssignSubjects from "./Pages/Assignsubject/Assignsubject"
@@ -69,6 +76,10 @@ import AddStudent from "./Pages/AddStudent/AddStudent";
 import AddStaff from "./Pages/AddStaff/AddStaff";
 import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
+=======
+import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
+import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
+>>>>>>> e034848a2e8c9e80ac6b3282cd9029ef030342cf
 
 
 /* ===================== APP ===================== */
@@ -169,10 +180,10 @@ export default function App() {
           <Route path="/awards" element={<AwardAdminPage />} />
           <Route path="/learning/pre" element={<PrePrimery />} />   
           <Route path="/learning/primary" element={<Primery />} />   
-          <Route path="/learning/secondary" element={<Secondary />} />   
-          <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
+          <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
           <Route path="/income/add-income" element={<AddIncome />} />
@@ -180,9 +191,13 @@ export default function App() {
           <Route path="/income/income-head" element={<IncomeHead />} />
            <Route path="/front-office/complain" element={<Complain />} />
            <Route path="/front-office/complain/add" element={<ComplainAdd />} />
+           <Route path="/academics/daily-time-table" element={<DailyTimeTable />} />
+           <Route path="/academics/class-time-table" element={<ClassTimeTable />} />
+           <Route path="/academics/teacher-timetable" element={<TeacherTimeTable/>}/>
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
 
+<<<<<<< HEAD
           <Route path="academics/co-curricular-subject" element={<Cocurricular/>}/>
           <Route path="academics/Subject" element={<Subject/>}/>
           <Route path="/academics/assign-subjects" element={<AssignSubjects/>}/>
@@ -196,6 +211,14 @@ export default function App() {
           <Route path="/library/add-staff" element={< AddStaff/>}/>
           <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
           
+=======
+          <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
+          <Route path="/academics/class" element={<ClassPage />} />
+          <Route path="/academics/section" element={<SectionPage />} />
+          <Route path="/front-office/enquiry" element={<AdmissionEnquiry />} />
+          <Route path="/edit-admission-enquiry" element={<EditAdmissionEnquiry />} />
+         
+>>>>>>> e034848a2e8c9e80ac6b3282cd9029ef030342cf
 
 
           

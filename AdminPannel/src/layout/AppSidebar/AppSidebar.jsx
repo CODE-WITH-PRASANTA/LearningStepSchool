@@ -83,9 +83,36 @@ const menu = [
       { label: "Entrance Examination Form", path: "/front-office/exam-form" },
     ],
   },
+<<<<<<< HEAD
 
   { type: "divider" },
 
+=======
+  { type: "divider" },
+ {
+  label: "Attendance",
+  icon: FiCalendar,
+  children: [
+    {
+      label: "Student Attendance",
+      path: "/attendance/student-attendance",
+      color: "from-indigo-200 to-indigo-300 text-indigo-900",
+    },
+    {
+      label: "Student Leave",
+      path: "/attendance/student-leave",
+      color: "from-amber-200 to-orange-300 text-amber-900",
+    },
+    {
+      label: "Attendance Report",
+      path: "/attendance/attendance-report",
+      color: "from-emerald-200 to-green-300 text-emerald-900",
+    },
+  ],
+},
+
+    { type: "divider" },
+>>>>>>> e034848a2e8c9e80ac6b3282cd9029ef030342cf
   {
     label: "Primary Evaluation",
     icon: FiClipboard,
@@ -99,6 +126,7 @@ const menu = [
 
   { type: "divider" },
 
+<<<<<<< HEAD
   {
     label: "Library",
     icon: FiBook,
@@ -110,6 +138,8 @@ const menu = [
       { label: "Issued Return Report", path: "/library/issued-return-report" },
     ],
   },
+=======
+>>>>>>> e034848a2e8c9e80ac6b3282cd9029ef030342cf
 ];
 
 /* ================= SIDEBAR ================= */

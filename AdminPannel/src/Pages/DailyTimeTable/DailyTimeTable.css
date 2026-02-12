@@ -1,0 +1,158 @@
+/* MAIN WRAPPER */
+.dt-wrapper {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: "Inter", sans-serif;
+}
+
+/* TITLE */
+.dt-left-title h1 {
+  font-size: 28px;
+  margin: 0;
+  font-weight: 700;
+  color: #1e2a55;
+}
+
+.dt-sub {
+  color: #7c8aa5;
+  font-size: 14px;
+}
+
+/* CRITERIA BOX */
+.dt-criteria-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e5e7f0;
+}
+
+.dt-box-header h2 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #1e2a55;
+}
+
+.dt-criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 768px) {
+  .dt-criteria-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.dt-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #39445e;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.dt-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cdd3ec;
+  border-radius: 10px;
+  background: #f9faff;
+}
+
+/* SEARCH BUTTON FIX */
+.dt-search-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 22px;
+  background: #0c2cc7;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.dt-search-btn:hover {
+  background: #0a24a8;
+}
+
+/* TABLE WRAPPER */
+.dt-table-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7f0;
+}
+
+.dt-table-title {
+  color: #1e2a55;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* TABLE */
+.dt-table-scroll {
+  overflow-x: auto;
+}
+
+.dt-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dt-table th {
+  background: #ffe4ef;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 2px solid #e0e4f0;
+}
+
+.dt-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ececf4;
+  text-align: center;
+}
+
+.dt-period-col {
+  background: #faf5ff;
+  font-weight: 600;
+}
+
+/* SUBJECT DROPDOWN */
+.subject-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #cdd3ec;
+  margin-bottom: 10px;
+}
+
+/* TEACHER DROPDOWN — bigger like screenshot */
+.teacher-select {
+  width: 100%;
+  padding: 12px 10px;
+  border-radius: 10px;
+  border: 1px solid #aeb8df;
+  font-size: 15px;
+  height: 45px;
+}
+
+/* SAVE BUTTON */
+.dt-save-box {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.dt-save-btn {
+  background: #0c2cc7;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}

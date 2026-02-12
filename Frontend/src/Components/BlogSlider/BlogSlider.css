@@ -1,6 +1,6 @@
 .blog-slider-section {
   padding: 90px 0;
-  background: #ffffff;
+  background: linear-gradient(180deg,#ffffff 0%,#fafafa 50%,#ffffff 100%);
   overflow: hidden;
 }
 
@@ -34,7 +34,7 @@
 
 /* card */
 .blog-card {
-  background: #fff;
+  background: #ffffff;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
@@ -43,7 +43,7 @@
 
 .blog-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 24px 60px rgba(47,128,237,0.18);
 }
 
 /* image */
@@ -61,7 +61,7 @@
 
 .blog-card:hover img {
   transform: scale(1.1);
-  filter: brightness(1.1) contrast(1.1);
+  filter: brightness(1.08) contrast(1.08);
 }
 
 .blog-img-wrap::after {
@@ -70,8 +70,8 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(255, 170, 90, 0.25),
-    rgba(0, 0, 0, 0.15)
+    rgba(242,153,74,0.35),
+    rgba(235,87,87,0.25)
   );
   opacity: 0;
   transition: 0.4s ease;
@@ -86,11 +86,12 @@
   position: absolute;
   top: 14px;
   left: 14px;
-  background: #f5a96b;
+  background: linear-gradient(135deg,#F2994A,#F2C94C);
   color: white;
   padding: 6px 14px;
   border-radius: 30px;
   font-size: 13px;
+  box-shadow: 0 6px 16px rgba(242,153,74,.45);
 }
 
 /* meta */
@@ -98,7 +99,7 @@
   display: flex;
   gap: 18px;
   font-size: 14px;
-  color: #9b9b9b;
+  color: #9ca3af;
   margin: 16px 22px 8px;
 }
 
@@ -107,7 +108,7 @@
   font-size: 20px;
   line-height: 1.35;
   font-weight: 600;
-  color: #1f2a44;
+  color: #2F80ED;
   padding: 0 22px;
 }
 
@@ -123,7 +124,7 @@
 }
 
 .read-more:hover {
-  color: #f59e0b;
+  color: #EB5757;
   transform: translateX(4px);
 }
 
@@ -139,7 +140,7 @@
 .pagination-wrap .line {
   width: 60px;
   height: 2px;
-  background: #f1caa3;
+  background: linear-gradient(90deg,#F2C94C,#F2994A);
 }
 
 .dots {
@@ -151,7 +152,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #f1b98b;
+  background: #F2C94C;
   border: none;
   cursor: pointer;
   transition: 0.3s ease;
@@ -164,8 +165,8 @@
 .dot.active {
   width: 14px;
   height: 14px;
-  background: #f59e0b;
-  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25);
+  background: #2F80ED;
+  box-shadow: 0 0 0 4px rgba(47,128,237,0.25);
 }
 
 /* responsive */
