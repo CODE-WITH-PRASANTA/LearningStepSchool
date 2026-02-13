@@ -62,6 +62,9 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import Editleave from "./Pages/Editleave/Editleave";
+import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
+import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
+
 
 /* ===================== APP ===================== */
 
@@ -181,7 +184,9 @@ export default function App() {
           <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
           <Route path="/academics/class" element={<ClassPage />} />
           <Route path="/academics/section" element={<SectionPage />} />
-          
+          <Route path="/front-office/enquiry" element={<AdmissionEnquiry />} />
+          <Route path="/edit-admission-enquiry" element={<EditAdmissionEnquiry />} />
+         
 
 
           

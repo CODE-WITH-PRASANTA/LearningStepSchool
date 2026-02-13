@@ -18,6 +18,7 @@
 ================================================== */
 .homeclasses {
   padding: 40px 20px 50px;
+  background: linear-gradient(180deg, #2f80ed 0%, #1f5fc4 100%);
   background-size: cover;
   background-position: center;
   position: relative;
@@ -39,7 +40,7 @@
   display: inline-block;
   padding: 7px 20px;
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -61,6 +62,7 @@
 .homeclasses-slider {
   overflow: hidden;
   position: relative;
+  padding: 0 12px;
 }
 
 .homeclasses-track {
@@ -78,28 +80,22 @@
   padding: 40px;
 }
 
-.homeclasses-card {
-  flex: 0 0 calc(33.333% - 24px);
-  max-width: calc(33.333% - 24px);
-  margin: 0 12px;
-}
-
-
 /* ==================================================
    CARD
 ================================================== */
 .homeclasses-card {
-  background: linear-gradient(180deg, #ffffff, #fff4ea);
+  background: linear-gradient(180deg, #ffffff, #fff7e3);
   padding: 22px;
   border-radius: 28px;
   flex: 0 0 calc(100% / 3);
   max-width: calc(100% / 3);
+  margin: 0 12px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
   position: relative;
 }
 
-/* Hover (desktop only) */
+/* Hover */
 @media (hover: hover) {
   .homeclasses-card:hover {
     transform: translateY(-8px);
@@ -107,7 +103,7 @@
   }
 }
 
-/* Decorative top bar */
+/* Decorative bar (Red) */
 .homeclasses-card::before {
   content: "";
   position: absolute;
@@ -116,7 +112,7 @@
   transform: translateX(-50%);
   width: 70px;
   height: 6px;
-  background: #ff9b50;
+  background: #eb5757;
   border-radius: 0 0 10px 10px;
 }
 
@@ -129,7 +125,7 @@
   object-fit: cover;
   border-radius: 22px;
   margin-bottom: 18px;
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 25px rgba(47, 128, 237, 0.25);
 }
 
 /* ==================================================
@@ -138,14 +134,14 @@
 .homeclasses-card h4 {
   font-size: 19px;
   font-weight: 800;
-  color: #1f2937;
+  color: #2f80ed;
   margin-bottom: 8px;
 }
 
 .homeclasses-card p {
   font-size: 14px;
   line-height: 1.6;
-  color: #6b7280;
+  color: #4b5563;
   margin-bottom: 20px;
 }
 
@@ -155,7 +151,7 @@
 .homeclasses-meta {
   display: flex;
   justify-content: space-between;
-  border-top: 2px dashed #ffd6b8;
+  border-top: 2px dashed #f2c94c;
   padding-top: 14px;
 }
 
@@ -169,7 +165,7 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #ff9b50;
+  color: #f2994a;
   text-transform: uppercase;
 }
 
@@ -178,7 +174,7 @@
   margin-top: 4px;
   font-size: 13px;
   font-weight: 800;
-  color: #374151;
+  color: #1f2937;
 }
 
 /* ==================================================
@@ -204,7 +200,7 @@
 .pagination-dot.active {
   width: 26px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #49a6a8, #3b8e90);
+  background: linear-gradient(135deg, #2f80ed, #f2994a);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
 }
 
@@ -212,15 +208,14 @@
    RESPONSIVE
 ================================================== */
 
-/* Tablets */
 @media (max-width: 992px) {
   .homeclasses-title {
     font-size: 34px;
   }
 
   .homeclasses-card {
-    flex: 0 0 calc(100% / 2);
-    max-width: calc(100% / 2);
+    flex: 0 0 50%;
+    max-width: 50%;
   }
 
   .homeclasses-card img {
@@ -228,7 +223,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .homeclasses {
     padding: 70px 14px 90px;
@@ -236,11 +230,9 @@
 
   .homeclasses-title {
     font-size: 26px;
-    line-height: 1.35;
   }
 
   .homeclasses-page {
-    gap: 0;
     padding: 10px;
   }
 
@@ -248,13 +240,8 @@
     flex: 0 0 100%;
     max-width: 100%;
   }
-
-  .homeclasses-card img {
-    height: 190px;
-  }
 }
 
-/* Small Mobile */
 @media (max-width: 480px) {
   .homeclasses-title {
     font-size: 23px;
@@ -299,6 +286,7 @@
     transform: translateX(-50%);
   }
 }
+
 
 .homeclasses-slider {
   overflow: hidden;
