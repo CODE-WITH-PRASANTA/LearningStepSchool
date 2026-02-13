@@ -62,6 +62,19 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import Editleave from "./Pages/Editleave/Editleave";
+import Cocurricular from "./Pages/cocurricular/cocurricular";
+import Subject from "./Pages/Subject/Subject";
+import AssignSubjects from "./Pages/Assignsubject/Assignsubject"
+import Activity from "./Pages/Activity/Activity";
+import Assessment from "./Pages/Assesment/Assesment";
+import EvaluationRemark from "./Pages/EvaluationRemark/EvaluationRemark";
+import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
+import BookList from "./Pages/Booklist/Booklist";
+import IssueReturn from "./Pages/IssueReturn/IssueReturn";
+import AddStudent from "./Pages/AddStudent/AddStudent";
+import AddStaff from "./Pages/AddStaff/AddStaff";
+import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
+
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
 import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
 
@@ -181,6 +194,19 @@ export default function App() {
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
 
+          <Route path="academics/co-curricular-subject" element={<Cocurricular/>}/>
+          <Route path="academics/Subject" element={<Subject/>}/>
+          <Route path="/academics/assign-subjects" element={<AssignSubjects/>}/>
+          <Route path="/primary-evaluation/activity" element={<Activity/>}/>
+          <Route path="/primary-evaluation/assessment"element={<Assessment/>}/>
+          <Route path="/primary-evaluation/evaluation-remark" element={<EvaluationRemark/>}/>
+          <Route path="/primary-evaluation/class-report" element={<PrimaryClassReport/>}/>
+          <Route path="/library/book-list" element={<BookList />} />
+          <Route path="/library/issue-return" element={< IssueReturn/>}/>
+          <Route path="/library/add-student" element={< AddStudent/>}/>
+          <Route path="/library/add-staff" element={< AddStaff/>}/>
+          <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
+          
           <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
           <Route path="/academics/class" element={<ClassPage />} />
           <Route path="/academics/section" element={<SectionPage />} />
