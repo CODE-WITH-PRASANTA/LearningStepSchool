@@ -1,4 +1,4 @@
-import ActionDropdown from "./ActionDropdown";
+import ActionDropdown from "./Actiondropdown";
 
 const SubjectTable = ({ subjects, onEdit, onDelete }) => {
   return (

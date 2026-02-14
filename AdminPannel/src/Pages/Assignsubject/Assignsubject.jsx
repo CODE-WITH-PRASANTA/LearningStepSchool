@@ -2,7 +2,7 @@
 // You can split CSS into a separate file if needed
 
 import React, { useState } from "react";
-import "./AssignSubject.css";
+import "./Assignsubject.css";
 
 const classOptions = ["KSV 6th", "KSV 7th", "KSV 8th"];
 const sectionOptions = ["A", "B", "C"];

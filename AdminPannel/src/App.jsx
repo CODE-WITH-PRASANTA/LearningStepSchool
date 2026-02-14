@@ -62,14 +62,14 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import Editleave from "./Pages/Editleave/Editleave";
-import Cocurricular from "./Pages/cocurricular/cocurricular";
+import Cocurricular from "./Pages/Cocurricular/Cocurricular";
 import Subject from "./Pages/Subject/Subject";
 import AssignSubjects from "./Pages/Assignsubject/Assignsubject"
 import Activity from "./Pages/Activity/Activity";
 import Assessment from "./Pages/Assesment/Assesment";
 import EvaluationRemark from "./Pages/EvaluationRemark/EvaluationRemark";
 import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
-import BookList from "./Pages/Booklist/Booklist";
+import BookList from "./Pages/BookList/BookList";
 import IssueReturn from "./Pages/IssueReturn/IssueReturn";
 import AddStudent from "./Pages/AddStudent/AddStudent";
 import AddStaff from "./Pages/AddStaff/AddStaff";
@@ -213,10 +213,6 @@ export default function App() {
           <Route path="/front-office/enquiry" element={<AdmissionEnquiry />} />
           <Route path="/edit-admission-enquiry" element={<EditAdmissionEnquiry />} />
          
-
-
-          
-
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
