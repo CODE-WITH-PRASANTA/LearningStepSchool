@@ -9,14 +9,15 @@ import Ourblogs from '../../Components/Ourblogs/Ourblogs'
 import HomeAbout from '../../Components/HomeAbout/HomeAbout'
 import HomeClasses from '../../Components/HomeClasses/HomeClasses'
 import ContactForm from '../../Components/ContactForm/ContactForm'
-import AdmissionNav from '../../Components/AdmissionNav/AdmissionNav'
+import AdmissionNav from '../../Components/AdmissionNav/AdmissionTicker'
 import NewsTicker from '../../Components/NewsTicker/NewsTicker'
 import HomeGallery from '../../Components/HomeGallery/HomeGallery'
+import AdmissionTicker from '../../Components/AdmissionNav/AdmissionTicker'
 
 const Home = () => {
   return (
     <div>
-      <AdmissionNav/>
+      <AdmissionTicker/>
       <Herosection/>
       <NewsTicker/>
       <HomeAbout />

@@ -77,6 +77,8 @@ import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
 import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
+import { NotificationPublish } from "./Pages/NotificationPublish/NotificationPublish";
+import { LatestNewsAdmin } from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
 
 
 /* ===================== APP ===================== */
@@ -110,6 +112,13 @@ export default function App() {
 
           {/* Notices */}
           <Route path="notices" element={<Notices />} />
+
+          <Route path="notification" element={<NotificationPublish />} />
+
+
+          <Route path="latest-news" element={<LatestNewsAdmin />} />
+
+
 
           {/* Class Data */}
           <Route path="class-data" element={<ClsWiseDataManagements />} />

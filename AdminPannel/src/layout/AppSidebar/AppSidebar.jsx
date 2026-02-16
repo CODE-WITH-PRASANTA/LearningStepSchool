@@ -15,6 +15,7 @@ import {
   FiChevronDown,
   FiMonitor,
   FiBriefcase,
+  FiBell,
 } from "react-icons/fi";
 
 /* ================= MENU CONFIG ================= */
@@ -35,6 +36,13 @@ const menu = [
   { label: "Award Management", icon: FiAward, path: "/awards" },
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
   { label: "Notice Management", icon: FiClipboard, path: "/notices" },
+
+  // ✅ Notification Management
+  { label: "Notification Management", icon: FiBell, path: "/notification" },
+
+  // ✅ Latest News Management (NEW)
+  { label: "Latest News Management", icon: FiBell, path: "/latest-news" },
+
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
 
   {
