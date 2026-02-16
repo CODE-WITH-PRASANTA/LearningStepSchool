@@ -46,9 +46,12 @@ const menu = [
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
 
   {
-    label: "Advertisement Management",
+    label: "Media Management",
     icon: FiMonitor,
-    path: "/advertisements",
+    children: [
+      { label: "Photo Gallery Managements", path: "media-photo" },
+      { label: "Video Gallery Managements", path: "media-video" },
+    ],
   },
 
   {
@@ -112,8 +115,14 @@ const menu = [
     children: [
       { label: "Activity", path: "/primary-evaluation/activity" },
       { label: "Assessment", path: "/primary-evaluation/assessment" },
-      { label: "Evaluation Remark", path: "/primary-evaluation/evaluation-remark" },
-      { label: "Primary Class Report", path: "/primary-evaluation/class-report" },
+      {
+        label: "Evaluation Remark",
+        path: "/primary-evaluation/evaluation-remark",
+      },
+      {
+        label: "Primary Class Report",
+        path: "/primary-evaluation/class-report",
+      },
     ],
   },
 
@@ -140,9 +149,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     menu.forEach((item) => {
       if (
         item.children &&
-        item.children.some((c) =>
-          location.pathname.startsWith(c.path)
-        )
+        item.children.some((c) => location.pathname.startsWith(c.path))
       ) {
         setOpenGroup(item.label);
       }
@@ -173,7 +180,9 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-3">
           {menu.map((item, i) => {
             if (item.type === "divider") {
-              return <div key={i} className="my-6 border-t border-indigo-300" />;
+              return (
+                <div key={i} className="my-6 border-t border-indigo-300" />
+              );
             }
 
             const Icon = item.icon;

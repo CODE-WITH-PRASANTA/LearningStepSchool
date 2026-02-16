@@ -79,6 +79,8 @@ import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
 import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
 import { NotificationPublish } from "./Pages/NotificationPublish/NotificationPublish";
 import { LatestNewsAdmin } from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
+import Photogallery from "./Pages/Photogallery/Photogallery";
+import Videogallery from "./Pages/Videogallery/Videogallery";
 
 
 /* ===================== APP ===================== */
@@ -117,6 +119,10 @@ export default function App() {
 
 
           <Route path="latest-news" element={<LatestNewsAdmin />} />
+
+           {/* {Media} */}
+          <Route path="/media-photo" element={<Photogallery />} />
+          <Route path="/media-video" element={<Videogallery />} />
 
 
 

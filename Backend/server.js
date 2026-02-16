@@ -15,7 +15,13 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5175",
+      "http://localhost:5176",
+    ],
+    credentials: true,
   })
 );
 
@@ -28,10 +34,18 @@ app.get("/", (req, res) => {
 const surveyRoutes = require("./routes/admissionSurvey.routes");
 const notificationRoutes = require("./routes/notification.routes");
 const latestNewsRoutes = require("./routes/latestNews.routes");
+const photoGalleryRoutes = require("./routes/photoGallery.routes");
+const videoGalleryRoutes = require("./routes/videoGallery.routes");
+
+
+app.use("/uploads", express.static("uploads"));
 
 app.use("/api/survey", surveyRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/latest-news", latestNewsRoutes);
+app.use("/api/photo-gallery", photoGalleryRoutes);
+app.use("/api/video-gallery", videoGalleryRoutes);
+
 
 
 /* ================= SERVER ================= */

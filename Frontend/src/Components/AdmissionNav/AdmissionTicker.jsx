@@ -9,8 +9,6 @@ const AdmissionTicker = () => {
     const fetchNotifications = async () => {
       try {
         const res = await API.get("/notifications");
-        console.log("API RESPONSE:", res.data.data);
-
         if (res?.data?.success && Array.isArray(res.data.data)) {
           // Only show published notifications
           const published = res.data.data.filter(
