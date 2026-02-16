@@ -1,49 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AwardForm from "../../Component/AwardForm";
 import AwardList from "../../Component/AwardList";
+import API from "../../api/axios";
 import "./AwardAdminPage.css";
 
 const AwardAdminPage = () => {
   const [awards, setAwards] = useState([]);
   const [editAward, setEditAward] = useState(null);
 
-  const handleSaveAward = (award) => {
-    if (editAward) {
-      setAwards(
-        awards.map((a) => (a.id === editAward.id ? award : a))
-      );
-      setEditAward(null);
-    } else {
-      setAwards([...awards, award]);
+  /* ================= FETCH ================= */
+  const fetchAwards = async () => {
+    try {
+      const res = await API.get("/awards");
+      setAwards(res.data.data || res.data);
+    } catch (err) {
+      console.error("FETCH AWARD ERROR:", err);
     }
   };
 
-  const handleDeleteAward = (id) => {
-    setAwards(awards.filter((a) => a.id !== id));
-  };
+  useEffect(() => {
+    fetchAwards();
+  }, []);
 
-  const handleEditAward = (award) => {
-    setEditAward(award);
+  const handleDeleteAward = async (id) => {
+    if (!window.confirm("Delete this award?")) return;
+
+    try {
+      await API.delete(`/awards/${id}`);
+      fetchAwards();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
   return (
     <div className="award-admin-container">
-
       <div className="award-admin-form-section">
-        <AwardForm 
-          onSubmit={handleSaveAward}
+        <AwardForm
           editAward={editAward}
+          setEditAward={setEditAward}
+          refreshAwards={fetchAwards}
         />
       </div>
 
       <div className="award-admin-list-section">
         <AwardList
           awards={awards}
-          onEdit={handleEditAward}
+          onEdit={setEditAward}
           onDelete={handleDeleteAward}
         />
       </div>
-
     </div>
   );
 };

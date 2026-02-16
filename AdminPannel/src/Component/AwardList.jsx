@@ -1,49 +1,38 @@
 import React from "react";
+import { IMAGE_URL } from "../api/axios";
 
 const AwardList = ({ awards, onEdit, onDelete }) => {
   return (
     <div className="award-list-container">
-
-      <h2 className="award-list-title">Award List</h2>
+      <h2>Award List</h2>
 
       {awards.length === 0 && (
-        <p className="award-empty-text">No awards added</p>
+        <p>No awards added</p>
       )}
 
       {awards.map((award) => (
-        <div className="award-list-card" key={award.id}>
-
-          <img 
-            src={award.image}
+        <div key={award._id} className="award-list-card">
+          <img
+            src={IMAGE_URL + award.image}
             alt={award.title}
             className="award-list-image"
           />
 
-          <div className="award-list-info">
+          <div>
             <h4>{award.title}</h4>
           </div>
 
-          <div className="award-list-actions">
-
-            <button 
-              className="award-edit-btn"
-              onClick={() => onEdit(award)}
-            >
+          <div>
+            <button onClick={() => onEdit(award)}>
               Edit
             </button>
 
-            <button 
-              className="award-delete-btn"
-              onClick={() => onDelete(award.id)}
-            >
+            <button onClick={() => onDelete(award._id)}>
               Delete
             </button>
-
           </div>
-
         </div>
       ))}
-
     </div>
   );
 };

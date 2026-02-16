@@ -1,37 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import API, { IMAGE_URL } from "../../Api/Api";
 import "./PhotoGalleryPage.css";
-
-// Dummy Images
-import pgImg1 from "../../assets/galleryimg1.webp";
-import pgImg2 from "../../assets/galleryimg2.webp";
-import pgImg3 from "../../assets/galleryimg3.webp";
-import pgImg4 from "../../assets/galleryimg4.webp";
-import pgImg5 from "../../assets/galleryimg5.webp";
-import pgImg6 from "../../assets/galleryimg6.webp";
-import pgImg7 from "../../assets/galleryimg7.webp";
-import pgImg8 from "../../assets/certifigate-1.webp";
 
 const PhotoGalleryPage = () => {
   const imagesPerPage = 6;
 
-  const pgData = [
-    { id: 1, category: "news", image: pgImg1, title: "News Paper" },
-    { id: 2, category: "photos", image: pgImg2, title: "Photos" },
-    { id: 3, category: "photos", image: pgImg3, title: "Photos" },
-    { id: 4, category: "online", image: pgImg4, title: "Online News" },
-    { id: 5, category: "photos", image: pgImg5, title: "Photos" },
-    { id: 6, category: "news", image: pgImg6, title: "News Paper" },
-    { id: 7, category: "online", image: pgImg7, title: "Online News" },
-    { id: 8, category: "photos", image: pgImg8, title: "Photos" },
-  ];
-
+  const [photos, setPhotos] = useState([]);
   const [pgCurrentPage, setPgCurrentPage] = useState(1);
   const [pgActiveCategory, setPgActiveCategory] = useState("all");
+  const [loading, setLoading] = useState(true);
 
+  /* ================= FETCH PHOTOS ================= */
+  const fetchPhotos = async () => {
+    try {
+      const res = await API.get("/photo-gallery");
+      setPhotos(res.data?.data || res.data || []);
+    } catch (err) {
+      console.error("FETCH PHOTO ERROR:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  /* ================= GET UNIQUE CATEGORIES ================= */
+  const categories = useMemo(() => {
+    const unique = [...new Set(photos.map((p) => p.category).filter(Boolean))];
+    return ["all", ...unique];
+  }, [photos]);
+
+  /* ================= FILTER ================= */
   const pgFiltered =
     pgActiveCategory === "all"
-      ? pgData
-      : pgData.filter((item) => item.category === pgActiveCategory);
+      ? photos
+      : photos.filter((item) => item.category === pgActiveCategory);
 
   const pgTotalPages = Math.ceil(pgFiltered.length / imagesPerPage);
 
@@ -46,96 +51,104 @@ const PhotoGalleryPage = () => {
     setPgCurrentPage(1);
   };
 
+  if (loading) {
+    return (
+      <div className="pg-page-wrapper">
+        <h2 className="pg-heading-title">Loading Photos...</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="pg-page-wrapper">
 
-      {/* ===== Heading Section ===== */}
+      {/* ===== Heading ===== */}
       <div className="pg-heading-wrapper">
         <h2 className="pg-heading-title">OUR PHOTO GALLERY</h2>
         <div className="pg-heading-underline"></div>
       </div>
 
-      {/* ===== Filter Buttons ===== */}
+      {/* ===== Dynamic Filter Buttons ===== */}
       <div className="pg-filter-buttons">
-        <button
-          className={pgActiveCategory === "all" ? "pg-btn-active" : ""}
-          onClick={() => handleCategoryChange("all")}
-        >
-          All Photos
-        </button>
-
-        <button
-          className={pgActiveCategory === "news" ? "pg-btn-active" : ""}
-          onClick={() => handleCategoryChange("news")}
-        >
-          News Paper
-        </button>
-
-        <button
-          className={pgActiveCategory === "online" ? "pg-btn-active" : ""}
-          onClick={() => handleCategoryChange("online")}
-        >
-          Online News
-        </button>
-
-        <button
-          className={pgActiveCategory === "photos" ? "pg-btn-active" : ""}
-          onClick={() => handleCategoryChange("photos")}
-        >
-          Photos
-        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            className={pgActiveCategory === cat ? "pg-btn-active" : ""}
+            onClick={() => handleCategoryChange(cat)}
+          >
+            {cat === "all"
+              ? "All Photos"
+              : cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </button>
+        ))}
       </div>
 
       {/* ===== Gallery Grid ===== */}
       <div className="pg-grid-container">
-        {pgCurrentImages.map((item) => (
-          <div className="pg-card-box" key={item.id}>
-            <img src={item.image} alt="gallery" />
-            <div className="pg-card-content">
-              <h3>{item.title}</h3>
-              <p>
-                Link:{" "}
-                <a
-                  href="https://ouruniverse.in/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  https://ouruniverse.in/
-                </a>
-              </p>
-            </div>
+        {pgCurrentImages.length === 0 ? (
+          <div className="pg-empty">
+            <p>No photos available in this category</p>
           </div>
-        ))}
+        ) : (
+          pgCurrentImages.map((item) => (
+            <div className="pg-card-box" key={item._id}>
+              {item.image && (
+                <img
+                  src={IMAGE_URL + item.image}
+                  alt={item.title}
+                />
+              )}
+
+              <div className="pg-card-content">
+                <h3>{item.title}</h3>
+
+                {item.link && (
+                  <p>
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Link →
+                    </a>
+                  </p>
+                )}
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* ===== Pagination ===== */}
-      <div className="pg-pagination-area">
-        <button
-          disabled={pgCurrentPage === 1}
-          onClick={() => handlePageChange(pgCurrentPage - 1)}
-        >
-          Prev
-        </button>
-
-        {[...Array(pgTotalPages)].map((_, index) => (
+      {pgTotalPages > 1 && (
+        <div className="pg-pagination-area">
           <button
-            key={index}
-            className={
-              pgCurrentPage === index + 1 ? "pg-page-active" : ""
-            }
-            onClick={() => handlePageChange(index + 1)}
+            disabled={pgCurrentPage === 1}
+            onClick={() => handlePageChange(pgCurrentPage - 1)}
           >
-            {index + 1}
+            Prev
           </button>
-        ))}
 
-        <button
-          disabled={pgCurrentPage === pgTotalPages}
-          onClick={() => handlePageChange(pgCurrentPage + 1)}
-        >
-          Next
-        </button>
-      </div>
+          {[...Array(pgTotalPages)].map((_, index) => (
+            <button
+              key={index}
+              className={
+                pgCurrentPage === index + 1 ? "pg-page-active" : ""
+              }
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            disabled={pgCurrentPage === pgTotalPages}
+            onClick={() => handlePageChange(pgCurrentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
     </div>
   );

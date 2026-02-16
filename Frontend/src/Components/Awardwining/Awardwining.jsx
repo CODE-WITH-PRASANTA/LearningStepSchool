@@ -1,46 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
+import API, { IMAGE_URL } from "../../Api/Api";
 import "./Awardwining.css";
-import cert1 from "../../assets/certifigate-1.webp";
-import cert2 from "../../assets/certifigate-2.webp";
-import cert3 from "../../assets/certifigate-3.webp";
 
 const AwardWinning = () => {
-  const certificates = [
-    {
-      id: 1,
-      title: "Excellence in Education",
-      src: cert1,
-    },
-    {
-      id: 2,
-      title: "Innovation Award 2024",
-      src: cert2,
-    },
-    {
-      id: 3,
-      title: "Digital Learning Pioneer",
-      src: cert3,
-    },
-    {
-      id: 4,
-      title: "Best Social Impact",
-      src: cert1,
-    },
-    {
-      id: 5,
-      title: "Technology Excellence",
-      src: cert2,
-    },
-  ];
+  const [certificates, setCertificates] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  /* ================= FETCH AWARDS ================= */
+  const fetchAwards = async () => {
+    try {
+      const res = await API.get("/awards");
+      setCertificates(res.data.data || res.data || []);
+    } catch (err) {
+      console.error("FETCH AWARDS ERROR:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAwards();
+  }, []);
+
+  /* ================= SLIDER LOGIC ================= */
 
   const visibleCards = 3;
   const total = certificates.length;
 
-  const slides = [
-    ...certificates.slice(-visibleCards),
-    ...certificates,
-    ...certificates.slice(0, visibleCards),
-  ];
+  const slides =
+    total > 0
+      ? [
+          ...certificates.slice(-visibleCards),
+          ...certificates,
+          ...certificates.slice(0, visibleCards),
+        ]
+      : [];
 
   const [index, setIndex] = useState(visibleCards);
   const trackRef = useRef(null);
@@ -61,7 +55,7 @@ const AwardWinning = () => {
   };
 
   const nextSlide = () => {
-    if (isAnimating.current || !trackRef.current) return;
+    if (isAnimating.current || total === 0) return;
     isAnimating.current = true;
     enableTransition();
     setIndex((prev) => prev + 1);
@@ -69,7 +63,7 @@ const AwardWinning = () => {
   };
 
   const prevSlide = () => {
-    if (isAnimating.current || !trackRef.current) return;
+    if (isAnimating.current || total === 0) return;
     isAnimating.current = true;
     enableTransition();
     setIndex((prev) => prev - 1);
@@ -93,29 +87,20 @@ const AwardWinning = () => {
   };
 
   useEffect(() => {
-    if (index === visibleCards || index === total) {
-      requestAnimationFrame(() => {
-        setTimeout(enableTransition, 50);
-      });
-    }
-  }, [index]);
+    if (total === 0) return;
 
-  useEffect(() => {
     const interval = setInterval(nextSlide, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [total]);
 
-  useEffect(() => {
-    if (index >= visibleCards && index < total + visibleCards) {
-      const realIndex = (index - visibleCards) % total;
-      setActiveSlide(realIndex);
-    }
-  }, [index]);
+  if (loading) return null;
+  if (certificates.length === 0) return null;
 
   return (
     <section className="Awardwining-section">
       <div className="Awardwining-container">
 
+        {/* ================= HEADER ================= */}
         <div className="Awardwining-header">
           <div className="Awardwining-label">
             <span className="Awardwining-label-line"></span>
@@ -132,21 +117,23 @@ const AwardWinning = () => {
           </p>
         </div>
 
+        {/* ================= MARQUEE ================= */}
         <div className="Awardwining-marquee-container">
           <div className="Awardwining-marquee-wrapper">
             <div className="Awardwining-marquee-track">
-              {[...certificates, ...certificates, ...certificates].map(
-                (c, i) => (
-                  <div className="Awardwining-marquee-item" key={i}>
-                    <span className="Awardwining-marquee-star">✦</span>
-                    <span className="Awardwining-marquee-text">{c.title}</span>
-                  </div>
-                )
-              )}
+              {[...certificates, ...certificates].map((c, i) => (
+                <div className="Awardwining-marquee-item" key={i}>
+                  <span className="Awardwining-marquee-star">✦</span>
+                  <span className="Awardwining-marquee-text">
+                    {c.title}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
+        {/* ================= SLIDER ================= */}
         <div className="Awardwining-slider-wrapper">
           <div
             className="Awardwining-slider-track"
@@ -160,7 +147,10 @@ const AwardWinning = () => {
               <div className="Awardwining-slide" key={i}>
                 <div className="Awardwining-certificate-card">
                   <div className="Awardwining-certificate-image">
-                    <img src={cert.src} alt={cert.title} />
+                    <img
+                      src={IMAGE_URL + cert.image}
+                      alt={cert.title}
+                    />
                   </div>
                   <div className="Awardwining-certificate-info">
                     <h4 className="Awardwining-certificate-title">

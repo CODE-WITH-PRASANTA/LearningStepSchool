@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API, { IMAGE_URL } from "../api/axios";
 
 /* ================= COLOR THEMES ================= */
 const themes = [
@@ -11,6 +12,7 @@ const themes = [
 const getTheme = (i) => themes[i % themes.length];
 
 export default function NoticeManagement() {
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -22,30 +24,64 @@ export default function NoticeManagement() {
   });
 
   const [notices, setNotices] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState(null);
   const [search, setSearch] = useState("");
 
-  /* ---------------- IMAGE ---------------- */
+  /* ================= FETCH ================= */
+  const fetchNotices = async () => {
+    try {
+      const res = await API.get("/notices");
+      setNotices(res.data.data || res.data);
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotices();
+  }, []);
+
+  /* ================= IMAGE ================= */
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setForm({ ...form, image: file, preview: URL.createObjectURL(file) });
+
+    setForm({
+      ...form,
+      image: file,
+      preview: URL.createObjectURL(file),
+    });
   };
 
-  /* ---------------- SUBMIT ---------------- */
-  const handleSubmit = (e) => {
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editIndex !== null) {
-      const updated = [...notices];
-      updated[editIndex] = form;
-      setNotices(updated);
-      setEditIndex(null);
-    } else {
-      setNotices([{ ...form, createdAt: new Date() }, ...notices]);
-    }
+    try {
+      const formData = new FormData();
+      formData.append("title", form.title);
+      formData.append("description", form.description);
+      formData.append("dateTime", form.dateTime);
+      formData.append("location", form.location);
+      formData.append("expiry", form.expiry);
 
-    resetForm();
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      if (editId) {
+        await API.put(`/notices/${editId}`, formData);
+        setEditId(null);
+      } else {
+        await API.post("/notices", formData);
+      }
+
+      resetForm();
+      fetchNotices();
+
+    } catch (err) {
+      console.error("SUBMIT ERROR:", err);
+    }
   };
 
   const resetForm = () => {
@@ -60,32 +96,33 @@ export default function NoticeManagement() {
     });
   };
 
-  /* ---------------- ACTIONS ---------------- */
-  const editNotice = (i) => {
-    setForm(notices[i]);
-    setEditIndex(i);
+  /* ================= ACTIONS ================= */
+  const editNotice = (notice) => {
+    setForm({
+      title: notice.title || "",
+      description: notice.description || "",
+      dateTime: notice.dateTime || "",
+      location: notice.location || "",
+      expiry: notice.expiry || "",
+      image: null,
+      preview: notice.image ? IMAGE_URL + notice.image : null,
+    });
+
+    setEditId(notice._id);
   };
 
-  const deleteNotice = (i) => {
-    setNotices(notices.filter((_, index) => index !== i));
+  const deleteNotice = async (id) => {
+    if (!window.confirm("Delete this notice?")) return;
+
+    try {
+      await API.delete(`/notices/${id}`);
+      fetchNotices();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
-  const downloadPDF = (n) => {
-    const blob = new Blob(
-      [
-        `NOTICE\n\nTitle: ${n.title}\nDate & Time: ${n.dateTime}\nLocation: ${n.location}\n\n${n.description}`,
-      ],
-      { type: "application/pdf" }
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${n.title}.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  /* ---------------- HELPERS ---------------- */
+  /* ================= HELPERS ================= */
   const filteredNotices = notices.filter((n) =>
     n.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -93,12 +130,14 @@ export default function NoticeManagement() {
   const isExpired = (expiry) =>
     expiry && new Date(expiry) < new Date();
 
-  const previewTheme = getTheme(editIndex ?? 0);
+  const previewTheme = getTheme(0);
 
   return (
     <div className="space-y-12">
+
       {/* ================= FORM + PREVIEW ================= */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
         {/* ---------- FORM ---------- */}
         <form
           onSubmit={handleSubmit}
@@ -106,81 +145,51 @@ export default function NoticeManagement() {
           rounded-2xl shadow-md border border-indigo-100 p-6 lg:p-8"
         >
           <h2 className="text-xl font-semibold mb-6 text-indigo-700">
-            {editIndex !== null ? "Edit Notice" : "Create Notice"}
+            {editId ? "Edit Notice" : "Create Notice"}
           </h2>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="label">Notice Title</label>
-              <input
-                value={form.title}
-                onChange={(e) =>
-                  setForm({ ...form, title: e.target.value })
-                }
-                className="input-premium"
-                required
-              />
-            </div>
+          <input
+            placeholder="Notice Title"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            className="input-premium mb-4"
+            required
+          />
 
-            <div>
-              <label className="label">Date & Time</label>
-              <input
-                type="datetime-local"
-                value={form.dateTime}
-                onChange={(e) =>
-                  setForm({ ...form, dateTime: e.target.value })
-                }
-                className="input-premium"
-                required
-              />
-            </div>
-          </div>
+          <textarea
+            placeholder="Description"
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            className="input-premium mb-4"
+            required
+          />
 
-          <div className="mt-4">
-            <label className="label">Description</label>
-            <textarea
-              value={form.description}
-              onChange={(e) =>
-                setForm({ ...form, description: e.target.value })
-              }
-              className="input-premium resize-none"
-              rows="4"
-              required
-            />
-          </div>
+          <input
+            type="datetime-local"
+            value={form.dateTime}
+            onChange={(e) => setForm({ ...form, dateTime: e.target.value })}
+            className="input-premium mb-4"
+            required
+          />
 
-          <div className="grid sm:grid-cols-2 gap-4 mt-4">
-            <div>
-              <label className="label">Location</label>
-              <input
-                value={form.location}
-                onChange={(e) =>
-                  setForm({ ...form, location: e.target.value })
-                }
-                className="input-premium"
-              />
-            </div>
+          <input
+            placeholder="Location"
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            className="input-premium mb-4"
+          />
 
-            <div>
-              <label className="label">Expiry Date</label>
-              <input
-                type="date"
-                value={form.expiry}
-                onChange={(e) =>
-                  setForm({ ...form, expiry: e.target.value })
-                }
-                className="input-premium"
-              />
-            </div>
-          </div>
+          <input
+            type="date"
+            value={form.expiry}
+            onChange={(e) => setForm({ ...form, expiry: e.target.value })}
+            className="input-premium mb-4"
+          />
 
-          <div className="mt-4">
-            <label className="label">Upload Image</label>
-            <input type="file" accept="image/*" onChange={handleImage} />
-          </div>
+          <input type="file" onChange={handleImage} className="mb-4" />
 
-          <button className="mt-6 w-full rounded-xl py-3 text-white bg-gradient-to-r from-indigo-600 to-violet-600">
-            {editIndex !== null ? "Update Notice" : "Publish Notice"}
+          <button className="w-full bg-indigo-600 text-white py-2 rounded-xl">
+            {editId ? "Update Notice" : "Publish Notice"}
           </button>
         </form>
 
@@ -212,6 +221,7 @@ export default function NoticeManagement() {
             </div>
           </div>
         </div>
+
       </div>
 
       {/* ================= SEARCH ================= */}
@@ -222,48 +232,53 @@ export default function NoticeManagement() {
         className="input-premium w-full sm:max-w-md"
       />
 
-      {/* ================= MOBILE RECORDS ================= */}
-      <div className="sm:hidden space-y-4">
-        {filteredNotices.length === 0 && (
-          <div className="text-center text-slate-400 py-6">
-            No notices found
-          </div>
-        )}
-
+      {/* ================= LIST ================= */}
+      <div className="space-y-4">
         {filteredNotices.map((n, i) => {
           const t = getTheme(i);
+
           return (
             <div
-              key={i}
-              className={`rounded-xl border ${t.border}
-              bg-gradient-to-br ${t.bg} p-4 space-y-2`}
+              key={n._id}
+              className={`rounded-xl border ${t.border} bg-gradient-to-br ${t.bg} p-4`}
             >
+              {n.image && (
+                <img
+                  src={IMAGE_URL + n.image}
+                  alt=""
+                  className="w-full h-48 object-cover rounded-lg mb-3"
+                />
+              )}
+
               <h3 className={`font-semibold ${t.text}`}>{n.title}</h3>
 
-              <p className="text-xs text-slate-500">
+              <p className="text-sm text-slate-600">
                 {new Date(n.dateTime).toLocaleString()}
               </p>
 
               <span
-                className={`inline-block px-3 py-1 rounded-full text-xs
-                ${
+                className={`text-xs ${
                   isExpired(n.expiry)
-                    ? "bg-rose-100 text-rose-600"
-                    : "bg-emerald-100 text-emerald-700"
+                    ? "text-rose-600"
+                    : "text-emerald-600"
                 }`}
               >
                 {isExpired(n.expiry) ? "Expired" : "Active"}
               </span>
 
-              <div className="flex gap-4 pt-2 text-sm">
-                <button onClick={() => editNotice(i)} className="text-indigo-600">
+              <div className="flex gap-4 mt-3">
+                <button
+                  onClick={() => editNotice(n)}
+                  className="text-indigo-600"
+                >
                   Edit
                 </button>
-                <button onClick={() => deleteNotice(i)} className="text-rose-500">
+
+                <button
+                  onClick={() => deleteNotice(n._id)}
+                  className="text-rose-600"
+                >
                   Delete
-                </button>
-                <button onClick={() => downloadPDF(n)} className="text-emerald-600">
-                  PDF
                 </button>
               </div>
             </div>
@@ -271,63 +286,9 @@ export default function NoticeManagement() {
         })}
       </div>
 
-      {/* ================= DESKTOP TABLE ================= */}
-      <div className="hidden sm:block bg-white rounded-2xl shadow-md border border-indigo-100 overflow-x-auto">
-        <table className="min-w-[640px] w-full text-sm">
-          <thead className="bg-indigo-50">
-            <tr>
-              <th className="px-6 py-4 text-left">Title</th>
-              <th className="px-6 py-4">Date</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredNotices.map((n, i) => (
-              <tr key={i} className="border-b">
-                <td className="px-6 py-4 font-medium">{n.title}</td>
-                <td className="px-6 py-4">
-                  {new Date(n.dateTime).toLocaleString()}
-                </td>
-                <td className="px-6 py-4">
-                  <span
-                    className={
-                      isExpired(n.expiry)
-                        ? "text-rose-600"
-                        : "text-emerald-600"
-                    }
-                  >
-                    {isExpired(n.expiry) ? "Expired" : "Active"}
-                  </span>
-                </td>
-                <td className="px-6 py-4 flex gap-4 justify-center">
-                  <button onClick={() => editNotice(i)} className="text-indigo-600">
-                    Edit
-                  </button>
-                  <button onClick={() => deleteNotice(i)} className="text-rose-500">
-                    Delete
-                  </button>
-                  <button onClick={() => downloadPDF(n)} className="text-emerald-600">
-                    PDF
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* ================= STYLES ================= */}
+      {/* INPUT STYLE */}
       <style>
         {`
-          .label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #4f46e5;
-            margin-bottom: 4px;
-            display: block;
-          }
           .input-premium {
             width: 100%;
             border-radius: 0.75rem;
