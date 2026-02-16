@@ -45,6 +45,9 @@ import SearchIncome from "./Pages/SearchIncome/SearchIncome";
 import IncomeHead from "./Pages/IncomeHead/IncomeHead";
 import Complain from "./Pages/Complain/Complain";
 import ComplainAdd from "./Pages/ComplainAdd/ComplainAdd";
+import AssignClassTeacher from "./Pages/AssignClassTeacher/AssignClassTeacher";
+import ClassPage from "./Pages/ClassPage/ClassPage";
+import SectionPage from "./Pages/SectionPage/SectionPage";
 import DailyTimeTable from "./Pages/DailyTimeTable/DailyTimeTable";
 import ClassTimeTable from "./Pages/ClassTimeTable/ClassTimeTable";
 import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
@@ -59,6 +62,26 @@ import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import Editleave from "./Pages/Editleave/Editleave";
+import Cocurricular from "./Pages/Cocurricular/Cocurricular";
+import Subject from "./Pages/Subject/Subject";
+import AssignSubjects from "./Pages/Assignsubject/Assignsubject"
+import Activity from "./Pages/Activity/Activity";
+import Assessment from "./Pages/Assesment/Assesment";
+import EvaluationRemark from "./Pages/EvaluationRemark/EvaluationRemark";
+import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
+import BookList from "./Pages/BookList/BookList";
+import IssueReturn from "./Pages/IssueReturn/IssueReturn";
+import AddStudent from "./Pages/AddStudent/AddStudent";
+import AddStaff from "./Pages/AddStaff/AddStaff";
+import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
+
+import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
+import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
+import { NotificationPublish } from "./Pages/NotificationPublish/NotificationPublish";
+import { LatestNewsAdmin } from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
+import Photogallery from "./Pages/Photogallery/Photogallery";
+import Videogallery from "./Pages/Videogallery/Videogallery";
+
 
 /* ===================== APP ===================== */
 
@@ -91,6 +114,17 @@ export default function App() {
 
           {/* Notices */}
           <Route path="notices" element={<Notices />} />
+
+          <Route path="notification" element={<NotificationPublish />} />
+
+
+          <Route path="latest-news" element={<LatestNewsAdmin />} />
+
+           {/* {Media} */}
+          <Route path="/media-photo" element={<Photogallery />} />
+          <Route path="/media-video" element={<Videogallery />} />
+
+
 
           {/* Class Data */}
           <Route path="class-data" element={<ClsWiseDataManagements />} />
@@ -158,10 +192,10 @@ export default function App() {
           <Route path="/awards" element={<AwardAdminPage />} />
           <Route path="/learning/pre" element={<PrePrimery />} />   
           <Route path="/learning/primary" element={<Primery />} />   
-          <Route path="/learning/secondary" element={<Secondary />} />   
-          <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
+          <Route path="/learning/secondary" element={<Secondary />} />   
+          <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
           <Route path="/income/add-income" element={<AddIncome />} />
@@ -174,12 +208,27 @@ export default function App() {
            <Route path="/academics/teacher-timetable" element={<TeacherTimeTable/>}/>
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
+
+          <Route path="academics/co-curricular-subject" element={<Cocurricular/>}/>
+          <Route path="academics/Subject" element={<Subject/>}/>
+          <Route path="/academics/assign-subjects" element={<AssignSubjects/>}/>
+          <Route path="/primary-evaluation/activity" element={<Activity/>}/>
+          <Route path="/primary-evaluation/assessment"element={<Assessment/>}/>
+          <Route path="/primary-evaluation/evaluation-remark" element={<EvaluationRemark/>}/>
+          <Route path="/primary-evaluation/class-report" element={<PrimaryClassReport/>}/>
+          <Route path="/library/book-list" element={<BookList />} />
+          <Route path="/library/issue-return" element={< IssueReturn/>}/>
+          <Route path="/library/add-student" element={< AddStudent/>}/>
+          <Route path="/library/add-staff" element={< AddStaff/>}/>
+          <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
           
-
-
-          
-
-          <Route 
+          <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
+          <Route path="/academics/class" element={<ClassPage />} />
+          <Route path="/academics/section" element={<SectionPage />} />
+          <Route path="/front-office/enquiry" element={<AdmissionEnquiry />} />
+          <Route path="/edit-admission-enquiry" element={<EditAdmissionEnquiry />} />
+         
+          <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />

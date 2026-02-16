@@ -1,0 +1,225 @@
+/* ================= PAGE ================= */
+.section-wrapper {
+  background: #f1f1f6;
+  padding: 20px;
+  min-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.section-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================= HEADER ================= */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* ================= GRID ================= */
+.section-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+}
+
+/* ================= CARD ================= */
+.section-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 2px solid #ffd6df;
+  overflow: hidden;
+}
+
+/* ================= CARD HEADER ================= */
+.section-card-header {
+  background: #fff2f5;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #0a0a5a;
+}
+
+/* ================= FORM ================= */
+.section-form {
+  max-height: 260px;          /* 🔥 50% reduced height */
+}
+
+.section-body {
+  padding: 16px;
+  overflow: hidden;           /* 🔥 no internal scroll */
+}
+
+.section-body label {
+  font-size: 14px;
+}
+
+.section-body input {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 8px 0 16px;
+  border-radius: 6px;
+  border: 1px solid #cfd4ff;
+  font-size: 14px;
+}
+
+.required {
+  color: red;
+}
+
+/* ================= BUTTON ================= */
+.btn-primary {
+  float: right;
+  background: #0a0a5a;
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ================= TABLE ================= */
+.section-table-card {
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TABLE SCROLL */
+.section-table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.section-table-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* TABLE */
+.section-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.section-table th {
+  background: #ffe9ef;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #0a0a5a;
+}
+
+.section-table td {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.section-table tr:nth-child(even) {
+  background: #f4f6ff;
+}
+
+/* ALIGN */
+.left {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+
+/* ================= ACTION ================= */
+.action-box {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+}
+
+/* ACTION BUTTON */
+.action-btn {
+  background: #0a0a5a;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* DROPDOWN */
+.action-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  min-width: 110px;           /* 🔥 compact */
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+  z-index: 100;
+  overflow: hidden;
+}
+
+/* DROPDOWN BUTTON */
+.action-menu button {
+  width: 100%;
+  padding: 6px 10px;          /* 🔥 smaller height */
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 🚫 REMOVE EDIT HOVER COMPLETELY */
+.action-menu button:hover,
+.action-menu button:focus,
+.action-menu button:active {
+  background: none !important;
+  color: inherit !important;
+}
+
+/* ================= PAGINATION ================= */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 12px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.pagination .active {
+  background: #0a0a5a;
+  color: #fff;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-form {
+    max-height: none;
+  }
+
+  .section-table-card {
+    height: auto;
+  }
+}

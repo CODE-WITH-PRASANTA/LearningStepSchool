@@ -13,7 +13,7 @@
   inset: 0;
   background: radial-gradient(
     circle at left,
-    rgba(255,154,61,0.05),
+    rgba(242,201,76,0.12),
     transparent 70%
   );
 }
@@ -66,7 +66,6 @@
   animation: float 9s ease-in-out infinite;
 }
 
-
 .bg-shape {
   position: absolute;
   left: -15px;
@@ -80,6 +79,7 @@
   height: 440px;
   border-radius: 58% 42% 48% 52%;
   overflow: hidden;
+  box-shadow: 0 24px 60px rgba(47,128,237,0.25);
 }
 
 .image-blob img {
@@ -96,8 +96,8 @@
 }
 
 .about-tag {
-  color: #ff9a3d;
-  font-weight: 600;
+  color: #F2994A;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 12px;
@@ -105,13 +105,13 @@
 
 .about-content h2 {
   font-size: 30px;
-  color: #223344;
+  color: #2F80ED;
   margin: 10px 0 14px;
   line-height: 1.25;
 }
 
 .about-desc {
-  color: #666;
+  color: #4b5563;
   line-height: 1.7;
   max-width: 460px;
   margin-bottom: 20px;
@@ -134,16 +134,17 @@
   border-radius: 14px;
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0.97),
-    rgba(255,255,255,0.82)
+    #ffffff,
+    #fff7e3
   );
   box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+  border-left: 4px solid #2F80ED;
 }
 
 .feature h4 {
   font-size: 14px;
   margin-bottom: 4px;
-  color: #223344;
+  color: #2F80ED;
 }
 
 .feature p {
@@ -171,13 +172,13 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  border: 2px solid #ff9a3d;
+  border: 2px solid #EB5757;
 }
 
 .founder h5 {
   font-size: 13px;
   margin: 0;
-  color: #223344;
+  color: #2F80ED;
 }
 
 .founder span {
@@ -200,18 +201,19 @@
 
 .call-box strong {
   font-size: 14px;
-  color: #223344;
+  color: #2F80ED;
 }
 
 .call-icon {
   width: 44px;
   height: 44px;
-  background: #ff9a3d;
+  background: linear-gradient(135deg, #F2994A, #F2C94C);
   color: #ffffff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 10px 22px rgba(242,153,74,0.45);
 }
 
 /* ===============================

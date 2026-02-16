@@ -1,6 +1,6 @@
 // TeacherTimetable.jsx
 import React, { useState } from "react";
-import "./TeacherTimetable.css";
+import "./TeacherTimeTable.css";
 
 const staffList = [
   "Aatam Jain", "Admin", "Akshay Singhal", "Amandeep Kaue",
