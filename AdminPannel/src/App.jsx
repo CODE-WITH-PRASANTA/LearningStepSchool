@@ -169,20 +169,17 @@ export default function App() {
           <Route path="/income/income-head" element={<IncomeHead />} />
            <Route path="/front-office/complain" element={<Complain />} />
            <Route path="/front-office/complain/add" element={<ComplainAdd />} />
-<<<<<<< HEAD
            <Route path="/academics/daily-time-table" element={<DailyTimeTable />} />
            <Route path="/academics/class-time-table" element={<ClassTimeTable />} />
            <Route path="/academics/teacher-timetable" element={<TeacherTimeTable/>}/>
-=======
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
           
 
 
->>>>>>> e3bf5df6c2429fb050edb5517e93d9cc77a0b999
           
 
-          <Route
+          <Route 
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
