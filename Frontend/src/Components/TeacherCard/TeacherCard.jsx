@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./TeacherCard.css";
 import {
   FaFacebookF,
@@ -7,30 +7,27 @@ import {
   FaShareAlt
 } from "react-icons/fa";
 
-// IMPORT IMAGES
-import img1 from "../../assets/ab.webp";
-import img2 from "../../assets/aj.webp";
-import img3 from "../../assets/ac.webp";
-import img4 from "../../assets/ad.webp";
-import img5 from "../../assets/ae.webp";
-import img6 from "../../assets/af.webp";
-import img7 from "../../assets/ag.webp";
-import img8 from "../../assets/ai.webp";
+import API, { IMAGE_URL } from "../../Api/Api";
 
-const instructors = [
-  { name: "Brooklyn Simmons", img: img1 },
-  { name: "Leslie Alexander", img: img2 },
-  { name: "Ronald Richards", img: img3 },
-  { name: "Kristin Watson", img: img4 },
-  { name: "Esther Howard", img: img5 },
-  { name: "Savannah Nguyen", img: img6 },
-  { name: "Dianne Russell", img: img7 },
-  { name: "Kathryn Murphy", img: img8 }
-];
-
-const InstructorSection = () => {
+const TeacherCard = () => {
+  const [teachers, setTeachers] = useState([]);
   const cardsRef = useRef([]);
 
+  /* ================= FETCH TEACHERS ================= */
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const res = await API.get("/teachers");
+        setTeachers(res.data);
+      } catch (err) {
+        console.error("FETCH TEACHERS ERROR:", err);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
+
+  /* ================= ANIMATION ================= */
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
@@ -43,20 +40,26 @@ const InstructorSection = () => {
       { threshold: 0.2 }
     );
 
-    cardsRef.current.forEach(card => observer.observe(card));
-  }, []);
+    cardsRef.current.forEach(card => {
+      if (card) observer.observe(card);
+    });
+  }, [teachers]);
 
   return (
     <section className="instructor-section">
       <div className="instructor-grid">
-        {instructors.map((item, index) => (
+
+        {teachers.map((teacher, index) => (
           <div
             className="instructor-card"
-            key={index}
+            key={teacher._id}
             ref={el => (cardsRef.current[index] = el)}
           >
             <div className="img-wrap">
-              <img src={item.img} alt={item.name} />
+              <img
+                src={`${IMAGE_URL}${teacher.photo}`}
+                alt={teacher.name}
+              />
 
               {/* Wave */}
               <svg
@@ -70,21 +73,44 @@ const InstructorSection = () => {
               {/* Share */}
               <div className="share-box">
                 <FaShareAlt className="share-main" />
+
                 <div className="share-icons">
-                  <span><FaFacebookF /></span>
-                  <span><FaInstagram /></span>
-                  <span><FaLinkedinIn /></span>
+                  {teacher.facebook && (
+                    <a href={teacher.facebook} target="_blank" rel="noreferrer">
+                      <FaFacebookF />
+                    </a>
+                  )}
+
+                  {teacher.instagram && (
+                    <a href={teacher.instagram} target="_blank" rel="noreferrer">
+                      <FaInstagram />
+                    </a>
+                  )}
+
+                  {teacher.linkedin && (
+                    <a href={teacher.linkedin} target="_blank" rel="noreferrer">
+                      <FaLinkedinIn />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
 
-            <h3>{item.name}</h3>
-            <p>Instructors</p>
+            <h3>{teacher.name}</h3>
+            <p>Instructor</p>
+
+            {/* ⭐ Rating Display */}
+            <div style={{ marginTop: "6px" }}>
+              {Array.from({ length: teacher.rating }).map((_, i) => (
+                <span key={i} style={{ color: "#ffb703" }}>★</span>
+              ))}
+            </div>
           </div>
         ))}
+
       </div>
     </section>
   );
 };
 
-export default InstructorSection;
+export default TeacherCard;

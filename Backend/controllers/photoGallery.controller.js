@@ -1,5 +1,5 @@
 const fs = require("fs");
-const PhotoGallery = require("../models/photoGallery.model");
+const PhotoGallery = require("../models/PhotoGallery.model");
 
 /* ================= CREATE ================= */
 exports.createPhoto = async (req, res) => {

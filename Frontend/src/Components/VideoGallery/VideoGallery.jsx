@@ -1,34 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import API from "../../Api/Api";
 import "./VideoGallery.css";
 
-const videos = [
-  {
-    id: 1,
-    title: "Science की ऐसी अनोखी Theory",
-    url: "https://www.youtube.com/embed/VIDEO_ID_1",
-  },
-  {
-    id: 2,
-    title: "Universe Secrets Explained",
-    url: "https://www.youtube.com/embed/VIDEO_ID_2",
-  },
-  {
-    id: 3,
-    title: "Why Time Never Stops",
-    url: "https://www.youtube.com/embed/VIDEO_ID_3",
-  },
-];
-
 const VideoGallery = () => {
+  const [videos, setVideos] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  /* ================= FETCH VIDEOS ================= */
+  const fetchVideos = async () => {
+    try {
+      const res = await API.get("/video-gallery");
+      setVideos(res.data || []);
+    } catch (err) {
+      console.error("FETCH VIDEO ERROR:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  /* ================= SLIDER ================= */
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? videos.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? videos.length - 1 : prev - 1
+    );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === videos.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === videos.length - 1 ? 0 : prev + 1
+    );
   };
+
+  if (loading) {
+    return (
+      <section className="video-gallery">
+        <h2 className="gallery-title">VIDEO GALLERY</h2>
+        <p>Loading videos...</p>
+      </section>
+    );
+  }
+
+  if (videos.length === 0) {
+    return (
+      <section className="video-gallery">
+        <h2 className="gallery-title">VIDEO GALLERY</h2>
+        <p>No videos available</p>
+      </section>
+    );
+  }
 
   return (
     <section className="video-gallery">
@@ -38,7 +63,7 @@ const VideoGallery = () => {
 
       <div className="video-container">
         <iframe
-          src={videos[currentIndex].url}
+          src={videos[currentIndex].videoUrl}   
           title={videos[currentIndex].title}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -58,9 +83,9 @@ const VideoGallery = () => {
       <div className="pagination">
         <button onClick={handlePrev}>Prev</button>
 
-        {videos.map((_, index) => (
+        {videos.map((video, index) => (
           <button
-            key={index}
+            key={video._id}
             className={currentIndex === index ? "active" : ""}
             onClick={() => setCurrentIndex(index)}
           >

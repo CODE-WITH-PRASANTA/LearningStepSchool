@@ -36,6 +36,9 @@ const notificationRoutes = require("./routes/notification.routes");
 const latestNewsRoutes = require("./routes/latestNews.routes");
 const photoGalleryRoutes = require("./routes/photoGallery.routes");
 const videoGalleryRoutes = require("./routes/videoGallery.routes");
+const teacherRoutes = require("./routes/teacher.routes");
+const noticeRoutes = require("./routes/notice.routes");
+const awardRoutes = require("./routes/award.routes");
 
 
 app.use("/uploads", express.static("uploads"));
@@ -45,7 +48,9 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/latest-news", latestNewsRoutes);
 app.use("/api/photo-gallery", photoGalleryRoutes);
 app.use("/api/video-gallery", videoGalleryRoutes);
-
+app.use("/api/teachers", teacherRoutes);
+app.use("/api/notices", noticeRoutes);
+app.use("/api/awards", awardRoutes);
 
 
 /* ================= SERVER ================= */

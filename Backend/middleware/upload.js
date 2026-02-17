@@ -5,7 +5,9 @@ const sharp = require("sharp");
 
 /* ================= HELPERS ================= */
 const ensureDir = (dir) => {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
 };
 
 /* ================= ROUTE → FOLDER MAP ================= */
@@ -14,39 +16,55 @@ const routeFolderMap = {
   "/team": "uploads/team",
   "/client-logos": "uploads/client-logos",
   "/photo-gallery": "uploads/gallery",
+  "/teachers": "uploads/teachers",
+  "/notices": "uploads/notices",
+  "/awards": "uploads/awards",   // ✅ ADDED
 };
 
-/* ================= MULTER ================= */
+/* ================= MULTER CONFIG ================= */
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  const allowed = /jpeg|jpg|png|webp/;
-  const ext = allowed.test(path.extname(file.originalname).toLowerCase());
-  const mime = allowed.test(file.mimetype);
+  const allowedTypes = /jpeg|jpg|png|webp/;
 
-  if (ext && mime) cb(null, true);
-  else cb(new Error("Only image files are allowed"));
+  const extname = allowedTypes.test(
+    path.extname(file.originalname).toLowerCase()
+  );
+
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed"));
+  }
 };
 
-const upload = multer({ storage, fileFilter });
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
 
-/* ================= SHARP ================= */
+/* ================= SHARP CONVERTER ================= */
 const convertToWebp = async (req, res, next) => {
   try {
+    if (!req.file && !req.files) return next();
+
+    /* ================= DETECT FOLDER ================= */
+    let uploadPath = "uploads/common";
+
+    for (const route in routeFolderMap) {
+      if (req.originalUrl.includes(route)) {
+        uploadPath = routeFolderMap[route];
+        break;
+      }
+    }
+
+    ensureDir(uploadPath);
+
     /* ================= SINGLE FILE ================= */
     if (req.file) {
-      let uploadPath = "uploads/common";
-
-      // 🔥 Dynamic route detection
-      for (const route in routeFolderMap) {
-        if (req.originalUrl.includes(route)) {
-          uploadPath = routeFolderMap[route];
-          break;
-        }
-      }
-
-      ensureDir(uploadPath);
-
       const filename = `${Date.now()}-${Math.random()
         .toString(36)
         .slice(2)}.webp`;
@@ -59,43 +77,32 @@ const convertToWebp = async (req, res, next) => {
         .toFile(outputPath);
 
       req.file.path = outputPath.replace(/\\/g, "/");
-
-      return next();
     }
 
     /* ================= MULTIPLE FILES ================= */
-    if (!req.files) return next();
+    if (req.files) {
+      for (const field in req.files) {
+        for (const file of req.files[field]) {
+          const filename = `${Date.now()}-${Math.random()
+            .toString(36)
+            .slice(2)}.webp`;
 
-    for (const field in req.files) {
-      for (const file of req.files[field]) {
-        let uploadPath = "uploads/common";
+          const outputPath = path.join(uploadPath, filename);
 
-        if (field === "image") uploadPath = "uploads/blogs";
-        else if (field === "testimonialImg") uploadPath = "uploads/testimonials";
-        else if (field === "projectImg") uploadPath = "uploads/projects";
-        else if (field === "galleryImg") uploadPath = "uploads/gallery";
+          await sharp(file.buffer)
+            .resize(1200, 1200, { fit: "inside" })
+            .webp({ quality: 80 })
+            .toFile(outputPath);
 
-        ensureDir(uploadPath);
-
-        const filename = `${Date.now()}-${Math.random()
-          .toString(36)
-          .slice(2)}.webp`;
-
-        const outputPath = path.join(uploadPath, filename);
-
-        await sharp(file.buffer)
-          .resize(1200, 1200, { fit: "inside" })
-          .webp({ quality: 80 })
-          .toFile(outputPath);
-
-        file.path = outputPath.replace(/\\/g, "/");
+          file.path = outputPath.replace(/\\/g, "/");
+        }
       }
     }
 
     next();
   } catch (err) {
     console.error("SHARP ERROR:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
