@@ -1,0 +1,226 @@
+/* ===== PAGE ===== */
+.staff-page {
+  padding: 24px;
+  background: #f5f6fb;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #1f2744;
+}
+
+/* ===== HEADER ===== */
+.staff-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.staff-page-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.breadcrumb {
+  font-size: 14px;
+  color: #6f7590;
+}
+
+/* ===== CARD ===== */
+.staff-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* ===== CARD HEADER ===== */
+.staff-card-header {
+  background: #f7eef3;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.staff-card-header h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.bulk-btn {
+  background: #0f4f86;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.bulk-btn:hover {
+  background: #0b3d66;
+}
+
+/* ===== TOOLBAR ===== */
+.staff-toolbar {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+
+.left-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.right-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+select,
+input {
+  height: 36px;
+  border: 1px solid #d5d8e2;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 14px;
+  background: #fff;
+}
+
+input {
+  min-width: 220px;
+}
+
+/* ===== TABLE WRAPPER ===== */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.staff-table thead {
+  background: #f7eef3;
+}
+
+.staff-table th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid #ddd;
+}
+
+.staff-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.staff-table tbody tr:nth-child(even) {
+  background: #f8f8ff;
+}
+
+.staff-table tbody tr:hover {
+  background: #eef3ff;
+}
+
+/* ===== BARCODE ===== */
+.barcode-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.barcode {
+  width: 110px;
+  height: 24px;
+  background: repeating-linear-gradient(
+    to right,
+    #000 0px,
+    #000 2px,
+    #fff 2px,
+    #fff 4px
+  );
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+  transition: 0.2s;
+}
+
+/* Edit */
+.edit-btn {
+  background: #0f4f86;
+}
+
+.edit-btn:hover {
+  background: #0b3d66;
+}
+
+/* Delete */
+.delete-btn {
+  background: #d9534f;
+}
+
+.delete-btn:hover {
+  background: #b33c39;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .staff-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  input {
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 576px) {
+  .staff-page {
+    padding: 14px;
+  }
+
+  .staff-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .right-tools {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
+}

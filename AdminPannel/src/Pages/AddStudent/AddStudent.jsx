@@ -1,185 +1,141 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./AddStudent.css";
+import { FaUserPlus, FaList, FaEdit, FaTrash } from "react-icons/fa";
 
-const dummyData = [
-  {
-    id: 1,
-    libraryCard: "2322212004",
-    admission: "2322212004",
-    name: "ABC",
-    class: "KSV 6th(A)",
-    father: "Raj",
-    dob: "2001-09-30",
-    gender: "Male",
-    maxBook: "5",
-  },
-  {
-    id: 2,
-    libraryCard: "2322212019",
-    admission: "2322212019",
-    name: "S GANESH",
-    class: "KSV 6th(A)",
-    father: "RAJ",
-    dob: "2020-03-24",
-    gender: "Male",
-    maxBook: "5",
-  },
+const initialStaff = [
+  { id: 1, card: "EMP-1", name: "Nlet Initiatives LLP", email: "ims@nletsolutions.in", dob: "1970-01-01", phone: "9982716888" },
+  { id: 6, card: "EMP-101", name: "Driver", email: "driver@gmail.com", dob: "2023-10-17", phone: "809436469" },
+  { id: 7, card: "EMP-202", name: "Test1", email: "ansh@gmail.com", dob: "2023-05-22", phone: "9772119901" },
+  { id: 9, card: "EMP-201", name: "Demo", email: "demo@nlet.in", dob: "2023-05-31", phone: "1234567890" },
 ];
 
 export default function AddStudent() {
-  const [formData, setFormData] = useState({
-    className: "1st",
-    section: "",
-    gender: "",
-  });
-
+  const [staffData, setStaffData] = useState(initialStaff);
   const [search, setSearch] = useState("");
-  const [openAction, setOpenAction] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
+  const menuRef = useRef();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
+  // Close dropdown when clicking outside
   useEffect(() => {
-    const close = () => setOpenAction(null);
-    window.addEventListener("click", close);
-    return () => window.removeEventListener("click", close);
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const filteredData = dummyData.filter((s) =>
+  const handleAdd = () => {
+    const name = prompt("Enter Staff Name:");
+    if (!name) return;
+
+    const newStaff = {
+      id: Date.now(),
+      card: "EMP-" + Math.floor(Math.random() * 1000),
+      name,
+      email: "new@gmail.com",
+      dob: "2000-01-01",
+      phone: "0000000000",
+    };
+
+    setStaffData([...staffData, newStaff]);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Delete this staff?")) {
+      setStaffData(staffData.filter((s) => s.id !== id));
+      setOpenMenu(null);
+    }
+  };
+
+  const handleEdit = (staff) => {
+    const newName = prompt("Edit Staff Name:", staff.name);
+    if (newName) {
+      setStaffData(
+        staffData.map((s) =>
+          s.id === staff.id ? { ...s, name: newName } : s
+        )
+      );
+      setOpenMenu(null);
+    }
+  };
+
+  const filtered = staffData.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="admin-page">
-
-      {/* HEADER */}
-      <div className="admin-header">
-        <h2>👤 Add Student</h2>
-        <span>Library / Add Student</span>
+    <div className="staff-page">
+      <div className="page-header">
+        <h2><FaUserPlus /> Staff Management</h2>
+        <span className="breadcrumb">Library / Staff</span>
       </div>
 
-      {/* SELECT CRITERIA */}
-      <div className="admin-card">
-        <div className="admin-card-header">
-          🔍 Select Criteria
-          <button className="bulk-btn">
-            Bulk Member Id Update
+      <div className="staff-card">
+        <div className="staff-card-header">
+          <h3><FaList /> Staff List</h3>
+        </div>
+
+        <div className="staff-toolbar">
+          <button className="add-btn" onClick={handleAdd}>
+            <FaUserPlus /> Add Staff
           </button>
+
+          <input
+            type="text"
+            placeholder="Search staff..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
-        <div className="admin-card-body">
-          <div className="admin-grid">
-
-            <div className="admin-group">
-              <label>Class *</label>
-              <select
-                name="className"
-                value={formData.className}
-                onChange={handleChange}
-              >
-                <option>1st</option>
-                <option>2nd</option>
-                <option>6th(A)</option>
-              </select>
-            </div>
-
-            <div className="admin-group">
-              <label>Section *</label>
-              <select
-                name="section"
-                value={formData.section}
-                onChange={handleChange}
-              >
-                <option>Select</option>
-                <option>A</option>
-                <option>B</option>
-              </select>
-            </div>
-
-            <div className="admin-group">
-              <label>Gender</label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-              >
-                <option>Select Gender</option>
-                <option>Male</option>
-                <option>Female</option>
-              </select>
-            </div>
-
-          </div>
-
-          <div className="admin-btn-wrap">
-            <button className="admin-btn-primary">
-              🔍 Search
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* STUDENT LIST */}
-      <div className="admin-card">
-        <div className="admin-card-header">
-          📋 Add Student List
-        </div>
-
-        <div className="admin-toolbar">
-          <div>
-            Search:
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="admin-table-wrap">
-          <table className="admin-table">
+        <div className="table-wrap">
+          <table className="staff-table">
             <thead>
               <tr>
-                <th>LIBRARY CARD NO</th>
-                <th>ADMISSION NO.</th>
-                <th>STUDENT NAME</th>
-                <th>CLASS</th>
-                <th>FATHER NAME</th>
-                <th>DATE OF BIRTH</th>
-                <th>GENDER</th>
-                <th>MAXIMUM BOOK ALLOWED</th>
-                <th>ACTION</th>
+                <th>ID</th>
+                <th>Library Card</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>DOB</th>
+                <th>Phone</th>
+                <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {filteredData.map((s) => (
-                <tr key={s.id}>
-                  <td>{s.libraryCard}</td>
-                  <td>{s.admission}</td>
-                  <td>{s.name}</td>
-                  <td>{s.class}</td>
-                  <td>{s.father}</td>
-                  <td>{s.dob}</td>
-                  <td>{s.gender}</td>
-                  <td>{s.maxBook}</td>
+              {filtered.map((staff) => (
+                <tr key={staff.id}>
+                  <td>{staff.id}</td>
+                  <td>
+                    <div className="barcode">|||||||||||||</div>
+                    {staff.card}
+                  </td>
+                  <td>{staff.name}</td>
+                  <td>{staff.email}</td>
+                  <td>{staff.dob}</td>
+                  <td>{staff.phone}</td>
 
-                  <td className="admin-action-cell">
+                  {/* ACTION BUTTON */}
+                  <td ref={menuRef}>
                     <button
-                      className="admin-btn-primary"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenAction(openAction === s.id ? null : s.id);
-                      }}
+                      className="action-btn"
+                      onClick={() =>
+                        setOpenMenu(openMenu === staff.id ? null : staff.id)
+                      }
                     >
                       Action ▾
                     </button>
 
-                    {openAction === s.id && (
-                      <div className="admin-action-menu">
-                        <div>View</div>
-                        <div>Edit</div>
-                        <div>Delete</div>
+                    {openMenu === staff.id && (
+                      <div className="action-menu">
+                        <button onClick={() => handleEdit(staff)}>
+                          <FaEdit /> Edit
+                        </button>
+                        <button onClick={() => handleDelete(staff.id)}>
+                          <FaTrash /> Delete
+                        </button>
                       </div>
                     )}
                   </td>
@@ -189,9 +145,7 @@ export default function AddStudent() {
             </tbody>
           </table>
         </div>
-
       </div>
-
     </div>
   );
 }

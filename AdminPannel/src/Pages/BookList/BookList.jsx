@@ -1,154 +1,137 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./BookList.css";
+import { Link } from "react-router-dom";
 
-const initialBooks = [
-  {
-    id: 1,
-    title: "Science Workbook 7",
-    number: "0032",
-    isbn: "9781108742818",
-    publisher: "Cambridge",
-    author: "Mary Jones",
-    subject: "Science",
-    rack: "2",
-    qty: 40,
-    price: "₹450",
-    category: "Academic",
-    postDate: "12 Jan 2025",
-  },
-  {
-    id: 2,
-    title: "English Learners Book 7",
-    number: "0015",
-    isbn: "978521747424",
-    publisher: "Oxford",
-    author: "Chris Barker",
-    subject: "English",
-    rack: "1",
-    qty: 30,
-    price: "₹520",
-    category: "Language",
-    postDate: "05 Feb 2025",
-  },
-  {
-    id: 3,
-    title: "Mathematics Workbook 9",
-    number: "0053",
-    isbn: "9781108746502",
-    publisher: "Cambridge",
-    author: "Lynn Byrd",
-    subject: "Maths",
-    rack: "3",
-    qty: 50,
-    price: "₹600",
-    category: "Academic",
-    postDate: "20 Mar 2025",
-  },
-];
+const BookList = () => {
+  const booksData = [
+    { title: "Rabbit & Turtle", number: "1", isbn: "1001", publisher: "", author: "", subject: "", rack: "", qty: 10, price: "", category: "", date: "2025-10-18" },
+    { title: "??????? ?? ??????? ?? ?????", number: "1008", isbn: "-", publisher: "none", author: "A", subject: "Jain", rack: "", qty: 1, price: "", category: "none", date: "2020-08-01" },
+    { title: "বলাকা", number: "0001", isbn: "PL0001", publisher: "", author: "", subject: "", rack: "", qty: 5, price: "", category: "", date: "2025-09-13" },
+    { title: "Science workbook 7", number: "123456", isbn: "234567", publisher: "", author: "", subject: "", rack: "", qty: 1, price: "", category: "", date: "2025-05-08" },
+    { title: "Science workbook 7", number: "0032", isbn: "9781108742818", publisher: "Cambridge", author: "Mary Jones", subject: "Science work book", rack: "2", qty: 72, price: "", category: "Science", date: "2024-05-09" },
+    { title: "English learners book 7", number: "0015", isbn: "978521747424", publisher: "Cambridge", author: "Chris Barker", subject: "English", rack: "2", qty: 1, price: "", category: "english", date: "2024-05-09" },
+    { title: "Mathematics Work Book 9", number: "0053", isbn: "9781108746502", publisher: "Cambridge", author: "Lynn Byrd", subject: "Maths", rack: "2", qty: 10, price: "50000", category: "", date: "2024-05-09" },
+    { title: "java", number: "6254", isbn: "54", publisher: "fhfgh", author: "E balagurusamy", subject: "technical", rack: "486", qty: 7, price: "550", category: "ghc", date: "2024-04-25" },
+    { title: "Hum Hindu Hai", number: "8976", isbn: "2234", publisher: "modi", author: "yogi", subject: "Hindu", rack: "3", qty: 23, price: "500", category: "puna", date: "2024-04-25" },
+    { title: "test add book", number: "0101", isbn: "2468", publisher: "test publisher", author: "test author", subject: "story", rack: "", qty: 25, price: "$200", category: "", date: "2024-03-13" }
+  ];
 
-export default function BookList() {
-  const [books, setBooks] = useState(initialBooks);
   const [search, setSearch] = useState("");
-  const [openAction, setOpenAction] = useState(null);
 
-  useEffect(() => {
-    const close = () => setOpenAction(null);
-    window.addEventListener("click", close);
-    return () => window.removeEventListener("click", close);
-  }, []);
+  // Helpers
+  const format = (v) => (v && v !== "" ? v : "-");
+  const formatPrice = (price) => (!price ? "-" : price.includes("$") ? price : "₹ " + price);
+  const formatDate = (date) =>
+    !date
+      ? "-"
+      : new Date(date).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
 
-  const filteredBooks = books.filter(
-    (b) =>
-      b.title.toLowerCase().includes(search.toLowerCase()) ||
-      b.number.includes(search)
+  const autoCategory = (book) =>
+    book.category || (book.title.toLowerCase().includes("science") ? "Science" : "-");
+
+  const filteredBooks = booksData.filter((book) =>
+    book.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDelete = (id) => {
-    setBooks(books.filter((b) => b.id !== id));
+  const totalQty = booksData.reduce((sum, b) => sum + b.qty, 0);
+
+  // --- FIXED BUTTON LOGIC ---
+  const handleEdit = (book) => {
+    alert("Edit: " + book.title);
+  };
+
+  const handleDelete = (book) => {
+    alert("Delete: " + book.title);
   };
 
   return (
-    <div className="bl-page">
-      <div className="bl-card">
-        <div className="bl-toolbar">
-          <div className="bl-search">
-            Search:
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+    <div className="book-page">
+      <div className="page-header">
+        <h2>Book List</h2>
+        <span className="breadcrumb">Library / Book List</span>
+      </div>
+
+      <div className="stats-row">
+        <div className="stats-box">Total Qty : {totalQty}</div>
+        <div className="stats-box">Available Qty : {totalQty - 1}</div>
+      </div>
+
+      <div className="table-card">
+        <div className="top-bar">
+          <Link to="/add-book" className="add-btn">+ Add Book</Link>
+
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search book..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
-        <div className="bl-table-wrap">
-          <table className="bl-table">
+        <div className="table-container">
+          <table className="book-table">
             <thead>
               <tr>
                 <th><input type="checkbox" /></th>
                 <th>BOOK TITLE</th>
-                <th>BOOK NUMBER</th>
-                <th>ISBN NUMBER</th>
+                <th>BOOK NO</th>
+                <th>ISBN</th>
                 <th>PUBLISHER</th>
                 <th>AUTHOR</th>
                 <th>SUBJECT</th>
-                <th>RACK NUMBER</th>
+                <th>RACK</th>
                 <th>QTY</th>
-                <th>BOOK PRICE</th>
-                <th>CATEGORIES</th>
-                <th>POST DATE</th>
+                <th>PRICE</th>
+                <th>CATEGORY</th>
+                <th>DATE</th>
                 <th>ACTION</th>
               </tr>
             </thead>
 
             <tbody>
-              {filteredBooks.map((b) => (
-                <tr key={b.id}>
+              {filteredBooks.map((book, index) => (
+                <tr key={index}>
                   <td><input type="checkbox" /></td>
-                  <td>{b.title}</td>
-                  <td>{b.number}</td>
-                  <td>{b.isbn}</td>
-                  <td>{b.publisher}</td>
-                  <td>{b.author}</td>
-                  <td>{b.subject}</td>
-                  <td>{b.rack}</td>
-                  <td>{b.qty}</td>
-                  <td>{b.price}</td>
-                  <td>{b.category}</td>
-                  <td>{b.postDate}</td>
 
-                  <td className="bl-action-cell">
-                    <div
-                      className="bl-action-wrap"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        className="bl-action-btn"
-                        onClick={() =>
-                          setOpenAction(openAction === b.id ? null : b.id)
-                        }
-                      >
-                        Action ▾
-                      </button>
+                  <td>{format(book.title)}</td>
+                  <td>{format(book.number)}</td>
 
-                      {openAction === b.id && (
-                        <div className="bl-action-menu">
-                          <div>View</div>
-                          <div>Edit</div>
-                          <div onClick={() => handleDelete(b.id)}>Delete</div>
-                        </div>
-                      )}
+                  <td>
+                    <div className="barcode">
+                      <div className="fake-barcode"></div>
+                      <span>{format(book.isbn)}</span>
+                    </div>
+                  </td>
+
+                  <td>{format(book.publisher)}</td>
+                  <td>{format(book.author)}</td>
+                  <td>{format(book.subject)}</td>
+                  <td>{format(book.rack)}</td>
+                  <td className="qty">{book.qty}</td>
+                  <td>{formatPrice(book.price)}</td>
+                  <td>{autoCategory(book)}</td>
+                  <td>{formatDate(book.date)}</td>
+
+                  <td>
+                    <div className="action-buttons">
+                      <button className="edit-btn" onClick={() => handleEdit(book)}>Edit</button>
+                      <button className="delete-btn" onClick={() => handleDelete(book)}>Delete</button>
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
-        </div>
 
-        <div className="bl-footer">
-          Showing {filteredBooks.length} entries
+          </table>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default BookList;

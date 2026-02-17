@@ -228,3 +228,4 @@ export const NotificationPublish = () => {
     </div>
   );
 };
+export default NotificationPublish

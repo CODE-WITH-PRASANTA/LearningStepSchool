@@ -1,161 +1,237 @@
-.admin-page {
+/* ================= PAGE ================= */
+.staff-page {
+  background: linear-gradient(180deg,#eef2ff,#f8fafc);
   min-height: 100vh;
-  padding: 25px;
-  background: #f3f4f8;
+  padding: 28px;
+  font-family: "Poppins", sans-serif;
 }
 
-/* HEADER */
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-/* CARD */
-.admin-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 25px;
-  overflow: hidden;
-}
-
-.admin-card-header {
-  background: #e7cdd5;
-  padding: 16px 22px;
-  font-weight: 600;
+/* ================= HEADER ================= */
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 
-.bulk-btn {
-  background: #123a6f;
+.page-header h2 {
+  font-size: 28px;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.breadcrumb {
+  color: #64748b;
+  font-size: 14px;
+  background: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.05);
+}
+
+/* ================= CARD ================= */
+.staff-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0,0,0,.08);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+/* CARD HEADER */
+.staff-card-header {
+  padding: 18px 24px;
+  background: linear-gradient(135deg,#f1f5ff,#f8fafc);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.staff-card-header h3 {
+  font-size: 20px;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* ================= TOOLBAR ================= */
+.staff-toolbar {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ADD BUTTON */
+.add-btn {
+  background: linear-gradient(135deg,#6366f1,#4f46e5);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: .2s;
+}
+
+.add-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(79,70,229,.35);
+}
+
+/* SEARCH */
+.staff-toolbar input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  width: 260px;
+  transition: .2s;
+}
+
+.staff-toolbar input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.2);
+}
+
+/* ================= TABLE ================= */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* TABLE HEADER */
+.staff-table th {
+  background: #f1f5f9;
+  color: #334155;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+/* TABLE BODY */
+.staff-table td {
+  padding: 14px 16px;
+  border-top: 1px solid #eef2f7;
+  font-size: 14px;
+  color: #1e293b;
+}
+
+/* Zebra effect */
+.staff-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* Hover row */
+.staff-table tbody tr:hover {
+  background: #eef2ff;
+  transition: .15s;
+}
+
+/* BARCODE */
+.barcode {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #94a3b8;
+}
+
+/* ================= ACTION BUTTON ================= */
+.staff-table td:last-child {
+  position: relative;
+}
+
+.action-btn {
+  background: #3b82f6;
   color: white;
   border: none;
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
-}
-
-/* FORM */
-.admin-card-body {
-  padding: 25px;
-}
-
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.admin-group label {
-  display: block;
-  margin-bottom: 6px;
-}
-
-.admin-group select {
-  width: 100%;
-  height: 42px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.admin-btn-wrap {
-  text-align: right;
-  margin-top: 20px;
-}
-
-.admin-btn-primary {
-  background: #123a6f;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.admin-btn-primary:hover {
-  background: #0c2750;
-}
-
-/* TOOLBAR */
-.admin-toolbar {
-  padding: 15px 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.admin-toolbar input {
-  margin-left: 8px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-/* TABLE */
-.admin-table-wrap {
-  overflow-x: auto;
-}
-
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1100px;
-}
-
-.admin-table th {
-  background: #e7cdd5;
-  padding: 12px;
   font-size: 13px;
-  text-align: left;
+  transition: .2s;
 }
 
-.admin-table td {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
+.action-btn:hover {
+  background: #2563eb;
 }
 
-.admin-table tbody tr:nth-child(even) {
-  background: #f2f2f8;
-}
-
-/* ACTION */
-.admin-action-cell {
-  position: relative;
-}
-
-.admin-action-menu {
+/* DROPDOWN MENU */
+.action-menu {
   position: absolute;
-  top: 40px;
-  right: 0;
+  right: 10px;
+  top: 38px;
   background: white;
-  border-radius: 8px;
-  width: 150px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
+  border-radius: 10px;
+  box-shadow: 0 12px 25px rgba(0,0,0,.15);
+  min-width: 140px;
+  z-index: 999;
+  overflow: hidden;
+  animation: fade .15s ease;
+  border: 1px solid #e2e8f0;
 }
 
-.admin-action-menu div {
-  padding: 10px;
+.action-menu button {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #334155;
 }
 
-.admin-action-menu div:hover {
-  background: #123a6f;
-  color: white;
+.action-menu button:hover {
+  background: #f1f5f9;
 }
 
-/* RESPONSIVE */
-@media (max-width: 992px) {
-  .admin-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* COLORS */
+.action-menu button:nth-child(1):hover {
+  color: #16a34a;
+}
+
+.action-menu button:nth-child(2):hover {
+  color: #dc2626;
+}
+
+/* ANIMATION */
+@keyframes fade {
+  from {opacity:0; transform: translateY(-5px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
-}
 
-@media (max-width: 600px) {
-  .admin-grid {
-    grid-template-columns: 1fr;
+  .staff-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .staff-toolbar input {
+    width: 100%;
+  }
+
+  .staff-table th,
+  .staff-table td {
+    font-size: 13px;
+    padding: 12px;
   }
 }

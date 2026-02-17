@@ -1,0 +1,170 @@
+/* Background */
+.student-container {
+  min-height: 100vh;
+  padding: 40px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.header-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Search */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+/* Add Button */
+.add-btn {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(79,70,229,0.4);
+}
+
+/* Table Card */
+.table-wrapper {
+  background: white;
+  border-radius: 18px;
+  padding: 15px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f1f5f9;
+}
+
+th {
+  padding: 14px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+td {
+  padding: 14px;
+  font-size: 14px;
+  color: #334155;
+}
+
+tbody tr {
+  transition: 0.2s;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Buttons */
+.action-buttons button {
+  border: none;
+  padding: 7px 10px;
+  margin-right: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.edit-btn {
+  background: #0ea5e9;
+}
+
+.delete-btn {
+  background: #ef4444;
+}
+
+.edit-btn:hover { background: #0284c7; }
+.delete-btn:hover { background: #dc2626; }
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-card {
+  width: 420px;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(.85); opacity:0 }
+  to { transform: scale(1); opacity:1 }
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.close { cursor: pointer; }
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 7px 0;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.save-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  border: none;
+  padding: 11px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}

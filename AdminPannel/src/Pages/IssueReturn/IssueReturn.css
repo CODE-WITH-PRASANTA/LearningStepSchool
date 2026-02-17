@@ -1,144 +1,115 @@
+/* PAGE */
 .issue-page {
   min-height: 100vh;
   padding: 25px;
   background: #f3f4f8;
+  font-family: "Inter", sans-serif;
 }
 
-/* Header */
+/* HEADER */
 .issue-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 22px;
 }
 
-/* Card */
+.issue-header h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0d1a3a;
+}
+
+.issue-breadcrumb {
+  font-size: 15px;
+  color: #435b7f;
+}
+
+/* MAIN WHITE CARD */
 .issue-card {
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-  margin-bottom: 25px;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+  margin-top: 10px;
 }
 
+/* TOP PINK BAR */
 .issue-card-header {
-  background: #e7cdd5;
-  padding: 16px 22px;
+  background: #fde7ef;
+  padding: 16px 24px;
+  font-size: 18px;
   font-weight: 600;
-  font-size: 16px;
+  border-bottom: 1px solid #f4cbd8;
+  color: #222;
 }
 
-/* Form */
+/* BODY */
 .issue-card-body {
-  padding: 25px;
+  padding: 28px;
+  background: #ffffff;
 }
 
+/* GRID FORM */
 .issue-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 22px;
 }
 
+/* INPUT GROUP */
 .issue-group label {
-  display: block;
+  font-size: 15px;
   margin-bottom: 6px;
-  font-weight: 500;
+  display: inline-block;
+  font-weight: 600;
+  color: #24324a;
 }
 
 .issue-group input,
 .issue-group select {
   width: 100%;
-  height: 42px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  height: 46px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #cfcfcf;
+  background: #ffffff;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
 }
 
+.issue-group input:focus,
+.issue-group select:focus {
+  border-color: #123a6f;
+  box-shadow: 0 0 0 2px rgba(18, 58, 111, 0.15);
+}
+
+/* SEARCH BUTTON AREA */
 .issue-btn-wrap {
   text-align: right;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
+/* SEARCH BUTTON */
 .issue-btn-primary {
   background: #123a6f;
   color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 11px 26px;
+  border-radius: 8px;
   border: none;
+  font-size: 15px;
   cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
 }
 
 .issue-btn-primary:hover {
-  background: #0c2750;
+  background: #0b264c;
 }
 
-/* Table */
-.issue-toolbar {
-  padding: 15px 20px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.issue-toolbar input {
-  margin-left: 8px;
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-.issue-table-wrap {
-  overflow-x: auto;
-}
-
-.issue-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1100px;
-}
-
-.issue-table th {
-  background: #e7cdd5;
-  padding: 12px;
-  text-align: left;
-  font-size: 13px;
-}
-
-.issue-table td {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.issue-table tbody tr:nth-child(even) {
-  background: #f2f2f8;
-}
-
-/* Action */
-.issue-action-cell {
-  position: relative;
-}
-
-.issue-action-menu {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background: white;
-  border-radius: 8px;
-  width: 160px;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
-}
-
-.issue-action-menu div {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.issue-action-menu div:hover {
-  background: #123a6f;
-  color: white;
-}
-
-/* Responsive */
-@media (max-width: 992px) {
+/* RESPONSIVE */
+@media (max-width: 1024px) {
   .issue-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -147,5 +118,11 @@
 @media (max-width: 600px) {
   .issue-grid {
     grid-template-columns: 1fr;
+  }
+
+  .issue-header {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
   }
 }

@@ -240,3 +240,5 @@ export const LatestNewsAdmin = () => {
     </div>
   );
 };
+
+export default LatestNewsAdmin

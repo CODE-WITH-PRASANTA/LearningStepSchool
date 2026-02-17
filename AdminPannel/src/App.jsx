@@ -72,15 +72,19 @@ import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
 import BookList from "./Pages/BookList/BookList";
 import IssueReturn from "./Pages/IssueReturn/IssueReturn";
 import AddStudent from "./Pages/AddStudent/AddStudent";
-import AddStaff from "./Pages/AddStaff/AddStaff";
+// import AddStaff from "./Pages/AddStaff/AddStaff";
 import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
 import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
-import { NotificationPublish } from "./Pages/NotificationPublish/NotificationPublish";
-import { LatestNewsAdmin } from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
+import  NotificationPublish  from "./Pages/NotificationPublish/NotificationPublish";
+import  LatestNewsAdmin  from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
 import Photogallery from "./Pages/Photogallery/Photogallery";
 import Videogallery from "./Pages/Videogallery/Videogallery";
+import AddBook from "./Pages/AddBook/AddBook";
+import StudentList from "./Pages/StudentList/StudentList";
+import ReturnBook from "./Pages/ReturnBook/ReturnBook";
+import Stafflibrary from "./Pages/Stafflibrary/Stafflibrary";
 
 
 /* ===================== APP ===================== */
@@ -219,7 +223,7 @@ export default function App() {
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={< IssueReturn/>}/>
           <Route path="/library/add-student" element={< AddStudent/>}/>
-          <Route path="/library/add-staff" element={< AddStaff/>}/>
+          {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
           <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
           
           <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
@@ -227,6 +231,15 @@ export default function App() {
           <Route path="/academics/section" element={<SectionPage />} />
           <Route path="/front-office/enquiry" element={<AdmissionEnquiry />} />
           <Route path="/edit-admission-enquiry" element={<EditAdmissionEnquiry />} />
+          <Route path="/add-book" element={<AddBook />} />
+          <Route path="/library/issue-book" element={<IssueReturn/>}/>
+          <Route path="/student-list" element={<StudentList/>}/>
+          <Route path="/library/return-book" element={<ReturnBook/>}/>
+          <Route path="library/student" element={<AddStudent/>}/>
+          <Route path="/library/staff" element={<Stafflibrary/>}/>
+         
+
+
          
           <Route
             path="/front-office/postal-dispatch"
