@@ -1,121 +1,164 @@
+/* ================= MAIN CONTAINER ================= */
+
 .award-admin-container {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   max-width: 1400px;
   margin: auto;
-  padding: 20px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  min-height: 100vh;
 }
 
-/* LEFT 70% */
+/* ================= LEFT 70% ================= */
 
 .award-admin-form-section {
   flex: 0 0 70%;
 }
 
-/* RIGHT 30% */
+/* ================= RIGHT 30% ================= */
 
 .award-admin-list-section {
   flex: 0 0 30%;
 }
 
-/* FORM */
+/* ================= PREMIUM FORM ================= */
 
 .award-form {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(18px);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: 0.3s ease;
+}
+
+.award-form:hover {
+  transform: translateY(-4px);
 }
 
 .award-form-title {
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
 }
 
-.award-form input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
+/* ================= INPUT STYLING ================= */
+
+.award-form input[type="text"],
+.award-form input[type="file"] {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  transition: 0.3s ease;
+  background: #f9fafb;
 }
+
+.award-form input:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* ================= IMAGE PREVIEW ================= */
+
+.award-preview {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+  margin-top: 10px;
+  transition: 0.3s ease;
+}
+
+.award-preview:hover {
+  transform: scale(1.05);
+}
+
+/* ================= BUTTON ================= */
 
 .award-submit-btn {
-  background: #0d6efd;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 14px;
   font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
 }
 
-/* LIST */
+.award-submit-btn:hover {
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+}
+
+/* ================= LIST (SMALL IMPROVEMENT) ================= */
 
 .award-list-container {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-}
-
-.award-list-title {
-  font-size: 18px;
-  margin-bottom: 15px;
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
 .award-list-card {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .award-list-image {
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
+  border-radius: 12px;
   object-fit: cover;
+}
+
+.award-edit-btn,
+.award-delete-btn {
+  padding: 6px 12px;
   border-radius: 8px;
-}
-
-.award-list-info {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.award-list-actions {
-  display: flex;
-  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .award-edit-btn {
-  background: #ffc107;
+  background: #facc15;
   border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+}
+
+.award-edit-btn:hover {
+  background: #eab308;
 }
 
 .award-delete-btn {
-  background: #dc3545;
-  color: white;
+  background: #ef4444;
   border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  color: white;
 }
 
-.award-empty-text {
-  text-align: center;
-  color: #777;
+.award-delete-btn:hover {
+  background: #dc2626;
 }
 
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .award-admin-container {
     flex-direction: column;
   }
@@ -123,5 +166,19 @@
   .award-admin-form-section,
   .award-admin-list-section {
     flex: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .award-form {
+    padding: 25px;
+  }
+
+  .award-form-title {
+    font-size: 20px;
+  }
+
+  .award-submit-btn {
+    padding: 12px;
   }
 }

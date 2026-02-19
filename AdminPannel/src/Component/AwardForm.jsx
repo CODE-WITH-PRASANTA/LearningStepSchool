@@ -1,57 +1,61 @@
 import React, { useState, useEffect } from "react";
+import API from "../api/axios";
 
-const AwardForm = ({ onSubmit, editAward }) => {
-
+const AwardForm = ({ editAward, setEditAward, refreshAwards }) => {
   const [formData, setFormData] = useState({
-    id: Date.now(),
     title: "",
-    image: ""
+    image: null,
   });
 
   useEffect(() => {
     if (editAward) {
-      setFormData(editAward);
+      setFormData({
+        title: editAward.title,
+        image: null,
+      });
     }
   }, [editAward]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, title: e.target.value });
   };
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const preview = URL.createObjectURL(file);
-      setFormData({ ...formData, image: preview });
-    }
+    setFormData({ ...formData, image: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    onSubmit({
-      ...formData,
-      id: formData.id || Date.now()
-    });
+    try {
+      const data = new FormData();
+      data.append("title", formData.title);
 
-    setFormData({
-      id: Date.now(),
-      title: "",
-      image: ""
-    });
+      if (formData.image) {
+        data.append("image", formData.image);
+      }
+
+      if (editAward) {
+        await API.put(`/awards/${editAward._id}`, data);
+        setEditAward(null);
+      } else {
+        await API.post("/awards", data);
+      }
+
+      setFormData({ title: "", image: null });
+      refreshAwards();
+    } catch (err) {
+      console.error("SUBMIT ERROR:", err);
+    }
   };
 
   return (
     <form className="award-form" onSubmit={handleSubmit}>
-
-      <h2 className="award-form-title">
+      <h2>
         {editAward ? "Edit Award" : "Add New Award"}
       </h2>
 
-      <input 
+      <input
         type="file"
         onChange={handleImageUpload}
         required={!editAward}
@@ -59,17 +63,15 @@ const AwardForm = ({ onSubmit, editAward }) => {
 
       <input
         type="text"
-        name="title"
         placeholder="Award Title"
         value={formData.title}
         onChange={handleChange}
         required
       />
 
-      <button className="award-submit-btn" type="submit">
+      <button type="submit">
         {editAward ? "Update Award" : "Submit Award"}
       </button>
-
     </form>
   );
 };

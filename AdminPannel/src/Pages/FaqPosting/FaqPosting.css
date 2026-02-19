@@ -1,7 +1,7 @@
 /* ======================
    MAIN WRAPPER
 ====================== */
-.faq-container {
+.FAQ-container {
   display: flex;
   gap: 30px;
   padding: 30px;
@@ -11,33 +11,40 @@
 }
 
 /* ======================
-   LEFT FORM PANEL
+   FORM SECTION
 ====================== */
-.faq-form {
-  background: white;
-  padding: 25px;
+.FAQ-form-section {
   width: 380px;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   flex-shrink: 0;
 }
 
-.faq-title {
+.FAQ-form {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.FAQ-title {
   text-align: center;
   margin-bottom: 18px;
   font-weight: 700;
   font-size: 20px;
 }
 
-.faq-label {
+.FAQ-field {
+  margin-bottom: 15px;
+}
+
+.FAQ-label {
   font-weight: 600;
   display: block;
   margin-bottom: 6px;
 }
 
-.faq-input,
-.faq-textarea,
-select {
+.FAQ-input,
+.FAQ-textarea,
+.FAQ-select {
   width: 100%;
   padding: 12px;
   border-radius: 6px;
@@ -45,11 +52,12 @@ select {
   font-size: 15px;
 }
 
-.faq-textarea {
+.FAQ-textarea {
   min-height: 100px;
+  resize: vertical;
 }
 
-.faq-btn {
+.FAQ-button {
   width: 100%;
   margin-top: 20px;
   padding: 12px;
@@ -63,11 +71,11 @@ select {
   transition: 0.2s ease;
 }
 
-.faq-btn:hover {
+.FAQ-button:hover {
   background: #003fa3;
 }
 
-.faq-version {
+.FAQ-version {
   text-align: center;
   margin-top: 12px;
   font-size: 12px;
@@ -75,58 +83,66 @@ select {
 }
 
 /* ======================
-   RIGHT TABLE PANEL
+   TABLE SECTION
 ====================== */
-.faq-table-box {
+.FAQ-table-section {
   flex: 1;
   background: white;
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   min-width: 300px;
+}
+
+.FAQ-table-wrapper {
   overflow-x: auto;
 }
 
-.faq-table {
+.FAQ-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px; /* ensures structure on mobiles */
+  min-width: 700px;
 }
 
-.faq-table th,
-.faq-table td {
+.FAQ-table th,
+.FAQ-table td {
   border-bottom: 1px solid #ddd;
   padding: 12px;
   text-align: left;
   font-size: 15px;
 }
 
-.faq-table th {
+.FAQ-table th {
   background: #f2f4f8;
   font-weight: 700;
 }
 
-.faq-edit,
-.faq-delete {
+.FAQ-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.FAQ-edit-btn {
   padding: 6px 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-}
-
-.faq-edit {
   background: #00a86b;
   color: white;
-  margin-right: 8px;
 }
 
-.faq-delete {
+.FAQ-delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
   background: #d9534f;
   color: white;
 }
 
-.faq-empty {
+.FAQ-empty {
   text-align: center;
   padding: 25px;
   color: #666;
@@ -134,84 +150,25 @@ select {
 }
 
 /* ======================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE
 ====================== */
 
-/* ----------- Laptop (1024px) ----------- */
-@media (max-width: 1024px) {
-  .faq-form {
-    width: 330px;
-  }
-}
-
-/* ----------- Tablet (768px - 900px) ----------- */
 @media (max-width: 900px) {
-  .faq-container {
+  .FAQ-container {
     flex-direction: column;
-    padding: 20px;
   }
 
-  .faq-form {
+  .FAQ-form-section {
     width: 100%;
   }
 
-  .faq-table-box {
+  .FAQ-table-section {
     width: 100%;
   }
 }
 
-/* ----------- Mobile (480px - 600px) ----------- */
 @media (max-width: 600px) {
-
-  .faq-container {
-    padding: 15px;
-  }
-
-  .faq-form {
-    padding: 20px;
-  }
-
-  .faq-input,
-  .faq-textarea,
-  select {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .faq-btn {
-    padding: 10px;
-    font-size: 15px;
-  }
-
-  .faq-table {
+  .FAQ-table {
     min-width: 550px;
   }
 }
-
-/* ----------- Small Mobile (360px - 480px) ----------- */
-@media (max-width: 480px) {
-
-  .faq-title {
-    font-size: 18px;
-  }
-
-  .faq-form {
-    padding: 18px;
-  }
-
-  .faq-input,
-  .faq-textarea,
-  select {
-    font-size: 13px;
-  }
-
-  .faq-btn {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  .faq-table {
-    min-width: 500px;
-  }
-}
-

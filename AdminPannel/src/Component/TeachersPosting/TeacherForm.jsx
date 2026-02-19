@@ -1,140 +1,140 @@
 import React, { useState, useEffect } from "react";
+import API from "../../api/axios";
 
-const TeacherForm = ({ onSubmit, editTeacher }) => {
+const TeacherForm = ({ editTeacher, setEditTeacher, refreshTeachers }) => {
   const [formData, setFormData] = useState({
-    id: Date.now(),
     name: "",
     review: "",
     rating: 0,
-    photo: "",
+    photo: null,
     instagram: "",
     facebook: "",
-    linkedin: ""
+    linkedin: "",
   });
 
   const [hoverRating, setHoverRating] = useState(0);
 
   useEffect(() => {
     if (editTeacher) {
-      setFormData(editTeacher);
+      setFormData({ ...editTeacher, photo: null });
     }
   }, [editTeacher]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const preview = URL.createObjectURL(file);
-      setFormData({ ...formData, photo: preview });
-    }
-  };
-
-  const handleStarClick = (value) => {
-    setFormData({ ...formData, rating: value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.rating === 0) {
-      alert("Please select star rating");
-      return;
+    const formDataObj = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (formData[key]) formDataObj.append(key, formData[key]);
+    });
+
+    if (editTeacher) {
+      await API.put(`/teachers/${editTeacher._id}`, formDataObj);
+      setEditTeacher(null);
+    } else {
+      await API.post("/teachers", formDataObj);
     }
 
-    onSubmit({ ...formData, id: formData.id || Date.now() });
-
     setFormData({
-      id: Date.now(),
       name: "",
       review: "",
       rating: 0,
-      photo: "",
+      photo: null,
       instagram: "",
       facebook: "",
-      linkedin: ""
+      linkedin: "",
     });
+
+    refreshTeachers();
   };
 
   return (
-    <form className="teacher-form" onSubmit={handleSubmit}>
-      <h2 className="teacher-form-title">
-        {editTeacher ? "Edit Teacher" : "Add New Teacher"}
+    <form onSubmit={handleSubmit} className="space-y-4">
+
+      <h2 className="text-2xl font-semibold">
+        {editTeacher ? "Edit Teacher" : "Add Teacher"}
       </h2>
 
-      <input type="file" onChange={handleImageUpload} />
+      <input
+        type="file"
+        onChange={(e) =>
+          setFormData({ ...formData, photo: e.target.files[0] })
+        }
+        className="w-full border rounded-lg p-2"
+        required={!editTeacher}
+      />
 
       <input
         type="text"
-        name="name"
         placeholder="Teacher Name"
         value={formData.name}
-        onChange={handleChange}
+        onChange={(e) =>
+          setFormData({ ...formData, name: e.target.value })
+        }
+        className="w-full border rounded-lg p-2"
         required
       />
 
       <textarea
-        name="review"
         placeholder="Teacher Review"
         value={formData.review}
-        onChange={handleChange}
+        onChange={(e) =>
+          setFormData({ ...formData, review: e.target.value })
+        }
+        className="w-full border rounded-lg p-2 min-h-[100px]"
         required
       />
 
       {/* STAR RATING */}
-
-     <div className="teacher-star-rating">
-  <span className="teacher-rating-label">Rating</span>
-
-  <div className="teacher-stars-wrapper">
-    {[1, 2, 3, 4, 5].map((star) => (
-      <span
-        key={star}
-        className={`teacher-star ${
-          (hoverRating || formData.rating) >= star
-            ? "teacher-star-filled"
-            : ""
-        }`}
-        onClick={() => handleStarClick(star)}
-        onMouseEnter={() => setHoverRating(star)}
-        onMouseLeave={() => setHoverRating(0)}
-      >
-        ★
-      </span>
-    ))}
-  </div>
-</div>
+      <div className="flex gap-2">
+        {[1,2,3,4,5].map((star) => (
+          <span
+            key={star}
+            onClick={() => setFormData({ ...formData, rating: star })}
+            onMouseEnter={() => setHoverRating(star)}
+            onMouseLeave={() => setHoverRating(0)}
+            className={`text-2xl cursor-pointer ${
+              (hoverRating || formData.rating) >= star
+                ? "text-yellow-400"
+                : "text-gray-300"
+            }`}
+          >
+            ★
+          </span>
+        ))}
+      </div>
 
       <input
         type="text"
-        name="instagram"
         placeholder="Instagram Link"
         value={formData.instagram}
-        onChange={handleChange}
+        onChange={(e) =>
+          setFormData({ ...formData, instagram: e.target.value })
+        }
+        className="w-full border rounded-lg p-2"
       />
 
       <input
         type="text"
-        name="facebook"
         placeholder="Facebook Link"
         value={formData.facebook}
-        onChange={handleChange}
+        onChange={(e) =>
+          setFormData({ ...formData, facebook: e.target.value })
+        }
+        className="w-full border rounded-lg p-2"
       />
 
       <input
         type="text"
-        name="linkedin"
         placeholder="LinkedIn Link"
         value={formData.linkedin}
-        onChange={handleChange}
+        onChange={(e) =>
+          setFormData({ ...formData, linkedin: e.target.value })
+        }
+        className="w-full border rounded-lg p-2"
       />
 
-      <button className="teacher-submit-btn" type="submit">
+      <button className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
         {editTeacher ? "Update Teacher" : "Add Teacher"}
       </button>
     </form>

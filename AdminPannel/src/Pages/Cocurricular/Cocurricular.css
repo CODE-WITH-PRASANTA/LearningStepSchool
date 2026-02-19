@@ -1,0 +1,173 @@
+/* ================= WRAPPER ================= */
+.Cocurricular0-wrapper {
+  background: #f4f6fb;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ================= GRID ================= */
+.Cocurricular0-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 20px;
+  height: 100%;
+}
+
+/* ================= CARD ================= */
+.Cocurricular0-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.Cocurricular0-card--form {
+  max-height: 100%;
+}
+
+.Cocurricular0-card--table {
+  max-height: 100%;
+}
+
+/* ================= FORM STYLING ================= */
+.Cocurricular0-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.Cocurricular0-form__label {
+  font-size: 14px;
+  margin-top: 12px;
+  font-weight: 500;
+  color: #1f2744;
+}
+
+.Cocurricular0-form__input,
+.Cocurricular0-form__select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d0d5ff;
+  margin-top: 6px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.Cocurricular0-form__input:focus,
+.Cocurricular0-form__select:focus {
+  outline: none;
+  border-color: #0b197d;
+  box-shadow: 0 0 0 2px rgba(11, 25, 125, 0.15);
+}
+
+.Cocurricular0-form__button {
+  margin-top: 20px;
+  background: #0b197d;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.Cocurricular0-form__button:hover {
+  background: #08135c;
+}
+
+/* ================= TABLE SECTION ================= */
+.Cocurricular0-table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.Cocurricular0-table-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.Cocurricular0-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.Cocurricular0-table thead {
+  background: #ffe8ef;
+}
+
+.Cocurricular0-table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.Cocurricular0-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e4e6f0;
+  font-size: 14px;
+}
+
+.Cocurricular0-table tr:nth-child(even) {
+  background: #f5f7ff;
+}
+
+/* ================= ACTION DROPDOWN ================= */
+.Cocurricular0-action-wrapper {
+  position: relative;
+}
+
+.Cocurricular0-action-btn {
+  background: #0b197d;
+  color: #ffffff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.Cocurricular0-action-menu {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  background: #ffffff;
+  width: 160px;
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.Cocurricular0-action-menu__item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.Cocurricular0-action-menu__item:hover {
+  background: #f1f1f6;
+}
+
+.Cocurricular0-action-menu__item--delete {
+  color: red;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .Cocurricular0-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .Cocurricular0-wrapper {
+    overflow-y: auto;
+  }
+}

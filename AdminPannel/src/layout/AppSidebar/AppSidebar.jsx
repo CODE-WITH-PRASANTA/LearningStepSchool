@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import {
   FiHome,
   FiBookOpen,
+  FiBook,
   FiUsers,
   FiAward,
   FiDollarSign,
@@ -14,7 +15,7 @@ import {
   FiChevronDown,
   FiMonitor,
   FiBriefcase,
-  FiBell, // ✅ NEW ICON
+  FiBell,
 } from "react-icons/fi";
 
 /* ================= MENU CONFIG ================= */
@@ -26,36 +27,28 @@ const menu = [
     label: "Blog Management",
     icon: FiBookOpen,
     children: [
-      {
-        label: "Blog Posts",
-        path: "/blogs",
-        color: "from-indigo-200 to-violet-200 text-indigo-800",
-      },
-      {
-        label: "Blog View",
-        path: "/blogs/view",
-        color: "from-sky-200 to-blue-200 text-sky-800",
-      },
+      { label: "Blog Posts", path: "/blogs" },
+      { label: "Blog View", path: "/blogs/view" },
     ],
   },
 
   { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
-
   { label: "Award Management", icon: FiAward, path: "/awards" },
-
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
-
   { label: "Notice Management", icon: FiClipboard, path: "/notices" },
 
-  // ✅ NEW NOTIFICATION MENU
-  { label: "Notification", icon: FiBell, path: "/notification" },
+  { label: "Notification Management", icon: FiBell, path: "/notification" },
+  { label: "Latest News Management", icon: FiBell, path: "/latest-news" },
 
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
 
   {
-    label: "Advertisement Management",
+    label: "Media Management",
     icon: FiMonitor,
-    path: "/advertisements",
+    children: [
+      { label: "Photo Gallery Management", path: "/media-photo" },
+      { label: "Video Gallery Management", path: "/media-video" },
+    ],
   },
 
   {
@@ -82,7 +75,6 @@ const menu = [
   { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 
-  { type: "divider" },
 
   {
     label: "Front Office",
@@ -98,15 +90,50 @@ const menu = [
       { label: "Entrance Examination Form", path: "/front-office/exam-form" },
     ],
   },
+
+  { type: "divider" },
+
+  {
+    label: "Attendance",
+    icon: FiCalendar,
+    children: [
+      { label: "Student Attendance", path: "/attendance/student-attendance" },
+      { label: "Student Leave", path: "/attendance/student-leave" },
+      { label: "Attendance Report", path: "/attendance/attendance-report" },
+    ],
+  },
+
+  { type: "divider" },
+
+  {
+    label: "Primary Evaluation",
+    icon: FiClipboard,
+    children: [
+      { label: "Activity", path: "/primary-evaluation/activity" },
+      { label: "Assessment", path: "/primary-evaluation/assessment" },
+      { label: "Evaluation Remark", path: "/primary-evaluation/evaluation-remark" },
+      { label: "Primary Class Report", path: "/primary-evaluation/class-report" },
+    ],
+  },
+
+  { type: "divider" },
+
+  {
+    label: "Library",
+    icon: FiBook,
+    children: [
+      { label: "Book List", path: "/library/book-list" },
+      { label: "Issue Book", path: "/library/issue-book" },
+      { label: "Return Book", path: "/library/return-book" },
+      { label: "Add Student", path: "/library/student" },
+      { label: "Add Staff", path: "/library/staff" },
+    ],
+  },
 ];
 
-/* ================= SIDEBAR ================= */
+/* ================= COMPONENT ================= */
 
-export default function AppSidebar({
-  sidebarOpen,
-  mobileOpen,
-  setMobileOpen,
-}) {
+export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const location = useLocation();
   const [openGroup, setOpenGroup] = useState(null);
 
@@ -114,7 +141,9 @@ export default function AppSidebar({
     menu.forEach((item) => {
       if (
         item.children &&
-        item.children.some((c) => location.pathname.startsWith(c.path))
+        item.children.some((c) =>
+          location.pathname.startsWith(c.path)
+        )
       ) {
         setOpenGroup(item.label);
       }
@@ -138,6 +167,7 @@ export default function AppSidebar({
         ${sidebarOpen ? "w-72" : "w-20"}
         ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
+        {/* Logo */}
         <div className="h-16 flex items-center justify-center border-b border-indigo-200 font-bold text-indigo-700">
           {sidebarOpen ? "School Admin" : "SA"}
         </div>
@@ -146,13 +176,14 @@ export default function AppSidebar({
           {menu.map((item, i) => {
             if (item.type === "divider") {
               return (
-                <div key={i} className="my-6 border-t-2 border-indigo-300" />
+                <div key={i} className="my-6 border-t border-indigo-300" />
               );
             }
 
             const Icon = item.icon;
             const isOpen = openGroup === item.label;
 
+            /* ===== GROUP MENU ===== */
             if (item.children) {
               return (
                 <div key={i}>
@@ -162,7 +193,11 @@ export default function AppSidebar({
                       setOpenGroup(isOpen ? null : item.label)
                     }
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
-                    ${isOpen ? "bg-indigo-100 text-indigo-700" : "hover:bg-sky-100"}`}
+                    ${
+                      isOpen
+                        ? "bg-indigo-100 text-indigo-700"
+                        : "hover:bg-sky-100"
+                    }`}
                   >
                     <span className="icon-bubble bg-indigo-200 text-indigo-700">
                       <Icon />
@@ -174,7 +209,9 @@ export default function AppSidebar({
                           {item.label}
                         </span>
                         <FiChevronDown
-                          className={`transition ${isOpen ? "rotate-180" : ""}`}
+                          className={`transition ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
                         />
                       </>
                     )}
@@ -186,7 +223,13 @@ export default function AppSidebar({
                         <NavLink
                           key={j}
                           to={sub.path}
-                          className="block px-4 py-2 text-sm rounded-xl bg-gradient-to-r opacity-90 hover:opacity-100"
+                          className={({ isActive }) =>
+                            `block px-4 py-2 text-sm rounded-xl ${
+                              isActive
+                                ? "bg-indigo-200 text-indigo-800"
+                                : "hover:bg-sky-100"
+                            }`
+                          }
                         >
                           {sub.label}
                         </NavLink>
@@ -197,11 +240,18 @@ export default function AppSidebar({
               );
             }
 
+            /* ===== SINGLE LINK ===== */
             return (
               <NavLink
                 key={i}
                 to={item.path}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-sky-100"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-xl ${
+                    isActive
+                      ? "bg-indigo-200 text-indigo-800"
+                      : "hover:bg-sky-100"
+                  }`
+                }
               >
                 <span className="icon-bubble bg-indigo-200 text-indigo-700">
                   <Icon />

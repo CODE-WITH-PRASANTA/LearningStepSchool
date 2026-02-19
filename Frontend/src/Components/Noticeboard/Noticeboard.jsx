@@ -1,56 +1,89 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API, { IMAGE_URL } from "../../Api/Api";
 import "./Noticeboard.css";
 
-const events = [
-  {
-    id: 1,
-    image: "https://www.zoutula.com/themes/enfant-school/wp-content/uploads/2017/03/Depositphotos_11633182_original-min-600x300.jpg",
-    day: "23",
-    month: "September",
-    time: "4 Hours",
-    location: "Kings, Liverpool UK",
-    title: "Grand Opening of the Summers Walk",
-    description:
-      "Alterum accommodare duo cu. Ius labore efficiendi ex, ne vim enim rebum honestatis, ad his consulatu pertinacia deterruisset. Te bonorum ancillae nec.",
-  },
-  {
-    id: 2,
-    image: "https://www.zoutula.com/themes/enfant-school/wp-content/uploads/2017/03/Depositphotos_130582076_original-min-600x300.jpg",
-    day: "5",
-    month: "November",
-    time: "3 Hours",
-    location: "Ovington, London UK",
-    title: "World Drawing Day",
-    description:
-      "Alterum accommodare duo cu. Ius labore luptatum, ne vim enim rebum honestatis, ad his consulatu pertinacia deterruisset. Te bonorum ancillae nec.",
-  },
-];
-
 const Events = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  /* ================= FETCH NOTICES ================= */
+  const fetchEvents = async () => {
+    try {
+      const res = await API.get("/notices");
+      setEvents(res.data.data || res.data);
+    } catch (err) {
+      console.error("FETCH NOTICE ERROR:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="events-wrapper">
+        <p>Loading notices...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="events-wrapper">
-      {events.map((event) => (
-        <div className="event-card" key={event.id}>
-          <img src={event.image} alt={event.title} className="event-image" />
+      {events.length === 0 ? (
+        <p>No notices available</p>
+      ) : (
+        events.map((event) => (
+          <div className="event-card" key={event._id}>
+            
+            {/* IMAGE */}
+            {event.image && (
+              <img
+                src={IMAGE_URL + event.image}
+                alt={event.title}
+                className="event-image"
+              />
+            )}
 
-          <div className="event-content">
-            <div className="event-meta">
-              <span className="event-date">
-                <strong>{event.day}</strong> / {event.month}
-              </span>
-              <span>⏰ {event.time}</span>
-              <span>📍 {event.location}</span>
+            <div className="event-content">
+              <div className="event-meta">
+                <span className="event-date">
+                  {event.dateTime
+                    ? new Date(event.dateTime).toLocaleDateString()
+                    : ""}
+                </span>
+
+                {event.location && (
+                  <span>📍 {event.location}</span>
+                )}
+              </div>
+
+              <h2 className="event-title">{event.title}</h2>
+
+              <p className="event-description">
+                {event.description?.length > 120
+                  ? event.description.slice(0, 120) + "..."
+                  : event.description}
+              </p>
             </div>
 
-            <h2 className="event-title">{event.title}</h2>
-            <p className="event-description">{event.description}</p>
-          </div>
+            {/* 🔥 FIXED BUTTON */}
+            <div className="event-action">
+              <button
+                onClick={() => navigate(`/notice/${event._id}`)}
+                className="register-btn"
+              >
+                View Notice
+              </button>
+            </div>
 
-          <div className="event-action">
-            <button className="register-btn">Register</button>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };
