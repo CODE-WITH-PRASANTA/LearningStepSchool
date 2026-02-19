@@ -63,81 +63,103 @@ const TeacherForm = ({ onSubmit, editTeacher }) => {
 
   return (
     <form className="teacher-form" onSubmit={handleSubmit}>
-      <h2 className="teacher-form-title">
-        {editTeacher ? "Edit Teacher" : "Add New Teacher"}
-      </h2>
+  <h2 className="teacher-form-title">
+    {editTeacher ? "Edit Teacher" : "Add New Teacher"}
+  </h2>
 
-      <input type="file" onChange={handleImageUpload} />
-
-      <input
-        type="text"
-        name="name"
-        placeholder="Teacher Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-
-      <textarea
-        name="review"
-        placeholder="Teacher Review"
-        value={formData.review}
-        onChange={handleChange}
-        required
-      />
-
-      {/* STAR RATING */}
-
-     <div className="teacher-star-rating">
-  <span className="teacher-rating-label">Rating</span>
-
-  <div className="teacher-stars-wrapper">
-    {[1, 2, 3, 4, 5].map((star) => (
-      <span
-        key={star}
-        className={`teacher-star ${
-          (hoverRating || formData.rating) >= star
-            ? "teacher-star-filled"
-            : ""
-        }`}
-        onClick={() => handleStarClick(star)}
-        onMouseEnter={() => setHoverRating(star)}
-        onMouseLeave={() => setHoverRating(0)}
-      >
-        ★
-      </span>
-    ))}
+  {/* PHOTO */}
+  <div className="teacher-input-group">
+    <label>Teacher Photo</label>
+    <input type="file" onChange={handleImageUpload} />
   </div>
-</div>
 
-      <input
-        type="text"
-        name="instagram"
-        placeholder="Instagram Link"
-        value={formData.instagram}
-        onChange={handleChange}
-      />
+  {/* NAME */}
+  <div className="teacher-input-group">
+    <label>Teacher Name</label>
+    <input
+      type="text"
+      name="name"
+      placeholder="Enter teacher name"
+      value={formData.name}
+      onChange={handleChange}
+      required
+    />
+  </div>
 
-      <input
-        type="text"
-        name="facebook"
-        placeholder="Facebook Link"
-        value={formData.facebook}
-        onChange={handleChange}
-      />
+  {/* REVIEW */}
+  <div className="teacher-input-group">
+    <label>Teacher Review</label>
+    <textarea
+      name="review"
+      placeholder="Write teacher review"
+      value={formData.review}
+      onChange={handleChange}
+      required
+    />
+  </div>
 
-      <input
-        type="text"
-        name="linkedin"
-        placeholder="LinkedIn Link"
-        value={formData.linkedin}
-        onChange={handleChange}
-      />
+  {/* STAR RATING */}
+  <div className="teacher-star-rating">
+    <span className="teacher-rating-label">Rating</span>
 
-      <button className="teacher-submit-btn" type="submit">
-        {editTeacher ? "Update Teacher" : "Add Teacher"}
-      </button>
-    </form>
+    <div className="teacher-stars-wrapper">
+      {[1,2,3,4,5].map((star)=>(
+        <span
+          key={star}
+          className={`teacher-star ${
+            (hoverRating || formData.rating) >= star
+              ? "teacher-star-filled"
+              : ""
+          }`}
+          onClick={()=>handleStarClick(star)}
+          onMouseEnter={()=>setHoverRating(star)}
+          onMouseLeave={()=>setHoverRating(0)}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  </div>
+
+  {/* SOCIAL LINKS */}
+  <div className="teacher-input-group">
+    <label>Instagram Link</label>
+    <input
+      type="text"
+      name="instagram"
+      placeholder="Instagram profile URL"
+      value={formData.instagram}
+      onChange={handleChange}
+    />
+  </div>
+
+  <div className="teacher-input-group">
+    <label>Facebook Link</label>
+    <input
+      type="text"
+      name="facebook"
+      placeholder="Facebook profile URL"
+      value={formData.facebook}
+      onChange={handleChange}
+    />
+  </div>
+
+  <div className="teacher-input-group">
+    <label>LinkedIn Link</label>
+    <input
+      type="text"
+      name="linkedin"
+      placeholder="LinkedIn profile URL"
+      value={formData.linkedin}
+      onChange={handleChange}
+    />
+  </div>
+
+  <button className="teacher-submit-btn" type="submit">
+    {editTeacher ? "Update Teacher" : "Add Teacher"}
+  </button>
+</form>
+
   );
 };
 

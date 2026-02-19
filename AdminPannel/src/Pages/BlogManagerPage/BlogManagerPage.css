@@ -1,14 +1,17 @@
+html, body{
+  height:100%;
+  overflow:hidden;   /* stop page shake */
+}
 
 /* MAIN CONTAINER */
 
 .adm-blog-manager-container{
   display:flex;
-  height:100vh;
+  min-height:100vh;   /* IMPORTANT (not fixed height) */
   padding:20px;
   gap:22px;
-  overflow:hidden; /* BLOCK SCREEN SCROLL */
+  overflow:hidden;
 }
-
 /* WIDTH LIKE REFERENCE */
 
 .adm-blog-left-panel{
@@ -28,7 +31,35 @@
   overflow-y:auto;     /* 👈 form scroll */
 }
 .adm-content-textarea{
-  height:150px;   /* was 180px */
+  height:150px;  
+  resize:none; /* was 180px */
+}
+/* HIDE SCROLLBAR — FORM */
+
+.adm-blog-form-box::-webkit-scrollbar{
+  width:0px;
+  height:0px;
+}
+
+.adm-blog-form-box{
+  scrollbar-width:none;       /* firefox */
+  -ms-overflow-style:none;    /* ie */
+}
+/* HIDE SCROLLBAR — TABLE */
+
+.adm-table-scroll-area::-webkit-scrollbar{
+  width:0px;
+  height:0px;
+}
+
+.adm-table-scroll-area{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.adm-blog-left-panel,
+.adm-blog-form-box,
+.adm-table-scroll-area{
+  scrollbar-gutter:stable;
 }
 
 
@@ -73,10 +104,10 @@
 .adm-image-preview{
   width:90px;
   height:90px;
-  border-radius:10px;
-  object-fit:cover;
-  margin-top:8px;
+  min-width:90px;
+  min-height:90px;
 }
+
 
 .adm-submit-btn{
   width:100%;
@@ -87,7 +118,67 @@
   border-radius:10px;
   font-size:16px;
   cursor:pointer;
+
+  /* fix shake */
+  transform:translateZ(0);
+  will-change:transform;
 }
+
+/* ================= ROW LAYOUT ================= */
+
+.adm-form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:14px;
+}
+
+/* ================= INPUT STYLE (PRO) ================= */
+
+.adm-input-group input,
+.adm-input-group textarea,
+.adm-input-group select{
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid #e3e6ef;
+  background:#fafbff;
+  font-size:14px;
+  transition:.25s;
+  outline:none;
+}
+
+/* focus effect */
+.adm-input-group input:focus,
+.adm-input-group textarea:focus,
+.adm-input-group select:focus{
+  border-color:#ff9f43;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(255,159,67,.12);
+}
+
+/* label style */
+.adm-input-group label{
+  font-size:13px;
+  font-weight:600;
+  color:#555;
+}
+
+/* textarea nicer */
+.adm-input-group textarea{
+  resize:none;
+  min-height:46px;
+}
+
+/* button hover pro */
+.adm-submit-btn{
+  transition:.25s;
+}
+
+.adm-submit-btn:hover{
+ 
+   box-shadow:0 6px 18px rgba(255,159,67,.35);
+}
+
 
 /* TABLE */
 
@@ -167,17 +258,78 @@
   padding:20px;
   color:#777;
 }
+.adm-table-scroll-area{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch; /* smooth iOS */
+}
 
-/* RESPONSIVE */
 
+/* ================= LARGE LAPTOP ================= */
+@media(max-width:1200px){
+  .adm-blog-left-panel{ width:60%; }
+  .adm-blog-right-panel{ width:40%; }
+}
 @media(max-width:1000px){
+  html, body{
+    overflow:auto;  /* allow mobile page scroll */
+  }
+}
+
+/* ================= TABLET ================= */
+@media(max-width:1000px){
+
   .adm-blog-manager-container{
     flex-direction:column;
     height:auto;
+    overflow:visible;
   }
 
   .adm-blog-left-panel,
   .adm-blog-right-panel{
     width:100%;
+    height:auto;
+  }
+
+  .adm-blog-form-box{
+    max-height:none;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:600px){
+
+  .adm-blog-manager-container{
+    padding:14px;
+    gap:16px;
+  }
+
+  .adm-blog-form-box{
+    padding:18px;
+    border-radius:14px;
+  }
+
+  .adm-blog-table-box{
+    padding:14px;
+  }
+
+  .adm-form-row{
+    grid-template-columns:1fr;  /* already done but keep */
+    gap:12px;
+  }
+
+  .adm-blog-table{
+    min-width:700px; /* smoother mobile scroll */
+  }
+
+  .adm-input-group input,
+  .adm-input-group textarea,
+  .adm-input-group select{
+    padding:12px;
+    font-size:15px;
+  }
+
+  .adm-submit-btn{
+    padding:13px;
+    font-size:15px;
   }
 }
