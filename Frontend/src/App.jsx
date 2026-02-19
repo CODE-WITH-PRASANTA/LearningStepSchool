@@ -30,6 +30,7 @@ import Secondary from "./Pages/Secondary/Secondary";
 import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy";
 import TermAndCondition from "./Pages/TermAndCondition/TermAndCondition";
 import Gallery from "./Pages/Gallery/Gallery";
+import PublishNotification from "./Pages/PublishNotification/PublishNotification";
 
 
 function App() {
@@ -60,6 +61,8 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicy/>}/>
         <Route path="/terms" element={<TermAndCondition/>}/>
         <Route path="/gallery" element={<Gallery/>}/>
+        <Route path="/notification" element={<PublishNotification/>}/>
+
       </Routes>
 
       <Footer /> 
