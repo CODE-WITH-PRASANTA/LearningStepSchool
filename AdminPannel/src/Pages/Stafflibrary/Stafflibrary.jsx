@@ -31,12 +31,10 @@ const initialStaffData = [
 const Stafflibrary = () => {
   const [staffData, setStaffData] = useState(initialStaffData);
 
-  // --- EDIT HANDLER ---
   const handleEdit = (item) => {
     alert(`Edit Staff: ${item.name}`);
   };
 
-  // --- DELETE HANDLER ---
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this staff?")) {
       setStaffData(staffData.filter((i) => i.id !== id));
@@ -44,41 +42,57 @@ const Stafflibrary = () => {
   };
 
   return (
-    <div className="staff-page">
-      {/* PAGE HEADER */}
-      <div className="staff-page-header">
-        <h2>Add Staff</h2>
-        <span className="breadcrumb">Library / Add Staff</span>
+    <div className="staff-library-page">
+
+      {/* HEADER */}
+      <div className="staff-library-header">
+        <h2 className="staff-library-header__title">Add Staff</h2>
+        <span className="staff-library-header__breadcrumb">
+          Library / Add Staff
+        </span>
       </div>
 
       {/* MAIN CARD */}
-      <div className="staff-card">
+      <div className="staff-library-card">
+
         {/* CARD HEADER */}
-        <div className="staff-card-header">
-          <h3>Add Staff List</h3>
-          <button type="button" className="bulk-btn">
+        <div className="staff-library-card__header">
+          <h3 className="staff-library-card__heading">
+            Add Staff List
+          </h3>
+
+          <button
+            type="button"
+            className="staff-library-btn staff-library-btn--primary"
+          >
             Bulk Member Id Update
           </button>
         </div>
 
         {/* TOOLBAR */}
-        <div className="staff-toolbar">
-          <div className="left-tools"></div>
+        <div className="staff-library-toolbar">
 
-          <div className="right-tools">
-            <select defaultValue="10">
+          <div className="staff-library-toolbar__left"></div>
+
+          <div className="staff-library-toolbar__right">
+
+            <select className="staff-library-select" defaultValue="10">
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>
             </select>
 
-            <input type="text" placeholder="Search..." />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="staff-library-input"
+            />
           </div>
         </div>
 
         {/* TABLE */}
-        <div className="table-wrapper">
-          <table className="staff-table">
+        <div className="staff-library-table-wrapper">
+          <table className="staff-library-table">
             <thead>
               <tr>
                 <th>Member ID</th>
@@ -97,9 +111,11 @@ const Stafflibrary = () => {
                   <td>{item.id}</td>
 
                   <td>
-                    <div className="barcode-box">
-                      <div className="barcode"></div>
-                      <span>{item.card}</span>
+                    <div className="staff-library-barcode-box">
+                      <div className="staff-library-barcode"></div>
+                      <span className="staff-library-card-number">
+                        {item.card}
+                      </span>
                     </div>
                   </td>
 
@@ -108,16 +124,16 @@ const Stafflibrary = () => {
                   <td>{item.dob}</td>
                   <td>{item.phone}</td>
 
-                  <td className="action-buttons">
+                  <td className="staff-library-actions">
                     <button
-                      className="edit-btn"
+                      className="staff-library-btn staff-library-btn--edit"
                       onClick={() => handleEdit(item)}
                     >
                       Edit
                     </button>
 
                     <button
-                      className="delete-btn"
+                      className="staff-library-btn staff-library-btn--delete"
                       onClick={() => handleDelete(item.id)}
                     >
                       Delete
@@ -128,12 +144,13 @@ const Stafflibrary = () => {
 
               {staffData.length === 0 && (
                 <tr>
-                  <td colSpan="7" style={{ textAlign: "center", padding: 30 }}>
+                  <td colSpan="7" className="staff-library-no-data">
                     No staff found.
                   </td>
                 </tr>
               )}
             </tbody>
+
           </table>
         </div>
       </div>
