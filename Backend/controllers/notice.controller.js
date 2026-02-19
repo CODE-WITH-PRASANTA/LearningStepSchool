@@ -1,11 +1,20 @@
+const fs = require("fs");
 const Notice = require("../models/Notice");
 
 /* ================= CREATE ================= */
 exports.createNotice = async (req, res) => {
   try {
-    const { title, description, dateTime, location, expiry } = req.body;
+    const {
+      title,
+      description,
+      name,
+      designation,
+      dateTime,
+      location,
+      expiry,
+    } = req.body;
 
-    if (!title || !description || !dateTime) {
+    if (!title || !description || !dateTime || !name || !designation) {
       return res.status(400).json({
         success: false,
         message: "Required fields missing",
@@ -15,10 +24,13 @@ exports.createNotice = async (req, res) => {
     const notice = await Notice.create({
       title,
       description,
+      name,
+      designation,
       dateTime,
       location,
       expiry,
       image: req.file ? req.file.path : null,
+      isActive: expiry ? new Date(expiry) > new Date() : true,
     });
 
     res.status(201).json({
@@ -36,6 +48,12 @@ exports.createNotice = async (req, res) => {
 /* ================= GET ALL ================= */
 exports.getAllNotices = async (req, res) => {
   try {
+    // Auto update expired notices
+    await Notice.updateMany(
+      { expiry: { $lt: new Date() } },
+      { isActive: false }
+    );
+
     const notices = await Notice.find().sort({ createdAt: -1 });
 
     res.json({
@@ -77,11 +95,30 @@ exports.getNoticeById = async (req, res) => {
 /* ================= UPDATE ================= */
 exports.updateNotice = async (req, res) => {
   try {
+    const notice = await Notice.findById(req.params.id);
+
+    if (!notice) {
+      return res.status(404).json({
+        success: false,
+        message: "Notice not found",
+      });
+    }
+
     const updateData = {
       ...req.body,
     };
 
+    // Handle expiry auto active toggle
+    if (req.body.expiry) {
+      updateData.isActive =
+        new Date(req.body.expiry) > new Date();
+    }
+
+    // Replace image if new one uploaded
     if (req.file) {
+      if (notice.image && fs.existsSync(notice.image)) {
+        fs.unlinkSync(notice.image);
+      }
       updateData.image = req.file.path;
     }
 
@@ -106,6 +143,20 @@ exports.updateNotice = async (req, res) => {
 /* ================= DELETE ================= */
 exports.deleteNotice = async (req, res) => {
   try {
+    const notice = await Notice.findById(req.params.id);
+
+    if (!notice) {
+      return res.status(404).json({
+        success: false,
+        message: "Notice not found",
+      });
+    }
+
+    // Delete image file
+    if (notice.image && fs.existsSync(notice.image)) {
+      fs.unlinkSync(notice.image);
+    }
+
     await Notice.findByIdAndDelete(req.params.id);
 
     res.json({

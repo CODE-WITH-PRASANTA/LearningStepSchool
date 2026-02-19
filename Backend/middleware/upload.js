@@ -18,9 +18,9 @@ const routeFolderMap = {
   "/photo-gallery": "uploads/gallery",
   "/teachers": "uploads/teachers",
   "/notices": "uploads/notices",
-  "/awards": "uploads/awards",   // ✅ ADDED
+  "/awards": "uploads/awards",
+  "/testimonials": "uploads/testimonials", // ✅ FIXED
 };
-
 /* ================= MULTER CONFIG ================= */
 const storage = multer.memoryStorage();
 

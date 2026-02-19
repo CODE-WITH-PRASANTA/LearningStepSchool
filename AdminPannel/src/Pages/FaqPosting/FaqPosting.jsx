@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../../api/axios";
 import "./FaqPosting.css";
 
 export default function FaqPosting() {
+
   const [form, setForm] = useState({
     question: "",
     answer: "",
@@ -9,47 +11,79 @@ export default function FaqPosting() {
   });
 
   const [records, setRecords] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState(null);
 
-  const handleSubmit = (e) => {
+  /* ================= FETCH ================= */
+  const fetchFaqs = async () => {
+    try {
+      const res = await API.get("/faqs");
+      setRecords(res.data.data);
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchFaqs();
+  }, []);
+
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editIndex !== null) {
-      const updated = [...records];
-      updated[editIndex] = form;
-      setRecords(updated);
-      setEditIndex(null);
-    } else {
-      setRecords([...records, form]);
+    try {
+      if (editId) {
+        await API.put(`/faqs/${editId}`, form);
+        setEditId(null);
+      } else {
+        await API.post("/faqs", form);
+      }
+
+      setForm({
+        question: "",
+        answer: "",
+        category: "",
+      });
+
+      fetchFaqs();
+
+    } catch (err) {
+      console.error("SUBMIT ERROR:", err);
     }
+  };
 
+  /* ================= EDIT ================= */
+  const editRecord = (record) => {
     setForm({
-      question: "",
-      answer: "",
-      category: "",
+      question: record.question,
+      answer: record.answer,
+      category: record.category,
     });
+    setEditId(record._id);
   };
 
-  const editRecord = (i) => {
-    setForm(records[i]);
-    setEditIndex(i);
-  };
+  /* ================= DELETE ================= */
+  const deleteRecord = async (id) => {
+    if (!window.confirm("Delete this FAQ?")) return;
 
-  const deleteRecord = (i) => {
-    setRecords(records.filter((_, index) => index !== i));
+    try {
+      await API.delete(`/faqs/${id}`);
+      fetchFaqs();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
   return (
     <div className="FAQ-container">
 
-      {/* LEFT FORM PANEL */}
+      {/* LEFT FORM */}
       <div className="FAQ-form-section">
         <form className="FAQ-form" onSubmit={handleSubmit}>
           <h2 className="FAQ-title">
-            {editIndex !== null ? "Edit FAQ" : "Add New FAQ"}
+            {editId ? "Edit FAQ" : "Add New FAQ"}
           </h2>
 
-          {/* Question */}
           <div className="FAQ-field">
             <label className="FAQ-label">Question</label>
             <input
@@ -60,11 +94,9 @@ export default function FaqPosting() {
               }
               required
               className="FAQ-input"
-              placeholder="Enter your question"
             />
           </div>
 
-          {/* Answer */}
           <div className="FAQ-field">
             <label className="FAQ-label">Answer</label>
             <textarea
@@ -74,11 +106,9 @@ export default function FaqPosting() {
               }
               required
               className="FAQ-textarea"
-              placeholder="Enter answer"
-            ></textarea>
+            />
           </div>
 
-          {/* Category */}
           <div className="FAQ-field">
             <label className="FAQ-label">Category</label>
             <select
@@ -98,14 +128,12 @@ export default function FaqPosting() {
           </div>
 
           <button className="FAQ-button">
-            {editIndex !== null ? "Update" : "Submit"}
+            {editId ? "Update" : "Submit"}
           </button>
-
-          <p className="FAQ-version">Version 1.0.0</p>
         </form>
       </div>
 
-      {/* RIGHT TABLE PANEL */}
+      {/* RIGHT TABLE */}
       <div className="FAQ-table-section">
         <h2 className="FAQ-title">FAQ List</h2>
 
@@ -123,7 +151,7 @@ export default function FaqPosting() {
 
             <tbody>
               {records.map((r, i) => (
-                <tr key={i}>
+                <tr key={r._id}>
                   <td>{i + 1}</td>
                   <td>{r.question}</td>
                   <td>{r.answer}</td>
@@ -131,13 +159,13 @@ export default function FaqPosting() {
                   <td className="FAQ-actions">
                     <button
                       className="FAQ-edit-btn"
-                      onClick={() => editRecord(i)}
+                      onClick={() => editRecord(r)}
                     >
                       Edit
                     </button>
                     <button
                       className="FAQ-delete-btn"
-                      onClick={() => deleteRecord(i)}
+                      onClick={() => deleteRecord(r._id)}
                     >
                       Delete
                     </button>

@@ -16,24 +16,13 @@ const AwardForm = ({ editAward, setEditAward, refreshAwards }) => {
     }
   }, [editAward]);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, title: e.target.value });
-  };
-
-  const handleImageUpload = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const data = new FormData();
       data.append("title", formData.title);
-
-      if (formData.image) {
-        data.append("image", formData.image);
-      }
+      if (formData.image) data.append("image", formData.image);
 
       if (editAward) {
         await API.put(`/awards/${editAward._id}`, data);
@@ -51,13 +40,15 @@ const AwardForm = ({ editAward, setEditAward, refreshAwards }) => {
 
   return (
     <form className="award-form" onSubmit={handleSubmit}>
-      <h2>
+      <h2 className="award-form-title">
         {editAward ? "Edit Award" : "Add New Award"}
       </h2>
 
       <input
         type="file"
-        onChange={handleImageUpload}
+        onChange={(e) =>
+          setFormData({ ...formData, image: e.target.files[0] })
+        }
         required={!editAward}
       />
 
@@ -65,11 +56,13 @@ const AwardForm = ({ editAward, setEditAward, refreshAwards }) => {
         type="text"
         placeholder="Award Title"
         value={formData.title}
-        onChange={handleChange}
+        onChange={(e) =>
+          setFormData({ ...formData, title: e.target.value })
+        }
         required
       />
 
-      <button type="submit">
+      <button type="submit" className="award-submit-btn">
         {editAward ? "Update Award" : "Submit Award"}
       </button>
     </form>

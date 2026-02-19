@@ -82,9 +82,43 @@
   border: 1px solid #c7d2fe;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  height: 420px;
+  overflow-y: hidden;
 }
-
-.pp-table {
+.pp-table-box .pp-title {
+  flex-shrink: 0;
+}
+.pp-table-box table {
+  flex: 1;
+  overflow-y: auto;
+  display: block;
+}
+.pp-table thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.pp-table tbody {
+  display: block;
+  overflow-y: auto;
+  height: calc(420px - 130px); /* subtract title + padding */
+}
+.pp-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+.pp-table tbody::-webkit-scrollbar {
+  width: 6px;
+}
+.pp-table tbody::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 6px;
+}
+.pp-table tbody::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* .pp-table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -100,7 +134,7 @@
 .pp-table td {
   padding: 12px;
   border-bottom: 1px solid #e5e7eb;
-}
+} */
 
 .pp-actions {
   display: flex;
@@ -123,4 +157,23 @@
   text-align: center;
   padding: 16px;
   color: #9ca3af;
+}
+@media (min-width: 481px) and (max-width: 1023px) {
+  .pp-table-box {
+    height: 360px;
+  }
+}
+
+/* Laptop */
+@media (min-width: 1024px) and (max-width: 1399px) {
+  .pp-table-box {
+    height: 420px;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .pp-table-box {
+    height: 500px;
+  }
 }
