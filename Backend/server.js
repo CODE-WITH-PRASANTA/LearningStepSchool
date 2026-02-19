@@ -39,6 +39,9 @@ const videoGalleryRoutes = require("./routes/videoGallery.routes");
 const teacherRoutes = require("./routes/teacher.routes");
 const noticeRoutes = require("./routes/notice.routes");
 const awardRoutes = require("./routes/award.routes");
+const prePrimaryRoutes = require("./routes/preprimary.routes");
+const primeryRoutes = require("./routes/primery.routes");
+const secondaryRoutes = require("./routes/secondary.routes");
 
 
 app.use("/uploads", express.static("uploads"));
@@ -51,6 +54,12 @@ app.use("/api/video-gallery", videoGalleryRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/notices", noticeRoutes);
 app.use("/api/awards", awardRoutes);
+app.use("/api/preprimary", prePrimaryRoutes);
+app.use("/api/primery", primeryRoutes);
+app.use("/api/secondary", secondaryRoutes);
+
+
+
 
 
 /* ================= SERVER ================= */
