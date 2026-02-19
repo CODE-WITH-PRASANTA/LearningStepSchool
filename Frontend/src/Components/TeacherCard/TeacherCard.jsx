@@ -4,7 +4,8 @@ import {
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
-  FaShareAlt
+  FaShareAlt,
+  FaStar
 } from "react-icons/fa";
 
 import API, { IMAGE_URL } from "../../Api/Api";
@@ -27,13 +28,13 @@ const TeacherCard = () => {
     fetchTeachers();
   }, []);
 
-  /* ================= ANIMATION ================= */
+  /* ================= SCROLL REVEAL ================= */
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("reveal");
+            entry.target.classList.add("teacher-card--reveal");
           }
         });
       },
@@ -46,68 +47,82 @@ const TeacherCard = () => {
   }, [teachers]);
 
   return (
-    <section className="instructor-section">
-      <div className="instructor-grid">
+    <section className="teacher-section">
+      <div className="teacher-container">
+        <div className="teacher-grid">
 
-        {teachers.map((teacher, index) => (
-          <div
-            className="instructor-card"
-            key={teacher._id}
-            ref={el => (cardsRef.current[index] = el)}
-          >
-            <div className="img-wrap">
-              <img
-                src={`${IMAGE_URL}${teacher.photo}`}
-                alt={teacher.name}
-              />
+          {teachers.map((teacher, index) => (
+            <div
+              className="teacher-card"
+              key={teacher._id}
+              ref={el => (cardsRef.current[index] = el)}
+            >
+              {/* IMAGE */}
+              <div className="teacher-card__image-wrapper">
+                <img
+                  src={`${IMAGE_URL}${teacher.photo}`}
+                  alt={teacher.name}
+                  className="teacher-card__image"
+                />
 
-              {/* Wave */}
-              <svg
-                className="wave-shape"
-                viewBox="0 0 500 80"
-                preserveAspectRatio="none"
-              >
-                <path d="M0,40 C80,80 160,0 250,30 340,60 420,40 500,20 L500,100 L0,100 Z" />
-              </svg>
+                {/* Wave Shape */}
+                <svg
+                  className="teacher-card__wave"
+                  viewBox="0 0 500 80"
+                  preserveAspectRatio="none"
+                >
+                  <path d="M0,40 C80,80 160,0 250,30 340,60 420,40 500,20 L500,100 L0,100 Z" />
+                </svg>
 
-              {/* Share */}
-              <div className="share-box">
-                <FaShareAlt className="share-main" />
+                {/* Share Box */}
+                <div className="teacher-card__share">
+                  <div className="teacher-card__share-main">
+                    <FaShareAlt />
+                  </div>
 
-                <div className="share-icons">
-                  {teacher.facebook && (
-                    <a href={teacher.facebook} target="_blank" rel="noreferrer">
-                      <FaFacebookF />
-                    </a>
-                  )}
+                  <div className="teacher-card__social">
+                    {teacher.facebook && (
+                      <a href={teacher.facebook} target="_blank" rel="noreferrer">
+                        <FaFacebookF />
+                      </a>
+                    )}
+                    {teacher.instagram && (
+                      <a href={teacher.instagram} target="_blank" rel="noreferrer">
+                        <FaInstagram />
+                      </a>
+                    )}
+                    {teacher.linkedin && (
+                      <a href={teacher.linkedin} target="_blank" rel="noreferrer">
+                        <FaLinkedinIn />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
 
-                  {teacher.instagram && (
-                    <a href={teacher.instagram} target="_blank" rel="noreferrer">
-                      <FaInstagram />
-                    </a>
-                  )}
+              {/* CONTENT */}
+              <div className="teacher-card__content">
+                <h3 className="teacher-card__name">{teacher.name}</h3>
+                <p className="teacher-card__role">Senior Instructor</p>
 
-                  {teacher.linkedin && (
-                    <a href={teacher.linkedin} target="_blank" rel="noreferrer">
-                      <FaLinkedinIn />
-                    </a>
-                  )}
+                {/* Rating */}
+                <div className="teacher-card__rating">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <FaStar
+                      key={i}
+                      className={
+                        i < teacher.rating
+                          ? "teacher-card__star teacher-card__star--active"
+                          : "teacher-card__star"
+                      }
+                    />
+                  ))}
                 </div>
               </div>
             </div>
+          ))}
 
-            <h3>{teacher.name}</h3>
-            <p>Instructor</p>
-
-            {/* ⭐ Rating Display */}
-            <div style={{ marginTop: "6px" }}>
-              {Array.from({ length: teacher.rating }).map((_, i) => (
-                <span key={i} style={{ color: "#ffb703" }}>★</span>
-              ))}
-            </div>
-          </div>
-        ))}
-
+        </div>
       </div>
     </section>
   );

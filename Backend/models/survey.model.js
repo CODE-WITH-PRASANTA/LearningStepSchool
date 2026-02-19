@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const admissionSurveySchema = new mongoose.Schema(
+const surveySchema = new mongoose.Schema(
   {
     parentName: {
       type: String,
@@ -11,8 +11,7 @@ const admissionSurveySchema = new mongoose.Schema(
     mobile: {
       type: String,
       required: true,
-      minlength: 10,
-      maxlength: 10,
+      trim: true,
     },
 
     whatsapp: {
@@ -21,15 +20,23 @@ const admissionSurveySchema = new mongoose.Schema(
       default: "Yes",
     },
 
-    village: String,
+    village: {
+      type: String,
+      trim: true,
+    },
 
     children: {
       type: Number,
       default: 1,
     },
 
-    age: String,
-    className: String,
+    age: {
+      type: String,
+    },
+
+    className: {
+      type: String,
+    },
 
     medium: {
       type: String,
@@ -37,8 +44,13 @@ const admissionSurveySchema = new mongoose.Schema(
       default: "English",
     },
 
-    currentSchool: String,
-    feeRange: String,
+    currentSchool: {
+      type: String,
+    },
+
+    feeRange: {
+      type: String,
+    },
 
     transport: {
       type: String,
@@ -46,20 +58,19 @@ const admissionSurveySchema = new mongoose.Schema(
       default: "No",
     },
 
-    distance: String,
-    interest: String,
-    concern: String,
-
-    applicationNo: {
+    distance: {
       type: String,
-      required: true,
-      unique: true,
+    },
+
+    interest: {
+      type: String,
+    },
+
+    concern: {
+      type: String,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model(
-  "AdmissionSurvey",
-  admissionSurveySchema
-);
+module.exports = mongoose.model("Survey", surveySchema);

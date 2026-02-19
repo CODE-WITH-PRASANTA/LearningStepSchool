@@ -4,6 +4,7 @@ import API from "../../api/axios";
 const TeacherForm = ({ editTeacher, setEditTeacher, refreshTeachers }) => {
   const [formData, setFormData] = useState({
     name: "",
+    designation: "",
     review: "",
     rating: 0,
     photo: null,
@@ -37,6 +38,7 @@ const TeacherForm = ({ editTeacher, setEditTeacher, refreshTeachers }) => {
 
     setFormData({
       name: "",
+      designation: "",
       review: "",
       rating: 0,
       photo: null,
@@ -55,84 +57,118 @@ const TeacherForm = ({ editTeacher, setEditTeacher, refreshTeachers }) => {
         {editTeacher ? "Edit Teacher" : "Add Teacher"}
       </h2>
 
-      <input
-        type="file"
-        onChange={(e) =>
-          setFormData({ ...formData, photo: e.target.files[0] })
-        }
-        className="w-full border rounded-lg p-2"
-        required={!editTeacher}
-      />
-
-      <input
-        type="text"
-        placeholder="Teacher Name"
-        value={formData.name}
-        onChange={(e) =>
-          setFormData({ ...formData, name: e.target.value })
-        }
-        className="w-full border rounded-lg p-2"
-        required
-      />
-
-      <textarea
-        placeholder="Teacher Review"
-        value={formData.review}
-        onChange={(e) =>
-          setFormData({ ...formData, review: e.target.value })
-        }
-        className="w-full border rounded-lg p-2 min-h-[100px]"
-        required
-      />
-
-      {/* STAR RATING */}
-      <div className="flex gap-2">
-        {[1,2,3,4,5].map((star) => (
-          <span
-            key={star}
-            onClick={() => setFormData({ ...formData, rating: star })}
-            onMouseEnter={() => setHoverRating(star)}
-            onMouseLeave={() => setHoverRating(0)}
-            className={`text-2xl cursor-pointer ${
-              (hoverRating || formData.rating) >= star
-                ? "text-yellow-400"
-                : "text-gray-300"
-            }`}
-          >
-            ★
-          </span>
-        ))}
+      {/* Photo */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Teacher Photo</label>
+        <input
+          type="file"
+          onChange={(e) =>
+            setFormData({ ...formData, photo: e.target.files[0] })
+          }
+          className="w-full border rounded-lg p-2"
+          required={!editTeacher}
+        />
       </div>
 
-      <input
-        type="text"
-        placeholder="Instagram Link"
-        value={formData.instagram}
-        onChange={(e) =>
-          setFormData({ ...formData, instagram: e.target.value })
-        }
-        className="w-full border rounded-lg p-2"
-      />
+      {/* Name */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Teacher Name</label>
+        <input
+          type="text"
+          value={formData.name}
+          onChange={(e) =>
+            setFormData({ ...formData, name: e.target.value })
+          }
+          className="w-full border rounded-lg p-2"
+          required
+        />
+      </div>
 
-      <input
-        type="text"
-        placeholder="Facebook Link"
-        value={formData.facebook}
-        onChange={(e) =>
-          setFormData({ ...formData, facebook: e.target.value })
-        }
-        className="w-full border rounded-lg p-2"
-      />
+      {/* Designation */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Designation</label>
+        <input
+          type="text"
+          value={formData.designation}
+          onChange={(e) =>
+            setFormData({ ...formData, designation: e.target.value })
+          }
+          className="w-full border rounded-lg p-2"
+          required
+        />
+      </div>
 
-      <input
-        type="text"
-        placeholder="LinkedIn Link"
-        value={formData.linkedin}
-        onChange={(e) =>
-          setFormData({ ...formData, linkedin: e.target.value })
-        }
-        className="w-full border rounded-lg p-2"
-      />
+      {/* Review */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Review</label>
+        <textarea
+          value={formData.review}
+          onChange={(e) =>
+            setFormData({ ...formData, review: e.target.value })
+          }
+          className="w-full border rounded-lg p-2 min-h-[100px]"
+          required
+        />
+      </div>
+
+      {/* Rating */}
+      <div>
+        <label className="block text-sm font-medium mb-2">Rating</label>
+        <div className="flex gap-2">
+          {[1,2,3,4,5].map((star) => (
+            <span
+              key={star}
+              onClick={() => setFormData({ ...formData, rating: star })}
+              onMouseEnter={() => setHoverRating(star)}
+              onMouseLeave={() => setHoverRating(0)}
+              className={`text-2xl cursor-pointer ${
+                (hoverRating || formData.rating) >= star
+                  ? "text-yellow-400"
+                  : "text-gray-300"
+              }`}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Social Links */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Instagram</label>
+        <input
+          type="text"
+          value={formData.instagram}
+          onChange={(e) =>
+            setFormData({ ...formData, instagram: e.target.value })
+          }
+          className="w-full border rounded-lg p-2"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">Facebook</label>
+        <input
+          type="text"
+          value={formData.facebook}
+          onChange={(e) =>
+            setFormData({ ...formData, facebook: e.target.value })
+          }
+          className="w-full border rounded-lg p-2"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">LinkedIn</label>
+        <input
+          type="text"
+          value={formData.linkedin}
+          onChange={(e) =>
+            setFormData({ ...formData, linkedin: e.target.value })
+          }
+          className="w-full border rounded-lg p-2"
+        />
+      </div>
 
       <button className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
         {editTeacher ? "Update Teacher" : "Add Teacher"}

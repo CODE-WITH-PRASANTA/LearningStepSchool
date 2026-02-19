@@ -1,35 +1,35 @@
-import { useState } from "react";
-
-/* ================= SAMPLE DATA ================= */
-const surveyData = [
-  {
-    id: 1,
-    appNo: "APP-1001",
-    parentName: "Ramesh Kumar",
-    mobile: "9876543210",
-    whatsapp: "Yes",
-    village: "Nakhara",
-    children: 1,
-    age: 6,
-    className: "UKG",
-    medium: "English",
-    currentSchool: "ABC Public School",
-    fee: "10k-12k",
-    transport: "Yes",
-    distance: "4-6 km",
-    interest: "Confirm",
-    concern: "Fee",
-    starred: false,
-  },
-];
+import { useState, useEffect } from "react";
+import API from "../../api/axios";
 
 export default function AdmissionSurveyView() {
-  const [data, setData] = useState(surveyData);
+  const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  /* ================= FETCH DATA ================= */
+  const fetchSurveys = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get("/survey");
+
+      // If your backend returns { success: true, data: [...] }
+      setData(res?.data?.data || []);
+      console.log(res?.data );
+      
+    } catch (error) {
+      console.error("FETCH ERROR:", error.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSurveys();
+  }, []);
 
   /* ================= SEARCH ================= */
   const filteredData = data.filter((item) =>
-    `${item.appNo} ${item.parentName} ${item.mobile} ${item.village}`
+    `${item.appNo || ""} ${item.parentName || ""} ${item.mobile || ""} ${item.village || ""}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
@@ -38,7 +38,7 @@ export default function AdmissionSurveyView() {
   const toggleStar = (id) => {
     setData((prev) =>
       prev.map((row) =>
-        row.id === id ? { ...row, starred: !row.starred } : row
+        row._id === id ? { ...row, starred: !row.starred } : row
       )
     );
   };
@@ -91,19 +91,22 @@ export default function AdmissionSurveyView() {
         </thead>
 
         <tbody>
-          {filteredData.length === 0 ? (
+          {loading ? (
             <tr>
-              <td
-                colSpan={16}
-                className="text-center py-10 text-slate-500 text-sm"
-              >
+              <td colSpan={16} className="text-center py-10 text-slate-500 text-sm">
+                Loading...
+              </td>
+            </tr>
+          ) : filteredData.length === 0 ? (
+            <tr>
+              <td colSpan={16} className="text-center py-10 text-slate-500 text-sm">
                 No records found
               </td>
             </tr>
           ) : (
             filteredData.map((item, index) => (
               <tr
-                key={item.id}
+                key={item._id}
                 className={`border-b border-slate-200 hover:bg-indigo-50 transition ${
                   index % 2 === 0 ? "bg-white" : "bg-slate-50"
                 }`}
@@ -111,7 +114,7 @@ export default function AdmissionSurveyView() {
                 {/* STAR */}
                 <td className="text-center">
                   <button
-                    onClick={() => toggleStar(item.id)}
+                    onClick={() => toggleStar(item._id)}
                     className={`text-xl transition ${
                       item.starred ? "text-yellow-400" : "text-slate-300"
                     } hover:scale-110`}
@@ -121,9 +124,7 @@ export default function AdmissionSurveyView() {
                 </td>
 
                 <td className="px-4 py-3 font-mono text-sm">{item.appNo}</td>
-                <td className="px-4 py-3 font-semibold">
-                  {item.parentName}
-                </td>
+                <td className="px-4 py-3 font-semibold">{item.parentName}</td>
                 <td className="px-4 py-3 font-mono">{item.mobile}</td>
 
                 <td className="px-4 py-3">
@@ -148,7 +149,7 @@ export default function AdmissionSurveyView() {
                   {item.currentSchool}
                 </td>
 
-                <td className="px-4 py-3">{item.fee}</td>
+                <td className="px-4 py-3">{item.feeRange}</td>
                 <td className="px-4 py-3">{item.transport}</td>
                 <td className="px-4 py-3">{item.distance}</td>
 
