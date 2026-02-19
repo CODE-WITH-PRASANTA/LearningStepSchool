@@ -1,0 +1,118 @@
+/* PAGE CONTAINER */
+.page-container {
+  width: 100%;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* 🔴 FORM WRAPPER */
+.form-wrapper {
+  background: #fff;
+  border: 1px solid #f3d9df;
+  border-radius: 14px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 35px;
+}
+
+/* FORM HEADER */
+.form-header {
+  padding: 14px 20px;
+  background: #ffeef2;
+  border-bottom: 1px solid #f3d9df;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 14px 14px 0 0;
+  color: #243673;
+}
+
+.form-header .icon {
+  font-size: 20px;
+}
+
+/* FORM GRID */
+.book-form {
+  padding: 25px;
+}
+
+.form-row {
+  display: flex;
+  gap: 22px;
+  margin-bottom: 18px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 15px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d9ddfb;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s;
+  background: #fbfbff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #7d8bfc;
+}
+
+/* Disabled Post Date */
+.disabled-input {
+  background: #dde0f3;
+  color: #243673;
+  font-weight: 500;
+}
+
+/* Description */
+.full-width {
+  width: 100%;
+}
+
+.full textarea {
+  width: 100%;
+}
+
+/* Save Button Container */
+.save-btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.save-btn {
+  background: #0a417a;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save-btn:hover {
+  background: #072e58;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+}

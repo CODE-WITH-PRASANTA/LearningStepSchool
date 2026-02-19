@@ -6,26 +6,7 @@
   padding: 20px;
 }
 
-/* Tablet */
-@media (min-width: 600px) {
-  .pp-container {
-    grid-template-columns: 320px 1fr;
-  }
-}
 
-/* Laptop + Desktop */
-@media (min-width: 1024px) {
-  .pp-container {
-    grid-template-columns: 350px 1fr;
-  }
-}
-
-/* Large desktop */
-@media (min-width: 1400px) {
-  .pp-container {
-    grid-template-columns: 380px 1fr;
-  }
-}
 
 /* ------------ LEFT FORM BOX ------------- */
 .pp-form {
@@ -151,14 +132,137 @@
   padding: 20px;
   color: #9ca3af;
 }
+/* ================= IMPROVED RESPONSIVENESS ================= */
 
-/* --- RESPONSIVE TABLE (Mobile Horizontal Scroll) --- */
+/* Ensure full width on very small devices */
+/* ================= FULL RESPONSIVE FIX ================= */
+
+/* Small Mobile (320px–480px) */
 @media (max-width: 480px) {
+
+  .pp-container {
+    grid-template-columns: 1fr;
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .pp-form {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .pp-table-box {
+    width: 100%;
+    padding: 14px;
+  }
+
   .pp-table-wrapper {
-    overflow-x: auto;
+    max-height: 280px;
   }
 
   .pp-table {
-    min-width: 500px;
+    min-width: 100%;
   }
+
+  .pp-title {
+    font-size: 17px;
+  }
+
+  .pp-input {
+    font-size: 14px;
+    padding: 9px 12px;
+  }
+
+  .pp-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .pp-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+
+/* Large Mobile (481px–599px) */
+@media (min-width: 481px) and (max-width: 599px) {
+
+  .pp-container {
+    grid-template-columns: 1fr;
+  }
+
+  .pp-table-wrapper {
+    max-height: 320px;
+  }
+
+  .pp-actions {
+    gap: 8px;
+  }
+}
+
+
+/* Tablet (600px–1023px) */
+@media (min-width: 600px) and (max-width: 1023px) {
+
+  .pp-container {
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+  }
+
+  .pp-form {
+    max-width: 100%;
+  }
+
+  .pp-table-wrapper {
+    max-height: 450px;
+  }
+}
+
+
+/* Laptop (1024px–1399px) */
+@media (min-width: 1024px) and (max-width: 1399px) {
+
+  .pp-container {
+    grid-template-columns: 340px 1fr;
+    align-items: start;
+  }
+
+  .pp-form {
+    position: sticky;
+    top: 20px;
+  }
+
+  .pp-table-wrapper {
+    max-height: 500px;
+  }
+}
+
+
+/* Desktop (1400px–1799px) */
+@media (min-width: 1400px) and (max-width: 1799px) {
+
+  .pp-container {
+    grid-template-columns: 380px 1fr;
+    max-width: 1350px;
+    margin: auto;
+  }
+}
+
+
+/* Ultra Wide Screen (1800px+) */
+@media (min-width: 1800px) {
+
+  .pp-container {
+    max-width: 1500px;
+    margin: auto;
+  }
+}
+
+
+/* Prevent horizontal overflow globally */
+html, body {
+  overflow-x: hidden;
 }

@@ -1,0 +1,177 @@
+/* GLOBAL */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* PAGE */
+.adm-page {
+  min-height: 100vh;
+  background: #ededf4;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.adm-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* LAYOUT */
+.adm-layout {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 20px;
+}
+
+/* CARD */
+.adm-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* FORM */
+.adm-form label {
+  display: block;
+  margin-top: 14px;
+}
+
+.adm-form select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dcdcff;
+}
+
+.adm-note {
+  color: red;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.adm-save-btn {
+  margin-top: 24px;
+  width: 100%;
+  background: #050a7d;
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* TABLE TOP */
+.adm-table-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adm-bulk-btn {
+  background: #ff355d;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* TOOLBAR */
+.adm-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.adm-column-btn {
+  background: #050a7d;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+}
+
+.adm-search input {
+  margin-left: 6px;
+  padding: 6px;
+}
+
+/* TABLE */
+.adm-table-wrap {
+  overflow-x: auto;
+}
+
+.adm-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.adm-table th,
+.adm-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+}
+
+.adm-table-head-row {
+  background: #ffe8ee;
+}
+
+.adm-table tbody tr:nth-child(even) {
+  background: #f4f5ff;
+}
+
+.adm-sort {
+  margin-left: 6px;
+  font-size: 12px;
+  color: #5a5a9d;
+}
+
+/* ACTION */
+.adm-th-action,
+.adm-td-action {
+  text-align: right;
+}
+
+.adm-action-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.adm-action-btn {
+  background: #050a7d;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+}
+
+.adm-action-menu {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+
+.adm-action-menu div {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.adm-action-menu div:hover {
+  background: #f1f1ff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .adm-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import API from "../../Api/Api";   // Make sure path is correct
 import "./NewsTicker.css";
 
 const NewsTicker = () => {
-  const news = [
-    "📢 Admissions Open for 2026 Session – Apply Now!",
-    "📰 Annual Sports Day on 15th Feb – Parents Invited",
-    "🔔 Unit Test Starts from 10th Feb for Classes I–X",
-    "🎓 Smart Classrooms & Digital Learning Now Available",
-    "🏆 Learning Step Ranked Among Best RBSE Schools in Rajgarh",
-  ];
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await API.get("/latest-news");
+
+        if (res?.data?.success && Array.isArray(res.data.data)) {
+          // Only show active news
+          const activeNews = res.data.data.filter(
+            (item) => item.isActive === true
+          );
+
+          setNews(activeNews);
+        }
+      } catch (error) {
+        console.error(
+          "News Fetch Error:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  if (!news.length) return null;
 
   return (
     <div className="news-wrapper">
@@ -18,9 +39,9 @@ const NewsTicker = () => {
 
       <div className="news-container">
         <div className="news-track">
-          {news.concat(news).map((item, index) => (
-            <span key={index} className="news-item">
-              {item}
+          {[...news, ...news].map((item, index) => (
+            <span key={item._id + index} className="news-item">
+              {item.title}
             </span>
           ))}
         </div>

@@ -1,6 +1,6 @@
 .faqtabs-wrapper {
   padding: 90px 6%;
-  background: #ffffff;
+  background: linear-gradient(180deg,#ffffff 0%,#fafafa 50%,#ffffff 100%);
   opacity: 0;
   transform: translateY(40px);
   transition: all 0.8s ease;
@@ -35,18 +35,18 @@
   text-align: left;
   font-size: 18px;
   font-weight: 600;
-  color: #344054;
+  color: #2F80ED;
   cursor: pointer;
   padding: 8px 6px;
   transition: all 0.3s ease;
 }
 
 .tab-btn:hover {
-  color: #f2994a;
+  color: #F2994A;
 }
 
 .tab-btn.active {
-  color: #f2994a;
+  color: #EB5757;
   font-weight: 700;
 }
 
@@ -76,12 +76,13 @@
 
 /* FAQ CARD */
 .faqtabs-item {
-  background: #ffffff;
+  background: linear-gradient(180deg,#ffffff,#fff7e3);
   border-radius: 12px;
   padding: 22px 26px;
   box-shadow: 0 6px 26px rgba(0, 0, 0, 0.06);
   cursor: pointer;
   transition: all 0.3s ease;
+  border-left: 4px solid transparent;
 }
 
 .faqtabs-item:hover {
@@ -90,8 +91,8 @@
 
 /* ACTIVE QUESTION COLOR */
 .faqtabs-item.active {
-  border-left: 4px solid #f2994a;
-  background: #fffaf4;
+  border-left: 4px solid #EB5757;
+  background: linear-gradient(180deg,#ffffff,#fff2cc);
 }
 
 /* QUESTION */
@@ -104,19 +105,23 @@
 .faqtabs-question h4 {
   font-size: 18px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #2F80ED;
   transition: color 0.3s ease;
 }
 
 .faqtabs-item.active .faqtabs-question h4 {
-  color: #f2994a;
+  color: #F2994A;
 }
 
 /* ARROW */
 .faqtabs-arrow {
   font-size: 22px;
-  color: #3f4fd6;
-  transition: transform 0.3s ease;
+  color: #2F80ED;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.faqtabs-item.active .faqtabs-arrow {
+  color: #EB5757;
 }
 
 .faqtabs-item.open .faqtabs-arrow {
@@ -158,13 +163,14 @@
   }
 
   .tab-btn {
-    background: #f3f5ff;
+    background: #F2C94C;
     padding: 10px 14px;
     border-radius: 8px;
+    color: #2F80ED;
   }
 
   .tab-btn.active {
-    background: #f2994a;
-    color: #fff;
+    background: linear-gradient(135deg,#F2994A,#EB5757);
+    color: #ffffff;
   }
 }

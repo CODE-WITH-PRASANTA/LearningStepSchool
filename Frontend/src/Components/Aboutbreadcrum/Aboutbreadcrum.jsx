@@ -21,9 +21,9 @@ const Aboutbreadcrum = () => {
 
       {/* Center Content */}
       <div className="cb-content">
-        <h1>About Us</h1>
+        <h1>About School</h1>
         <p>
-          Home <span>›</span> About Us
+          Home <span>›</span> About School
         </p>
       </div>
     </section>

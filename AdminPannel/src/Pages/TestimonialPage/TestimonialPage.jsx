@@ -1,38 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TestimonialForm from "../../Component/Testimonialpages/TestimonialForm";
 import TestimonialList from "../../Component/Testimonialpages/TestimonialList";
-import "./Testimonialpage.css";
+import API from "../../api/axios";
+import "./TestimonialPage.css";
 
 const TestimonialPage = () => {
-
   const [testimonials, setTestimonials] = useState([]);
   const [editItem, setEditItem] = useState(null);
 
-  const addTestimonial = (data) => {
-    setTestimonials([...testimonials, { ...data, id: Date.now() }]);
+  /* ================= FETCH ================= */
+  const fetchTestimonials = async () => {
+    try {
+      const res = await API.get("/testimonials");
+
+      // ✅ FIX: use res.data.data (array)
+      setTestimonials(Array.isArray(res.data.data) ? res.data.data : []);
+
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+      setTestimonials([]); // safety fallback
+    }
   };
 
-  const updateTestimonial = (updated) => {
-    setTestimonials(
-      testimonials.map(item =>
-        item.id === updated.id ? updated : item
-      )
-    );
-    setEditItem(null);
-  };
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
 
-  const deleteTestimonial = (id) => {
-    setTestimonials(testimonials.filter(item => item.id !== id));
+  /* ================= DELETE ================= */
+  const deleteTestimonial = async (id) => {
+    if (!window.confirm("Delete this testimonial?")) return;
+
+    try {
+      await API.delete(`/testimonials/${id}`);
+      fetchTestimonials();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
   return (
     <div className="adm-testimonial-wrapper">
-
       <div className="adm-testimonial-form-section">
         <TestimonialForm
-          addTestimonial={addTestimonial}
           editItem={editItem}
-          updateTestimonial={updateTestimonial}
+          setEditItem={setEditItem}
+          refreshTestimonials={fetchTestimonials}
         />
       </div>
 
@@ -43,7 +55,6 @@ const TestimonialPage = () => {
           onDelete={deleteTestimonial}
         />
       </div>
-
     </div>
   );
 };

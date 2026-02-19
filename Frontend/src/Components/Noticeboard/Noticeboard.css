@@ -7,22 +7,37 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 40px 20px;
+  background: linear-gradient(180deg,#ffffff 0%,#fafafa 50%,#ffffff 100%);
 }
 
+/* CARD */
 .event-card {
   display: grid;
   grid-template-columns: 280px 1fr auto;
   gap: 30px;
   align-items: center;
   margin-bottom: 60px;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg,#ffffff,#fff7e3);
+  box-shadow: 0 12px 34px rgba(0,0,0,0.08);
+  transition: transform .3s ease, box-shadow .3s ease;
 }
 
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 60px rgba(47,128,237,0.18);
+}
+
+/* IMAGE */
 .event-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  border-radius: 14px;
 }
 
+/* CONTENT */
 .event-content {
   max-width: 600px;
 }
@@ -32,46 +47,52 @@
   flex-wrap: wrap;
   gap: 16px;
   font-size: 13px;
-  color: #333;
+  color: #374151;
   margin-bottom: 12px;
 }
 
 .event-date strong {
   font-size: 22px;
-  color: #ff3c00;
+  color: #EB5757;
 }
 
+/* TITLE */
 .event-title {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 10px;
+  color: #2F80ED;
 }
 
+/* DESCRIPTION */
 .event-description {
   font-size: 14px;
   line-height: 1.6;
   color: #555;
 }
 
+/* ACTION */
 .event-action {
   display: flex;
   justify-content: center;
 }
 
+/* BUTTON */
 .register-btn {
   padding: 12px 28px;
   border-radius: 999px;
   background: transparent;
-  border: 2px solid #ff3c00;
-  color: #ff3c00;
+  border: 2px solid #F2994A;
+  color: #F2994A;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all .25s ease;
 }
 
 .register-btn:hover {
-  background: #ff3c00;
-  color: #fff;
+  background: linear-gradient(135deg,#F2994A,#F2C94C);
+  color: #ffffff;
+  box-shadow: 0 10px 26px rgba(242,153,74,.45);
 }
 
 /* 📱 Tablet */

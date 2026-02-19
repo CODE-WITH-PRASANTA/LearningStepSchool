@@ -1,5 +1,5 @@
 import { useState } from "react";
-import API from "../api/axios"; // adjust path if needed
+import API from "../api/axios";
 
 export default function AdmissionSurvey() {
   const initialForm = {
@@ -22,15 +22,29 @@ export default function AdmissionSurvey() {
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
 
+  /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // Mobile only numbers
+    if (name === "mobile") {
+      if (!/^\d*$/.test(value)) return;
+    }
+
+    setForm({ ...form, [name]: value });
   };
 
+  /* ================= SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.parentName || !form.mobile) {
+    if (!form.parentName.trim() || !form.mobile.trim()) {
       alert("Parent Name and Mobile Number are required");
+      return;
+    }
+
+    if (form.mobile.length !== 10) {
+      alert("Mobile number must be 10 digits");
       return;
     }
 
@@ -39,15 +53,18 @@ export default function AdmissionSurvey() {
 
       const res = await API.post("/survey/submit", form);
 
-      if (res.data.success) {
+      if (res?.data?.success) {
         alert("Survey submitted successfully ✅");
         setForm(initialForm);
       } else {
-        alert(res.data.message || "Submission failed");
+        alert(res?.data?.message || "Submission failed");
       }
     } catch (error) {
-      console.error("Submit Error:", error);
-      alert("Server error. Please try again.");
+      console.error("Submit Error:", error.response?.data || error.message);
+      alert(
+        error.response?.data?.message ||
+          "Server error. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -60,7 +77,9 @@ export default function AdmissionSurvey() {
         <h1 className="text-2xl font-bold text-indigo-700">
           LEARNING STEP INTERNATIONAL SCHOOL
         </h1>
-        <p className="text-sm text-slate-500">School Admission Survey</p>
+        <p className="text-sm text-slate-500">
+          School Admission Survey
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
@@ -272,17 +291,20 @@ export default function AdmissionSurvey() {
             className={`mt-8 w-full rounded-xl py-3 text-white font-semibold
             bg-gradient-to-r from-indigo-600 to-violet-600
             transition cursor-pointer
-            ${loading ? "opacity-70 cursor-not-allowed" : "hover:scale-[1.01]"}`}
+            ${
+              loading
+                ? "opacity-70 cursor-not-allowed"
+                : "hover:scale-[1.01]"
+            }`}
           >
             {loading ? "Submitting..." : "Submit Survey"}
           </button>
         </form>
 
-        {/* ================= LIVE PREVIEW ================= */}
+        {/* LIVE PREVIEW */}
         <LivePreview form={form} />
       </div>
 
-      {/* INPUT STYLE */}
       <style>{`
         .input {
           width: 100%;
@@ -325,8 +347,12 @@ function LivePreview({ form }) {
           ([key, value]) =>
             value && (
               <p key={key}>
-                <span className="font-semibold text-slate-600">{key}:</span>{" "}
-                <span className="text-slate-700">{value}</span>
+                <span className="font-semibold text-slate-600">
+                  {key}:
+                </span>{" "}
+                <span className="text-slate-700">
+                  {value}
+                </span>
               </p>
             )
         )}

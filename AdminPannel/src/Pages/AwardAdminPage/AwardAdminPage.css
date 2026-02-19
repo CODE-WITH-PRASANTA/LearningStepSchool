@@ -1,127 +1,281 @@
+/* ===================================================== */
+/* ================= MAIN LAYOUT ======================= */
+/* ===================================================== */
+
 .award-admin-container {
-  display: flex;
-  gap: 20px;
-  max-width: 1400px;
-  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  
+  /* align-content: space-around; */
+  gap: 80px;
   padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
 }
 
-/* LEFT 70% */
+/* Desktop layout */
+@media (min-width: 1024px) {
+  .award-admin-container {
+    grid-template-columns: 360px 1fr;
+    max-width: 1300px;
+    margin: auto;
+    align-items: start;
+  }
+}
+
+/* ===================================================== */
+/* ================= FORM SECTION ====================== */
+/* ===================================================== */
 
 .award-admin-form-section {
-  flex: 0 0 70%;
+  width: 100%;
 }
 
-/* RIGHT 30% */
-
-.award-admin-list-section {
-  flex: 0 0 30%;
-}
-
-/* FORM */
-
+/* Premium Form */
 .award-form {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,255,255,0.6);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  transition: 0.3s ease;
+}
+
+.award-form:hover {
+  transform: translateY(-4px);
+}
+
+/* Sticky on desktop */
+@media (min-width: 1024px) {
+  .award-form {
+    position: sticky;
+    top: 20px;
+  }
 }
 
 .award-form-title {
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 700;
+  color: #1e293b;
 }
 
-.award-form input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-}
-
-.award-submit-btn {
-  background: #0d6efd;
-  color: white;
-  border: none;
+/* Inputs */
+.award-form input[type="text"],
+.award-form input[type="file"] {
   padding: 12px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* LIST */
-
-.award-list-container {
-  background: #ffffff;
-  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  border: 1px solid #e2e8f0;
+  background: #f9fafb;
+  font-size: 14px;
+  transition: 0.3s ease;
 }
 
-.award-list-title {
-  font-size: 18px;
-  margin-bottom: 15px;
+.award-form input:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
 }
+
+/* Submit Button */
+.award-submit-btn {
+  background: linear-gradient(to right, #6366f1, #7c3aed);
+  color: white;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.award-submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* ===================================================== */
+/* ================= LIST SECTION ====================== */
+/* ===================================================== */
+
+.award-admin-list-section {
+  width: 80%;
+}
+
+/* List container */
+.award-list-container {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid #c7d2fe;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scroll wrapper */
+.award-list-scroll {
+  margin-top: 10px;
+  max-height: 550px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* Scrollbar */
+.award-list-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.award-list-scroll::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 6px;
+}
+
+/* ===================================================== */
+/* ================= LIST CARD ========================= */
+/* ===================================================== */
 
 .award-list-card {
   display: flex;
-  gap: 10px;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f1f5f9;
+  transition: 0.3s ease;
 }
 
+.award-list-card:hover {
+  background: #f8fafc;
+}
+
+/* Image */
 .award-list-image {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  border-radius: 12px;
   object-fit: cover;
-  border-radius: 8px;
+  object-position: center;
+  aspect-ratio: 1 / 1;
 }
 
-.award-list-info {
+/* Content */
+.award-list-content {
   flex: 1;
-  font-size: 14px;
-  font-weight: 500;
 }
 
+.award-list-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Actions */
 .award-list-actions {
   display: flex;
-  gap: 6px;
+  gap: 10px;
+}
+
+/* Buttons */
+.award-edit-btn,
+.award-delete-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .award-edit-btn {
-  background: #ffc107;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  background: #facc15;
+}
+
+.award-edit-btn:hover {
+  background: #eab308;
 }
 
 .award-delete-btn {
-  background: #dc3545;
+  background: #ef4444;
   color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.award-empty-text {
-  text-align: center;
-  color: #777;
+.award-delete-btn:hover {
+  background: #dc2626;
 }
 
-/* RESPONSIVE */
+/* ===================================================== */
+/* ================= RESPONSIVE ======================== */
+/* ===================================================== */
 
-@media (max-width: 900px) {
+/* Small Mobile */
+@media (max-width: 480px) {
+.award-admin-list-section{
+  width: 100%;
+}
   .award-admin-container {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .award-form {
+    padding: 20px;
+  }
+
+  .award-list-scroll {
+    max-height: 350px;
+  }
+
+  .award-list-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .award-list-actions {
+    width: 100%;
     flex-direction: column;
   }
 
-  .award-admin-form-section,
-  .award-admin-list-section {
-    flex: 100%;
+  .award-edit-btn,
+  .award-delete-btn {
+    width: 100%;
   }
+
+  .award-list-image {
+    width: 100%;
+    max-width: 160px;
+    height: 160px;
+    min-width: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 14px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 600px) and (max-width: 1023px) {
+
+  .award-admin-container {
+    grid-template-columns: 300px 1fr;
+  }
+
+  .award-list-scroll {
+    max-height: 500px;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .award-admin-container {
+    max-width: 1400px;
+  }
+}
+
+/* Prevent horizontal overflow */
+html, body {
+  overflow-x: hidden;
 }

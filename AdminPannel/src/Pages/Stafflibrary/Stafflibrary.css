@@ -1,0 +1,234 @@
+/* ================= PAGE ================= */
+.staff-library-page {
+  padding: 24px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  color: #1f2744;
+}
+
+/* ================= HEADER ================= */
+.staff-library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.staff-library-header__title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.staff-library-header__breadcrumb {
+  font-size: 14px;
+  color: #6f7590;
+}
+
+/* ================= CARD ================= */
+.staff-library-card {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* CARD HEADER */
+.staff-library-card__header {
+  background: #f7eef3;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.staff-library-card__heading {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ================= BUTTONS ================= */
+.staff-library-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.staff-library-btn--primary {
+  background: #0f4f86;
+  color: #fff;
+}
+
+.staff-library-btn--primary:hover {
+  background: #0b3d66;
+}
+
+.staff-library-btn--edit {
+  background: #0f4f86;
+  color: #fff;
+}
+
+.staff-library-btn--edit:hover {
+  background: #0b3d66;
+}
+
+.staff-library-btn--delete {
+  background: #d9534f;
+  color: #fff;
+}
+
+.staff-library-btn--delete:hover {
+  background: #b33c39;
+}
+
+/* ================= TOOLBAR ================= */
+.staff-library-toolbar {
+  padding: 16px 22px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.staff-library-toolbar__left,
+.staff-library-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ================= INPUT & SELECT ================= */
+.staff-library-input,
+.staff-library-select {
+  height: 38px;
+  border: 1px solid #d5d8e2;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 14px;
+  background: #fff;
+  transition: 0.2s ease;
+}
+
+.staff-library-input {
+  min-width: 220px;
+}
+
+.staff-library-input:focus,
+.staff-library-select:focus {
+  outline: none;
+  border-color: #0f4f86;
+  box-shadow: 0 0 0 2px rgba(15, 79, 134, 0.15);
+}
+
+/* ================= TABLE ================= */
+.staff-library-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.staff-library-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.staff-library-table thead {
+  background: #f7eef3;
+}
+
+.staff-library-table th {
+  padding: 14px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid #ddd;
+}
+
+.staff-library-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.staff-library-table tbody tr:nth-child(even) {
+  background: #f9fbff;
+}
+
+.staff-library-table tbody tr:hover {
+  background: #eef3ff;
+}
+
+/* ================= BARCODE ================= */
+.staff-library-barcode-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.staff-library-barcode {
+  width: 110px;
+  height: 24px;
+  background: repeating-linear-gradient(
+    to right,
+    #000 0px,
+    #000 2px,
+    #fff 2px,
+    #fff 4px
+  );
+}
+
+.staff-library-card-number {
+  font-size: 12px;
+  color: #333;
+}
+
+/* ================= ACTIONS ================= */
+.staff-library-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.staff-library-no-data {
+  text-align: center;
+  padding: 30px;
+  color: #888;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .staff-library-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .staff-library-input {
+    min-width: 160px;
+  }
+}
+
+@media (max-width: 576px) {
+  .staff-library-page {
+    padding: 14px;
+  }
+
+  .staff-library-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .staff-library-toolbar__right {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .staff-library-input,
+  .staff-library-select {
+    width: 100%;
+  }
+}

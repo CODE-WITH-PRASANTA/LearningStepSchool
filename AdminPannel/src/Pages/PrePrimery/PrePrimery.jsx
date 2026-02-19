@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../../api/axios";   // ✅ use your axios instance
 import "./PrePrimery.css";
 
 export default function PrePrimery() {
@@ -8,30 +9,65 @@ export default function PrePrimery() {
   });
 
   const [records, setRecords] = useState([]);
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  /* ================= FETCH ================= */
+  const fetchActivities = async () => {
+  try {
+    const res = await API.get("/preprimary");
 
-    if (editIndex !== null) {
-      const updated = [...records];
-      updated[editIndex] = form;
-      setRecords(updated);
-      setEditIndex(null);
+    const sorted = res.data.sort((a, b) =>
+      a.hour.localeCompare(b.hour)
+    );
+
+    setRecords(sorted);
+  } catch (err) {
+    console.error("FETCH ERROR:", err);
+  }
+};
+
+  useEffect(() => {
+    fetchActivities();
+  }, []);
+
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!form.hour.trim() || !form.activity.trim()) return;
+
+  try {
+    if (editId) {
+      await API.put(`/preprimary/${editId}`, form);
+      setEditId(null);
     } else {
-      setRecords([...records, form]);
+      await API.post("/preprimary", form);
     }
 
     setForm({ hour: "", activity: "" });
+    fetchActivities();
+  } catch (err) {
+    console.error("SUBMIT ERROR:", err);
+  }
+};
+
+  /* ================= EDIT ================= */
+  const editRecord = (record) => {
+    setForm({
+      hour: record.hour,
+      activity: record.activity,
+    });
+    setEditId(record._id);
   };
 
-  const editRecord = (i) => {
-    setForm(records[i]);
-    setEditIndex(i);
-  };
-
-  const deleteRecord = (i) => {
-    setRecords(records.filter((_, index) => index !== i));
+  /* ================= DELETE ================= */
+  const deleteRecord = async (id) => {
+    try {
+      await API.delete(`/preprimary/${id}`);
+      fetchActivities();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
   return (
@@ -40,7 +76,7 @@ export default function PrePrimery() {
       {/* LEFT FORM */}
       <form className="pp-form" onSubmit={handleSubmit}>
         <h2 className="pp-title">
-          {editIndex !== null ? "Edit Activity" : "Add Activity"}
+          {editId ? "Edit Activity" : "Add Activity"}
         </h2>
 
         <div>
@@ -68,7 +104,7 @@ export default function PrePrimery() {
         </div>
 
         <button className="pp-btn">
-          {editIndex !== null ? "Update" : "Submit"}
+          {editId ? "Update" : "Submit"}
         </button>
 
         <p className="pp-version">Version 1.0.0</p>
@@ -89,15 +125,21 @@ export default function PrePrimery() {
             </thead>
 
             <tbody>
-              {records.map((r, i) => (
-                <tr key={i}>
+              {records.map((r) => (
+                <tr key={r._id}>
                   <td>{r.hour}</td>
                   <td>{r.activity}</td>
                   <td className="pp-actions">
-                    <button className="pp-edit" onClick={() => editRecord(i)}>
+                    <button
+                      className="pp-edit"
+                      onClick={() => editRecord(r)}
+                    >
                       Edit
                     </button>
-                    <button className="pp-delete" onClick={() => deleteRecord(i)}>
+                    <button
+                      className="pp-delete"
+                      onClick={() => deleteRecord(r._id)}
+                    >
                       Delete
                     </button>
                   </td>

@@ -1,3 +1,7 @@
+/* ===================================================== */
+/* ================= MAIN WRAPPER ====================== */
+/* ===================================================== */
+
 .adm-testimonial-wrapper{
   display:flex;
   max-width:1300px;
@@ -19,7 +23,9 @@
   max-height:100vh;
 }
 
-/* FORM */
+/* ===================================================== */
+/* ================= FORM ============================== */
+/* ===================================================== */
 
 .adm-testimonial-form{
   background:#fff;
@@ -46,6 +52,7 @@
   border-radius:8px;
   border:1px solid #ccc;
   font-size:15px;
+  width:100%;
 }
 
 .adm-form-group textarea{
@@ -61,7 +68,9 @@
   margin-top:10px;
 }
 
-/* STARS */
+/* ===================================================== */
+/* ================= STAR RATING ======================= */
+/* ===================================================== */
 
 .adm-star-rating-box{
   display:flex;
@@ -79,7 +88,9 @@
   color:#ffc107;
 }
 
-/* BUTTON */
+/* ===================================================== */
+/* ================= BUTTON ============================ */
+/* ===================================================== */
 
 .adm-submit-btn{
   width:100%;
@@ -96,7 +107,9 @@
   opacity:0.9;
 }
 
-/* LIST */
+/* ===================================================== */
+/* ================= LIST ============================== */
+/* ===================================================== */
 
 .adm-testimonial-list{
   background:#f8f9fc;
@@ -124,6 +137,19 @@
   height:70px;
   border-radius:50%;
   object-fit:cover;
+  flex-shrink:0;
+}
+
+.adm-client-name{
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:2px;
+}
+
+.adm-client-designation{
+  font-size:13px;
+  color:#777;
+  margin-bottom:8px;
 }
 
 .adm-card-content{
@@ -144,6 +170,7 @@
   display:flex;
   gap:10px;
   margin-top:10px;
+  flex-wrap:wrap;
 }
 
 .adm-edit-btn{
@@ -168,11 +195,17 @@
   color:#777;
 }
 
-/* RESPONSIVE */
+/* ===================================================== */
+/* ================= RESPONSIVE ======================== */
+/* ===================================================== */
 
-@media(max-width:900px){
+/* ---------- Small Mobile (320px–480px) ---------- */
+@media(max-width:480px){
+
   .adm-testimonial-wrapper{
     flex-direction:column;
+    padding:15px;
+    gap:20px;
   }
 
   .adm-testimonial-form-section,
@@ -180,4 +213,97 @@
     width:100%;
     max-height:none;
   }
+
+  .adm-testimonial-form{
+    padding:20px;
+  }
+
+  .adm-testimonial-card{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .adm-client-photo{
+    width:60px;
+    height:60px;
+  }
+
+  .adm-card-actions{
+    width:100%;
+    flex-direction:column;
+  }
+
+  .adm-edit-btn,
+  .adm-delete-btn{
+    width:100%;
+  }
+
+  .adm-form-title{
+    font-size:20px;
+  }
+}
+
+
+/* ---------- Large Mobile (481px–768px) ---------- */
+@media(min-width:481px) and (max-width:768px){
+
+  .adm-testimonial-wrapper{
+    flex-direction:column;
+    padding:25px;
+  }
+
+  .adm-testimonial-form-section,
+  .adm-testimonial-list-section{
+    width:100%;
+  }
+
+  .adm-testimonial-card{
+    flex-direction:row;
+  }
+}
+
+
+/* ---------- Tablet (769px–1023px) ---------- */
+@media(min-width:769px) and (max-width:1023px){
+
+  .adm-testimonial-wrapper{
+    flex-direction:column;
+  }
+
+  .adm-testimonial-form-section,
+  .adm-testimonial-list-section{
+    width:100%;
+  }
+
+  .adm-testimonial-list-section{
+    max-height:600px;
+  }
+}
+
+
+/* ---------- Laptop (1024px–1399px) ---------- */
+@media(min-width:1024px) and (max-width:1399px){
+
+  .adm-testimonial-wrapper{
+    max-width:1100px;
+  }
+
+  .adm-testimonial-list-section{
+    max-height:800px;
+  }
+}
+
+
+/* ---------- Large Desktop (1400px+) ---------- */
+@media(min-width:1400px){
+
+  .adm-testimonial-wrapper{
+    max-width:1400px;
+  }
+}
+
+
+/* Prevent horizontal scroll */
+html, body{
+  overflow-x:hidden;
 }

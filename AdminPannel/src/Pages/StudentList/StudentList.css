@@ -1,0 +1,166 @@
+.Student-list-container {
+  min-height: 100vh;
+  padding: 40px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+.Student-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.Student-list-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.Student-list-header-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* SEARCH */
+.Student-list-search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.Student-list-search-input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.Student-list-search-icon {
+  margin-left: 6px;
+  color: #64748b;
+}
+
+/* ADD BUTTON */
+.Student-list-add-btn {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.Student-list-add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(79,70,229,0.4);
+}
+
+/* TABLE */
+.Student-list-table-wrapper {
+  background: white;
+  border-radius: 18px;
+  padding: 15px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+.Student-list-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.Student-list-thead {
+  background: #f1f5f9;
+}
+
+.Student-list-table th,
+.Student-list-table td {
+  padding: 14px;
+  font-size: 14px;
+}
+
+.Student-list-table th {
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.Student-list-row:hover {
+  background: #f8fafc;
+}
+
+.Student-list-action-buttons button {
+  border: none;
+  padding: 7px 10px;
+  margin-right: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.Student-list-edit-btn {
+  background: #0ea5e9;
+}
+
+.Student-list-delete-btn {
+  background: #ef4444;
+}
+
+/* MODAL */
+.Student-list-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Student-list-form-card {
+  width: 420px;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  animation: StudentListPop 0.25s ease;
+}
+
+@keyframes StudentListPop {
+  from { transform: scale(.85); opacity:0 }
+  to { transform: scale(1); opacity:1 }
+}
+
+.Student-list-form-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.Student-list-close-icon {
+  cursor: pointer;
+}
+
+.Student-list-input {
+  width: 100%;
+  padding: 10px;
+  margin: 7px 0;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.Student-list-save-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  border: none;
+  padding: 11px;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+}

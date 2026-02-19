@@ -1,54 +1,61 @@
+/* ================= MAIN CONTAINER ================= */
+
 .teacher-admin-container {
   display: flex;
-  gap: 20px;
-  padding: 20px;
+  gap: 24px;
+  padding: 24px;
   max-width: 1400px;
   margin: auto;
+  height: 100vh;              /* Full screen */
+  overflow: hidden;           /* Prevent page scroll */
 }
 
-/* LEFT 60% */
+/* ================= LEFT SIDE (FORM) ================= */
 
 .teacher-admin-form-section {
   flex: 0 0 60%;
+  overflow-y: auto;           /* Scroll form if needed */
 }
 
-/* RIGHT 40% */
+/* ================= RIGHT SIDE (LIST) ================= */
 
 .teacher-admin-list-section {
   flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* FORM */
+/* ================= FORM ================= */
 
 .teacher-form {
   background: #ffffff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
-.teacher-form-title {
+.teacher-form h2 {
   font-size: 22px;
-  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .teacher-form input,
-.teacher-form textarea,
-.teacher-form select {
-  padding: 10px;
+.teacher-form textarea {
+  padding: 10px 12px;
   border-radius: 6px;
   border: 1px solid #ddd;
   font-size: 14px;
 }
 
 .teacher-form textarea {
-  min-height: 90px;
+  min-height: 100px;
+  resize: none;
 }
 
-.teacher-submit-btn {
+.teacher-form button {
   background: #0d6efd;
   color: white;
   border: none;
@@ -58,43 +65,86 @@
   cursor: pointer;
 }
 
-/* LIST */
+.teacher-form button:hover {
+  background: #0b5ed7;
+}
+
+/* ================= STAR RATING ================= */
+
+.teacher-stars-wrapper {
+  display: flex;
+  gap: 6px;
+}
+
+.teacher-star-filled {
+  color: #ffb703;
+}
+
+/* ================= LIST CONTAINER ================= */
 
 .teacher-list-container {
   background: #ffffff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-.teacher-list-title {
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-
-.teacher-list-card {
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
   display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  flex-direction: column;
+  height: 100%;        /* Fill right side */
 }
 
-.teacher-list-image {
-  width: 60px;
-  height: 60px;
+/* ================= TABLE WRAPPER (SCROLL ONLY HERE) ================= */
+
+.teacher-table-wrapper {
+  flex: 1;              /* Take remaining space */
+  overflow-y: auto;     /* Vertical scroll */
+  overflow-x: auto;     /* Horizontal scroll */
+}
+
+/* Custom Scrollbar */
+.teacher-table-wrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.teacher-table-wrapper::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+/* ================= TABLE ================= */
+
+.teacher-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.teacher-table th,
+.teacher-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  text-align: left;
+}
+
+.teacher-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+/* ================= IMAGE ================= */
+
+.teacher-table-img {
+  width: 55px;
+  height: 55px;
   object-fit: cover;
   border-radius: 8px;
 }
 
-.teacher-list-info {
-  flex: 1;
-}
-
-.teacher-list-actions {
-  display: flex;
-  gap: 6px;
-}
+/* ================= ACTION BUTTONS ================= */
 
 .teacher-edit-btn {
   background: #ffc107;
@@ -102,33 +152,35 @@
   padding: 6px 10px;
   border-radius: 5px;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .teacher-delete-btn {
   background: #dc3545;
+  color: white;
   border: none;
   padding: 6px 10px;
   border-radius: 5px;
-  color: white;
   cursor: pointer;
 }
+
+.teacher-edit-btn:hover {
+  background: #e0a800;
+}
+
+.teacher-delete-btn:hover {
+  background: #bb2d3b;
+}
+
+/* ================= EMPTY TEXT ================= */
 
 .teacher-empty-text {
   text-align: center;
   color: #777;
-}
-/* STAR RATING */
-
-.teacher-star-rating {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  padding: 20px 0;
 }
 
-.teacher-rating-label {
-  font-weight: 500;
-  font-size: 14px;
-}
+/* ================= RESPONSIVE ================= */
 
 .teacher-stars-wrapper {
   display: flex;
@@ -309,12 +361,32 @@
 /* RESPONSIVE */
 
 @media (max-width: 900px) {
+@media (max-width: 1100px) {
   .teacher-admin-container {
     flex-direction: column;
+    height: auto;
+    overflow: visible;
   }
 
   .teacher-admin-form-section,
   .teacher-admin-list-section {
     flex: 100%;
+  }
+
+  .teacher-list-container {
+    height: 500px;  /* Keep scroll on mobile */
+  }
+}
+
+@media (max-width: 600px) {
+  .teacher-table th,
+  .teacher-table td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .teacher-table-img {
+    width: 45px;
+    height: 45px;
   }
 }

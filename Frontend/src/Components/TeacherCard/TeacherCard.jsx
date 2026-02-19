@@ -1,90 +1,131 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./TeacherCard.css";
 import {
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
-  FaShareAlt
+  FaShareAlt,
+  FaStar
 } from "react-icons/fa";
 
-// IMPORT IMAGES
-import img1 from "../../assets/ab.webp";
-import img2 from "../../assets/aj.webp";
-import img3 from "../../assets/ac.webp";
-import img4 from "../../assets/ad.webp";
-import img5 from "../../assets/ae.webp";
-import img6 from "../../assets/af.webp";
-import img7 from "../../assets/ag.webp";
-import img8 from "../../assets/ai.webp";
+import API, { IMAGE_URL } from "../../Api/Api";
 
-const instructors = [
-  { name: "Brooklyn Simmons", img: img1 },
-  { name: "Leslie Alexander", img: img2 },
-  { name: "Ronald Richards", img: img3 },
-  { name: "Kristin Watson", img: img4 },
-  { name: "Esther Howard", img: img5 },
-  { name: "Savannah Nguyen", img: img6 },
-  { name: "Dianne Russell", img: img7 },
-  { name: "Kathryn Murphy", img: img8 }
-];
-
-const InstructorSection = () => {
+const TeacherCard = () => {
+  const [teachers, setTeachers] = useState([]);
   const cardsRef = useRef([]);
 
+  /* ================= FETCH TEACHERS ================= */
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const res = await API.get("/teachers");
+        setTeachers(res.data);
+      } catch (err) {
+        console.error("FETCH TEACHERS ERROR:", err);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
+
+  /* ================= SCROLL REVEAL ================= */
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("reveal");
+            entry.target.classList.add("teacher-card--reveal");
           }
         });
       },
       { threshold: 0.2 }
     );
 
-    cardsRef.current.forEach(card => observer.observe(card));
-  }, []);
+    cardsRef.current.forEach(card => {
+      if (card) observer.observe(card);
+    });
+  }, [teachers]);
 
   return (
-    <section className="instructor-section">
-      <div className="instructor-grid">
-        {instructors.map((item, index) => (
-          <div
-            className="instructor-card"
-            key={index}
-            ref={el => (cardsRef.current[index] = el)}
-          >
-            <div className="img-wrap">
-              <img src={item.img} alt={item.name} />
+    <section className="teacher-section">
+      <div className="teacher-container">
+        <div className="teacher-grid">
 
-              {/* Wave */}
-              <svg
-                className="wave-shape"
-                viewBox="0 0 500 80"
-                preserveAspectRatio="none"
-              >
-                <path d="M0,40 C80,80 160,0 250,30 340,60 420,40 500,20 L500,100 L0,100 Z" />
-              </svg>
+          {teachers.map((teacher, index) => (
+            <div
+              className="teacher-card"
+              key={teacher._id}
+              ref={el => (cardsRef.current[index] = el)}
+            >
+              {/* IMAGE */}
+              <div className="teacher-card__image-wrapper">
+                <img
+                  src={`${IMAGE_URL}${teacher.photo}`}
+                  alt={teacher.name}
+                  className="teacher-card__image"
+                />
 
-              {/* Share */}
-              <div className="share-box">
-                <FaShareAlt className="share-main" />
-                <div className="share-icons">
-                  <span><FaFacebookF /></span>
-                  <span><FaInstagram /></span>
-                  <span><FaLinkedinIn /></span>
+                {/* Wave Shape */}
+                <svg
+                  className="teacher-card__wave"
+                  viewBox="0 0 500 80"
+                  preserveAspectRatio="none"
+                >
+                  <path d="M0,40 C80,80 160,0 250,30 340,60 420,40 500,20 L500,100 L0,100 Z" />
+                </svg>
+
+                {/* Share Box */}
+                <div className="teacher-card__share">
+                  <div className="teacher-card__share-main">
+                    <FaShareAlt />
+                  </div>
+
+                  <div className="teacher-card__social">
+                    {teacher.facebook && (
+                      <a href={teacher.facebook} target="_blank" rel="noreferrer">
+                        <FaFacebookF />
+                      </a>
+                    )}
+                    {teacher.instagram && (
+                      <a href={teacher.instagram} target="_blank" rel="noreferrer">
+                        <FaInstagram />
+                      </a>
+                    )}
+                    {teacher.linkedin && (
+                      <a href={teacher.linkedin} target="_blank" rel="noreferrer">
+                        <FaLinkedinIn />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* CONTENT */}
+              <div className="teacher-card__content">
+                <h3 className="teacher-card__name">{teacher.name}</h3>
+                <p className="teacher-card__role">Senior Instructor</p>
+
+                {/* Rating */}
+                <div className="teacher-card__rating">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <FaStar
+                      key={i}
+                      className={
+                        i < teacher.rating
+                          ? "teacher-card__star teacher-card__star--active"
+                          : "teacher-card__star"
+                      }
+                    />
+                  ))}
                 </div>
               </div>
             </div>
+          ))}
 
-            <h3>{item.name}</h3>
-            <p>Instructors</p>
-          </div>
-        ))}
+        </div>
       </div>
     </section>
   );
 };
 
-export default InstructorSection;
+export default TeacherCard;

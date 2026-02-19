@@ -1,10 +1,11 @@
 import axios from "axios";
 
+export const BASE_URL = "http://localhost:5000";
+export const IMAGE_URL = `${BASE_URL}/`;
+
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: `${BASE_URL}/api`,
+  withCredentials: true,
 });
 
 export default API;

@@ -1,46 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TeacherForm from "../../Component/TeachersPosting/TeacherForm";
 import TeacherList from "../../Component/TeachersPosting/TeacherList";
-import "./TeacherAdminPage.css";
+import API from "../../api/axios";
 
 const TeacherAdminPage = () => {
   const [teachers, setTeachers] = useState([]);
   const [editTeacher, setEditTeacher] = useState(null);
 
-  const handleAddTeacher = (teacher) => {
-    if (editTeacher) {
-      setTeachers(
-        teachers.map((t) => (t.id === editTeacher.id ? teacher : t))
-      );
-      setEditTeacher(null);
-    } else {
-      setTeachers([...teachers, teacher]);
+  const fetchTeachers = async () => {
+    try {
+      const res = await API.get("/teachers");
+      setTeachers(res.data);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  const handleDeleteTeacher = (id) => {
-    setTeachers(teachers.filter((t) => t.id !== id));
-  };
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
 
-  const handleEditTeacher = (teacher) => {
-    setEditTeacher(teacher);
+  const handleDeleteTeacher = async (id) => {
+    if (!window.confirm("Delete this teacher?")) return;
+    await API.delete(`/teachers/${id}`);
+    fetchTeachers();
   };
 
   return (
-    <div className="teacher-admin-container">
-      <div className="teacher-admin-form-section">
-        <TeacherForm
-          onSubmit={handleAddTeacher}
-          editTeacher={editTeacher}
-        />
-      </div>
+    <div className="min-h-screen p-6 bg-slate-100">
+      <div className="flex flex-col xl:flex-row gap-6 max-w-7xl mx-auto">
 
-      <div className="teacher-admin-list-section">
-        <TeacherList
-          teachers={teachers}
-          onEdit={handleEditTeacher}
-          onDelete={handleDeleteTeacher}
-        />
+        {/* LEFT FORM */}
+        <div className="w-full xl:w-3/5 bg-white rounded-2xl shadow p-6">
+          <TeacherForm
+            editTeacher={editTeacher}
+            setEditTeacher={setEditTeacher}
+            refreshTeachers={fetchTeachers}
+          />
+        </div>
+
+        {/* RIGHT LIST */}
+        <div className="w-full xl:w-2/5 bg-white rounded-2xl shadow p-6 flex flex-col">
+          <TeacherList
+            teachers={teachers}
+            onEdit={setEditTeacher}
+            onDelete={handleDeleteTeacher}
+          />
+        </div>
+
       </div>
     </div>
   );
