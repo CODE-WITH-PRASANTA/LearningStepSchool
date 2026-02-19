@@ -4,7 +4,15 @@ const Teacher = require("../models/teacher.model");
 /* ================= CREATE ================= */
 exports.createTeacher = async (req, res) => {
   try {
-    const { name, review, rating, instagram, facebook, linkedin } = req.body;
+    const {
+      name,
+      designation,   // ✅ Added
+      review,
+      rating,
+      instagram,
+      facebook,
+      linkedin
+    } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: "Photo is required" });
@@ -12,6 +20,7 @@ exports.createTeacher = async (req, res) => {
 
     const teacher = await Teacher.create({
       name,
+      designation,   // ✅ Added
       review,
       rating,
       photo: req.file.path,
@@ -42,7 +51,16 @@ exports.getTeachers = async (req, res) => {
 exports.updateTeacher = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, review, rating, instagram, facebook, linkedin } = req.body;
+
+    const {
+      name,
+      designation,   // ✅ Added
+      review,
+      rating,
+      instagram,
+      facebook,
+      linkedin
+    } = req.body;
 
     const teacher = await Teacher.findById(id);
     if (!teacher) {
@@ -51,6 +69,7 @@ exports.updateTeacher = async (req, res) => {
 
     const updateData = {
       name,
+      designation,   // ✅ Added
       review,
       rating,
       instagram,
@@ -59,7 +78,6 @@ exports.updateTeacher = async (req, res) => {
     };
 
     if (req.file) {
-      // Delete old image
       if (teacher.photo && fs.existsSync(teacher.photo)) {
         fs.unlinkSync(teacher.photo);
       }
@@ -68,6 +86,7 @@ exports.updateTeacher = async (req, res) => {
 
     const updated = await Teacher.findByIdAndUpdate(id, updateData, {
       new: true,
+      runValidators: true,
     });
 
     res.json(updated);

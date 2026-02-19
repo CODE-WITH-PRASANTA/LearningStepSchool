@@ -10,11 +10,12 @@ const TeacherList = ({ teachers, onEdit, onDelete }) => {
         <p className="text-gray-500">No teachers added yet</p>
       ) : (
         <div className="overflow-auto flex-1 max-h-[600px]">
-          <table className="min-w-[800px] w-full text-sm border">
+          <table className="min-w-[900px] w-full text-sm border">
             <thead className="bg-gray-100 sticky top-0">
               <tr>
                 <th className="p-2 text-left">Photo</th>
                 <th className="p-2 text-left">Name</th>
+                <th className="p-2 text-left">Designation</th>
                 <th className="p-2 text-left">Review</th>
                 <th className="p-2 text-left">Rating</th>
                 <th className="p-2 text-left">Actions</th>
@@ -33,6 +34,8 @@ const TeacherList = ({ teachers, onEdit, onDelete }) => {
                   </td>
 
                   <td className="p-2">{teacher.name}</td>
+
+                  <td className="p-2">{teacher.designation}</td>
 
                   <td className="p-2 max-w-[150px] truncate">
                     {teacher.review}

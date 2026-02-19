@@ -13,13 +13,23 @@ const { upload, convertToWebp } = require("../middleware/upload");
 
 /* ================= ROUTES ================= */
 
-router.post("/", upload.single("image"), convertToWebp, createNotice);
+router.post(
+  "/",
+  upload.single("image"),
+  convertToWebp,
+  createNotice
+);
 
 router.get("/", getAllNotices);
 
 router.get("/:id", getNoticeById);
 
-router.put("/:id", upload.single("image"), convertToWebp, updateNotice);
+router.put(
+  "/:id",
+  upload.single("image"),
+  convertToWebp,
+  updateNotice
+);
 
 router.delete("/:id", deleteNotice);
 

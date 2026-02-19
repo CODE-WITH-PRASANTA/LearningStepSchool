@@ -1,33 +1,32 @@
-/* Background */
-.student-container {
+.Student-list-container {
   min-height: 100vh;
   padding: 40px;
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
   font-family: "Poppins", sans-serif;
 }
 
-/* Header */
-.header {
+/* HEADER */
+.Student-list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
 }
 
-.header h2 {
+.Student-list-title {
   font-size: 28px;
   font-weight: 600;
   color: #1e293b;
 }
 
-.header-right {
+.Student-list-header-right {
   display: flex;
   gap: 15px;
   align-items: center;
 }
 
-/* Search */
-.search-box {
+/* SEARCH */
+.Student-list-search-box {
   display: flex;
   align-items: center;
   background: white;
@@ -36,14 +35,19 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-.search-box input {
+.Student-list-search-input {
   border: none;
   outline: none;
   font-size: 14px;
 }
 
-/* Add Button */
-.add-btn {
+.Student-list-search-icon {
+  margin-left: 6px;
+  color: #64748b;
+}
+
+/* ADD BUTTON */
+.Student-list-add-btn {
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   border: none;
   color: white;
@@ -54,51 +58,44 @@
   transition: 0.3s;
 }
 
-.add-btn:hover {
+.Student-list-add-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(79,70,229,0.4);
 }
 
-/* Table Card */
-.table-wrapper {
+/* TABLE */
+.Student-list-table-wrapper {
   background: white;
   border-radius: 18px;
   padding: 15px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
-table {
+.Student-list-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-thead {
+.Student-list-thead {
   background: #f1f5f9;
 }
 
-th {
+.Student-list-table th,
+.Student-list-table td {
   padding: 14px;
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.Student-list-table th {
   text-transform: uppercase;
   color: #64748b;
 }
 
-td {
-  padding: 14px;
-  font-size: 14px;
-  color: #334155;
-}
-
-tbody tr {
-  transition: 0.2s;
-}
-
-tbody tr:hover {
+.Student-list-row:hover {
   background: #f8fafc;
 }
 
-/* Buttons */
-.action-buttons button {
+.Student-list-action-buttons button {
   border: none;
   padding: 7px 10px;
   margin-right: 6px;
@@ -107,19 +104,16 @@ tbody tr:hover {
   color: white;
 }
 
-.edit-btn {
+.Student-list-edit-btn {
   background: #0ea5e9;
 }
 
-.delete-btn {
+.Student-list-delete-btn {
   background: #ef4444;
 }
 
-.edit-btn:hover { background: #0284c7; }
-.delete-btn:hover { background: #dc2626; }
-
-/* Modal */
-.modal {
+/* MODAL */
+.Student-list-modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.35);
@@ -128,28 +122,30 @@ tbody tr:hover {
   align-items: center;
 }
 
-.form-card {
+.Student-list-form-card {
   width: 420px;
   background: white;
   padding: 25px;
   border-radius: 16px;
-  animation: pop 0.25s ease;
+  animation: StudentListPop 0.25s ease;
 }
 
-@keyframes pop {
+@keyframes StudentListPop {
   from { transform: scale(.85); opacity:0 }
   to { transform: scale(1); opacity:1 }
 }
 
-.form-header {
+.Student-list-form-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
 }
 
-.close { cursor: pointer; }
+.Student-list-close-icon {
+  cursor: pointer;
+}
 
-form input {
+.Student-list-input {
   width: 100%;
   padding: 10px;
   margin: 7px 0;
@@ -157,7 +153,7 @@ form input {
   border: 1px solid #e2e8f0;
 }
 
-.save-btn {
+.Student-list-save-btn {
   width: 100%;
   margin-top: 10px;
   background: linear-gradient(135deg,#22c55e,#16a34a);
