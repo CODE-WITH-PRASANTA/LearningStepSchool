@@ -45,11 +45,15 @@ const secondaryRoutes = require("./routes/secondary.routes");
 const testimonialRoutes = require("./routes/testimonial.routes");
 const faqRoutes = require("./routes/faq.routes");
 const surveyRoutes = require("./routes/survey.routes");
+const blogRoutes = require("./routes/blog.routes");
+const feeRoutes = require("./routes/fee.routes");
+const classDataRoutes = require("./routes/classData.routes");
+const eventRoutes = require("./routes/event.routes");
 
 
 app.use("/uploads", express.static("uploads"));
 
-// app.use("/api/survey", surveyRoutes);
+
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/latest-news", latestNewsRoutes);
 app.use("/api/photo-gallery", photoGalleryRoutes);
@@ -63,6 +67,15 @@ app.use("/api/secondary", secondaryRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/faqs", faqRoutes);
 app.use("/api/survey", surveyRoutes);
+app.use("/api/blogs", blogRoutes);
+app.use("/api/fees", feeRoutes);
+app.use("/api/class-data", classDataRoutes);
+app.use("/api/events", eventRoutes);
+
+
+
+
+
 
 
 

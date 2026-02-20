@@ -1,6 +1,6 @@
 import React from "react";
 
-const BlogTable = ({ blogs, onEdit, onDelete }) => {
+const BlogTable = ({ blogs = [], onEdit, onDelete }) => {
 
   return (
     <div className="adm-blog-table-box">
@@ -26,6 +26,7 @@ const BlogTable = ({ blogs, onEdit, onDelete }) => {
           <tbody>
 
             {blogs.length === 0 && (
+              console.log(blogs),
               <tr>
                 <td colSpan="7" className="adm-empty-row">
                   No blog posts available
@@ -34,10 +35,16 @@ const BlogTable = ({ blogs, onEdit, onDelete }) => {
             )}
 
             {blogs.map(blog => (
-              <tr key={blog.id}>
+              <tr key={blog._id}>
 
                 <td>
-                  <img src={blog.image} className="adm-table-img" />
+                  {blog.image && (
+                    <img
+                      src={`http://localhost:5000${blog.image}`}
+                      className="adm-table-img"
+                      alt=""
+                    />
+                  )}
                 </td>
 
                 <td>{blog.title}</td>
@@ -58,7 +65,7 @@ const BlogTable = ({ blogs, onEdit, onDelete }) => {
 
                   <button
                     className="adm-delete-btn"
-                    onClick={()=>onDelete(blog.id)}
+                    onClick={()=>onDelete(blog._id)}
                   >
                     Delete
                   </button>

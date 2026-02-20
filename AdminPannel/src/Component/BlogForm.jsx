@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import API from "../api/axios";
 
-const BlogForm = ({ addBlog, editBlog, updateBlog }) => {
+const BlogForm = ({ editBlog, fetchBlogs, setEditBlog }) => {
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -13,7 +14,6 @@ const BlogForm = ({ addBlog, editBlog, updateBlog }) => {
 
   useEffect(() => {
     if (editBlog) {
-      setImage(editBlog.image);
       setPreview(editBlog.image);
       setTitle(editBlog.title);
       setDescription(editBlog.description);
@@ -26,36 +26,49 @@ const BlogForm = ({ addBlog, editBlog, updateBlog }) => {
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    if(file){
-      const url = URL.createObjectURL(file);
-      setImage(url);
-      setPreview(url);
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    const blogData = {
-      image,
-      title,
-      description,
-      author,
-      designation,
-      category,
-      content,
-      id: editBlog?.id
-    };
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("author", author);
+      formData.append("designation", designation);
+      formData.append("category", category);
+      formData.append("content", content);
 
-    editBlog ? updateBlog(blogData) : addBlog(blogData);
+      if (image) {
+        formData.append("image", image);
+      }
 
-    setPreview("");
-    setTitle("");
-    setDescription("");
-    setAuthor("");
-    setDesignation("");
-    setCategory("");
-    setContent("");
+      if (editBlog) {
+        await API.put(`/blogs/${editBlog._id}`, formData);
+      } else {
+        await API.post("/blogs", formData);
+      }
+
+      fetchBlogs();
+      setEditBlog(null);
+
+      setImage(null);
+      setPreview("");
+      setTitle("");
+      setDescription("");
+      setAuthor("");
+      setDesignation("");
+      setCategory("");
+      setContent("");
+
+    } catch (err) {
+      console.error("BLOG ERROR:", err);
+    }
   };
 
   return (
@@ -68,7 +81,7 @@ const BlogForm = ({ addBlog, editBlog, updateBlog }) => {
       <div className="adm-input-group">
         <label>Upload Image</label>
         <input type="file" onChange={handleImage} />
-        {preview && <img src={preview} className="adm-image-preview" />}
+        {preview && <img src={`http://localhost:5000${preview}`} className="adm-image-preview" />}
       </div>
 {/* TITLE + DESCRIPTION ROW */}
 <div className="adm-form-row">

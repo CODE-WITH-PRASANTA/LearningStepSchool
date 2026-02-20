@@ -12,6 +12,7 @@ exports.createNotice = async (req, res) => {
       dateTime,
       location,
       expiry,
+      image, // 🔥 injected by middleware
     } = req.body;
 
     if (!title || !description || !dateTime || !name || !designation) {
@@ -29,7 +30,7 @@ exports.createNotice = async (req, res) => {
       dateTime,
       location,
       expiry,
-      image: req.file ? req.file.path : null,
+      image: image || null, // 🔥 use body.image
       isActive: expiry ? new Date(expiry) > new Date() : true,
     });
 
@@ -48,7 +49,6 @@ exports.createNotice = async (req, res) => {
 /* ================= GET ALL ================= */
 exports.getAllNotices = async (req, res) => {
   try {
-    // Auto update expired notices
     await Notice.updateMany(
       { expiry: { $lt: new Date() } },
       { isActive: false }
@@ -104,22 +104,20 @@ exports.updateNotice = async (req, res) => {
       });
     }
 
-    const updateData = {
-      ...req.body,
-    };
+    const updateData = { ...req.body };
 
-    // Handle expiry auto active toggle
     if (req.body.expiry) {
       updateData.isActive =
         new Date(req.body.expiry) > new Date();
     }
 
-    // Replace image if new one uploaded
-    if (req.file) {
+    // 🔥 if new image uploaded
+    if (req.body.image) {
       if (notice.image && fs.existsSync(notice.image)) {
         fs.unlinkSync(notice.image);
       }
-      updateData.image = req.file.path;
+
+      updateData.image = req.body.image;
     }
 
     const updated = await Notice.findByIdAndUpdate(
@@ -152,7 +150,6 @@ exports.deleteNotice = async (req, res) => {
       });
     }
 
-    // Delete image file
     if (notice.image && fs.existsSync(notice.image)) {
       fs.unlinkSync(notice.image);
     }
