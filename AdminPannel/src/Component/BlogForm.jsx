@@ -70,26 +70,45 @@ const BlogForm = ({ addBlog, editBlog, updateBlog }) => {
         <input type="file" onChange={handleImage} />
         {preview && <img src={preview} className="adm-image-preview" />}
       </div>
+{/* TITLE + DESCRIPTION ROW */}
+<div className="adm-form-row">
+  <div className="adm-input-group">
+    <label>Blog Title</label>
+    <input
+      value={title}
+      onChange={e=>setTitle(e.target.value)}
+      required
+    />
+  </div>
 
-      <div className="adm-input-group">
-        <label>Blog Title</label>
-        <input value={title} onChange={e=>setTitle(e.target.value)} required />
-      </div>
+  <div className="adm-input-group">
+    <label>Blog Description</label>
+    <textarea
+      value={description}
+      onChange={e=>setDescription(e.target.value)}
+    />
+  </div>
+</div>
 
-      <div className="adm-input-group">
-        <label>Blog Description</label>
-        <textarea value={description} onChange={e=>setDescription(e.target.value)} />
-      </div>
+{/* AUTHOR ROW */}
+<div className="adm-form-row">
+  <div className="adm-input-group">
+    <label>Author Name</label>
+    <input
+      value={author}
+      onChange={e=>setAuthor(e.target.value)}
+    />
+  </div>
 
-      <div className="adm-input-group">
-        <label>Author Name</label>
-        <input value={author} onChange={e=>setAuthor(e.target.value)} />
-      </div>
+  <div className="adm-input-group">
+    <label>Author Designation</label>
+    <input
+      value={designation}
+      onChange={e=>setDesignation(e.target.value)}
+    />
+  </div>
+</div>
 
-      <div className="adm-input-group">
-        <label>Author Designation</label>
-        <input value={designation} onChange={e=>setDesignation(e.target.value)} />
-      </div>
 
       <div className="adm-input-group">
         <label>Category</label>
