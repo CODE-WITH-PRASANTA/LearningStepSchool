@@ -27,7 +27,7 @@ const TeacherList = ({ teachers, onEdit, onDelete }) => {
                 <tr key={teacher._id} className="border-b">
                   <td className="p-2">
                     <img
-                      src={`${IMAGE_URL}${teacher.photo}`}
+                      src={`http://localhost:5000${teacher.photo}`}
                       alt={teacher.name}
                       className="w-12 h-12 object-cover rounded"
                     />
@@ -43,7 +43,9 @@ const TeacherList = ({ teachers, onEdit, onDelete }) => {
 
                   <td className="p-2">
                     {Array.from({ length: teacher.rating }).map((_, i) => (
-                      <span key={i} className="text-yellow-400">★</span>
+                      <span key={i} className="text-yellow-400">
+                        ★
+                      </span>
                     ))}
                   </td>
 

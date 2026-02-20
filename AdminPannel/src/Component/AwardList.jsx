@@ -1,5 +1,5 @@
 import React from "react";
-import { IMAGE_URL } from "../api/axios";
+import BASE_URL, { IMAGE_URL } from "../api/axios";
 
 const AwardList = ({ awards, onEdit, onDelete }) => {
   return (
@@ -12,7 +12,7 @@ const AwardList = ({ awards, onEdit, onDelete }) => {
         {awards.map((award) => (
           <div key={award._id} className="award-list-card">
             <img
-              src={IMAGE_URL + award.image}
+              src={`${IMAGE_URL}${award.image}`}
               alt={award.title}
               className="award-list-image"
             />
@@ -22,10 +22,7 @@ const AwardList = ({ awards, onEdit, onDelete }) => {
             </div>
 
             <div className="award-list-actions">
-              <button
-                className="award-edit-btn"
-                onClick={() => onEdit(award)}
-              >
+              <button className="award-edit-btn" onClick={() => onEdit(award)}>
                 Edit
               </button>
 

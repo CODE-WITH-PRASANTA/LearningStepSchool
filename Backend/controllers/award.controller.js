@@ -1,11 +1,21 @@
+const fs = require("fs");
 const Award = require("../models/award.model");
 
 /* ================= CREATE ================= */
 exports.createAward = async (req, res) => {
   try {
+    const { title, image } = req.body;
+
+    if (!image) {
+      return res.status(400).json({
+        success: false,
+        message: "Image is required",
+      });
+    }
+
     const award = await Award.create({
-      title: req.body.title,
-      image: req.file?.path,
+      title,
+      image, // 🔥 use body.image (middleware injected)
     });
 
     res.status(201).json({
@@ -34,12 +44,27 @@ exports.getAllAwards = async (req, res) => {
 /* ================= UPDATE ================= */
 exports.updateAward = async (req, res) => {
   try {
+    const award = await Award.findById(req.params.id);
+
+    if (!award) {
+      return res.status(404).json({
+        success: false,
+        message: "Award not found",
+      });
+    }
+
     const updateData = {
       title: req.body.title,
     };
 
-    if (req.file) {
-      updateData.image = req.file.path;
+    // 🔥 if new image uploaded
+    if (req.body.image) {
+      // delete old image
+      if (award.image && fs.existsSync(award.image)) {
+        fs.unlinkSync(award.image);
+      }
+
+      updateData.image = req.body.image;
     }
 
     const updated = await Award.findByIdAndUpdate(
@@ -60,6 +85,20 @@ exports.updateAward = async (req, res) => {
 /* ================= DELETE ================= */
 exports.deleteAward = async (req, res) => {
   try {
+    const award = await Award.findById(req.params.id);
+
+    if (!award) {
+      return res.status(404).json({
+        success: false,
+        message: "Award not found",
+      });
+    }
+
+    // delete image file
+    if (award.image && fs.existsSync(award.image)) {
+      fs.unlinkSync(award.image);
+    }
+
     await Award.findByIdAndDelete(req.params.id);
 
     res.status(200).json({

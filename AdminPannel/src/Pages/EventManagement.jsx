@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import API, { IMAGE_URL } from "../api/axios";
 
 export default function EventManagement() {
   const [events, setEvents] = useState([]);
+  const [editId, setEditId] = useState(null);
 
   const [form, setForm] = useState({
     title: "",
@@ -13,6 +15,21 @@ export default function EventManagement() {
     preview: "",
   });
 
+  /* ================= FETCH ================= */
+  const fetchEvents = async () => {
+    try {
+      const res = await API.get("/events");
+      setEvents(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  /* ================= INPUT ================= */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -28,12 +45,34 @@ export default function EventManagement() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  /* ================= SUBMIT (CREATE / UPDATE) ================= */
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!form.title || !form.location || !form.date) return;
+  if (!form.title || !form.location || !form.date) return;
 
-    setEvents([...events, form]);
+  try {
+    const formData = new FormData();
+    formData.append("title", form.title);
+    formData.append("location", form.location);
+    formData.append("date", form.date);
+    formData.append("review", form.review);
+    formData.append("rating", form.rating);
+
+    if (form.image) {
+      formData.append("image", form.image);
+    }
+
+    if (editId) {
+      await API.put(`/events/${editId}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setEditId(null);
+    } else {
+      await API.post("/events", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    }
 
     setForm({
       title: "",
@@ -44,10 +83,37 @@ export default function EventManagement() {
       image: null,
       preview: "",
     });
-  };
 
-  const removeEvent = (i) => {
-    setEvents(events.filter((_, index) => index !== i));
+    fetchEvents();
+
+  } catch (err) {
+    console.error("UPDATE ERROR:", err.response?.data || err.message);
+  }
+};
+
+  /* ================= EDIT ================= */
+  const handleEdit = (event) => {
+  setForm({
+    title: event.title,
+    location: event.location,
+    date: event.date ? event.date.split("T")[0] : "",
+    review: event.review || "",
+    rating: event.rating || 0,
+    image: null,
+    preview: event.image ? `${IMAGE_URL}${event.image}` : "",
+  });
+
+  setEditId(event._id);
+};
+
+  /* ================= DELETE ================= */
+  const removeEvent = async (id) => {
+    try {
+      await API.delete(`/events/${id}`);
+      fetchEvents();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -60,7 +126,9 @@ export default function EventManagement() {
           onSubmit={handleSubmit}
           className="bg-white rounded-xl shadow p-6 space-y-4"
         >
-          <h2 className="text-lg font-semibold">Add New Event</h2>
+          <h2 className="text-lg font-semibold">
+            {editId ? "Edit Event" : "Add New Event"}
+          </h2>
 
           <input
             name="title"
@@ -86,7 +154,6 @@ export default function EventManagement() {
             className="w-full border rounded px-3 py-2"
           />
 
-          {/* Image */}
           <input type="file" onChange={handleImage} />
 
           {form.preview && (
@@ -97,7 +164,6 @@ export default function EventManagement() {
             />
           )}
 
-          {/* Rating */}
           <div>
             <p className="mb-1 text-sm font-medium">Rating</p>
             <div className="flex gap-2">
@@ -127,7 +193,7 @@ export default function EventManagement() {
           />
 
           <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
-            Submit Event
+            {editId ? "Update Event" : "Submit Event"}
           </button>
         </form>
 
@@ -148,25 +214,34 @@ export default function EventManagement() {
             </thead>
 
             <tbody>
-              {events.map((ev, i) => (
-                <tr key={i} className="border-b">
+              {events.map((ev) => (
+                <tr key={ev._id} className="border-b">
                   <td className="p-2">
-                    {ev.preview && (
+                    {ev.image && (
                       <img
-                        src={ev.preview}
+                        src={`${IMAGE_URL}${ev.image}`}
                         className="w-12 h-12 rounded object-cover"
                       />
                     )}
                   </td>
                   <td className="p-2">{ev.title}</td>
                   <td className="p-2">{ev.location}</td>
-                  <td className="p-2">{ev.date}</td>
+                  <td className="p-2">
+                    {new Date(ev.date).toLocaleDateString()}
+                  </td>
                   <td className="p-2 text-yellow-400">
                     {"★".repeat(ev.rating)}
                   </td>
-                  <td className="p-2">
+                  <td className="p-2 flex gap-3">
                     <button
-                      onClick={() => removeEvent(i)}
+                      onClick={() => handleEdit(ev)}
+                      className="text-blue-500 hover:underline"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => removeEvent(ev._id)}
                       className="text-red-500 hover:underline"
                     >
                       Delete
