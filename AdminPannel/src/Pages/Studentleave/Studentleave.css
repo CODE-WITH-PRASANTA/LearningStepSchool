@@ -1,140 +1,210 @@
-.leave-container {
-  padding: 20px;
-  background: #f3f4f6;
+.Studentleave-container{
+  padding:20px;
+  background:#f3f4f6;
 }
 
 /* HEADER */
-.leave-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff1f2;
-  padding: 16px 20px;
-  border-radius: 18px 18px 0 0;
-  border-bottom: 1px solid #fecdd3;
+.Studentleave-header{
+  display:flex;
+  justify-content:space-between;
+  background:#fff1f2;
+  padding:16px 20px;
+  border-radius:16px 16px 0 0;
 }
 
-.leave-header h2 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.add-btn {
-  background: #020617;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+.Studentleave-addBtn{
+  background:#1e3a8a;
+  color:#fff;
+  border:none;
+  padding:8px 16px;
+  border-radius:6px;
+  cursor:pointer;
 }
 
 /* TOOLBAR */
-.leave-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: white;
-  padding: 12px 16px;
-  border-left: 1px solid #e5e7eb;
-  border-right: 1px solid #e5e7eb;
+.Studentleave-toolbar{
+  display:flex;
+  justify-content:space-between;
+  background:#fff;
+  padding:12px;
+  border:1px solid #e5e7eb;
+  border-top:none;
 }
 
-.left-tools button {
-  background: #020617;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  margin-right: 6px;
-  cursor: pointer;
+.Studentleave-search{
+  display:flex;
+  gap:10px;
+  align-items:center;
 }
 
-.column-btn {
-  padding: 6px 12px;
-}
-
-.right-tools {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.right-tools input,
-.right-tools select {
-  padding: 6px;
-  border-radius: 4px;
-  border: 1px solid #c7d2fe;
+.Studentleave-search input,
+.Studentleave-search select{
+  padding:6px;
+  border:1px solid #c7d2fe;
+  border-radius:4px;
 }
 
 /* TABLE */
-.table-scroll {
-  overflow-x: auto;
-  background: white;
-  border-radius: 0 0 18px 18px;
-  border: 1px solid #e5e7eb;
-  border-top: none;
+.Studentleave-tableWrapper{
+  overflow-x:auto;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-top:none;
 }
 
-/* SCROLLBAR */
-.table-scroll::-webkit-scrollbar {
-  height: 8px;
+.Studentleave-tableWrapper::-webkit-scrollbar{
+  height:8px;
+}
+.Studentleave-tableWrapper::-webkit-scrollbar-thumb{
+  background:#c7d2fe;
+  border-radius:10px;
 }
 
-.table-scroll::-webkit-scrollbar-thumb {
-  background: #c7d2fe;
-  border-radius: 10px;
+.Studentleave-table{
+  width:100%;
+  min-width:1300px;
+  border-collapse:collapse;
 }
 
-.leave-table {
-  width: 100%;
-  min-width: 1200px; /* IMPORTANT for horizontal scroll */
-  border-collapse: collapse;
+.Studentleave-table thead{
+  background:#ffe4e6;
 }
 
-.leave-table thead {
-  background: #ffe4e6;
-  position: sticky;
-  top: 0;
-}
-
-.leave-table th,
-.leave-table td {
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-  vertical-align: top;
-}
-
-.leave-table th {
-  font-weight: 700;
+.Studentleave-table th,
+.Studentleave-table td{
+  padding:14px;
+  border:1px solid #e5e7eb;
+  text-align:left;
 }
 
 /* STATUS */
-.status.approved {
-  color: green;
-  font-weight: 600;
-}
-
-.status.rejected {
-  color: red;
-  font-weight: 600;
+.Studentleave-statusGreen{
+  color:#16a34a;
+  font-weight:600;
 }
 
 /* ACTION */
-.action-btn {
-  background: #020617;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+.Studentleave-actionCell{
+  position:relative;
 }
 
+.Studentleave-actionWrap{
+  position:relative;
+  display:inline-block;
+}
+
+.Studentleave-actionBtn{
+  background:linear-gradient(135deg,#2563eb,#1e3a8a);
+  color:#fff;
+  border:none;
+  padding:7px 16px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.Studentleave-actionBtn:hover{
+  background:linear-gradient(135deg,#1d4ed8,#172554);
+}
+
+/* DROPDOWN */
+.Studentleave-dropdown{
+  position:absolute;
+  top:42px;
+  right:0;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  box-shadow:0 12px 24px rgba(0,0,0,.18);
+  z-index:9999;
+  min-width:140px;
+  animation:fade .2s ease;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(6px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.Studentleave-dropdown button{
+  width:100%;
+  padding:10px 14px;
+  border:none;
+  background:none;
+  text-align:left;
+  cursor:pointer;
+}
+
+.Studentleave-dropdown button:hover{
+  background:#f1f5f9;
+}
+
+.Studentleave-dropdown .delete{
+  color:#ef4444;
+}
+
+/* PAGINATION */
+.Studentleave-pagination{
+  display:flex;
+  justify-content:center;
+  margin:25px 0;
+}
+
+.pagination-btn,
+.pagination-number{
+  padding:8px 16px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  cursor:pointer;
+}
+
+.pagination-number{
+  border-left:none;
+}
+
+.pagination-number.active{
+  background:#1e3a8a;
+  color:#fff;
+  border-color:#1e3a8a;
+}
+
+.pagination-btn:first-child{
+  border-radius:6px 0 0 6px;
+}
+
+.pagination-btn:last-child{
+  border-radius:0 6px 6px 0;
+}
+
+.pagination-btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+/* HIDE SCROLLBAR BUT KEEP SCROLL */
+.Studentleave-tableWrapper{
+  overflow-x: auto;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+}
+
+/* Chrome, Safari, Opera */
+.Studentleave-tableWrapper::-webkit-scrollbar{
+  display: none;
+}
 /* RESPONSIVE */
-@media (max-width: 768px) {
-  .leave-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+@media(max-width:768px){
+  .Studentleave-toolbar{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .Studentleave-actionBtn{
+    padding:6px 12px;
+    font-size:13px;
+  }
+
+  .Studentleave-dropdown{
+    left:0;
+    right:auto;
   }
 }
