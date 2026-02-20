@@ -136,7 +136,9 @@ export default function NoticeManagement() {
       location: notice.location || "",
       expiry: notice.expiry || "",
       image: null,
-      preview: notice.image ? IMAGE_URL + notice.image : null,
+      preview: notice.image
+        ? `${IMAGE_URL}${notice.image}`
+        : null,
     });
 
     setEditId(notice._id);
@@ -154,9 +156,8 @@ export default function NoticeManagement() {
   };
 
   /* ================= HELPERS ================= */
-
   const filteredNotices = notices.filter((n) =>
-    n.title?.toLowerCase().includes(search.toLowerCase()),
+    n.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   const isExpired = (expiry) => {
@@ -174,13 +175,12 @@ export default function NoticeManagement() {
         <form
           onSubmit={handleSubmit}
           className="bg-gradient-to-br from-indigo-50 via-white to-violet-50
-  rounded-2xl shadow-md border border-indigo-100 p-6 lg:p-8"
+          rounded-2xl shadow-md border border-indigo-100 p-6 lg:p-8"
         >
           <h2 className="text-xl font-semibold mb-6 text-indigo-700">
             {editId ? "Edit Notice" : "Create Notice"}
           </h2>
 
-          {/* Author Name */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Author Name
@@ -193,7 +193,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Designation */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Designation
@@ -208,7 +207,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Title */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Notice Title
@@ -221,7 +219,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Description */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Description
@@ -236,7 +233,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Date & Time */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Date & Time
@@ -250,7 +246,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Location */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Location
@@ -262,7 +257,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Expiry */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Expiry Date
@@ -275,7 +269,6 @@ export default function NoticeManagement() {
             />
           </div>
 
-          {/* Image */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1 text-indigo-700">
               Upload Image
@@ -287,10 +280,11 @@ export default function NoticeManagement() {
             {editId ? "Update Notice" : "Publish Notice"}
           </button>
         </form>
+
         {/* ---------- LIVE PREVIEW ---------- */}
         <div
           className={`bg-gradient-to-br ${previewTheme.bg}
-          rounded-2xl shadow-md border ${previewTheme.border} p-6 lg:p-8 h-auto`}
+          rounded-2xl shadow-md border ${previewTheme.border} p-6 lg:p-8`}
         >
           <h2 className={`text-lg font-semibold mb-4 ${previewTheme.text}`}>
             Live Preview
@@ -344,7 +338,7 @@ export default function NoticeManagement() {
             >
               {n.image && (
                 <img
-                  src={IMAGE_URL + n.image}
+                  src={`${IMAGE_URL}${n.image}`}
                   alt=""
                   className="w-full h-48 object-cover rounded-lg mb-3"
                 />
@@ -388,22 +382,19 @@ export default function NoticeManagement() {
         })}
       </div>
 
-      {/* INPUT STYLE */}
-      <style>
-        {`
-          .input-premium {
-            width: 100%;
-            border-radius: 0.75rem;
-            border: 1px solid #e2e8f0;
-            padding: 0.6rem 1rem;
-            outline: none;
-          }
-          .input-premium:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
-          }
-        `}
-      </style>
+      <style>{`
+        .input-premium {
+          width: 100%;
+          border-radius: 0.75rem;
+          border: 1px solid #e2e8f0;
+          padding: 0.6rem 1rem;
+          outline: none;
+        }
+        .input-premium:focus {
+          border-color: #6366f1;
+          box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
+        }
+      `}</style>
     </div>
   );
 }

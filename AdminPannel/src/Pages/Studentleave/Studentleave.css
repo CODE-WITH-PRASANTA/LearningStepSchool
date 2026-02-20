@@ -180,7 +180,17 @@
   opacity:.4;
   cursor:not-allowed;
 }
+/* HIDE SCROLLBAR BUT KEEP SCROLL */
+.Studentleave-tableWrapper{
+  overflow-x: auto;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+}
 
+/* Chrome, Safari, Opera */
+.Studentleave-tableWrapper::-webkit-scrollbar{
+  display: none;
+}
 /* RESPONSIVE */
 @media(max-width:768px){
   .Studentleave-toolbar{

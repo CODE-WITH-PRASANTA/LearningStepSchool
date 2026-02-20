@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../api/axios";
 
 /* ================= COLOR THEMES ================= */
 const themes = [
@@ -38,6 +39,20 @@ export default function FeeManagement() {
   const [fees, setFees] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
+  /* ================= FETCH FROM BACKEND ================= */
+  const fetchFees = async () => {
+    try {
+      const res = await API.get("/fees");
+      setFees(res.data);
+    } catch (err) {
+      console.error("FETCH ERROR:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchFees();
+  }, []);
+
   /* ---------------- FEATURES ---------------- */
   const addFeature = () => {
     if (!feature.trim()) return;
@@ -50,23 +65,26 @@ export default function FeeManagement() {
   };
 
   /* ---------------- SUBMIT ---------------- */
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { title, price, features };
 
-    if (editIndex !== null) {
-      const updated = [...fees];
-      updated[editIndex] = data;
-      setFees(updated);
-      setEditIndex(null);
-    } else {
-      setFees([...fees, data]);
-    }
+    try {
+      if (editIndex !== null) {
+        await API.put(`/fees/${fees[editIndex]._id}`, data);
+        setEditIndex(null);
+      } else {
+        await API.post("/fees", data);
+      }
 
-    setTitle("");
-    setPrice("");
-    setFeatures([]);
-    setFeature("");
+      setTitle("");
+      setPrice("");
+      setFeatures([]);
+      setFeature("");
+      fetchFees();
+    } catch (err) {
+      console.error("SUBMIT ERROR:", err);
+    }
   };
 
   /* ---------------- EDIT ---------------- */
@@ -78,9 +96,16 @@ export default function FeeManagement() {
     setEditIndex(i);
   };
 
-  /* ---------------- DELETE (DISABLED) ---------------- */
-  const handleDelete = () => {
-    alert("Delete is disabled. Records are preserved.");
+  /* ---------------- DELETE ---------------- */
+  const handleDelete = async (i) => {
+    if (!window.confirm("Delete this fee plan?")) return;
+
+    try {
+      await API.delete(`/fees/${fees[i]._id}`);
+      fetchFees();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
   /* ---------------- PDF ---------------- */
@@ -205,14 +230,19 @@ ${fee.features.map((f) => `- ${f}`).join("\n")}
 
             <p className="text-3xl font-bold text-indigo-600 mt-2">
               ₹{price || "0"}
-              <span className="text-sm font-normal text-slate-500"> / year</span>
+              <span className="text-sm font-normal text-slate-500">
+                {" "}
+                / year
+              </span>
             </p>
 
             <ul className="mt-4 space-y-2">
               {features.length > 0 ? (
                 features.map((f, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm">
-                    <span className={`w-2 h-2 rounded-full ${previewTheme.dot}`} />
+                    <span
+                      className={`w-2 h-2 rounded-full ${previewTheme.dot}`}
+                    />
                     {f}
                   </li>
                 ))
@@ -227,6 +257,7 @@ ${fee.features.map((f) => `- ${f}`).join("\n")}
       </div>
 
       {/* ================= MOBILE CARDS ================= */}
+
       <div className="sm:hidden space-y-4">
         {fees.map((fee, i) => {
           const t = getTheme(i);
@@ -237,12 +268,13 @@ ${fee.features.map((f) => `- ${f}`).join("\n")}
               bg-gradient-to-br ${t.bg} p-4`}
             >
               <h3 className={`font-semibold ${t.text}`}>{fee.title}</h3>
-              <p className="text-indigo-600 font-bold">
-                ₹{fee.price} / year
-              </p>
+              <p className="text-indigo-600 font-bold">₹{fee.price} / year</p>
 
               <div className="flex gap-4 mt-2">
-                <button onClick={() => handleEdit(i)} className="text-indigo-600">
+                <button
+                  onClick={() => handleEdit(i)}
+                  className="text-indigo-600"
+                >
                   Edit
                 </button>
                 <button onClick={handleDelete} className="text-rose-500">
@@ -295,10 +327,7 @@ ${fee.features.map((f) => `- ${f}`).join("\n")}
                       >
                         Edit
                       </button>
-                      <button
-                        onClick={handleDelete}
-                        className="text-rose-500"
-                      >
+                      <button onClick={handleDelete} className="text-rose-500">
                         Delete
                       </button>
                       <button

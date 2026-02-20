@@ -4,7 +4,7 @@ const Testimonial = require("../models/testimonial.model");
 /* ================= CREATE ================= */
 exports.createTestimonial = async (req, res) => {
   try {
-    const { clientName, designation, feedback, rating } = req.body;
+    const { clientName, designation, feedback, rating, photo } = req.body;
 
     if (!clientName || !designation || !feedback || !rating) {
       return res.status(400).json({
@@ -13,7 +13,7 @@ exports.createTestimonial = async (req, res) => {
       });
     }
 
-    if (!req.file) {
+    if (!photo) {
       return res.status(400).json({
         success: false,
         message: "Photo is required",
@@ -25,7 +25,7 @@ exports.createTestimonial = async (req, res) => {
       designation,
       feedback,
       rating: Number(rating),
-      photo: req.file.path,
+      photo, // ✅ use middleware value
     });
 
     res.status(201).json({
@@ -65,7 +65,7 @@ exports.getTestimonials = async (req, res) => {
 exports.updateTestimonial = async (req, res) => {
   try {
     const { id } = req.params;
-    const { clientName, designation, feedback, rating } = req.body;
+    const { clientName, designation, feedback, rating, photo } = req.body;
 
     const testimonial = await Testimonial.findById(id);
     if (!testimonial) {
@@ -83,11 +83,18 @@ exports.updateTestimonial = async (req, res) => {
     if (rating) updateData.rating = Number(rating);
 
     /* Replace photo if new one uploaded */
-    if (req.file) {
-      if (testimonial.photo && fs.existsSync(testimonial.photo)) {
-        fs.unlinkSync(testimonial.photo);
+    if (photo) {
+      if (testimonial.photo) {
+        const oldPath = testimonial.photo.startsWith("/")
+          ? testimonial.photo.slice(1)
+          : testimonial.photo;
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
       }
-      updateData.photo = req.file.path;
+
+      updateData.photo = photo; // ✅ use middleware value
     }
 
     const updated = await Testimonial.findByIdAndUpdate(
@@ -123,9 +130,15 @@ exports.deleteTestimonial = async (req, res) => {
       });
     }
 
-    /* Delete image from folder */
-    if (testimonial.photo && fs.existsSync(testimonial.photo)) {
-      fs.unlinkSync(testimonial.photo);
+    /* Delete image safely */
+    if (testimonial.photo) {
+      const filePath = testimonial.photo.startsWith("/")
+        ? testimonial.photo.slice(1)
+        : testimonial.photo;
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     }
 
     await Testimonial.findByIdAndDelete(id);

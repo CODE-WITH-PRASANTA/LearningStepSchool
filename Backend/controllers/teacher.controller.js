@@ -6,24 +6,25 @@ exports.createTeacher = async (req, res) => {
   try {
     const {
       name,
-      designation,   // ✅ Added
+      designation,
       review,
       rating,
       instagram,
       facebook,
-      linkedin
+      linkedin,
+      photo   // 🔥 middleware injects this
     } = req.body;
 
-    if (!req.file) {
+    if (!photo) {
       return res.status(400).json({ message: "Photo is required" });
     }
 
     const teacher = await Teacher.create({
       name,
-      designation,   // ✅ Added
+      designation,
       review,
       rating,
-      photo: req.file.path,
+      photo,
       instagram,
       facebook,
       linkedin,
@@ -54,12 +55,13 @@ exports.updateTeacher = async (req, res) => {
 
     const {
       name,
-      designation,   // ✅ Added
+      designation,
       review,
       rating,
       instagram,
       facebook,
-      linkedin
+      linkedin,
+      photo  // 🔥 injected if new image uploaded
     } = req.body;
 
     const teacher = await Teacher.findById(id);
@@ -69,7 +71,7 @@ exports.updateTeacher = async (req, res) => {
 
     const updateData = {
       name,
-      designation,   // ✅ Added
+      designation,
       review,
       rating,
       instagram,
@@ -77,11 +79,14 @@ exports.updateTeacher = async (req, res) => {
       linkedin,
     };
 
-    if (req.file) {
+    // 🔥 If new photo uploaded
+    if (photo) {
+      // delete old photo
       if (teacher.photo && fs.existsSync(teacher.photo)) {
         fs.unlinkSync(teacher.photo);
       }
-      updateData.photo = req.file.path;
+
+      updateData.photo = photo;
     }
 
     const updated = await Teacher.findByIdAndUpdate(id, updateData, {
@@ -106,7 +111,7 @@ exports.deleteTeacher = async (req, res) => {
       return res.status(404).json({ message: "Teacher not found" });
     }
 
-    // Delete photo file
+    // delete photo file
     if (teacher.photo && fs.existsSync(teacher.photo)) {
       fs.unlinkSync(teacher.photo);
     }

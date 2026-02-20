@@ -13,11 +13,13 @@ const TestimonialList = ({ testimonials = [], onEdit, onDelete }) => {
       {Array.isArray(testimonials) &&
         testimonials.map((item) => (
           <div className="adm-testimonial-card" key={item._id}>
-            <img
-              src={IMAGE_URL + item.photo}
-              alt="client"
-              className="adm-client-photo"
-            />
+            {item.photo && (
+              <img
+                src={`${IMAGE_URL}${item.photo}`}
+                alt="client"
+                className="adm-client-photo"
+              />
+            )}
 
             <div className="adm-card-content">
               <h4 className="adm-client-name">{item.clientName}</h4>
@@ -25,7 +27,7 @@ const TestimonialList = ({ testimonials = [], onEdit, onDelete }) => {
               <p className="adm-feedback-text">{item.feedback}</p>
 
               <div className="adm-rating-view">
-                {"★".repeat(item.rating)}
+                {"★".repeat(Number(item.rating))}
               </div>
 
               <div className="adm-card-actions">

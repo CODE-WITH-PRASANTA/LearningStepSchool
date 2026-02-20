@@ -148,7 +148,7 @@ export default function App() {
           <Route path="survey" element={<AdmissionSurvey />} />
           <Route path="survey/view" element={<AdmissionSurvey />} />
           <Route path="survey/data" element={<AdmissionSurveyView />} />
-          <Route path="events" element={<EventManagement />} />
+          <Route path="/events" element={<EventManagement />} />
 
           {/* Awards */}
           <Route path="awards" element={<AwardAdminPage />} />
@@ -216,14 +216,17 @@ export default function App() {
           <Route path="academics/co-curricular-subject" element={<Cocurricular/>}/>
           <Route path="academics/Subject" element={<Subject/>}/>
           <Route path="/academics/assign-subjects" element={<AssignSubjects/>}/>
+
+          {/*Primary Evaluation*/}
           <Route path="/primary-evaluation/activity" element={<Activity/>}/>
           <Route path="/primary-evaluation/assessment"element={<Assessment/>}/>
           <Route path="/primary-evaluation/evaluation-remark" element={<EvaluationRemark/>}/>
           <Route path="/primary-evaluation/class-report" element={<PrimaryClassReport/>}/>
+
+
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={< IssueReturn/>}/>
           <Route path="/library/add-student" element={< AddStudent/>}/>
-          {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
           <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
           
           <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />

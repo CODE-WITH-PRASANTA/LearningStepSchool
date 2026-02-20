@@ -23,6 +23,9 @@ import {
 const menu = [
   { label: "Dashboard", icon: FiHome, path: "/dashboard" },
 
+  /* ===== MAIN SECTION ===== */
+  { type: "section", label: "Main Section" },
+
   {
     label: "Blog Management",
     icon: FiBookOpen,
@@ -36,49 +39,13 @@ const menu = [
   { label: "Award Management", icon: FiAward, path: "/awards" },
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
   { label: "Notice Management", icon: FiClipboard, path: "/notices" },
-
-  // ✅ Notification Management
   { label: "Notification Management", icon: FiBell, path: "/notification" },
-
-  // ✅ Latest News Management (NEW)
   { label: "Latest News Management", icon: FiBell, path: "/latest-news" },
-
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
-
-  {
-    label: "Media Management",
-    icon: FiMonitor,
-    children: [
-      { label: "Photo Gallery Managements", path: "media-photo" },
-      { label: "Video Gallery Managements", path: "media-video" },
-    ],
-  },
-
-  {
-    label: "Learning Management",
-    icon: FiLayers,
-    children: [
-      { label: "Pre-Primary", path: "/learning/pre" },
-      { label: "Primary", path: "/learning/primary" },
-      { label: "Secondary", path: "/learning/secondary" },
-    ],
-  },
-
-  { label: "Testimonials", icon: FiStar, path: "/testimonials" },
-
-  {
-    label: "Admission Management",
-    icon: FiUserPlus,
-    children: [
-      { label: "Admission Survey", path: "/survey" },
-      { label: "Admission Data View", path: "/survey/data" },
-    ],
-  },
-
-  { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 
-  { type: "divider" },
+  /* ===== ERP SOLUTION ===== */
+  { type: "section", label: "ERP Solution" },
 
   {
     label: "Front Office",
@@ -95,8 +62,6 @@ const menu = [
     ],
   },
 
-  { type: "divider" },
-
   {
     label: "Attendance",
     icon: FiCalendar,
@@ -107,26 +72,16 @@ const menu = [
     ],
   },
 
-  { type: "divider" },
-
   {
     label: "Primary Evaluation",
     icon: FiClipboard,
     children: [
       { label: "Activity", path: "/primary-evaluation/activity" },
       { label: "Assessment", path: "/primary-evaluation/assessment" },
-      {
-        label: "Evaluation Remark",
-        path: "/primary-evaluation/evaluation-remark",
-      },
-      {
-        label: "Primary Class Report",
-        path: "/primary-evaluation/class-report",
-      },
+      { label: "Evaluation Remark", path: "/primary-evaluation/evaluation-remark" },
+      { label: "Primary Class Report", path: "/primary-evaluation/class-report" },
     ],
   },
-
-  { type: "divider" },
 
   {
     label: "Library",
@@ -135,9 +90,8 @@ const menu = [
       { label: "Book List", path: "/library/book-list" },
       { label: "Issue Book", path: "/library/issue-book" },
       { label: "Return Book", path: "/library/return-book" },
-      { label: "Add Student", path: "library/student" },
+      { label: "Add Student", path: "/library/student" },
       { label: "Add Staff", path: "/library/staff" },
-
     ],
   },
 ];
@@ -161,36 +115,51 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
   return (
     <>
+      {/* Overlay */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
         />
       )}
 
       <aside
         className={`fixed top-0 left-0 z-50 h-screen
-        bg-gradient-to-b from-indigo-50 via-white to-violet-50
-        border-r border-indigo-200
-        transition-all duration-300
+        bg-white/70 backdrop-blur-xl
+        border-r border-white/40
+        shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+        transition-all duration-500 ease-in-out
         ${sidebarOpen ? "w-72" : "w-20"}
         ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        <div className="h-16 flex items-center justify-center border-b border-indigo-200 font-bold text-indigo-700">
-          {sidebarOpen ? "School Admin" : "SA"}
+        {/* Logo */}
+        <div className="h-16 flex items-center justify-center border-b border-gray-200 bg-white/50">
+          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+            {sidebarOpen ? "School Admin" : "SA"}
+          </span>
         </div>
 
-        <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-3">
+        {/* Navigation */}
+        <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
-            if (item.type === "divider") {
+            /* ===== SECTION HEADING ===== */
+            if (item.type === "section") {
               return (
-                <div key={i} className="my-6 border-t border-indigo-300" />
+                sidebarOpen && (
+                  <div
+                    key={i}
+                    className="px-3 mt-6 mb-2 text-xs font-semibold tracking-wider uppercase text-gray-400"
+                  >
+                    {item.label}
+                  </div>
+                )
               );
             }
 
             const Icon = item.icon;
             const isOpen = openGroup === item.label;
 
+            /* ===== GROUP MENU ===== */
             if (item.children) {
               return (
                 <div key={i}>
@@ -198,10 +167,14 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     onClick={() =>
                       sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
-                    ${isOpen ? "bg-indigo-100 text-indigo-700" : "hover:bg-sky-100"}`}
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300
+                    ${
+                      isOpen
+                        ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-700 shadow-lg"
+                        : "hover:bg-white hover:shadow-md"
+                    }`}
                   >
-                    <span className="icon-bubble bg-indigo-200 text-indigo-700">
+                    <span className="icon-bubble">
                       <Icon />
                     </span>
 
@@ -211,52 +184,64 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           {item.label}
                         </span>
                         <FiChevronDown
-                          className={`transition ${isOpen ? "rotate-180" : ""}`}
+                          className={`transition-all duration-500 ${
+                            isOpen ? "rotate-180 text-indigo-600" : ""
+                          }`}
                         />
                       </>
                     )}
                   </button>
 
-                  {sidebarOpen && isOpen && (
+                  {/* Smooth Dropdown */}
+                  <div
+                    className={`overflow-hidden transition-all duration-500
+                    ${
+                      isOpen && sidebarOpen
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
                     <div className="ml-4 mt-2 space-y-1">
                       {item.children.map((sub, j) => (
                         <NavLink
                           key={j}
                           to={sub.path}
                           className={({ isActive }) =>
-                            `block px-4 py-2 text-sm rounded-xl
-                             ${
-                               isActive
-                                 ? "bg-indigo-200 text-indigo-800"
-                                 : "hover:bg-sky-100"
-                             }`
+                            `block px-4 py-2 text-sm rounded-xl transition-all duration-300
+                            ${
+                              isActive
+                                ? "bg-indigo-500 text-white shadow-md"
+                                : "bg-[#fff1f4] text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
+                            }`
                           }
                         >
                           {sub.label}
                         </NavLink>
                       ))}
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             }
 
+            /* ===== SINGLE LINK ===== */
             return (
               <NavLink
                 key={i}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-xl
-                   ${
-                     isActive
-                       ? "bg-indigo-200 text-indigo-800"
-                       : "hover:bg-sky-100"
-                   }`
+                  `flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-800 shadow-sm"
+                      : "hover:bg-white hover:shadow-md"
+                  }`
                 }
               >
-                <span className="icon-bubble bg-indigo-200 text-indigo-700">
+                <span className="icon-bubble">
                   <Icon />
                 </span>
+
                 {sidebarOpen && (
                   <span className="text-sm font-medium">{item.label}</span>
                 )}
@@ -266,14 +251,32 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         </nav>
       </aside>
 
+      {/* Icon Styling */}
       <style>{`
         .icon-bubble {
-          width: 36px;
-          height: 36px;
-          border-radius: 9999px;
+          width: 38px;
+          height: 38px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
+          background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+          color: #4f46e5;
+          transition: all 0.3s ease;
+        }
+
+        .icon-bubble:hover {
+          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          color: white;
+        }
+
+        aside::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        aside::-webkit-scrollbar-thumb {
+          background: rgba(99, 102, 241, 0.4);
+          border-radius: 10px;
         }
       `}</style>
     </>

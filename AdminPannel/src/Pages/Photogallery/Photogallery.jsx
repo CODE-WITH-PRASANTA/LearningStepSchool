@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import API from "../../api/axios"; // adjust path if needed
+import API, { BASE_URL } from "../../api/axios";
 
-const IMAGE_BASE = "http://localhost:5000/";
+const IMAGE_BASE = BASE_URL; // ✅ No trailing slash
 
 const Photogallery = () => {
   const [form, setForm] = useState({
