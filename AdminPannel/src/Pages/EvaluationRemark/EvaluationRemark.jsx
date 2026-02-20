@@ -19,7 +19,6 @@ export default function EvaluationRemark() {
       {/* HEADER */}
       <div className="evr-header">
         <h2>📄 Evaluation Remark</h2>
-        <span>Primary Evaluation / Evaluation Remark</span>
       </div>
 
       {/* SELECT CRITERIA */}

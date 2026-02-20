@@ -19,7 +19,6 @@ export default function PrimaryClassReport() {
       {/* HEADER */}
       <div className="pcr-header">
         <h2>📄 Primary Class Report</h2>
-        <span>Primary Evaluation / Primary Class Report</span>
       </div>
 
       {/* SELECT CRITERIA */}

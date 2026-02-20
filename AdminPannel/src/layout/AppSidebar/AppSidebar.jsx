@@ -75,7 +75,6 @@ const menu = [
   { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 
-
   {
     label: "Front Office",
     icon: FiBriefcase,
@@ -111,8 +110,14 @@ const menu = [
     children: [
       { label: "Activity", path: "/primary-evaluation/activity" },
       { label: "Assessment", path: "/primary-evaluation/assessment" },
-      { label: "Evaluation Remark", path: "/primary-evaluation/evaluation-remark" },
-      { label: "Primary Class Report", path: "/primary-evaluation/class-report" },
+      {
+        label: "Evaluation Remark",
+        path: "/primary-evaluation/evaluation-remark",
+      },
+      {
+        label: "Primary Class Report",
+        path: "/primary-evaluation/class-report",
+      },
     ],
   },
 
@@ -141,9 +146,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     menu.forEach((item) => {
       if (
         item.children &&
-        item.children.some((c) =>
-          location.pathname.startsWith(c.path)
-        )
+        item.children.some((c) => location.pathname.startsWith(c.path))
       ) {
         setOpenGroup(item.label);
       }
@@ -155,29 +158,31 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
         />
       )}
 
       <aside
         className={`fixed top-0 left-0 z-50 h-screen
-        bg-gradient-to-b from-indigo-50 via-white to-violet-50
-        border-r border-indigo-200
-        transition-all duration-300
+        bg-white/70 backdrop-blur-xl
+        border-r border-white/40
+        shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+        transition-all duration-500 ease-in-out
         ${sidebarOpen ? "w-72" : "w-20"}
         ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-center border-b border-indigo-200 font-bold text-indigo-700">
-          {sidebarOpen ? "School Admin" : "SA"}
+        <div className="h-16 flex items-center justify-center border-b border-gray-200 bg-white/50 backdrop-blur-md">
+          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent tracking-wide">
+            {sidebarOpen ? "School Admin" : "SA"}
+          </span>
         </div>
 
-        <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-3">
+        {/* Navigation */}
+        <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
             if (item.type === "divider") {
-              return (
-                <div key={i} className="my-6 border-t border-indigo-300" />
-              );
+              return <div key={i} className="my-6 border-t border-gray-200" />;
             }
 
             const Icon = item.icon;
@@ -189,17 +194,17 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 <div key={i}>
                   <button
                     onClick={() =>
-                      sidebarOpen &&
-                      setOpenGroup(isOpen ? null : item.label)
+                      sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-2xl
+                    transition-all duration-300
                     ${
                       isOpen
-                        ? "bg-indigo-100 text-indigo-700"
-                        : "hover:bg-sky-100"
+                        ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-700 shadow-sm"
+                        : "hover:bg-white hover:shadow-md hover:scale-[1.02]"
                     }`}
                   >
-                    <span className="icon-bubble bg-indigo-200 text-indigo-700">
+                    <span className="icon-bubble">
                       <Icon />
                     </span>
 
@@ -209,7 +214,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           {item.label}
                         </span>
                         <FiChevronDown
-                          className={`transition ${
+                          className={`transition-transform duration-300 ${
                             isOpen ? "rotate-180" : ""
                           }`}
                         />
@@ -224,10 +229,10 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           key={j}
                           to={sub.path}
                           className={({ isActive }) =>
-                            `block px-4 py-2 text-sm rounded-xl ${
+                            `block px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                               isActive
-                                ? "bg-indigo-200 text-indigo-800"
-                                : "hover:bg-sky-100"
+                                ? "bg-indigo-500 text-white shadow-md"
+                                : "bg-[#fff1f4] text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
                             }`
                           }
                         >
@@ -246,16 +251,17 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 key={i}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2 rounded-xl ${
+                  `flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300 ${
                     isActive
-                      ? "bg-indigo-200 text-indigo-800"
-                      : "hover:bg-sky-100"
+                      ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-800 shadow-sm"
+                      : "hover:bg-white hover:shadow-md hover:scale-[1.02]"
                   }`
                 }
               >
-                <span className="icon-bubble bg-indigo-200 text-indigo-700">
+                <span className="icon-bubble">
                   <Icon />
                 </span>
+
                 {sidebarOpen && (
                   <span className="text-sm font-medium">{item.label}</span>
                 )}
@@ -265,14 +271,33 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         </nav>
       </aside>
 
+      {/* Premium Icon Styling */}
       <style>{`
         .icon-bubble {
-          width: 36px;
-          height: 36px;
-          border-radius: 9999px;
+          width: 38px;
+          height: 38px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
+          background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+          color: #4f46e5;
+          transition: all 0.3s ease;
+        }
+
+        .icon-bubble:hover {
+          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          color: white;
+          transform: scale(1.05);
+        }
+
+        aside::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        aside::-webkit-scrollbar-thumb {
+          background: rgba(99, 102, 241, 0.4);
+          border-radius: 10px;
         }
       `}</style>
     </>

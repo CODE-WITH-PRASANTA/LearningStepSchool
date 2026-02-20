@@ -30,11 +30,8 @@ import Secondary from "./Pages/Secondary/Secondary";
 import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy";
 import TermAndCondition from "./Pages/TermAndCondition/TermAndCondition";
 import Gallery from "./Pages/Gallery/Gallery";
-<<<<<<< HEAD
 import PublishNotification from "./Pages/PublishNotification/PublishNotification";
-=======
 // import ViewNotice from "./Pages/ViewNotice/ViewNotice";
->>>>>>> e4c1eb8712aa1e645969e63a680fdf5b3a0b6046
 
 
 function App() {
@@ -65,12 +62,9 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicy/>}/>
         <Route path="/terms" element={<TermAndCondition/>}/>
         <Route path="/gallery" element={<Gallery/>}/>
-<<<<<<< HEAD
         <Route path="/notification" element={<PublishNotification/>}/>
 
-=======
         {/* <Route path="/notice/:id" element={<ViewNotice />} /> */}
->>>>>>> e4c1eb8712aa1e645969e63a680fdf5b3a0b6046
       </Routes>
 
       <Footer /> 

@@ -1,177 +1,321 @@
-/* GLOBAL */
-html,
-body {
-  width: 100%;
-  overflow-x: hidden;
-}
+/* ================= PAGE ================= */
 
-/* PAGE */
 .adm-page {
   min-height: 100vh;
-  background: #ededf4;
-  padding: 20px;
+  background: linear-gradient(135deg, #eef2ff, #f8f9ff);
+  padding: 30px;
+  font-family: "Segoe UI", sans-serif;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-/* HEADER */
-.adm-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+/* ================= HEADER ================= */
+
+.adm-header h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #050a7d;
+  margin-bottom: 25px;
 }
 
-/* LAYOUT */
+/* ================= LAYOUT ================= */
+
 .adm-layout {
   display: grid;
-  grid-template-columns: 360px minmax(0, 1fr);
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  width: 100%;
 }
 
-/* CARD */
+/* ================= CARD ================= */
+
 .adm-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  box-sizing: border-box;
+  transition: 0.3s ease;
 }
 
-/* FORM */
+.adm-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= HORIZONTAL FORM ================= */
+
+.adm-form h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.adm-form-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  align-items: end;
+}
+
 .adm-form label {
+  font-weight: 500;
   display: block;
-  margin-top: 14px;
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
 .adm-form select {
   width: 100%;
-  margin-top: 6px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #dcdcff;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #e0e4ff;
+  background: #f8f9ff;
+  transition: 0.3s;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
-.adm-note {
-  color: red;
-  font-size: 12px;
-  margin-top: 6px;
+.adm-form select:focus {
+  border-color: #050a7d;
+  background: #fff;
+  outline: none;
+}
+
+.adm-btn-wrap {
+  display: flex;
+  align-items: end;
 }
 
 .adm-save-btn {
-  margin-top: 24px;
   width: 100%;
-  background: #050a7d;
+  height: 42px;
+  background: linear-gradient(135deg, #050a7d, #1e2aff);
   color: #fff;
-  padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-/* TABLE TOP */
+.adm-save-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ================= TABLE SECTION ================= */
+
 .adm-table-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.adm-table-top h3 {
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .adm-bulk-btn {
-  background: #ff355d;
+  background: linear-gradient(135deg, #ff355d, #ff6a85);
   color: #fff;
-  padding: 6px 14px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  border-radius: 10px;
   border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.3s;
 }
 
-/* TOOLBAR */
-.adm-toolbar {
-  display: flex;
-  justify-content: space-between;
-  margin: 12px 0;
+.adm-bulk-btn:hover {
+  transform: translateY(-1px);
 }
 
-.adm-column-btn {
-  background: #050a7d;
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 8px;
-  border: none;
-}
+/* ================= TABLE ================= */
 
-.adm-search input {
-  margin-left: 6px;
-  padding: 6px;
-}
-
-/* TABLE */
 .adm-table-wrap {
+  width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.adm-table-wrap::-webkit-scrollbar {
+  display: none;
 }
 
 .adm-table {
   width: 100%;
-  table-layout: fixed;
   border-collapse: collapse;
+  min-width: 600px;
 }
 
-.adm-table th,
+.adm-table th {
+  background: #f1f2ff;
+  padding: 13px;
+  font-weight: 600;
+  text-align: left;
+  font-size: 14px;
+}
+
 .adm-table td {
-  border: 1px solid #ccc;
-  padding: 12px;
+  padding: 13px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 14px;
 }
 
-.adm-table-head-row {
-  background: #ffe8ee;
+.adm-table tbody tr:hover {
+  background: #f9f9ff;
 }
 
-.adm-table tbody tr:nth-child(even) {
-  background: #f4f5ff;
-}
+/* ================= ACTION BUTTONS ================= */
 
-.adm-sort {
-  margin-left: 6px;
-  font-size: 12px;
-  color: #5a5a9d;
-}
-
-/* ACTION */
-.adm-th-action,
 .adm-td-action {
-  text-align: right;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.adm-action-wrapper {
-  position: relative;
-  display: inline-block;
+.adm-edit-btn,
+.adm-delete-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.adm-action-btn {
+.adm-edit-btn {
+  background: #1e88e5;
+  color: #fff;
+}
+
+.adm-edit-btn:hover {
+  background: #1565c0;
+}
+
+.adm-delete-btn {
+  background: #ff355d;
+  color: #fff;
+}
+
+.adm-delete-btn:hover {
+  background: #e0002b;
+}
+
+/* ================= PAGINATION ================= */
+
+.adm-pagination {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.adm-pagination button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #e0e4ff;
+  background: #f8f9ff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.3s ease;
+}
+
+.adm-pagination button:hover {
   background: #050a7d;
   color: #fff;
-  padding: 6px 14px;
-  border-radius: 6px;
-  border: none;
 }
 
-.adm-action-menu {
-  position: absolute;
-  right: 0;
-  top: 38px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-  z-index: 100;
+.adm-pagination button.active {
+  background: #050a7d;
+  color: #fff;
+  border-color: #050a7d;
 }
 
-.adm-action-menu div {
-  padding: 10px 14px;
-  cursor: pointer;
+.adm-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.adm-action-menu div:hover {
-  background: #f1f1ff;
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 992px) {
+
+  .adm-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .adm-layout {
+/* Mobile Large */
+@media (max-width: 768px) {
+
+  .adm-page {
+    overflow-x: scroll;
+    padding: 20px;
+  }
+
+  .adm-card {
+    padding: 20px;
+  }
+
+  .adm-form-row {
     grid-template-columns: 1fr;
   }
+
+  .adm-table {
+    min-width: 450px;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 576px) {
+
+  .adm-page {
+    padding: 15px;
+  }
+
+  .adm-header h2 {
+    font-size: 20px;
+  }
+
+  .adm-form h3,
+  .adm-table-top h3 {
+    font-size: 16px;
+  }
+
+  .adm-form select {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .adm-table {
+    min-width: 450px;
+  }
+
+  .adm-table th,
+  .adm-table td {
+    font-size: 12px;
+    padding: 9px;
+  }
+
+  .adm-td-action {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .adm-edit-btn,
+  .adm-delete-btn {
+    width: 100%;
+    text-align: center;
+  }
+
 }
