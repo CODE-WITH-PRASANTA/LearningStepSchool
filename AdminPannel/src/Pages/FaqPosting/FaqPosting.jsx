@@ -40,115 +40,121 @@ export default function FaqPosting() {
   };
 
   return (
-    <div className="faq-container">
+    <div className="FAQ-container">
 
-      {/* ========== FORM LEFT SIDE ========== */}
-      <form className="faq-form" onSubmit={handleSubmit}>
-        <h2 className="faq-title">
-          {editIndex !== null ? "Edit FAQ" : "Add New FAQ"}
-        </h2>
+      {/* LEFT FORM PANEL */}
+      <div className="FAQ-form-section">
+        <form className="FAQ-form" onSubmit={handleSubmit}>
+          <h2 className="FAQ-title">
+            {editIndex !== null ? "Edit FAQ" : "Add New FAQ"}
+          </h2>
 
-        {/* Question */}
-        <div>
-          <label className="faq-label">Question</label>
-          <input
-            type="text"
-            value={form.question}
-            onChange={(e) =>
-              setForm({ ...form, question: e.target.value })
-            }
-            required
-            className="faq-input"
-            placeholder="Enter your question"
-          />
-        </div>
+          {/* Question */}
+          <div className="FAQ-field">
+            <label className="FAQ-label">Question</label>
+            <input
+              type="text"
+              value={form.question}
+              onChange={(e) =>
+                setForm({ ...form, question: e.target.value })
+              }
+              required
+              className="FAQ-input"
+              placeholder="Enter your question"
+            />
+          </div>
 
-        {/* Answer */}
-        <div className="mt-4">
-          <label className="faq-label">Answer</label>
-          <textarea
-            value={form.answer}
-            onChange={(e) =>
-              setForm({ ...form, answer: e.target.value })
-            }
-            required
-            className="faq-textarea"
-            placeholder="Enter answer"
-          ></textarea>
-        </div>
+          {/* Answer */}
+          <div className="FAQ-field">
+            <label className="FAQ-label">Answer</label>
+            <textarea
+              value={form.answer}
+              onChange={(e) =>
+                setForm({ ...form, answer: e.target.value })
+              }
+              required
+              className="FAQ-textarea"
+              placeholder="Enter answer"
+            ></textarea>
+          </div>
 
-        {/* Category */}
-        <div className="mt-4">
-          <label className="faq-label">Category</label>
-          <select
-            className="faq-input"
-            value={form.category}
-            onChange={(e) =>
-              setForm({ ...form, category: e.target.value })
-            }
-            required
-          >
-            <option value="">Select Category</option>
-            <option value="Trust & Safety">Trust & Safety</option>
-            <option value="General">General</option>
-            <option value="Program">Program</option>
-            <option value="Learning Step School">Learning Step School</option>
-          </select>
-        </div>
+          {/* Category */}
+          <div className="FAQ-field">
+            <label className="FAQ-label">Category</label>
+            <select
+              className="FAQ-select"
+              value={form.category}
+              onChange={(e) =>
+                setForm({ ...form, category: e.target.value })
+              }
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Trust & Safety">Trust & Safety</option>
+              <option value="General">General</option>
+              <option value="Program">Program</option>
+              <option value="Learning Step School">Learning Step School</option>
+            </select>
+          </div>
 
-        {/* Submit Button */}
-        <button className="faq-btn">
-          {editIndex !== null ? "Update" : "Submit"}
-        </button>
+          <button className="FAQ-button">
+            {editIndex !== null ? "Update" : "Submit"}
+          </button>
 
-        <p className="faq-version">Version 1.0.0</p>
-      </form>
+          <p className="FAQ-version">Version 1.0.0</p>
+        </form>
+      </div>
 
-      {/* ========== TABLE RIGHT SIDE ========== */}
-      <div className="faq-table-box">
-        <h2 className="faq-title mb-4">FAQ List</h2>
+      {/* RIGHT TABLE PANEL */}
+      <div className="FAQ-table-section">
+        <h2 className="FAQ-title">FAQ List</h2>
 
-        <table className="faq-table">
-          <thead>
-            <tr>
-              <th>SL. No</th>
-              <th>Question</th>
-              <th>Answer</th>
-              <th>Category</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {records.map((r, i) => (
-              <tr key={i}>
-                <td>{i + 1}</td>
-                <td>{r.question}</td>
-                <td>{r.answer}</td>
-                <td>{r.category}</td>
-                <td className="faq-actions">
-                  <button className="faq-edit" onClick={() => editRecord(i)}>
-                    Edit
-                  </button>
-                  <button
-                    className="faq-delete"
-                    onClick={() => deleteRecord(i)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-
-            {records.length === 0 && (
+        <div className="FAQ-table-wrapper">
+          <table className="FAQ-table">
+            <thead>
               <tr>
-                <td colSpan="5" className="faq-empty">
-                  No FAQ added yet
-                </td>
+                <th>SL. No</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Category</th>
+                <th>Actions</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {records.map((r, i) => (
+                <tr key={i}>
+                  <td>{i + 1}</td>
+                  <td>{r.question}</td>
+                  <td>{r.answer}</td>
+                  <td>{r.category}</td>
+                  <td className="FAQ-actions">
+                    <button
+                      className="FAQ-edit-btn"
+                      onClick={() => editRecord(i)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="FAQ-delete-btn"
+                      onClick={() => deleteRecord(i)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {records.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="FAQ-empty">
+                    No FAQ added yet
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>

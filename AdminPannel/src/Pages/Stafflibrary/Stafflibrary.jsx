@@ -1,142 +1,160 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./Stafflibrary.css";
-
-const initialStaffData = [
-  {
-    id: 1,
-    card: "EMP-1",
-    name: "Nlet Initiatives LLP",
-    email: "ims@nletsolutions.in",
-    dob: "1970-01-01",
-    phone: "9982716888",
-  },
-  {
-    id: 2,
-    card: "EMP-101",
-    name: "Driver",
-    email: "driver@gmail.com",
-    dob: "2023-10-17",
-    phone: "809436469",
-  },
-  {
-    id: 3,
-    card: "EMP-201",
-    name: "Demo",
-    email: "demo@nlet.in",
-    dob: "2023-05-31",
-    phone: "1234567890",
-  },
-];
+import {
+  FaUserPlus,
+  FaSearch,
+  FaBars,
+  FaEllipsisV,
+  FaEdit,
+  FaTrash
+} from "react-icons/fa";
 
 const Stafflibrary = () => {
-  const [staffData, setStaffData] = useState(initialStaffData);
 
-  // --- EDIT HANDLER ---
-  const handleEdit = (item) => {
-    alert(`Edit Staff: ${item.name}`);
+  const [openRow, setOpenRow] = useState(null);
+  const menuRef = useRef(null);
+
+  const [staffData, setStaffData] = useState([
+    { id:1, member:"1", card:"EMP-1", name:"Nlet Initiatives LLP", email:"ims@nletsolutions.in", dob:"1970-01-01", phone:"9982716888"},
+    { id:2, member:"6", card:"EMP-101", name:"Driver", email:"driver@gmail.com", dob:"2023-10-17", phone:"809436469"},
+    { id:3, member:"7", card:"EMP-205", name:"Test User", email:"test@gmail.com", dob:"2023-05-22", phone:"9772119901"},
+    { id:4, member:"8", card:"EMP-305", name:"Library Staff", email:"library@gmail.com", dob:"2024-01-11", phone:"9123456789"}
+  ]);
+
+  const [form, setForm] = useState({
+    name:"", email:"", phone:"", dob:"", card:""
+  });
+
+  /* close dropdown outside click */
+  useEffect(()=>{
+    const handler = (e)=>{
+      if(menuRef.current && !menuRef.current.contains(e.target)){
+        setOpenRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return ()=>document.removeEventListener("mousedown", handler);
+  },[]);
+
+  const handleChange = (e)=>{
+    setForm({...form,[e.target.name]:e.target.value});
   };
 
-  // --- DELETE HANDLER ---
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this staff?")) {
-      setStaffData(staffData.filter((i) => i.id !== id));
-    }
+  const handleSave = ()=>{
+    if(!form.name) return alert("Enter staff name");
+
+    const newStaff={
+      id: Date.now(),
+      member: staffData.length+1,
+      card: form.card || "EMP-"+(staffData.length+1),
+      name: form.name,
+      email: form.email,
+      dob: form.dob,
+      phone: form.phone
+    };
+
+    setStaffData([...staffData,newStaff]);
+    setForm({name:"",email:"",phone:"",dob:"",card:""});
+  };
+
+  const deleteRow=(id)=>{
+    setStaffData(staffData.filter(s=>s.id!==id));
   };
 
   return (
-    <div className="staff-page">
-      {/* PAGE HEADER */}
-      <div className="staff-page-header">
-        <h2>Add Staff</h2>
-        <span className="breadcrumb">Library / Add Staff</span>
-      </div>
+    <div className="staffPage">
 
-      {/* MAIN CARD */}
-      <div className="staff-card">
-        {/* CARD HEADER */}
-        <div className="staff-card-header">
-          <h3>Add Staff List</h3>
-          <button type="button" className="bulk-btn">
-            Bulk Member Id Update
-          </button>
+      {/* HEADER */}
+      <div className="staffTopHeader">
+        <div className="staffTitle">
+          <FaUserPlus/>
+          <h2>Add Staff</h2>
         </div>
 
-        {/* TOOLBAR */}
-        <div className="staff-toolbar">
-          <div className="left-tools"></div>
+        <div className="staffBreadcrumb">
+          <span>library</span>
+          <span className="slash"> / </span>
+          <span className="active">Add Staff</span>
+        </div>
+      </div>
 
-          <div className="right-tools">
-            <select defaultValue="10">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-            </select>
+      {/* FORM */}
+      <div className="staffFormCard">
+        <h3 className="cardHeading">Add Staff</h3>
 
-            <input type="text" placeholder="Search..." />
+        <div className="formGrid">
+          <div className="field"><input name="name" value={form.name} onChange={handleChange} placeholder="Staff Name"/></div>
+          <div className="field"><input name="email" value={form.email} onChange={handleChange} placeholder="Email"/></div>
+          <div className="field"><input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone"/></div>
+          <div className="field"><input name="dob" value={form.dob} onChange={handleChange} type="date"/></div>
+          <div className="field"><input name="card" value={form.card} onChange={handleChange} placeholder="Library Card No"/></div>
+
+          <div className="field btnField">
+            <button className="saveBtn" onClick={handleSave}>Save Staff</button>
+          </div>
+        </div>
+      </div>
+
+      {/* TABLE */}
+      <div className="staffTableCard">
+        <div className="tableHeader">
+          <h3><FaBars/> Add Staff List</h3>
+
+          <div className="tableSearch">
+            <FaSearch/>
+            <input placeholder="Search staff..."/>
           </div>
         </div>
 
-        {/* TABLE */}
-        <div className="table-wrapper">
-          <table className="staff-table">
+        <div className="tableWrapper">
+          <table className="staffTable">
             <thead>
               <tr>
-                <th>Member ID</th>
-                <th>Library Card No</th>
-                <th>Staff Name</th>
-                <th>Email</th>
-                <th>Date of Birth</th>
-                <th>Phone</th>
-                <th>Action</th>
+                <th>MEMBER ID</th>
+                <th>LIBRARY CARD NO</th>
+                <th>STAFF NAME</th>
+                <th>EMAIL</th>
+                <th>DATE OF BIRTH</th>
+                <th>PHONE</th>
+                <th>ACTION</th>
               </tr>
             </thead>
 
             <tbody>
-              {staffData.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
+              {staffData.map((s)=>(
+                <tr key={s.id}>
+                  <td>{s.member}</td>
+                  <td>{s.card}</td>
+                  <td className="name">{s.name}</td>
+                  <td>{s.email}</td>
+                  <td>{s.dob}</td>
+                  <td>{s.phone}</td>
 
-                  <td>
-                    <div className="barcode-box">
-                      <div className="barcode"></div>
-                      <span>{item.card}</span>
-                    </div>
-                  </td>
-
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.dob}</td>
-                  <td>{item.phone}</td>
-
-                  <td className="action-buttons">
+                  <td className="actionCell">
                     <button
-                      className="edit-btn"
-                      onClick={() => handleEdit(item)}
+                      className="actionBtn"
+                      onClick={()=>setOpenRow(openRow===s.id?null:s.id)}
                     >
-                      Edit
+                      <FaEllipsisV/>
                     </button>
 
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      Delete
-                    </button>
+                    {openRow===s.id && (
+                      <div className="actionDropdown" ref={menuRef}>
+                        <button className="edit"><FaEdit/> Edit</button>
+                        <button className="delete" onClick={()=>deleteRow(s.id)}>
+                          <FaTrash/> Delete
+                        </button>
+                      </div>
+                    )}
                   </td>
+
                 </tr>
               ))}
-
-              {staffData.length === 0 && (
-                <tr>
-                  <td colSpan="7" style={{ textAlign: "center", padding: 30 }}>
-                    No staff found.
-                  </td>
-                </tr>
-              )}
             </tbody>
           </table>
         </div>
       </div>
+
     </div>
   );
 };

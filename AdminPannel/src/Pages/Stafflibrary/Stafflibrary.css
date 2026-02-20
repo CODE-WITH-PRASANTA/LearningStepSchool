@@ -1,226 +1,174 @@
-/* ===== PAGE ===== */
-.staff-page {
-  padding: 24px;
-  background: #f5f6fb;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: #1f2744;
+/* PAGE */
+.staffPage{
+  background:#f4f6fb;
+  min-height:100vh;
+  padding:30px;
+  font-family:"Segoe UI", sans-serif;
 }
 
-/* ===== HEADER ===== */
-.staff-page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+/* HEADER */
+.staffTopHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
 }
 
-.staff-page-header h2 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
+.staffTitle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  color:#1e293b;
 }
 
-.breadcrumb {
-  font-size: 14px;
-  color: #6f7590;
+.staffBreadcrumb{ color:#64748b; font-size:14px; }
+.staffBreadcrumb .active{ color:#1e293b; font-weight:600; }
+.slash{ margin:0 6px; }
+
+/* FORM */
+.staffFormCard{
+  background:#fff;
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.06);
+  margin-bottom:25px;
 }
 
-/* ===== CARD ===== */
-.staff-card {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
+.formGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
-/* ===== CARD HEADER ===== */
-.staff-card-header {
-  background: #f7eef3;
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.field input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #dbe2ef;
 }
 
-.staff-card-header h3 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
+.btnField{ display:flex; align-items:end; }
+
+.saveBtn{
+  width:100%;
+  height:42px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.bulk-btn {
-  background: #0f4f86;
-  color: #fff;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
+/* TABLE */
+.staffTableCard{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.06);
+  overflow:hidden;
 }
 
-.bulk-btn:hover {
-  background: #0b3d66;
+.tableHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:18px 22px;
+  background:#f1f5f9;
 }
 
-/* ===== TOOLBAR ===== */
-.staff-toolbar {
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
+.tableSearch{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #dbe2ef;
+  border-radius:8px;
+  padding:8px 12px;
+  background:#fff;
 }
 
-.left-tools {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.tableSearch input{
+  border:none;
+  outline:none;
+  width:160px;
 }
 
-.right-tools {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.tableWrapper{ overflow:auto; }
+
+.staffTable{
+  width:100%;
+  min-width:850px;
+  border-collapse:collapse;
 }
 
-select,
-input {
-  height: 36px;
-  border: 1px solid #d5d8e2;
-  border-radius: 6px;
-  padding: 0 10px;
-  font-size: 14px;
-  background: #fff;
+.staffTable th{
+  background:#e2e8f0;
+  padding:14px;
+  text-align:left;
+  font-size:13px;
+  white-space:nowrap;
 }
 
-input {
-  min-width: 220px;
+.staffTable td{
+  padding:14px;
+  border-top:1px solid #edf2f7;
+  white-space:nowrap;
 }
 
-/* ===== TABLE WRAPPER ===== */
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
+.name{ font-weight:600; color:#2563eb; }
+
+/* ACTION */
+.actionCell{ position:relative; }
+
+.actionBtn{
+  border:none;
+  background:#1e40af;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-.staff-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1000px;
+.actionDropdown{
+  position:absolute;
+  right:0;
+  top:38px;
+  background:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  border-radius:10px;
+  min-width:130px;
+  z-index:100;
 }
 
-.staff-table thead {
-  background: #f7eef3;
+.actionDropdown button{
+  width:100%;
+  padding:10px 14px;
+  border:none;
+  background:#fff;
+  display:flex;
+  gap:8px;
+  cursor:pointer;
+}
+.actionDropdown button:hover{ background:#f1f5f9; }
+.edit{ color:#2563eb; }
+.delete{ color:#ef4444; }
+
+/* RESPONSIVE */
+@media(max-width:992px){
+  .formGrid{ grid-template-columns:repeat(2,1fr); }
 }
 
-.staff-table th {
-  padding: 14px;
-  text-align: left;
-  font-weight: 700;
-  border-bottom: 1px solid #ddd;
+@media(max-width:768px){
+  .formGrid{ grid-template-columns:1fr; }
+  .staffPage{ padding:20px; }
 }
 
-.staff-table td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
-}
-
-.staff-table tbody tr:nth-child(even) {
-  background: #f8f8ff;
-}
-
-.staff-table tbody tr:hover {
-  background: #eef3ff;
-}
-
-/* ===== BARCODE ===== */
-.barcode-box {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.barcode {
-  width: 110px;
-  height: 24px;
-  background: repeating-linear-gradient(
-    to right,
-    #000 0px,
-    #000 2px,
-    #fff 2px,
-    #fff 4px
-  );
-}
-
-/* ===== ACTION BUTTONS ===== */
-.action-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.edit-btn,
-.delete-btn {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  color: #fff;
-  transition: 0.2s;
-}
-
-/* Edit */
-.edit-btn {
-  background: #0f4f86;
-}
-
-.edit-btn:hover {
-  background: #0b3d66;
-}
-
-/* Delete */
-.delete-btn {
-  background: #d9534f;
-}
-
-.delete-btn:hover {
-  background: #b33c39;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-  .staff-page-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  input {
-    min-width: 160px;
-  }
-}
-
-@media (max-width: 576px) {
-  .staff-page {
-    padding: 14px;
-  }
-
-  .staff-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .right-tools {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  input,
-  select {
-    width: 100%;
-  }
+@media(max-width:480px){
+  .staffPage{ padding:15px; }
+  .staffTitle h2{ font-size:18px; }
+  .tableSearch input{ width:100%; }
 }

@@ -27,14 +27,24 @@ const CoCurricularSubject = () => {
   };
 
   return (
-    <div className="cc-wrapper">
-      <div className="cc-grid">
-        <SubjectForm onSave={handleSave} editData={editData} />
-        <SubjectTable
-          subjects={subjects}
-          onEdit={setEditData}
-          onDelete={handleDelete}
-        />
+    <div className="Cocurricular0-wrapper">
+      <div className="Cocurricular0-grid">
+
+        <div className="Cocurricular0-card Cocurricular0-card--form">
+          <SubjectForm
+            onSave={handleSave}
+            editData={editData}
+          />
+        </div>
+
+        <div className="Cocurricular0-card Cocurricular0-card--table">
+          <SubjectTable
+            subjects={subjects}
+            onEdit={setEditData}
+            onDelete={handleDelete}
+          />
+        </div>
+
       </div>
     </div>
   );

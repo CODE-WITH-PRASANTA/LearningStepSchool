@@ -85,6 +85,8 @@ import AddBook from "./Pages/AddBook/AddBook";
 import StudentList from "./Pages/StudentList/StudentList";
 import ReturnBook from "./Pages/ReturnBook/ReturnBook";
 import Stafflibrary from "./Pages/Stafflibrary/Stafflibrary";
+import AddStudentlist from "./Component/AddStudentlist/AddStudentlist";
+import TypeList from "./Pages/TypeList/TypeList";
 
 
 /* ===================== APP ===================== */
@@ -222,7 +224,7 @@ export default function App() {
           <Route path="/primary-evaluation/class-report" element={<PrimaryClassReport/>}/>
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={< IssueReturn/>}/>
-          <Route path="/library/add-student" element={< AddStudent/>}/>
+          
           {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
           <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
           
@@ -235,8 +237,10 @@ export default function App() {
           <Route path="/library/issue-book" element={<IssueReturn/>}/>
           <Route path="/student-list" element={<StudentList/>}/>
           <Route path="/library/return-book" element={<ReturnBook/>}/>
-          <Route path="library/student" element={<AddStudent/>}/>
+          <Route path="/library/student" element={<AddStudent/>}/>
+          <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
+          <Route path="/type-question"element={<TypeList/>}/>
          
 
 

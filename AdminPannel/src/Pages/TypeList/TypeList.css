@@ -1,0 +1,217 @@
+/* PAGE */
+.typePage {
+  background: #f2f4fa;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* LAYOUT */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+}
+
+/* LEFT CARD */
+.leftCard {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.cardHeader {
+  background: #f5e3ea;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #23375b;
+}
+
+.cardBody {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardBody input {
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #d7dbe5;
+  padding: 0 10px;
+}
+
+.saveBtn {
+  height: 40px;
+  border-radius: 8px;
+  background: #1c4be8;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* RIGHT CARD */
+.rightCard {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+  padding: 18px;
+}
+
+/* HEADER AREA */
+.rightTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.rightTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  color: #23375b;
+}
+
+.searchInput {
+  width: 200px;
+  height: 36px;
+  border-radius: 8px;
+  padding: 0 10px;
+  border: 1px solid #d7dbe5;
+}
+
+/* TABLE WRAPPER */
+.tableWrapper {
+  max-height: 350px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+/* TABLE */
+.typeTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto !important;
+}
+
+.typeTable th {
+  background: #f5e3ea;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #23375b;
+}
+
+/* COLUMNS */
+.nameCol {
+  width: auto;
+}
+
+.actionCol {
+  width: 150px !important;
+  text-align: center;
+}
+
+.typeTable td {
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/* ACTION CELL FIX */
+.actionCell {
+  position: relative;
+  text-align: center;
+}
+
+.actionWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ACTION BUTTON */
+.rowActionBtn {
+  background: #064ea4;
+  color: white;
+  padding: 6px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* DROPDOWN */
+.rowDropdown {
+  position: absolute;
+  right: 0;
+  top: 42px;
+  background: white;
+  min-width: 130px;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  z-index: 20;
+}
+
+.rowDropdown button {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: none;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.rowDropdown button:hover {
+  background: #f1f4f9;
+}
+
+.deleteBtn {
+  color: #d62828;
+}
+
+/* RESPONSIVE */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .searchInput {
+    width: 160px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .rightTopBar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .tableWrapper {
+    max-height: 280px;
+  }
+
+  .typePage {
+    padding: 12px;
+  }
+}

@@ -140,6 +140,18 @@ const menu = [
 
     ],
   },
+  { type: "divider" },
+   {
+    label: "Question Paper",
+    icon: FiBook,
+    children: [
+      { label: "Type", path: "/type-question" },
+      { label: "Question", path: "/question" },
+      { label: "Generate", path: "/paper-generate" },
+     
+
+    ],
+  },
 ];
 
 /* ================= COMPONENT ================= */
