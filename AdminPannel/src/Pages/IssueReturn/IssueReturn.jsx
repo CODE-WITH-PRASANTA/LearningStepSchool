@@ -20,21 +20,18 @@ export default function IssueReturn() {
       {/* PAGE HEADER */}
       <div className="issue-header">
         <h2>← Issue Return</h2>
-
-        <span className="issue-breadcrumb">
-          library / Issue Return
-        </span>
+        <span className="issue-breadcrumb">library / Issue Return</span>
       </div>
 
       {/* MAIN CARD */}
       <div className="issue-card">
 
-        {/* PINK HEADER */}
+        {/* HEADER */}
         <div className="issue-card-header">
           🔍 Select Criteria
         </div>
 
-        {/* FORM AREA */}
+        {/* BODY */}
         <div className="issue-card-body">
 
           <div className="issue-grid">
@@ -97,12 +94,14 @@ export default function IssueReturn() {
 
           {/* BUTTON */}
           <div className="issue-btn-wrap">
-            {/* <Link to="" className="issue-btn-primary">🔍 Search<Link/> */}
-            <Link to="/student-list"  className="issue-btn-primary">🔍 Search</Link>
+            <Link to="/student-list" className="issue-btn-primary">
+              🔍 Search
+            </Link>
           </div>
 
         </div>
       </div>
+
     </div>
   );
 }

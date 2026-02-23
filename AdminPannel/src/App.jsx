@@ -85,6 +85,12 @@ import AddBook from "./Pages/AddBook/AddBook";
 import StudentList from "./Pages/StudentList/StudentList";
 import ReturnBook from "./Pages/ReturnBook/ReturnBook";
 import Stafflibrary from "./Pages/Stafflibrary/Stafflibrary";
+import AddStudentlist from "./Component/AddStudentlist/AddStudentlist";
+import TypeList from "./Pages/TypeList/TypeList";
+import Question from "./Pages/Question/Question";
+import UpdateQuestion from "./Pages/UpdateQuestion/UpdateQuestion";
+import Generate from "./Pages/Generate/Generate";
+import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
 
 
 /* ===================== APP ===================== */
@@ -202,9 +208,13 @@ export default function App() {
           <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
-          <Route path="/income/add-income" element={<AddIncome />} />
-          <Route path="/income/search-income" element={<SearchIncome />} />
-          <Route path="/income/income-head" element={<IncomeHead />} />
+
+          {/*ADD INCOME*/}
+          <Route path="/income/details" element={<AddIncome />} />
+          <Route path="//income-search" element={<SearchIncome />} />
+          <Route path="/income-head" element={<IncomeHead />} />
+
+
            <Route path="/front-office/complain" element={<Complain />} />
            <Route path="/front-office/complain/add" element={<ComplainAdd />} />
            <Route path="/academics/daily-time-table" element={<DailyTimeTable />} />
@@ -226,6 +236,8 @@ export default function App() {
 
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={< IssueReturn/>}/>
+          
+          {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
           <Route path="/library/add-student" element={< AddStudent/>}/>
           <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
           
@@ -238,8 +250,14 @@ export default function App() {
           <Route path="/library/issue-book" element={<IssueReturn/>}/>
           <Route path="/student-list" element={<StudentList/>}/>
           <Route path="/library/return-book" element={<ReturnBook/>}/>
-          <Route path="library/student" element={<AddStudent/>}/>
+          <Route path="/library/student" element={<AddStudent/>}/>
+          <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
+          <Route path="/type-question"element={<TypeList/>}/>
+          <Route path="/question" element={<Question/>}/>
+          <Route path="/update-question" element={<UpdateQuestion/>}/>
+          <Route path="/paper-generate" element={<Generate/>}/>
+          <Route path="/generate-question" element={<GenerateQuestion/>}/>
          
 
 

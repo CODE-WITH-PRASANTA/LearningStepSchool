@@ -1,81 +1,76 @@
-/* PAGE BASE */
+/* PAGE */
 .income-head-page {
-  padding: 25px;
-  background: #f2f3f7;
+  padding: 30px;
+  background: #f4f6fb;
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
 }
 
 .page-header h2 {
-  font-size: 28px;
-  color: #0c1b52;
+  font-size: 26px;
   font-weight: 600;
+  color: #0a1b4d;
   margin-bottom: 20px;
 }
 
-/* MAIN LAYOUT */
+/* LAYOUT */
 .income-layout {
   display: flex;
   gap: 25px;
   align-items: flex-start;
 }
 
-@media (max-width: 900px) {
-  .income-layout {
-    flex-direction: column;
-  }
-}
-
-/* LEFT FORM BOX */
+/* LEFT FORM (PROPER SIZE) */
 .form-box {
-  width: 350px;
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  border-top: 6px solid #ffdde6;
+  width: 360px;
+  height: 520px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* RIGHT TABLE SMALLER */
+.small-table {
+  width: 650px;
+  height: 420px;
+  background: #ffffff;
   padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  overflow: hidden;
 }
 
-.form-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #ffeef2;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 20px;
+.box-title {
+  font-size: 17px;
   font-weight: 600;
-  font-size: 18px;
+  margin-bottom: 18px;
+  color: #0a1b4d;
 }
 
-.form-title-icon {
-  color: #0c1b52;
-  font-size: 20px;
-}
-
+/* FORM */
 .form-group {
   margin-bottom: 18px;
 }
 
 .form-group label {
-  font-weight: 600;
-  color: #0c1b52;
   font-size: 14px;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
 }
 
-.req {
+.form-group span {
   color: red;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 12px;
-  background: #eaeaf7;
-  border: none;
-  outline: none;
-  border-radius: 8px;
-  margin-top: 6px;
+  padding: 11px;
+  border-radius: 10px;
+  border: 1px solid #e0e3f1;
+  background: #f7f8ff;
   font-size: 14px;
 }
 
@@ -84,95 +79,74 @@
   resize: none;
 }
 
-/* SAVE BUTTON */
+/* BUTTON */
 .btn-save {
   width: 100%;
-  background: #071d80;
-  color: white;
-  padding: 12px;
+  padding: 11px;
+  border-radius: 10px;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  background: linear-gradient(135deg, #4c6fff, #1b3cff);
+  color: white;
+  font-weight: 500;
   cursor: pointer;
 }
 
-.btn-save:hover {
-  background: #062063;
+/* SEARCH */
+.table-toolbar {
+  margin-bottom: 12px;
 }
 
-/* RIGHT SIDE TABLE */
-.list-box {
-  flex: 1;
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  border-top: 6px solid #ffdde6;
-  padding: 20px;
-}
-
-.list-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #ffeef2;
-  padding: 15px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 18px;
-}
-
-/* Toolbar */
-.list-toolbar {
-  display: flex;
-  justify-content: space-between;
-  margin: 15px 0;
-}
-
-.export-buttons button {
-  background: #071d80;
-  color: white;
-  border: none;
+.table-toolbar input {
+  width: 220px;
   padding: 8px 10px;
-  margin-right: 6px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.table-search {
-  padding: 8px 12px;
-  background: #eaeaf7;
-  border: none;
   border-radius: 8px;
-  width: 200px;
+  border: 1px solid #ddd;
 }
 
 /* TABLE */
 .table-wrapper {
+  max-height: 300px;
+  overflow-y: auto;
   overflow-x: auto;
 }
 
 .income-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
 }
 
 .income-table th {
-  background: #ffeaf1;
+  background: #f2f4ff;
   padding: 12px;
-  text-align: left;
-  font-weight: 700;
-  color: #0c1b52;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a1b4d;
 }
 
 .income-table td {
   padding: 12px;
+  font-size: 13px;
   border-bottom: 1px solid #eee;
 }
 
-.no-data {
-  text-align: center;
-  padding: 20px;
-  color: gray;
+.amount {
+  font-weight: 600;
+  color: #1b3cff;
 }
 
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .income-layout {
+    flex-direction: column;
+  }
+
+  .form-box,
+  .small-table {
+    width: 100%;
+    height: auto;
+  }
+
+  .table-wrapper {
+    max-height: 350px;
+  }
+}

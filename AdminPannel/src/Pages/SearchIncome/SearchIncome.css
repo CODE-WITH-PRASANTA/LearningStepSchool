@@ -1,7 +1,7 @@
 /* PAGE */
 .income-page {
   padding: 30px;
-  background: #f4f5fa;
+  background: #f4f6fb;
   font-family: "Poppins", sans-serif;
 }
 
@@ -10,57 +10,54 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
   margin-bottom: 25px;
 }
 
 .header-icon {
-  font-size: 28px;
-  color: #00083d;
+  font-size: 26px;
+  color: #0a1b4d;
 }
 
 .page-header h2 {
-  font-size: 30px;
-  color: #00083d;
+  font-size: 26px;
+  font-weight: 600;
+  color: #0a1b4d;
 }
 
 .breadcrumb {
   margin-left: auto;
-  color: #666;
-  font-size: 15px;
+  font-size: 14px;
+  color: #777;
 }
 
-/* FILTER BOX */
-.filter-box {
-  background: #fff5fa;
+/* BOX STYLE */
+.filter-box,
+.list-box {
+  background: #ffffff;
   padding: 25px;
   border-radius: 16px;
-  box-shadow: 0 3px 10px #00000010;
-  margin-bottom: 30px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
 }
 
-.filter-title {
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.title-icon {
-  margin-right: 10px;
-  font-size: 22px;
-  color: #00083d;
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0a1b4d;
+  margin-bottom: 18px;
 }
 
 /* GRID */
 .filter-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  gap: 20px;
 }
 
+/* FORM */
 .form-group label {
   font-size: 14px;
-  color: #00083d;
   margin-bottom: 6px;
   display: block;
 }
@@ -68,96 +65,60 @@
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 12px;
+  height: 45px;
+  padding: 0 12px;
   border-radius: 10px;
-  background: #eef0ff;
   border: 1px solid #ddd;
-  font-size: 15px;
+  background: #f7f8ff;
+  font-size: 14px;
+  transition: 0.3s;
 }
 
-/* TWO SEARCH BUTTONS */
-.two-search-buttons {
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4c6fff;
+  background: #fff;
+  outline: none;
+}
+
+/* BUTTON */
+.search-btn-wrapper {
   margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 18px;
+  text-align: right;
 }
 
-.btn-date-search,
-.btn-history-search {
-  background: #00083d;
+.primary-btn {
+  background: linear-gradient(135deg, #4c6fff, #1b3cff);
   color: white;
-  padding: 12px 28px;
+  padding: 10px 28px;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
   border: none;
-  font-size: 15px;
-}
-
-/* LIST BOX */
-.list-box {
-  background: #fff5fa;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 3px 10px #00000010;
-}
-
-.list-header {
-  display: flex;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: 6px;
 }
 
-.list-header h3 {
-  font-size: 22px;
-  color: #00083d;
-}
-
+/* TOOLBAR */
 .list-toolbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 15px;
 }
 
-/* EXPORT BUTTONS */
-.export-buttons button {
-  background: #00083d;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  margin-right: 6px;
-  cursor: pointer;
-}
-
-/* TABLE SEARCH BAR AREA */
 .table-tools {
   display: flex;
+  gap: 10px;
   align-items: center;
-  gap: 12px;
 }
 
-.entries-select {
-  padding: 8px 14px;
+.table-tools select,
+.table-tools input {
+  height: 38px;
+  padding: 0 10px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  background: white;
-}
-
-.search-label {
-  font-size: 16px;
-  color: #00083d;
-}
-
-.table-search {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 200px;
 }
 
 /* TABLE */
@@ -166,29 +127,72 @@
 }
 
 .income-table {
-  width: 1300px;
-  min-width: 100%;
+  width: 100%;
   border-collapse: collapse;
-  background: white;
+  min-width: 900px;
 }
 
 .income-table th {
-  background: #ffe9f5;
-  padding: 14px;
+  background: #f1f3ff;
+  padding: 12px;
   text-align: left;
-  color: #00083d;
-  font-size: 15px;
+  font-size: 14px;
+  color: #0a1b4d;
 }
 
 .income-table td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
+  padding: 12px;
   font-size: 14px;
-  color: #444;
+  border-bottom: 1px solid #eee;
 }
 
-.no-data {
-  text-align: center;
-  padding: 20px;
-  color: #777;
+.income-table tr:hover {
+  background: #f9faff;
+}
+
+.amount {
+  font-weight: 600;
+  color: #1b3cff;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .income-page {
+    padding: 15px;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-btn-wrapper {
+    text-align: center;
+  }
+
+  .list-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .table-tools {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .breadcrumb {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 5px;
+  }
 }

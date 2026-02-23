@@ -3,7 +3,6 @@ import "./ReturnBook.css";
 import { FaSearch, FaList, FaUndo } from "react-icons/fa";
 
 export default function StudentListPage() {
-
   const [filters, setFilters] = useState({
     memberType: "All",
     status: "All",
@@ -19,7 +18,7 @@ export default function StudentListPage() {
 
   return (
     <div className="student-page">
-
+      
       {/* ===== SELECT CRITERIA ===== */}
       <section className="card-box">
         <div className="card-header">
@@ -28,7 +27,6 @@ export default function StudentListPage() {
 
         <div className="criteria-grid">
 
-          {/* Member Type */}
           <div className="field">
             <label>Member Type *</label>
             <select name="memberType" value={filters.memberType} onChange={handleChange}>
@@ -38,7 +36,6 @@ export default function StudentListPage() {
             </select>
           </div>
 
-          {/* Additional Filter */}
           <div className="field">
             <label>Additional Filter</label>
             <select name="status" value={filters.status} onChange={handleChange}>
@@ -48,20 +45,18 @@ export default function StudentListPage() {
             </select>
           </div>
 
-          {/* Class */}
           <div className="field">
             <label>Class</label>
             <select name="className" value={filters.className} onChange={handleChange}>
               <option value="All">All</option>
               {[...Array(10)].map((_, i) => (
-                <option key={i+1} value={i+1}>
-                  {i+1} {i===0 ? "st" : i===1 ? "nd" : i===2 ? "rd" : "th"}
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Section */}
           <div className="field">
             <label>Section</label>
             <select name="section" value={filters.section} onChange={handleChange}>
@@ -72,15 +67,14 @@ export default function StudentListPage() {
             </select>
           </div>
 
-          {/* Dates */}
           <div className="field">
             <label>Start Date</label>
-            <input type="date" name="startDate" value={filters.startDate} onChange={handleChange}/>
+            <input type="date" name="startDate" value={filters.startDate} onChange={handleChange} />
           </div>
 
           <div className="field">
             <label>End Date</label>
-            <input type="date" name="endDate" value={filters.endDate} onChange={handleChange}/>
+            <input type="date" name="endDate" value={filters.endDate} onChange={handleChange} />
           </div>
 
         </div>
@@ -92,7 +86,8 @@ export default function StudentListPage() {
         </div>
       </section>
 
-      {/* ===== STUDENT LIST ===== */}
+
+      {/* ===== STUDENT LIST TABLE ===== */}
       <section className="card-box">
         <div className="card-header">
           <h2><FaList /> Student List</h2>
@@ -100,6 +95,7 @@ export default function StudentListPage() {
 
         <div className="table-top">
           <div></div>
+
           <div className="right-tools">
             <select>
               <option>10</option>
