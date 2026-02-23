@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BlogForm from "../../Component/BlogForm";
 import BlogTable from "../../Component/BlogTable";
+import API from "../../api/axios";
 import "./BlogManagerPage.css";
 
 const BlogManagerPage = () => {
@@ -8,17 +9,34 @@ const BlogManagerPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [editBlog, setEditBlog] = useState(null);
 
-  const addBlog = (blog) => {
-    setBlogs([...blogs, { ...blog, id: Date.now() }]);
-  };
+  /* ================= FETCH BLOGS ================= */
+ const fetchBlogs = async () => {
+  try {
+    const res = await API.get("/blogs");
 
-  const updateBlog = (updated) => {
-    setBlogs(blogs.map(b => b.id === updated.id ? updated : b));
-    setEditBlog(null);
-  };
+    console.log("API RESPONSE:", res.data);
 
-  const deleteBlog = (id) => {
-    setBlogs(blogs.filter(b => b.id !== id));
+    // ✅ IMPORTANT FIX
+    setBlogs(res.data.data);
+
+  } catch (err) {
+    console.error("FETCH BLOG ERROR:", err);
+  }
+};
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  /* ================= DELETE ================= */
+  const deleteBlog = async (id) => {
+    if (!window.confirm("Delete this blog?")) return;
+
+    try {
+      await API.delete(`/blogs/${id}`);
+      fetchBlogs();
+    } catch (err) {
+      console.error("DELETE ERROR:", err);
+    }
   };
 
   return (
@@ -26,9 +44,9 @@ const BlogManagerPage = () => {
 
       <div className="adm-blog-left-panel">
         <BlogForm
-          addBlog={addBlog}
           editBlog={editBlog}
-          updateBlog={updateBlog}
+          fetchBlogs={fetchBlogs}
+          setEditBlog={setEditBlog}
         />
       </div>
 

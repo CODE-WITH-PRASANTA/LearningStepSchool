@@ -5,6 +5,8 @@ import { FaEdit, FaTrash, FaChevronDown, FaList } from "react-icons/fa";
 const TypeList = () => {
   const [search, setSearch] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
+
   const menuRef = useRef();
 
   const types = [
@@ -22,18 +24,42 @@ const TypeList = () => {
         setOpenMenuId(null);
       }
     };
+
     document.addEventListener("mousedown", closeMenu);
-    return () => document.removeEventListener("mousedown", closeMenu);
+    window.addEventListener("scroll", () => setOpenMenuId(null), true);
+
+    return () => {
+      document.removeEventListener("mousedown", closeMenu);
+      window.removeEventListener("scroll", () => setOpenMenuId(null), true);
+    };
   }, []);
+
+  const handleMenu = (e, id) => {
+    if (openMenuId === id) {
+      setOpenMenuId(null);
+      return;
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    setMenuPos({
+      top: rect.bottom,
+      left: rect.right - 120,
+    });
+
+    setOpenMenuId(id);
+  };
+
+  const filteredTypes = types.filter((t) =>
+    t.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="typePage">
       <div className="mainGrid">
-        
         {/* LEFT FORM */}
         <div className="leftCard">
           <div className="cardHeader">Add / Edit Type</div>
-
           <div className="cardBody">
             <label>
               Name <span>*</span>
@@ -49,7 +75,6 @@ const TypeList = () => {
             <h2 className="rightTitle">
               <FaList /> Type List
             </h2>
-
             <input
               type="text"
               className="searchInput"
@@ -63,48 +88,48 @@ const TypeList = () => {
             <table className="typeTable">
               <thead>
                 <tr>
-                  <th className="nameCol">Name</th>
+                  <th>Name</th>
                   <th className="actionCol">Action</th>
                 </tr>
               </thead>
-
               <tbody>
-                {types.map((item) => (
+                {filteredTypes.map((item) => (
                   <tr key={item.id}>
                     <td>{item.name}</td>
-
                     <td className="actionCell">
-                      <div className="actionWrapper">
-                        <button
-                          className="rowActionBtn"
-                          onClick={() =>
-                            setOpenMenuId(openMenuId === item.id ? null : item.id)
-                          }
-                        >
-                          Action <FaChevronDown />
-                        </button>
-
-                        {openMenuId === item.id && (
-                          <div className="rowDropdown" ref={menuRef}>
-                            <button>
-                              <FaEdit /> Edit
-                            </button>
-                            <button className="deleteBtn">
-                              <FaTrash /> Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                      <button
+                        className="rowActionBtn"
+                        onClick={(e) => handleMenu(e, item.id)}
+                      >
+                        Action <FaChevronDown />
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
-
             </table>
           </div>
         </div>
-
       </div>
+
+      {openMenuId && (
+        <div
+          className="rowDropdown"
+          ref={menuRef}
+          style={{
+            position: "fixed",
+            top: menuPos.top,
+            left: menuPos.left,
+          }}
+        >
+          <button>
+            <FaEdit /> Edit
+          </button>
+          <button className="deleteBtn">
+            <FaTrash /> Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 };

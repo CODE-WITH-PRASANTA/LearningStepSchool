@@ -18,7 +18,10 @@ const routeFolderMap = {
   "/photo-gallery": "uploads/gallery",
   "/teachers": "uploads/teachers",
   "/notices": "uploads/notices",
-  "/awards": "uploads/awards",   // ✅ ADDED
+  "/awards": "uploads/awards",
+  "/testimonials": "uploads/testimonials",
+  "/class-data": "uploads/class-data", 
+  "/events": "uploads/events",// ✅ added
 };
 
 /* ================= MULTER CONFIG ================= */
@@ -43,7 +46,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
 /* ================= SHARP CONVERTER ================= */
@@ -51,7 +54,6 @@ const convertToWebp = async (req, res, next) => {
   try {
     if (!req.file && !req.files) return next();
 
-    /* ================= DETECT FOLDER ================= */
     let uploadPath = "uploads/common";
 
     for (const route in routeFolderMap) {
@@ -76,12 +78,18 @@ const convertToWebp = async (req, res, next) => {
         .webp({ quality: 80 })
         .toFile(outputPath);
 
-      req.file.path = outputPath.replace(/\\/g, "/");
+      const relativePath = "/" + outputPath.replace(/\\/g, "/");
+
+      // ✅ IMPORTANT FIX
+      req.file.path = relativePath;
+      req.body[req.file.fieldname] = relativePath;
     }
 
     /* ================= MULTIPLE FILES ================= */
     if (req.files) {
       for (const field in req.files) {
+        req.body[field] = [];
+
         for (const file of req.files[field]) {
           const filename = `${Date.now()}-${Math.random()
             .toString(36)
@@ -94,7 +102,10 @@ const convertToWebp = async (req, res, next) => {
             .webp({ quality: 80 })
             .toFile(outputPath);
 
-          file.path = outputPath.replace(/\\/g, "/");
+          const relativePath = "/" + outputPath.replace(/\\/g, "/");
+
+          file.path = relativePath;
+          req.body[field].push(relativePath);
         }
       }
     }
@@ -102,7 +113,10 @@ const convertToWebp = async (req, res, next) => {
     next();
   } catch (err) {
     console.error("SHARP ERROR:", err);
-    res.status(500).json({ success: false, message: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 

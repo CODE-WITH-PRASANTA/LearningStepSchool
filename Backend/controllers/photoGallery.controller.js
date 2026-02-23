@@ -4,18 +4,20 @@ const PhotoGallery = require("../models/PhotoGallery.model");
 /* ================= CREATE ================= */
 exports.createPhoto = async (req, res) => {
   try {
-    const { title, category, link } = req.body;
+    const { title, category, link, image } = req.body;
 
-    if (!req.file) {
+    if (!image) {
       return res.status(400).json({ message: "Image is required" });
     }
 
     if (!title || !category) {
-      return res.status(400).json({ message: "Title and Category are required" });
+      return res.status(400).json({
+        message: "Title and Category are required",
+      });
     }
 
     const photo = await PhotoGallery.create({
-      image: req.file.path,
+      image, // ✅ use middleware value
       title,
       category,
       link,
@@ -43,7 +45,7 @@ exports.getPhotos = async (req, res) => {
 exports.updatePhoto = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, category, link } = req.body;
+    const { title, category, link, image } = req.body;
 
     const photo = await PhotoGallery.findById(id);
 
@@ -51,20 +53,22 @@ exports.updatePhoto = async (req, res) => {
       return res.status(404).json({ message: "Photo not found" });
     }
 
-    const updateData = {
-      title,
-      category,
-      link,
-    };
+    const updateData = { title, category, link };
 
-    // 🔥 If new image uploaded
-    if (req.file) {
-      // Delete old image
-      if (photo.image && fs.existsSync(photo.image)) {
-        fs.unlinkSync(photo.image);
+    // ✅ If new image uploaded
+    if (image) {
+      // Delete old file
+      if (photo.image) {
+        const oldPath = photo.image.startsWith("/")
+          ? photo.image.slice(1)
+          : photo.image;
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
       }
 
-      updateData.image = req.file.path;
+      updateData.image = image;
     }
 
     const updatedPhoto = await PhotoGallery.findByIdAndUpdate(
@@ -91,9 +95,15 @@ exports.deletePhoto = async (req, res) => {
       return res.status(404).json({ message: "Photo not found" });
     }
 
-    // 🔥 Delete image file from folder
-    if (photo.image && fs.existsSync(photo.image)) {
-      fs.unlinkSync(photo.image);
+    // Delete image file
+    if (photo.image) {
+      const filePath = photo.image.startsWith("/")
+        ? photo.image.slice(1)
+        : photo.image;
+
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
     }
 
     await PhotoGallery.findByIdAndDelete(id);

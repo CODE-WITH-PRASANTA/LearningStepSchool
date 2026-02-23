@@ -4,17 +4,27 @@ const Teacher = require("../models/teacher.model");
 /* ================= CREATE ================= */
 exports.createTeacher = async (req, res) => {
   try {
-    const { name, review, rating, instagram, facebook, linkedin } = req.body;
+    const {
+      name,
+      designation,
+      review,
+      rating,
+      instagram,
+      facebook,
+      linkedin,
+      photo   // 🔥 middleware injects this
+    } = req.body;
 
-    if (!req.file) {
+    if (!photo) {
       return res.status(400).json({ message: "Photo is required" });
     }
 
     const teacher = await Teacher.create({
       name,
+      designation,
       review,
       rating,
-      photo: req.file.path,
+      photo,
       instagram,
       facebook,
       linkedin,
@@ -42,7 +52,17 @@ exports.getTeachers = async (req, res) => {
 exports.updateTeacher = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, review, rating, instagram, facebook, linkedin } = req.body;
+
+    const {
+      name,
+      designation,
+      review,
+      rating,
+      instagram,
+      facebook,
+      linkedin,
+      photo  // 🔥 injected if new image uploaded
+    } = req.body;
 
     const teacher = await Teacher.findById(id);
     if (!teacher) {
@@ -51,6 +71,7 @@ exports.updateTeacher = async (req, res) => {
 
     const updateData = {
       name,
+      designation,
       review,
       rating,
       instagram,
@@ -58,16 +79,19 @@ exports.updateTeacher = async (req, res) => {
       linkedin,
     };
 
-    if (req.file) {
-      // Delete old image
+    // 🔥 If new photo uploaded
+    if (photo) {
+      // delete old photo
       if (teacher.photo && fs.existsSync(teacher.photo)) {
         fs.unlinkSync(teacher.photo);
       }
-      updateData.photo = req.file.path;
+
+      updateData.photo = photo;
     }
 
     const updated = await Teacher.findByIdAndUpdate(id, updateData, {
       new: true,
+      runValidators: true,
     });
 
     res.json(updated);
@@ -87,7 +111,7 @@ exports.deleteTeacher = async (req, res) => {
       return res.status(404).json({ message: "Teacher not found" });
     }
 
-    // Delete photo file
+    // delete photo file
     if (teacher.photo && fs.existsSync(teacher.photo)) {
       fs.unlinkSync(teacher.photo);
     }

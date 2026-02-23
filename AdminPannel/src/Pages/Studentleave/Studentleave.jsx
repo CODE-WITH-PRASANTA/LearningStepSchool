@@ -1,89 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Studentleave.css";
-import { Link } from "react-router-dom";
 
+const Studentleave = () => {
 
+  const [search,setSearch] = useState("");
+  const [openMenu,setOpenMenu] = useState(null);
+  const [currentPage,setCurrentPage] = useState(1);
 
-const StudentLeaveList = () => {
-  const [search, setSearch] = useState("");
+  const rowsPerPage = 4;
 
-  const data = [
-    {
-      name: "Kapil",
-      class: "5th-A",
-      applyDate: "06-02-2026",
-      days: "5 Days",
-      leaveDate: "07-02-2026 - 11-02-2026",
-      status: "Rejected",
-      reply: "there is FA test on these date I dont suggest you to go",
-      description: "I am going out of town.",
-    },
-    {
-      name: "Karan Aswani",
-      class: "6th-A",
-      applyDate: "18-01-2026",
-      days: "1 Day",
-      leaveDate: "19-01-2026 - 19-01-2026",
-      status: "Approved",
-      reply: "leave application approved",
-      description: "bimar",
-    },
-    {
-      name: "Test Student",
-      class: "9th-A",
-      applyDate: "17-01-2026",
-      days: "1 Day",
-      leaveDate: "17-01-2026 - 17-01-2026",
-      status: "Approved",
-      reply: "",
-      description: "wdw",
-    },
-  ];
+  const [rows,setRows] = useState([
+    { name:"Karan Aswani", class:"6th-A", apply:"18-01-2026", days:"1 Day", leave:"19-01-2026 - 19-01-2026", status:"Approved", reply:"leave approved", description:"bimar"},
+    { name:"Test Student NCT", class:"9th-A", apply:"17-01-2026", days:"1 Day", leave:"17-01-2026 - 17-01-2026", status:"Approved", reply:"", description:"wdw"},
+    { name:"New Student", class:"1st-A", apply:"20-12-2025", days:"1 Day", leave:"26-12-2025 - 26-12-2025", status:"Approved", reply:"Ndw", description:"test"},
+    { name:"Karan Sharma", class:"6th-A", apply:"09-12-2025", days:"3 Days", leave:"22-12-2025 - 24-12-2025", status:"Approved", reply:"Ok Approved", description:"Due to family function"},
+    { name:"testg", class:"3rd-A", apply:"09-12-2025", days:"1 Day", leave:"09-12-2025 - 09-12-2025", status:"Approved", reply:"", description:"test"},
+    { name:"Karan Aswani", class:"6th-A", apply:"08-12-2025", days:"4 Days", leave:"08-12-2025 - 11-12-2025", status:"Approved", reply:"", description:"sick"}
+  ]);
 
-  const filtered = data.filter((d) =>
-    d.name.toLowerCase().includes(search.toLowerCase())
+  /* CLOSE DROPDOWN CLICK OUTSIDE */
+  useEffect(()=>{
+    const closeMenu=()=>setOpenMenu(null);
+    document.addEventListener("click",closeMenu);
+    return ()=>document.removeEventListener("click",closeMenu);
+  },[]);
+
+  /* SEARCH */
+  const filtered = rows.filter(r =>
+    r.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  /* PAGINATION */
+  const totalPages = Math.ceil(filtered.length / rowsPerPage);
+  const start = (currentPage-1)*rowsPerPage;
+  const currentRows = filtered.slice(start,start+rowsPerPage);
+
+  /* ACTIONS */
+  const handleDelete = (index)=>{
+    setRows(rows.filter((_,i)=>i!==index));
+  };
+
+  const handleEdit = (row)=>{
+    alert("Edit : "+row.name);
+  };
+
   return (
-    <div className="leave-container">
-      {/* ===== HEADER ===== */}
-      <div className="leave-header">
+    <div className="Studentleave-container">
+
+      {/* HEADER */}
+      <div className="Studentleave-header">
         <h2>📋 Student Leave List</h2>
-<Link to="/attendance/student-leave/add" className="leave-header-link">
-  <h3 className="leave-header">✏️ Add / Edit Leave</h3>
-</Link>
+        <button className="Studentleave-addBtn">Add Leave</button>
       </div>
 
-      {/* ===== TOOLBAR ===== */}
-      <div className="leave-toolbar">
-        <div className="left-tools">
-          <button>📄</button>
-          <button>📑</button>
-          <button>🖨</button>
-          <button>📊</button>
-          <button className="column-btn">Column visibility ⌄</button>
-        </div>
-
-        <div className="right-tools">
-          <select>
-            <option>10</option>
-            <option>25</option>
-            <option>50</option>
-          </select>
-
+      {/* TOOLBAR */}
+      <div className="Studentleave-toolbar">
+        <div></div>
+        <div className="Studentleave-search">
+          <select><option>10</option></select>
           <label>
-            Search:
+            Search :
             <input
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e)=>setSearch(e.target.value)}
             />
           </label>
         </div>
       </div>
 
-      {/* ===== TABLE ===== */}
-      <div className="table-scroll">
-        <table className="leave-table">
+      {/* TABLE */}
+      <div className="Studentleave-tableWrapper">
+        <table className="Studentleave-table">
           <thead>
             <tr>
               <th>NAME</th>
@@ -99,34 +86,84 @@ const StudentLeaveList = () => {
           </thead>
 
           <tbody>
-            {filtered.map((row, i) => (
+            {currentRows.map((row,i)=>(
               <tr key={i}>
                 <td>{row.name}</td>
                 <td>{row.class}</td>
-                <td>{row.applyDate}</td>
+                <td>{row.apply}</td>
                 <td>{row.days}</td>
-                <td>{row.leaveDate}</td>
-                <td
-                  className={
-                    row.status === "Approved"
-                      ? "status approved"
-                      : "status rejected"
-                  }
-                >
-                  {row.status}
-                </td>
+                <td>{row.leave}</td>
+                <td className="Studentleave-statusGreen">{row.status}</td>
                 <td>{row.reply}</td>
                 <td>{row.description}</td>
-                <td>
-                  <button className="action-btn">Action</button>
+
+                {/* ACTION BUTTON */}
+                <td className="Studentleave-actionCell">
+                  <div
+                    className="Studentleave-actionWrap"
+                    onClick={(e)=>e.stopPropagation()}
+                  >
+                    <button
+                      className="Studentleave-actionBtn"
+                      onClick={()=>setOpenMenu(openMenu===i?null:i)}
+                    >
+                      Action ▾
+                    </button>
+
+                    {openMenu===i && (
+                      <div className="Studentleave-dropdown">
+                        <button onClick={()=>handleEdit(row)}>✏ Edit</button>
+                        <button className="delete"
+                          onClick={()=>handleDelete(i)}>
+                          🗑 Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </td>
+
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* PAGINATION */}
+      {/* ===== PAGINATION ===== */}
+<div className="Studentleave-pagination">
+
+  <button
+    className="pagination-btn"
+    disabled={currentPage === 1}
+    onClick={() => setCurrentPage(p => p - 1)}
+  >
+    Previous
+  </button>
+
+  {[...Array(totalPages)].map((_, i) => (
+    <button
+      key={i}
+      className={`pagination-number ${
+        currentPage === i + 1 ? "active" : ""
+      }`}
+      onClick={() => setCurrentPage(i + 1)}
+    >
+      {i + 1}
+    </button>
+  ))}
+
+  <button
+    className="pagination-btn"
+    disabled={currentPage === totalPages}
+    onClick={() => setCurrentPage(p => p + 1)}
+  >
+    Next
+  </button>
+
+</div>
+
     </div>
   );
 };
 
-export default StudentLeaveList;
+export default Studentleave;

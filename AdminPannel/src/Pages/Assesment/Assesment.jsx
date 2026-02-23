@@ -38,7 +38,7 @@ export default function Assessment() {
       {/* HEADER */}
       <div className="ass-header">
         <h2>📄 Assessment</h2>
-        <span>Primary Evaluation / Assessment</span>
+        
       </div>
 
       {/* SELECT CRITERIA */}
@@ -118,9 +118,7 @@ export default function Assessment() {
           <h3>✏️ Add Student Assessment</h3>
 
           <div className="ass-table-toolbar">
-            <button className="ass-column-btn">
-              Column visibility ▾
-            </button>
+           
 
             <div className="ass-search">
               Search:

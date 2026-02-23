@@ -8,7 +8,6 @@ const AdmissionEnquiry = () => {
     <div className="ae-wrapper">
       <div className="ae-header">
         <h2>📄 Admission Enquiry</h2>
-        <div className="ae-breadcrumb">Front Office / Admission Enquiry</div>
       </div>
 
       <SelectCriteria />

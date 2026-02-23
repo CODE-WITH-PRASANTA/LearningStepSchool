@@ -1,128 +1,235 @@
-/* GLOBAL */
-html,
-body {
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* PAGE */
+/* ===============================
+   PAGE WRAPPER
+================================ */
 .ass-page {
   min-height: 100vh;
-  background: #ededf4;
-  padding: 20px;
+  background: linear-gradient(135deg, #f4f6ff, #eef1ff);
+  padding: 30px;
+  font-family: "Segoe UI", "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
-/* HEADER */
+/* ===============================
+   HEADER
+================================ */
 .ass-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-/* CARD */
+.ass-header h2 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a237e;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   CARD (Premium Glass Effect)
+================================ */
 .ass-card {
-  background: #fff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-/* CRITERIA */
+.ass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* ===============================
+   CRITERIA GRID
+================================ */
 .ass-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .ass-grid label {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
+  font-size: 14px;
+  color: #444;
 }
 
+/* ===============================
+   INPUTS & SELECTS (Scoped Only)
+================================ */
 .ass-grid select,
 .ass-grid input {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
   border: 1px solid #dcdcff;
   font-size: 14px;
   background: #fff;
+  transition: all 0.3s ease;
+  outline: none;
 }
 
-/* PLACEHOLDER STYLE (LIKE REFERENCE) */
-.ass-placeholder {
-  color: #999;
+.ass-grid select:focus,
+.ass-grid input:focus {
+  border-color: #050a7d;
+  box-shadow: 0 0 0 3px rgba(5, 10, 125, 0.1);
 }
 
-/* SEARCH BUTTON */
+/* Placeholder */
+.ass-grid input::placeholder {
+  color: #aaa;
+  font-size: 13px;
+}
+
+/* ===============================
+   SEARCH BUTTON
+================================ */
 .ass-search-btn-wrap {
   text-align: right;
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .ass-search-btn-wrap button {
-  background: #050a7d;
+  background: linear-gradient(135deg, #050a7d, #283593);
   color: #fff;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 10px;
   border: none;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* TABLE */
+.ass-search-btn-wrap button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(5, 10, 125, 0.3);
+}
+
+/* ===============================
+   TABLE TOOLBAR
+================================ */
 .ass-table-toolbar {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.ass-column-btn {
-  background: #050a7d;
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 8px;
-  border: none;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .ass-search input {
-  margin-left: 6px;
-  padding: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s ease;
 }
 
+.ass-search input:focus {
+  border-color: #050a7d;
+  box-shadow: 0 0 0 2px rgba(5, 10, 125, 0.1);
+}
+
+.ass-card  h3{
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a237e;
+  letter-spacing: 0.5px;
+  padding-bottom: 9px;
+}
+/* ===============================
+   TABLE DESIGN
+================================ */
 .ass-table-wrap {
   overflow-x: auto;
+  border-radius: 14px;
 }
 
 .ass-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 800px;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
-.ass-table th,
-.ass-table td {
-  border: 1px solid #ccc;
-  padding: 12px;
-}
-
-.ass-table thead {
-  background: #ffe8ee;
-}
-
-.ass-table tbody tr:nth-child(even) {
-  background: #f4f5ff;
-}
-
-.ass-footer {
-  margin-top: 12px;
+.ass-table th {
+  background: linear-gradient(135deg, #ffe8ee, #ffd9e4);
+  color: #333;
+  font-weight: 600;
+  padding: 14px;
+  text-align: left;
   font-size: 14px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
+.ass-table td {
+  padding: 14px;
+  font-size: 14px;
+  color: #444;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ass-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.ass-table tbody tr:hover {
+  background: #f0f3ff;
+}
+
+.ass-table tbody tr:nth-child(even) {
+  background: #fafbff;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.ass-footer {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+================================ */
+@media (max-width: 1200px) {
+  .ass-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .ass-page {
+    padding: 15px;
+  }
+
   .ass-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ass-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .ass-table {
+    min-width: 700px;
+  }
+
+  .ass-search-btn-wrap {
+    text-align: left;
   }
 }
