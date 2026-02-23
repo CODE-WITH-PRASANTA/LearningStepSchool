@@ -1,0 +1,268 @@
+.onlineExamPage {
+  padding: 20px;
+  background: #f6f7fb;
+}
+
+/* CARD */
+.onlineExamPage-card {
+  background: #fff;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border: 1px solid #f1c6cf;
+}
+
+.onlineExamPage-cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1c6cf;
+  background: #f6e8ec;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* BUTTON */
+.onlineExamPage-addBtn {
+  background: #1e4f7a;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.onlineExamPage-searchBtn {
+  background: #1e4f7a;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+}
+
+/* FORM GRID */
+.onlineExamPage-criteriaGrid {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+}
+
+.onlineExamPage-field label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.onlineExamPage-field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cfd6e4;
+  background: #eef1f7;
+}
+
+.onlineExamPage-searchRow {
+  padding: 0 20px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* TABLE */
+.onlineExamPage-tableWrapper {
+  padding: 20px;
+  overflow: auto;
+}
+
+.onlineExamPage-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.onlineExamPage-table th {
+  background: #f1dde3;
+  padding: 12px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.onlineExamPage-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+}
+
+/* ================= MODAL ================= */
+
+.onlineExamModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.onlineExamModalOverlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.onlineExamModal {
+  width: 920px;
+  background: #fff;
+  border-radius: 10px;
+  transform: translateY(30px) scale(.96);
+  transition: 0.25s;
+  overflow: hidden;
+}
+
+.onlineExamModal.show {
+  transform: translateY(0) scale(1);
+}
+
+/* HEADER */
+.onlineExamModal-header {
+  background: #1e4f7a;
+  color: #fff;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* BODY */
+.onlineExamModal-body {
+  padding: 20px;
+}
+
+.onlineExamModal-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+}
+
+.field label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d6dbe6;
+  background: #f3f5fa;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.onlineExamModal-checkRow {
+  margin: 14px 0;
+  display: flex;
+  gap: 20px;
+}
+
+/* FOOTER */
+.onlineExamModal-footer {
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveBtn {
+  background: #1e4f7a;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+}
+.onlineExamModalOverlay{
+opacity:0;
+pointer-events:none;
+transition:.25s ease;
+}
+
+.onlineExamModalOverlay.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.onlineExamModal{
+transform:translateY(40px) scale(.96);
+opacity:0;
+transition:.25s ease;
+}
+
+.onlineExamModal.show{
+transform:translateY(0) scale(1);
+opacity:1;
+}
+
+/* form layout */
+.examForm-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-bottom:16px;
+}
+
+.examForm-field{
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.examForm-field input,
+.examForm-field select,
+.examForm-field textarea{
+padding:10px;
+border:1px solid #cfd6e4;
+border-radius:6px;
+background:#f7f9fc;
+}
+
+.examForm-checkRow{
+display:flex;
+gap:20px;
+margin:12px 0;
+}
+
+.examForm-field.full{
+grid-column:1/-1;
+}
+
+@media(max-width:900px){
+.examForm-grid{grid-template-columns:1fr;}
+}
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+  .onlineExamModal {
+    width: 95%;
+  }
+
+  .onlineExamModal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .onlineExamPage-criteriaGrid {
+    grid-template-columns: 1fr;
+  }
+}

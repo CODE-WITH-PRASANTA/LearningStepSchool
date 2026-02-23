@@ -91,6 +91,8 @@ import Question from "./Pages/Question/Question";
 import UpdateQuestion from "./Pages/UpdateQuestion/UpdateQuestion";
 import Generate from "./Pages/Generate/Generate";
 import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
+import OnlineExam from "./Pages/OnlineExam/OnlineExam";
+import QustionBank from "./Pages/QustionBank/QustionBank";
 
 
 /* ===================== APP ===================== */
@@ -258,6 +260,8 @@ export default function App() {
           <Route path="/update-question" element={<UpdateQuestion/>}/>
           <Route path="/paper-generate" element={<Generate/>}/>
           <Route path="/generate-question" element={<GenerateQuestion/>}/>
+          <Route path="/online-exam" element={<OnlineExam />} />
+          <Route path="/online-exam/question-bank" element={<QustionBank />} />
          
 
 

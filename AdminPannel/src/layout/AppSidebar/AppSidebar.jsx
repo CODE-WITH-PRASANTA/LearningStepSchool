@@ -90,7 +90,18 @@ const menu = [
       { label: "Generate", path: "/paper-generate" },
     ],
   },
-
+  
+   { type: "divider" },
+  {
+  label: "Online Exam",
+  icon: FiGrid, // you can change icon if needed
+  children: [
+    { label: "Online Exam", path: "/online-exam" },
+    { label: "Question Bank", path: "/online-exam/question-bank" },
+    { label: "Exam Report", path: "/online-exam/exam-report" },
+    { label: "Students Exam Report", path: "/online-exam/students-exam-report" },
+  ],
+},
 
    { type: "divider" },
 
