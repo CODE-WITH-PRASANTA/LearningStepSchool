@@ -1,9 +1,16 @@
 /* PAGE WRAPPER */
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* remove page scrollbar */
+}
+
 .pr-wrapper {
-  padding: 25px;
+  padding: 15px;
   background: #eef1f7;
-  min-height: 100vh;
+  min-height: 90vh;
   font-family: "Inter", sans-serif;
+   overflow:hidden;
 }
 
 .pr-heading {
@@ -150,3 +157,107 @@
   color: #475569;
 }
 
+/* ===== heading strip ===== */
+.pr-card{
+  border:2px solid #f7c6d0;
+  padding:0;
+  overflow:hidden;
+}
+
+.pr-card-title{
+  background:#fff1f4;
+  padding:14px 18px;
+  margin:0;
+  border-bottom:1px solid #f7c6d0;
+  font-weight:600;
+}
+
+/* form scroll */
+.pr-form{
+  min-height:78vh;
+  max-height:78vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.pr-form-body{
+  padding:18px;
+  overflow-y:auto;
+  flex:1;
+}
+
+.pr-form-body::-webkit-scrollbar{width:0}
+.pr-form-body{scrollbar-width:none}
+
+/* modern input */
+.pr-input,
+.pr-textarea,
+.pr-search-input{
+  border:1px solid #c7d2fe;
+  background:#fafbff;
+  border-radius:8px;
+  transition:.2s;
+}
+
+.pr-input:focus,
+.pr-textarea:focus,
+.pr-search-input:focus{
+  border-color:#0a158a;
+  background:#fff;
+  box-shadow:0 0 0 2px rgba(10,21,138,.08);
+  outline:none;
+}
+
+/* hide table scrollbar */
+.pr-table-scroll::-webkit-scrollbar{height:0}
+.pr-table-scroll{scrollbar-width:none}
+
+/* pagination */
+/* ===== PROFESSIONAL PAGINATION ===== */
+.pr-pagination{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:14px;
+  padding-top:10px;
+  padding-right: 20px;
+  border-top:1px solid #eee;
+}
+
+.pr-pagination button{
+  min-width:36px;
+  height:36px;
+  padding:0 12px;
+  
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:500;
+  transition:.2s;
+}
+
+/* hover */
+.pr-pagination button:hover{
+  border-color:#0a158a;
+  color:#0a158a;
+}
+
+/* active */
+.pr-pagination .active{
+  background:#0a158a;
+  color:#fff;
+  border-color:#0a158a;
+}
+
+/* disabled */
+.pr-pagination button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+.pr-grid{
+  height:100%;
+  align-items:stretch;
+}

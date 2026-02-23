@@ -5,7 +5,7 @@ body {
   padding: 0;
   font-family: Inter, sans-serif;
   background: #f6f7fb;
-  overflow-x: hidden; /* ❌ NO page horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* ================= PAGE ================= */
@@ -30,6 +30,9 @@ body {
   border: 2px solid #f7c6d0;
   border-radius: 16px;
   overflow: hidden;
+  height: 78vh; /* ⭐ fixed height */
+  display: flex;
+  flex-direction: column;
 }
 
 .visitor-form-header {
@@ -40,14 +43,27 @@ body {
   border-bottom: 1px solid #f7c6d0;
 }
 
+/* ⭐ FORM SCROLL */
 .visitor-form-body {
   padding: 18px;
+  overflow-y: auto;
+  flex: 1;
 }
 
+/* ⭐ HIDE SCROLLBAR */
+.visitor-form-body::-webkit-scrollbar {
+  width: 0px;
+}
+.visitor-form-body {
+  scrollbar-width: none;
+}
+
+/* ================= INPUT UI ================= */
 .visitor-form-body label {
   display: block;
   margin-top: 14px;
   font-size: 13px;
+  font-weight: 500;
 }
 
 .visitor-form-body label span {
@@ -58,11 +74,24 @@ body {
 .visitor-form-body select {
   width: 100%;
   margin-top: 6px;
-  padding: 9px 10px;
+  padding: 10px 12px;
   border: 1px solid #c7d2fe;
-  border-radius: 6px;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  transition: 0.2s;
+  background: #fafbff;
 }
 
+/* ⭐ focus effect */
+.visitor-form-body input:focus,
+.visitor-form-body select:focus {
+  border-color: #0a158a;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(10, 21, 138, 0.08);
+}
+
+/* button */
 .save-btn {
   margin-top: 20px;
   width: 100%;
@@ -70,8 +99,9 @@ body {
   color: #fff;
   padding: 11px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
 }
 
 /* ================= TABLE ================= */
@@ -91,7 +121,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* ⭐ ONLY TABLE SCROLLS */
+/* ⭐ TABLE SCROLL */
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -99,9 +129,14 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+/* hide horizontal scrollbar style minimal */
+.table-wrap::-webkit-scrollbar {
+  height: 6px;
+}
+
 .visitor-table {
   width: 100%;
-  min-width: 1100px; /* forces horizontal scroll */
+  min-width: 1100px;
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -133,27 +168,36 @@ body {
   cursor: pointer;
 }
 
+/* ⭐ SMALL ACTION BOX */
 .action-menu {
   position: absolute;
-  right: 0;
-  top: 34px;
+  right: 20px;
+  top: -14px;
+  width: 120px;
   background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   z-index: 99;
+  overflow: hidden;
 }
-
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .action-menu button,
 .action-menu .lnk {
   width: 100%;
-  padding: 8px 12px;
+  padding: 9px 12px;
   display: flex;
   gap: 8px;
+  align-items: center;
   border: none;
   background: none;
   cursor: pointer;
   text-decoration: none;
-  color: #000;
+  color: #111;
+  font-size: 13px;
 }
 
 .action-menu button:hover,
@@ -195,9 +239,104 @@ body {
   padding: 15px;
 }
 
-/* ================= RESPONSIVE ================= */
-@media (max-width: 900px) {
+
+/* ================= LARGE LAPTOP ================= */
+@media (max-width: 1200px) {
+  .vlist-layout {
+    grid-template-columns: 320px 1fr;
+    gap: 16px;
+  }
+
+  .visitor-form-card {
+    height: 76vh;
+  }
+}
+
+/* ================= TABLET ================= */
+@media (max-width: 992px) {
   .vlist-layout {
     grid-template-columns: 1fr;
+  }
+
+  .visitor-form-card {
+    height: auto;
+  }
+
+  .visitor-table {
+    min-width: 900px;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .vlist-wrapper {
+    padding: 14px;
+  }
+
+  .visitor-form-header {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .visitor-form-body {
+    padding: 14px;
+  }
+
+  .visitor-form-body input,
+  .visitor-form-body select {
+    font-size: 14px;
+    padding: 11px;
+  }
+
+  .save-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .visitor-table-card {
+    padding: 10px;
+  }
+
+  .visitor-table {
+    min-width: 760px;
+  }
+}
+
+/* ================= SMALL MOBILE ================= */
+@media (max-width: 480px) {
+  .vlist-wrapper {
+    padding: 10px;
+  }
+
+  .page-title {
+    font-size: 18px;
+  }
+
+  .visitor-form-header {
+    font-size: 13px;
+  }
+
+  .visitor-form-body label {
+    font-size: 12px;
+  }
+
+  .visitor-form-body input,
+  .visitor-form-body select {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .save-btn {
+    font-size: 13px;
+    padding: 11px;
+  }
+
+  .visitor-table {
+    min-width: 650px;
+    font-size: 12px;
+  }
+
+  .modal-box {
+    width: 92%;
   }
 }
