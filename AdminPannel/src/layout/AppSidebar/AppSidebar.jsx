@@ -90,6 +90,32 @@ const menu = [
       { label: "Generate", path: "/paper-generate" },
     ],
   },
+
+
+   { type: "divider" },
+
+  {
+    label: "Expense",
+    icon: FiGrid,
+    children: [
+      { label: "Add Expense", path: "/expense/details" },
+      { label: "Expense Search", path: "/expense-search" },
+      { label: "Expense Head", path: "/expense-head" },
+    ],
+  },
+   { type: "divider" },
+
+  {
+    label: "Income",
+    icon: FiGrid,
+    children: [
+      { label: "Add Income", path: "/income/details" },
+      { label: "Search Income", path: "/income-search" },
+      { label: "Income Head", path: "/income-head" },
+    ],
+  },
+
+
 ];
 
 /* ================= COMPONENT ================= */

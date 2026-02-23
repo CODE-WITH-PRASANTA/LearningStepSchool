@@ -208,9 +208,13 @@ export default function App() {
           <Route path="/front-office/visitors" element={<VisitorBook />} />   
           <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
-          <Route path="/income/add-income" element={<AddIncome />} />
-          <Route path="/income/search-income" element={<SearchIncome />} />
-          <Route path="/income/income-head" element={<IncomeHead />} />
+
+          {/*ADD INCOME*/}
+          <Route path="/income/details" element={<AddIncome />} />
+          <Route path="//income-search" element={<SearchIncome />} />
+          <Route path="/income-head" element={<IncomeHead />} />
+
+
            <Route path="/front-office/complain" element={<Complain />} />
            <Route path="/front-office/complain/add" element={<ComplainAdd />} />
            <Route path="/academics/daily-time-table" element={<DailyTimeTable />} />
