@@ -1,3 +1,5 @@
+// Sidebar.jsx
+
 import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
@@ -13,9 +15,13 @@ import {
   FiChevronDown,
   FiBriefcase,
   FiBell,
+  FiLayers,
+  FiMonitor,
+  FiStar,
+  FiUserPlus
 } from "react-icons/fi";
 
-/* ================= MENU CONFIG ================= */
+/* ================= UPDATED MENU CONFIG ================= */
 
 const menu = [
   { label: "Dashboard", icon: FiHome, path: "/dashboard" },
@@ -38,6 +44,38 @@ const menu = [
   { label: "Notification Management", icon: FiBell, path: "/notification" },
   { label: "Latest News Management", icon: FiBell, path: "/latest-news" },
   { label: "Class Data Registry", icon: FiClipboard, path: "/class-data" },
+
+  {
+    label: "Media Management",
+    icon: FiMonitor,
+    children: [
+      { label: "Photo Gallery Managements", path: "/media-photo" },
+      { label: "Video Gallery Managements", path: "/media-video" },
+    ],
+  },
+
+  {
+    label: "Learning Management",
+    icon: FiLayers,
+    children: [
+      { label: "Pre-Primary", path: "/learning/pre" },
+      { label: "Primary", path: "/learning/primary" },
+      { label: "Secondary", path: "/learning/secondary" },
+    ],
+  },
+
+  { label: "Testimonials", icon: FiStar, path: "/testimonials" },
+
+  {
+    label: "Admission Management",
+    icon: FiUserPlus,
+    children: [
+      { label: "Admission Survey", path: "/survey" },
+      { label: "Admission Data View", path: "/survey/data" },
+    ],
+  },
+
+  { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 
   { type: "section", label: "ERP Solution" },
@@ -64,6 +102,23 @@ const menu = [
       { label: "Student Attendance", path: "/attendance/student-attendance" },
       { label: "Student Leave", path: "/attendance/student-leave" },
       { label: "Attendance Report", path: "/attendance/attendance-report" },
+    ],
+  },
+
+  {
+    label: "Primary Evaluation",
+    icon: FiClipboard,
+    children: [
+      { label: "Activity", path: "/primary-evaluation/activity" },
+      { label: "Assessment", path: "/primary-evaluation/assessment" },
+      {
+        label: "Evaluation Remark",
+        path: "/primary-evaluation/evaluation-remark",
+      },
+      {
+        label: "Primary Class Report",
+        path: "/primary-evaluation/class-report",
+      },
     ],
   },
 
@@ -140,7 +195,9 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     menu.forEach((item) => {
       if (
         item.children &&
-        item.children.some((c) => location.pathname.startsWith(c.path))
+        item.children.some((c) =>
+          location.pathname.startsWith(c.path)
+        )
       ) {
         setOpenGroup(item.label);
       }
@@ -149,7 +206,6 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
   return (
     <>
-      {/* Mobile Overlay */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
@@ -173,7 +229,8 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         {/* NAVIGATION */}
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
-            /* SECTION TITLE */
+
+            /* ===== SECTION HEADING ===== */
             if (item.type === "section") {
               return (
                 sidebarOpen && (
@@ -230,10 +287,12 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     )}
                   </button>
 
-                  {/* SUBMENU */}
                   <div
-                    className={`overflow-hidden transition-all duration-300
-                    ${isOpen && sidebarOpen ? "max-h-96" : "max-h-0"}`}
+                    className={`overflow-hidden transition-all duration-500 ${
+                      isOpen && sidebarOpen
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
                   >
                     <div className="ml-10 mt-2 space-y-1">
                       {item.children.map((sub, j) => (
@@ -241,8 +300,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           key={j}
                           to={sub.path}
                           className={({ isActive }) =>
-                            `block px-4 py-2 text-sm rounded-lg transition
-                            ${
+                            `block px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                               isActive
                                 ? "bg-indigo-500 text-white"
                                 : "text-gray-600 hover:bg-indigo-50"
@@ -264,8 +322,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 key={i}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-3 rounded-xl transition
-                  ${
+                  `flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300 ${
                     isActive
                       ? "bg-indigo-100 text-indigo-800"
                       : "hover:bg-gray-100"
@@ -286,20 +343,6 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
           })}
         </nav>
       </aside>
-
-      {/* ICON STYLE */}
-      <style>{`
-        .icon-bubble {
-          width: 36px;
-          height: 36px;
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #eef2ff;
-          color: #4f46e5;
-        }
-      `}</style>
     </>
   );
 }

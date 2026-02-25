@@ -1,0 +1,105 @@
+.admCustomField__container {
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+/* Header */
+.admCustomField__header {
+  background: #eef2ff;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Body */
+.admCustomField__body {
+  padding: 20px;
+}
+
+/* Grid Layout */
+.admCustomField__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* Full width items */
+.admCustomField__full {
+  grid-column: span 2;
+}
+
+/* Form Group */
+.admCustomField__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.admCustomField__group label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Inputs */
+.admCustomField__input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+}
+
+.admCustomField__input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Checkbox Row */
+.admCustomField__checkboxRow {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.admCustomField__checkboxRow label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 400;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .admCustomField__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Large */
+@media (max-width: 768px) {
+  .admCustomField__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admCustomField__full {
+    grid-column: span 1;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 480px) {
+  .admCustomField__body {
+    padding: 15px;
+  }
+
+  .admCustomField__input {
+    font-size: 13px;
+  }
+}
