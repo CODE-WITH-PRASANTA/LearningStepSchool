@@ -18,17 +18,16 @@ const BookList = () => {
 
   const [search, setSearch] = useState("");
 
-  // Helpers
-  const format = (v) => (v && v !== "" ? v : "-");
-  const formatPrice = (price) => (!price ? "-" : price.includes("$") ? price : "₹ " + price);
+  const format = (v) => (v ? v : "-");
+  const formatPrice = (price) => (!price ? "-" : price.includes("$") ? price : `₹ ${price}`);
   const formatDate = (date) =>
-    !date
-      ? "-"
-      : new Date(date).toLocaleDateString("en-GB", {
+    date
+      ? new Date(date).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "short",
           year: "numeric",
-        });
+        })
+      : "-";
 
   const autoCategory = (book) =>
     book.category || (book.title.toLowerCase().includes("science") ? "Science" : "-");
@@ -39,34 +38,25 @@ const BookList = () => {
 
   const totalQty = booksData.reduce((sum, b) => sum + b.qty, 0);
 
-  // --- FIXED BUTTON LOGIC ---
-  const handleEdit = (book) => {
-    alert("Edit: " + book.title);
-  };
-
-  const handleDelete = (book) => {
-    alert("Delete: " + book.title);
-  };
-
   return (
-    <div className="book-page">
+    <div className="book-page premium-container">
       <div className="page-header">
         <h2>Book List</h2>
         <span className="breadcrumb">Library / Book List</span>
       </div>
 
       <div className="stats-row">
-        <div className="stats-box">Total Qty : {totalQty}</div>
-        <div className="stats-box">Available Qty : {totalQty - 1}</div>
+        <div className="stats-box glass-card">Total Qty: {totalQty}</div>
+        <div className="stats-box glass-card">Available Qty: {totalQty - 1}</div>
       </div>
 
-      <div className="table-card">
+      <div className="table-card glass-card">
         <div className="top-bar">
-          <Link to="/add-book" className="add-btn">+ Add Book</Link>
+          <Link to="/add-book" className="add-btn premium-btn">+ Add Book</Link>
 
           <input
             type="text"
-            className="search-input"
+            className="search-input premium-input"
             placeholder="Search book..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -74,7 +64,7 @@ const BookList = () => {
         </div>
 
         <div className="table-container">
-          <table className="book-table">
+          <table className="book-table premium-table">
             <thead>
               <tr>
                 <th><input type="checkbox" /></th>
@@ -95,9 +85,8 @@ const BookList = () => {
 
             <tbody>
               {filteredBooks.map((book, index) => (
-                <tr key={index}>
+                <tr key={index} className="table-row">
                   <td><input type="checkbox" /></td>
-
                   <td>{format(book.title)}</td>
                   <td>{format(book.number)}</td>
 
@@ -112,15 +101,17 @@ const BookList = () => {
                   <td>{format(book.author)}</td>
                   <td>{format(book.subject)}</td>
                   <td>{format(book.rack)}</td>
+
                   <td className="qty">{book.qty}</td>
                   <td>{formatPrice(book.price)}</td>
+
                   <td>{autoCategory(book)}</td>
                   <td>{formatDate(book.date)}</td>
 
                   <td>
                     <div className="action-buttons">
-                      <button className="edit-btn" onClick={() => handleEdit(book)}>Edit</button>
-                      <button className="delete-btn" onClick={() => handleDelete(book)}>Delete</button>
+                      <button className="edit-btn premium-edit">Edit</button>
+                      <button className="delete-btn premium-delete">Delete</button>
                     </div>
                   </td>
                 </tr>

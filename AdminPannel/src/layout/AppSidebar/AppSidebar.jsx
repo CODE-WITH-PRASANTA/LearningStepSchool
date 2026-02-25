@@ -10,14 +10,15 @@ import {
   FiAward,
   FiDollarSign,
   FiClipboard,
-  FiLayers,
-  FiStar,
-  FiUserPlus,
+  FiGrid,
   FiCalendar,
   FiChevronDown,
-  FiMonitor,
   FiBriefcase,
   FiBell,
+  FiLayers,
+  FiMonitor,
+  FiStar,
+  FiUserPlus
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -25,7 +26,6 @@ import {
 const menu = [
   { label: "Dashboard", icon: FiHome, path: "/dashboard" },
 
-  /* ===== MAIN SECTION ===== */
   { type: "section", label: "Main Section" },
 
   {
@@ -78,7 +78,6 @@ const menu = [
   { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiCalendar, path: "/faq" },
 
-  /* ===== ERP SOLUTION ===== */
   { type: "section", label: "ERP Solution" },
 
   {
@@ -134,6 +133,55 @@ const menu = [
       { label: "Add Staff", path: "/library/staff" },
     ],
   },
+
+  { type: "divider" },
+
+  {
+    label: "Question Paper",
+    icon: FiGrid,
+    children: [
+      { label: "Type", path: "/type-question" },
+      { label: "Question", path: "/question" },
+      { label: "Generate", path: "/paper-generate" },
+    ],
+  },
+  
+   { type: "divider" },
+  {
+  label: "Online Exam",
+  icon: FiGrid, // you can change icon if needed
+  children: [
+    { label: "Online Exam", path: "/online-exam" },
+    { label: "Question Bank", path: "/online-exam/question-bank" },
+    { label: "Exam Report", path: "/online-exam/exam-report" },
+    { label: "Students Exam Report", path: "/online-exam/students-exam-report" },
+  ],
+},
+
+   { type: "divider" },
+
+  {
+    label: "Expense",
+    icon: FiGrid,
+    children: [
+      { label: "Add Expense", path: "/expense/details" },
+      { label: "Expense Search", path: "/expense-search" },
+      { label: "Expense Head", path: "/expense-head" },
+    ],
+  },
+   { type: "divider" },
+
+  {
+    label: "Income",
+    icon: FiGrid,
+    children: [
+      { label: "Add Income", path: "/income/details" },
+      { label: "Search Income", path: "/income-search" },
+      { label: "Income Head", path: "/income-head" },
+    ],
+  },
+
+
 ];
 
 /* ================= COMPONENT ================= */
@@ -142,6 +190,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const location = useLocation();
   const [openGroup, setOpenGroup] = useState(null);
 
+  /* AUTO OPEN ACTIVE GROUP */
   useEffect(() => {
     menu.forEach((item) => {
       if (
@@ -165,22 +214,19 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
       )}
 
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen
-        bg-white/70 backdrop-blur-xl
-        border-r border-white/40
-        shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+        className={`fixed top-0 left-0 z-50 h-screen bg-white/80 backdrop-blur-xl border-r border-gray-200
         transition-all duration-500 ease-in-out
         ${sidebarOpen ? "w-72" : "w-20"}
         ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        {/* Logo */}
-        <div className="h-16 flex items-center justify-center border-b border-gray-200 bg-white/50">
-          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+        {/* LOGO */}
+        <div className="h-16 flex items-center justify-center border-b">
+          <span className="text-xl font-bold text-indigo-600">
             {sidebarOpen ? "School Admin" : "SA"}
           </span>
         </div>
 
-        {/* Navigation */}
+        {/* NAVIGATION */}
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
 
@@ -190,7 +236,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 sidebarOpen && (
                   <div
                     key={i}
-                    className="px-3 mt-6 mb-2 text-xs font-semibold tracking-wider uppercase text-gray-400"
+                    className="px-3 mt-6 mb-2 text-xs font-semibold uppercase text-gray-400"
                   >
                     {item.label}
                   </div>
@@ -198,10 +244,15 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               );
             }
 
-            const Icon = item.icon;
+            /* DIVIDER */
+            if (item.type === "divider") {
+              return <div key={i} className="my-4 border-t border-gray-200" />;
+            }
+
+            const Icon = item.icon || null;
             const isOpen = openGroup === item.label;
 
-            /* ===== GROUP MENU ===== */
+            /* GROUP MENU */
             if (item.children) {
               return (
                 <div key={i}>
@@ -209,16 +260,18 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     onClick={() =>
                       sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
-                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition
                     ${
                       isOpen
-                        ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-700 shadow-lg"
-                        : "hover:bg-white hover:shadow-md"
+                        ? "bg-indigo-100 text-indigo-700"
+                        : "hover:bg-gray-100"
                     }`}
                   >
-                    <span className="icon-bubble">
-                      <Icon />
-                    </span>
+                    {Icon && (
+                      <span className="icon-bubble">
+                        <Icon />
+                      </span>
+                    )}
 
                     {sidebarOpen && (
                       <>
@@ -226,7 +279,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           {item.label}
                         </span>
                         <FiChevronDown
-                          className={`transition-all duration-500 ${
+                          className={`transition ${
                             isOpen ? "rotate-180 text-indigo-600" : ""
                           }`}
                         />
@@ -241,7 +294,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                         : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="ml-4 mt-2 space-y-1">
+                    <div className="ml-10 mt-2 space-y-1">
                       {item.children.map((sub, j) => (
                         <NavLink
                           key={j}
@@ -249,8 +302,8 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                           className={({ isActive }) =>
                             `block px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
                               isActive
-                                ? "bg-indigo-500 text-white shadow-md"
-                                : "bg-[#fff1f4] text-gray-600 hover:bg-indigo-50 hover:text-indigo-700"
+                                ? "bg-indigo-500 text-white"
+                                : "text-gray-600 hover:bg-indigo-50"
                             }`
                           }
                         >
@@ -263,7 +316,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               );
             }
 
-            /* ===== SINGLE LINK ===== */
+            /* SINGLE LINK */
             return (
               <NavLink
                 key={i}
@@ -271,14 +324,16 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300 ${
                     isActive
-                      ? "bg-gradient-to-r from-indigo-100 to-violet-100 text-indigo-800 shadow-sm"
-                      : "hover:bg-white hover:shadow-md"
+                      ? "bg-indigo-100 text-indigo-800"
+                      : "hover:bg-gray-100"
                   }`
                 }
               >
-                <span className="icon-bubble">
-                  <Icon />
-                </span>
+                {Icon && (
+                  <span className="icon-bubble">
+                    <Icon />
+                  </span>
+                )}
 
                 {sidebarOpen && (
                   <span className="text-sm font-medium">{item.label}</span>

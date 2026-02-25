@@ -1,0 +1,180 @@
+.studentListPage{
+  padding:25px 35px;
+  background:#f4f6fb;
+  min-height:100vh;
+  font-family:"Segoe UI",sans-serif;
+}
+
+/* CARD */
+.listCard{
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  overflow:hidden;
+}
+
+/* HEADER */
+.listHeader{
+  padding:18px 25px;
+  border-bottom:1px solid #edf1f7;
+}
+
+.listHeader h3{
+  margin:0;
+  font-size:20px;
+  color:#1e293b;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+}
+
+.headIcon{
+  color:#4f46e5;
+}
+
+/* SEARCH */
+.searchRow{
+  padding:18px 25px 0;
+}
+
+.searchBox{
+  width:280px;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 12px;
+  background:#f8fafc;
+  transition:0.2s;
+}
+
+.searchBox:focus-within{
+  border-color:#6366f1;
+  box-shadow:0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.searchBox input{
+  border:none;
+  outline:none;
+  width:100%;
+  background:transparent;
+  font-size:14px;
+}
+
+/* TABLE */
+.tableWrapper{
+  padding:20px 25px 25px;
+  overflow:auto;
+  position:relative;
+}
+
+.studentTable{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+/* sticky header */
+.studentTable thead{
+  background:#f1f5f9;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+
+.studentTable th{
+  padding:14px;
+  font-size:13.5px;
+  text-align:left;
+  color:#334155;
+  border-bottom:2px solid #e2e8f0;
+  font-weight:600;
+}
+
+.studentTable td{
+  padding:14px;
+  border-bottom:1px solid #edf1f7;
+  font-size:14px;
+  color:#334155;
+}
+
+.studentTable tbody tr{
+  transition:0.2s;
+}
+
+.studentTable tbody tr:hover{
+  background:#f8fafc;
+}
+
+.nameCell{
+  color:#4f46e5;
+  font-weight:500;
+}
+
+/* ACTION COLUMN */
+.actionHead{
+  text-align:center;
+  width:90px;
+}
+
+.actionCell{
+  position:relative;
+  text-align:center;
+  width:90px;
+}
+
+/* ACTION BUTTON */
+.actionBtn{
+  background:#eef2ff;
+  border:none;
+  padding:7px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  color:#4f46e5;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:0.2s;
+}
+
+.actionBtn:hover{
+  background:#e0e7ff;
+}
+
+/* DROPDOWN */
+.actionMenu{
+  position:absolute;
+  right:50%;
+  transform:translateX(50%);
+  top:38px;
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  box-shadow:0 12px 28px rgba(0,0,0,0.12);
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+  overflow:hidden;
+}
+
+.actionMenu button{
+  padding:11px 16px;
+  border:none;
+  background:#fff;
+  cursor:pointer;
+  text-align:left;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  transition:0.2s;
+}
+
+.actionMenu button:hover{
+  background:#f1f5ff;
+}
+
+.editBtn{ color:#4f46e5; }
+.deleteBtn{ color:#ef4444; }

@@ -1,0 +1,182 @@
+:root {
+  --primary-navy: #0e4a7b;
+  --header-bg: #f8faff;
+  --pink-border: #fce4ec;
+  --text-main: #2c3e50;
+  --required-red: #ff4d4d;
+  --border-color: #dcdfe6;
+}
+
+.gq-container {
+  padding: 20px 40px;
+  background-color: var(--header-bg);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header Styles */
+.gq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.gq-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary-navy);
+}
+
+.gq-header-left h1 {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.gq-header-right {
+  font-size: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.breadcrumb-link {
+  color: var(--primary-navy);
+  cursor: pointer;
+}
+
+.breadcrumb-active {
+  color: #666;
+}
+
+/* Card Styles */
+.gq-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+.gq-card-header {
+  background-color: #fff5f7; /* Very light pink */
+  padding: 15px 25px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--primary-navy);
+  border-bottom: 2px solid var(--pink-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gq-card-body {
+  padding: 30px;
+}
+
+/* Form Grid */
+.gq-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.gq-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gq-form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+
+.required {
+  color: var(--required-red);
+}
+
+/* Inputs */
+input, select, textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+  background-color: #fff;
+}
+
+input:focus, select:focus {
+  border-color: var(--primary-navy);
+}
+
+.bg-input {
+  background-color: #e9ecf5; /* Light bluish-grey for marks */
+}
+
+/* Specialized Time Input */
+.time-input-wrapper {
+  display: flex;
+  position: relative;
+}
+
+.time-input-wrapper input {
+  flex: 1;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.time-icon {
+  background-color: var(--primary-navy);
+  color: white;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  border-radius: 0 6px 6px 0;
+}
+
+/* Textarea Note */
+textarea {
+  resize: vertical;
+  min-height: 40px;
+}
+
+/* Footer Button */
+.gq-footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-set-paper {
+  background-color: var(--primary-navy);
+  color: white;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-set-paper:hover {
+  background-color: #0a3a61;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gq-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .gq-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
