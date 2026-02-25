@@ -1,12 +1,16 @@
-/* ===== PAGE ===== */
+/* =========================================
+   PAGE WRAPPER
+========================================= */
 .student-page {
   padding: 26px;
   background: linear-gradient(to bottom right, #eef2f7, #f5f7fa);
   font-family: "Poppins", sans-serif;
 }
 
-/* ===== CARD ===== */
-.card-box {
+/* =========================================
+   CARD BOX
+========================================= */
+.student-page .card-box {
   background: #ffffff;
   border-radius: 20px;
   padding-bottom: 10px;
@@ -17,17 +21,20 @@
   transition: 0.3s ease;
 }
 
-.card-box:hover {
+.student-page .card-box:hover {
   box-shadow: 0 16px 40px rgba(0,0,0,0.12);
 }
 
-.card-header {
+/* =========================================
+   CARD HEADER
+========================================= */
+.student-page .card-header {
   background: #f9e9f5;
   padding: 22px 30px;
   border-bottom: 1px solid #eee;
 }
 
-.card-header h2 {
+.student-page .card-header h2 {
   margin: 0;
   font-size: 26px;
   font-weight: 600;
@@ -37,23 +44,26 @@
   gap: 12px;
 }
 
-/* ===== CRITERIA GRID ===== */
-.criteria-grid {
+/* =========================================
+   FORM GRID
+========================================= */
+.student-page .criteria-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 22px;
   padding: 26px 30px;
 }
 
-.field label {
+.student-page .field label {
   margin-bottom: 8px;
   display: block;
   font-weight: 600;
   color: #0f195f;
+  font-size: 14px;
 }
 
-.field select,
-.field input {
+.student-page .field select,
+.student-page .field input {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid #ced4e4;
@@ -63,19 +73,21 @@
   transition: 0.2s ease;
 }
 
-.field select:focus,
-.field input:focus {
+.student-page .field select:focus,
+.student-page .field input:focus {
   border-color: #0e4a7c;
   box-shadow: 0 0 8px rgba(14, 74, 124, 0.25);
 }
 
-/* ===== SEARCH BUTTON ===== */
-.search-btn-wrap {
+/* =========================================
+   SEARCH BUTTON
+========================================= */
+.student-page .search-btn-wrap {
   padding: 0 30px 24px;
   text-align: right;
 }
 
-.search-btn {
+.student-page .search-btn {
   background: #0e4a7c;
   padding: 12px 26px;
   font-size: 15px;
@@ -90,65 +102,78 @@
   transition: 0.25s ease;
 }
 
-.search-btn:hover {
+.student-page .search-btn:hover {
   background: #09385e;
 }
 
-/* ===== TABLE TOP ===== */
-.table-top {
+/* =========================================
+   TABLE TOP (Search + Entries)
+========================================= */
+.student-page .table-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 22px 30px;
 }
 
-.right-tools {
+.student-page .right-tools {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.right-tools select,
-.right-tools input {
+.student-page .right-tools select,
+.student-page .right-tools input {
   padding: 10px 14px;
   border: 1px solid #d7dce5;
   border-radius: 10px;
   font-size: 14px;
+  background: #fff;
 }
 
-/* ===== TABLE ===== */
-.table-wrap {
+/* =========================================
+   TABLE STYLES
+========================================= */
+.student-page .table-wrap {
   overflow-x: auto;
   padding: 0 30px;
 }
 
-table {
+.student-page table {
   width: 100%;
   border-collapse: collapse;
   min-width: 900px;
+  background: #ffffff;
 }
 
-thead {
+.student-page thead {
   background: #f6eaf2;
 }
 
-th, td {
+.student-page th,
+.student-page td {
   padding: 16px;
   border-bottom: 1px solid #ebeef3;
   font-size: 15px;
 }
 
-th {
+.student-page th {
   color: #0f195f;
   font-weight: 700;
 }
 
-tbody tr:hover {
+.student-page tbody tr {
+  transition: 0.2s ease;
+}
+
+.student-page tbody tr:hover {
   background: #faf6fc;
 }
 
-/* Return Button */
-.return-btn {
+/* =========================================
+   RETURN BUTTON
+========================================= */
+.student-page .return-btn {
   background: #0e4a7c;
   color: #fff;
   border: none;
@@ -161,43 +186,53 @@ tbody tr:hover {
   font-weight: 600;
 }
 
-.return-btn:hover {
+.student-page .return-btn:hover {
   background: #09385e;
 }
 
-/* ===== FOOTER ===== */
-.table-footer {
+/* =========================================
+   TABLE FOOTER / PAGINATION
+========================================= */
+.student-page .table-footer {
   padding: 22px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.pagination {
+.student-page .pagination {
   display: flex;
   gap: 10px;
 }
 
-.pagination button {
+.student-page .pagination button {
   border: 1px solid #ced4e2;
   background: #fff;
   padding: 8px 14px;
   border-radius: 6px;
+  cursor: pointer;
 }
 
-.pagination .active {
+.student-page .pagination .active {
   background: #0e4a7c;
   color: #fff;
 }
 
-/* ===== RESPONSIVE ===== */
+/* =========================================
+   RESPONSIVE
+========================================= */
 @media (max-width: 768px) {
-  .card-header h2 {
+  .student-page .card-header h2 {
     font-size: 20px;
   }
 
-  .table-footer {
+  .student-page .table-footer {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .student-page .right-tools {
+    width: 100%;
+    justify-content: flex-end;
   }
 }

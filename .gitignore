@@ -1,0 +1,5 @@
+# Upload folder (ignore uploaded files)
+Backend/uploads/
+
+# Optional: Ignore all uploads anywhere
+uploads/

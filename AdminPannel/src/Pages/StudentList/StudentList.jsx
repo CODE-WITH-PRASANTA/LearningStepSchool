@@ -47,9 +47,7 @@ const StudentList = () => {
     s.studentName.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDelete = (id) => {
-    setStudents(students.filter((s) => s.id !== id));
-  };
+  const handleDelete = (id) => setStudents(students.filter((s) => s.id !== id));
 
   const handleEdit = (student) => {
     setEditId(student.id);
@@ -57,9 +55,8 @@ const StudentList = () => {
     setShowForm(true);
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,6 +71,7 @@ const StudentList = () => {
 
     setShowForm(false);
     setEditId(null);
+
     setFormData({
       studentName: "",
       fatherName: "",
@@ -87,38 +85,34 @@ const StudentList = () => {
   };
 
   return (
-    <div className="Student-list-container">
+    <div className="student-container">
 
       {/* HEADER */}
-      <div className="Student-list-header">
-        <h2 className="Student-list-title">Student List</h2>
+      <div className="student-header">
+        <h2 className="student-title">Student List</h2>
 
-        <div className="Student-list-header-right">
-
-          <div className="Student-list-search-box">
+        <div className="student-header-right">
+          <div className="student-search-box">
             <input
               type="text"
               placeholder="Search student..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="Student-list-search-input"
+              className="student-search-input"
             />
-            <FaSearch className="Student-list-search-icon" />
+            <FaSearch className="student-search-icon" />
           </div>
 
-          <button
-            className="Student-list-add-btn"
-            onClick={() => setShowForm(true)}
-          >
+          <button className="student-add-btn" onClick={() => setShowForm(true)}>
             <FaPlus /> Add Student
           </button>
         </div>
       </div>
 
       {/* TABLE */}
-      <div className="Student-list-table-wrapper">
-        <table className="Student-list-table">
-          <thead className="Student-list-thead">
+      <div className="student-table-wrapper">
+        <table className="student-table">
+          <thead>
             <tr>
               <th>Name</th>
               <th>Father</th>
@@ -132,9 +126,9 @@ const StudentList = () => {
             </tr>
           </thead>
 
-          <tbody className="Student-list-tbody">
+          <tbody>
             {filteredStudents.map((student) => (
-              <tr key={student.id} className="Student-list-row">
+              <tr key={student.id}>
                 <td>{student.studentName}</td>
                 <td>{student.fatherName}</td>
                 <td>{student.className}</td>
@@ -144,18 +138,11 @@ const StudentList = () => {
                 <td>{student.libraryCard}</td>
                 <td>{student.maxBook}</td>
 
-                <td className="Student-list-action-buttons">
-                  <button
-                    className="Student-list-edit-btn"
-                    onClick={() => handleEdit(student)}
-                  >
+                <td className="action-btns">
+                  <button className="edit-btn" onClick={() => handleEdit(student)}>
                     <FaEdit />
                   </button>
-
-                  <button
-                    className="Student-list-delete-btn"
-                    onClick={() => handleDelete(student.id)}
-                  >
+                  <button className="delete-btn" onClick={() => handleDelete(student.id)}>
                     <FaTrash />
                   </button>
                 </td>
@@ -167,40 +154,30 @@ const StudentList = () => {
 
       {/* MODAL */}
       {showForm && (
-        <div className="Student-list-modal">
-          <div className="Student-list-form-card">
-
-            <div className="Student-list-form-header">
-              <h3 className="Student-list-form-title">
-                {editId ? "Edit Student" : "Add Student"}
-              </h3>
-              <FaTimes
-                onClick={() => setShowForm(false)}
-                className="Student-list-close-icon"
-              />
+        <div className="modal">
+          <div className="form-card">
+            <div className="form-header">
+              <h3>{editId ? "Edit Student" : "Add Student"}</h3>
+              <FaTimes className="close-icon" onClick={() => setShowForm(false)} />
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="Student-list-form"
-            >
+            <form onSubmit={handleSubmit} className="form-grid">
               {Object.keys(formData).map((key) => (
-                <input
-                  key={key}
-                  name={key}
-                  placeholder={key}
-                  value={formData[key]}
-                  onChange={handleChange}
-                  required
-                  className="Student-list-input"
-                />
+                <div className="input-group" key={key}>
+                  <label>{key.replace(/([A-Z])/g, " $1")}</label>
+                  <input
+                    name={key}
+                    value={formData[key]}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               ))}
 
-              <button type="submit" className="Student-list-save-btn">
+              <button className="save-btn" type="submit">
                 {editId ? "Update" : "Save"}
               </button>
             </form>
-
           </div>
         </div>
       )}

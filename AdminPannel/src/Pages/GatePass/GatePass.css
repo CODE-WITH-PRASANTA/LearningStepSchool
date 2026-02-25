@@ -1,12 +1,19 @@
 /* ================= WRAPPER ================= */
 
 .gatepass-wrapper {
-  background: #f1f1f6;
-  padding: 18px;
-  height: 100vh;
-  overflow: hidden;
+   background:#f1f1f6;
+  padding:18px;
+  min-height:90vh;
+  overflow-x:hidden;
 }
-
+.gatepass-form-card,
+.gatepass-list-card{
+  height:calc(100vh - 80px);
+}
+.gatepass-form-card,
+.gatepass-list-card{
+  height:calc(100vh - 80px);
+}
 /* ================= MAIN LAYOUT ================= */
 
 .gatepass-container {
@@ -22,7 +29,15 @@
   overflow-y: auto;
   scrollbar-width: none;
 }
+/* ===== FORM ROW (2 columns) ===== */
+.form-row{
+  display:flex;
+  gap:12px;
+}
 
+.form-row .form-group{
+  flex:1;
+}
 .gatepass-form-card::-webkit-scrollbar,
 .gatepass-list-card::-webkit-scrollbar {
   display: none;
@@ -42,13 +57,13 @@
 /* ================= TOP BAR ================= */
 
 .card-header {
-  background: #fde8ee;
-  padding: 14px 18px;
-  border-radius: 16px 16px 0 0;
-  font-weight: 600;
-  font-size: 17px;
-  color: #050a5c;
-  border-bottom: 1px solid #f7cfd9;
+   background:#f7c6d0;   /* ← your color */
+  padding:14px 18px;
+  border-radius:16px 16px 0 0;
+  font-weight:600;
+  font-size:17px;
+  color:#050a5c;
+  border-bottom:1px solid #f1aebf; 
 }
 
 /* ================= FORM ================= */
@@ -197,9 +212,9 @@ td {
 }
 
 .btn-action {
-  background: #2563eb;
+  background: #213154;
   color: white;
-  padding: 1px 17px;
+  padding: 5px 15px;
   border-radius: 8px;
   border: none;
   cursor: pointer;

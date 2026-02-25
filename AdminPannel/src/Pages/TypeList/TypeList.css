@@ -1,0 +1,219 @@
+/* PAGE */
+.typePage {
+  background: #f2f4fa;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* GRID LAYOUT */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* CARD COMMON */
+.leftCard,
+.rightCard {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  overflow: hidden;
+}
+
+/* HEADER */
+.cardHeader {
+  background: #f5e3ea;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #23375b;
+}
+
+/* FORM */
+.cardBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cardBody label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cardBody span {
+  color: red;
+}
+
+.cardBody input {
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid #d7dbe5;
+  padding: 0 12px;
+  font-size: 14px;
+}
+
+.saveBtn {
+  height: 42px;
+  border-radius: 8px;
+  background: #1c4be8;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.saveBtn:hover {
+  background: #163dcc;
+}
+
+/* RIGHT CARD */
+.rightCard {
+  padding: 20px;
+}
+
+/* HEADER AREA */
+.rightTopBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rightTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  color: #23375b;
+}
+
+.searchInput {
+  min-width: 200px;
+  height: 38px;
+  border-radius: 8px;
+  padding: 0 12px;
+  border: 1px solid #d7dbe5;
+}
+
+/* TABLE */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 400px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.typeTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 400px;
+}
+
+.typeTable th {
+  background: #f5e3ea;
+  padding: 12px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.typeTable td {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.actionCol,
+.actionCell {
+  text-align: center;
+}
+
+/* ACTION BUTTON */
+.rowActionBtn {
+  background: #064ea4;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+/* DROPDOWN */
+.rowDropdown {
+  background: white;
+  min-width: 120px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  border: 1px solid #eef0f7;
+  overflow: hidden;
+}
+
+.rowDropdown button {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  border: none;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.rowDropdown button:hover {
+  background: #f8f9ff;
+}
+
+.deleteBtn {
+  color: #d62828;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* ========================= */
+/* RESPONSIVE BREAKPOINTS */
+/* ========================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .typePage {
+    padding: 12px;
+  }
+
+  .rightTitle {
+    font-size: 18px;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+
+  .cardBody {
+    padding: 16px;
+  }
+
+  .typeTable {
+    min-width: 350px;
+  }
+}

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
 
 const EnquiryListForm = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -65,11 +67,40 @@ const [followUpData, setFollowUpData] = useState({
     setSelectedIds(selectedIds.filter((x) => x !== id));
   };
 
-  const handleBulkDelete = () => {
-    if (!selectedIds.length) return alert("Select at least one record");
-    setRows(rows.filter((r) => !selectedIds.includes(r.id)));
-    setSelectedIds([]);
-  };
+
+const handleBulkDelete = () => {
+  if (!selectedIds.length) {
+    Swal.fire({
+      icon: "warning",
+      title: "No Selection",
+      text: "Please select at least one record to delete!",
+      confirmButtonColor: "#3085d6",
+    });
+    return;
+  }
+
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      setRows(rows.filter((r) => !selectedIds.includes(r.id)));
+      setSelectedIds([]);
+
+      Swal.fire({
+        title: "Deleted!",
+        text: "Selected records have been deleted.",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      });
+    }
+  });
+};
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>

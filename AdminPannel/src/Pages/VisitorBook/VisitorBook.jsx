@@ -1,38 +1,54 @@
 import React, { useState } from "react";
-import { FiMoreVertical, FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FiMoreVertical, FiEdit, FiTrash2 } from "react-icons/fi";
 import "./VisitorBook.css";
 
-const VisitorBook = () => {
-  const [openAction, setOpenAction] = useState(null);
-  const [viewData, setViewData] = useState(null);
+const initialData = [
+  { id: 1, purpose: "Pickup", name: "Rakesh", email: "", phone: "", persons: 2, date: "2026-01-28", inTime: "02:03", outTime: "", createdBy: "Admin" },
+  { id: 2, purpose: "Meet principal", name: "Omprakash", email: "test@mail.com", phone: "8005843348", persons: 1, date: "2026-01-18", inTime: "01:00", outTime: "12:00", createdBy: "Admin" },
+  { id: 3, purpose: "Interview", name: "Rahul", email: "", phone: "9000000000", persons: 1, date: "2026-01-12", inTime: "11:00", outTime: "", createdBy: "Admin" },
+  { id: 4, purpose: "Pickup", name: "Amit", email: "", phone: "", persons: 3, date: "2026-01-10", inTime: "10:20", outTime: "", createdBy: "Admin" },
+  { id: 5, purpose: "Meeting", name: "Suresh", email: "", phone: "", persons: 1, date: "2026-01-09", inTime: "09:20", outTime: "", createdBy: "Admin" },
+  { id: 6, purpose: "Delivery", name: "Courier", email: "", phone: "", persons: 1, date: "2026-01-08", inTime: "08:30", outTime: "", createdBy: "Admin" },
+  { id: 7, purpose: "Interview", name: "Priya", email: "", phone: "", persons: 1, date: "2026-01-07", inTime: "12:00", outTime: "", createdBy: "Admin" },
+  { id: 8, purpose: "Pickup", name: "Kiran", email: "", phone: "", persons: 2, date: "2026-01-06", inTime: "02:20", outTime: "", createdBy: "Admin" },
+  { id: 9, purpose: "Meeting", name: "Deepak", email: "", phone: "", persons: 1, date: "2026-01-05", inTime: "03:20", outTime: "", createdBy: "Admin" },
+];
 
-  const data = [
-    {
-      id: 1,
-      purpose: "To pick up the child",
-      name: "Rakesh",
-      email: "",
-      phone: "",
-      persons: 2,
-      date: "2026-01-28",
-      inTime: "02:03",
-      outTime: "",
-      createdBy: "Demo",
-    },
-    {
-      id: 2,
-      purpose: "To meet the principal",
-      name: "Omprakash",
-      email: "test@mail.com",
-      phone: "8005843348",
-      persons: 1,
-      date: "2026-01-18",
-      inTime: "01:00",
-      outTime: "12:00",
-      createdBy: "Demo",
-    },
-  ];
+export default function VisitorBook() {
+  const [data, setData] = useState(initialData);
+  const [form, setForm] = useState({});
+  const [openAction, setOpenAction] = useState(null);
+  const [page, setPage] = useState(1);
+
+  const perPage = 7;
+
+  /* ================= FORM ================= */
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = () => {
+    if (!form.name || !form.purpose) return alert("Required fields");
+
+    const newItem = {
+      id: Date.now(),
+      createdBy: "Admin",
+      persons: form.persons || 1,
+      ...form,
+    };
+
+    setData([newItem, ...data]);
+    setForm({});
+  };
+
+  /* ================= DELETE ================= */
+  const handleDelete = (id) => {
+    setData(data.filter((d) => d.id !== id));
+  };
+
+  /* ================= PAGINATION ================= */
+  const totalPages = Math.ceil(data.length / perPage);
+  const paginated = data.slice((page - 1) * perPage, page * perPage);
 
   return (
     <div className="vlist-wrapper">
@@ -41,39 +57,36 @@ const VisitorBook = () => {
       <div className="vlist-layout">
         {/* ================= FORM ================= */}
         <div className="visitor-form-card">
-          <div className="visitor-form-header">✏️ Add Visitors</div>
+          <div className="visitor-form-header">Add Visitors</div>
 
           <div className="visitor-form-body">
-            <label>Purpose <span>*</span></label>
-            <select>
-              <option value="">Select</option>
-              <option>To pick up the child</option>
-              <option>To meet the principal</option>
-              <option>Interview</option>
-            </select>
+            <label>Purpose *</label>
+            <input name="purpose" value={form.purpose || ""} onChange={handleChange} />
 
-            <label>Name <span>*</span></label>
-            <input type="text" />
+            <label>Name *</label>
+            <input name="name" value={form.name || ""} onChange={handleChange} />
 
             <label>Email</label>
-            <input type="email" />
+            <input name="email" value={form.email || ""} onChange={handleChange} />
 
             <label>Phone</label>
-            <input type="text" />
+            <input name="phone" value={form.phone || ""} onChange={handleChange} />
 
-            <label>Number Of Person</label>
-            <input type="number" />
+            <label>Persons</label>
+            <input name="persons" type="number" value={form.persons || ""} onChange={handleChange} />
 
             <label>Date</label>
-            <input type="date" />
+            <input name="date" type="date" value={form.date || ""} onChange={handleChange} />
 
             <label>In Time</label>
-            <input type="time" />
+            <input name="inTime" type="time" value={form.inTime || ""} onChange={handleChange} />
 
             <label>Out Time</label>
-            <input type="time" />
+            <input name="outTime" type="time" value={form.outTime || ""} onChange={handleChange} />
 
-            <button className="save-btn">Save</button>
+            <button className="save-btn" onClick={handleSave}>
+              Save Visitor
+            </button>
           </div>
         </div>
 
@@ -85,21 +98,21 @@ const VisitorBook = () => {
             <table className="visitor-table">
               <thead>
                 <tr>
-                  <th>PURPOSE</th>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>PHONE</th>
-                  <th>PERSON</th>
-                  <th>DATE</th>
-                  <th>IN</th>
-                  <th>OUT</th>
-                  <th>BY</th>
-                  <th>ACTION</th>
+                  <th>Purpose</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Person</th>
+                  <th>Date</th>
+                  <th>In</th>
+                  <th>Out</th>
+                  <th>By</th>
+                  <th>Action</th>
                 </tr>
               </thead>
 
               <tbody>
-                {data.map((v) => (
+                {paginated.map((v) => (
                   <tr key={v.id}>
                     <td>{v.purpose}</td>
                     <td>{v.name}</td>
@@ -114,24 +127,18 @@ const VisitorBook = () => {
                     <td className="action-cell">
                       <button
                         className="dot-btn"
-                        onClick={() =>
-                          setOpenAction(openAction === v.id ? null : v.id)
-                        }
+                        onClick={() => setOpenAction(openAction === v.id ? null : v.id)}
                       >
                         <FiMoreVertical />
                       </button>
 
                       {openAction === v.id && (
                         <div className="action-menu">
-                          <button onClick={() => setViewData(v)}>
-                            <FiEye /> View
+                          <button>
+                            <FiEdit /> Edit
                           </button>
 
-                          <Link to="/front-office/visitors/edit" className="lnk">
-                            <FiEdit /> Edit
-                          </Link>
-
-                          <button>
+                          <button onClick={() => handleDelete(v.id)}>
                             <FiTrash2 /> Delete
                           </button>
                         </div>
@@ -142,32 +149,29 @@ const VisitorBook = () => {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
 
-      {/* ================= MODAL ================= */}
-      {viewData && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <div className="modal-header">
-              Visitor Details
-              <span onClick={() => setViewData(null)}>✕</span>
-            </div>
+          {/* ================= PAGINATION ================= */}
+          <div className="pagination">
+            <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+              Prev
+            </button>
 
-            <div className="modal-body">
-              <p><b>Purpose:</b> {viewData.purpose}</p>
-              <p><b>Name:</b> {viewData.name}</p>
-              <p><b>Email:</b> {viewData.email || "-"}</p>
-              <p><b>Phone:</b> {viewData.phone || "-"}</p>
-              <p><b>Date:</b> {viewData.date}</p>
-              <p><b>In Time:</b> {viewData.inTime}</p>
-              <p><b>Out Time:</b> {viewData.outTime || "-"}</p>
-            </div>
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                className={page === i + 1 ? "active" : ""}
+                onClick={() => setPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+              Next
+            </button>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
-};
-
-export default VisitorBook;
+}

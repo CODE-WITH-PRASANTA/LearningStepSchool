@@ -1,19 +1,52 @@
 import React, { useState } from "react";
 import "./SearchIncome.css";
-import { FaSearch, FaList, FaFilePdf, FaFileExcel, FaPrint } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 const SearchIncome = () => {
+
   const incomeHeadOptions = [
-    "Test","Demo","Scholarship","bnm","test","lightng","picnic trip",
-    "donation","test2","Scholarship","admission form","general","exam form",
-    "donation from govt","Medical Camp","Registration Form Fee","XYZ - st",
-    "School -Picnic","registrationform fee","TRIAL STUDENT",
-    "playground competition","Admisiion fee","Instant","INTRANCE EXAM",
-    "Admission Form","Registeration Form Fee","Registeration-Form-Fee",
-    "Student wellfare funds","miscellaneous","science exhibition","annual function"
+    "Admission Fee",
+    "Scholarship",
+    "Donation",
+    "Medical Camp",
+    "Registration Fee",
+    "Annual Function",
+    "Science Exhibition",
+    "Exam Fee"
   ];
 
-  const [records] = useState([]);
+  const [records] = useState([
+    {
+      id: 1,
+      name: "Rahul Sharma",
+      invoice: "INV-1001",
+      mode: "Cash",
+      head: "Admission Fee",
+      date: "12-02-2026",
+      desc: "New Admission",
+      amount: "5000"
+    },
+    {
+      id: 2,
+      name: "Priya Singh",
+      invoice: "INV-1002",
+      mode: "Online",
+      head: "Exam Fee",
+      date: "15-02-2026",
+      desc: "Final Exam",
+      amount: "2000"
+    },
+    {
+      id: 3,
+      name: "Amit Verma",
+      invoice: "INV-1003",
+      mode: "Cheque",
+      head: "Donation",
+      date: "18-02-2026",
+      desc: "School Donation",
+      amount: "10000"
+    }
+  ]);
 
   return (
     <div className="income-page">
@@ -22,15 +55,13 @@ const SearchIncome = () => {
       <div className="page-header">
         <FaSearch className="header-icon" />
         <h2>Income Search</h2>
-        <span className="breadcrumb">💰 Income / Income Search</span>
+        <span className="breadcrumb">Income / Income Search</span>
       </div>
 
-      {/* FILTER BOX */}
+      {/* FILTER SECTION */}
       <div className="filter-box">
-        <div className="filter-title">
-          <FaSearch className="title-icon" />
-          <span>Select Criteria</span>
-        </div>
+
+        <h3 className="section-title">Select Criteria</h3>
 
         <div className="filter-grid">
 
@@ -56,52 +87,38 @@ const SearchIncome = () => {
 
           <div className="form-group">
             <label>Search</label>
-            <input type="text" placeholder="Search by Income" />
+            <input type="text" placeholder="Search by Name or Invoice" />
           </div>
+
         </div>
 
-        {/* TWO SEPARATE SEARCH BUTTONS */}
-        <div className="two-search-buttons">
-          <button className="btn-date-search">
-            <FaSearch /> Search
-          </button>
-
-          <button className="btn-history-search">
+        <div className="search-btn-wrapper">
+          <button className="primary-btn">
             <FaSearch /> Search
           </button>
         </div>
+
       </div>
 
-      {/* LIST BOX */}
+      {/* LIST SECTION */}
       <div className="list-box">
 
-        <div className="list-header">
-          <FaList className="list-icon" />
-          <h3>Search Income List</h3>
-        </div>
+        <h3 className="section-title">Search Income List</h3>
 
-        {/* TOOLBAR ROW */}
         <div className="list-toolbar">
 
-          <div className="export-buttons">
-            <button><FaFilePdf /></button>
-            <button><FaFileExcel /></button>
-            <button><FaPrint /></button>
-          </div>
-
           <div className="table-tools">
-            <select className="entries-select">
+            <select>
               <option>25</option>
               <option>50</option>
               <option>100</option>
             </select>
 
-            <label className="search-label">Search:</label>
-            <input className="table-search" type="text" />
+            <input type="text" placeholder="Search..." />
           </div>
+
         </div>
 
-        {/* TABLE */}
         <div className="table-wrapper">
           <table className="income-table">
             <thead>
@@ -117,11 +134,17 @@ const SearchIncome = () => {
             </thead>
 
             <tbody>
-              {records.length === 0 ? (
-                <tr>
-                  <td colSpan="7" className="no-data">No Records Found</td>
+              {records.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.invoice}</td>
+                  <td>{item.mode}</td>
+                  <td>{item.head}</td>
+                  <td>{item.date}</td>
+                  <td>{item.desc}</td>
+                  <td className="amount">₹ {item.amount}</td>
                 </tr>
-              ) : null}
+              ))}
             </tbody>
           </table>
         </div>
