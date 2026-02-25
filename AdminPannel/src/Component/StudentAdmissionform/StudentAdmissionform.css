@@ -1,0 +1,209 @@
+.admStudentForm__container {
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+/* Header */
+.admStudentForm__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admStudentForm__title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.admStudentForm__headerActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+.admStudentForm__btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admStudentForm__btnPrimary {
+  background: #1d4ed8;
+  color: #fff;
+}
+
+.admStudentForm__btnSecondary {
+  background: #e5e7eb;
+}
+
+/* Card */
+.admStudentForm__card {
+  background: #fff;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admStudentForm__cardHeader {
+  padding: 15px 20px;
+  background: #eef2ff;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admStudentForm__body {
+  padding: 20px;
+}
+
+/* Grid */
+.admStudentForm__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.admStudentForm__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.admStudentForm__input,
+.admStudentForm__select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+}
+
+.admStudentForm__input:focus,
+.admStudentForm__select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Referral */
+.admStudentForm__referralWrapper {
+  display: flex;
+}
+
+.admStudentForm__referralSelect {
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px 0 0 6px;
+  cursor: pointer;
+}
+
+.admStudentForm__referralInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+}
+
+/* Photo */
+.admStudentForm__photoWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.admStudentForm__photoBox {
+  height: 120px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Bottom Button */
+.admStudentForm__bottomRow {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+
+/* Modal */
+.admStudentForm__modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admStudentForm__modal {
+  background: #fff;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.admStudentForm__modalHeader {
+  background: #1e3a8a;
+  color: #fff;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.admStudentForm__modalBody {
+  padding: 20px;
+}
+
+.admStudentForm__modalFooter {
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admStudentForm__photoPreview {
+  height: 120px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .admStudentForm__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .admStudentForm__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admStudentForm__bottomRow {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .admStudentForm__container {
+    padding: 10px;
+  }
+
+  .admStudentForm__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

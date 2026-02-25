@@ -85,6 +85,8 @@ import AddBook from "./Pages/AddBook/AddBook";
 import StudentList from "./Pages/StudentList/StudentList";
 import ReturnBook from "./Pages/ReturnBook/ReturnBook";
 import Stafflibrary from "./Pages/Stafflibrary/Stafflibrary";
+import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
+
 
 
 /* ===================== APP ===================== */
@@ -172,6 +174,9 @@ export default function App() {
             path="front-office/postal-receive"
             element={<PostalReceive />}
           />
+
+          {/*Student Info*/}
+          <Route path="/student/admission" element={<StudentAdmission/>}/>
 
           {/* Attendance */}
           <Route
