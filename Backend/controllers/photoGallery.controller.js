@@ -1,5 +1,5 @@
-const fs = require("fs");
 const PhotoGallery = require("../models/PhotoGallery.model");
+const { deleteImageFile } = require("../middleware/upload");
 
 /* ================= CREATE ================= */
 exports.createPhoto = async (req, res) => {
@@ -7,26 +7,37 @@ exports.createPhoto = async (req, res) => {
     const { title, category, link, image } = req.body;
 
     if (!image) {
-      return res.status(400).json({ message: "Image is required" });
+      return res.status(400).json({
+        success: false,
+        message: "Image is required",
+      });
     }
 
     if (!title || !category) {
       return res.status(400).json({
+        success: false,
         message: "Title and Category are required",
       });
     }
 
     const photo = await PhotoGallery.create({
-      image, // ✅ use middleware value
+      image,
       title,
       category,
       link,
     });
 
-    res.status(201).json(photo);
+    res.status(201).json({
+      success: true,
+      data: photo,
+    });
+
   } catch (err) {
     console.error("CREATE PHOTO ERROR:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -34,10 +45,18 @@ exports.createPhoto = async (req, res) => {
 exports.getPhotos = async (req, res) => {
   try {
     const photos = await PhotoGallery.find().sort({ createdAt: -1 });
-    res.status(200).json(photos);
+
+    res.status(200).json({
+      success: true,
+      data: photos,
+    });
+
   } catch (err) {
     console.error("GET PHOTOS ERROR:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -50,37 +69,36 @@ exports.updatePhoto = async (req, res) => {
     const photo = await PhotoGallery.findById(id);
 
     if (!photo) {
-      return res.status(404).json({ message: "Photo not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Photo not found",
+      });
     }
 
-    const updateData = { title, category, link };
-
-    // ✅ If new image uploaded
+    // 🔥 Replace image if new uploaded
     if (image) {
-      // Delete old file
-      if (photo.image) {
-        const oldPath = photo.image.startsWith("/")
-          ? photo.image.slice(1)
-          : photo.image;
-
-        if (fs.existsSync(oldPath)) {
-          fs.unlinkSync(oldPath);
-        }
-      }
-
-      updateData.image = image;
+      deleteImageFile(photo.image); // delete old image
+      photo.image = image;
     }
 
-    const updatedPhoto = await PhotoGallery.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true }
-    );
+    // 🔥 Update fields safely
+    if (title !== undefined) photo.title = title;
+    if (category !== undefined) photo.category = category;
+    if (link !== undefined) photo.link = link;
 
-    res.status(200).json(updatedPhoto);
+    await photo.save();
+
+    res.status(200).json({
+      success: true,
+      data: photo,
+    });
+
   } catch (err) {
     console.error("UPDATE PHOTO ERROR:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -92,25 +110,27 @@ exports.deletePhoto = async (req, res) => {
     const photo = await PhotoGallery.findById(id);
 
     if (!photo) {
-      return res.status(404).json({ message: "Photo not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Photo not found",
+      });
     }
 
-    // Delete image file
-    if (photo.image) {
-      const filePath = photo.image.startsWith("/")
-        ? photo.image.slice(1)
-        : photo.image;
-
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
+    // 🔥 Delete image safely
+    deleteImageFile(photo.image);
 
     await PhotoGallery.findByIdAndDelete(id);
 
-    res.status(200).json({ message: "Photo deleted successfully" });
+    res.status(200).json({
+      success: true,
+      message: "Photo deleted successfully",
+    });
+
   } catch (err) {
     console.error("DELETE PHOTO ERROR:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };

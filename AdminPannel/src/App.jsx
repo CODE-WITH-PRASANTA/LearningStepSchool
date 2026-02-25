@@ -93,6 +93,7 @@ import Generate from "./Pages/Generate/Generate";
 import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
 import OnlineExam from "./Pages/OnlineExam/OnlineExam";
 import QustionBank from "./Pages/QustionBank/QustionBank";
+import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 
 
 /* ===================== APP ===================== */
@@ -257,6 +258,7 @@ export default function App() {
           <Route path="/library/student" element={<AddStudent/>}/>
           <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
+          <Route path="/student/admission" element={<StudentAdmission/>}/>
           <Route path="/type-question"element={<TypeList/>}/>
           <Route path="/question" element={<Question/>}/>
           <Route path="/update-question" element={<UpdateQuestion/>}/>

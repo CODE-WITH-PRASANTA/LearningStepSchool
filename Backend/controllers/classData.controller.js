@@ -1,85 +1,124 @@
-const fs = require("fs");
 const ClassData = require("../models/classData.model");
+const { deleteImageFile } = require("../middleware/upload");
 
-/* CREATE */
+/* ================= CREATE ================= */
 exports.createClassData = async (req, res) => {
   try {
-    const data = await ClassData.create({
+    const newData = await ClassData.create({
       ...req.body,
       image: req.file ? req.file.path : null,
     });
 
-    res.status(201).json(data);
+    res.status(201).json({
+      success: true,
+      data: newData,
+    });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("CREATE CLASS DATA ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-/* GET ALL */
+/* ================= GET ALL ================= */
 exports.getClassData = async (req, res) => {
   try {
     const data = await ClassData.find().sort({ createdAt: -1 });
-    res.json(data);
+
+    res.json({
+      success: true,
+      data,
+    });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("GET CLASS DATA ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-/* UPDATE */
+/* ================= UPDATE ================= */
 exports.updateClassData = async (req, res) => {
   try {
     const { id } = req.params;
 
     const item = await ClassData.findById(id);
     if (!item) {
-      return res.status(404).json({ message: "Not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Class data not found",
+      });
     }
 
-    const updateData = {
-      title: req.body.title,
-      description: req.body.description,
-      age: req.body.age,
-      weekly: req.body.weekly,
-      timeManagement: req.body.timeManagement,
-    };
+    // 🔥 Replace image if new uploaded
+    if (req.file?.path) {
+      deleteImageFile(item.image); // delete old image
+      item.image = req.file.path;
+    }
 
-    // If new image uploaded
-    if (req.file && req.file.path) {
-      // delete old image
-      if (item.image && fs.existsSync(item.image)) {
-        fs.unlinkSync(item.image);
+    // 🔥 Safe field updates
+    const fields = [
+      "title",
+      "description",
+      "age",
+      "weekly",
+      "timeManagement",
+    ];
+
+    fields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        item[field] = req.body[field];
       }
+    });
 
-      updateData.image = req.file.path;
-    }
+    await item.save();
 
-    const updated = await ClassData.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true }
-    );
-
-    res.json(updated);
+    res.json({
+      success: true,
+      data: item,
+    });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("UPDATE CLASS DATA ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
-/* DELETE */
+/* ================= DELETE ================= */
 exports.deleteClassData = async (req, res) => {
   try {
     const item = await ClassData.findById(req.params.id);
-    if (!item) return res.status(404).json({ message: "Not found" });
 
-    if (item.image && fs.existsSync(item.image)) {
-      fs.unlinkSync(item.image);
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        message: "Class data not found",
+      });
     }
+
+    // 🔥 Delete image safely
+    deleteImageFile(item.image);
 
     await ClassData.findByIdAndDelete(req.params.id);
 
-    res.json({ message: "Deleted successfully" });
+    res.json({
+      success: true,
+      message: "Deleted successfully",
+    });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("DELETE CLASS DATA ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

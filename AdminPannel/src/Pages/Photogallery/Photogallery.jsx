@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import API, { BASE_URL } from "../../api/axios";
 
-const IMAGE_BASE = BASE_URL; // ✅ No trailing slash
+const IMAGE_BASE = BASE_URL;
 
 const Photogallery = () => {
+  const fileRef = useRef(null);
+
   const [form, setForm] = useState({
     image: null,
     category: "",
@@ -13,14 +15,20 @@ const Photogallery = () => {
 
   const [galleryData, setGalleryData] = useState([]);
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   /* ================= FETCH PHOTOS ================= */
   const fetchPhotos = async () => {
     try {
+      setLoading(true);
       const res = await API.get("/photo-gallery");
-      setGalleryData(res.data);
+
+      // ✅ UPDATED FOR NEW BACKEND STRUCTURE
+      setGalleryData(res.data.data || []);
     } catch (err) {
       console.error("FETCH ERROR:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,11 +39,11 @@ const Photogallery = () => {
   /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImage = (e) => {
-    setForm({ ...form, image: e.target.files[0] });
+    setForm((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
   /* ================= SUBMIT ================= */
@@ -62,6 +70,7 @@ const Photogallery = () => {
         await API.post("/photo-gallery", formData);
       }
 
+      // Reset form
       setForm({
         image: null,
         category: "",
@@ -69,7 +78,10 @@ const Photogallery = () => {
         link: "",
       });
 
+      if (fileRef.current) fileRef.current.value = "";
+
       fetchPhotos();
+
     } catch (err) {
       console.error("SUBMIT ERROR:", err);
     }
@@ -102,15 +114,17 @@ const Photogallery = () => {
     <div className="min-h-screen bg-gray-100 p-4 md:p-6">
       <div className="flex flex-col lg:flex-row gap-6">
 
-        {/* ================= LEFT SIDE (FORM) ================= */}
+        {/* ================= LEFT SIDE ================= */}
         <div className="w-full lg:w-1/2 bg-white p-6 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-4">
             {editId ? "Update Photo" : "Upload Photo"}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+
             <input
               type="file"
+              ref={fileRef}
               onChange={handleImage}
               className="w-full border p-2 rounded"
             />
@@ -155,11 +169,13 @@ const Photogallery = () => {
           </form>
         </div>
 
-        {/* ================= RIGHT SIDE (HISTORY) ================= */}
+        {/* ================= RIGHT SIDE ================= */}
         <div className="w-full lg:w-1/2 bg-white p-6 rounded-xl shadow-md overflow-auto">
           <h2 className="text-xl font-semibold mb-4">History</h2>
 
-          {galleryData.length === 0 ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : galleryData.length === 0 ? (
             <p>No photos uploaded yet.</p>
           ) : (
             <div className="overflow-x-auto">

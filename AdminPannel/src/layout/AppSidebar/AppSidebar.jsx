@@ -70,6 +70,7 @@ const menu = [
     label: "Admission Management",
     icon: FiUserPlus,
     children: [
+      { label: "Student Admission", path: "/student/admission" },
       { label: "Admission Survey", path: "/survey" },
       { label: "Admission Data View", path: "/survey/data" },
     ],

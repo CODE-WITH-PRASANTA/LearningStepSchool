@@ -20,8 +20,23 @@ const routeFolderMap = {
   "/notices": "uploads/notices",
   "/awards": "uploads/awards",
   "/testimonials": "uploads/testimonials",
-  "/class-data": "uploads/class-data", 
-  "/events": "uploads/events",// ✅ added
+  "/class-data": "uploads/class-data",
+  "/events": "uploads/events",
+};
+
+/* ================= GET UPLOAD PATH ================= */
+const getUploadPath = (req) => {
+  let uploadPath = "uploads/common";
+
+  for (const route in routeFolderMap) {
+    if (req.originalUrl.includes(route)) {
+      uploadPath = routeFolderMap[route];
+      break;
+    }
+  }
+
+  ensureDir(uploadPath);
+  return uploadPath;
 };
 
 /* ================= MULTER CONFIG ================= */
@@ -54,16 +69,7 @@ const convertToWebp = async (req, res, next) => {
   try {
     if (!req.file && !req.files) return next();
 
-    let uploadPath = "uploads/common";
-
-    for (const route in routeFolderMap) {
-      if (req.originalUrl.includes(route)) {
-        uploadPath = routeFolderMap[route];
-        break;
-      }
-    }
-
-    ensureDir(uploadPath);
+    const uploadPath = getUploadPath(req);
 
     /* ================= SINGLE FILE ================= */
     if (req.file) {
@@ -80,7 +86,6 @@ const convertToWebp = async (req, res, next) => {
 
       const relativePath = "/" + outputPath.replace(/\\/g, "/");
 
-      // ✅ IMPORTANT FIX
       req.file.path = relativePath;
       req.body[req.file.fieldname] = relativePath;
     }
@@ -120,4 +125,24 @@ const convertToWebp = async (req, res, next) => {
   }
 };
 
-module.exports = { upload, convertToWebp };
+/* ================= DELETE IMAGE FUNCTION ================= */
+const deleteImageFile = (imagePath) => {
+  try {
+    if (!imagePath) return;
+
+    const fullPath = path.join(__dirname, "..", imagePath);
+
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+      console.log("🗑 Image deleted:", fullPath);
+    }
+  } catch (err) {
+    console.error("IMAGE DELETE ERROR:", err);
+  }
+};
+
+module.exports = {
+  upload,
+  convertToWebp,
+  deleteImageFile,
+};

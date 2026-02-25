@@ -23,7 +23,7 @@ const ClsWiseDataManagements = () => {
   const fetchData = async () => {
     try {
       const res = await API.get("/class-data");
-      setData(res.data);
+      setData(res.data.data || []);
     } catch (err) {
       console.error("FETCH ERROR:", err);
     }
@@ -192,7 +192,7 @@ const ClsWiseDataManagements = () => {
                   <tr>
                     <th>Image</th>
                     <th>Title</th>
-                    <th>Description</th> {/* ✅ Added */}
+                    <th>Description</th>
                     <th>Age</th>
                     <th>Weekly</th>
                     <th>Time</th>

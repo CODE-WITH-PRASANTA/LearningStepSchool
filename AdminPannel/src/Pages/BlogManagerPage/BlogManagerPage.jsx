@@ -13,10 +13,6 @@ const BlogManagerPage = () => {
  const fetchBlogs = async () => {
   try {
     const res = await API.get("/blogs");
-
-    console.log("API RESPONSE:", res.data);
-
-    // ✅ IMPORTANT FIX
     setBlogs(res.data.data);
 
   } catch (err) {
