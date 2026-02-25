@@ -1,166 +1,190 @@
-.Student-list-container {
-  min-height: 100vh;
-  padding: 40px;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
-  font-family: "Poppins", sans-serif;
+.student-container{
+  padding:40px;
+  background:#f5f7ff;
 }
 
 /* HEADER */
-.Student-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
+.student-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
 }
 
-.Student-list-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: #1e293b;
+.student-title{
+  font-size:32px;
+  font-weight:700;
 }
 
-.Student-list-header-right {
-  display: flex;
-  gap: 15px;
-  align-items: center;
+/* RIGHT SIDE */
+.student-header-right{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
 }
 
 /* SEARCH */
-.Student-list-search-box {
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 8px 12px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+.student-search-box{
+  display:flex;
+  align-items:center;
+  background:white;
+  padding:10px 16px;
+  border-radius:12px;
+  border:1px solid #e2e8f0;
+  width:260px;
 }
 
-.Student-list-search-input {
-  border: none;
-  outline: none;
-  font-size: 14px;
+.student-search-input{
+  border:none;
+  outline:none;
+  flex:1;
+  min-width:0;
 }
 
-.Student-list-search-icon {
-  margin-left: 6px;
-  color: #64748b;
-}
+.student-search-icon{ color:#64748b; }
 
 /* ADD BUTTON */
-.Student-list-add-btn {
-  background: linear-gradient(135deg, #6366f1, #4f46e5);
-  border: none;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.Student-list-add-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(79,70,229,0.4);
+.student-add-btn{
+  background:linear-gradient(135deg,#4f46e5,#4338ca);
+  color:white;
+  border:none;
+  padding:12px 22px;
+  border-radius:12px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  cursor:pointer;
 }
 
 /* TABLE */
-.Student-list-table-wrapper {
-  background: white;
-  border-radius: 18px;
-  padding: 15px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+.student-table-wrapper{
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.1);
+  overflow-x:auto;
 }
 
-.Student-list-table {
-  width: 100%;
-  border-collapse: collapse;
+.student-table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
 }
 
-.Student-list-thead {
-  background: #f1f5f9;
+.student-table th,
+.student-table td{
+  padding:14px;
 }
 
-.Student-list-table th,
-.Student-list-table td {
-  padding: 14px;
-  font-size: 14px;
+.student-table th{
+  background:#eef2ff;
 }
 
-.Student-list-table th {
-  text-transform: uppercase;
-  color: #64748b;
+/* ACTION */
+.action-btns{
+  display:flex;
+  gap:6px;
 }
 
-.Student-list-row:hover {
-  background: #f8fafc;
+.action-btns button{
+  border:none;
+  padding:8px 12px;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.Student-list-action-buttons button {
-  border: none;
-  padding: 7px 10px;
-  margin-right: 6px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: white;
-}
-
-.Student-list-edit-btn {
-  background: #0ea5e9;
-}
-
-.Student-list-delete-btn {
-  background: #ef4444;
-}
+.edit-btn{ background:#0ea5e9; }
+.delete-btn{ background:#ef4444; }
 
 /* MODAL */
-.Student-list-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.45);
+  padding:15px;
 }
 
-.Student-list-form-card {
-  width: 420px;
-  background: white;
-  padding: 25px;
-  border-radius: 16px;
-  animation: StudentListPop 0.25s ease;
+.form-card{
+  width:650px;
+  max-width:100%;
+  background:white;
+  padding:30px;
+  border-radius:20px;
 }
 
-@keyframes StudentListPop {
-  from { transform: scale(.85); opacity:0 }
-  to { transform: scale(1); opacity:1 }
+.form-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
 }
 
-.Student-list-form-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+.close-icon{ cursor:pointer; }
+
+/* FORM */
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
 
-.Student-list-close-icon {
-  cursor: pointer;
+.input-group input{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  background:#f8fafc;
+  border:1px solid #dbe3f0;
 }
 
-.Student-list-input {
-  width: 100%;
-  padding: 10px;
-  margin: 7px 0;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+.save-btn{
+  grid-column:span 2;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#16a34a,#059669);
+  color:white;
+  font-size:17px;
+  cursor:pointer;
 }
 
-.Student-list-save-btn {
-  width: 100%;
-  margin-top: 10px;
-  background: linear-gradient(135deg,#22c55e,#16a34a);
-  border: none;
-  padding: 11px;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 500;
+/* 📱 MOBILE */
+@media(max-width:768px){
+  .student-container{ padding:20px; }
+
+  .student-title{ font-size:24px; }
+
+  .student-header-right{
+    width:100%;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .student-search-box{
+    width:100%;
+  }
+
+  .student-add-btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .save-btn{
+    grid-column:span 1;
+  }
+}
+
+/* 📲 SMALL MOBILE */
+@media(max-width:480px){
+  .student-container{ padding:15px; }
 }

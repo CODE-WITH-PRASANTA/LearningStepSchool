@@ -1,234 +1,174 @@
-/* ================= PAGE ================= */
-.staff-library-page {
-  padding: 24px;
-  background: #f4f6fb;
-  min-height: 100vh;
-  font-family: "Segoe UI", sans-serif;
-  color: #1f2744;
+/* PAGE */
+.staffPage{
+  background:#f4f6fb;
+  min-height:100vh;
+  padding:30px;
+  font-family:"Segoe UI", sans-serif;
 }
 
-/* ================= HEADER ================= */
-.staff-library-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+/* HEADER */
+.staffTopHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
 }
 
-.staff-library-header__title {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
+.staffTitle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  color:#1e293b;
 }
 
-.staff-library-header__breadcrumb {
-  font-size: 14px;
-  color: #6f7590;
+.staffBreadcrumb{ color:#64748b; font-size:14px; }
+.staffBreadcrumb .active{ color:#1e293b; font-weight:600; }
+.slash{ margin:0 6px; }
+
+/* FORM */
+.staffFormCard{
+  background:#fff;
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.06);
+  margin-bottom:25px;
 }
 
-/* ================= CARD ================= */
-.staff-library-card {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+.formGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
-/* CARD HEADER */
-.staff-library-card__header {
-  background: #f7eef3;
-  padding: 18px 22px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.field input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #dbe2ef;
 }
 
-.staff-library-card__heading {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 700;
+.btnField{ display:flex; align-items:end; }
+
+.saveBtn{
+  width:100%;
+  height:42px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
 }
 
-/* ================= BUTTONS ================= */
-.staff-library-btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.25s ease;
+/* TABLE */
+.staffTableCard{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.06);
+  overflow:hidden;
 }
 
-.staff-library-btn--primary {
-  background: #0f4f86;
-  color: #fff;
+.tableHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:18px 22px;
+  background:#f1f5f9;
 }
 
-.staff-library-btn--primary:hover {
-  background: #0b3d66;
+.tableSearch{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid #dbe2ef;
+  border-radius:8px;
+  padding:8px 12px;
+  background:#fff;
 }
 
-.staff-library-btn--edit {
-  background: #0f4f86;
-  color: #fff;
+.tableSearch input{
+  border:none;
+  outline:none;
+  width:160px;
 }
 
-.staff-library-btn--edit:hover {
-  background: #0b3d66;
+.tableWrapper{ overflow:auto; }
+
+.staffTable{
+  width:100%;
+  min-width:850px;
+  border-collapse:collapse;
 }
 
-.staff-library-btn--delete {
-  background: #d9534f;
-  color: #fff;
+.staffTable th{
+  background:#e2e8f0;
+  padding:14px;
+  text-align:left;
+  font-size:13px;
+  white-space:nowrap;
 }
 
-.staff-library-btn--delete:hover {
-  background: #b33c39;
+.staffTable td{
+  padding:14px;
+  border-top:1px solid #edf2f7;
+  white-space:nowrap;
 }
 
-/* ================= TOOLBAR ================= */
-.staff-library-toolbar {
-  padding: 16px 22px;
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #ececec;
-  border-bottom: 1px solid #ececec;
-  gap: 12px;
-  flex-wrap: wrap;
+.name{ font-weight:600; color:#2563eb; }
+
+/* ACTION */
+.actionCell{ position:relative; }
+
+.actionBtn{
+  border:none;
+  background:#1e40af;
+  color:#fff;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-.staff-library-toolbar__left,
-.staff-library-toolbar__right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.actionDropdown{
+  position:absolute;
+  right:0;
+  top:38px;
+  background:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  border-radius:10px;
+  min-width:130px;
+  z-index:100;
 }
 
-/* ================= INPUT & SELECT ================= */
-.staff-library-input,
-.staff-library-select {
-  height: 38px;
-  border: 1px solid #d5d8e2;
-  border-radius: 6px;
-  padding: 0 12px;
-  font-size: 14px;
-  background: #fff;
-  transition: 0.2s ease;
+.actionDropdown button{
+  width:100%;
+  padding:10px 14px;
+  border:none;
+  background:#fff;
+  display:flex;
+  gap:8px;
+  cursor:pointer;
+}
+.actionDropdown button:hover{ background:#f1f5f9; }
+.edit{ color:#2563eb; }
+.delete{ color:#ef4444; }
+
+/* RESPONSIVE */
+@media(max-width:992px){
+  .formGrid{ grid-template-columns:repeat(2,1fr); }
 }
 
-.staff-library-input {
-  min-width: 220px;
+@media(max-width:768px){
+  .formGrid{ grid-template-columns:1fr; }
+  .staffPage{ padding:20px; }
 }
 
-.staff-library-input:focus,
-.staff-library-select:focus {
-  outline: none;
-  border-color: #0f4f86;
-  box-shadow: 0 0 0 2px rgba(15, 79, 134, 0.15);
-}
-
-/* ================= TABLE ================= */
-.staff-library-table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.staff-library-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1000px;
-}
-
-.staff-library-table thead {
-  background: #f7eef3;
-}
-
-.staff-library-table th {
-  padding: 14px;
-  text-align: left;
-  font-weight: 700;
-  border-bottom: 1px solid #ddd;
-}
-
-.staff-library-table td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
-}
-
-.staff-library-table tbody tr:nth-child(even) {
-  background: #f9fbff;
-}
-
-.staff-library-table tbody tr:hover {
-  background: #eef3ff;
-}
-
-/* ================= BARCODE ================= */
-.staff-library-barcode-box {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.staff-library-barcode {
-  width: 110px;
-  height: 24px;
-  background: repeating-linear-gradient(
-    to right,
-    #000 0px,
-    #000 2px,
-    #fff 2px,
-    #fff 4px
-  );
-}
-
-.staff-library-card-number {
-  font-size: 12px;
-  color: #333;
-}
-
-/* ================= ACTIONS ================= */
-.staff-library-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.staff-library-no-data {
-  text-align: center;
-  padding: 30px;
-  color: #888;
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 992px) {
-  .staff-library-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .staff-library-input {
-    min-width: 160px;
-  }
-}
-
-@media (max-width: 576px) {
-  .staff-library-page {
-    padding: 14px;
-  }
-
-  .staff-library-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .staff-library-toolbar__right {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .staff-library-input,
-  .staff-library-select {
-    width: 100%;
-  }
+@media(max-width:480px){
+  .staffPage{ padding:15px; }
+  .staffTitle h2{ font-size:18px; }
+  .tableSearch input{ width:100%; }
 }

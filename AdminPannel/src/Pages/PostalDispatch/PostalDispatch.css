@@ -3,14 +3,14 @@
 .pd-main-wrapper {
   padding: 30px;
   background: #f5f7fa;
-  min-height: 100vh;
+  min-height: 90vh;
   font-family: Arial, sans-serif;
 }
 
 .pd-main-heading {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 25px;
+  
+  font-size: 25px;
+  margin-bottom: 15px;
   font-weight: bold;
   color: #333;
 }
@@ -160,7 +160,82 @@
   font-size: 13px;
   color: #555;
 }
+/* ===== heading strip ===== */
+.pd-form,
+.pd-table-box{
+  border:2px solid #f7c6d0;
+  padding:0;
+  overflow:hidden;
+}
 
+.pd-title{
+  background:#fff1f4;
+  padding:14px 18px;
+  margin:0;
+  border-bottom:1px solid #f7c6d0;
+  font-weight:600;
+}
+
+/* ===== form scroll ===== */
+.pd-form{
+  height:78vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.pd-form-body{
+  padding:18px;
+  overflow-y:auto;
+  flex:1;
+}
+
+.pd-form-body::-webkit-scrollbar{width:0}
+.pd-form-body{scrollbar-width:none}
+
+/* ===== input modern ===== */
+.pd-input,
+.pd-textarea,
+.pd-search-input{
+  border:1px solid #c7d2fe;
+  background:#fafbff;
+  border-radius:8px;
+  transition:.2s;
+}
+
+.pd-input:focus,
+.pd-textarea:focus,
+.pd-search-input:focus{
+  border-color:#0a158a;
+  background:#fff;
+  box-shadow:0 0 0 2px rgba(10,21,138,.08);
+  outline:none;
+}
+
+/* ===== hide table scrollbar ===== */
+.pd-table-scroll::-webkit-scrollbar{height:0}
+.pd-table-scroll{scrollbar-width:none}
+
+/* ===== pagination ===== */
+.pd-pagination{
+  display:flex;
+  gap:6px;
+  padding-right: 20px;
+  justify-content:flex-end;
+  margin-top:10px;
+}
+
+.pd-pagination button{
+  padding:6px 10px;
+  border:1px solid #e5e7eb;
+  background:#fff;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.pd-pagination .active{
+  background:#0a158a;
+  color:#fff;
+}
 /* RESPONSIVE DESIGN */
 @media (max-width: 992px) {
   .pd-container {

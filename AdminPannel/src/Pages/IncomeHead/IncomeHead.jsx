@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import "./IncomeHead.css";
-import { FaEdit, FaList, FaFilePdf, FaFileExcel, FaPrint } from "react-icons/fa";
 
 const IncomeHead = () => {
+
   const [form, setForm] = useState({
     head: "",
     amount: "",
     action: "",
   });
 
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState([
+    { head: "Admission Fee", amount: "5000", action: "New student entry" },
+    { head: "Exam Fee", amount: "2000", action: "Final term exam" },
+    { head: "Donation", amount: "10000", action: "School development" }
+  ]);
+
   const [search, setSearch] = useState("");
 
   const handleSave = () => {
@@ -18,13 +23,7 @@ const IncomeHead = () => {
       return;
     }
 
-    const newRecord = {
-      head: form.head,
-      amount: form.amount,
-      action: form.action,
-    };
-
-    setRecords([...records, newRecord]);
+    setRecords([...records, form]);
 
     setForm({
       head: "",
@@ -35,22 +34,19 @@ const IncomeHead = () => {
 
   return (
     <div className="income-head-page">
+
       <div className="page-header">
-        <h2>Income Head</h2>
+        <h2>Income Head Management</h2>
       </div>
 
       <div className="income-layout">
+
         {/* LEFT FORM */}
         <div className="form-box">
-          <div className="form-title">
-            <FaEdit className="form-title-icon" />
-            <span>Add / Edit Income Head</span>
-          </div>
+          <h3 className="box-title">Add / Edit Income Head</h3>
 
           <div className="form-group">
-            <label>
-              Income Head <span className="req">*</span>
-            </label>
+            <label>Income Head <span>*</span></label>
             <input
               type="text"
               placeholder="Enter Income Head"
@@ -60,9 +56,7 @@ const IncomeHead = () => {
           </div>
 
           <div className="form-group">
-            <label>
-              Amount <span className="req">*</span>
-            </label>
+            <label>Amount <span>*</span></label>
             <input
               type="number"
               placeholder="Enter Amount"
@@ -72,35 +66,27 @@ const IncomeHead = () => {
           </div>
 
           <div className="form-group">
-            <label>Action</label>
+            <label>Description</label>
             <textarea
-              placeholder="Enter Action"
+              placeholder="Enter Description"
               value={form.action}
               onChange={(e) => setForm({ ...form, action: e.target.value })}
-            ></textarea>
+            />
           </div>
 
-          <button className="btn-save" onClick={handleSave}>Save</button>
+          <button className="btn-save" onClick={handleSave}>
+            Save Income Head
+          </button>
         </div>
 
         {/* RIGHT TABLE */}
-        <div className="list-box">
-          <div className="list-title">
-            <FaList className="list-title-icon" />
-            <span>Income Head List</span>
-          </div>
+        <div className="list-box small-table">
+          <h3 className="box-title">Income Head List</h3>
 
-          <div className="list-toolbar">
-            <div className="export-buttons">
-              <button><FaFilePdf /></button>
-              <button><FaFileExcel /></button>
-              <button><FaPrint /></button>
-            </div>
-
+          <div className="table-toolbar">
             <input
               type="text"
-              className="table-search"
-              placeholder="Search..."
+              placeholder="Search Income Head..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -110,33 +96,28 @@ const IncomeHead = () => {
             <table className="income-table">
               <thead>
                 <tr>
-                  <th>INCOME HEAD</th>
-                  <th>AMOUNT</th>
-                  <th>ACTION</th>
+                  <th>Income Head</th>
+                  <th>Amount (₹)</th>
+                  <th>Description</th>
                 </tr>
               </thead>
 
               <tbody>
-                {records.length === 0 ? (
-                  <tr>
-                    <td colSpan="3" className="no-data">No Records Found</td>
-                  </tr>
-                ) : (
-                  records
-                    .filter((r) =>
-                      r.head.toLowerCase().includes(search.toLowerCase())
-                    )
-                    .map((rec, i) => (
-                      <tr key={i}>
-                        <td>{rec.head}</td>
-                        <td>{rec.amount}</td>
-                        <td>{rec.action}</td>
-                      </tr>
-                    ))
-                )}
+                {records
+                  .filter((r) =>
+                    r.head.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .map((rec, i) => (
+                    <tr key={i}>
+                      <td>{rec.head}</td>
+                      <td className="amount">₹ {rec.amount}</td>
+                      <td>{rec.action}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
+
         </div>
 
       </div>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
+
 const GatePassForm = ({ onAdd }) => {
 
   const [issuedTo, setIssuedTo] = useState("Student");
   const [imageType, setImageType] = useState("upload");
-
   const [preview, setPreview] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -18,18 +18,15 @@ const GatePassForm = ({ onAdd }) => {
     image: null,
   });
 
-  /* ================= INPUT HANDLER ================= */
-
+  /* ================= INPUT ================= */
   const handleInput = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  /* ================= IMAGE UPLOAD ================= */
-
+  /* ================= IMAGE ================= */
   const handleImage = (e) => {
     const file = e.target.files[0];
-
     if (file) {
       const url = URL.createObjectURL(file);
       setPreview(url);
@@ -38,7 +35,6 @@ const GatePassForm = ({ onAdd }) => {
   };
 
   /* ================= SUBMIT ================= */
-
   const submitForm = (e) => {
     e.preventDefault();
 
@@ -66,31 +62,26 @@ const GatePassForm = ({ onAdd }) => {
   return (
     <div className="gatepass-form-card">
 
-      {/* ===== HEADER ===== */}
+      {/* HEADER */}
       <div className="card-header">
         Add Gate Pass
       </div>
 
-      {/* ===== FORM BODY ===== */}
+      {/* FORM */}
       <form className="form-body" onSubmit={submitForm}>
 
-        {/* ===== ISSUED TO ===== */}
+        {/* ISSUED TO */}
         <div className="form-group">
           <label>Issued To *</label>
-
-          <select
-            value={issuedTo}
-            onChange={(e) => setIssuedTo(e.target.value)}
-          >
+          <select value={issuedTo} onChange={(e) => setIssuedTo(e.target.value)}>
             <option>Student</option>
             <option>Staff</option>
           </select>
         </div>
 
-        {/* ===== NAME FIELD (DYNAMIC) ===== */}
+        {/* NAME */}
         <div className="form-group">
           <label>{issuedTo} Name *</label>
-
           <input
             name="name"
             placeholder={`${issuedTo} Name`}
@@ -100,64 +91,59 @@ const GatePassForm = ({ onAdd }) => {
           />
         </div>
 
-        {/* ===== START DATE ===== */}
-        <div className="form-group">
-          <label>Start Date *</label>
+        {/* ⭐ DATE ROW */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>Start Date *</label>
+            <input
+              type="date"
+              name="startDate"
+              value={formData.startDate}
+              onChange={handleInput}
+              required
+            />
+          </div>
 
-          <input
-            type="date"
-            name="startDate"
-            value={formData.startDate}
-            onChange={handleInput}
-            required
-          />
+          <div className="form-group">
+            <label>End Date *</label>
+            <input
+              type="date"
+              name="endDate"
+              value={formData.endDate}
+              onChange={handleInput}
+              required
+            />
+          </div>
         </div>
 
-        {/* ===== END DATE ===== */}
-        <div className="form-group">
-          <label>End Date *</label>
+        {/* ⭐ TIME ROW */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>In Time</label>
+            <input
+              type="time"
+              name="inTime"
+              value={formData.inTime}
+              onChange={handleInput}
+            />
+          </div>
 
-          <input
-            type="date"
-            name="endDate"
-            value={formData.endDate}
-            onChange={handleInput}
-            required
-          />
+          <div className="form-group">
+            <label>Out Time</label>
+            <input
+              type="time"
+              name="outTime"
+              value={formData.outTime}
+              onChange={handleInput}
+            />
+          </div>
         </div>
 
-        {/* ===== IN TIME ===== */}
+        {/* IMAGE */}
         <div className="form-group">
-          <label>In Time</label>
-
-          <input
-            type="time"
-            name="inTime"
-            value={formData.inTime}
-            onChange={handleInput}
-          />
-        </div>
-
-        {/* ===== OUT TIME ===== */}
-        <div className="form-group">
-          <label>Out Time</label>
-
-          <input
-            type="time"
-            name="outTime"
-            value={formData.outTime}
-            onChange={handleInput}
-          />
-        </div>
-
-        {/* ===== IMAGE SECTION ===== */}
-        <div className="form-group">
-
           <label>Image</label>
 
-          {/* Radio Buttons */}
           <div className="image-options">
-
             <label>
               <input
                 type="radio"
@@ -175,34 +161,22 @@ const GatePassForm = ({ onAdd }) => {
               />
               Capture
             </label>
-
           </div>
 
-          {/* ===== UPLOAD MODE ===== */}
           {imageType === "upload" && (
             <div className="image-box">
-
               {preview ? (
-                <img
-                  src={preview}
-                  className="preview-img"
-                  alt="preview"
-                />
+                <img src={preview} className="preview-img" alt="preview" />
               ) : (
                 <span>⬆</span>
               )}
-
               <input type="file" onChange={handleImage} />
-
             </div>
           )}
 
-          {/* ===== CAPTURE MODE ===== */}
           {imageType === "capture" && (
             <div className="capture-section">
-
               <div className="capture-placeholder"></div>
-
               <button
                 type="button"
                 className="btn-primary capture-btn"
@@ -210,16 +184,13 @@ const GatePassForm = ({ onAdd }) => {
               >
                 Capture image
               </button>
-
             </div>
           )}
-
         </div>
 
-        {/* ===== PERSON CARRYING ===== */}
+        {/* PERSON */}
         <div className="form-group">
           <label>Name of Person Carrying Student</label>
-
           <input
             name="person"
             placeholder="Name of Person Carrying Student"
@@ -228,10 +199,9 @@ const GatePassForm = ({ onAdd }) => {
           />
         </div>
 
-        {/* ===== NOTE ===== */}
+        {/* NOTE */}
         <div className="form-group">
           <label>Note</label>
-
           <textarea
             name="note"
             placeholder="Note"
@@ -240,7 +210,7 @@ const GatePassForm = ({ onAdd }) => {
           />
         </div>
 
-        {/* ===== SAVE BUTTON ===== */}
+        {/* SAVE */}
         <button className="btn-primary" type="submit">
           Save
         </button>
