@@ -17,13 +17,17 @@ export default function EventManagement() {
 
   /* ================= FETCH ================= */
   const fetchEvents = async () => {
-    try {
-      const res = await API.get("/events");
-      setEvents(res.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  try {
+    const res = await API.get("/events");
+
+    // ✅ correct line
+    setEvents(res.data.data);
+
+  } catch (err) {
+    console.error(err);
+    setEvents([]);
+  }
+};
 
   useEffect(() => {
     fetchEvents();

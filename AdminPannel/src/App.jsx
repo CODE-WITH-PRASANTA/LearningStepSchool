@@ -85,6 +85,7 @@ import AddBook from "./Pages/AddBook/AddBook";
 import StudentList from "./Pages/StudentList/StudentList";
 import ReturnBook from "./Pages/ReturnBook/ReturnBook";
 import Stafflibrary from "./Pages/Stafflibrary/Stafflibrary";
+import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 
 
 /* ===================== APP ===================== */
@@ -237,6 +238,7 @@ export default function App() {
           <Route path="/library/return-book" element={<ReturnBook/>}/>
           <Route path="library/student" element={<AddStudent/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
+          <Route path="/student/admission" element={<StudentAdmission/>}/>
          
 
 

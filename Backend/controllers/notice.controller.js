@@ -1,5 +1,5 @@
-const fs = require("fs");
 const Notice = require("../models/Notice");
+const { deleteImageFile } = require("../middleware/upload");
 
 /* ================= CREATE ================= */
 exports.createNotice = async (req, res) => {
@@ -12,7 +12,7 @@ exports.createNotice = async (req, res) => {
       dateTime,
       location,
       expiry,
-      image, // 🔥 injected by middleware
+      image,
     } = req.body;
 
     if (!title || !description || !dateTime || !name || !designation) {
@@ -30,7 +30,7 @@ exports.createNotice = async (req, res) => {
       dateTime,
       location,
       expiry,
-      image: image || null, // 🔥 use body.image
+      image: image || null,
       isActive: expiry ? new Date(expiry) > new Date() : true,
     });
 
@@ -38,7 +38,9 @@ exports.createNotice = async (req, res) => {
       success: true,
       data: notice,
     });
+
   } catch (error) {
+    console.error("CREATE NOTICE ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -49,6 +51,7 @@ exports.createNotice = async (req, res) => {
 /* ================= GET ALL ================= */
 exports.getAllNotices = async (req, res) => {
   try {
+    // 🔥 Auto deactivate expired notices
     await Notice.updateMany(
       { expiry: { $lt: new Date() } },
       { isActive: false }
@@ -60,7 +63,9 @@ exports.getAllNotices = async (req, res) => {
       success: true,
       data: notices,
     });
+
   } catch (error) {
+    console.error("GET NOTICES ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -84,7 +89,9 @@ exports.getNoticeById = async (req, res) => {
       success: true,
       data: notice,
     });
+
   } catch (error) {
+    console.error("GET NOTICE ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -104,33 +111,44 @@ exports.updateNotice = async (req, res) => {
       });
     }
 
-    const updateData = { ...req.body };
+    const {
+      title,
+      description,
+      name,
+      designation,
+      dateTime,
+      location,
+      expiry,
+      image,
+    } = req.body;
 
-    if (req.body.expiry) {
-      updateData.isActive =
-        new Date(req.body.expiry) > new Date();
+    // 🔥 Replace image if new uploaded
+    if (image) {
+      deleteImageFile(notice.image); // delete old image
+      notice.image = image;
     }
 
-    // 🔥 if new image uploaded
-    if (req.body.image) {
-      if (notice.image && fs.existsSync(notice.image)) {
-        fs.unlinkSync(notice.image);
-      }
-
-      updateData.image = req.body.image;
+    // 🔥 Safe field updates
+    if (title !== undefined) notice.title = title;
+    if (description !== undefined) notice.description = description;
+    if (name !== undefined) notice.name = name;
+    if (designation !== undefined) notice.designation = designation;
+    if (dateTime !== undefined) notice.dateTime = dateTime;
+    if (location !== undefined) notice.location = location;
+    if (expiry !== undefined) {
+      notice.expiry = expiry;
+      notice.isActive = new Date(expiry) > new Date();
     }
 
-    const updated = await Notice.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true }
-    );
+    await notice.save();
 
     res.json({
       success: true,
-      data: updated,
+      data: notice,
     });
+
   } catch (error) {
+    console.error("UPDATE NOTICE ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -150,9 +168,8 @@ exports.deleteNotice = async (req, res) => {
       });
     }
 
-    if (notice.image && fs.existsSync(notice.image)) {
-      fs.unlinkSync(notice.image);
-    }
+    // 🔥 Delete image safely
+    deleteImageFile(notice.image);
 
     await Notice.findByIdAndDelete(req.params.id);
 
@@ -160,7 +177,9 @@ exports.deleteNotice = async (req, res) => {
       success: true,
       message: "Notice deleted successfully",
     });
+
   } catch (error) {
+    console.error("DELETE NOTICE ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
