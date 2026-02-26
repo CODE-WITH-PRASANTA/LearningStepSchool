@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
-import API from "../../Api/Api"; // ✅ use your axios instance
+import { useNavigate } from "react-router-dom"; // ✅ ADDED
+import API from "../../Api/Api";
 import "./FloatingForm.css";
 
 const FloatingForm = () => {
+  const navigate = useNavigate(); // ✅ ADDED
+
   const [floatingformVisible, setFloatingformVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +29,7 @@ const FloatingForm = () => {
   /* ================= CLOSE ================= */
   const floatingformClose = () => {
     setFloatingformVisible(false);
+    navigate("/ad"); // ✅ Redirect to Ad page
   };
 
   /* ================= HANDLE INPUT ================= */
@@ -58,10 +62,14 @@ const FloatingForm = () => {
         });
 
         setFloatingformVisible(false);
+        navigate("/ad"); // ✅ Redirect after successful submit
       }
     } catch (error) {
       console.error("ENQUIRY ERROR:", error);
       alert("Something went wrong. Please try again.");
+
+      // Optional: redirect even on error
+      // navigate("/ad");
     } finally {
       setLoading(false);
     }
