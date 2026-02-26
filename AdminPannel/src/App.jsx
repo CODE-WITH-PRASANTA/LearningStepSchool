@@ -85,8 +85,6 @@ import AddBook from "./Pages/AddBook/AddBook";
 import StudentList from "./Pages/StudentList/StudentList";
 import ReturnBook from "./Pages/ReturnBook/ReturnBook";
 import Stafflibrary from "./Pages/Stafflibrary/Stafflibrary";
-import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
-
 import AddStudentlist from "./Component/AddStudentlist/AddStudentlist";
 import TypeList from "./Pages/TypeList/TypeList";
 import Question from "./Pages/Question/Question";
@@ -95,6 +93,7 @@ import Generate from "./Pages/Generate/Generate";
 import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
 import OnlineExam from "./Pages/OnlineExam/OnlineExam";
 import QustionBank from "./Pages/QustionBank/QustionBank";
+import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 
 
 /* ===================== APP ===================== */
@@ -183,8 +182,7 @@ export default function App() {
             element={<PostalReceive />}
           />
 
-          {/*Student Info*/}
-          <Route path="/student/admission" element={<StudentAdmission/>}/>
+          
 
           {/* Attendance */}
           <Route
@@ -260,6 +258,7 @@ export default function App() {
           <Route path="/library/student" element={<AddStudent/>}/>
           <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
+          <Route path="/student/admission" element={<StudentAdmission/>}/>
           <Route path="/type-question"element={<TypeList/>}/>
           <Route path="/question" element={<Question/>}/>
           <Route path="/update-question" element={<UpdateQuestion/>}/>

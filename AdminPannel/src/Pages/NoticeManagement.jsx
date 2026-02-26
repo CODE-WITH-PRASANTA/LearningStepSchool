@@ -132,18 +132,28 @@ export default function NoticeManagement() {
       description: notice.description || "",
       name: notice.name || "",
       designation: notice.designation || "",
-      dateTime: notice.dateTime || "",
+
+      // ✅ FIX datetime-local
+      dateTime: notice.dateTime
+        ? new Date(
+            new Date(notice.dateTime).getTime() -
+              new Date().getTimezoneOffset() * 60000,
+          )
+            .toISOString()
+            .slice(0, 16)
+        : "",
+
       location: notice.location || "",
-      expiry: notice.expiry || "",
+
+      // ✅ FIX date input
+      expiry: notice.expiry ? notice.expiry.split("T")[0] : "",
+
       image: null,
-      preview: notice.image
-        ? `${IMAGE_URL}${notice.image}`
-        : null,
+      preview: notice.image ? `${IMAGE_URL}${notice.image}` : null,
     });
 
     setEditId(notice._id);
   };
-
   const deleteNotice = async (id) => {
     if (!window.confirm("Delete this notice?")) return;
 
@@ -157,7 +167,7 @@ export default function NoticeManagement() {
 
   /* ================= HELPERS ================= */
   const filteredNotices = notices.filter((n) =>
-    n.title?.toLowerCase().includes(search.toLowerCase())
+    n.title?.toLowerCase().includes(search.toLowerCase()),
   );
 
   const isExpired = (expiry) => {
