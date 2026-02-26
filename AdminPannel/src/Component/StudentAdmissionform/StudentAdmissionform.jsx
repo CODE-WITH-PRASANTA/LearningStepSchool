@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./StudentAdmissionForm.css";
+import "./StudentAdmissionform.css";
 import {
   FiUpload,
   FiDownload,
