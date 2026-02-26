@@ -94,6 +94,7 @@ import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
 import OnlineExam from "./Pages/OnlineExam/OnlineExam";
 import QustionBank from "./Pages/QustionBank/QustionBank";
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
+import AdminColdLeads from "./Pages/AdminColdLeads/AdminColdLeads";
 
 
 /* ===================== APP ===================== */
@@ -266,6 +267,8 @@ export default function App() {
           <Route path="/generate-question" element={<GenerateQuestion/>}/>
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
+          <Route path="/admin/coldleads" element={<AdminColdLeads />} />
+
          
 
 

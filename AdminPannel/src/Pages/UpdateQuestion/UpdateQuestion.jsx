@@ -3,25 +3,25 @@ import "./UpdateQuestion.css";
 
 const UpdateQuestion = () => {
   return (
-    <div className="container">
-      <div className="card">
+    <div className="uq-container">
+      <div className="uq-card">
 
         {/* Header */}
-        <div className="header">
+        <div className="uq-header">
           <span>📝</span>
           <h2>Add / Update Question</h2>
         </div>
 
         {/* Form Body */}
-        <div className="formBody">
-          <div className="grid">
+        <div className="uq-formBody">
+          <div className="uq-grid">
 
             {/* Row 1 */}
-            <div className="formGroup">
-              <label className="label">
-                Class <span className="required">*</span>
+            <div className="uq-formGroup">
+              <label className="uq-label">
+                Class <span className="uq-required">*</span>
               </label>
-              <select className="select">
+              <select className="uq-select">
                 <option>Select Class</option>
                 <option>Nursery</option>
                 <option>KG</option>
@@ -40,11 +40,11 @@ const UpdateQuestion = () => {
               </select>
             </div>
 
-            <div className="formGroup">
-              <label className="label">
-                Section <span className="required">*</span>
+            <div className="uq-formGroup">
+              <label className="uq-label">
+                Section <span className="uq-required">*</span>
               </label>
-              <select className="select">
+              <select className="uq-select">
                 <option>Select Section</option>
                 <option>A</option>
                 <option>B</option>
@@ -53,11 +53,11 @@ const UpdateQuestion = () => {
               </select>
             </div>
 
-            <div className="formGroup">
-              <label className="label">
-                Subject <span className="required">*</span>
+            <div className="uq-formGroup">
+              <label className="uq-label">
+                Subject <span className="uq-required">*</span>
               </label>
-              <select className="select">
+              <select className="uq-select">
                 <option>Select Subject</option>
                 <option>English</option>
                 <option>Math</option>
@@ -68,11 +68,11 @@ const UpdateQuestion = () => {
               </select>
             </div>
 
-            <div className="formGroup">
-              <label className="label">
-                Lesson <span className="required">*</span>
+            <div className="uq-formGroup">
+              <label className="uq-label">
+                Lesson <span className="uq-required">*</span>
               </label>
-              <select className="select">
+              <select className="uq-select">
                 <option>Select Lesson</option>
                 <option>Lesson 1</option>
                 <option>Lesson 2</option>
@@ -82,18 +82,18 @@ const UpdateQuestion = () => {
             </div>
 
             {/* Row 2 */}
-            <div className="formGroup">
-              <label className="label">Session</label>
-              <select className="select">
+            <div className="uq-formGroup">
+              <label className="uq-label">Session</label>
+              <select className="uq-select">
                 <option>2024-25</option>
                 <option>2025-26</option>
                 <option>2026-27</option>
               </select>
             </div>
 
-            <div className="formGroup">
-              <label className="label">Type</label>
-              <select className="select">
+            <div className="uq-formGroup">
+              <label className="uq-label">Type</label>
+              <select className="uq-select">
                 <option>Long Descriptive</option>
                 <option>Short Answer</option>
                 <option>MCQ</option>
@@ -102,53 +102,44 @@ const UpdateQuestion = () => {
               </select>
             </div>
 
-            <div className="formGroup">
-              <label className="label">Level</label>
-              <select className="select">
+            <div className="uq-formGroup">
+              <label className="uq-label">Level</label>
+              <select className="uq-select">
                 <option>Easy</option>
                 <option>Medium</option>
                 <option>Hard</option>
               </select>
             </div>
 
-            <div className="formGroup">
-              <label className="label">
-                Marks <span className="required">*</span>
+            <div className="uq-formGroup">
+              <label className="uq-label">
+                Marks <span className="uq-required">*</span>
               </label>
-              <input type="text" className="input" placeholder="Marks" />
+              <input type="text" className="uq-input" placeholder="Marks" />
             </div>
           </div>
 
           {/* Question Editor */}
-          <div className="questionSection">
-            <label className="label">Question</label>
+          <div className="uq-questionSection">
+            <label className="uq-label">Question</label>
 
-            <div className="editorWrapper">
+            <div className="uq-editorWrapper">
 
-              {/* Toolbar */}
-              <div className="toolbar">
-                <div className="toolGroup">
-                  <button className="toolBtn">Source</button>
-                  <button className="toolBtn">💾</button>
-                  <button className="toolBtn">📄</button>
+              <div className="uq-toolbar">
+                <div className="uq-toolGroup">
+                  <button className="uq-toolBtn">Source</button>
+                  <button className="uq-toolBtn">💾</button>
+                  <button className="uq-toolBtn">📄</button>
                 </div>
 
-                <div className="toolGroup">
-                  <button className="toolBtn"><b>B</b></button>
-                  <button className="toolBtn"><i>I</i></button>
-                  <button className="toolBtn"><u>U</u></button>
-                </div>
-
-                <div className="toolGroup">
-                  <button className="toolBtn">Styles</button>
-                  <button className="toolBtn">Format</button>
-                  <button className="toolBtn">Font</button>
-                  <button className="toolBtn">Size</button>
+                <div className="uq-toolGroup">
+                  <button className="uq-toolBtn"><b>B</b></button>
+                  <button className="uq-toolBtn"><i>I</i></button>
+                  <button className="uq-toolBtn"><u>U</u></button>
                 </div>
               </div>
 
-              {/* Editable Text Box */}
-              <div className="editorArea" contentEditable="true"></div>
+              <div className="uq-editorArea" contentEditable="true"></div>
 
             </div>
           </div>

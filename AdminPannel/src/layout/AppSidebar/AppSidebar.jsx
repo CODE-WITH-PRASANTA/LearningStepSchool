@@ -18,13 +18,20 @@ import {
   FiLayers,
   FiMonitor,
   FiStar,
-  FiUserPlus
+  FiUserPlus,
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
 
 const menu = [
   { label: "Dashboard", icon: FiHome, path: "/dashboard" },
+
+  { type: "section", label: "Enquiry Section" },
+  {
+    label: "Cold Leads",
+    icon: FiUserPlus,
+    path: "/admin/coldleads",
+  },
 
   { type: "section", label: "Main Section" },
 
@@ -146,20 +153,23 @@ const menu = [
       { label: "Generate", path: "/paper-generate" },
     ],
   },
-  
-   { type: "divider" },
-  {
-  label: "Online Exam",
-  icon: FiGrid, // you can change icon if needed
-  children: [
-    { label: "Online Exam", path: "/online-exam" },
-    { label: "Question Bank", path: "/online-exam/question-bank" },
-    { label: "Exam Report", path: "/online-exam/exam-report" },
-    { label: "Students Exam Report", path: "/online-exam/students-exam-report" },
-  ],
-},
 
-   { type: "divider" },
+  { type: "divider" },
+  {
+    label: "Online Exam",
+    icon: FiGrid, // you can change icon if needed
+    children: [
+      { label: "Online Exam", path: "/online-exam" },
+      { label: "Question Bank", path: "/online-exam/question-bank" },
+      { label: "Exam Report", path: "/online-exam/exam-report" },
+      {
+        label: "Students Exam Report",
+        path: "/online-exam/students-exam-report",
+      },
+    ],
+  },
+
+  { type: "divider" },
 
   {
     label: "Expense",
@@ -170,7 +180,7 @@ const menu = [
       { label: "Expense Head", path: "/expense-head" },
     ],
   },
-   { type: "divider" },
+  { type: "divider" },
 
   {
     label: "Income",
@@ -181,8 +191,6 @@ const menu = [
       { label: "Income Head", path: "/income-head" },
     ],
   },
-
-
 ];
 
 /* ================= COMPONENT ================= */
@@ -196,9 +204,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     menu.forEach((item) => {
       if (
         item.children &&
-        item.children.some((c) =>
-          location.pathname.startsWith(c.path)
-        )
+        item.children.some((c) => location.pathname.startsWith(c.path))
       ) {
         setOpenGroup(item.label);
       }
@@ -230,7 +236,6 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         {/* NAVIGATION */}
         <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
-
             /* ===== SECTION HEADING ===== */
             if (item.type === "section") {
               return (
