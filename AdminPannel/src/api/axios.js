@@ -7,7 +7,7 @@ export const IMAGE_URL = BASE_URL;
 
 const API = axios.create({
   baseURL: `${BASE_URL}/api`,
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 export default API;

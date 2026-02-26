@@ -1,3 +1,4 @@
+const fs = require("fs");
 const PhotoGallery = require("../models/PhotoGallery.model");
 const { deleteImageFile } = require("../middleware/upload");
 
