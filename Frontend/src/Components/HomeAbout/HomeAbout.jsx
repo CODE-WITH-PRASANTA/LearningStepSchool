@@ -47,7 +47,7 @@ const HomeAbout = () => {
 
           {/* FEATURES */}
           <div className="homeabout-features">
-            <div className="homeabout-feature">
+            <div className="homeabout-feature1">
               <div className="feature-icon">
                 <img src={MissionIcon} alt="Mission" />
               </div>
@@ -60,7 +60,7 @@ const HomeAbout = () => {
               </div>
             </div>
 
-            <div className="homeabout-feature">
+            <div className="homeabout-feature2">
               <div className="feature-icon">
                 <img src={VisionIcon} alt="Vision" />
               </div>

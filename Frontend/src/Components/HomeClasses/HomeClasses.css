@@ -84,7 +84,6 @@
    CARD
 ================================================== */
 .homeclasses-card {
-  background: linear-gradient(180deg, #ffffff, #fff7e3);
   padding: 22px;
   border-radius: 28px;
   flex: 0 0 calc(100% / 3);
@@ -95,6 +94,33 @@
   position: relative;
 }
 
+/* ==========================================
+   UNIQUE BACKGROUND FOR EACH CARD
+========================================== */
+
+.homeclasses-card:nth-child(1) {
+  background: linear-gradient(180deg, #fcb502, #fff7e3);
+}
+
+.homeclasses-card:nth-child(2) {
+  background: linear-gradient(180deg, #56ccf2, #eef9ff);
+}
+
+.homeclasses-card:nth-child(3) {
+  background: linear-gradient(180deg, #6fcf97, #f0fff6);
+}
+
+.homeclasses-card:nth-child(4) {
+  background: linear-gradient(180deg, #bb6bd9, #f8f0ff);
+}
+
+.homeclasses-card:nth-child(5) {
+  background: linear-gradient(180deg, #f2994a, #fff3e8);
+}
+
+.homeclasses-card:nth-child(6) {
+  background: linear-gradient(180deg, #eb5757, #fff0f0);
+}
 /* Hover */
 @media (hover: hover) {
   .homeclasses-card:hover {
