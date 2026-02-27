@@ -4,7 +4,8 @@ const Testimonial = require("../models/testimonial.model");
 /* ================= CREATE ================= */
 exports.createTestimonial = async (req, res) => {
   try {
-    const { clientName, designation, feedback, rating, photo } = req.body;
+    const { clientName, designation, feedback, rating } = req.body;
+    const photo = req.file ? req.file.path : null;
 
     if (!clientName || !designation || !feedback || !rating) {
       return res.status(400).json({
@@ -13,7 +14,7 @@ exports.createTestimonial = async (req, res) => {
       });
     }
 
-    if (!photo) {
+    if (!req.file) {
       return res.status(400).json({
         success: false,
         message: "Photo is required",
@@ -32,7 +33,6 @@ exports.createTestimonial = async (req, res) => {
       success: true,
       data: testimonial,
     });
-
   } catch (error) {
     console.error("CREATE TESTIMONIAL ERROR:", error);
     res.status(500).json({
@@ -51,7 +51,6 @@ exports.getTestimonials = async (req, res) => {
       success: true,
       data: testimonials,
     });
-
   } catch (error) {
     console.error("GET TESTIMONIALS ERROR:", error);
     res.status(500).json({
@@ -65,7 +64,8 @@ exports.getTestimonials = async (req, res) => {
 exports.updateTestimonial = async (req, res) => {
   try {
     const { id } = req.params;
-    const { clientName, designation, feedback, rating, photo } = req.body;
+    const { clientName, designation, feedback, rating } = req.body;
+    const photo = req.file ? req.file.path : null;
 
     const testimonial = await Testimonial.findById(id);
     if (!testimonial) {
@@ -97,17 +97,14 @@ exports.updateTestimonial = async (req, res) => {
       updateData.photo = photo; // ✅ use middleware value
     }
 
-    const updated = await Testimonial.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true }
-    );
+    const updated = await Testimonial.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
     res.json({
       success: true,
       data: updated,
     });
-
   } catch (error) {
     console.error("UPDATE TESTIMONIAL ERROR:", error);
     res.status(500).json({
@@ -147,7 +144,6 @@ exports.deleteTestimonial = async (req, res) => {
       success: true,
       message: "Testimonial deleted successfully",
     });
-
   } catch (error) {
     console.error("DELETE TESTIMONIAL ERROR:", error);
     res.status(500).json({

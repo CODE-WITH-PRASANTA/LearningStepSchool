@@ -4,6 +4,7 @@ const { deleteImageFile } = require("../middleware/upload");
 /* ================= CREATE ================= */
 exports.createClassData = async (req, res) => {
   try {
+
     const newData = await ClassData.create({
       ...req.body,
       image: req.file ? req.file.path : null,

@@ -28,6 +28,7 @@ import {
   FiActivity,
   FiCreditCard,
   FiTrendingUp,
+  FiMessageSquare
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -41,6 +42,14 @@ const menu = [
     icon: FiUserPlus,
     path: "/admin/coldleads",
   },
+
+  { type: "section", label: "Contact Enquiry" },
+
+  {
+  label: "Contact Enquiries",
+  icon: FiMessageSquare,   
+  path: "/admin/contact-enq",
+},
 
   { type: "section", label: "Main Section" },
 
@@ -182,7 +191,7 @@ const menu = [
 
   {
     label: "Student Info",
-    icon: FiMonitor,
+    icon: FiUsers,
     children: [
       { label: "Student Admission", path: "/student/admission" },
       { label: "Online Admission", path: "/online/admission" },
@@ -192,6 +201,10 @@ const menu = [
       { label: "Student Referral", path: "/student/referral"},
       { label: "Inactive Students", path: "/inactive/student"},
       { label: "Link Siblings", path: "/link/siblings"},
+      { label: "Student Update", path: "/student/update"},
+      { label: "Student Report", path: "/student/report"},
+
+
     ],
   },
 

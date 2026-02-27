@@ -1,0 +1,198 @@
+/* ===========================
+   STUDENT UPDATE - SCOPED CSS
+=========================== */
+
+.su-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f1e5e5;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.su-layout {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ===== HEADER ===== */
+
+.su-header {
+  background: #f1e5e5;
+  padding: 22px 30px;
+  border-radius: 16px;
+  color: #0a0a0a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  margin-bottom: 30px;
+}
+
+.su-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.su-header-icon {
+  font-size: 24px;
+}
+
+.su-header-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.su-header-right {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.su-breadcrumb-active {
+  font-weight: 600;
+}
+
+/* ===== CARD ===== */
+
+.su-criteria-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #060606;
+}
+
+/* ===== TITLE ===== */
+
+.su-criteria-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.su-criteria-heading {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.su-search-icon {
+  font-size: 18px;
+}
+
+/* ===== FORM GRID ===== */
+
+.su-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+/* ===== FORM GROUP ===== */
+
+.su-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.su-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.su-required {
+  color: #f87171;
+}
+
+.su-select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.87);
+  color: #060606;
+  transition: 0.3s ease;
+}
+
+.su-select:focus {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 0 2px #14b8a6;
+}
+
+/* ===== BUTTON ===== */
+
+.su-button-area {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.su-update-btn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #14b8a6, #4f46e5);
+  color: #0f0e0e;
+  transition: 0.3s ease;
+}
+
+.su-update-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(20, 184, 166, 0.4);
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+
+/* Tablet */
+@media (max-width: 992px) {
+  .su-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .su-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .su-page {
+    padding: 20px 12px;
+  }
+
+  .su-criteria-card {
+    padding: 20px;
+  }
+
+  .su-header {
+    padding: 18px;
+  }
+
+  .su-header-title {
+    font-size: 18px;
+  }
+
+  .su-update-btn {
+    width: 100%;
+  }
+
+  .su-button-area {
+    justify-content: center;
+  }
+}

@@ -149,7 +149,7 @@ const StudentDetails = () => {
             </div>
 
             <div className="sd-btn-wrapper">
-              <Link to="/student/Link" className="sd-btn-search">
+              <Link to="/student/link" className="sd-btn-search">
                 <FaSearch /> Search
               </Link>
             </div>

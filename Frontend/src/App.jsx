@@ -1,9 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 // Layout Components
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
+
+// Loader
+import PageLoader from "./Components/Loader/Loader";
 
 // Pages
 import Home from "./Pages/Home/Home";
@@ -21,7 +25,7 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Regisrter/Register";
 import Notice from "./Pages/Notice/Notice";
 import AcademicsCalender from "./Pages/AcademicsCalender/AcademicsCalender";
-import VisionAndMission from  "./Pages/VisionAndMission/VisionAndMission";
+import VisionAndMission from "./Pages/VisionAndMission/VisionAndMission";
 import PrePrimery from "./Pages/PrePrimery/PrePrimery";
 import ExaminationSystem from "./Pages/ExaminationSystem/ExaminationSystem";
 import WhyChooseUs from "./Pages/WhyChooseUs/WhyChooseUs";
@@ -31,46 +35,74 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy";
 import TermAndCondition from "./Pages/TermAndCondition/TermAndCondition";
 import Gallery from "./Pages/Gallery/Gallery";
 import PublishNotification from "./Pages/PublishNotification/PublishNotification";
-import AdPage from "./Pages/AdPage";
+import ScrollToTop from "./Components/ScrollToTop";
+import BlogDetails from "./Pages/BlogDetails/BlogDetails";
+
+
+/* ================= ROUTE LOADER WRAPPER ================= */
+
+function AppContent() {
+  const location = useLocation();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1800); // 🔥 Professional smooth timing
+
+    return () => clearTimeout(timer);
+  }, [location]);
+
+  return (
+    <>
+      {loading && <PageLoader />}
+      <Navbar />
+        <ScrollToTop />  {/* 🔥 ADD HERE */}
+
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/details/:id" element={<BlogDetails />} />
+        <Route path="/ourteacher" element={<OurTeacher />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/student-life" element={<Studentlife />} />
+        <Route path="/admissions" element={<Admissions />} />
+        <Route path="/infrastructure" element={<Infrastructure />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/notice" element={<Notice />} />
+        <Route path="/academics/calendar" element={<AcademicsCalender />} />
+        <Route path="/vision-mission" element={<VisionAndMission />} />
+        <Route path="/academics/pre-primary" element={<PrePrimery />} />
+        <Route path="/academics/exams" element={<ExaminationSystem />} />
+        <Route path="/WhyChooseUs" element={<WhyChooseUs />} />
+        <Route path="/academics/primary" element={<Primery />} />
+        <Route path="/academics/secondary" element={<Secondary />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermAndCondition />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/notification" element={<PublishNotification />} />
+      </Routes>
+
+      <Footer />
+      <FloatingForm />
+      <FloatingActions />
+    </>
+  );
+}
+
+
+/* ================= MAIN APP ================= */
 
 function App() {
   return (
     <Router>
-      <Navbar />
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/ad" element={<AdPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faq" element={<FAQ />} />c
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/ourteacher" element={<OurTeacher />} />
-        <Route path="/about" element={<About/>}/>
-        <Route path="/student-life" element={<Studentlife/>}/>
-        <Route path="/admissions" element={<Admissions />} />
-        <Route path="/infrastructure" element={<Infrastructure />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />}/>
-        <Route path="/notice" element={<Notice />}/>
-        <Route path="/academics/calendar" element={<AcademicsCalender/>}/>
-        <Route path="/vision-mission" element={<VisionAndMission/>}/>
-        <Route path="/academics/pre-primary" element={<PrePrimery/>}/>
-        <Route path="/academics/exams" element={<ExaminationSystem/>}/>
-        <Route path="/WhyChooseUs" element={<WhyChooseUs/>}/> 
-        <Route path="/academics/primary" element={<Primery/>}/>
-        <Route path="/academics/secondary" element={<Secondary/>}/>
-        <Route path="/privacy" element={<PrivacyPolicy/>}/>
-        <Route path="/terms" element={<TermAndCondition/>}/>
-        <Route path="/gallery" element={<Gallery/>}/>
-        <Route path="/notification" element={<PublishNotification/>}/>
-
-        {/* <Route path="/notice/:id" element={<ViewNotice />} /> */}
-      </Routes>
-
-      <Footer /> 
-      <FloatingForm /> {/* 👈 Popup Form */}
-      {/* Floating Call & WhatsApp Icons */}
-      <FloatingActions />
+      <AppContent />
     </Router>
   );
 }

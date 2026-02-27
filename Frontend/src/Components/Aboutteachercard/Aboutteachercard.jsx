@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Aboutteachercard.css";
 import {
   FaFacebookF,
@@ -8,34 +8,40 @@ import {
   FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa";
-
-// IMAGES
-import img1 from "../../assets/ab.webp";
-import img2 from "../../assets/aj.webp";
-import img3 from "../../assets/ac.webp";
-import img4 from "../../assets/ad.webp";
-import img5 from "../../assets/ae.webp";
-import img6 from "../../assets/af.webp";
-import img7 from "../../assets/ag.webp";
-import img8 from "../../assets/ai.webp";
-
-const instructors = [
-  { name: "Brooklyn Simmons", img: img1 },
-  { name: "Leslie Alexander", img: img2 },
-  { name: "Ronald Richards", img: img3 },
-  { name: "Kristin Watson", img: img4 },
-  { name: "Esther Howard", img: img5 },
-  { name: "Savannah Nguyen", img: img6 },
-  { name: "Dianne Russell", img: img7 },
-  { name: "Kathryn Murphy", img: img8 },
-];
+import API, { IMAGE_URL } from "../../Api/Api";
 
 const Aboutteachercard = () => {
+  const [instructors, setInstructors] = useState([]);
   const [index, setIndex] = useState(0);
-  const isMobile = window.innerWidth <= 768;
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  /* ================= FETCH TEACHERS ================= */
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const res = await API.get("/teachers");
+        setInstructors(res.data.data || []);
+      } catch (err) {
+        console.error("FETCH TEACHERS ERROR:", err);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
+
+  /* ================= RESPONSIVE ================= */
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIndex(0);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const visibleCards = isMobile ? 1 : 4;
-  const maxIndex = instructors.length - visibleCards;
+  const maxIndex = Math.max(instructors.length - visibleCards, 0);
 
   const nextSlide = () => {
     if (index < maxIndex) setIndex(index + 1);
@@ -44,6 +50,8 @@ const Aboutteachercard = () => {
   const prevSlide = () => {
     if (index > 0) setIndex(index - 1);
   };
+
+  if (!instructors.length) return null;
 
   return (
     <section className="Aboutteachercard-section">
@@ -65,7 +73,7 @@ const Aboutteachercard = () => {
           <button
             className="Aboutteachercard-nav Aboutteachercard-next"
             onClick={nextSlide}
-            disabled={index === maxIndex}
+            disabled={index >= maxIndex}
           >
             <FaArrowRight />
           </button>
@@ -80,10 +88,13 @@ const Aboutteachercard = () => {
             transform: `translateX(-${index * (isMobile ? 100 : 25)}%)`,
           }}
         >
-          {instructors.map((item, i) => (
-            <div className="Aboutteachercard-card" key={i}>
+          {instructors.map((item) => (
+            <div className="Aboutteachercard-card" key={item._id}>
               <div className="Aboutteachercard-img-wrap">
-                <img src={item.img} alt={item.name} />
+                <img
+                  src={`${IMAGE_URL}${item.photo}`}
+                  alt={item.name}
+                />
 
                 <svg
                   className="Aboutteachercard-wave"
@@ -96,15 +107,26 @@ const Aboutteachercard = () => {
                 <div className="Aboutteachercard-share">
                   <FaShareAlt className="Aboutteachercard-share-main" />
                   <div className="Aboutteachercard-share-icons">
-                    <span><FaFacebookF /></span>
-                    <span><FaInstagram /></span>
-                    <span><FaLinkedinIn /></span>
+                    <span>
+                      <FaFacebookF />
+                    </span>
+                    <span>
+                      <FaInstagram />
+                    </span>
+                    <span>
+                      <FaLinkedinIn />
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <h3 className="Aboutteachercard-name">{item.name}</h3>
-              <p className="Aboutteachercard-role">Instructors</p>
+              <h3 className="Aboutteachercard-name">
+                {item.name}
+              </h3>
+
+              <p className="Aboutteachercard-role">
+                {item.designation || "Instructor"}
+              </p>
             </div>
           ))}
         </div>

@@ -8,7 +8,7 @@ const teacherSchema = new mongoose.Schema(
       trim: true,
     },
 
-    designation: {                 // ✅ Added
+    designation: {              
       type: String,
       required: true,
       trim: true,

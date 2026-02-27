@@ -104,6 +104,16 @@ import StudentLink from "./Pages/StudentLink/StudentLink";
 import StudentCatagory from "./Pages/StudentCatagory/StudentCatagory";
 import ExpenseList from "./Pages/ExpenseList/ExpenseList";
 
+            ////////**Student info**/////
+import House from "./Pages/House/House";
+import LinkSiblings from "./Pages/LinkSiblings/LinkSiblings";
+import StudentUpdate from "./Pages/StudentUpdate/StudentUpdate";
+import StudentReferral from "./Pages/StudentReferral/StudentReferral";
+import InactiveStudent from "./Pages/InactiveStudent/InactiveStudent";
+import AddReferral from "./Pages/AddReferral/AddReferral";
+import StudentReport from "./Pages/StudentReport/StudentReport";
+import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
+
 
 /* ===================== APP ===================== */
 
@@ -191,7 +201,10 @@ export default function App() {
             element={<PostalReceive />}
           />
 
-          
+           <Route
+            path="/admin/contact-enq"
+            element={<AdminEnquiryManager />}
+          />
 
           {/* Attendance */}
           <Route
@@ -282,8 +295,27 @@ export default function App() {
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
           <Route path="/online/admission"element={<OnlineAdmission/>}/>
          <Route path="/student/details" element={<StudentDetails/>}/>
-         <Route path="/student/Link" element={<StudentLink/>}/>
+         <Route path="/student/link" element={<StudentLink/>}/>
          <Route path="/student/catagory" element={<StudentCatagory/>}/>
+
+          {/* Student Info */}
+
+          <Route path="/house" element={<House/>} />
+          <Route path="/link/siblings" element={<LinkSiblings/>} />
+          <Route path="/student/update" element={<StudentUpdate/>} />
+          <Route path="/student/referral" element={<StudentReferral/>} />
+          <Route path="/add/referral" element={<AddReferral/>} />
+          <Route path="/inactive/student" element={<InactiveStudent/>} />
+          <Route path="/student/report" element={<StudentReport/>} />
+
+
+
+
+          
+
+
+
+         
 
 
          
