@@ -91,6 +91,9 @@ import Question from "./Pages/Question/Question";
 import UpdateQuestion from "./Pages/UpdateQuestion/UpdateQuestion";
 import Generate from "./Pages/Generate/Generate";
 import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
+import AddExpense from "./Pages/AddExpense/AddExpense";
+import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
+import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 
 /* ===================== APP ===================== */
@@ -258,6 +261,9 @@ export default function App() {
           <Route path="/update-question" element={<UpdateQuestion/>}/>
           <Route path="/paper-generate" element={<Generate/>}/>
           <Route path="/generate-question" element={<GenerateQuestion/>}/>
+          <Route path="/expense/details" element={<AddExpense/>}/>
+          <Route path="/expense-search" element={<ExpenseSearch/>}/>
+          <Route path="expense-head" element={<ExpenseHead/>}/>
          
 
 

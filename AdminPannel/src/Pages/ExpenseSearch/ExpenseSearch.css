@@ -1,0 +1,129 @@
+/* ===== WRAPPER ===== */
+.expenseSearch-wrapper {
+  padding: 30px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+}
+
+/* ===== HEADER ===== */
+.expenseSearch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.expenseSearch-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.breadcrumb {
+  color: #7a869a;
+  font-size: 14px;
+}
+
+/* ===== CARD ===== */
+.expenseSearch-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.expenseSearch-cardHeader {
+  background: #f7e7ea;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.expenseSearch-cardHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ===== FORM ===== */
+.expenseSearch-form {
+  padding: 25px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+}
+
+/* ===== GROUP ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2f5eff;
+  box-shadow: 0 0 0 3px rgba(47,94,255,0.08);
+}
+
+/* ===== BUTTON ===== */
+.form-btn {
+  display: flex;
+  align-items: flex-end;
+}
+
+.search-btn {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 8px;
+  background: #1f4e79;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-btn:hover {
+  background: #163b5c;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .expenseSearch-form {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .expenseSearch-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .expenseSearch-form {
+    grid-template-columns: 1fr;
+  }
+
+  .expenseSearch-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
