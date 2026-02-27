@@ -1,23 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./HomeGallery.css";
-
-/* ✅ IMPORT IMAGES PROPERLY */
-import img1 from "../../assets/galleryimg1.webp";
-import img2 from "../../assets/galleryimg2.webp";
-import img3 from "../../assets/galleryimg3.webp";
-import img4 from "../../assets/galleryimg4.webp";
-import img5 from "../../assets/galleryimg5.webp";
-import img6 from "../../assets/galleryimg6.webp";
-import img7 from "../../assets/galleryimg7.webp";
-
-/* ✅ IMAGE ARRAY */
-const images = [img1, img2, img3, img4, img5, img6, img7];
+import API, { IMAGE_URL } from "../../Api/Api";
 
 const HomeGallery = () => {
+  const [images, setImages] = useState([]);
   const [activeImg, setActiveImg] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  /* ================= FETCH FROM BACKEND ================= */
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const res = await API.get("/photo-gallery");
+
+        const formatted =
+          (res.data.data || []).map((item) => ({
+            id: item._id,
+            image: IMAGE_URL + item.image,
+            title: item.title,
+          })) || [];
+
+        setImages(formatted);
+      } catch (error) {
+        console.error("FETCH GALLERY ERROR:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGallery();
+  }, []);
+
+  if (loading) return null;
+  if (!images.length) return null;
 
   return (
-    <>
     <section className="gallery-section">
       {/* ===== Heading ===== */}
       <section className="gallery-heading">
@@ -28,11 +45,13 @@ const HomeGallery = () => {
         </div>
 
         <h2 className="main-title">
-          Happy Moments at <span>Our School </span>
+          Happy Moments at <span>Our School</span>
         </h2>
 
         <p className="subtitle">
-          Explore real moments from Learning Step School through our gallery, showcasing student activities, classroom learning, celebrations, and a safe, child-friendly school environment.
+          Explore real moments from Learning Step School through our gallery,
+          showcasing student activities, classroom learning, celebrations,
+          and a safe, child-friendly school environment.
         </p>
       </section>
 
@@ -43,9 +62,13 @@ const HomeGallery = () => {
             <div
               className="gallery-item"
               key={index}
-              onClick={() => setActiveImg(img)}
+              onClick={() => setActiveImg(img.image)}
             >
-              <img src={img} alt={`Gallery ${index + 1}`} loading="lazy" />
+              <img
+                src={img.image}
+                alt={img.title || `Gallery ${index + 1}`}
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
@@ -58,8 +81,7 @@ const HomeGallery = () => {
           <img src={activeImg} alt="Preview" />
         </div>
       )}
-      </section>
-    </>
+    </section>
   );
 };
 
