@@ -667,13 +667,23 @@
   list-style: none;
 }
 
-/* ===== Sticky Navbar for Desktop ===== */
+/* ===== Sticky Top Bar + Navbar (Desktop Only) ===== */
 @media (min-width: 769px) {
-  .Navbar-navbar {
+
+  .Navbar-top-bar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 1000;
+  }
+
+  .Navbar-navbar {
+    position: fixed;
+    top: 40px;   /* 👈 height of top bar */
+    left: 0;
+    width: 100%;
     z-index: 999;
   }
+
 }
