@@ -167,10 +167,15 @@ const Footer = () => {
         </p>
 
 
-        <div className="Footer-sec-bottom-links">
-           <sapn><a href="/privacy">Privacy Policy</a></sapn>          
-         <sapn> <a href="/terms">Term & Condition</a>  </sapn>
-        </div>
+       <div className="Footer-sec-bottom-links">
+            <span>
+              <a href="/privacy">Privacy Policy</a>
+            </span>
+
+            <span>
+              <a href="/terms">Terms & Condition</a>
+            </span>
+          </div>
       </div>
     </>
   );

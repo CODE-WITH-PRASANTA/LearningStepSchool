@@ -19,7 +19,6 @@ app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-// IMPORT ROUTES AFTER APP IS CREATED
 // const surveyRoutes = require("./routes/admissionSurvey.routes");
 const notificationRoutes = require("./routes/notification.routes");
 const latestNewsRoutes = require("./routes/latestNews.routes");
@@ -62,15 +61,6 @@ app.use("/api/fees", feeRoutes);
 app.use("/api/class-data", classDataRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/enquiries", enquiryRoutes);
-
-
-
-
-
-
-
-
-
 
 
 

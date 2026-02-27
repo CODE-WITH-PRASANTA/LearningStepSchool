@@ -334,7 +334,6 @@
 }
 
 .Myservices-homepage__service-item {
-  background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   padding: 28px;
   display: flex;
@@ -348,6 +347,37 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   opacity: 0;
   transform: translateY(30px);
+}
+
+/* ==========================================
+   DIFFERENT COLOR THEME FOR EACH CARD
+========================================== */
+
+/* CARD 1 - BLUE */
+.Myservices-homepage__service-item:nth-child(1) {
+  border-top: 4px solid #2F80ED;
+}
+
+.Myservices-homepage__service-item:nth-child(1):hover {
+  border-color: rgba(47, 128, 237, 0.4);
+}
+
+/* CARD 2 - RED */
+.Myservices-homepage__service-item:nth-child(2) {
+  border-top: 4px solid #EB5757;
+}
+
+.Myservices-homepage__service-item:nth-child(2):hover {
+  border-color: rgba(235, 87, 87, 0.4);
+}
+
+/* CARD 3 - ORANGE */
+.Myservices-homepage__service-item:nth-child(3) {
+  border-top: 4px solid #F2994A;
+}
+
+.Myservices-homepage__service-item:nth-child(3):hover {
+  border-color: rgba(242, 153, 74, 0.4);
 }
 
 .Myservices-homepage__service-item::before {
@@ -585,8 +615,25 @@
   margin-bottom: 10px;
   font-size: 20px;
   font-weight: 700;
-  color: #1f2937;
   transition: color 0.3s ease;
+}
+
+/* BLUE CARD */
+.Myservices-homepage__service-item:nth-child(1):hover 
+.Myservices-homepage__stat-value {
+  color: #2F80ED;
+}
+
+/* RED CARD */
+.Myservices-homepage__service-item:nth-child(2):hover 
+.Myservices-homepage__stat-value {
+  color: #EB5757;
+}
+
+/* ORANGE CARD */
+.Myservices-homepage__service-item:nth-child(3):hover 
+.Myservices-homepage__stat-value {
+  color: #F2994A;
 }
 
 .Myservices-homepage__service-item:hover .Myservices-homepage__stat-value {
