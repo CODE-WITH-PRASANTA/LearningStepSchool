@@ -104,10 +104,15 @@
   left: 0;
   width: 100%;
   height: 80px;
-  fill: #ffffff;
+  /* fill: #f49450; */
+  fill: #f49450;
+
   pointer-events: none;
 }
+.Aboutteachercard-wave:hover{
+    fill: #f49450;
 
+}
 /* SHARE ICON */
 .Aboutteachercard-share {
   position: absolute;

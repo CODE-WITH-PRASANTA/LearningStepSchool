@@ -127,15 +127,29 @@
   margin-bottom: 30px;
 }
 
-.feature {
+.feature1 {
   display: flex;
   gap: 12px;
   padding: 14px 16px;
   border-radius: 14px;
   background: linear-gradient(
     180deg,
-    #ffffff,
-    #fff7e3
+    #dce614,
+    #e5a708
+  );
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+  border-left: 4px solid #2F80ED;
+}
+
+.feature2 {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: linear-gradient(
+    180deg,
+    #ac3424bd,
+    #e53c08
   );
   box-shadow: 0 10px 26px rgba(0,0,0,0.06);
   border-left: 4px solid #2F80ED;

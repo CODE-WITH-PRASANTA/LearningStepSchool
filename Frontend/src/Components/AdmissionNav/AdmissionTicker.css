@@ -4,6 +4,7 @@
   background: #f7fbff;
   padding: 10px 0;
   border-bottom: 1px solid #e6f0ff;
+  margin-top: 40px;
 }
 
 /* Moving row */
@@ -16,25 +17,33 @@
 
 /* LIGHT BUTTON */
 .ticker-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between gif & text */
+
   background: #ffffff;
   color: #ff7a00;
   border: 1px solid #ffd9b3;
-
-  padding: 10px 22px;
+  padding: 8px 20px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-
   transition: all 0.25s ease;
 }
 
 .ticker-btn:hover {
   background: #fff3e6;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+
+/* NEW GIF SIZE */
+.ticker-new-icon {
+  height: 22px;
+  width: auto;
 }
 
 /* Animation */
