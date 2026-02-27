@@ -1,0 +1,207 @@
+.studentHouse {
+  padding: 24px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.studentHouse__container {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 24px;
+}
+
+/* ================= FORM CARD ================= */
+
+.studentHouse__formCard {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  height: fit-content;
+}
+
+.studentHouse__title {
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.studentHouse__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.studentHouse__field label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #334155;
+}
+
+.studentHouse__field input,
+.studentHouse__field textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dbeafe;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.studentHouse__field input:focus,
+.studentHouse__field textarea:focus {
+  border-color: #2563eb;
+}
+
+.studentHouse__primaryBtn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.studentHouse__primaryBtn:hover {
+  background: #1d4ed8;
+}
+
+/* ================= LIST CARD ================= */
+
+.studentHouse__listCard {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.studentHouse__listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.studentHouse__search {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  width: 220px;
+}
+
+/* ================= TABLE ================= */
+
+.studentHouse__tableWrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+.studentHouse__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+.studentHouse__table th {
+  background: #f1f5f9;
+  padding: 12px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.studentHouse__table td {
+  padding: 12px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+.studentHouse__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.studentHouse__editBtn {
+  background: #f59e0b;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.studentHouse__deleteBtn {
+  background: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.studentHouse__noData {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+/* ================= PAGINATION ================= */
+
+.studentHouse__pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.studentHouse__pagination button {
+  padding: 6px 12px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.studentHouse__pagination button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.studentHouse__pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1024px) {
+  .studentHouse__container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .studentHouse {
+    padding: 14px;
+  }
+
+  .studentHouse__search {
+    width: 100%;
+  }
+
+  .studentHouse__listHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

@@ -182,7 +182,7 @@ const menu = [
 
   {
     label: "Student Info",
-    icon: FiMonitor,
+    icon: FiUsers,
     children: [
       { label: "Student Admission", path: "/student/admission" },
       { label: "Online Admission", path: "/online/admission" },
@@ -192,6 +192,10 @@ const menu = [
       { label: "Student Referral", path: "/student/referral"},
       { label: "Inactive Students", path: "/inactive/student"},
       { label: "Link Siblings", path: "/link/siblings"},
+      { label: "Student Update", path: "/student/update"},
+      { label: "Student Report", path: "/student/report"},
+
+
     ],
   },
 
