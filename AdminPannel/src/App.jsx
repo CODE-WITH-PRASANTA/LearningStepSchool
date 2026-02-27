@@ -98,6 +98,11 @@ import OnlineExam from "./Pages/OnlineExam/OnlineExam";
 import QustionBank from "./Pages/QustionBank/QustionBank";
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 import AdminColdLeads from "./Pages/AdminColdLeads/AdminColdLeads";
+import OnlineAdmission from "./Pages/OnlineAdmission/OnlineAdmission";
+import StudentDetails from "./Pages/StudentDetails/StudentDetails";
+import StudentLink from "./Pages/StudentLink/StudentLink";
+import StudentCatagory from "./Pages/StudentCatagory/StudentCatagory";
+import ExpenseList from "./Pages/ExpenseList/ExpenseList";
 
 
 /* ===================== APP ===================== */
@@ -270,12 +275,15 @@ export default function App() {
           <Route path="/generate-question" element={<GenerateQuestion/>}/>
           <Route path="/expense/details" element={<AddExpense/>}/>
           <Route path="/expense-search" element={<ExpenseSearch/>}/>
+          <Route path="/expense-list" element={<ExpenseList/>}/>
           <Route path="expense-head" element={<ExpenseHead/>}/>
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
-
-         
+          <Route path="/online/admission"element={<OnlineAdmission/>}/>
+         <Route path="/student/details" element={<StudentDetails/>}/>
+         <Route path="/student/Link" element={<StudentLink/>}/>
+         <Route path="/student/catagory" element={<StudentCatagory/>}/>
 
 
          

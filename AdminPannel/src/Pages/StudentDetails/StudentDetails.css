@@ -1,0 +1,242 @@
+.sd-container {
+  padding: 24px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  color: #2c3e50;
+}
+
+/* HEADER */
+.sd-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.sd-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sd-icon-main {
+  font-size: 22px;
+  color: #1e3a8a;
+}
+.sd-title h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+.sd-breadcrumbs {
+  font-size: 14px;
+  color: #6b7280;
+}
+.sd-breadcrumbs .active {
+  font-weight: 500;
+  color: #111827;
+}
+
+/* CARD */
+.sd-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  overflow: visible; /* ✅ important */
+}
+.sd-card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+.sd-card-body {
+  padding: 28px;
+}
+
+/* GRID */
+.sd-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 24px;
+  align-items: end;
+}
+
+.sd-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sd-input-field label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.sd-input-field input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  width: 100%;
+  background: #fff;
+  transition: 0.2s ease;
+}
+
+.sd-input-field input:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* ✅ CUSTOM SELECT */
+.sd-select-wrap {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+/* ✅ when open, bring this select on top (fixes “menu looks merged”) */
+.sd-select-wrap.is-open {
+  z-index: 9999;
+}
+
+.sd-select-btn {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.sd-select-btn.open {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.sd-select-text {
+  font-size: 14px;
+  color: #111827;
+}
+.sd-select-text.placeholder {
+  color: #6b7280;
+}
+
+.sd-select-icon {
+  transition: 0.2s ease;
+  color: #111827;
+}
+.sd-select-icon.rot {
+  transform: rotate(180deg);
+}
+
+/* ✅ PROPER BOX MENU */
+.sd-select-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+  overflow: hidden; /* ✅ so items stay inside round */
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+/* items */
+.sd-select-item {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #111827;
+  transition: 0.15s ease;
+}
+
+.sd-select-item:hover {
+  background: #f3f6ff;
+}
+
+.sd-select-item.active {
+  background: #e8efff;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+.placeholder-item {
+  color: #6b7280;
+}
+
+/* BUTTON */
+.sd-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sd-btn-search {
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  height: 46px;
+  white-space: nowrap;
+  transition: 0.25s ease;
+}
+
+.sd-btn-search:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .sd-form-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+  .sd-btn-wrapper {
+    justify-content: stretch;
+  }
+  .sd-btn-search {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .sd-card-body {
+    padding: 18px;
+  }
+  .sd-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .sd-btn-wrapper {
+    justify-content: stretch;
+  }
+  .sd-btn-search {
+    width: 100%;
+    justify-content: center;
+  }
+}
