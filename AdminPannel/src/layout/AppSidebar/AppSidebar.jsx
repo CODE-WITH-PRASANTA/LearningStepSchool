@@ -86,7 +86,6 @@ const menu = [
     label: "Admission Management",
     icon: FiUsers,
     children: [
-      { label: "Student Admission", path: "/student/admission" },
       { label: "Admission Survey", path: "/survey" },
       { label: "Admission Data View", path: "/survey/data" },
     ],
@@ -176,6 +175,23 @@ const menu = [
         label: "Students Exam Report",
         path: "/online-exam/students-exam-report",
       },
+    ],
+  },
+
+  { type: "divider" },
+
+  {
+    label: "Student Info",
+    icon: FiMonitor,
+    children: [
+      { label: "Student Admission", path: "/student/admission" },
+      { label: "Online Admission", path: "/online/admission" },
+      { label: "Student Details", path: "/student/details" },
+      { label: "Student Catagory", path: "/student/catagory"},
+      { label: "House", path: "/house"},
+      { label: "Student Referral", path: "/student/referral"},
+      { label: "Inactive Students", path: "/inactive/student"},
+      { label: "Link Siblings", path: "/link/siblings"},
     ],
   },
 
