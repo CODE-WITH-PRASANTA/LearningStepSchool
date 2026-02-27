@@ -24,7 +24,7 @@ const slides = [
   },
   {
     image: heroImg3,
-    badge: "Admissions Open 2025–26",
+    badge: "Admissions Open 2026–27",
     title: "Trusted International School",
     highlight: "For Academic Excellence",
     text: "Enroll your child in a school that nurtures academic excellence, discipline, creativity, and confidence—recognized as a leading school in Rajgarh.",

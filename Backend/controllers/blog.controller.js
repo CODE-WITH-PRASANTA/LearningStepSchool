@@ -1,20 +1,37 @@
 const Blog = require("../models/blog.model");
-const fs = require("fs");
+const { deleteImageFile } = require("../middleware/upload");
 
 /* ================= CREATE ================= */
 exports.createBlog = async (req, res) => {
   try {
     const blog = await Blog.create(req.body);
-    res.status(201).json({ success: true, data: blog });
+
+    res.status(201).json({
+      success: true,
+      data: blog,
+    });
+
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error("CREATE BLOG ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
 /* ================= GET ALL (SEARCH + PAGINATION + FILTER) ================= */
 exports.getBlogs = async (req, res) => {
   try {
-    const { page = 1, limit = 6, search = "", category } = req.query;
+    const {
+      page = 1,
+      limit = 6,
+      search = "",
+      category,
+    } = req.query;
+
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
 
     const query = {};
 
@@ -28,21 +45,25 @@ exports.getBlogs = async (req, res) => {
 
     const blogs = await Blog.find(query)
       .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+      .skip((pageNumber - 1) * limitNumber)
+      .limit(limitNumber);
 
     const total = await Blog.countDocuments(query);
 
     res.json({
       success: true,
       total,
-      currentPage: Number(page),
-      totalPages: Math.ceil(total / limit),
+      currentPage: pageNumber,
+      totalPages: Math.ceil(total / limitNumber),
       data: blogs,
     });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error("GET BLOGS ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -52,42 +73,66 @@ exports.getSingleBlog = async (req, res) => {
     const blog = await Blog.findById(req.params.id);
 
     if (!blog) {
-      return res.status(404).json({ message: "Blog not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
     }
 
-    res.json({ success: true, data: blog });
+    res.json({
+      success: true,
+      data: blog,
+    });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error("GET SINGLE BLOG ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
 /* ================= UPDATE ================= */
 exports.updateBlog = async (req, res) => {
   try {
-    const existing = await Blog.findById(req.params.id);
+    const blog = await Blog.findById(req.params.id);
 
-    if (!existing) {
-      return res.status(404).json({ message: "Blog not found" });
+    if (!blog) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
     }
 
-    /* DELETE OLD IMAGE */
-    if (req.body.image && existing.image) {
-      if (fs.existsSync(existing.image)) {
-        fs.unlinkSync(existing.image);
+    const { image } = req.body;
+
+    // 🔥 Replace image if new uploaded
+    if (image) {
+      deleteImageFile(blog.image); // delete old image
+      blog.image = image;
+    }
+
+    // 🔥 Safe update for other fields
+    Object.keys(req.body).forEach((key) => {
+      if (key !== "image" && req.body[key] !== undefined) {
+        blog[key] = req.body[key];
       }
-    }
+    });
 
-    const updated = await Blog.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    await blog.save();
 
-    res.json({ success: true, data: updated });
+    res.json({
+      success: true,
+      data: blog,
+    });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error("UPDATE BLOG ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 
@@ -97,19 +142,27 @@ exports.deleteBlog = async (req, res) => {
     const blog = await Blog.findById(req.params.id);
 
     if (!blog) {
-      return res.status(404).json({ message: "Blog not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Blog not found",
+      });
     }
 
-    /* DELETE IMAGE FILE */
-    if (blog.image && fs.existsSync(blog.image)) {
-      fs.unlinkSync(blog.image);
-    }
+    // 🔥 Delete image safely
+    deleteImageFile(blog.image);
 
     await Blog.findByIdAndDelete(req.params.id);
 
-    res.json({ success: true, message: "Blog deleted successfully" });
+    res.json({
+      success: true,
+      message: "Blog deleted successfully",
+    });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    console.error("DELETE BLOG ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };

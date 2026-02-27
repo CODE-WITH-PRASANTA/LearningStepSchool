@@ -31,8 +31,7 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy";
 import TermAndCondition from "./Pages/TermAndCondition/TermAndCondition";
 import Gallery from "./Pages/Gallery/Gallery";
 import PublishNotification from "./Pages/PublishNotification/PublishNotification";
-// import ViewNotice from "./Pages/ViewNotice/ViewNotice";
-
+import AdPage from "./Pages/AdPage";
 
 function App() {
   return (
@@ -41,6 +40,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/ad" element={<AdPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FAQ />} />c
         <Route path="/blog" element={<Blog />} />

@@ -13,18 +13,7 @@ connectDB();
 /* ================= MIDDLEWARE ================= */
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "http://localhost:5176",
-    ],
-    credentials: true,
-  })
-);
-
+app.use(cors());
 /* ================= ROUTES ================= */
 app.get("/", (req, res) => {
   res.send("API Working");
@@ -50,6 +39,7 @@ const feeRoutes = require("./routes/fee.routes");
 const classDataRoutes = require("./routes/classData.routes");
 const eventRoutes = require("./routes/event.routes");
 
+const enquiryRoutes = require("./routes/enquiry.routes");
 
 app.use("/uploads", express.static("uploads"));
 
@@ -71,7 +61,7 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/fees", feeRoutes);
 app.use("/api/class-data", classDataRoutes);
 app.use("/api/events", eventRoutes);
-
+app.use("/api/enquiries", enquiryRoutes);
 
 
 

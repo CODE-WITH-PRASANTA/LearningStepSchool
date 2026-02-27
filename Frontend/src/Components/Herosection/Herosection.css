@@ -118,9 +118,9 @@
 
 /* OUTLINE */
 .btn-outline {
-  background: #ffffff;
+  background: #ff4d6d;
   border: 2px solid #2f80ed;
-  color: #2f80ed;
+  color: #fff;
   padding: 15px 30px;
   border-radius: 50px;
   font-weight: 600;

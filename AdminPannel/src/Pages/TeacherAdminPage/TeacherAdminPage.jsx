@@ -10,7 +10,7 @@ const TeacherAdminPage = () => {
   const fetchTeachers = async () => {
     try {
       const res = await API.get("/teachers");
-      setTeachers(res.data);
+      setTeachers(res.data.data || []);
     } catch (err) {
       console.error(err);
     }

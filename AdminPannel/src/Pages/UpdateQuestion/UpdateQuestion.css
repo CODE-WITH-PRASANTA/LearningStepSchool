@@ -1,11 +1,11 @@
-.container {
+.uq-container {
   padding: 20px;
   background-color: #f8f9fa;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
 }
 
-.card {
+.uq-card {
   background: #ffffff;
   border-radius: 8px;
   border-top: 4px solid #f9d5d3;
@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-.header {
+.uq-header {
   padding: 15px 25px;
   border-bottom: 1px solid #eee;
   display: flex;
@@ -21,42 +21,56 @@
   gap: 10px;
 }
 
-.header h2 {
+.uq-header h2 {
   font-size: 1.25rem;
   color: #334155;
   margin: 0;
   font-weight: 500;
 }
 
-.formBody {
+.uq-formBody {
   padding: 25px;
 }
 
-.grid {
+/* GRID */
+.uq-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 30px;
 }
 
-.formGroup {
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .uq-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .uq-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.uq-formGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.label {
+.uq-label {
   font-size: 14px;
   color: #334155;
   font-weight: 500;
 }
 
-.required {
+.uq-required {
   color: #ef4444;
 }
 
-.input,
-.select {
+.uq-input,
+.uq-select {
   padding: 10px 12px;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
@@ -66,22 +80,22 @@
   transition: border-color 0.2s;
 }
 
-.input:focus,
-.select:focus {
+.uq-input:focus,
+.uq-select:focus {
   outline: none;
   border-color: #94a3b8;
 }
 
-.questionSection {
+.uq-questionSection {
   margin-top: 20px;
 }
 
-.editorWrapper {
+.uq-editorWrapper {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.toolbar {
+.uq-toolbar {
   background-color: #f0f0f0;
   padding: 8px;
   border-bottom: 1px solid #ccc;
@@ -90,15 +104,15 @@
   gap: 4px;
 }
 
-.toolGroup {
+.uq-toolGroup {
   display: flex;
-  gap: 2px;
+  gap: 4px;
   padding-right: 8px;
   border-right: 1px solid #ddd;
   margin-right: 4px;
 }
 
-.toolBtn {
+.uq-toolBtn {
   background: white;
   border: 1px solid #ddd;
   padding: 4px 8px;
@@ -107,7 +121,7 @@
   border-radius: 2px;
 }
 
-.editorArea {
+.uq-editorArea {
   height: 200px;
   background: white;
   padding: 15px;

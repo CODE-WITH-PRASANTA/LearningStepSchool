@@ -65,7 +65,7 @@ const Aboutus = () => {
           {/* FEATURES */}
           <div className="about-features">
 
-            <div className="feature About-reveal">
+            <div className="feature1 About-reveal">
               <div>
                 <h4>Strong Academic Foundation</h4>
                 <p>
@@ -75,7 +75,7 @@ const Aboutus = () => {
               </div>
             </div>
 
-            <div className="feature About-reveal">
+            <div className="feature2 About-reveal">
               <div>
                 <h4>Engaging & Activity-Based Learning</h4>
                 <p>

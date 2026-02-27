@@ -168,8 +168,8 @@ const Footer = () => {
 
 
         <div className="Footer-sec-bottom-links">
-           <spam><a href="/privacy">Privacy Policy</a></spam>          
-         <spam> <a href="/terms">Term & Condition</a>  </spam>
+           <sapn><a href="/privacy">Privacy Policy</a></sapn>          
+         <sapn> <a href="/terms">Term & Condition</a>  </sapn>
         </div>
       </div>
     </>
