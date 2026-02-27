@@ -1,0 +1,151 @@
+.AddReferralWrapper {
+  width: 100%;
+  padding: 24px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+.AddReferralHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.AddReferralTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f2d52;
+}
+
+.AddReferralHeaderIcon {
+  font-size: 22px;
+}
+
+.AddReferralBreadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.AddReferralBreadcrumbLink {
+  color: #1d4ed8;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.AddReferralBreadcrumbSlash {
+  color: #9ca3af;
+}
+
+.AddReferralBreadcrumbActive {
+  color: #6b7280;
+}
+
+/* Card */
+
+.AddReferralCard {
+  background: #f0d3d3a2;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(15, 45, 82, 0.08);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.AddReferralCardHeader {
+  padding: 18px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #0f2d52;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.AddReferralCardBody {
+  padding: 24px;
+}
+
+.AddReferralCardFooter {
+  padding: 18px 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  background: #fafafa;
+}
+
+/* Form */
+
+.AddReferralFormGrid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.AddReferralFormGrid4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.AddReferralFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.AddReferralInput {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+}
+
+.AddReferralInput:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.AddReferralTextarea {
+  resize: none;
+}
+
+.AddReferralSaveBtn {
+  padding: 8px 18px;
+  background: #0f2d52;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.AddReferralSaveBtn:hover {
+  background: #163d6b;
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+  .AddReferralFormGrid4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .AddReferralFormGrid3,
+  .AddReferralFormGrid4 {
+    grid-template-columns: 1fr;
+  }
+}

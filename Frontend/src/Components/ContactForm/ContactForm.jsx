@@ -1,24 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ContactForm.css";
+import API from "../../Api/Api";
 
 // Assets
 import ContactImg from "../../assets/Contact-video (1).webp";
 
 const ContactForm = () => {
+  const [form, setForm] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  /* ================= HANDLE CHANGE ================= */
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!form.name || !form.address || !form.phone || !form.message) {
+      alert("All fields are required");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await API.post("/enquiries", form);
+
+      alert("Enquiry submitted successfully!");
+
+      setForm({
+        name: "",
+        address: "",
+        phone: "",
+        message: "",
+      });
+
+    } catch (err) {
+      console.error("ENQUIRY ERROR:", err);
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="contact-sec">
       <div className="contact__container">
 
         {/* LEFT PANEL */}
         <div className="contact__left">
-
           <div className="contact__info">
-
             {/* PHONE */}
             <div className="contact__info-item">
-              <div className="contact__icon">
-                📞
-              </div>
+              <div className="contact__icon">📞</div>
               <div>
                 <span>Call Us for Admissions</span>
                 <h4>
@@ -36,9 +78,7 @@ const ContactForm = () => {
 
             {/* EMAIL */}
             <div className="contact__info-item">
-              <div className="contact__icon">
-                ✉️
-              </div>
+              <div className="contact__icon">✉️</div>
               <div>
                 <span>Email Address</span>
                 <h4>
@@ -54,29 +94,23 @@ const ContactForm = () => {
 
             {/* ADDRESS */}
             <div className="contact__info-item">
-              <div className="contact__icon">
-                📍
-              </div>
+              <div className="contact__icon">📍</div>
               <div>
                 <span>School Campus Address</span>
                 <h4>Tehla Bypass, Alwar Road</h4>
                 <h4>Rajgarh – 301408, Rajasthan</h4>
               </div>
             </div>
-
           </div>
 
           {/* VIDEO IMAGE */}
           <div className="contact__video">
             <img
               src={ContactImg}
-              alt="LearningStep International School Campus, Rajgarh Rajasthan"
+              alt="LearningStep International School Campus"
             />
-            <button className="contact__play-btn">
-              ▶
-            </button>
+            <button className="contact__play-btn">▶</button>
           </div>
-
         </div>
 
         {/* RIGHT FORM */}
@@ -86,47 +120,61 @@ const ContactForm = () => {
           </h2>
 
           <p className="contact__desc">
-            LearningStep International School, located at Tehla Bypass, Alwar Road,
-            Rajgarh, Rajasthan, offers quality education in a safe and nurturing
-            environment. Contact us today for admissions, fee details, curriculum
+            Contact us today for admissions, fee details, curriculum
             information, and campus visits.
           </p>
 
-          <form className="contact__form">
-
+          <form className="contact__form" onSubmit={handleSubmit}>
             <div className="contact__form-row">
               <div className="contact__field">
                 <label>Parent / Guardian Name*</label>
                 <input
                   type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
                   placeholder="Enter Parent or Guardian Name"
                 />
               </div>
 
-            <div className="contact__field">
-                <label>Phone Number*</label>
+              <div className="contact__field">
+                <label>Address*</label>
                 <input
-                    type="tel"
-                    placeholder="Enter Phone Number"
+                  type="text"
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Enter Address"
                 />
-                </div>
+              </div>
+            </div>
 
+            <div className="contact__field">
+              <label>Phone Number*</label>
+              <input
+                type="tel"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="Enter Phone Number"
+              />
             </div>
 
             <div className="contact__field">
               <label>Your Message*</label>
               <textarea
-                placeholder="Write your enquiry regarding admission, fees, classes, or school facilities"
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="Write your enquiry..."
               ></textarea>
             </div>
 
-            <button className="contact__btn">
-              Send Enquiry →
+            <button className="contact__btn" disabled={loading}>
+              {loading ? "Sending..." : "Send Enquiry →"}
             </button>
-
           </form>
         </div>
-
       </div>
     </section>
   );

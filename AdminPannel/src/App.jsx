@@ -96,6 +96,16 @@ import QustionBank from "./Pages/QustionBank/QustionBank";
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 import AdminColdLeads from "./Pages/AdminColdLeads/AdminColdLeads";
 
+            ////////**Student info**/////
+import House from "./Pages/House/House";
+import LinkSiblings from "./Pages/LinkSiblings/LinkSiblings";
+import StudentUpdate from "./Pages/StudentUpdate/StudentUpdate";
+import StudentReferral from "./Pages/StudentReferral/StudentReferral";
+import InactiveStudent from "./Pages/InactiveStudent/InactiveStudent";
+import AddReferral from "./Pages/AddReferral/AddReferral";
+import StudentReport from "./Pages/StudentReport/StudentReport";
+import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
+
 
 /* ===================== APP ===================== */
 
@@ -183,7 +193,10 @@ export default function App() {
             element={<PostalReceive />}
           />
 
-          
+           <Route
+            path="/admin/contact-enq"
+            element={<AdminEnquiryManager />}
+          />
 
           {/* Attendance */}
           <Route
@@ -268,6 +281,23 @@ export default function App() {
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
+
+          {/* Student Info */}
+
+          <Route path="/house" element={<House/>} />
+          <Route path="/link/siblings" element={<LinkSiblings/>} />
+          <Route path="/student/update" element={<StudentUpdate/>} />
+          <Route path="/student/referral" element={<StudentReferral/>} />
+          <Route path="/add/referral" element={<AddReferral/>} />
+          <Route path="/inactive/student" element={<InactiveStudent/>} />
+          <Route path="/student/report" element={<StudentReport/>} />
+
+
+
+
+          
+
+
 
          
 

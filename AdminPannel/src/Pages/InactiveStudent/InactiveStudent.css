@@ -1,0 +1,215 @@
+.InactiveStudentsWrapper {
+  padding: 20px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Header */
+.InactiveStudentsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.InactiveStudentsTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e2a4a;
+}
+
+.InactiveStudentsBreadcrumb {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+/* Filter Card */
+.InactiveStudentsFilterCard {
+  background: #f3e6ec;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.InactiveStudentsFilterTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.InactiveStudentsFilterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.InactiveStudentsFormGroup label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.InactiveStudentsFormGroup input,
+.InactiveStudentsFormGroup select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+}
+
+.InactiveStudentsSearchBtnWrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+.InactiveStudentsSearchBtn {
+  background: #1e3a8a;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  gap: 6px;
+}
+
+/* Table Card */
+.InactiveStudentsTableCard {
+  background: #f3e6ec;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.InactiveStudentsTableHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.InactiveStudentsTableControls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.InactiveStudentsTableWrapper {
+  overflow-x: auto;
+}
+
+.InactiveStudentsTableWrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.InactiveStudentsTableWrapper::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* Table */
+.InactiveStudentsTable {
+  width: 1400px; /* force horizontal scroll */
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.InactiveStudentsTable th,
+.InactiveStudentsTable td {
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  text-align: left;
+}
+
+.InactiveStudentsTable th {
+  background: #e9cfd8;
+  font-weight: 600;
+}
+
+.InactiveStudentsTable tr:nth-child(even) {
+  background: #f9f4f6;
+}
+
+/* Action */
+.InactiveStudentsActionWrap {
+  position: relative;
+}
+
+.InactiveStudentsActionBtn {
+  background: #1e3a8a;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.InactiveStudentsDropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  z-index: 10;
+}
+
+.InactiveStudentsDropdown button {
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.InactiveStudentsDropdown button:hover {
+  background: #f1f1f1;
+}
+
+.InactiveStudentsDelete {
+  color: red;
+}
+
+/* Pagination */
+.InactiveStudentsPagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.InactiveStudentsActivePage {
+  background: #1e3a8a;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .InactiveStudentsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .InactiveStudentsTableControls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
