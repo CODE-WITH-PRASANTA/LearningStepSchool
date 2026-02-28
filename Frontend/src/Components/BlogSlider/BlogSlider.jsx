@@ -1,44 +1,45 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./BlogSlider.css";
-
-import img1 from "../../assets/04.webp";
-import img2 from "../../assets/05.webp";
-import img3 from "../../assets/06.webp";
-import img4 from "../../assets/08.webp";
-import img5 from "../../assets/09.webp";
-import img6 from "../../assets/10.webp";
-import img7 from "../../assets/06.webp";
-import img8 from "../../assets/08.webp";
-import img9 from "../../assets/06.webp";
-
-const blogs = [
-  { id: 1, title: "From Without Content Style Without", img: img1 },
-  { id: 2, title: "That Jerk Form Finance Really Threw Me", img: img2 },
-  { id: 3, title: "All Inclusive Ultimate Circle Island Day With Lunch", img: img3 },
-  { id: 4, title: "Students Intelligence In Education Building Resilient", img: img4 },
-  { id: 5, title: "From Without Content Style Without", img: img5 },
-  { id: 6, title: "That Jerk Form Finance Really Threw Me", img: img6 },
-  { id: 7, title: "How To Keep Children Safe Online In Simple Steps", img: img7 },
-  { id: 8, title: "Creative Learning Activities For Growing Minds", img: img8 },
-  { id: 9, title: "Modern Education With Smart Learning Tools", img: img9 }
-];
+import API, { IMAGE_URL } from "../../Api/Api";
 
 const VISIBLE = 3;
 
 export default function BlogSlider() {
+  const [blogs, setBlogs] = useState([]);
   const [index, setIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
   const intervalRef = useRef(null);
 
-  // clone first slides for seamless looping
-  const extendedSlides = [...blogs, ...blogs.slice(0, VISIBLE)];
+  /* ================= FETCH BLOGS ================= */
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await API.get("/blogs?limit=9");
+        setBlogs(res.data.data || []);
+      } catch (err) {
+        console.error("FETCH BLOGS ERROR:", err);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
   const total = blogs.length;
 
-  /* autoplay */
+  /* ================= EXTENDED SLIDES ================= */
+  const extendedSlides =
+    total > VISIBLE
+      ? [...blogs, ...blogs.slice(0, VISIBLE)]
+      : blogs;
+
+  /* ================= AUTOPLAY ================= */
   useEffect(() => {
+    if (total <= VISIBLE) return;
+
     startAutoPlay();
     return stopAutoPlay;
-  }, []);
+  }, [blogs]);
 
   const startAutoPlay = () => {
     stopAutoPlay();
@@ -51,8 +52,10 @@ export default function BlogSlider() {
     if (intervalRef.current) clearInterval(intervalRef.current);
   };
 
-  // reset after reaching cloned slides
+  /* ================= RESET LOOP ================= */
   useEffect(() => {
+    if (total <= VISIBLE) return;
+
     if (index === total) {
       setTimeout(() => {
         setIsAnimating(false);
@@ -62,6 +65,8 @@ export default function BlogSlider() {
       setIsAnimating(true);
     }
   }, [index, total]);
+
+  if (!blogs.length) return null;
 
   return (
     <section className="blog-slider-section">
@@ -81,21 +86,39 @@ export default function BlogSlider() {
             {extendedSlides.map((item, i) => (
               <div className="slide" key={i}>
                 <div className="blog-card">
+
                   <div className="blog-img-wrap">
-                    <span className="tag">Activities</span>
-                    <img src={item.img} alt={item.title} />
+                    <span className="tag">
+                      {item.category || "Blog"}
+                    </span>
+
+                    {item.image && (
+                      <img
+                        src={`${IMAGE_URL}${item.image}`}
+                        alt={item.title}
+                      />
+                    )}
                   </div>
 
                   <div className="blog-meta">
-                    <span>📅 Feb 10, 2024</span>
-                    <span>👤 By admin</span>
+                    <span>
+                      📅 {new Date(item.createdAt).toLocaleDateString()}
+                    </span>
+                    <span>
+                      👤 By {item.author || "Admin"}
+                    </span>
                   </div>
 
                   <h3>{item.title}</h3>
 
-                  <a href="#" className="read-more">
+                  {/* ✅ PARAM ROUTE FIXED HERE */}
+                  <Link
+                    to={`/blog/details/${item._id}`}
+                    className="read-more"
+                  >
                     Read More →
-                  </a>
+                  </Link>
+
                 </div>
               </div>
             ))}
@@ -103,19 +126,24 @@ export default function BlogSlider() {
         </div>
 
         {/* PAGINATION */}
-        <div className="pagination-wrap">
-          <span className="line" />
-          <div className="dots">
-            {blogs.map((_, i) => (
-              <button
-                key={i}
-                className={`dot ${index % total === i ? "active" : ""}`}
-                onClick={() => setIndex(i)}
-              />
-            ))}
+        {total > 1 && (
+          <div className="pagination-wrap">
+            <span className="line" />
+            <div className="dots">
+              {blogs.map((_, i) => (
+                <button
+                  key={i}
+                  className={`dot ${
+                    index % total === i ? "active" : ""
+                  }`}
+                  onClick={() => setIndex(i)}
+                />
+              ))}
+            </div>
+            <span className="line" />
           </div>
-          <span className="line" />
-        </div>
+        )}
+
       </div>
     </section>
   );

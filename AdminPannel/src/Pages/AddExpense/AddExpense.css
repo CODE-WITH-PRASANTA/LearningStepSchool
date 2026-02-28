@@ -1,0 +1,215 @@
+/* PAGE */
+.add-expense-page {
+  padding: 40px;
+  background: #f4f6fb;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+.expense-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.expense-header h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0a1b4d;
+}
+
+/* LAYOUT */
+.expense-layout {
+  display: flex;
+  gap: 35px;
+  align-items: flex-start;
+}
+
+/* LEFT FORM */
+.expense-form-card {
+  width: 400px;
+  height: 700px;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.expense-form-card h3 {
+  font-size: 19px;
+  margin-bottom: 20px;
+  color: #0a1b4d;
+}
+
+/* FORM SCROLL */
+.form-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* INPUT FIELDS */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+  color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e4e8f3;
+  background: #f9faff;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.form-group textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #4c6fff;
+  background: #fff;
+  outline: none;
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4c6fff, #1b3cff);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.save-btn:hover {
+  opacity: 0.9;
+}
+
+/* RIGHT TABLE */
+.expense-table-card {
+  flex: 1;
+  height: 700px;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.expense-table-card h3 {
+  font-size: 19px;
+  margin-bottom: 20px;
+  color: #0a1b4d;
+}
+
+.table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 12px;
+  border: 1px solid #edf0f7;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f3f5ff;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+th {
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a1b4d;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  text-align: left;
+}
+
+td {
+  padding: 15px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #444;
+}
+
+tr:hover {
+  background: #f9faff;
+}
+
+/* ACTION MENU */
+.action-cell {
+  position: relative;
+}
+
+.action-icon {
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 28px;
+  width: 130px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f3f5ff;
+}
+
+.dropdown-item.delete:hover {
+  background: #ffecec;
+  color: #ff4d4f;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .expense-layout {
+    flex-direction: column;
+  }
+  .expense-form-card,
+  .expense-table-card {
+    width: 100%;
+    height: auto;
+  }
+}

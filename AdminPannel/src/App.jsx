@@ -91,10 +91,28 @@ import Question from "./Pages/Question/Question";
 import UpdateQuestion from "./Pages/UpdateQuestion/UpdateQuestion";
 import Generate from "./Pages/Generate/Generate";
 import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
+import AddExpense from "./Pages/AddExpense/AddExpense";
+import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
+import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 import OnlineExam from "./Pages/OnlineExam/OnlineExam";
 import QustionBank from "./Pages/QustionBank/QustionBank";
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
 import AdminColdLeads from "./Pages/AdminColdLeads/AdminColdLeads";
+import OnlineAdmission from "./Pages/OnlineAdmission/OnlineAdmission";
+import StudentDetails from "./Pages/StudentDetails/StudentDetails";
+import StudentLink from "./Pages/StudentLink/StudentLink";
+import StudentCatagory from "./Pages/StudentCatagory/StudentCatagory";
+import ExpenseList from "./Pages/ExpenseList/ExpenseList";
+
+            ////////**Student info**/////
+import House from "./Pages/House/House";
+import LinkSiblings from "./Pages/LinkSiblings/LinkSiblings";
+import StudentUpdate from "./Pages/StudentUpdate/StudentUpdate";
+import StudentReferral from "./Pages/StudentReferral/StudentReferral";
+import InactiveStudent from "./Pages/InactiveStudent/InactiveStudent";
+import AddReferral from "./Pages/AddReferral/AddReferral";
+import StudentReport from "./Pages/StudentReport/StudentReport";
+import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
 
 
 /* ===================== APP ===================== */
@@ -183,7 +201,10 @@ export default function App() {
             element={<PostalReceive />}
           />
 
-          
+           <Route
+            path="/admin/contact-enq"
+            element={<AdminEnquiryManager />}
+          />
 
           {/* Attendance */}
           <Route
@@ -265,9 +286,34 @@ export default function App() {
           <Route path="/update-question" element={<UpdateQuestion/>}/>
           <Route path="/paper-generate" element={<Generate/>}/>
           <Route path="/generate-question" element={<GenerateQuestion/>}/>
+          <Route path="/expense/details" element={<AddExpense/>}/>
+          <Route path="/expense-search" element={<ExpenseSearch/>}/>
+          <Route path="/expense-list" element={<ExpenseList/>}/>
+          <Route path="expense-head" element={<ExpenseHead/>}/>
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
+          <Route path="/online/admission"element={<OnlineAdmission/>}/>
+         <Route path="/student/details" element={<StudentDetails/>}/>
+         <Route path="/student/link" element={<StudentLink/>}/>
+         <Route path="/student/catagory" element={<StudentCatagory/>}/>
+
+          {/* Student Info */}
+
+          <Route path="/house" element={<House/>} />
+          <Route path="/link/siblings" element={<LinkSiblings/>} />
+          <Route path="/student/update" element={<StudentUpdate/>} />
+          <Route path="/student/referral" element={<StudentReferral/>} />
+          <Route path="/add/referral" element={<AddReferral/>} />
+          <Route path="/inactive/student" element={<InactiveStudent/>} />
+          <Route path="/student/report" element={<StudentReport/>} />
+
+
+
+
+          
+
+
 
          
 

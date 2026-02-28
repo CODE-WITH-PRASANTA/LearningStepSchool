@@ -1,35 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Aboutfollowinstagram.css";
 import { FaInstagram } from "react-icons/fa";
-
-// IMAGES
-import img1 from "../../assets/ab.webp";
-import img2 from "../../assets/aj.webp";
-import img3 from "../../assets/ac.webp";
-import img4 from "../../assets/ad.webp";
-import img5 from "../../assets/ae.webp";
-import img6 from "../../assets/af.webp";
-
-const images = [img1, img2, img3, img4, img5, img6];
+import API, { IMAGE_URL } from "../../Api/Api";
 
 const CARD_WIDTH = 260; // must match CSS width + gap
 
 const Aboutfollowinstagram = () => {
+  const [images, setImages] = useState([]);
   const [index, setIndex] = useState(0);
   const trackRef = useRef(null);
   const isResetting = useRef(false);
 
-  // AUTO SLIDE
+  /* ================= FETCH TEACHERS ================= */
   useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const res = await API.get("/teachers");
+
+        const data = (res.data.data || []).map(item => ({
+          photo: item.photo,
+        }));
+
+        setImages(data);
+      } catch (err) {
+        console.error("FETCH TEACHERS ERROR:", err);
+      }
+    };
+
+    fetchTeachers();
+  }, []);
+
+  /* ================= AUTO SLIDE ================= */
+  useEffect(() => {
+    if (!images.length) return;
+
     const interval = setInterval(() => {
       setIndex(prev => prev + 1);
     }, 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [images]);
 
-  // SEAMLESS RESET (NO JUMP)
+  /* ================= SEAMLESS RESET ================= */
   useEffect(() => {
+    if (!images.length) return;
+
     if (index === images.length) {
       isResetting.current = true;
 
@@ -38,7 +53,7 @@ const Aboutfollowinstagram = () => {
           trackRef.current.style.transition = "none";
         }
         setIndex(0);
-      }, 800); // must match transition duration
+      }, 800);
     }
 
     if (index === 0 && isResetting.current) {
@@ -50,7 +65,9 @@ const Aboutfollowinstagram = () => {
         isResetting.current = false;
       });
     }
-  }, [index]);
+  }, [index, images]);
+
+  if (!images.length) return null;
 
   return (
     <section className="Aboutfollowinstagram-section">
@@ -70,9 +87,12 @@ const Aboutfollowinstagram = () => {
             transform: `translateX(-${index * CARD_WIDTH}px)`,
           }}
         >
-          {[...images, ...images].map((img, i) => (
+          {[...images, ...images].map((item, i) => (
             <div className="Aboutfollowinstagram-card" key={i}>
-              <img src={img} alt="Instagram" />
+              <img
+                src={`${IMAGE_URL}${item.photo}`}
+                alt="Instagram"
+              />
 
               {/* HOVER EFFECT */}
               <div className="Aboutfollowinstagram-hover">

@@ -1,29 +1,30 @@
 const mongoose = require("mongoose");
 
-const enquirySchema = new mongoose.Schema(
+const classDataSchema = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
-    address: {
+    description: {
       type: String,
       required: true,
     },
-    phone: {
-      type: String,
+    age: {
+      type: Number,
       required: true,
     },
-    message: {
+    weekly: {
       type: String,
-      required: true,
     },
-    status: {
+    timeManagement: {
       type: String,
-      default: "New", // New, Contacted, Closed
+    },
+    image: {
+      type: String,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Enquiry", enquirySchema);
+module.exports = mongoose.model("ClassData", classDataSchema);

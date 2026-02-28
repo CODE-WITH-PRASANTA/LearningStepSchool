@@ -36,6 +36,7 @@ import TermAndCondition from "./Pages/TermAndCondition/TermAndCondition";
 import Gallery from "./Pages/Gallery/Gallery";
 import PublishNotification from "./Pages/PublishNotification/PublishNotification";
 import ScrollToTop from "./Components/ScrollToTop";
+import BlogDetails from "./Pages/BlogDetails/BlogDetails";
 
 
 /* ================= ROUTE LOADER WRAPPER ================= */
@@ -66,6 +67,7 @@ function AppContent() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/details/:id" element={<BlogDetails />} />
         <Route path="/ourteacher" element={<OurTeacher />} />
         <Route path="/about" element={<About />} />
         <Route path="/student-life" element={<Studentlife />} />

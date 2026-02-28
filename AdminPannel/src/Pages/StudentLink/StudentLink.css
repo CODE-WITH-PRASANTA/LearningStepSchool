@@ -1,0 +1,191 @@
+/* StudentLink.css */
+.student-container {
+  padding: 20px;
+  background: #f4f6f9;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.student-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* HEADER */
+.student-header {
+  background: #f2e3e8;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0cbd2;
+}
+
+.student-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1e2a55;
+}
+
+.student-title h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* TOOLBAR */
+.top-toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+}
+
+.entries-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.search-input {
+  width: 260px;
+  padding: 9px 14px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-input:focus {
+  border-color: #1c4b82;
+  box-shadow: 0 0 0 3px rgba(28, 75, 130, 0.1);
+}
+
+/* TABLE */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.student-table thead {
+  background: #e9d7de;
+}
+
+.student-table th {
+  padding: 14px;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #1e2a55;
+  font-weight: 600;
+  border-bottom: 2px solid #d3b7c2;
+}
+
+.student-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.student-table tbody tr:hover {
+  background: #f7f8fc;
+}
+
+/* BADGE */
+.badge {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ACTION (3 DOT) */
+.th-action {
+  text-align: right;
+}
+
+.action-cell {
+  position: relative;
+  text-align: right;
+}
+
+.dots-wrap {
+  position: relative;
+  display: inline-flex;
+  justify-content: flex-end;
+}
+
+/* 3 dots button */
+.dots-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid #e6e8ef;
+  background: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: 0.2s ease;
+  color: #1c4b82;
+}
+
+.dots-btn:hover {
+  background: #f3f6ff;
+  border-color: #d8def0;
+}
+
+.dots-btn:active {
+  transform: scale(0.98);
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  min-width: 150px;
+  z-index: 100;
+  border: 1px solid #eef0f6;
+  animation: pop 0.12s ease-out;
+}
+
+@keyframes pop {
+  from {
+    transform: translateY(-4px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dropdown-menu button {
+  width: 100%;
+  padding: 11px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition: 0.2s;
+  color: #1e2a55;
+}
+
+.dropdown-menu button:hover {
+  background: #f3f4f8;
+}
+
+.delete-btn {
+  color: #c62828 !important;
+}
