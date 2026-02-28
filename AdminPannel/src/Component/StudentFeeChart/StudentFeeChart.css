@@ -1,0 +1,359 @@
+/* base: student-fee-chart */
+.student-fee-chart{
+  width:100%;
+  padding:14px;
+  background:#eef2f7;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color:#0f172a;
+}
+
+.student-fee-chart__grid{
+  display:grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap:16px;
+  align-items:stretch;
+}
+
+/* card (smaller) */
+.student-fee-chart__card{
+  position:relative;
+  background:#fff;
+  border:1px solid rgba(15,23,42,.10);
+  border-radius:16px;
+  box-shadow:0 10px 18px rgba(15,23,42,.12);
+  overflow:hidden;
+  min-height:320px;
+  display:flex;
+  flex-direction:column;
+}
+
+/* top border */
+.student-fee-chart__top{
+  position:absolute;
+  left:0; right:0; top:0;
+  height:4px;
+  background:#f2a3b7;
+}
+
+/* header */
+.student-fee-chart__head{
+  padding:10px 14px 8px;
+  background: linear-gradient(180deg, rgba(255,230,238,.6), rgba(255,255,255,0));
+}
+
+.student-fee-chart__head--right{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.student-fee-chart__title{
+  margin:0;
+  font-size:22px;
+  font-weight:900;
+  color:#0b1536;
+}
+
+.student-fee-chart__sub{
+  margin-top:4px;
+  font-size:14px;
+  font-weight:700;
+  color:#334155;
+}
+
+.student-fee-chart__divider{
+  height:1px;
+  background:rgba(15,23,42,.10);
+}
+
+/* body */
+.student-fee-chart__body{
+  padding:10px 14px 12px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* meta row */
+.student-fee-chart__meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.student-fee-chart__metaTitle{
+  font-size:15px;
+  font-weight:800;
+  color:#1f2937;
+}
+
+.student-fee-chart__metaSub{
+  margin-top:3px;
+  font-size:13px;
+  color:#64748b;
+}
+
+/* menu */
+.student-fee-chart__menu{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  border:1px solid rgba(15,23,42,.10);
+  background:#fff;
+  box-shadow:0 6px 10px rgba(15,23,42,.12);
+  display:grid;
+  place-content:center;
+  gap:5px;
+  cursor:pointer;
+}
+.student-fee-chart__menu span{
+  width:18px;
+  height:2px;
+  background:#6b7280;
+  border-radius:999px;
+}
+
+/* chart */
+.student-fee-chart__chart{
+  display:grid;
+  grid-template-columns: 45px 1fr;
+  gap:10px;
+  align-items:stretch;
+}
+
+.student-fee-chart__y{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:6px 0 40px;
+  font-size:14px;
+  font-weight:800;
+}
+
+.student-fee-chart__plot{
+  position:relative;
+  height:140px;
+  border-radius:12px;
+  border:1px solid rgba(15,23,42,.08);
+  background:#fff;
+  padding:10px 8px 6px;
+  overflow:hidden;
+}
+
+/* ✅ tooltip (exact look, hover only) */
+.student-fee-chart__tip{
+  position:absolute;
+  transform: translateX(-50%);
+  min-width: 170px;
+  background:#fff;
+  border:1px solid rgba(59,130,246,.35);
+  box-shadow:0 10px 18px rgba(15,23,42,.14);
+  border-radius:8px;
+  padding:12px 12px 10px;
+  z-index:10;
+  pointer-events:none;
+}
+
+.student-fee-chart__tipTitle{
+  font-size:16px;
+  font-weight:500;
+  color:#111827;
+  margin-bottom:10px;
+}
+
+.student-fee-chart__tipRow{
+  display:flex;
+  gap:8px;
+  align-items:baseline;
+  font-size:20px;
+  line-height:1.1;
+}
+
+.student-fee-chart__tipLabel{
+  color:#3b82f6;
+  font-weight:700;
+}
+
+.student-fee-chart__tipVal{
+  color:#111827;
+  font-weight:900;
+}
+
+.student-fee-chart__plotLine{
+  position:absolute;
+  left:10px; right:10px;
+  height:1px;
+  background:rgba(15,23,42,.08);
+}
+.student-fee-chart__plotLine--top{ top:40px; }
+.student-fee-chart__plotLine--mid{ top:50%; }
+
+/* ✅ IMPORTANT: NO padding-left now */
+.student-fee-chart__bars{
+  height:100%;
+  display:flex;
+  align-items:flex-end;
+  gap:6px;
+  padding-top:8px;
+}
+
+.student-fee-chart__col{
+  width:28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
+
+.student-fee-chart__val{
+  height:12px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.student-fee-chart__lane{
+  width:100%;
+  height:55px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.student-fee-chart__bar{
+  width:18px;
+  border-radius:8px;
+  box-shadow:0 6px 10px rgba(15,23,42,.12);
+}
+
+.student-fee-chart__lbl{
+  height:28px;
+  font-size:10px;
+  font-weight:800;
+  transform: rotate(-60deg);
+  transform-origin: top center;
+  white-space:nowrap;
+}
+
+/* legend */
+.student-fee-chart__legend{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:4px;
+}
+
+.student-fee-chart__dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#cbd5e1;
+}
+
+.student-fee-chart__legendText{
+  font-size:14px;
+  font-weight:800;
+}
+
+/* badge (inside header => no overlap) */
+.student-fee-chart__badge{
+  background:#16a34a;
+  color:#fff;
+  font-weight:800;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:12px;
+  box-shadow:0 8px 16px rgba(16,24,40,.18);
+  white-space:nowrap;
+  margin-top:2px;
+}
+
+/* right list + donut */
+.student-fee-chart__body--right{ gap:8px; }
+
+.student-fee-chart__list{
+  display:grid;
+  gap:8px;
+}
+
+.student-fee-chart__item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+  font-weight:800;
+  color:#64748b;
+}
+
+.student-fee-chart__sw{
+  width:70px;
+  height:12px;
+  border-radius:4px;
+}
+.student-fee-chart__sw--navy{ background:#0b4a7f; }
+.student-fee-chart__sw--green{ background:#46f75a; }
+.student-fee-chart__sw--red{ background:#ff4d4d; }
+.student-fee-chart__sw--orange{ background:#f7b44a; }
+.student-fee-chart__sw--sky{ background:#b7dcea; }
+
+/* donut */
+.student-fee-chart__donutWrap{
+  position:relative;
+  display:grid;
+  place-items:center;
+  margin-top:6px;
+}
+
+.student-fee-chart__donut{
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  background: conic-gradient(
+    #0b4a7f 0% 50%,
+    #46f75a 50% 74%,
+    #ff4d4d 74% 76%,
+    #f7b44a 76% 77%,
+    #b7dcea 77% 100%
+  );
+  box-shadow:0 10px 18px rgba(15,23,42,.16);
+}
+
+.student-fee-chart__hole{
+  position:absolute;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:#fff;
+}
+
+/* bar colors */
+.student-fee-chart__c1{ background:#8fb8f0; }
+.student-fee-chart__c2{ background:#404040; }
+.student-fee-chart__c3{ background:#46f75a; }
+.student-fee-chart__c4{ background:#f7b44a; }
+.student-fee-chart__c5,
+.student-fee-chart__c6,
+.student-fee-chart__c7,
+.student-fee-chart__c9,
+.student-fee-chart__c10,
+.student-fee-chart__c14,
+.student-fee-chart__c16,
+.student-fee-chart__c18,
+.student-fee-chart__c19,
+.student-fee-chart__c21{ background:#cbd5e1; }
+.student-fee-chart__c8{ background:#93c5fd; }
+.student-fee-chart__c11{ background:#8fb8f0; }
+.student-fee-chart__c12{ background:#111827; }
+.student-fee-chart__c13{ background:#111827; }
+.student-fee-chart__c15{ background:#818cf8; }
+.student-fee-chart__c17{ background:#34d399; }
+.student-fee-chart__c20{ background:#8fe9de; }
+
+/* responsive */
+@media (max-width:1100px){
+  .student-fee-chart__grid{ grid-template-columns:1fr; }
+  .student-fee-chart__head--right{ flex-direction:column; align-items:flex-start; }
+}
