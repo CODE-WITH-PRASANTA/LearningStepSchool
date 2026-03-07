@@ -1,0 +1,250 @@
+/* ================================
+   ExpenseList.css (FULL UPDATED)
+================================= */
+
+.expense-list {
+  --ink: #1b1f2a;
+  --muted: #6b7280;
+  --line: #d6d2dc;
+  --soft2: #fde8f2;
+  --topbar: #faeef5;
+  --shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
+  --radius: 14px;
+
+  min-height: 100vh;
+  background: #f6f6f6;
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue";
+}
+
+/* ================================
+   TOP BAR
+================================= */
+
+.expense-list__topbar {
+  height: 66px;
+  background: var(--topbar);
+  border-bottom: 1px solid #eadbe5;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.expense-list__title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: #1b2a4a;
+  letter-spacing: 0.3px;
+}
+
+/* ================================
+   TOOLBAR
+================================= */
+
+.expense-list__toolbar {
+  max-width: 1200px;
+  margin: 18px auto 0;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.expense-list__pagesize select {
+  height: 40px;
+  width: 90px;
+  border-radius: 10px;
+  border: 1px solid #dcd6e2;
+  background: #fff;
+  padding: 0 12px;
+  font-weight: 600;
+  color: #334155;
+  box-shadow: 0 8px 16px rgba(16, 24, 40, 0.06);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.expense-list__pagesize select:focus {
+  border-color: #0e4f8a;
+  box-shadow: 0 0 0 3px rgba(14, 79, 138, 0.15);
+}
+
+.expense-list__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.expense-list__searchLabel {
+  font-weight: 700;
+  color: #2b3b58;
+}
+
+.expense-list__search input {
+  height: 40px;
+  width: 280px;
+  border-radius: 10px;
+  border: 1px solid #dcd6e2;
+  background: #fff;
+  padding: 0 12px;
+  outline: none;
+  transition: 0.2s ease;
+  box-shadow: 0 8px 16px rgba(16, 24, 40, 0.06);
+}
+
+.expense-list__search input:focus {
+  border-color: rgba(14, 79, 138, 0.6);
+  box-shadow: 0 10px 22px rgba(14, 79, 138, 0.14);
+}
+
+/* ================================
+   TABLE CARD
+================================= */
+
+.expense-list__tableCard {
+  max-width: 1200px;
+  margin: 18px auto 40px;
+  padding: 0 14px;
+}
+
+.expense-list__tableWrap {
+  background: #fff;
+  border: 1px solid #e7e2ea;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* ================================
+   TABLE
+================================= */
+
+.expense-list__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* ===== TABLE HEAD ===== */
+
+.expense-list__table thead th {
+  background: var(--soft2);
+  color: #1c2a4a;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  text-align: left;
+}
+
+.expense-list__table th,
+.expense-list__table td {
+  padding: 14px 14px;
+  border-right: 1px solid var(--line);
+}
+
+.expense-list__table th:last-child,
+.expense-list__table td:last-child {
+  border-right: 0;
+}
+
+/* ================================
+   BODY CELLS
+================================= */
+
+.expense-list__table tbody td {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+  font-size: 15px;
+  color: #1f2b44;
+  transition: background 0.15s ease;
+}
+
+.expense-list__table tbody tr:hover td {
+  background: #f9fbff;
+}
+
+.expense-list__nameCell {
+  font-weight: 700;
+  color: #1b2a4a;
+  text-transform: uppercase;
+}
+
+.expense-list__headCell {
+  font-weight: 700;
+  color: #223056;
+}
+
+.expense-list__amtCell {
+  font-weight: 800;
+  text-align: center;
+  color: #0e4f8a;
+}
+
+/* ================================
+   NEW BALANCE COLUMN
+================================= */
+
+.expense-list__balanceTh {
+  text-align: center;
+}
+
+.expense-list__balanceCell {
+  font-weight: 800;
+  text-align: center;
+  color: #0b3f70;
+}
+
+/* ================================
+   EMPTY STATE
+================================= */
+
+.expense-list__empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--muted);
+  background: #fff;
+  font-weight: 500;
+}
+
+/* ================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 920px) {
+  .expense-list__search input {
+    width: 220px;
+  }
+}
+
+@media (max-width: 720px) {
+  .expense-list__toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .expense-list__search {
+    width: 100%;
+  }
+
+  .expense-list__search input {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .expense-list__tableWrap {
+    overflow-x: auto;
+  }
+
+  .expense-list__table {
+    min-width: 1050px; /* increased because of new column */
+  }
+}

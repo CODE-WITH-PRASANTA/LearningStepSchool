@@ -1,8 +1,13 @@
 /* ===== PAGE ===== */
-.clswisedata-wrapper {
-  background: #f4f6f9;
-  min-height: 100vh;
-  font-family: "Inter", sans-serif;
+.clswisedata-table-wrapper {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  height: 650px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* IMPORTANT */
 }
 
 .clswisedata-title {
@@ -95,6 +100,7 @@
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 15px;
+  flex-shrink: 0; /* prevent shrinking */
 }
 
 .clswisedata-table-scroll {
@@ -107,13 +113,15 @@
   border-collapse: collapse;
 }
 
-.clswisedata-table th {
+/* Sticky header */
+.clswisedata-table thead th {
   position: sticky;
   top: 0;
   background: #f1f5f9;
   font-size: 14px;
   padding: 10px;
   text-align: left;
+  z-index: 2;
 }
 
 .clswisedata-table td {

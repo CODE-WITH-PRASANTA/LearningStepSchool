@@ -1,46 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./HomeClasses.css";
-
-import Child1 from "../../assets/child-01.webp";
-import Child2 from "../../assets/child-02.png";
-import Child3 from "../../assets/child-03.webp";
+import API, { IMAGE_URL } from "../../Api/Api";
 
 import Homeclsbg from "../../assets/clases-bg.webp";
 import waveimg from "../../assets/clases-top-shape.webp";
-
-const data = [
-  {
-    img: Child1,
-    title: "English Language Development",
-    desc: "Interactive English learning focused on reading, writing, speaking, and confidence building through engaging classroom activities.",
-  },
-  {
-    img: Child2,
-    title: "Personalized Individual Tutoring",
-    desc: "One-on-one attention to support each child’s unique learning pace, strengthening core concepts and academic confidence.",
-  },
-  {
-    img: Child3,
-    title: "Online Learning Programs",
-    desc: "Safe and engaging virtual classes designed to ensure continuous learning with expert guidance from experienced educators.",
-  },
-  {
-    img: Child1,
-    title: "Early Childhood Education",
-    desc: "A nurturing environment that promotes creativity, social skills, and foundational learning through play-based methods.",
-  },
-  {
-    img: Child2,
-    title: "Skill Enhancement Classes",
-    desc: "Focused programs to enhance communication, problem-solving, and critical thinking skills in young learners.",
-  },
-  {
-    img: Child3,
-    title: "Activity-Based Learning",
-    desc: "Hands-on activities that encourage curiosity, exploration, and joyful learning experiences for children.",
-  },
-];
-
 
 const getCardsPerView = () => {
   if (window.innerWidth <= 768) return 1;
@@ -49,10 +12,26 @@ const getCardsPerView = () => {
 };
 
 const HomeClasses = () => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(getCardsPerView());
   const startX = useRef(0);
 
+  /* ================= FETCH FROM BACKEND ================= */
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await API.get("/class-data");
+        setData(res.data.data || []);
+      } catch (err) {
+        console.error("FETCH CLASS DATA ERROR:", err);
+      }
+    };
+
+    fetchClasses();
+  }, []);
+
+  /* ================= RESPONSIVE ================= */
   useEffect(() => {
     const handleResize = () => {
       setCardsPerView(getCardsPerView());
@@ -62,8 +41,11 @@ const HomeClasses = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  if (!data.length) return null;
+
   const TOTAL_PAGES = Math.ceil(data.length / cardsPerView);
 
+  /* ================= TOUCH SWIPE ================= */
   const onTouchStart = (e) => {
     startX.current = e.touches[0].clientX;
   };
@@ -94,7 +76,6 @@ const HomeClasses = () => {
               Building Strong Foundations <br />
               For Every Child’s Future
             </h2>
-
           </div>
 
           <div className="homeclasses-slider">
@@ -114,24 +95,28 @@ const HomeClasses = () => {
                       pageIndex * cardsPerView,
                       pageIndex * cardsPerView + cardsPerView
                     )
-                    .map((item, i) => (
-                      <div className="homeclasses-card" key={i}>
-                        <img src={item.img} alt={item.title} />
+                    .map((item) => (
+                      <div className="homeclasses-card" key={item._id}>
+                        <img
+                          src={`${IMAGE_URL}${item.image}`}
+                          alt={item.title}
+                        />
+
                         <h4>{item.title}</h4>
-                        <p>{item.desc}</p>
+                        <p>{item.description}</p>
 
                         <div className="homeclasses-meta">
                           <div>
                             <span>Age</span>
-                            <strong>3–5 years</strong>
+                            <strong>{item.age} Years</strong>
                           </div>
                           <div>
                             <span>Weekly</span>
-                            <strong>5 Days</strong>
+                            <strong>{item.weekly}</strong>
                           </div>
                           <div>
                             <span>Time</span>
-                            <strong>4.30 Hours</strong>
+                            <strong>{item.timeManagement}</strong>
                           </div>
                         </div>
                       </div>

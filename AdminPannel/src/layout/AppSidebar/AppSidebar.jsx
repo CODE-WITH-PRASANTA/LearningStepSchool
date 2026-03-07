@@ -28,6 +28,7 @@ import {
   FiActivity,
   FiCreditCard,
   FiTrendingUp,
+  FiMessageSquare
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -41,6 +42,14 @@ const menu = [
     icon: FiUserPlus,
     path: "/admin/coldleads",
   },
+
+  { type: "section", label: "Contact Enquiry" },
+
+  {
+  label: "Contact Enquiries",
+  icon: FiMessageSquare,   
+  path: "/admin/contact-enq",
+},
 
   { type: "section", label: "Main Section" },
 

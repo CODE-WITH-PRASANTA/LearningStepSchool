@@ -1,0 +1,169 @@
+/* ===== WRAPPER ===== */
+.expenseHead-wrapper {
+  padding: 20px;
+  background: #f6f7fb;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+}
+
+/* ===== TITLE ===== */
+.expenseHead-pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #1f2d3d;
+}
+
+/* ===== GRID ===== */
+.expenseHead-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 20px;
+}
+
+/* ===== CARD ===== */
+.expenseHead-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+/* ===== CARD HEADER ===== */
+.expenseHead-cardHeader {
+  background: #f7dfe6;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== FORM ===== */
+.expenseHead-form {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.expenseHead-form label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.expenseHead-form input,
+.expenseHead-form textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+  outline: none;
+}
+
+.expenseHead-form textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* ===== SAVE BUTTON ===== */
+.expenseHead-saveBtn {
+  margin-top: 10px;
+  background: #1e4f7a;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== TABLE ===== */
+.expenseHead-tableWrap {
+  padding: 15px;
+  overflow-x: auto;
+}
+
+.expenseHead-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expenseHead-table th {
+  text-align: left;
+  background: #f7dfe6;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.expenseHead-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== ACTION CELL ===== */
+.expenseHead-actionCell {
+  position: relative;
+  text-align: center;
+}
+
+/* ===== ACTION ICON (3 dots) ===== */
+.expenseHead-actionIcon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.expenseHead-actionIcon:hover {
+  background: #f0f0f0;
+}
+
+/* ===== DROPDOWN MENU ===== */
+.expenseHead-menu {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  z-index: 10;
+}
+
+.expenseHead-menu button {
+  border: none;
+  background: none;
+  padding: 10px 14px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.expenseHead-menu button:hover {
+  background: #f5f5f5;
+}
+
+.expenseHead-menu .delete {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .expenseHead-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .expenseHead-pageTitle {
+    font-size: 20px;
+  }
+
+  .expenseHead-cardHeader {
+    font-size: 14px;
+  }
+}

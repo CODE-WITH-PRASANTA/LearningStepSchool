@@ -1,41 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Abouttestimonials.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import API, { IMAGE_URL } from "../../Api/Api";
 
 import shape1 from "../../assets/shape-1.png";
 import shape2 from "../../assets/shape-2.png";
 
-const testimonials = [
-  {
-    text: `Nunc vulputate tempor leo quis accumsan Sed vel mauris bibendum dignissim nisl a dapibus tortor Fusce sagittis est fringilla auctor eros vitae aliquam mauris Ut et elit consectetur porta felis ac interdum dolor Maecenas neque mi ullamcorper id sapien ac elementum`,
-    name: "Ronald Richards",
-    role: "Co, Founder",
-    img: "https://i.pravatar.cc/80?img=12",
-  },
-  {
-    text: `Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat`,
-    name: "Leslie Alexander",
-    role: "Managing Director",
-    img: "https://i.pravatar.cc/80?img=32",
-  },
-  {
-    text: `Quis ipsum suspendisse ultrices gravida risus commodo viverra maecenas accumsan lacus vel facilisis sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare`,
-    name: "Brooklyn Simmons",
-    role: "CEO",
-    img: "https://i.pravatar.cc/80?img=45",
-  },
-];
-
 const Abouttestimonials = () => {
+  const [testimonials, setTestimonials] = useState([]);
   const [index, setIndex] = useState(0);
 
+  /* ================= FETCH FROM BACKEND ================= */
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const res = await API.get("/testimonials");
+        setTestimonials(res.data.data || []);
+      } catch (err) {
+        console.error("FETCH TESTIMONIAL ERROR:", err);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
   const prev = () => {
+    if (!testimonials.length) return;
     setIndex(index === 0 ? testimonials.length - 1 : index - 1);
   };
 
   const next = () => {
+    if (!testimonials.length) return;
     setIndex(index === testimonials.length - 1 ? 0 : index + 1);
   };
+
+  if (!testimonials.length) return null;
 
   const item = testimonials[index];
 
@@ -62,14 +61,19 @@ const Abouttestimonials = () => {
         </div>
 
         {/* CONTENT */}
-        <p className="Abouttestimonials-text">{item.text}</p>
+        <p className="Abouttestimonials-text">
+          {item.feedback}
+        </p>
 
         {/* AUTHOR */}
         <div className="Abouttestimonials-author">
-          <img src={item.img} alt={item.name} />
+          <img
+            src={`${IMAGE_URL}${item.photo}`}
+            alt={item.clientName}
+          />
           <div>
-            <h4>{item.name}</h4>
-            <span>{item.role}</span>
+            <h4>{item.clientName}</h4>
+            <span>{item.designation}</span>
           </div>
         </div>
 

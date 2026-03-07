@@ -4,7 +4,32 @@ const { deleteImageFile } = require("../middleware/upload");
 /* ================= CREATE ================= */
 exports.createBlog = async (req, res) => {
   try {
-    const blog = await Blog.create(req.body);
+    const {
+      title,
+      description,
+      category,
+      author,
+      tags,
+    } = req.body;
+
+    // ✅ Get image from multer
+    const image = req.file ? req.file.path : null;
+
+    if (!image) {
+      return res.status(400).json({
+        success: false,
+        message: "Image is required",
+      });
+    }
+
+    const blog = await Blog.create({
+      title,
+      description,
+      category,
+      author,
+      tags,
+      image,
+    });
 
     res.status(201).json({
       success: true,
@@ -105,17 +130,17 @@ exports.updateBlog = async (req, res) => {
       });
     }
 
-    const { image } = req.body;
+    const newImage = req.file ? req.file.path : null;
 
-    // 🔥 Replace image if new uploaded
-    if (image) {
-      deleteImageFile(blog.image); // delete old image
-      blog.image = image;
+    // ✅ Replace image if new uploaded
+    if (newImage) {
+      deleteImageFile(blog.image);
+      blog.image = newImage;
     }
 
-    // 🔥 Safe update for other fields
+    // ✅ Update other fields safely
     Object.keys(req.body).forEach((key) => {
-      if (key !== "image" && req.body[key] !== undefined) {
+      if (req.body[key] !== undefined) {
         blog[key] = req.body[key];
       }
     });
@@ -148,8 +173,10 @@ exports.deleteBlog = async (req, res) => {
       });
     }
 
-    // 🔥 Delete image safely
-    deleteImageFile(blog.image);
+    // ✅ Delete image safely
+    if (blog.image) {
+      deleteImageFile(blog.image);
+    }
 
     await Blog.findByIdAndDelete(req.params.id);
 

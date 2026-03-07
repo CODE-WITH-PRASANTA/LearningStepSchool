@@ -12,8 +12,10 @@ exports.createTeacher = async (req, res) => {
       instagram,
       facebook,
       linkedin,
-      photo,
     } = req.body;
+
+    // ✅ Get photo from multer
+    const photo = req.file ? req.file.path : null;
 
     if (!photo) {
       return res.status(400).json({
@@ -87,16 +89,17 @@ exports.updateTeacher = async (req, res) => {
       instagram,
       facebook,
       linkedin,
-      photo,
     } = req.body;
 
-    // 🔥 Replace photo if new uploaded
-    if (photo) {
-      deleteImageFile(teacher.photo); // delete old image
-      teacher.photo = photo;
+    const newPhoto = req.file ? req.file.path : null;
+
+    // ✅ Replace photo if new uploaded
+    if (newPhoto) {
+      deleteImageFile(teacher.photo);
+      teacher.photo = newPhoto;
     }
 
-    // 🔥 Safe field updates
+    // ✅ Safe field updates
     if (name !== undefined) teacher.name = name;
     if (designation !== undefined) teacher.designation = designation;
     if (review !== undefined) teacher.review = review;
@@ -134,8 +137,10 @@ exports.deleteTeacher = async (req, res) => {
       });
     }
 
-    // 🔥 Delete photo safely
-    deleteImageFile(teacher.photo);
+    // ✅ Delete photo safely
+    if (teacher.photo) {
+      deleteImageFile(teacher.photo);
+    }
 
     await Teacher.findByIdAndDelete(id);
 
@@ -150,5 +155,5 @@ exports.deleteTeacher = async (req, res) => {
       success: false,
       message: err.message,
     });
-  } 
+  }
 };

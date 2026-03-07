@@ -1,12 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./AddIncome.css";
 
-export default function AddIncome() {
+function AddIncome() {
   const accountOptions = [
-    "Saving's A/C", "Salary", "Current", "Offical Account", "LIC Account",
-    "Salary ACCOUNT TYPe", "Cash", "Building Construction", "Furniture & Fixtures",
-    "Printing Stationary", "School", "Social Activity", "Library Fund",
-    "Management", "Building", "Sports", "Donation", "Others",
+    "Saving's A/C",
+    "Salary",
+    "Current",
+    "Official Account",
+    "LIC Account",
+    "Cash",
+    "Building Construction",
+    "Furniture & Fixtures",
+    "Printing Stationary",
+    "School",
+    "Social Activity",
+    "Library Fund",
+    "Management",
+    "Building",
+    "Sports",
+    "Donation",
+    "Others",
   ];
 
   const [form, setForm] = useState({
@@ -24,7 +37,6 @@ export default function AddIncome() {
     description: "",
   });
 
-  /* ✅ Dummy Data Added */
   const [records, setRecords] = useState([
     {
       incomeHead: "Salary",
@@ -45,16 +57,17 @@ export default function AddIncome() {
   ]);
 
   const [openMenu, setOpenMenu] = useState(null);
-  const menuRef = useRef();
+  const dropdownRef = useRef(null);
 
+  // ✅ close on outside click
   useEffect(() => {
-    const closeMenu = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpenMenu(null);
       }
     };
-    document.addEventListener("mousedown", closeMenu);
-    return () => document.removeEventListener("mousedown", closeMenu);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleChange = (e) => {
@@ -65,6 +78,7 @@ export default function AddIncome() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setRecords([...records, form]);
+
     setForm({
       incomeHead: "",
       invoiceNo: "",
@@ -82,50 +96,55 @@ export default function AddIncome() {
   };
 
   const handleDelete = (index) => {
-    const updated = records.filter((_, i) => i !== index);
-    setRecords(updated);
+    setRecords(records.filter((_, i) => i !== index));
+    setOpenMenu(null);
   };
 
   return (
     <div className="income-container">
-
       {/* LEFT FORM */}
-      <div className="form-scroll-x">
+      <div className="income-form-wrapper">
         <form className="income-form" onSubmit={handleSubmit}>
           <h2>Add Income</h2>
 
           <label>Income Head</label>
-          <select name="incomeHead" value={form.incomeHead} onChange={handleChange}>
+          <select
+            name="incomeHead"
+            value={form.incomeHead}
+            onChange={handleChange}
+          >
             <option value="">Select Income Head</option>
             {accountOptions.map((opt) => (
-              <option key={opt} value={opt}>{opt}</option>
+              <option key={opt}>{opt}</option>
             ))}
           </select>
 
           <label>Invoice Number</label>
-          <input type="text" name="invoiceNo" value={form.invoiceNo} onChange={handleChange} />
+          <input
+            type="text"
+            name="invoiceNo"
+            value={form.invoiceNo}
+            onChange={handleChange}
+          />
 
           <label>Account Type</label>
-          <select name="accountType" value={form.accountType} onChange={handleChange}>
+          <select
+            name="accountType"
+            value={form.accountType}
+            onChange={handleChange}
+          >
             <option value="">Select Account Type</option>
             {accountOptions.map((opt) => (
-              <option key={opt} value={opt}>{opt}</option>
+              <option key={opt}>{opt}</option>
             ))}
           </select>
-
-          <label>Account Name</label>
-          <select name="accountName" value={form.accountName} onChange={handleChange}>
-            <option value="">Select Account Name</option>
-            {accountOptions.map((opt) => (
-              <option key={opt} value={opt}>{opt}</option>
-            ))}
-          </select>
-
-          <label>Income From</label>
-          <input type="text" name="incomeFrom" value={form.incomeFrom} onChange={handleChange} />
 
           <label>Payment Type</label>
-          <select name="paymentType" value={form.paymentType} onChange={handleChange}>
+          <select
+            name="paymentType"
+            value={form.paymentType}
+            onChange={handleChange}
+          >
             <option value="">Select Payment Type</option>
             <option>Cash</option>
             <option>Cheque</option>
@@ -133,31 +152,53 @@ export default function AddIncome() {
           </select>
 
           <label>Amount</label>
-          <input type="number" name="amount" value={form.amount} onChange={handleChange} />
+          <input
+            type="number"
+            name="amount"
+            value={form.amount}
+            onChange={handleChange}
+          />
 
           <label>Date</label>
-          <input type="date" name="date" value={form.date} onChange={handleChange} />
+          <input
+            type="date"
+            name="date"
+            value={form.date}
+            onChange={handleChange}
+          />
 
           <label>Created By</label>
-          <input type="text" name="createdBy" value={form.createdBy} onChange={handleChange} />
+          <input
+            type="text"
+            name="createdBy"
+            value={form.createdBy}
+            onChange={handleChange}
+          />
 
           <label>Approved By</label>
-          <input type="text" name="approvedBy" value={form.approvedBy} onChange={handleChange} />
-
-          <label>Attach Document</label>
-          <input type="file" name="document" onChange={handleChange} />
+          <input
+            type="text"
+            name="approvedBy"
+            value={form.approvedBy}
+            onChange={handleChange}
+          />
 
           <label>Description</label>
-          <textarea name="description" value={form.description} onChange={handleChange}></textarea>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+          />
 
-          <button type="submit" className="btn-save">Save</button>
+          <button type="submit" className="btn-save">
+            Save Income
+          </button>
         </form>
       </div>
 
       {/* RIGHT TABLE */}
       <div className="income-list">
         <h2>Income List</h2>
-        <input type="text" placeholder="Search Income..." className="search-box" />
 
         <div className="table-wrapper">
           <table>
@@ -184,22 +225,32 @@ export default function AddIncome() {
                   <td>{rec.date}</td>
                   <td>{rec.createdBy}</td>
                   <td>{rec.approvedBy}</td>
+
+                  {/* ✅ 3 DOT ACTION */}
                   <td className="action-cell">
                     <button
-                      className="action-btn"
-                      onClick={() => setOpenMenu(openMenu === index ? null : index)}
+                      className="dots-btn"
+                      onClick={() =>
+                        setOpenMenu(openMenu === index ? null : index)
+                      }
+                      aria-label="More actions"
+                      type="button"
                     >
-                      Action ▾
+                      ⋮
                     </button>
 
                     {openMenu === index && (
-                      <div className="dropdown-menu" ref={menuRef}>
-                        <button className="dropdown-edit">Edit</button>
+                      <div className="dropdown-menu" ref={dropdownRef}>
+                        <button className="dropdown-edit" type="button">
+                          ✏ Edit
+                        </button>
+
                         <button
                           className="dropdown-delete"
+                          type="button"
                           onClick={() => handleDelete(index)}
                         >
-                          Delete
+                          🗑 Delete
                         </button>
                       </div>
                     )}
@@ -213,3 +264,5 @@ export default function AddIncome() {
     </div>
   );
 }
+
+export default AddIncome;

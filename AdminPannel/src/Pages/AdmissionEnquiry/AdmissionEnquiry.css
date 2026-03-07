@@ -176,14 +176,234 @@
 .header-actions button {
   margin-left: 8px;
 }
+/* ================= MAIN CARD ================= */
+
+.EnquiryListForm-Card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  margin-bottom: 25px;
+}
+
+/* ================= HEADER ================= */
+
+.EnquiryListForm-Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.EnquiryListForm-Title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.EnquiryListForm-HeaderActions {
+  display: flex;
+  gap: 10px;
+}
 
 /* ================= BUTTONS ================= */
 
-button {
-  padding: 8px 14px;
-  border-radius: 6px;
+.EnquiryListForm-Btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
   border: none;
   cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 500;
+}
+
+.EnquiryListForm-BtnPrimary {
+  background: linear-gradient(135deg,#2563eb,#1e40af);
+  color: white;
+}
+
+.EnquiryListForm-BtnSecondary {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.EnquiryListForm-BtnDanger {
+  background: #dc2626;
+  color: white;
+}
+
+.EnquiryListForm-Btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ================= TABLE ================= */
+
+.EnquiryListForm-TableWrapper {
+  overflow-x: auto;
+}
+
+.EnquiryListForm-Table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.EnquiryListForm-TableHead th {
+  background: #f1f5f9;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #334155;
+}
+
+.EnquiryListForm-Table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #475569;
+}
+
+.EnquiryListForm-Table tr:hover {
+  background: #f9fafb;
+}
+
+/* ================= ACTION ================= */
+
+.EnquiryListForm-ActionBtn {
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.EnquiryListForm-Dropdown {
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  z-index: 999;
+}
+
+.EnquiryListForm-DropdownItem {
+  padding: 8px 12px;
+  font-size: 13px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.EnquiryListForm-DropdownItem:hover {
+  background: #f1f5f9;
+}
+
+.EnquiryListForm-Danger {
+  color: #dc2626;
+}
+
+/* ================= OVERLAY ================= */
+
+.EnquiryListForm-Overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ================= POPUP CARD ================= */
+
+.EnquiryListForm-ImportCard,
+.EnquiryListForm-AddCard,
+.EnquiryListForm-FollowUpCard,
+.EnquiryListForm-ViewCard {
+  background: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 900px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+/* ================= POPUP HEADER ================= */
+
+.EnquiryListForm-PopupHeader {
+  background: linear-gradient(135deg,#2563eb,#1e40af);
+  color: white;
+  padding: 14px 20px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.EnquiryListForm-Close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ================= FORM GRID ================= */
+
+.EnquiryListForm-FormGrid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.EnquiryListForm-FormGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.EnquiryListForm-FormGroup label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.EnquiryListForm-FormGroup input,
+.EnquiryListForm-FormGroup select,
+.EnquiryListForm-FormGroup textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  transition: 0.3s ease;
+}
+
+.EnquiryListForm-FormGroup input:focus,
+.EnquiryListForm-FormGroup select:focus,
+.EnquiryListForm-FormGroup textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+  outline: none;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+  .EnquiryListForm-FormGrid{
+    grid-template-columns:1fr;
+  }
+
+  .EnquiryListForm-Header{
+    flex-direction:column;
+    gap:10px;
+  }
 }
 
 .btn-primary {
