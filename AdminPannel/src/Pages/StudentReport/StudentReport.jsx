@@ -2,13 +2,13 @@ import React from "react";
 import "./StudentReport.css";
 
 // ✅ Import Images
-import studentImg from "../../assets/r-img1.webp";
-import guardianImg from "../../assets/r-img2.webp";
-import historyImg from "../../assets/r-img3.webp";
-import ptmImg from "../../assets/r-img4.webp";
-import achievementImg from "../../assets/r-img5.webp";
-import loginImg from "../../assets/report_login.webp";
-import customFieldImg from "../../assets/cus-fild.webp";
+import studentImg from "../../Assets/r-img1.webp";
+import guardianImg from "../../Assets/r-img2.webp";
+import historyImg from "../../Assets/r-img3.webp";
+import ptmImg from "../../Assets/r-img4.webp";
+import achievementImg from "../../Assets/r-img4.webp";
+import loginImg from "../../Assets/report_login.webp";
+import customFieldImg from "../../Assets/cus-fild.webp";
 
 const StudentReport = () => {
   const reports = [
