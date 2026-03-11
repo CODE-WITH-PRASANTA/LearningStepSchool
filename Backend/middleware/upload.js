@@ -12,6 +12,7 @@ const ensureDir = (dir) => {
 
 /* ================= ROUTE → FOLDER MAP ================= */
 const routeFolderMap = {
+  "/students": "uploads/students",
   "/blogs": "uploads/blogs",
   "/team": "uploads/team",
   "/client-logos": "uploads/client-logos",
@@ -42,27 +43,99 @@ const getUploadPath = (req) => {
 /* ================= MULTER CONFIG ================= */
 const storage = multer.memoryStorage();
 
+/* ================= FILE FILTER ================= */
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|webp/;
+  const route = req.originalUrl;
+  const mime = file.mimetype;
 
-  const extname = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
+  const isImage = mime.startsWith("image/");
+  const isPDF = mime === "application/pdf";
+  const isDOC =
+    mime === "application/msword" ||
+    mime ===
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-  const mimetype = allowedTypes.test(file.mimetype);
+  /* ================= STUDENT VALIDATION ================= */
+  if (route.includes("/students")) {
+    const field = file.fieldname;
 
-  if (extname && mimetype) {
+    const imageFields = [
+      "studentPhoto",
+      "fatherPhoto",
+      "motherPhoto",
+      "guardianPhoto",
+    ];
+
+    const pdfFields = [
+      "reportCard",
+      "tc",
+      "samagraId",
+      "nidaCard",
+      "previousMarksheet",
+      "dobCertificate",
+      "incomeCertificate",
+      "pip",
+    ];
+
+    const pdfOrImageFields = ["aadhaarStudent", "aadhaarParent"];
+
+    if (imageFields.includes(field)) {
+      return isImage
+        ? cb(null, true)
+        : cb(new Error(`${field} must be an image`));
+    }
+
+    if (pdfFields.includes(field)) {
+      return isPDF
+        ? cb(null, true)
+        : cb(new Error(`${field} must be a PDF`));
+    }
+
+    if (pdfOrImageFields.includes(field)) {
+      return isPDF || isImage
+        ? cb(null, true)
+        : cb(new Error(`${field} must be PDF or image`));
+    }
+  }
+
+  /* ================= DEFAULT VALIDATION ================= */
+  if (isImage || isPDF || isDOC) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files are allowed"));
+    cb(new Error("Only images, PDF, DOC, DOCX files are allowed"));
   }
 };
 
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
+
+/* ================= FILE PROCESSOR ================= */
+const processFile = async (file, uploadPath) => {
+  const isImage = file.mimetype.startsWith("image/");
+
+  if (isImage) {
+    const filename = `${file.fieldname}_${Date.now()}.webp`;
+    const outputPath = path.join(uploadPath, filename);
+
+    await sharp(file.buffer)
+      .resize(1200, 1200, { fit: "inside" })
+      .webp({ quality: 80 })
+      .toFile(outputPath);
+
+    return "/" + outputPath.replace(/\\/g, "/");
+  }
+
+  const ext = path.extname(file.originalname).toLowerCase();
+  const filename = `${file.fieldname}_${Date.now()}${ext}`;
+  const outputPath = path.join(uploadPath, filename);
+
+  fs.writeFileSync(outputPath, file.buffer);
+
+  return "/" + outputPath.replace(/\\/g, "/");
+};
 
 /* ================= SHARP CONVERTER ================= */
 const convertToWebp = async (req, res, next) => {
@@ -71,53 +144,29 @@ const convertToWebp = async (req, res, next) => {
 
     const uploadPath = getUploadPath(req);
 
-    /* ================= SINGLE FILE ================= */
+    /* SINGLE FILE */
     if (req.file) {
-      const filename = `${Date.now()}-${Math.random()
-        .toString(36)
-        .slice(2)}.webp`;
-
-      const outputPath = path.join(uploadPath, filename);
-
-      await sharp(req.file.buffer)
-        .resize(1200, 1200, { fit: "inside" })
-        .webp({ quality: 80 })
-        .toFile(outputPath);
-
-      const relativePath = "/" + outputPath.replace(/\\/g, "/");
-
-      req.file.path = relativePath;
-      req.body[req.file.fieldname] = relativePath;
+      const pathSaved = await processFile(req.file, uploadPath);
+      req.file.path = pathSaved;
+      req.body[req.file.fieldname] = pathSaved;
     }
 
-    /* ================= MULTIPLE FILES ================= */
+    /* MULTIPLE FILES */
     if (req.files) {
       for (const field in req.files) {
         req.body[field] = [];
 
         for (const file of req.files[field]) {
-          const filename = `${Date.now()}-${Math.random()
-            .toString(36)
-            .slice(2)}.webp`;
-
-          const outputPath = path.join(uploadPath, filename);
-
-          await sharp(file.buffer)
-            .resize(1200, 1200, { fit: "inside" })
-            .webp({ quality: 80 })
-            .toFile(outputPath);
-
-          const relativePath = "/" + outputPath.replace(/\\/g, "/");
-
-          file.path = relativePath;
-          req.body[field].push(relativePath);
+          const pathSaved = await processFile(file, uploadPath);
+          file.path = pathSaved;
+          req.body[field].push(pathSaved);
         }
       }
     }
 
     next();
   } catch (err) {
-    console.error("SHARP ERROR:", err);
+    console.error("UPLOAD ERROR:", err);
     res.status(500).json({
       success: false,
       message: err.message,
@@ -125,7 +174,7 @@ const convertToWebp = async (req, res, next) => {
   }
 };
 
-/* ================= DELETE IMAGE FUNCTION ================= */
+/* ================= DELETE IMAGE ================= */
 const deleteImageFile = (imagePath) => {
   try {
     if (!imagePath) return;
@@ -134,10 +183,10 @@ const deleteImageFile = (imagePath) => {
 
     if (fs.existsSync(fullPath)) {
       fs.unlinkSync(fullPath);
-      console.log("🗑 Image deleted:", fullPath);
+      console.log("Deleted:", fullPath);
     }
   } catch (err) {
-    console.error("IMAGE DELETE ERROR:", err);
+    console.error("DELETE ERROR:", err);
   }
 };
 

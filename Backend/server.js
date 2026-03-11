@@ -39,6 +39,7 @@ const classDataRoutes = require("./routes/classData.routes");
 const eventRoutes = require("./routes/event.routes");
 
 const enquiryRoutes = require("./routes/enquiry.routes");
+const studentAdmissionRoutes = require("./routes/studentAdmission.routes");
 
 app.use("/uploads", express.static("uploads"));
 
@@ -61,6 +62,7 @@ app.use("/api/fees", feeRoutes);
 app.use("/api/class-data", classDataRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/enquiries", enquiryRoutes);
+app.use("/api/students", studentAdmissionRoutes);
 
 
 
