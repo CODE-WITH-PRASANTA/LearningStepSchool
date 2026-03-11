@@ -23,6 +23,7 @@ const routeFolderMap = {
   "/testimonials": "uploads/testimonials",
   "/class-data": "uploads/class-data",
   "/events": "uploads/events",
+  "/advertisements": "uploads/advertisements",
 };
 
 /* ================= GET UPLOAD PATH ================= */
