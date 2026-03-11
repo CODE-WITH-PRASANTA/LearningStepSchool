@@ -113,6 +113,7 @@ import InactiveStudent from "./Pages/InactiveStudent/InactiveStudent";
 import AddReferral from "./Pages/AddReferral/AddReferral";
 import StudentReport from "./Pages/StudentReport/StudentReport";
 import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
+import AdminAdvertisement from "./Pages/AdminAdvertisement";
 
 
 /* ===================== APP ===================== */
@@ -310,6 +311,7 @@ export default function App() {
 
 
 
+          <Route path="/admin/advertisement" element={<AdminAdvertisement/>} />
 
           
 
