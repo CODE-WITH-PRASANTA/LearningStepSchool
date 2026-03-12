@@ -19,6 +19,7 @@ import {
   FiMonitor,
   FiStar,
   FiUserPlus,
+  FiImage,
 
   // NEW ADDED ICONS
   FiFileText,
@@ -41,6 +42,12 @@ const menu = [
     label: "Cold Leads",
     icon: FiUserPlus,
     path: "/admin/coldleads",
+  },
+
+  {
+    label: "Advertisements",
+    icon: FiImage,
+    path: "/admin/advertisement",
   },
 
   { type: "section", label: "Contact Enquiry" },
