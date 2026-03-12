@@ -4,22 +4,29 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 
 dotenv.config();
-
 const app = express();
-
 /* ================= CONNECT DATABASE ================= */
 connectDB();
-
 /* ================= MIDDLEWARE ================= */
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://admin.learningstepschool.in",
+      "https://learningstepschool.in",
+      "http://localhost:5173",
+      "http://localhost:5174"
+    ],
+    credentials: true,
+  })
+);
+
 /* ================= ROUTES ================= */
 app.get("/", (req, res) => {
   res.send("API Working");
 });
-
-// const surveyRoutes = require("./routes/admissionSurvey.routes");
 const notificationRoutes = require("./routes/notification.routes");
 const latestNewsRoutes = require("./routes/latestNews.routes");
 const photoGalleryRoutes = require("./routes/photoGallery.routes");
@@ -37,14 +44,11 @@ const blogRoutes = require("./routes/blog.routes");
 const feeRoutes = require("./routes/fee.routes");
 const classDataRoutes = require("./routes/classData.routes");
 const eventRoutes = require("./routes/event.routes");
-
 const enquiryRoutes = require("./routes/enquiry.routes");
 const studentAdmissionRoutes = require("./routes/studentAdmission.routes");
 const advertisementRoutes = require("./routes/advertisement.routes");
 
 app.use("/uploads", express.static("uploads"));
-
-
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/latest-news", latestNewsRoutes);
 app.use("/api/photo-gallery", photoGalleryRoutes);
@@ -66,10 +70,18 @@ app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
 
+/* ================= 404 HANDLER ================= */
 
-
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API route not found",
+    url: req.originalUrl,
+  });
+});
 
 /* ================= SERVER ================= */
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

@@ -309,18 +309,8 @@ export default function App() {
           <Route path="/inactive/student" element={<InactiveStudent/>} />
           <Route path="/student/report" element={<StudentReport/>} />
 
-
-
           <Route path="/admin/advertisement" element={<AdminAdvertisement/>} />
-
-          
-
-
-
-         
-
-
-         
+   
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
