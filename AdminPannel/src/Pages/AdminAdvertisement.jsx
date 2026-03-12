@@ -98,14 +98,18 @@ const AdminAdvertisement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-semibold mb-8">Advertisement Manager</h1>
+    <div className="min-h-screen bg-gray-100 p-4 md:p-6 lg:p-8">
+      <h1 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8">
+        Advertisement Manager
+      </h1>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* ================= UPLOAD PANEL ================= */}
 
-        <div className="bg-white shadow-lg rounded-xl p-6">
-          <h2 className="text-xl font-semibold mb-4">Upload Advertisement</h2>
+        <div className="bg-white shadow-lg rounded-xl p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-4">
+            Upload Advertisement
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
@@ -118,7 +122,7 @@ const AdminAdvertisement = () => {
             {preview && (
               <img
                 src={preview}
-                className="w-full rounded-lg shadow"
+                className="w-full max-h-64 object-cover rounded-lg shadow"
                 alt="preview"
               />
             )}
@@ -135,21 +139,21 @@ const AdminAdvertisement = () => {
 
         {/* ================= ADS LIST ================= */}
 
-        <div className="bg-white shadow-lg rounded-xl p-6">
-          <h2 className="text-xl font-semibold mb-4">
+        <div className="bg-white shadow-lg rounded-xl p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-4">
             Existing Advertisements
           </h2>
 
-          <div className="space-y-4 max-h-[500px] overflow-y-auto">
+          <div className="space-y-4 max-h-[400px] md:max-h-[500px] overflow-y-auto">
             {ads.length > 0 ? (
               ads.map((ad) => (
                 <div
                   key={ad._id}
-                  className="flex items-center gap-4 border p-3 rounded-lg"
+                  className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 border p-3 rounded-lg"
                 >
                   <img
                     src={getImageUrl(ad.image)}
-                    className="w-24 h-16 object-cover rounded"
+                    className="w-full sm:w-24 h-40 sm:h-16 object-cover rounded"
                     alt="ad"
                     onError={(e) =>
                       (e.target.src =
@@ -157,11 +161,11 @@ const AdminAdvertisement = () => {
                     }
                   />
 
-                  <div className="flex gap-2 ml-auto">
+                  <div className="flex sm:ml-auto">
                     <button
                       onClick={() => deleteAd(ad._id)}
                       disabled={actionLoading === ad._id}
-                      className="bg-red-500 text-white px-3 py-1 rounded text-sm"
+                      className="w-full sm:w-auto bg-red-500 text-white px-3 py-1 rounded text-sm"
                     >
                       {actionLoading === ad._id ? "Deleting..." : "Delete"}
                     </button>
