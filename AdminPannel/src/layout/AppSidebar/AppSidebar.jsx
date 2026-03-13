@@ -29,7 +29,7 @@ import {
   FiActivity,
   FiCreditCard,
   FiTrendingUp,
-  FiMessageSquare
+  FiMessageSquare,
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -53,10 +53,10 @@ const menu = [
   { type: "section", label: "Contact Enquiry" },
 
   {
-  label: "Contact Enquiries",
-  icon: FiMessageSquare,   
-  path: "/admin/contact-enq",
-},
+    label: "Contact Enquiries",
+    icon: FiMessageSquare,
+    path: "/admin/contact-enq",
+  },
 
   { type: "section", label: "Main Section" },
 
@@ -201,17 +201,19 @@ const menu = [
     icon: FiUsers,
     children: [
       { label: "Student Admission", path: "/student/admission" },
+      {
+        label: "Student Details",
+        path: "/student/admission/details",
+      },
       { label: "Online Admission", path: "/online/admission" },
       { label: "Student Details", path: "/student/details" },
-      { label: "Student Catagory", path: "/student/catagory"},
-      { label: "House", path: "/house"},
-      { label: "Student Referral", path: "/student/referral"},
-      { label: "Inactive Students", path: "/inactive/student"},
-      { label: "Link Siblings", path: "/link/siblings"},
-      { label: "Student Update", path: "/student/update"},
-      { label: "Student Report", path: "/student/report"},
-
-
+      { label: "Student Catagory", path: "/student/catagory" },
+      { label: "House", path: "/house" },
+      { label: "Student Referral", path: "/student/referral" },
+      { label: "Inactive Students", path: "/inactive/student" },
+      { label: "Link Siblings", path: "/link/siblings" },
+      { label: "Student Update", path: "/student/update" },
+      { label: "Student Report", path: "/student/report" },
     ],
   },
 
@@ -250,9 +252,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     const activeGroup = menu.find(
       (item) =>
         item.children &&
-        item.children.some((c) =>
-          location.pathname.startsWith(c.path)
-        )
+        item.children.some((c) => location.pathname.startsWith(c.path)),
     );
 
     if (activeGroup) {
@@ -306,9 +306,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
             const isChildActive =
               item.children &&
-              item.children.some((c) =>
-                location.pathname.startsWith(c.path)
-              );
+              item.children.some((c) => location.pathname.startsWith(c.path));
 
             // 👇 ONLY manual open controls dropdown
             const isOpen = openGroup === item.label;
@@ -319,16 +317,15 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 <div key={i}>
                   <button
                     onClick={() =>
-                      sidebarOpen &&
-                      setOpenGroup(isOpen ? null : item.label)
+                      sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
                     className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300
                     ${
                       isChildActive
                         ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
                         : isOpen
-                        ? "bg-indigo-100 text-indigo-700"
-                        : "hover:bg-gray-100"
+                          ? "bg-indigo-100 text-indigo-700"
+                          : "hover:bg-gray-100"
                     }`}
                   >
                     {Icon && (
@@ -420,9 +417,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     )}
 
                     {sidebarOpen && (
-                      <span className="text-sm font-medium">
-                        {item.label}
-                      </span>
+                      <span className="text-sm font-medium">{item.label}</span>
                     )}
                   </div>
                 )}

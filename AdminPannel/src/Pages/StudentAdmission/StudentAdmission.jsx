@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AccordionSection from "../../Component/AccordionSection/AccordionSection";
-import API from "../../api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 import { Download } from "lucide-react";
 import "./StudentAdmission.css";
 
@@ -81,7 +81,37 @@ export default function StudentAdmission() {
   const [formData, setFormData] = useState(initialFormState);
   const [files, setFiles] = useState({});
   const [loading, setLoading] = useState(false);
+  const [editId, setEditId] = useState(null);
 
+  useEffect(() => {
+    const id = localStorage.getItem("editStudentId");
+
+    if (!id) return;
+
+    const loadStudent = async () => {
+      try {
+        const res = await API.get(`/students/${id}`);
+
+        const studentData = res.data?.data || res.data;
+
+        setFormData({
+          ...initialFormState,
+          ...studentData,
+          studentBehaviour: Array.isArray(studentData.studentBehaviour)
+            ? studentData.studentBehaviour
+            : studentData.studentBehaviour
+              ? JSON.parse(studentData.studentBehaviour)
+              : [],
+        });
+
+        setEditId(id);
+      } catch (error) {
+        console.error("Edit load error:", error);
+      }
+    };
+
+    loadStudent();
+  }, []);
 
   useEffect(() => {
     if (formData.guardianAddressSame && formData.guardianAddress) {
@@ -92,7 +122,6 @@ export default function StudentAdmission() {
     }
   }, [formData.guardianAddressSame, formData.guardianAddress]);
 
-
   useEffect(() => {
     if (formData.permanentAddressSame && formData.currentAddress) {
       setFormData((prev) => ({
@@ -101,7 +130,6 @@ export default function StudentAdmission() {
       }));
     }
   }, [formData.permanentAddressSame, formData.currentAddress]);
-
 
   useEffect(() => {
     if (formData.guardianType === "Father") {
@@ -113,7 +141,6 @@ export default function StudentAdmission() {
       }));
     }
 
-
     if (formData.guardianType === "Mother") {
       setFormData((prev) => ({
         ...prev,
@@ -122,7 +149,6 @@ export default function StudentAdmission() {
         guardianRelation: "Mother",
       }));
     }
-
 
     if (formData.guardianType === "Other") {
       setFormData((prev) => ({
@@ -167,7 +193,6 @@ export default function StudentAdmission() {
         !formData.guardianPhone
       ) {
         alert("Please fill all required fields");
-        setLoading(false);
         return;
       }
 
@@ -177,7 +202,7 @@ export default function StudentAdmission() {
           return;
         }
       }
-      
+
       setLoading(true);
 
       const data = new FormData();
@@ -200,20 +225,35 @@ export default function StudentAdmission() {
         }
       });
 
-      await API.post("/students", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      /* ================= CREATE OR UPDATE ================= */
 
-      alert("Student Created Successfully");
+      if (editId) {
+        await API.put(`/students/${editId}`, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        alert("Student Updated Successfully");
+
+        localStorage.removeItem("editStudentId");
+        window.location.href = "/student/admission/details";
+      } else {
+        await API.post("/students", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        alert("Student Created Successfully");
+      }
 
       setFormData(initialFormState);
       setFiles({});
-      window.location.reload();
+      setEditId(null);
     } catch (error) {
       console.error(error);
-      alert("Error creating student");
+      alert("Error saving student");
     } finally {
       setLoading(false);
     }
@@ -224,7 +264,9 @@ export default function StudentAdmission() {
       <div className="Student-Admission-Container">
         {/* HEADER */}
         <div className="Student-Admission-Header">
-          <h1 className="Student-Admission-Title">Student Admission</h1>
+          <h1 className="Student-Admission-Title">
+            {editId ? "Edit Student" : "Student Admission"}
+          </h1>
           <button className="Student-Admission-DownloadBtn">
             <Download size={18} />
             Download Form
@@ -425,6 +467,7 @@ export default function StudentAdmission() {
               <PhotoUploadBox
                 name="studentPhoto"
                 onFileChange={handleFileChange}
+                existingImage={formData.studentPhoto}
               />
             </div>
           </div>
@@ -538,6 +581,7 @@ export default function StudentAdmission() {
               <PhotoUploadBox
                 name="fatherPhoto"
                 onFileChange={handleFileChange}
+                existingImage={formData.fatherPhoto}
               />
             </div>
           </div>
@@ -586,6 +630,7 @@ export default function StudentAdmission() {
               <PhotoUploadBox
                 name="motherPhoto"
                 onFileChange={handleFileChange}
+                existingImage={formData.motherPhoto}
               />
             </div>
           </div>
@@ -689,6 +734,7 @@ export default function StudentAdmission() {
               <PhotoUploadBox
                 name="guardianPhoto"
                 onFileChange={handleFileChange}
+                existingImage={formData.guardianPhoto}
               />
             </div>
           </div>
@@ -928,7 +974,7 @@ export default function StudentAdmission() {
               <tr>
                 <th>#</th>
                 <th>Document Name</th>
-                <th>Upload File</th>
+                <th>Upload / View File</th>
               </tr>
             </thead>
 
@@ -947,48 +993,66 @@ export default function StudentAdmission() {
                 { label: "Aadhaar Card (Parent)", field: "aadhaarParent" },
                 { label: "Income Certificate", field: "incomeCertificate" },
                 { label: "PIP", field: "pip" },
-              ].map((item, index) => (
-                <tr key={item.field}>
-                  <td>{index + 1}</td>
+              ].map((item, index) => {
+                const existingFile = formData?.documents?.[item.field];
 
-                  <td className="Student-Admission-DocName">{item.label}</td>
+                const fileUrl =
+                  existingFile && !existingFile.startsWith("http")
+                    ? `${IMAGE_URL}${existingFile}`
+                    : existingFile;
 
-                  <td>
-                    <input
-                      type="file"
-                      name={item.field}
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      className="Student-Admission-FileInput"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
+                return (
+                  <tr key={item.field}>
+                    <td>{index + 1}</td>
 
-                        if (!file) return;
+                    <td className="Student-Admission-DocName">{item.label}</td>
 
-                        // File size validation (2MB)
-                        if (file.size > 2 * 1024 * 1024) {
-                          alert("File must be under 2MB");
-                          return;
-                        }
+                    <td className="Student-Admission-DocumentCell">
+                      {existingFile && (
+                        <a
+                          href={fileUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="Student-Admission-ViewFile"
+                        >
+                          View File
+                        </a>
+                      )}
 
-                        // File type validation
-                        const allowedTypes = [
-                          "application/pdf",
-                          "image/jpeg",
-                          "image/png",
-                          "image/jpg",
-                        ];
+                      <input
+                        type="file"
+                        name={item.field}
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        className="Student-Admission-FileInput"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
 
-                        if (!allowedTypes.includes(file.type)) {
-                          alert("Only PDF, JPG, PNG allowed");
-                          return;
-                        }
+                          if (!file) return;
 
-                        handleFileChange(item.field, file);
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))}
+                          if (file.size > 2 * 1024 * 1024) {
+                            alert("File must be under 2MB");
+                            return;
+                          }
+
+                          const allowedTypes = [
+                            "application/pdf",
+                            "image/jpeg",
+                            "image/png",
+                            "image/jpg",
+                          ];
+
+                          if (!allowedTypes.includes(file.type)) {
+                            alert("Only PDF, JPG, PNG allowed");
+                            return;
+                          }
+
+                          handleFileChange(item.field, file);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </AccordionSection>
@@ -1001,7 +1065,7 @@ export default function StudentAdmission() {
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? "Submitting..." : editId ? "Update Student" : "Submit"}
           </button>
         </div>
       </div>
@@ -1099,12 +1163,24 @@ const FormTextarea = ({ label, name, onChange, value, disabled }) => (
   </div>
 );
 
-const PhotoUploadBox = ({ name, onFileChange }) => {
+const PhotoUploadBox = ({ name, onFileChange, existingImage }) => {
   const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    if (!existingImage) return;
+
+    let imageUrl = existingImage;
+
+    // If backend returns relative path
+    if (!existingImage.startsWith("http")) {
+      imageUrl = `${IMAGE_URL}${existingImage}`;
+    }
+
+    setPreview(imageUrl);
+  }, [existingImage]);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
-
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
@@ -1112,22 +1188,17 @@ const PhotoUploadBox = ({ name, onFileChange }) => {
       return;
     }
 
-    const allowed = ["image/jpeg", "image/png", "image/jpg"];
-
+    const allowed = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
     if (!allowed.includes(file.type)) {
-      alert("Only JPG or PNG allowed");
+      alert("Only JPG, PNG, WEBP allowed");
       return;
     }
 
-    setPreview(URL.createObjectURL(file));
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+
     onFileChange(name, file);
   };
-
-  useEffect(() => {
-    return () => {
-      if (preview) URL.revokeObjectURL(preview);
-    };
-  }, [preview]);
 
   return (
     <div className="Student-Admission-PhotoBox">
@@ -1138,13 +1209,12 @@ const PhotoUploadBox = ({ name, onFileChange }) => {
             alt="Preview"
             className="Student-Admission-PhotoPreview"
           />
-
           <div className="Student-Admission-PhotoOverlay">Change Photo</div>
         </>
       ) : (
         <div className="Student-Admission-PhotoPlaceholder">
           <span>Upload Photo</span>
-          <small>JPG / PNG (Max 2MB)</small>
+          <small>JPG / PNG / WEBP (Max 2MB)</small>
         </div>
       )}
 
@@ -1154,6 +1224,55 @@ const PhotoUploadBox = ({ name, onFileChange }) => {
         accept="image/*"
         className="Student-Admission-PhotoInput"
         onChange={handleImageChange}
+      />
+    </div>
+  );
+};
+
+const DocumentUpload = ({ name, label, existingFile, onFileChange }) => {
+  const fileUrl =
+    existingFile && !existingFile.startsWith("http")
+      ? `${IMAGE_URL}${existingFile}`
+      : existingFile;
+
+  return (
+    <div className="Student-Admission-DocumentBox">
+      {existingFile && (
+        <div className="Student-Admission-DocumentPreview">
+          <a href={fileUrl} target="_blank" rel="noreferrer">
+            View File
+          </a>
+        </div>
+      )}
+
+      <input
+        type="file"
+        name={name}
+        accept=".pdf,.jpg,.jpeg,.png"
+        className="Student-Admission-FileInput"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+
+          if (file.size > 2 * 1024 * 1024) {
+            alert("File must be under 2MB");
+            return;
+          }
+
+          const allowedTypes = [
+            "application/pdf",
+            "image/jpeg",
+            "image/png",
+            "image/jpg",
+          ];
+
+          if (!allowedTypes.includes(file.type)) {
+            alert("Only PDF, JPG, PNG allowed");
+            return;
+          }
+
+          onFileChange(name, file);
+        }}
       />
     </div>
   );
