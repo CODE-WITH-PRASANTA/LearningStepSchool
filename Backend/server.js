@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const path = require("path");
 
 dotenv.config();
 
@@ -42,8 +43,7 @@ const enquiryRoutes = require("./routes/enquiry.routes");
 const studentAdmissionRoutes = require("./routes/studentAdmission.routes");
 const advertisementRoutes = require("./routes/advertisement.routes");
 
-app.use("/uploads", express.static("uploads"));
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/latest-news", latestNewsRoutes);

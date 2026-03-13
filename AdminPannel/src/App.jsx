@@ -114,6 +114,7 @@ import AddReferral from "./Pages/AddReferral/AddReferral";
 import StudentReport from "./Pages/StudentReport/StudentReport";
 import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
 import AdminAdvertisement from "./Pages/AdminAdvertisement";
+import StudentAdmsnDetails from "./Component/StudentAdmsnDetails/StudentAdmsnDetails";
 
 
 /* ===================== APP ===================== */
@@ -282,6 +283,7 @@ export default function App() {
           <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
           <Route path="/student/admission" element={<StudentAdmission/>}/>
+          <Route path="/student/admission/details" element={<StudentAdmsnDetails/>}/>
           <Route path="/type-question"element={<TypeList/>}/>
           <Route path="/question" element={<Question/>}/>
           <Route path="/update-question" element={<UpdateQuestion/>}/>

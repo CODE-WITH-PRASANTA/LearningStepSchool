@@ -2,15 +2,34 @@ const Student = require("../models/sudentAdmission.model");
 const { deleteImageFile } = require("../middleware/upload");
 
 /* ================= HELPER ================= */
+
 const getFile = (file) => {
   if (!file) return null;
   if (Array.isArray(file)) return file[0];
   return file;
 };
 
+/* ================= PARSE ARRAY ================= */
+
+const parseStudentBehaviour = (body) => {
+  if (!body.studentBehaviour) return;
+
+  if (typeof body.studentBehaviour === "string") {
+    try {
+      body.studentBehaviour = JSON.parse(body.studentBehaviour);
+    } catch {
+      body.studentBehaviour = [];
+    }
+  }
+};
+
 /* ================= CREATE STUDENT ================= */
+
 exports.createStudent = async (req, res) => {
   try {
+
+    /* FIX ARRAY */
+    parseStudentBehaviour(req.body);
 
     const student = new Student({
       ...req.body,
@@ -43,6 +62,7 @@ exports.createStudent = async (req, res) => {
     });
 
   } catch (error) {
+
     console.error("CREATE STUDENT ERROR:", error);
 
     res.status(500).json({
@@ -53,6 +73,7 @@ exports.createStudent = async (req, res) => {
 };
 
 /* ================= GET ALL STUDENTS ================= */
+
 exports.getStudents = async (req, res) => {
   try {
 
@@ -75,6 +96,7 @@ exports.getStudents = async (req, res) => {
 };
 
 /* ================= GET SINGLE STUDENT ================= */
+
 exports.getStudentById = async (req, res) => {
   try {
 
@@ -103,6 +125,7 @@ exports.getStudentById = async (req, res) => {
 };
 
 /* ================= UPDATE STUDENT ================= */
+
 exports.updateStudent = async (req, res) => {
   try {
 
@@ -115,89 +138,90 @@ exports.updateStudent = async (req, res) => {
       });
     }
 
-    /* DELETE OLD FILES IF NEW UPLOADED */
+    /* FIX ARRAY */
+    parseStudentBehaviour(req.body);
 
-    if (req.body.studentPhoto) {
+    const updateData = { ...req.body };
+
+    /* ================= PHOTO UPDATES ================= */
+
+    if (req.files?.studentPhoto) {
       deleteImageFile(student.studentPhoto);
+      updateData.studentPhoto = req.files.studentPhoto[0].path;
     }
 
-    if (req.body.fatherPhoto) {
+    if (req.files?.fatherPhoto) {
       deleteImageFile(student.fatherPhoto);
+      updateData.fatherPhoto = req.files.fatherPhoto[0].path;
     }
 
-    if (req.body.motherPhoto) {
+    if (req.files?.motherPhoto) {
       deleteImageFile(student.motherPhoto);
+      updateData.motherPhoto = req.files.motherPhoto[0].path;
     }
 
-    if (req.body.guardianPhoto) {
+    if (req.files?.guardianPhoto) {
       deleteImageFile(student.guardianPhoto);
+      updateData.guardianPhoto = req.files.guardianPhoto[0].path;
     }
 
-    /* DOCUMENTS */
+    /* ================= DOCUMENT UPDATES ================= */
 
-    if (req.body.reportCard) {
+    const documents = { ...student.documents };
+
+    if (req.files?.reportCard) {
       deleteImageFile(student.documents?.reportCard);
+      documents.reportCard = req.files.reportCard[0].path;
     }
 
-    if (req.body.tc) {
+    if (req.files?.tc) {
       deleteImageFile(student.documents?.tc);
+      documents.tc = req.files.tc[0].path;
     }
 
-    if (req.body.samagraId) {
+    if (req.files?.samagraId) {
       deleteImageFile(student.documents?.samagraId);
+      documents.samagraId = req.files.samagraId[0].path;
     }
 
-    if (req.body.nidaCard) {
+    if (req.files?.nidaCard) {
       deleteImageFile(student.documents?.nidaCard);
+      documents.nidaCard = req.files.nidaCard[0].path;
     }
 
-    if (req.body.previousMarksheet) {
+    if (req.files?.previousMarksheet) {
       deleteImageFile(student.documents?.previousMarksheet);
+      documents.previousMarksheet = req.files.previousMarksheet[0].path;
     }
 
-    if (req.body.dobCertificate) {
+    if (req.files?.dobCertificate) {
       deleteImageFile(student.documents?.dobCertificate);
+      documents.dobCertificate = req.files.dobCertificate[0].path;
     }
 
-    if (req.body.aadhaarStudent) {
+    if (req.files?.aadhaarStudent) {
       deleteImageFile(student.documents?.aadhaarStudent);
+      documents.aadhaarStudent = req.files.aadhaarStudent[0].path;
     }
 
-    if (req.body.aadhaarParent) {
+    if (req.files?.aadhaarParent) {
       deleteImageFile(student.documents?.aadhaarParent);
+      documents.aadhaarParent = req.files.aadhaarParent[0].path;
     }
 
-    if (req.body.incomeCertificate) {
+    if (req.files?.incomeCertificate) {
       deleteImageFile(student.documents?.incomeCertificate);
+      documents.incomeCertificate = req.files.incomeCertificate[0].path;
     }
 
-    if (req.body.pip) {
+    if (req.files?.pip) {
       deleteImageFile(student.documents?.pip);
+      documents.pip = req.files.pip[0].path;
     }
 
-    /* UPDATE DATA */
+    updateData.documents = documents;
 
-    const updateData = {
-      ...req.body,
-
-      studentPhoto: getFile(req.body.studentPhoto),
-      fatherPhoto: getFile(req.body.fatherPhoto),
-      motherPhoto: getFile(req.body.motherPhoto),
-      guardianPhoto: getFile(req.body.guardianPhoto),
-
-      documents: {
-        reportCard: getFile(req.body.reportCard),
-        tc: getFile(req.body.tc),
-        samagraId: getFile(req.body.samagraId),
-        nidaCard: getFile(req.body.nidaCard),
-        previousMarksheet: getFile(req.body.previousMarksheet),
-        dobCertificate: getFile(req.body.dobCertificate),
-        aadhaarStudent: getFile(req.body.aadhaarStudent),
-        aadhaarParent: getFile(req.body.aadhaarParent),
-        incomeCertificate: getFile(req.body.incomeCertificate),
-        pip: getFile(req.body.pip)
-      }
-    };
+    /* ================= UPDATE ================= */
 
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
@@ -222,6 +246,7 @@ exports.updateStudent = async (req, res) => {
 };
 
 /* ================= DELETE STUDENT ================= */
+
 exports.deleteStudent = async (req, res) => {
   try {
 
@@ -234,14 +259,10 @@ exports.deleteStudent = async (req, res) => {
       });
     }
 
-    /* DELETE PHOTOS */
-
     deleteImageFile(student.studentPhoto);
     deleteImageFile(student.fatherPhoto);
     deleteImageFile(student.motherPhoto);
     deleteImageFile(student.guardianPhoto);
-
-    /* DELETE DOCUMENTS */
 
     deleteImageFile(student.documents?.reportCard);
     deleteImageFile(student.documents?.tc);
