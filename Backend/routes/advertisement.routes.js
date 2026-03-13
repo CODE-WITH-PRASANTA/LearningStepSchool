@@ -5,12 +5,13 @@ const {
   createAdvertisement,
   getAdvertisements,
   deleteAdvertisement,
-  toggleAdvertisement
+  toggleAdvertisement,
 } = require("../controllers/advertisement.controller");
 
 const { upload, convertToWebp } = require("../middleware/upload");
 
-/* CREATE */
+/* ================= CREATE ================= */
+
 router.post(
   "/create",
   upload.single("image"),
@@ -18,12 +19,19 @@ router.post(
   createAdvertisement
 );
 
-/* GET */
+
+/* ================= GET ALL ================= */
+
 router.get("/all", getAdvertisements);
+
+
+/* ================= TOGGLE ACTIVE ================= */
 
 router.put("/toggle/:id", toggleAdvertisement);
 
-/* DELETE */
+
+/* ================= DELETE ================= */
+
 router.delete("/delete/:id", deleteAdvertisement);
 
 module.exports = router;

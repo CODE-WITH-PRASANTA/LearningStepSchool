@@ -64,6 +64,9 @@
     font-size: 13px;
     padding: 9px 18px;
   }
+  .admission-ticker{
+    margin-top: 0px;
+  }
 }
 
 /* Mobile */
