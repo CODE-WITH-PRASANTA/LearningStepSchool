@@ -1,55 +1,67 @@
 const Class = require("../models/class.model");
-const { deleteImageFile } = require("../middleware/upload");
 
-/* CREATE CLASS */
+/* ================= CREATE CLASS ================= */
 
 exports.createClass = async (req, res) => {
   try {
+
+    const { className, sectionName } = req.body;
+
     const newClass = new Class({
-      ...req.body,
-      image: req.body.image || "",
+      className,
+      sectionName
     });
 
     await newClass.save();
 
     res.status(201).json({
       success: true,
-      message: "Class created",
-      data: newClass,
+      message: "Class created successfully",
+      data: newClass
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: "Class with this section already exists"
+      });
+    }
+
+    res.status(500).json({
+      message: error.message
+    });
   }
 };
 
-/* GET ALL CLASSES */
+
+/* ================= GET ALL CLASSES ================= */
 
 exports.getClasses = async (req, res) => {
   try {
-    const classes = await Class.find().sort({ createdAt: -1 });
+
+    const classes = await Class.find()
+      .sort({ className: 1, sectionName: 1 });
 
     res.json({
       success: true,
-      data: classes,
+      data: classes
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    res.status(500).json({
+      message: error.message
+    });
+
   }
 };
 
-/* UPDATE CLASS */
+
+/* ================= UPDATE CLASS ================= */
 
 exports.updateClass = async (req, res) => {
   try {
-    const existing = await Class.findById(req.params.id);
-
-    if (!existing) {
-      return res.status(404).json({ message: "Class not found" });
-    }
-
-    if (req.body.image && existing.image) {
-      deleteImageFile(existing.image);
-    }
 
     const updated = await Class.findByIdAndUpdate(
       req.params.id,
@@ -57,37 +69,51 @@ exports.updateClass = async (req, res) => {
       { new: true }
     );
 
+    if (!updated) {
+      return res.status(404).json({
+        message: "Class not found"
+      });
+    }
+
     res.json({
       success: true,
-      message: "Class updated",
-      data: updated,
+      message: "Class updated successfully",
+      data: updated
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    res.status(500).json({
+      message: error.message
+    });
+
   }
 };
 
-/* DELETE CLASS */
+
+/* ================= DELETE CLASS ================= */
 
 exports.deleteClass = async (req, res) => {
   try {
-    const existing = await Class.findById(req.params.id);
 
-    if (!existing) {
-      return res.status(404).json({ message: "Class not found" });
+    const deleted = await Class.findByIdAndDelete(req.params.id);
+
+    if (!deleted) {
+      return res.status(404).json({
+        message: "Class not found"
+      });
     }
-
-    if (existing.image) {
-      deleteImageFile(existing.image);
-    }
-
-    await Class.findByIdAndDelete(req.params.id);
 
     res.json({
       success: true,
-      message: "Class deleted",
+      message: "Class deleted successfully"
     });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    res.status(500).json({
+      message: error.message
+    });
+
   }
 };

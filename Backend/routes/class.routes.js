@@ -8,31 +8,19 @@ const {
   deleteClass,
 } = require("../controllers/class.controller");
 
-const { upload, convertToWebp } = require("../middleware/upload");
+/* ================= CREATE CLASS ================= */
 
-/* CREATE CLASS */
+router.post("/classes", createClass);
 
-router.post(
-  "/classes",
-  upload.single("image"),
-  convertToWebp,
-  createClass
-);
-
-/* GET CLASSES */
+/* ================= GET CLASSES ================= */
 
 router.get("/classes", getClasses);
 
-/* UPDATE CLASS */
+/* ================= UPDATE CLASS ================= */
 
-router.put(
-  "/classes/:id",
-  upload.single("image"),
-  convertToWebp,
-  updateClass
-);
+router.put("/classes/:id", updateClass);
 
-/* DELETE CLASS */
+/* ================= DELETE CLASS ================= */
 
 router.delete("/classes/:id", deleteClass);
 

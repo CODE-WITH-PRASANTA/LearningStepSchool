@@ -40,6 +40,8 @@ const studentAdmissionRoutes = require("./routes/studentAdmission.routes");
 const advertisementRoutes = require("./routes/advertisement.routes");
 const classRoutes = require("./routes/class.routes");
 const subjectRoutes = require("./routes/subject.routes");
+const AdmsonfeeRoutes = require("./routes/admissionfee.routes");
+
 
 
 
@@ -68,6 +70,7 @@ app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
 app.use("/api", classRoutes);
 app.use("/api", subjectRoutes);
+app.use("/api/admission", AdmsonfeeRoutes);
 
 /* ================= 404 HANDLER ================= */
 
@@ -86,3 +89,16 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+ 

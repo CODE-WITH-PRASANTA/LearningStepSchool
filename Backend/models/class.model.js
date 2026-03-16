@@ -5,34 +5,13 @@ const classSchema = new mongoose.Schema(
     className: {
       type: String,
       required: true,
-      trim: true,
-      unique: true
-    },
-
-    ageGroup: {
-      type: String,
       trim: true
     },
 
-    classTime: {
+    sectionName: {
       type: String,
+      required: true,
       trim: true
-    },
-
-    classSize: {
-      type: Number
-    },
-
-    tuitionFees: {
-      type: String
-    },
-
-    description: {
-      type: String
-    },
-
-    image: {
-      type: String
     },
 
     status: {
@@ -42,5 +21,7 @@ const classSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+classSchema.index({ className: 1, sectionName: 1 }, { unique: true });
 
 module.exports = mongoose.model("Class", classSchema);
