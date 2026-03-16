@@ -12,17 +12,7 @@ connectDB();
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-app.use(
-  cors({
-    origin: [
-      "https://admin.learningstepschool.in",
-      "https://learningstepschool.in",
-      "http://localhost:5173",
-      "http://localhost:5174"
-    ],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 /* ================= ROUTES ================= */
 app.get("/", (req, res) => {
@@ -48,6 +38,13 @@ const eventRoutes = require("./routes/event.routes");
 const enquiryRoutes = require("./routes/enquiry.routes");
 const studentAdmissionRoutes = require("./routes/studentAdmission.routes");
 const advertisementRoutes = require("./routes/advertisement.routes");
+const classRoutes = require("./routes/class.routes");
+const subjectRoutes = require("./routes/subject.routes");
+const AdmsonfeeRoutes = require("./routes/admissionfee.routes");
+
+
+
+
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -71,6 +68,9 @@ app.use("/api/events", eventRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
+app.use("/api", classRoutes);
+app.use("/api", subjectRoutes);
+app.use("/api/admission", AdmsonfeeRoutes);
 
 /* ================= 404 HANDLER ================= */
 
@@ -89,3 +89,16 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+ 

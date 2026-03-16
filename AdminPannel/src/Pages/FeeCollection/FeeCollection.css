@@ -36,6 +36,13 @@ padding:15px;
 border-radius:10px;
 margin-bottom:20px;
 }
+.FeeCollection-selectedStudent{
+  background:#f7f7f7;
+  padding:10px;
+  border-radius:6px;
+  margin-top:6px;
+  font-size:14px;
+}
 
 .FeeCollection-search{
 display:flex;

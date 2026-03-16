@@ -20,6 +20,9 @@ import {
   FiStar,
   FiUserPlus,
   FiImage,
+  // FiBookOpen,
+  FiEdit,
+  // FiLayers,
 
   // NEW ADDED ICONS
   FiFileText,
@@ -116,6 +119,21 @@ const menu = [
   { label: "Notification Management", icon: FiBell, path: "/notification" },
   { label: "Latest News Management", icon: FiFileText, path: "/latest-news" },
   { label: "Class Data Registry", icon: FiDatabase, path: "/class-data" },
+  {
+  label: "Class Post",
+  icon: FiBookOpen,
+  path: "/class-post"
+},
+{
+  label: "Subject Post",
+  icon: FiEdit,
+  path: "/subject-post"
+},
+{
+  label: "Classwise Subject",
+  icon: FiLayers,
+  path: "/classwise-subject"
+},
 
   {
     label: "Media Management",

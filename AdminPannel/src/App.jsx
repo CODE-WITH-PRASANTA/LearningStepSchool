@@ -115,6 +115,10 @@ import StudentReport from "./Pages/StudentReport/StudentReport";
 import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
 import AdminAdvertisement from "./Pages/AdminAdvertisement";
 import StudentAdmsnDetails from "./Component/StudentAdmsnDetails/StudentAdmsnDetails";
+import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
+import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
+import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
+
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
 import FeeType from "./Pages/FeeType/FeeType";
 import ExamResult from "./Pages/ExamResult/ExamResult";
@@ -164,7 +168,10 @@ export default function App() {
 
 
           {/* Class Data */}
-          <Route path="class-data" element={<ClsWiseDataManagements />} />
+          <Route path="/class-data" element={<ClsWiseDataManagements />} />
+          <Route path="/class-post" element={<ClassesAdmin />} />
+          <Route path="/subject-post" element={<SubjectAdmin />} />
+          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
 
           {/* Blogs */}
           <Route path="blogs" element={<BlogManagerPage />} />
