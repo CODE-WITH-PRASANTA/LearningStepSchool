@@ -24,6 +24,8 @@ const routeFolderMap = {
   "/class-data": "uploads/class-data",
   "/events": "uploads/events",
   "/advertisements": "uploads/advertisements",
+  "/classes": "uploads/classes",
+  "/subjects": "uploads/subjects",
 };
 
 /* ================= GET UPLOAD PATH ================= */
