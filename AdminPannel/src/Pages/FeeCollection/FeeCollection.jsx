@@ -10,6 +10,13 @@ import {
 } from "react-icons/fi";
 
 const FeeCollection = () => {
+  const [paymentMethod, setPaymentMethod] = useState("Cash");
+  const [note, setNote] = useState("");
+  const [feeType, setFeeType] = useState("");
+  const [status, setStatus] = useState("Paid");
+
+  const [feeTypes, setFeeTypes] = useState([]);
+
   const [discount, setDiscount] = useState(0);
 
   const [amount, setAmount] = useState("");
@@ -35,6 +42,19 @@ const FeeCollection = () => {
   const indexFirst = indexLast - rowsPerPage;
 
   useEffect(() => {
+    const fetchFeeTypes = async () => {
+      try {
+        const res = await API.get("/feetypes");
+        setFeeTypes(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchFeeTypes();
+  }, []);
+
+  useEffect(() => {
     if (showCollect || showReceipt) {
       document.body.style.overflow = "hidden";
     } else {
@@ -45,6 +65,23 @@ const FeeCollection = () => {
   useEffect(() => {
     setPage(1);
   }, [tableSearch]);
+
+  // ✅ AUTO DATE (runs once)
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setDate(today);
+  }, []);
+
+  // ✅ CLOSE ACTION MENU (global click)
+  useEffect(() => {
+    const closeMenu = () => setActiveMenu(null);
+
+    window.addEventListener("click", closeMenu);
+
+    return () => {
+      window.removeEventListener("click", closeMenu);
+    };
+  }, []);
 
   /* ================= FETCH STUDENTS ================= */
 
@@ -120,46 +157,69 @@ const FeeCollection = () => {
   const totalPages = Math.ceil(filteredFees.length / rowsPerPage);
 
   /* ================= SAVE FEE ================= */
-
   const saveFee = async () => {
     if (!selectedStudent) {
       alert("Select student first");
       return;
     }
 
+    if (!amount || !date || !feeType) {
+      alert("Please fill all required fields");
+      return;
+    }
+
     try {
-      const totalAmount = Number(amount);
+      const totalAmount = Number(amount) || 0;
+
+      // ✅ DISCOUNT CALCULATION
       const discountAmount = (totalAmount * discount) / 100;
       const finalAmount = totalAmount - discountAmount;
+
+      // ✅ FULL PAYMENT (AFTER DISCOUNT)
+      const paidAmount = finalAmount;
 
       await API.post("/admission/fees", {
         studentId: selectedStudent._id,
         admissionNo: selectedStudent.admissionNo,
         name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
         rollNumber: selectedStudent.rollNumber,
-        className: selectedStudent.class,
+
+        class: selectedStudent.class,
         section: selectedStudent.section,
-        amount: totalAmount,
-        paid: finalAmount,
-        discount: discount,
-        date: date,
+
+        amount: totalAmount, // ✅ FULL AMOUNT (IMPORTANT)
+        paid: paidAmount, // ✅ AFTER DISCOUNT
+        // ❌ DON'T SEND due (backend calculates)
+
+        discount,
+        paymentMethod,
+        note,
+
+        feeType,
+        date,
       });
 
       alert("Fee collected successfully");
 
       fetchFees();
 
+      // RESET
       setShowCollect(false);
       setSelectedStudent(null);
       setStudentSearch("");
       setAmount("");
-      setDate("");
       setDiscount(0);
+      setFeeType("");
+      setPaymentMethod("Cash");
+      setNote("");
+
+      // ✅ RESET DATE
+      const today = new Date().toISOString().split("T")[0];
+      setDate(today);
     } catch (err) {
       console.log(err);
     }
   };
-
   return (
     <div className="FeeCollection">
       {/* HEADER */}
@@ -240,7 +300,6 @@ const FeeCollection = () => {
                   <td>
                     {s.class} ({s.section})
                   </td>
-
                   <td>₹{amountValue.toLocaleString("en-IN")}</td>
 
                   <td>{discountPercent}%</td>
@@ -265,9 +324,10 @@ const FeeCollection = () => {
                     <div className="FeeCollection-actionWrapper">
                       <button
                         className="FeeCollection-actionBtn"
-                        onClick={() =>
-                          setActiveMenu(activeMenu === s._id ? null : s._id)
-                        }
+                        onClick={(e) => {
+                          e.stopPropagation(); // ✅ IMPORTANT
+                          setActiveMenu(activeMenu === s._id ? null : s._id);
+                        }}
                       >
                         <FiMoreVertical />
                       </button>
@@ -409,13 +469,42 @@ const FeeCollection = () => {
                 <option value={30}>30%</option>
               </select>
 
-              <select>
+              <select
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
                 <option>Cash</option>
                 <option>Card</option>
                 <option>Bank</option>
               </select>
 
-              <textarea placeholder="Note"></textarea>
+              <select
+                value={feeType}
+                onChange={(e) => setFeeType(e.target.value)}
+              >
+                <option value="">Select Fee Type</option>
+
+                {feeTypes.map((f) => (
+                  <option key={f._id} value={f.name}>
+                    {f.name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="Paid">Paid</option>
+                <option value="Pending">Unpaid</option>
+                <option value="Partial">Partial</option>
+              </select>
+
+              <textarea
+                placeholder="Note"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
             </div>
 
             <div className="FeeCollection-formBtns">
@@ -456,7 +545,8 @@ const FeeCollection = () => {
                 </p>
 
                 <p>
-                  <b>Class :</b> {selectedFee?.class} ({selectedFee?.section})
+                  <b>Class :</b>
+                  {selectedFee?.class} ({selectedFee?.section})
                 </p>
 
                 <p>
@@ -477,7 +567,7 @@ const FeeCollection = () => {
                 </p>
 
                 <p>
-                  <b>Payment By :</b> Cash
+                  <b>Payment By :</b> {selectedFee?.paymentMethod}
                 </p>
               </div>
             </div>

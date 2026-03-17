@@ -41,6 +41,7 @@ const advertisementRoutes = require("./routes/advertisement.routes");
 const classRoutes = require("./routes/class.routes");
 const subjectRoutes = require("./routes/subject.routes");
 const AdmsonfeeRoutes = require("./routes/admissionfee.routes");
+const feeTypes = require("./routes/feeType.routes");
 
 
 
@@ -71,6 +72,8 @@ app.use("/api/advertisements", advertisementRoutes);
 app.use("/api", classRoutes);
 app.use("/api", subjectRoutes);
 app.use("/api/admission", AdmsonfeeRoutes);
+app.use("/api/feetypes", feeTypes);
+
 
 /* ================= 404 HANDLER ================= */
 

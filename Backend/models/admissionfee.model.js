@@ -11,26 +11,37 @@ const feeSchema = new mongoose.Schema(
     admissionNo: String,
     name: String,
     rollNumber: String,
-    class: String,
+
+    class: String,   // ✅ FIXED
     section: String,
 
     amount: Number,
     paid: Number,
     due: Number,
 
-    paymentMethod: String,
+    paymentMethod: {
+      type: String,
+      enum: ["Cash", "Card", "Bank"],
+      default: "Cash",
+    },
+
     discount: Number,
     note: String,
 
-    date: {
-      type: Date,
-      default: Date.now,
+    feeType: {
+      type: String,
+      required: true, // optional but recommended
     },
 
     status: {
       type: String,
       enum: ["Paid", "Partial", "Unpaid"],
       default: "Paid",
+    },
+
+    date: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }
