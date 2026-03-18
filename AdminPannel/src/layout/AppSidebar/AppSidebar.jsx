@@ -107,7 +107,8 @@ const menu = [
     icon: FiBriefcase,
     children: [
       { label: "Exam Result", path: "/exam-result" },
-      { label: "Exam Score Manager", path: "/Exam-score-manager" },
+      { label: "Exam Score Manager", path: "/exam-result-manager" },
+      { label: "Type of Exam Publish", path: "/exam-type" },
     ],
   },
 

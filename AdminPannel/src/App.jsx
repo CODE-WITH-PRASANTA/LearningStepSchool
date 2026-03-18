@@ -122,6 +122,8 @@ import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjec
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
 import FeeType from "./Pages/FeeType/FeeType";
 import ExamResult from "./Pages/ExamResult/ExamResult";
+import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
+import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 
 
 /* ===================== APP ===================== */
@@ -326,6 +328,8 @@ export default function App() {
           <Route path="/fee-collect" element={<FeeCollection />} />
            <Route path="/fee-type" element={<FeeType />} />
            <Route path="/exam-result" element={<ExamResult />} />
+           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
+           <Route path="/exam-type" element={<ExamTypeAdmin />} />
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}

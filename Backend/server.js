@@ -42,6 +42,10 @@ const classRoutes = require("./routes/class.routes");
 const subjectRoutes = require("./routes/subject.routes");
 const AdmsonfeeRoutes = require("./routes/admissionfee.routes");
 const feeTypes = require("./routes/feeType.routes");
+const classWiseSubjectRoutes = require("./routes/classWiseSubject.routes");
+const examResult = require("./routes/examResult.routes");
+const examType = require("./routes/examType.routes")
+
 
 
 
@@ -73,6 +77,9 @@ app.use("/api", classRoutes);
 app.use("/api", subjectRoutes);
 app.use("/api/admission", AdmsonfeeRoutes);
 app.use("/api/feetypes", feeTypes);
+app.use("/api/classwise-subjects", classWiseSubjectRoutes);
+app.use("/api/exam-results", examResult);
+app.use("/api/exam-types",examType );
 
 
 /* ================= 404 HANDLER ================= */
@@ -105,3 +112,9 @@ app.listen(PORT, () => {
 
 
  
+
+
+ 
+
+
+

@@ -28,7 +28,7 @@ export default function ClassWiseSubjectAdmin() {
 
   const fetchSubjects = async () => {
     try {
-      const res = await API.get("/subjects");
+      const res = await API.get("/classwise-subjects");
       setSubjects(res.data.data || []);
     } catch (err) {
       console.error("Fetch subjects error:", err);
@@ -57,12 +57,10 @@ export default function ClassWiseSubjectAdmin() {
     if (!form.classId || !form.subjectName) return;
 
     try {
-
-      if (editId) {
-        await API.put(`/subjects/${editId}`, form);
-      } else {
-        await API.post("/subjects", form);
-      }
+      await API.post("/classwise-subjects", {
+        classId: form.classId,
+        subjects: [form.subjectName]
+      });
 
       fetchSubjects();
       setForm(emptyForm);
@@ -73,26 +71,42 @@ export default function ClassWiseSubjectAdmin() {
     }
   };
 
-  /* ================= DELETE ================= */
+  /* ================= DELETE SINGLE SUBJECT ================= */
 
-  const deleteSubject = async (id) => {
+  const deleteSubject = async (classId, subject) => {
     try {
-      await API.delete(`/subjects/${id}`);
+      await API.put("/classwise-subjects/remove", {
+        classId,
+        subject
+      });
+
       fetchSubjects();
     } catch (err) {
-      console.error("Delete error:", err);
+      console.error("Delete subject error:", err);
+    }
+  };
+
+  /* ================= DELETE FULL CLASS ================= */
+
+  const deleteClass = async (docId) => {
+    try {
+      if (!window.confirm("Delete full class and all subjects?")) return;
+
+      await API.delete(`/classwise-subjects/${docId}`);
+
+      fetchSubjects();
+    } catch (err) {
+      console.error("Delete class error:", err);
     }
   };
 
   /* ================= EDIT ================= */
 
-  const editSubject = (subject) => {
+  const editSubject = (clsId, subject) => {
     setForm({
-      classId: subject.classId,
-      subjectName: subject.subjectName
+      classId: clsId,
+      subjectName: subject
     });
-
-    setEditId(subject._id);
 
     window.scrollTo({
       top: 0,
@@ -102,12 +116,19 @@ export default function ClassWiseSubjectAdmin() {
 
   /* ================= GROUP SUBJECTS ================= */
 
-  const groupedSubjects = classes.map((cls) => ({
-    ...cls,
-    subjects: subjects.filter(
-      (s) => String(s.classId) === String(cls._id)
-    )
-  }));
+  const groupedSubjects = classes
+    .map((cls) => {
+      const found = subjects.find(
+        (s) => String(s.classId?._id || s.classId) === String(cls._id)
+      );
+
+      return {
+        ...cls,
+        docId: found?._id,
+        subjects: found ? found.subjects : []
+      };
+    })
+    .filter((cls) => cls.subjects.length > 0); // ✅ FIX: hide empty classes
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -124,7 +145,7 @@ export default function ClassWiseSubjectAdmin() {
       >
 
         <h2 className="text-lg font-semibold">
-          {editId ? "Edit Subject" : "Add Subject"}
+          Add Subject
         </h2>
 
         {/* CLASS SELECT */}
@@ -135,7 +156,6 @@ export default function ClassWiseSubjectAdmin() {
           onChange={handleChange}
           className="w-full border p-2 rounded"
         >
-
           <option value="">Select Class</option>
 
           {classes.map((cls) => (
@@ -143,7 +163,6 @@ export default function ClassWiseSubjectAdmin() {
               {cls.className}
             </option>
           ))}
-
         </select>
 
         {/* SUBJECT */}
@@ -157,7 +176,7 @@ export default function ClassWiseSubjectAdmin() {
         />
 
         <button className="bg-blue-600 text-white px-4 py-2 rounded">
-          {editId ? "Update Subject" : "Add Subject"}
+          Add Subject
         </button>
 
       </form>
@@ -171,52 +190,55 @@ export default function ClassWiseSubjectAdmin() {
           className="bg-white rounded shadow p-6 mb-6"
         >
 
-          <h2 className="text-xl font-bold mb-4">
-            {cls.className}
-          </h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">
+              {cls.className}
+            </h2>
 
-          {cls.subjects.length === 0 ? (
-            <p className="text-gray-500">
-              No subjects added
-            </p>
-          ) : (
+            {cls.docId && (
+              <button
+                onClick={() => deleteClass(cls.docId)}
+                className="text-red-700"
+              >
+                Delete Class
+              </button>
+            )}
+          </div>
 
-            <ul className="space-y-2">
+          <ul className="space-y-2">
 
-              {cls.subjects.map((sub) => (
+            {cls.subjects.map((sub, index) => (
 
-                <li
-                  key={sub._id}
-                  className="flex justify-between border p-2 rounded"
-                >
+              <li
+                key={index}
+                className="flex justify-between border p-2 rounded"
+              >
 
-                  <span>{sub.subjectName}</span>
+                <span>{sub}</span>
 
-                  <div className="space-x-3">
+                <div className="space-x-3">
 
-                    <button
-                      onClick={() => editSubject(sub)}
-                      className="text-yellow-600"
-                    >
-                      Edit
-                    </button>
+                  <button
+                    onClick={() => editSubject(cls._id, sub)}
+                    className="text-yellow-600"
+                  >
+                    Edit
+                  </button>
 
-                    <button
-                      onClick={() => deleteSubject(sub._id)}
-                      className="text-red-600"
-                    >
-                      Delete
-                    </button>
+                  <button
+                    onClick={() => deleteSubject(cls._id, sub)}
+                    className="text-red-600"
+                  >
+                    Delete
+                  </button>
 
-                  </div>
+                </div>
 
-                </li>
+              </li>
 
-              ))}
+            ))}
 
-            </ul>
-
-          )}
+          </ul>
 
         </div>
 
