@@ -113,6 +113,17 @@ import InactiveStudent from "./Pages/InactiveStudent/InactiveStudent";
 import AddReferral from "./Pages/AddReferral/AddReferral";
 import StudentReport from "./Pages/StudentReport/StudentReport";
 import AdminEnquiryManager from "./Pages/AdminEnquiryManager";
+import AdminAdvertisement from "./Pages/AdminAdvertisement";
+import StudentAdmsnDetails from "./Component/StudentAdmsnDetails/StudentAdmsnDetails";
+import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
+import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
+import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
+
+import FeeCollection from "./Pages/FeeCollection/FeeCollection";
+import FeeType from "./Pages/FeeType/FeeType";
+import ExamResult from "./Pages/ExamResult/ExamResult";
+import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
+import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 
 
 /* ===================== APP ===================== */
@@ -159,7 +170,10 @@ export default function App() {
 
 
           {/* Class Data */}
-          <Route path="class-data" element={<ClsWiseDataManagements />} />
+          <Route path="/class-data" element={<ClsWiseDataManagements />} />
+          <Route path="/class-post" element={<ClassesAdmin />} />
+          <Route path="/subject-post" element={<SubjectAdmin />} />
+          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
 
           {/* Blogs */}
           <Route path="blogs" element={<BlogManagerPage />} />
@@ -281,6 +295,7 @@ export default function App() {
           <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
           <Route path="/library/staff" element={<Stafflibrary/>}/>
           <Route path="/student/admission" element={<StudentAdmission/>}/>
+          <Route path="/student/admission/details" element={<StudentAdmsnDetails/>}/>
           <Route path="/type-question"element={<TypeList/>}/>
           <Route path="/question" element={<Question/>}/>
           <Route path="/update-question" element={<UpdateQuestion/>}/>
@@ -308,17 +323,13 @@ export default function App() {
           <Route path="/inactive/student" element={<InactiveStudent/>} />
           <Route path="/student/report" element={<StudentReport/>} />
 
+          <Route path="/admin/advertisement" element={<AdminAdvertisement/>} />
 
-
-
-          
-
-
-
-         
-
-
-         
+          <Route path="/fee-collect" element={<FeeCollection />} />
+           <Route path="/fee-type" element={<FeeType />} />
+           <Route path="/exam-result" element={<ExamResult />} />
+           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
+           <Route path="/exam-type" element={<ExamTypeAdmin />} />
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}

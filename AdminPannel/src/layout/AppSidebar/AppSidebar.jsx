@@ -19,6 +19,10 @@ import {
   FiMonitor,
   FiStar,
   FiUserPlus,
+  FiImage,
+  // FiBookOpen,
+  FiEdit,
+  // FiLayers,
 
   // NEW ADDED ICONS
   FiFileText,
@@ -28,7 +32,7 @@ import {
   FiActivity,
   FiCreditCard,
   FiTrendingUp,
-  FiMessageSquare
+  FiMessageSquare,
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -43,13 +47,19 @@ const menu = [
     path: "/admin/coldleads",
   },
 
+  {
+    label: "Advertisements",
+    icon: FiImage,
+    path: "/admin/advertisement",
+  },
+
   { type: "section", label: "Contact Enquiry" },
 
   {
-  label: "Contact Enquiries",
-  icon: FiMessageSquare,   
-  path: "/admin/contact-enq",
-},
+    label: "Contact Enquiries",
+    icon: FiMessageSquare,
+    path: "/admin/contact-enq",
+  },
 
   { type: "section", label: "Main Section" },
 
@@ -62,6 +72,47 @@ const menu = [
     ],
   },
 
+   {
+    label: "Student Hub",
+    icon: FiUsers,
+    children: [
+      { label: "Student Admission", path: "/student/admission" },
+      {
+        label: "Student Details",
+        path: "/student/admission/details",
+      },
+      // { label: "Online Admission", path: "/online/admission" },
+      // { label: "Student Details", path: "/student/details" },
+      // { label: "Student Catagory", path: "/student/catagory" },
+      // { label: "House", path: "/house" },
+      // { label: "Student Referral", path: "/student/referral" },
+      // { label: "Inactive Students", path: "/inactive/student" },
+      // { label: "Link Siblings", path: "/link/siblings" },
+      // { label: "Student Update", path: "/student/update" },
+      // { label: "Student Report", path: "/student/report" },
+    ],
+  },
+
+  {
+    label: "Student Paytrack",
+    icon: FiActivity,
+    children: [
+      { label: "Fee collect", path: "/fee-collect" },
+      { label: "Fee Type", path: "/fee-type" },
+    ],
+  },
+
+  {
+    label: "Exam Result Desk",
+    icon: FiBriefcase,
+    children: [
+      { label: "Exam Result", path: "/exam-result" },
+      { label: "Exam Score Manager", path: "/exam-result-manager" },
+      { label: "Type of Exam Publish", path: "/exam-type" },
+    ],
+  },
+
+
   { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
   { label: "Award Management", icon: FiAward, path: "/awards" },
   { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
@@ -69,6 +120,21 @@ const menu = [
   { label: "Notification Management", icon: FiBell, path: "/notification" },
   { label: "Latest News Management", icon: FiFileText, path: "/latest-news" },
   { label: "Class Data Registry", icon: FiDatabase, path: "/class-data" },
+  {
+  label: "Class Post",
+  icon: FiBookOpen,
+  path: "/class-post"
+},
+{
+  label: "Subject Post",
+  icon: FiEdit,
+  path: "/subject-post"
+},
+{
+  label: "Classwise Subject",
+  icon: FiLayers,
+  path: "/classwise-subject"
+},
 
   {
     label: "Media Management",
@@ -79,6 +145,8 @@ const menu = [
     ],
   },
 
+  
+ 
   {
     label: "Learning Management",
     icon: FiLayers,
@@ -105,132 +173,115 @@ const menu = [
 
   { type: "section", label: "ERP Solution" },
 
-  {
-    label: "Front Office",
-    icon: FiBriefcase,
-    children: [
-      { label: "Admission Enquiry", path: "/front-office/enquiry" },
-      { label: "Visitors Book", path: "/front-office/visitors" },
-      { label: "Postal Dispatch", path: "/front-office/postal-dispatch" },
-      { label: "Postal Receive", path: "/front-office/postal-receive" },
-      { label: "Complain", path: "/front-office/complain" },
-      { label: "Setup Front Office", path: "/front-office/setup" },
-      { label: "Gate Pass", path: "/front-office/gate-pass" },
-      { label: "Entrance Examination Form", path: "/front-office/exam-form" },
-    ],
-  },
+  // {
+  //   label: "Front Office",
+  //   icon: FiBriefcase,
+  //   children: [
+  //     { label: "Admission Enquiry", path: "/front-office/enquiry" },
+  //     { label: "Visitors Book", path: "/front-office/visitors" },
+  //     { label: "Postal Dispatch", path: "/front-office/postal-dispatch" },
+  //     { label: "Postal Receive", path: "/front-office/postal-receive" },
+  //     { label: "Complain", path: "/front-office/complain" },
+  //     { label: "Setup Front Office", path: "/front-office/setup" },
+  //     { label: "Gate Pass", path: "/front-office/gate-pass" },
+  //     { label: "Entrance Examination Form", path: "/front-office/exam-form" },
+  //   ],
+  // },
 
-  {
-    label: "Attendance",
-    icon: FiCheckSquare,
-    children: [
-      { label: "Student Attendance", path: "/attendance/student-attendance" },
-      { label: "Student Leave", path: "/attendance/student-leave" },
-      { label: "Attendance Report", path: "/attendance/attendance-report" },
-    ],
-  },
+  // {
+  //   label: "Attendance",
+  //   icon: FiCheckSquare,
+  //   children: [
+  //     { label: "Student Attendance", path: "/attendance/student-attendance" },
+  //     { label: "Student Leave", path: "/attendance/student-leave" },
+  //     { label: "Attendance Report", path: "/attendance/attendance-report" },
+  //   ],
+  // },
 
-  {
-    label: "Primary Evaluation",
-    icon: FiActivity,
-    children: [
-      { label: "Activity", path: "/primary-evaluation/activity" },
-      { label: "Assessment", path: "/primary-evaluation/assessment" },
-      {
-        label: "Evaluation Remark",
-        path: "/primary-evaluation/evaluation-remark",
-      },
-      {
-        label: "Primary Class Report",
-        path: "/primary-evaluation/class-report",
-      },
-    ],
-  },
+  // {
+  //   label: "Primary Evaluation",
+  //   icon: FiActivity,
+  //   children: [
+  //     { label: "Activity", path: "/primary-evaluation/activity" },
+  //     { label: "Assessment", path: "/primary-evaluation/assessment" },
+  //     {
+  //       label: "Evaluation Remark",
+  //       path: "/primary-evaluation/evaluation-remark",
+  //     },
+  //     {
+  //       label: "Primary Class Report",
+  //       path: "/primary-evaluation/class-report",
+  //     },
+  //   ],
+  // },
 
-  {
-    label: "Library",
-    icon: FiBook,
-    children: [
-      { label: "Book List", path: "/library/book-list" },
-      { label: "Issue Book", path: "/library/issue-book" },
-      { label: "Return Book", path: "/library/return-book" },
-      { label: "Add Student", path: "/library/student" },
-      { label: "Add Staff", path: "/library/staff" },
-    ],
-  },
+  // {
+  //   label: "Library",
+  //   icon: FiBook,
+  //   children: [
+  //     { label: "Book List", path: "/library/book-list" },
+  //     { label: "Issue Book", path: "/library/issue-book" },
+  //     { label: "Return Book", path: "/library/return-book" },
+  //     { label: "Add Student", path: "/library/student" },
+  //     { label: "Add Staff", path: "/library/staff" },
+  //   ],
+  // },
 
-  { type: "divider" },
+  // { type: "divider" },
 
-  {
-    label: "Question Paper",
-    icon: FiGrid,
-    children: [
-      { label: "Type", path: "/type-question" },
-      { label: "Question", path: "/question" },
-      { label: "Generate", path: "/paper-generate" },
-    ],
-  },
+  // {
+  //   label: "Question Paper",
+  //   icon: FiGrid,
+  //   children: [
+  //     { label: "Type", path: "/type-question" },
+  //     { label: "Question", path: "/question" },
+  //     { label: "Generate", path: "/paper-generate" },
+  //   ],
+  // },
 
-  { type: "divider" },
+  // { type: "divider" },
 
-  {
-    label: "Online Exam",
-    icon: FiMonitor,
-    children: [
-      { label: "Online Exam", path: "/online-exam" },
-      { label: "Question Bank", path: "/online-exam/question-bank" },
-      { label: "Exam Report", path: "/online-exam/exam-report" },
-      {
-        label: "Students Exam Report",
-        path: "/online-exam/students-exam-report",
-      },
-    ],
-  },
+  // {
+  //   label: "Online Exam",
+  //   icon: FiMonitor,
+  //   children: [
+  //     { label: "Online Exam", path: "/online-exam" },
+  //     { label: "Question Bank", path: "/online-exam/question-bank" },
+  //     { label: "Exam Report", path: "/online-exam/exam-report" },
+  //     {
+  //       label: "Students Exam Report",
+  //       path: "/online-exam/students-exam-report",
+  //     },
+  //   ],
+  // },
 
-  { type: "divider" },
+  // { type: "divider" },
 
-  {
-    label: "Student Info",
-    icon: FiUsers,
-    children: [
-      { label: "Student Admission", path: "/student/admission" },
-      { label: "Online Admission", path: "/online/admission" },
-      { label: "Student Details", path: "/student/details" },
-      { label: "Student Catagory", path: "/student/catagory"},
-      { label: "House", path: "/house"},
-      { label: "Student Referral", path: "/student/referral"},
-      { label: "Inactive Students", path: "/inactive/student"},
-      { label: "Link Siblings", path: "/link/siblings"},
-      { label: "Student Update", path: "/student/update"},
-      { label: "Student Report", path: "/student/report"},
+ 
 
+  // { type: "divider" },
 
-    ],
-  },
+  // {
+  //   label: "Expense",
+  //   icon: FiCreditCard,
+  //   children: [
+  //     { label: "Add Expense", path: "/expense/details" },
+  //     { label: "Expense Search", path: "/expense-search" },
+  //     { label: "Expense Head", path: "/expense-head" },
+  //   ],
+  // },
 
-  { type: "divider" },
+  // { type: "divider" },
 
-  {
-    label: "Expense",
-    icon: FiCreditCard,
-    children: [
-      { label: "Add Expense", path: "/expense/details" },
-      { label: "Expense Search", path: "/expense-search" },
-      { label: "Expense Head", path: "/expense-head" },
-    ],
-  },
-
-  { type: "divider" },
-
-  {
-    label: "Income",
-    icon: FiTrendingUp,
-    children: [
-      { label: "Add Income", path: "/income/details" },
-      { label: "Search Income", path: "/income-search" },
-      { label: "Income Head", path: "/income-head" },
-    ],
-  },
+  // {
+  //   label: "Income",
+  //   icon: FiTrendingUp,
+  //   children: [
+  //     { label: "Add Income", path: "/income/details" },
+  //     { label: "Search Income", path: "/income-search" },
+  //     { label: "Income Head", path: "/income-head" },
+  //   ],
+  // },
 ];
 
 /* ================= COMPONENT ================= */
@@ -243,9 +294,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     const activeGroup = menu.find(
       (item) =>
         item.children &&
-        item.children.some((c) =>
-          location.pathname.startsWith(c.path)
-        )
+        item.children.some((c) => location.pathname.startsWith(c.path)),
     );
 
     if (activeGroup) {
@@ -299,9 +348,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
             const isChildActive =
               item.children &&
-              item.children.some((c) =>
-                location.pathname.startsWith(c.path)
-              );
+              item.children.some((c) => location.pathname.startsWith(c.path));
 
             // 👇 ONLY manual open controls dropdown
             const isOpen = openGroup === item.label;
@@ -312,16 +359,15 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 <div key={i}>
                   <button
                     onClick={() =>
-                      sidebarOpen &&
-                      setOpenGroup(isOpen ? null : item.label)
+                      sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
                     className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300
                     ${
                       isChildActive
                         ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
                         : isOpen
-                        ? "bg-indigo-100 text-indigo-700"
-                        : "hover:bg-gray-100"
+                          ? "bg-indigo-100 text-indigo-700"
+                          : "hover:bg-gray-100"
                     }`}
                   >
                     {Icon && (
@@ -413,9 +459,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     )}
 
                     {sidebarOpen && (
-                      <span className="text-sm font-medium">
-                        {item.label}
-                      </span>
+                      <span className="text-sm font-medium">{item.label}</span>
                     )}
                   </div>
                 )}

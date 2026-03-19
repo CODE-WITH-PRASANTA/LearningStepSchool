@@ -3,7 +3,7 @@ import "./ExamResult.css";
 import API from "../../api/axios";
 import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
-import html2pdf from "html2pdf.js";
+//import html2pdf from "html2pdf.js";//
 
 const th = {
   border: "1px solid #000",
