@@ -59,7 +59,8 @@
   outline: none;
 }
 
-textarea {
+/* ✅ FIXED TEXTAREA (SCOPED) */
+.income-form textarea {
   min-height: 90px;
   resize: vertical;
 }
@@ -102,20 +103,20 @@ textarea {
 }
 
 /* TABLE WRAPPER */
-.table-wrapper {
+.income-list .table-wrapper {
   overflow-x: auto;
   border-radius: 10px;
 }
 
-/* TABLE */
-table {
+/* ✅ FIXED TABLE (SCOPED) */
+.income-list table {
   width: 100%;
   min-width: 900px;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-th {
+.income-list th {
   background: #eef2ff;
   padding: 12px;
   text-align: left;
@@ -123,18 +124,18 @@ th {
   color: #334155;
 }
 
-td {
+.income-list td {
   padding: 12px;
   border-bottom: 1px solid #f1f5f9;
   color: #475569;
 }
 
-tr:hover {
+.income-list tr:hover {
   background: #f9fafb;
 }
 
 /* ================================
-   3 DOT ACTION BUTTON
+   ACTION BUTTON
 ================================ */
 .action-cell {
   position: relative;
@@ -153,17 +154,10 @@ tr:hover {
   color: #475569;
   display: grid;
   place-items: center;
-  transition: all 0.2s ease;
-}
-
-.dots-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
-  color: #1e293b;
 }
 
 /* ================================
-   DROPDOWN MENU
+   DROPDOWN
 ================================ */
 .dropdown-menu {
   position: absolute;
@@ -173,55 +167,36 @@ tr:hover {
   border-radius: 10px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
   z-index: 9999;
-  overflow: hidden;
   min-width: 150px;
-  animation: fadeIn 0.18s ease;
-}
-
-/* Dropdown animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .dropdown-menu button {
-  display: block;
   width: 100%;
   padding: 10px 14px;
   border: none;
   background: #ffffff;
   text-align: left;
   cursor: pointer;
-  font-size: 13px;
-  transition: background 0.2s ease;
 }
 
 .dropdown-menu button:hover {
   background: #f1f5f9;
 }
 
-/* EDIT */
 .dropdown-edit {
   color: #2563eb;
 }
 
-/* DELETE */
 .dropdown-delete {
   color: #dc2626;
   border-top: 1px solid #e2e8f0;
 }
 
 /* ================================
-   RESPONSIVE DESIGN
+   RESPONSIVE
 ================================ */
 @media (max-width: 1200px) {
-  table {
+  .income-list table {
     min-width: 750px;
   }
 }
@@ -231,7 +206,7 @@ tr:hover {
     grid-template-columns: 1fr;
   }
 
-  table {
+  .income-list table {
     min-width: 650px;
   }
 }

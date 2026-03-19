@@ -125,7 +125,6 @@ import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 
-
 /* ===================== APP ===================== */
 
 export default function App() {
@@ -164,16 +163,16 @@ export default function App() {
           <Route path="latest-news" element={<LatestNewsAdmin />} />
 
            {/* {Media} */}
-          <Route path="/media-photo" element={<Photogallery />} />
-          <Route path="/media-video" element={<Videogallery />} />
+          <Route path="media-photo" element={<Photogallery />} />
+          <Route path="media-video" element={<Videogallery />} />
 
 
 
           {/* Class Data */}
-          <Route path="/class-data" element={<ClsWiseDataManagements />} />
-          <Route path="/class-post" element={<ClassesAdmin />} />
-          <Route path="/subject-post" element={<SubjectAdmin />} />
-          <Route path="/classwise-subject" element={<ClassWiseSubjectAdmin />} />
+          <Route path="class-data" element={<ClsWiseDataManagements />} />
+          <Route path="class-post" element={<ClassesAdmin />} />
+          <Route path="subject-post" element={<SubjectAdmin />} />
+          <Route path="classwise-subject" element={<ClassWiseSubjectAdmin />} />
 
           {/* Blogs */}
           <Route path="blogs" element={<BlogManagerPage />} />
@@ -190,7 +189,7 @@ export default function App() {
           <Route path="survey" element={<AdmissionSurvey />} />
           <Route path="survey/view" element={<AdmissionSurvey />} />
           <Route path="survey/data" element={<AdmissionSurveyView />} />
-          <Route path="/events" element={<EventManagement />} />
+          <Route path="events" element={<EventManagement />} />
 
           {/* Awards */}
           <Route path="awards" element={<AwardAdminPage />} />
@@ -216,7 +215,7 @@ export default function App() {
           />
 
            <Route
-            path="/admin/contact-enq"
+            path="admin/contact-enq"
             element={<AdminEnquiryManager />}
           />
 
@@ -247,12 +246,11 @@ export default function App() {
           <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
           <Route path="/learning/secondary" element={<Secondary />} />   
           <Route path="/front-office/visitors" element={<VisitorBook />} />   
-          <Route path="/faq" element={<FaqPosting />} />   
           <Route path="/teachers" element={<TeacherAdminPage />} />
 
           {/*ADD INCOME*/}
           <Route path="/income/details" element={<AddIncome />} />
-          <Route path="//income-search" element={<SearchIncome />} />
+          <Route path="/income-search" element={<SearchIncome />} />
           <Route path="/income-head" element={<IncomeHead />} />
 
 
@@ -334,14 +332,7 @@ export default function App() {
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
-          <Route
-            path="/front-office/postal-receive"
-            element={<PostalReceive />}
-          />
-          <Route
-            path="/front-office/postal-receive"
-            element={<PostalReceive />}
-          />
+         
 
           <Route path="/faq" element={<FaqPosting />} />
         </Route>

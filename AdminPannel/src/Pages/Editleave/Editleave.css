@@ -1,9 +1,11 @@
+/* WRAPPER */
 .leave-wrapper {
   padding: 20px;
   background: #f6f7fb;
 }
 
-.leave-card {
+/* CARD */
+.leave-wrapper .leave-card {
   background: #fff;
   border-radius: 12px;
   padding: 20px;
@@ -11,55 +13,61 @@
   border: 1px solid #f1d4db;
 }
 
-.leave-header {
+/* HEADER */
+.leave-wrapper .leave-header {
   font-size: 18px;
   color: #1f2b6c;
   margin-bottom: 15px;
 }
 
-.grid-3 {
+/* GRID */
+.leave-wrapper .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 16px;
 }
 
-.form-group {
+/* FORM GROUP */
+.leave-wrapper .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-group label {
+.leave-wrapper .form-group label {
   font-size: 14px;
   font-weight: 500;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.leave-wrapper .form-group input,
+.leave-wrapper .form-group select,
+.leave-wrapper .form-group textarea {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #d6dbff;
   font-size: 14px;
 }
 
-textarea {
+/* TEXTAREA */
+.leave-wrapper textarea {
   min-height: 90px;
 }
 
-.date-range {
+/* DATE RANGE */
+.leave-wrapper .date-range {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.form-actions {
+/* ACTION */
+.leave-wrapper .form-actions {
   text-align: right;
   margin-top: 10px;
 }
 
-.save-btn {
+.leave-wrapper .save-btn {
   background: #0b0f7a;
   color: #fff;
   padding: 8px 22px;
@@ -68,37 +76,43 @@ textarea {
   cursor: pointer;
 }
 
-.table-scroll {
+/* TABLE WRAPPER */
+.leave-wrapper .table-scroll {
   overflow-x: auto;
 }
 
-table {
+/* ✅ TABLE FIX (SCOPED) */
+.leave-wrapper .leave-table {
   width: 100%;
   border-collapse: collapse;
   min-width: 800px;
 }
 
-th,
-td {
+/* TABLE CELLS */
+.leave-wrapper .leave-table th,
+.leave-wrapper .leave-table td {
   padding: 12px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
   text-align: left;
 }
 
-th {
+/* HEADER */
+.leave-wrapper .leave-table th {
   background: #eef1ff;
   font-weight: 600;
 }
 
-.no-data {
+/* NO DATA */
+.leave-wrapper .no-data {
   text-align: center;
   color: #999;
   padding: 20px;
 }
 
+/* RESPONSIVE */
 @media (max-width: 900px) {
-  .grid-3 {
+  .leave-wrapper .grid-3 {
     grid-template-columns: 1fr;
   }
 }
