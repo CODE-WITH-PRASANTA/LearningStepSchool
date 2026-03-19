@@ -10,7 +10,7 @@ const StudentLogin = () => {
   return (
     <div className="login-container">
 
-      {/* 🔙 HOME BUTTON */}
+      {/* HOME BUTTON */}
       <button className="home-btn" onClick={() => navigate("/")}>
         ← Go Home
       </button>
