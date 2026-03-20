@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import logo from '../../assets/Learning Step Logo.png'
+import logo from "../../assets/Learning Step Logo.png";
 import {
   FaFacebookF,
   FaTwitter,
@@ -16,22 +16,25 @@ import {
 } from "react-icons/fa";
 
 const Navbar = () => {
+  const [loginOpen, setLoginOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [academicOpen, setAcademicOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
-const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
-
+  const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
 
   return (
     <>
       {/* ===== Top Bar ===== */}
       <div className="Navbar-top-bar">
-      <div className="Navbar-top-left">
-          <span><FaMapMarkerAlt /> Tehla Bypass, Alwar Road, Rajgarh – 301408</span>
-          <span><FaEnvelope /> learningstep19@gmail.com</span>
+        <div className="Navbar-top-left">
+          <span>
+            <FaMapMarkerAlt /> Tehla Bypass, Alwar Road, Rajgarh – 301408
+          </span>
+          <span>
+            <FaEnvelope /> learningstep19@gmail.com
+          </span>
         </div>
-
 
         <div className="Navbar-top-right">
           <span>Follow:</span>
@@ -45,14 +48,13 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
       {/* ===== Navbar ===== */}
       <nav className="Navbar-navbar">
         <div className="Navbar-logo">
-          <img
-            src={logo}
-            alt="School Logo"
-          />
+          <img src={logo} alt="School Logo" />
         </div>
 
-     <ul className="Navbar-nav-links">
-          <li><Link to="/">Home</Link></li>
+        <ul className="Navbar-nav-links">
+          <li>
+            <Link to="/">Home</Link>
+          </li>
 
           <li
             onMouseEnter={() => setAboutOpen(true)}
@@ -60,11 +62,21 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
           >
             About Us <FaChevronDown />
             <div className={`Navbar-dropdown-menu ${aboutOpen ? "open" : ""}`}>
-              <Link to="/about" className="Navbar-dropdown-item">About School</Link>
-              <Link to="/ourteacher" className="Navbar-dropdown-item">Our Teachers</Link>
-              <Link to="/whychooseus" className="Navbar-dropdown-item">Why Choose Us</Link>
-              <Link to="/vision-mission" className="Navbar-dropdown-item">Vision & Mission</Link>
-              <Link to="/infrastructure" className="Navbar-dropdown-item">Infrastructure</Link>
+              <Link to="/about" className="Navbar-dropdown-item">
+                About School
+              </Link>
+              <Link to="/ourteacher" className="Navbar-dropdown-item">
+                Our Teachers
+              </Link>
+              <Link to="/whychooseus" className="Navbar-dropdown-item">
+                Why Choose Us
+              </Link>
+              <Link to="/vision-mission" className="Navbar-dropdown-item">
+                Vision & Mission
+              </Link>
+              <Link to="/infrastructure" className="Navbar-dropdown-item">
+                Infrastructure
+              </Link>
             </div>
           </li>
 
@@ -73,25 +85,52 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             onMouseLeave={() => setAcademicOpen(false)}
           >
             Academics <FaChevronDown />
-            <div className={`Navbar-dropdown-menu ${academicOpen ? "open" : ""}`}>
-              <Link to="/academics/pre-primary" className="Navbar-dropdown-item">Pre-Primary</Link>
-              <Link to="/academics/primary" className="Navbar-dropdown-item">Primary</Link>
-              <Link to="/academics/secondary" className="Navbar-dropdown-item">Secondary</Link>
-              <Link to="/academics/calendar" className="Navbar-dropdown-item">Academic Calendar</Link>
-              <Link to="/academics/exams" className="Navbar-dropdown-item">Examination System</Link>
+            <div
+              className={`Navbar-dropdown-menu ${academicOpen ? "open" : ""}`}
+            >
+              <Link
+                to="/academics/pre-primary"
+                className="Navbar-dropdown-item"
+              >
+                Pre-Primary
+              </Link>
+              <Link to="/academics/primary" className="Navbar-dropdown-item">
+                Primary
+              </Link>
+              <Link to="/academics/secondary" className="Navbar-dropdown-item">
+                Secondary
+              </Link>
+              <Link to="/academics/calendar" className="Navbar-dropdown-item">
+                Academic Calendar
+              </Link>
+              <Link to="/academics/exams" className="Navbar-dropdown-item">
+                Examination System
+              </Link>
             </div>
           </li>
 
-          <li><Link to="/admissions">Admissions</Link></li>
-          <li><Link to="/student-life">Student Life</Link></li>
-          <li><Link to="/notice">Notice</Link></li>
-          <li><Link to="/gallery">Gallery</Link></li>
-          <li><Link to="/faq">FAQ</Link></li>
-          <li><Link to="/blog">Blog</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li>
+            <Link to="/admissions">Admissions</Link>
+          </li>
+          <li>
+            <Link to="/student-life">Student Life</Link>
+          </li>
+          <li>
+            <Link to="/notice">Notice</Link>
+          </li>
+          <li>
+            <Link to="/gallery">Gallery</Link>
+          </li>
+          <li>
+            <Link to="/faq">FAQ</Link>
+          </li>
+          <li>
+            <Link to="/blog">Blog</Link>
+          </li>
+          <li>
+            <Link to="/contact">Contact</Link>
+          </li>
         </ul>
-
-
 
         <div className="Navbar-nav-actions">
           <div className="Navbar-call-box">
@@ -106,21 +145,26 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </div>
           </div>
 
-          <button className="Navbar-visit-btn">Login</button>
-
-
-
-
-            {/* <button className="Navbar-visit-btn">
-               <ul> 
-                  <li><a href="/register">Register </a></li>
-                   
-               </ul>
-            </button> */}
           <div
-            className="Navbar-hamburger"
-            onClick={() => setDrawerOpen(true)}
+            className="Navbar-login-wrapper"
+            onMouseEnter={() => setLoginOpen(true)}
+            onMouseLeave={() => setLoginOpen(false)}
           >
+            <button className="Navbar-visit-btn">
+              Login <FaChevronDown />
+            </button>
+
+            <div className={`Navbar-login-dropdown ${loginOpen ? "open" : ""}`}>
+              <Link to="/login/student" className="Navbar-dropdown-item">
+                🎓 Student Login
+              </Link>
+              <Link to="/login/institute" className="Navbar-dropdown-item">
+                🏫 Institute Login
+              </Link>
+            </div>
+          </div>
+
+          <div className="Navbar-hamburger" onClick={() => setDrawerOpen(true)}>
             <FaBars />
           </div>
         </div>
@@ -128,72 +172,78 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
 
       {/* ===== Mobile Drawer ===== */}
       <div className={`Navbar-mobile-drawer ${drawerOpen ? "open" : ""}`}>
-     <div className="Navbar-drawer-header">
-        <img src={logo} alt="School Logo" />
-        <FaTimes onClick={() => setDrawerOpen(false)} />
-      </div>
+        <div className="Navbar-drawer-header">
+          <img src={logo} alt="School Logo" />
+          <FaTimes onClick={() => setDrawerOpen(false)} />
+        </div>
 
-     <ul className="Navbar-drawer-menu">
-        <li><Link to="/" onClick={() => setDrawerOpen(false)}>Home</Link></li>
-
-        {/* ABOUT */}
-        <li
-          className="Navbar-mobile-item"
-          onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
-        >
-          About Us <FaChevronDown className={mobileAboutOpen ? "rotate" : ""} />
-        </li>
-
-      {mobileAboutOpen && (
-          <div className="navbar-mobile-submenu">
-            <Link
-              to="/about"
-              className="navbar-mobile-submenu__item"
-              onClick={() => setDrawerOpen(false)}
-            >
-              About School
+        <ul className="Navbar-drawer-menu">
+          <li>
+            <Link to="/" onClick={() => setDrawerOpen(false)}>
+              Home
             </Link>
-            <Link
-              to="/ourteacher"
-              className="navbar-mobile-submenu__item"
-              onClick={() => setDrawerOpen(false)}
-            >
-              Our Teachers
-            </Link>
+          </li>
 
-            <Link
-              to="/whychooseus"
-              className="navbar-mobile-submenu__item"
-              onClick={() => setDrawerOpen(false)}
-            >
-              Why Choose Us
-            </Link>
+          {/* ABOUT */}
+          <li
+            className="Navbar-mobile-item"
+            onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+          >
+            About Us{" "}
+            <FaChevronDown className={mobileAboutOpen ? "rotate" : ""} />
+          </li>
 
-            <Link
-              to="/vision-mission"
-              className="navbar-mobile-submenu__item"
-              onClick={() => setDrawerOpen(false)}
-            >
-              Vision & Mission
-            </Link>
+          {mobileAboutOpen && (
+            <div className="navbar-mobile-submenu">
+              <Link
+                to="/about"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                About School
+              </Link>
+              <Link
+                to="/ourteacher"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Our Teachers
+              </Link>
 
-            <Link
-              to="/infrastructure"
-              className="navbar-mobile-submenu__item"
-              onClick={() => setDrawerOpen(false)}
-            >
-              Infrastructure
-            </Link>
-          </div>
-        )}
+              <Link
+                to="/whychooseus"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Why Choose Us
+              </Link>
 
-        {/* ACADEMICS */}
-        <li
-          className="Navbar-mobile-item"
-          onClick={() => setMobileAcademicOpen(!mobileAcademicOpen)}
-        >
-          Academics <FaChevronDown className={mobileAcademicOpen ? "rotate" : ""} />
-        </li>
+              <Link
+                to="/vision-mission"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Vision & Mission
+              </Link>
+
+              <Link
+                to="/infrastructure"
+                className="navbar-mobile-submenu__item"
+                onClick={() => setDrawerOpen(false)}
+              >
+                Infrastructure
+              </Link>
+            </div>
+          )}
+
+          {/* ACADEMICS */}
+          <li
+            className="Navbar-mobile-item"
+            onClick={() => setMobileAcademicOpen(!mobileAcademicOpen)}
+          >
+            Academics{" "}
+            <FaChevronDown className={mobileAcademicOpen ? "rotate" : ""} />
+          </li>
           {mobileAcademicOpen && (
             <div className="navbar-mobile-submenu navbar-mobile-submenu--academic">
               <Link
@@ -238,23 +288,50 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
             </div>
           )}
 
+          <li>
+            <Link to="/admissions" onClick={() => setDrawerOpen(false)}>
+              Admissions
+            </Link>
+          </li>
+          <li>
+            <Link to="/student-life" onClick={() => setDrawerOpen(false)}>
+              Student Life
+            </Link>
+          </li>
 
-        <li><Link to="/admissions" onClick={() => setDrawerOpen(false)}>Admissions</Link></li>
-        <li><Link to="/student-life" onClick={() => setDrawerOpen(false)}>Student Life</Link></li>
+          <li>
+            <Link to="/blog" onClick={() => setDrawerOpen(false)}>
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link to="/faq" onClick={() => setDrawerOpen(false)}>
+              FAQ
+            </Link>
+          </li>
 
-        <li><Link to="/blog" onClick={() => setDrawerOpen(false)}>Blog</Link></li>
-        <li><Link to="/faq" onClick={() => setDrawerOpen(false)}>FAQ</Link></li>
-
-        <li><Link to="/notice" onClick={() => setDrawerOpen(false)}>Notice</Link></li>
-        <li><Link to="/contact" onClick={() => setDrawerOpen(false)}>Contact</Link></li>
-      </ul>
-
+          <li>
+            <Link to="/notice" onClick={() => setDrawerOpen(false)}>
+              Notice
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact" onClick={() => setDrawerOpen(false)}>
+              Contact
+            </Link>
+          </li>
+        </ul>
 
         <div className="Navbar-drawer-contact">
-         <p><FaMapMarkerAlt /> Tehla Bypass, Alwar Road, Rajgarh – 301408</p>
-          <p><FaEnvelope /> learningstep19@gmail.com</p>
-          <p><FaPhoneAlt /> +91 7014627894</p>
-
+          <p>
+            <FaMapMarkerAlt /> Tehla Bypass, Alwar Road, Rajgarh – 301408
+          </p>
+          <p>
+            <FaEnvelope /> learningstep19@gmail.com
+          </p>
+          <p>
+            <FaPhoneAlt /> +91 7014627894
+          </p>
 
           <div className="Navbar-drawer-socials">
             <FaFacebookF />
@@ -266,10 +343,7 @@ const [mobileAcademicOpen, setMobileAcademicOpen] = useState(false);
       </div>
 
       {drawerOpen && (
-        <div
-          className="Navbar-overlay"
-          onClick={() => setDrawerOpen(false)}
-        />
+        <div className="Navbar-overlay" onClick={() => setDrawerOpen(false)} />
       )}
     </>
   );

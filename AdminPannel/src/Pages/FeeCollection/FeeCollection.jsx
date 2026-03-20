@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./FeeCollection.css";
 import API from "../../api/axios";
+import logo from "../../Assets/Learning-Step-Logo-1.png";
 import {
   FiMoreVertical,
   FiSearch,
@@ -8,8 +9,14 @@ import {
   FiDownload,
   FiX,
 } from "react-icons/fi";
+import ReceiptModal from "../../Component/ReceiptModal/ReceiptModal";
 
 const FeeCollection = () => {
+  const [filterClass, setFilterClass] = useState("");
+  const [filterMonth, setFilterMonth] = useState("");
+  const [filterFromDate, setFilterFromDate] = useState("");
+  const [filterToDate, setFilterToDate] = useState("");
+
   const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [note, setNote] = useState("");
   const [feeType, setFeeType] = useState("");
@@ -146,10 +153,38 @@ const FeeCollection = () => {
   const filteredFees = fees.filter((f) => {
     const name = (f.name || "").toLowerCase();
 
-    return (
+    const matchesSearch =
       name.includes(tableSearch.toLowerCase()) ||
       (f.admissionNo || "").toLowerCase().includes(tableSearch.toLowerCase()) ||
-      (f.rollNumber || "").toString().includes(tableSearch)
+      (f.rollNumber || "").toString().includes(tableSearch);
+
+    // ✅ CLASS FILTER
+    const matchesClass = filterClass
+      ? (f.class || "").toLowerCase() === filterClass.toLowerCase()
+      : true;
+
+    // ✅ MONTH FILTER
+    const matchesMonth = filterMonth
+      ? new Date(f.date).getMonth() + 1 === Number(filterMonth)
+      : true;
+
+    // ✅ DATE RANGE FILTER
+    const feeDate = f.date ? new Date(f.date) : null;
+
+    const matchesFromDate = filterFromDate
+      ? feeDate && feeDate >= new Date(filterFromDate)
+      : true;
+
+    const matchesToDate = filterToDate
+      ? feeDate && feeDate <= new Date(filterToDate)
+      : true;
+
+    return (
+      matchesSearch &&
+      matchesClass &&
+      matchesMonth &&
+      matchesFromDate &&
+      matchesToDate
     );
   });
 
@@ -189,7 +224,6 @@ const FeeCollection = () => {
 
         amount: totalAmount, // ✅ FULL AMOUNT (IMPORTANT)
         paid: paidAmount, // ✅ AFTER DISCOUNT
-        // ❌ DON'T SEND due (backend calculates)
 
         discount,
         paymentMethod,
@@ -241,6 +275,7 @@ const FeeCollection = () => {
       {/* TOOLBAR */}
 
       <div className="FeeCollection-toolbar">
+        {/* SEARCH */}
         <div className="FeeCollection-search">
           <FiSearch />
           <input
@@ -250,9 +285,101 @@ const FeeCollection = () => {
           />
         </div>
 
-        <button className="FeeCollection-filterBtn">
-          Filter <FiChevronDown />
-        </button>
+        {/* FILTER BUTTON (UI SAME) */}
+        <div style={{ position: "relative" }}>
+          <button
+            className="FeeCollection-filterBtn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setActiveMenu(activeMenu === "filter" ? null : "filter");
+            }}
+          >
+            Filter <FiChevronDown />
+          </button>
+
+          {/* ✅ FILTER DROPDOWN */}
+          {activeMenu === "filter" && (
+            <div
+              style={{
+                position: "absolute",
+                right: 0,
+                top: "40px",
+                background: "#fff",
+                padding: "15px",
+                borderRadius: "8px",
+                boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+                zIndex: 999,
+                minWidth: "250px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* CLASS FILTER */}
+              <select
+                value={filterClass}
+                onChange={(e) => setFilterClass(e.target.value)}
+              >
+                <option value="">All Classes</option>
+                {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
+                  <option key={i} value={cls}>
+                    {cls}
+                  </option>
+                ))}
+              </select>
+
+              {/* MONTH FILTER */}
+              <select
+                value={filterMonth}
+                onChange={(e) => setFilterMonth(e.target.value)}
+              >
+                <option value="">All Months</option>
+                {[...Array(12)].map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    {new Date(0, i).toLocaleString("default", {
+                      month: "long",
+                    })}
+                  </option>
+                ))}
+              </select>
+
+              {/* FROM DATE */}
+              <input
+                type="date"
+                value={filterFromDate}
+                onChange={(e) => setFilterFromDate(e.target.value)}
+              />
+
+              {/* TO DATE */}
+              <input
+                type="date"
+                value={filterToDate}
+                onChange={(e) => setFilterToDate(e.target.value)}
+              />
+
+              {/* RESET */}
+              <button
+                style={{
+                  padding: "6px",
+                  background: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  setFilterClass("");
+                  setFilterMonth("");
+                  setFilterFromDate("");
+                  setFilterToDate("");
+                }}
+              >
+                Reset Filters
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* TABLE */}
@@ -529,57 +656,12 @@ const FeeCollection = () => {
         </div>
       )}
 
-      {showReceipt && (
-        <div className="FeeCollection-receiptModal">
-          <div className="FeeCollection-receipt">
-            <FiX className="close" onClick={() => setShowReceipt(false)} />
-
-            <h2>School Name</h2>
-
-            <p>Smithbroad, Unit 4, Holler Tower, San Diego</p>
-
-            <div className="FeeCollection-receiptInfo">
-              <div>
-                <p>
-                  <b>Student Name :</b> {selectedFee?.name}
-                </p>
-
-                <p>
-                  <b>Class :</b>
-                  {selectedFee?.class} ({selectedFee?.section})
-                </p>
-
-                <p>
-                  <b>Roll No :</b> {selectedFee?.rollNumber}
-                </p>
-              </div>
-
-              <div>
-                <p>
-                  <b>Date :</b>{" "}
-                  {selectedFee?.date
-                    ? new Date(selectedFee.date).toLocaleDateString()
-                    : ""}
-                </p>
-
-                <p>
-                  <b>Collected By :</b> Admin
-                </p>
-
-                <p>
-                  <b>Payment By :</b> {selectedFee?.paymentMethod}
-                </p>
-              </div>
-            </div>
-
-            <h3>Thanks</h3>
-
-            <small>
-              This receipt is computer generated hence no signature required
-            </small>
-          </div>
-        </div>
-      )}
+      <ReceiptModal
+        showReceipt={showReceipt}
+        setShowReceipt={setShowReceipt}
+        selectedFee={selectedFee}
+        logo={logo}
+      />
     </div>
   );
 };

@@ -72,7 +72,50 @@ const menu = [
     ],
   },
 
-   {
+  { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
+  { label: "Award Management", icon: FiAward, path: "/awards" },
+  { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
+  { label: "Notice Management", icon: FiClipboard, path: "/notices" },
+  { label: "Notification Management", icon: FiBell, path: "/notification" },
+  { label: "Latest News Management", icon: FiFileText, path: "/latest-news" },
+  { label: "Class Data Registry", icon: FiDatabase, path: "/class-data" },
+
+  {
+    label: "Media Management",
+    icon: FiMonitor,
+    children: [
+      { label: "Photo Gallery Managements", path: "/media-photo" },
+      { label: "Video Gallery Managements", path: "/media-video" },
+    ],
+  },
+
+  {
+    label: "Learning Management",
+    icon: FiLayers,
+    children: [
+      { label: "Pre-Primary", path: "/learning/pre" },
+      { label: "Primary", path: "/learning/primary" },
+      { label: "Secondary", path: "/learning/secondary" },
+    ],
+  },
+
+  { label: "Testimonials", icon: FiStar, path: "/testimonials" },
+
+  {
+    label: "Admission Management",
+    icon: FiUsers,
+    children: [
+      { label: "Admission Survey", path: "/survey" },
+      { label: "Admission Data View", path: "/survey/data" },
+    ],
+  },
+
+  { label: "Event Management", icon: FiCalendar, path: "/events" },
+  { label: "Faq Posting", icon: FiMessageCircle, path: "/faq" },
+
+  { type: "section", label: "ERP Solution" },
+
+  {
     label: "Student Hub",
     icon: FiUsers,
     children: [
@@ -101,6 +144,23 @@ const menu = [
       { label: "Fee Type", path: "/fee-type" },
     ],
   },
+  {
+    label: "Class Post",
+    icon: FiBookOpen,
+    path: "/class-post",
+  },
+
+  {
+    label: "Subject Post",
+    icon: FiEdit,
+    path: "/subject-post",
+  },
+  {
+    label: "Classwise Subject",
+    icon: FiLayers,
+    path: "/classwise-subject",
+  },
+  { type: "divider" },
 
   {
     label: "Exam Result Desk",
@@ -111,67 +171,6 @@ const menu = [
       { label: "Type of Exam Publish", path: "/exam-type" },
     ],
   },
-
-
-  { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
-  { label: "Award Management", icon: FiAward, path: "/awards" },
-  { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
-  { label: "Notice Management", icon: FiClipboard, path: "/notices" },
-  { label: "Notification Management", icon: FiBell, path: "/notification" },
-  { label: "Latest News Management", icon: FiFileText, path: "/latest-news" },
-  { label: "Class Data Registry", icon: FiDatabase, path: "/class-data" },
-  {
-  label: "Class Post",
-  icon: FiBookOpen,
-  path: "/class-post"
-},
-{
-  label: "Subject Post",
-  icon: FiEdit,
-  path: "/subject-post"
-},
-{
-  label: "Classwise Subject",
-  icon: FiLayers,
-  path: "/classwise-subject"
-},
-
-  {
-    label: "Media Management",
-    icon: FiMonitor,
-    children: [
-      { label: "Photo Gallery Managements", path: "/media-photo" },
-      { label: "Video Gallery Managements", path: "/media-video" },
-    ],
-  },
-
-  
- 
-  {
-    label: "Learning Management",
-    icon: FiLayers,
-    children: [
-      { label: "Pre-Primary", path: "/learning/pre" },
-      { label: "Primary", path: "/learning/primary" },
-      { label: "Secondary", path: "/learning/secondary" },
-    ],
-  },
-
-  { label: "Testimonials", icon: FiStar, path: "/testimonials" },
-
-  {
-    label: "Admission Management",
-    icon: FiUsers,
-    children: [
-      { label: "Admission Survey", path: "/survey" },
-      { label: "Admission Data View", path: "/survey/data" },
-    ],
-  },
-
-  { label: "Event Management", icon: FiCalendar, path: "/events" },
-  { label: "Faq Posting", icon: FiMessageCircle, path: "/faq" },
-
-  { type: "section", label: "ERP Solution" },
 
   // {
   //   label: "Front Office",
@@ -256,8 +255,6 @@ const menu = [
   // },
 
   // { type: "divider" },
-
- 
 
   // { type: "divider" },
 
