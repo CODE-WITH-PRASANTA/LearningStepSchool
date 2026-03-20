@@ -169,3 +169,42 @@ exports.deleteResult = async (req, res) => {
     });
   }
 };
+
+
+// ================= SEARCH RESULT =================
+exports.searchResult = async (req, res) => {
+  try {
+    const { name, roll, exam } = req.query;
+
+    if (!name || !roll || !exam) {
+      return res.status(400).json({
+        success: false,
+        message: "Name, Roll & Exam required"
+      });
+    }
+
+    const result = await ExamResult.findOne({
+      name: { $regex: new RegExp("^" + name + "$", "i") }, // case-insensitive
+      rollNumber: roll,
+      examType: { $regex: new RegExp("^" + exam + "$", "i") }
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Result not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      data: result
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+  }
+};

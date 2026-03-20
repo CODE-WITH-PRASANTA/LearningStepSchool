@@ -42,7 +42,7 @@ import Gallery from "./Pages/Gallery/Gallery";
 import PublishNotification from "./Pages/PublishNotification/PublishNotification";
 import ScrollToTop from "./Components/ScrollToTop";
 import BlogDetails from "./Pages/BlogDetails/BlogDetails";
-import StudentLogin from "./Components/StudentLogin/StudentLogin";
+import ResultSystem from "./Components/StudentLogin/ResultSystem";
 
 /* ================= ROUTE LOADER WRAPPER ================= */
 
@@ -61,7 +61,7 @@ function AppContent() {
   }, [location]);
 
   const hideLayout =
-    location.pathname === "/login" || location.pathname === "/login/student";
+    location.pathname === "/login" || location.pathname === "/student/result";
 
   return (
     <>
@@ -80,7 +80,7 @@ function AppContent() {
         <Route path="/admissions" element={<Admissions />} />
         <Route path="/infrastructure" element={<Infrastructure />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/login/student" element={<StudentLogin />} />
+        <Route path="/student/result" element={<ResultSystem />} />
 
         <Route path="/register" element={<Register />} />
         <Route path="/notice" element={<Notice />} />

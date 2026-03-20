@@ -32,15 +32,38 @@ const ExamResult = () => {
     fetchResults();
   }, []);
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this result?",
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete(`/exam-results/${id}`);
+
+      // refresh list
+      fetchResults();
+
+      setMenuOpen(null);
+    } catch (err) {
+      console.error(err);
+      alert("Delete failed");
+    }
+  };
+
   /* ================= UNIQUE FILTER OPTIONS ================= */
   const classOptions = useMemo(() => {
-    return [...new Set(results.map(item =>
-      item.classId?.className || item.class || item.className
-    ))];
+    return [
+      ...new Set(
+        results.map(
+          (item) => item.classId?.className || item.class || item.className,
+        ),
+      ),
+    ];
   }, [results]);
 
   const examOptions = useMemo(() => {
-    return [...new Set(results.map(item => item.examType))];
+    return [...new Set(results.map((item) => item.examType))];
   }, [results]);
 
   /* ================= FILTER + SEARCH ================= */
@@ -49,14 +72,12 @@ const ExamResult = () => {
       item.classId?.className || item.class || item.className || "";
 
     return (
-      (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-      (item.admissionNo || "").toLowerCase().includes(search.toLowerCase()) ||
-      (item.examType || "").toLowerCase().includes(search.toLowerCase())
-    )
-      &&
-      (selectedClass ? className === selectedClass : true)
-      &&
-      (selectedExam ? item.examType === selectedExam : true);
+      ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+        (item.admissionNo || "").toLowerCase().includes(search.toLowerCase()) ||
+        (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
+      (selectedClass ? className === selectedClass : true) &&
+      (selectedExam ? item.examType === selectedExam : true)
+    );
   });
 
   useEffect(() => {
@@ -71,7 +92,6 @@ const ExamResult = () => {
 
   return (
     <div className="ExamResult">
-
       {/* HEADER */}
       <div className="ExamResult-header">
         <div>
@@ -82,7 +102,6 @@ const ExamResult = () => {
 
       {/* TOOLBAR */}
       <div className="ExamResult-toolbar">
-
         {/* SEARCH */}
         <div className="ExamResult-search">
           <FiSearch />
@@ -95,7 +114,6 @@ const ExamResult = () => {
 
         {/* FILTERS */}
         <div className="ExamResult-filters">
-
           {/* CLASS FILTER */}
           <select
             value={selectedClass}
@@ -121,9 +139,7 @@ const ExamResult = () => {
               </option>
             ))}
           </select>
-
         </div>
-
       </div>
 
       {/* TABLE */}
@@ -164,7 +180,7 @@ const ExamResult = () => {
                   item.fullMarks ||
                   item.subjects?.reduce(
                     (sum, s) => sum + (s.fullMarks || 0),
-                    0
+                    0,
                   ) ||
                   0;
 
@@ -176,7 +192,9 @@ const ExamResult = () => {
                     <td>{item.rollNumber}</td>
                     <td>{className}</td>
                     <td>{item.examType}</td>
-                    <td>{item.total || 0} / {fullMarks}</td>
+                    <td>
+                      {item.total || 0} / {fullMarks}
+                    </td>
                     <td>{item.percentage?.toFixed(2) || "0.00"}</td>
                     <td>{item.grade}</td>
                     <td>
@@ -197,14 +215,27 @@ const ExamResult = () => {
 
                         {menuOpen === item._id && (
                           <div className="ExamResult-dropdown">
-                            <button onClick={() => setViewData(item)}>
+                            {/* VIEW */}
+                            <button
+                              onClick={() => {
+                                setViewData(item);
+                                setMenuOpen(null);
+                              }}
+                            >
                               <FiEye /> View
+                            </button>
+
+                            {/* DELETE */}
+                            <button
+                              style={{ color: "red" }}
+                              onClick={() => handleDelete(item._id)}
+                            >
+                              🗑 Delete
                             </button>
                           </div>
                         )}
                       </div>
                     </td>
-
                   </tr>
                 );
               })
@@ -245,11 +276,7 @@ const ExamResult = () => {
       </div>
 
       {/* MODAL */}
-      <ReportModal
-        viewData={viewData}
-        setViewData={setViewData}
-        logo={logo}
-      />
+      <ReportModal viewData={viewData} setViewData={setViewData} logo={logo} />
     </div>
   );
 };
