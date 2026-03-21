@@ -170,6 +170,16 @@
     border: 1px solid #ccc;
 }
 
+.ExamResult-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ExamResult-dropdown button:hover {
+  background: #f1f5f9;
+}
+
 /* RESPONSIVE */
 
 @media(max-width:768px) {
