@@ -124,6 +124,7 @@ import FeeType from "./Pages/FeeType/FeeType";
 import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
+import PaymentRecipt from "./Component/PaymentRecipt/PaymentRecipt";
 
 /* ===================== APP ===================== */
 
@@ -328,6 +329,7 @@ export default function App() {
            <Route path="/exam-result" element={<ExamResult />} />
            <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
            <Route path="/exam-type" element={<ExamTypeAdmin />} />
+           <Route path="/Paymentrecipt" element={<PaymentRecipt                                                                                                                                                                                                                                 />} />
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}

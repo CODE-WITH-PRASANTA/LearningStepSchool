@@ -142,6 +142,7 @@ const menu = [
     children: [
       { label: "Fee collect", path: "/fee-collect" },
       { label: "Fee Type", path: "/fee-type" },
+        { label: "PaymentRecipt", path: "/Paymentrecipt" },
     ],
   },
   {
