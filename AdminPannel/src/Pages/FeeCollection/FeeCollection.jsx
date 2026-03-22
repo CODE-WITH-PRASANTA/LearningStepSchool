@@ -274,113 +274,76 @@ const FeeCollection = () => {
 
       {/* TOOLBAR */}
 
-      <div className="FeeCollection-toolbar">
-        {/* SEARCH */}
-        <div className="FeeCollection-search">
-          <FiSearch />
-          <input
-            placeholder="Search name / admission / roll"
-            value={tableSearch}
-            onChange={(e) => setTableSearch(e.target.value)}
-          />
-        </div>
+     <div className="FeeCollection-toolbar">
 
-        {/* FILTER BUTTON (UI SAME) */}
-        <div style={{ position: "relative" }}>
-          <button
-            className="FeeCollection-filterBtn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveMenu(activeMenu === "filter" ? null : "filter");
-            }}
-          >
-            Filter <FiChevronDown />
-          </button>
+  {/* SEARCH */}
+  <div className="FeeCollection-search">
+    <FiSearch />
+    <input
+      placeholder="Search..."
+      value={tableSearch}
+      onChange={(e) => setTableSearch(e.target.value)}
+    />
+  </div>
 
-          {/* ✅ FILTER DROPDOWN */}
-          {activeMenu === "filter" && (
-            <div
-              style={{
-                position: "absolute",
-                right: 0,
-                top: "40px",
-                background: "#fff",
-                padding: "15px",
-                borderRadius: "8px",
-                boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-                zIndex: 999,
-                minWidth: "250px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* CLASS FILTER */}
-              <select
-                value={filterClass}
-                onChange={(e) => setFilterClass(e.target.value)}
-              >
-                <option value="">All Classes</option>
-                {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
-                  <option key={i} value={cls}>
-                    {cls}
-                  </option>
-                ))}
-              </select>
+  {/* CLASS DROPDOWN */}
+  <select
+    className="FeeCollection-select"
+    value={filterClass}
+    onChange={(e) => setFilterClass(e.target.value)}
+  >
+    <option value="">All Classes</option>
+    {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
+      <option key={i} value={cls}>
+        {cls}
+      </option>
+    ))}
+  </select>
 
-              {/* MONTH FILTER */}
-              <select
-                value={filterMonth}
-                onChange={(e) => setFilterMonth(e.target.value)}
-              >
-                <option value="">All Months</option>
-                {[...Array(12)].map((_, i) => (
-                  <option key={i} value={i + 1}>
-                    {new Date(0, i).toLocaleString("default", {
-                      month: "long",
-                    })}
-                  </option>
-                ))}
-              </select>
+  {/* MONTH DROPDOWN */}
+  <select
+    className="FeeCollection-select"
+    value={filterMonth}
+    onChange={(e) => setFilterMonth(e.target.value)}
+  >
+    <option value="">All Months</option>
+    {[...Array(12)].map((_, i) => (
+      <option key={i} value={i + 1}>
+        {new Date(0, i).toLocaleString("default", { month: "long" })}
+      </option>
+    ))}
+  </select>
 
-              {/* FROM DATE */}
-              <input
-                type="date"
-                value={filterFromDate}
-                onChange={(e) => setFilterFromDate(e.target.value)}
-              />
+  {/* DATE FROM */}
+  <input
+    type="date"
+    className="FeeCollection-date"
+    value={filterFromDate}
+    onChange={(e) => setFilterFromDate(e.target.value)}
+  />
 
-              {/* TO DATE */}
-              <input
-                type="date"
-                value={filterToDate}
-                onChange={(e) => setFilterToDate(e.target.value)}
-              />
+  {/* DATE TO */}
+  <input
+    type="date"
+    className="FeeCollection-date"
+    value={filterToDate}
+    onChange={(e) => setFilterToDate(e.target.value)}
+  />
 
-              {/* RESET */}
-              <button
-                style={{
-                  padding: "6px",
-                  background: "#ef4444",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setFilterClass("");
-                  setFilterMonth("");
-                  setFilterFromDate("");
-                  setFilterToDate("");
-                }}
-              >
-                Reset Filters
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+  {/* RESET */}
+  <button
+    className="FeeCollection-resetBtn"
+    onClick={() => {
+      setFilterClass("");
+      setFilterMonth("");
+      setFilterFromDate("");
+      setFilterToDate("");
+    }}
+  >
+    Reset
+  </button>
+
+</div>
 
       {/* TABLE */}
 
@@ -468,7 +431,7 @@ const FeeCollection = () => {
                               setActiveMenu(null);
                             }}
                           >
-                            View Details
+                            View 
                           </button>
 
                           <button

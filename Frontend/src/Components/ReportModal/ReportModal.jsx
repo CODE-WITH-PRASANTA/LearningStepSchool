@@ -183,9 +183,9 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
           PDF
         </button>
 
-        <button className="btn" onClick={() => window.print()}>
+        {/* <button className="btn" onClick={() => window.print()}>
           Print
-        </button>
+        </button> */}
 
         <button className="btn black" onClick={() => setViewData(null)}>
           Close
