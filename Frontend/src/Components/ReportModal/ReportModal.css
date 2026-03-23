@@ -250,110 +250,46 @@
     margin: 0;
   }
 
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-    background: #fff;
-  }
-
-  /* ❌ REMOVE overlay fixed behavior */
-  .reports-overlay {
-    position: static !important;
-    background: none !important;
-    padding: 0 !important;
-    width: 100%;
-    height: auto;
-  }
-
-  /* ❌ HIDE EVERYTHING */
   body * {
-    /* visibility: hidden; */
+    display: none !important;
   }
 
-  /* 🔥 FORCE PERFECT TABLE GRID */
-  .reports-table {
-    border-collapse: collapse !important;
-    width: 100%;
-  }
-
-  /* FORCE FULL BORDER */
-  .reports-table,
-  .reports-table th,
-  .reports-table td {
-    border: 1px solid #000 !important;
-  }
-
-  /* FIX HEADER STRUCTURE */
-  .reports-table thead {
-    display: table-header-group !important;
-  }
-
-  /* PREVENT BREAKING */
-  .reports-table tr {
-    page-break-inside: avoid !important;
-  }
-
-  /* REMOVE BACKGROUND BREAK */
-  .reports-table th {
-    background: #e5e7eb !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* 🔥 FIX DOUBLE HEADER LINE ISSUE */
-  .reports-table thead tr:first-child th {
-    border-bottom: 1px solid #000 !important;
-  }
-
-  .reports-table thead tr:nth-child(2) th {
-    border-top: none !important;
-  }
-
-  /* ENSURE COLUMN LINES CONTINUE */
-  .reports-table td,
-  .reports-table th {
-    border-left: 1px solid #000 !important;
-    border-right: 1px solid #000 !important;
-  }
-
-  /* ✅ SHOW ONLY REPORT */
   #printArea,
   #printArea * {
-    visibility: visible;
+    display: block !important;
   }
 
-  /* ✅ POSITION REPORT */
   #printArea {
     position: absolute;
     top: 0;
     left: 0;
-
     width: 210mm;
     min-height: 297mm;
-
     padding: 12mm;
-    box-sizing: border-box;
     background: #fff;
   }
 
-  /* 🔥 FIX TABLE HEADER (IMPORTANT) */
-  thead {
-    display: table-header-group !important;
+  .reports-overlay {
+    position: static !important;
+    background: none !important;
   }
 
-  tr {
-    page-break-inside: avoid !important;
-  }
-
-  th,
-  td {
-    page-break-inside: avoid !important;
-  }
-
-  /* HIDE BUTTONS */
   .reports-buttons {
     display: none !important;
   }
 
+  .reports-table,
+  .reports-table th,
+  .reports-table td {
+    border: 1px solid #000 !important;
+    border-collapse: collapse !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tr, td, th {
+    page-break-inside: avoid !important;
+  }
 }

@@ -4,11 +4,13 @@
 
 .Student-Details-Wrapper{
   display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
   gap:24px;
   padding:24px;
   background:#f3f6fb;
   min-height:100vh;
-  align-items:flex-start;
 }
 
 /* =========================
@@ -16,16 +18,14 @@
 ========================= */
 
 .Student-Search-Panel{
-  width:32%;
+  width:85%;
   background:#ffffff;
   padding:20px;
   border-radius:12px;
   box-shadow:0 4px 18px rgba(0,0,0,0.06);
   display:flex;
   flex-direction:column;
-  height:fit-content;
-  position:sticky;
-  top:20px;
+  height:50vh;
 }
 
 .Student-Search-Panel h2{
@@ -91,7 +91,7 @@
 }
 
 .Student-Table td{
-  padding:12px;
+  /* padding:12px; */
   border-bottom:1px solid #f1f5f9;
   color:#374151;
 }
@@ -114,7 +114,7 @@
 ========================= */
 
 .Student-Details-Page{
-  width:68%;
+  width:85%;
   background:#ffffff;
   border-radius:12px;
   padding:24px;

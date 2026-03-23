@@ -20,6 +20,8 @@ const Aboutteachercard = () => {
     const fetchTeachers = async () => {
       try {
         const res = await API.get("/teachers");
+        // console.log(res.data.data);
+        
         setInstructors(res.data.data || []);
       } catch (err) {
         console.error("FETCH TEACHERS ERROR:", err);
@@ -120,12 +122,12 @@ const Aboutteachercard = () => {
                 </div>
               </div>
 
-              <h3 className="Aboutteachercard-name">
+              {/* <h3 className="Aboutteachercard-name">
                 {item.name}
-              </h3>
+              </h3> */}
 
               <p className="Aboutteachercard-role">
-                {item.designation || "Instructor"}
+                {item.designation}
               </p>
             </div>
           ))}

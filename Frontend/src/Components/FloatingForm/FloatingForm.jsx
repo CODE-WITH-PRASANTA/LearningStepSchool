@@ -20,7 +20,6 @@ const FloatingForm = () => {
   const fetchAds = async () => {
     try {
       const res = await API.get("/advertisements/all");
-      console.log(res.data.data);
 
       if (res.data.success) {
         const activeAds = res.data.data.filter((ad) => ad.active);
