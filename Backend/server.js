@@ -46,11 +46,6 @@ const classWiseSubjectRoutes = require("./routes/classWiseSubject.routes");
 const examResult = require("./routes/examResult.routes");
 const examType = require("./routes/examType.routes")
 
-
-
-
-
-
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/notifications", notificationRoutes);
