@@ -1,0 +1,151 @@
+.paymentRecipt {
+  padding: 20px;
+  background: #f5f6fa;
+  font-family: "Inter", sans-serif;
+}
+
+/* CARD */
+.paymentRecipt-card {
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #f3c6cd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+.paymentRecipt-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f3c6cd;
+  background: #fff5f7;
+}
+
+.paymentRecipt-header h3 {
+  font-size: 16px;
+  color: #1e2a55;
+}
+
+/* FORM */
+.paymentRecipt-form {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.paymentRecipt-field {
+  flex: 1;
+  min-width: 220px;
+}
+
+.paymentRecipt-field label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.paymentRecipt-field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  outline: none;
+}
+
+.paymentRecipt-search button {
+  background: #0b1c4d;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* TABLE */
+.paymentRecipt-tableWrapper {
+  overflow-x: auto;
+}
+
+.paymentRecipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.paymentRecipt-table th {
+  background: #fbe9ec;
+  padding: 12px;
+  font-size: 12px;
+  text-align: left;
+  color: #1e2a55;
+}
+
+.paymentRecipt-table td {
+  padding: 12px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+}
+
+.paymentRecipt-table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.paid {
+  color: green;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+.paymentRecipt-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.paymentRecipt-actions button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.paymentRecipt-actions .view {
+  background: #0b1c4d;
+  color: white;
+}
+
+.paymentRecipt-actions .download {
+  background: #e91e63;
+  color: white;
+}
+
+/* PAGINATION */
+.paymentRecipt-pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  gap: 6px;
+}
+
+.paymentRecipt-pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+
+.paymentRecipt-pagination .active {
+  background: #0b1c4d;
+  color: white;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .paymentRecipt-form {
+    flex-direction: column;
+  }
+
+  .paymentRecipt-pagination {
+    justify-content: center;
+  }
+}
