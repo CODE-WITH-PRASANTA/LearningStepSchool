@@ -143,14 +143,12 @@ const PaymentRecipt = () => {
                 <th>Receipt No</th>
                 <th>Student Name</th>
                 <th>Admission No</th>
-                <th>Duration</th>
-                <th>Collected By</th>
+                
                 <th>Status</th>
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Discount</th>
-                <th>Additional Discount</th>
-                <th>Misc. Charges</th>
+                <th>Total</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -162,14 +160,12 @@ const PaymentRecipt = () => {
                   <td>{item.receiptNo || "-"}</td>
                   <td>{item.name || "-"}</td>
                   <td>{item.admissionNo || "-"}</td>
-                  <td>{item.duration || "-"}</td>
-                  <td>{item.collectedBy || "-"}</td>
+                 
                   <td className="paid">{item.status || "Paid"}</td>
                   <td>{formatDate(item.date)}</td>
                   <td>{item.amount || 0}</td>
                   <td>{item.discount || 0}%</td>
-                  <td>{item.additionalDiscount || 0}</td>
-                  <td>{item.misc || 0}</td>
+                  <td>{item.paid || 0}</td>
                   <td>
                     <div className="paymentRecipt-actions">
                       <button

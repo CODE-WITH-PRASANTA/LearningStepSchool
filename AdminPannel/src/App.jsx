@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
 import AppLayout from "./layout/AppLayout/AppLayout";
 
@@ -22,7 +22,6 @@ import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurvey
 
 // Auth
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import { AuthProvider } from "./Auth/AuthContext";
 
 // School / Admin
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
@@ -128,10 +127,8 @@ import PaymentRecipt from "./Component/PaymentRecipt/PaymentRecipt";
 
 export default function App() {
   return (
-    <AuthProvider>
+    <BrowserRouter>
       <Routes>
-        {/* ===== PUBLIC ===== */}
-        {/* ===== PUBLIC ROUTE ===== */}
         <Route path="/login" element={<LoginPage />} />
 
         {/* ===== PROTECTED APP ===== */}
@@ -366,6 +363,6 @@ export default function App() {
         {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-    </AuthProvider>
+    </BrowserRouter>
   );
 }

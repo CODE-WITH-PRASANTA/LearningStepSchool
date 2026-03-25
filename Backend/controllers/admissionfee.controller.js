@@ -43,7 +43,7 @@ exports.collectFee = async (req, res) => {
     // 🔥 ORDER-WISE RECEIPT NUMBER (ATOMIC)
     const counter = await Counter.findOneAndUpdate(
       { name: "receiptNo" },
-      { $inc: { value: 1 } },
+      { $inc: { value: 1000 } },
       { new: true, upsert: true }
     );
 
