@@ -297,5 +297,5 @@ const pageBtn = {
   border: "1px solid #ccc",
   borderRadius: "4px",
 };
-
+        
 export default AdminEnquiryManager;

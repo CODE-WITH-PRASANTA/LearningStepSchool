@@ -1,33 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import API from "../../api/axios";
 import "./PaymentRecipt.css";
 import { FaSearch, FaEye, FaDownload } from "react-icons/fa";
 
 const PaymentRecipt = () => {
-  const data = [
-    { id: 1, receipt: 341, name: "lakh asda", admission: "NLET/45454", duration: "April", collected: "", status: "Paid", date: "21-03-2026", amount: 400 },
-    { id: 2, receipt: 340, name: "lakh asda", admission: "NLET/45454", duration: "December", collected: "", status: "Paid", date: "21-03-2026", amount: 100 },
-    { id: 3, receipt: 339, name: "Karan Aswani", admission: "NLET/111", duration: "", collected: "Super", status: "Paid", date: "21-03-2026", amount: 11202 },
-    { id: 4, receipt: 338, name: "Nihal", admission: "NLET/1203564", duration: "Aug-Sep", collected: "Super", status: "Paid", date: "21-03-2026", amount: 59998 },
-    { id: 5, receipt: 337, name: "Reyansh Mimani", admission: "NLET/7878", duration: "Apr-Mar", collected: "Super", status: "Paid", date: "21-03-2026", amount: 70000 },
-    { id: 6, receipt: 336, name: "amit", admission: "NLET/12312", duration: "January", collected: "Super", status: "Paid", date: "21-03-2026", amount: 6310 },
-    { id: 7, receipt: 335, name: "Arpit", admission: "NLET/78963", duration: "March", collected: "Super", status: "Paid", date: "19-03-2026", amount: 3000 },
-    { id: 8, receipt: 334, name: "Kapil", admission: "NLET/222", duration: "Feb", collected: "Demo", status: "Paid", date: "18-03-2026", amount: 5400 },
-    { id: 9, receipt: 333, name: "Ravi", admission: "NLET/333", duration: "Jan", collected: "Super", status: "Paid", date: "17-03-2026", amount: 2200 },
-    { id: 10, receipt: 332, name: "Amit", admission: "NLET/444", duration: "March", collected: "Super", status: "Paid", date: "16-03-2026", amount: 1000 }
-  ];
-
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
   const rowsPerPage = 8;
 
   const indexOfLast = currentPage * rowsPerPage;
   const indexOfFirst = indexOfLast - rowsPerPage;
-  const currentData = data.slice(indexOfFirst, indexOfLast);
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  // ✅ SAFETY FIX
+  const currentData = Array.isArray(data)
+    ? data.slice(indexOfFirst, indexOfLast)
+    : [];
+
+  const totalPages = Math.ceil((data || []).length / rowsPerPage);
+
+  useEffect(() => {
+    fetchFees();
+  }, []);
+
+  const fetchFees = async () => {
+    try {
+      const res = await API.get("/admission/fees");
+      setData(res.data.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // ✅ FORMAT DATE
+  const formatDate = (date) => {
+    if (!date) return "-";
+    return new Date(date).toLocaleDateString();
+  };
+
+  // ================= VIEW RECEIPT =================
+  const handleView = (item) => {
+    const win = window.open("", "_blank");
+
+    win.document.write(`
+      <html>
+        <head>
+          <title>Receipt</title>
+          <style>
+            body { font-family: Arial; padding: 20px; }
+            h2 { text-align: center; }
+            .box { border: 1px solid #000; padding: 20px; }
+          </style>
+        </head>
+        <body>
+          <h2>Payment Receipt</h2>
+          <div class="box">
+            <p><b>Receipt No:</b> ${item.receiptNo || "-"}</p>
+            <p><b>Name:</b> ${item.name || "-"}</p>
+            <p><b>Admission No:</b> ${item.admissionNo || "-"}</p>
+            <p><b>Amount:</b> ₹${item.amount || 0}</p>
+            <p><b>Paid:</b> ₹${item.paid || 0}</p>
+            <p><b>Due:</b> ₹${item.due || 0}</p>
+            <p><b>Status:</b> ${item.status || "-"}</p>
+            <p><b>Date:</b> ${formatDate(item.date)}</p>
+          </div>
+        </body>
+      </html>
+    `);
+
+    win.document.close();
+  };
+
+  // ================= DOWNLOAD RECEIPT =================
+  const handleDownload = (item) => {
+    const win = window.open("", "_blank");
+
+    win.document.write(`
+      <html>
+        <head>
+          <title>Receipt</title>
+        </head>
+        <body onload="window.print()">
+          <h2 style="text-align:center;">Payment Receipt</h2>
+          <p>Receipt No: ${item.receiptNo || "-"}</p>
+          <p>Name: ${item.name || "-"}</p>
+          <p>Admission No: ${item.admissionNo || "-"}</p>
+          <p>Amount: ₹${item.amount || 0}</p>
+          <p>Paid: ₹${item.paid || 0}</p>
+          <p>Due: ₹${item.due || 0}</p>
+          <p>Status: ${item.status || "-"}</p>
+          <p>Date: ${formatDate(item.date)}</p>
+        </body>
+      </html>
+    `);
+
+    win.document.close();
+  };
 
   return (
     <div className="paymentRecipt">
-
       {/* SELECT CRITERIA */}
       <div className="paymentRecipt-card">
         <div className="paymentRecipt-header">
@@ -51,7 +122,9 @@ const PaymentRecipt = () => {
           </div>
 
           <div className="paymentRecipt-search">
-            <button><FaSearch /> Search</button>
+            <button>
+              <FaSearch /> Search
+            </button>
           </div>
         </div>
       </div>
@@ -67,40 +140,51 @@ const PaymentRecipt = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>RECEIPT NO</th>
-                <th>NAME</th>
-                <th>ADMISSION NO.</th>
-                <th>DURATION</th>
-                <th>COLLECTED BY</th>
-                <th>STATUS</th>
-                <th>DATE</th>
-                <th>AMOUNT</th>
-                <th>DISCOUNT</th>
-                <th>ADDITION DISCOUNT</th>
-                <th>MISC. CHARGES</th>
-                <th>ACTION</th>
+                <th>Receipt No</th>
+                <th>Student Name</th>
+                <th>Admission No</th>
+                <th>Duration</th>
+                <th>Collected By</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Discount</th>
+                <th>Additional Discount</th>
+                <th>Misc. Charges</th>
+                <th>Action</th>
               </tr>
             </thead>
 
             <tbody>
               {currentData.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{index + 1}</td>
-                  <td>{item.receipt}</td>
-                  <td>{item.name}</td>
-                  <td>{item.admission}</td>
-                  <td>{item.duration}</td>
-                  <td>{item.collected}</td>
-                  <td className="paid">{item.status}</td>
-                  <td>{item.date}</td>
-                  <td>{item.amount}</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
+                <tr key={item._id || index}>
+                  <td>{indexOfFirst + index + 1}</td>
+                  <td>{item.receiptNo || "-"}</td>
+                  <td>{item.name || "-"}</td>
+                  <td>{item.admissionNo || "-"}</td>
+                  <td>{item.duration || "-"}</td>
+                  <td>{item.collectedBy || "-"}</td>
+                  <td className="paid">{item.status || "Paid"}</td>
+                  <td>{formatDate(item.date)}</td>
+                  <td>{item.amount || 0}</td>
+                  <td>{item.discount || 0}%</td>
+                  <td>{item.additionalDiscount || 0}</td>
+                  <td>{item.misc || 0}</td>
                   <td>
                     <div className="paymentRecipt-actions">
-                      <button className="view"><FaEye /></button>
-                      <button className="download"><FaDownload /></button>
+                      <button
+                        className="view"
+                        onClick={() => handleView(item)}
+                      >
+                        <FaEye />
+                      </button>
+
+                      <button
+                        className="download"
+                        onClick={() => handleDownload(item)}
+                      >
+                        <FaDownload />
+                      </button>
                     </div>
                   </td>
                 </tr>

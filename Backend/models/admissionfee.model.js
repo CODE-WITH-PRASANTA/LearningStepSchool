@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const feeSchema = new mongoose.Schema(
   {
+    // 🔥 ADD THIS
+    receiptNo: {
+      type: Number,
+      unique: true,
+    },
+
     studentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
@@ -12,7 +18,7 @@ const feeSchema = new mongoose.Schema(
     name: String,
     rollNumber: String,
 
-    class: String,   // ✅ FIXED
+    class: String,
     section: String,
 
     amount: Number,
@@ -30,7 +36,7 @@ const feeSchema = new mongoose.Schema(
 
     feeType: {
       type: String,
-      required: true, // optional but recommended
+      required: true,
     },
 
     status: {
