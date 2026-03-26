@@ -2,25 +2,25 @@ const Admin = require("../models/adminAuth.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// ================= REGISTER (ONLY ONE ADMIN) =================
+// ================= REGISTER (ONLY FIRST TIME SETUP) =================
 exports.registerAdmin = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, password } = req.body;
 
-    // ✅ CHECK IF ANY ADMIN EXISTS
-    const existingAdmin = await Admin.findOne();
+    // ✅ Only one admin allowed
+    let admin = await Admin.findOne();
 
-    if (existingAdmin) {
+    if (admin) {
       return res.status(400).json({
-        message: "Only one admin allowed. Already registered.",
+        message: "Admin already exists",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password || "123456", 10);
 
-    const admin = await Admin.create({
-      name,
-      email,
+    admin = await Admin.create({
+      name: name || "Admin",
+      email: "admin@gmail.com", // 🔒 FIXED EMAIL
       password: hashedPassword,
     });
 
@@ -34,17 +34,26 @@ exports.registerAdmin = async (req, res) => {
   }
 };
 
-// ================= LOGIN =================
+// ================= LOGIN (FIXED EMAIL) =================
 exports.loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const admin = await Admin.findOne({ email });
+    // 🔒 FIX EMAIL CHECK
+    if (email !== "admin@gmail.com") {
+      return res.status(400).json({ message: "Invalid email" });
+    }
+
+    const admin = await Admin.findOne({ email: "admin@gmail.com" });
+
     if (!admin) {
-      return res.status(400).json({ message: "Admin not found" });
+      return res.status(400).json({
+        message: "Admin not registered. Please register once.",
+      });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
+
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
@@ -57,7 +66,7 @@ exports.loginAdmin = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // true in production
+      secure: false,
       sameSite: "lax",
     });
 
@@ -87,20 +96,18 @@ exports.updatePassword = async (req, res) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    // ✅ CHECK OLD PASSWORD
     const isMatch = await bcrypt.compare(oldPassword, admin.password);
+
     if (!isMatch) {
       return res.status(400).json({ message: "Old password incorrect" });
     }
 
-    // ✅ VALIDATION
     if (!newPassword || newPassword.length < 6) {
       return res.status(400).json({
         message: "Password must be at least 6 characters",
       });
     }
 
-    // ✅ HASH NEW PASSWORD
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     admin.password = hashedPassword;
@@ -120,7 +127,7 @@ exports.logoutAdmin = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false, // true in production
+      secure: false,
       sameSite: "lax",
     });
 

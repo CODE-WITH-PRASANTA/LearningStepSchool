@@ -6,7 +6,9 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 const Auth = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  // ✅ DEFAULT ADMIN (AUTO FILL)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,6 +20,7 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
       const res = await API.post("/auth/login", { email, password });
@@ -28,7 +31,7 @@ const Auth = () => {
         navigate(from, { replace: true });
       }
     } catch (err) {
-      alert(err.response?.data?.message || "Invalid credentials");
+      setError(err.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -63,6 +66,11 @@ const Auth = () => {
         <p className="text-center text-gray-300 mb-5 sm:mb-6 text-xs sm:text-sm">
           Login to access dashboard
         </p>
+
+        {/* ❌ ERROR MESSAGE */}
+        {error && (
+          <p className="text-red-400 text-sm text-center">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
 
@@ -100,15 +108,15 @@ const Auth = () => {
             text-white font-semibold text-sm sm:text-base
             bg-gradient-to-r from-blue-600 to-purple-600 
             hover:scale-[1.02] active:scale-95 transition 
-            shadow-lg disabled:opacity-60"
+            shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading ? "Please wait..." : "Login"}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         {/* Demo */}
         <p className="text-center text-gray-500 text-[10px] sm:text-xs mt-4">
-          admin@gmail.com | 123456
+          Default: admin@gmail.com | 123456
         </p>
       </div>
 
