@@ -5,6 +5,11 @@ import { FaSearch, FaEye, FaDownload } from "react-icons/fa";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 
 const PaymentRecipt = () => {
+  const [searchData, setSearchData] = useState({
+    receiptNo: "",
+    startDate: "",
+    endDate: "",
+  });
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -13,16 +18,43 @@ const PaymentRecipt = () => {
   const indexOfLast = currentPage * rowsPerPage;
   const indexOfFirst = indexOfLast - rowsPerPage;
 
+  const filteredData = data.filter((item) => {
+    const receiptMatch = searchData.receiptNo
+      ? String(item.receiptNo || "")
+          .toLowerCase()
+          .includes(searchData.receiptNo.toLowerCase())
+      : true;
+
+    const itemDate = new Date(item.date);
+
+    const startMatch = searchData.startDate
+      ? itemDate >= new Date(searchData.startDate)
+      : true;
+
+    const endMatch = searchData.endDate
+      ? itemDate <= new Date(searchData.endDate)
+      : true;
+
+    return receiptMatch && startMatch && endMatch;
+  });
+
   // ✅ SAFETY FIX
-  const currentData = Array.isArray(data)
-    ? data.slice(indexOfFirst, indexOfLast)
+  const currentData = Array.isArray(filteredData)
+    ? filteredData.slice(indexOfFirst, indexOfLast)
     : [];
 
-  const totalPages = Math.ceil((data || []).length / rowsPerPage);
+  const totalPages = Math.ceil((filteredData || []).length / rowsPerPage);
 
   useEffect(() => {
     fetchFees();
   }, []);
+
+  const handleChange = (e) => {
+    setSearchData({
+      ...searchData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const fetchFees = async () => {
     try {
@@ -39,7 +71,6 @@ const PaymentRecipt = () => {
     return new Date(date).toLocaleDateString();
   };
 
-  
   const handleView = (item) => {
     const win = window.open("", "_blank");
 
@@ -225,42 +256,40 @@ const PaymentRecipt = () => {
 
   // ================= DOWNLOAD RECEIPT =================
   const handleDownload = (item) => {
-  const win = window.open("", "_blank");
+    const win = window.open("", "_blank");
 
-  const logoUrl = logo;
+    const logoUrl = logo;
 
-  // ✅ SAFE FEES (fallback if empty)
-  const fees =
-    Array.isArray(item.fees) && item.fees.length > 0
-      ? item.fees
-      : [{ type: "Fee", amount: item.amount || 0 }];
+    // ✅ SAFE FEES (fallback if empty)
+    const fees =
+      Array.isArray(item.fees) && item.fees.length > 0
+        ? item.fees
+        : [{ type: "Fee", amount: item.amount || 0 }];
 
-  // ✅ ROWS
-  const feeRows = fees
-    .map(
-      (f) => `
+    // ✅ ROWS
+    const feeRows = fees
+      .map(
+        (f) => `
       <tr>
         <td>${f.type || "-"}</td>
         <td>₹ ${f.amount || 0}</td>
       </tr>
-    `
-    )
-    .join("");
+    `,
+      )
+      .join("");
 
-  // ✅ USE BACKEND VALUES (BEST)
-  const total =
-    item.totalAmount ||
-    fees.reduce((sum, f) => sum + Number(f.amount || 0), 0);
+    // ✅ USE BACKEND VALUES (BEST)
+    const total =
+      item.totalAmount ||
+      fees.reduce((sum, f) => sum + Number(f.amount || 0), 0);
 
-  const discount = Number(item.discount || 0);
+    const discount = Number(item.discount || 0);
 
-  const discountAmount =
-    item.discountAmount || (total * discount) / 100;
+    const discountAmount = item.discountAmount || (total * discount) / 100;
 
-  const finalAmount =
-    item.finalAmount || total - discountAmount;
+    const finalAmount = item.finalAmount || total - discountAmount;
 
-  win.document.write(`
+    win.document.write(`
   <html>
     <head>
       <title>Fee Receipt</title>
@@ -428,8 +457,8 @@ const PaymentRecipt = () => {
   </html>
   `);
 
-  win.document.close();
-};
+    win.document.close();
+  };
   return (
     <div className="paymentRecipt">
       {/* SELECT CRITERIA */}
@@ -441,24 +470,39 @@ const PaymentRecipt = () => {
         <div className="paymentRecipt-form">
           <div className="paymentRecipt-field">
             <label>Receipt No</label>
-            <input type="text" />
+            <input
+              type="text"
+              name="receiptNo"
+              value={searchData.receiptNo}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="paymentRecipt-field">
             <label>Start Date</label>
-            <input type="date" />
+            <input
+              type="date"
+              name="startDate"
+              value={searchData.startDate}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="paymentRecipt-field">
             <label>End Date</label>
-            <input type="date" />
+            <input
+              type="date"
+              name="endDate"
+              value={searchData.endDate}
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="paymentRecipt-search">
+          {/* <div className="paymentRecipt-search">
             <button>
               <FaSearch /> Search
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 

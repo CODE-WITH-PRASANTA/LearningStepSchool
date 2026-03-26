@@ -34,7 +34,7 @@ export default function ExamResultAdmin() {
 
   const fetchExamTypes = async () => {
     const res = await API.get("/exam-types");
-    const published = (res.data.data || []).filter(e => e.isPublished);
+    const published = (res.data.data || []).filter((e) => e.isPublished);
     setExamTypes(published);
   };
 
@@ -47,11 +47,12 @@ export default function ExamResultAdmin() {
 
   /* ================= FILTER STUDENTS ================= */
 
-  const filteredStudents = students.filter((s) =>
-    (s.firstName + " " + s.lastName)
-      .toLowerCase()
-      .includes(search.toLowerCase()) ||
-    String(s.rollNumber || "").includes(search)
+  const filteredStudents = students.filter(
+    (s) =>
+      (s.firstName + " " + s.lastName)
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      String(s.rollNumber || "").includes(search),
   );
 
   /* ================= SELECT STUDENT ================= */
@@ -72,7 +73,7 @@ export default function ExamResultAdmin() {
           subject: sub,
           marks: 0,
           fullMarks: 100,
-        }))
+        })),
       );
     } else {
       setSubjects([]);
@@ -86,8 +87,7 @@ export default function ExamResultAdmin() {
     let marks = Number(value);
 
     if (marks < 0) marks = 0;
-    if (marks > updated[index].fullMarks)
-      marks = updated[index].fullMarks;
+    if (marks > updated[index].fullMarks) marks = updated[index].fullMarks;
 
     updated[index].marks = marks;
     setSubjects(updated);
@@ -113,9 +113,7 @@ export default function ExamResultAdmin() {
   const totalMarks = subjects.reduce((sum, s) => sum + s.marks, 0);
   const totalFullMarks = subjects.reduce((sum, s) => sum + s.fullMarks, 0);
 
-  const percentage = totalFullMarks
-    ? (totalMarks / totalFullMarks) * 100
-    : 0;
+  const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
 
   const getGrade = () => {
     if (percentage >= 90) return "A+";
@@ -126,9 +124,7 @@ export default function ExamResultAdmin() {
   };
 
   const getResult = () =>
-    subjects.some(s => s.marks < s.fullMarks * 0.35)
-      ? "Fail"
-      : "Pass";
+    subjects.some((s) => s.marks < s.fullMarks * 0.35) ? "Fail" : "Pass";
 
   /* ================= SUBMIT ================= */
 
@@ -169,7 +165,6 @@ export default function ExamResultAdmin() {
       setExamType("");
       setEditId(null);
       setSearch("");
-
     } catch (err) {
       console.error(err);
     }
@@ -198,13 +193,12 @@ export default function ExamResultAdmin() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-2xl font-bold mb-6">Exam Result Management</h1>
 
-      <h1 className="text-2xl font-bold mb-6">
-        Exam Result Management
-      </h1>
-
-      <form className="bg-white p-6 rounded shadow space-y-4 mb-8" onSubmit={handleSubmit}>
-
+      <form
+        className="bg-white p-6 rounded shadow space-y-4 mb-8"
+        onSubmit={handleSubmit}
+      >
         <h2 className="text-lg font-semibold">
           {editId ? "Edit Result" : "Add Result"}
         </h2>
@@ -256,46 +250,83 @@ export default function ExamResultAdmin() {
 
         {/* SUBJECTS */}
         {subjects.length > 0 && (
-          <div className="border rounded p-4 space-y-3">
+          <div className="bg-white border rounded-xl p-4 sm:p-6 shadow-sm space-y-4">
+            {/* HEADER */}
+            <div className="hidden sm:grid grid-cols-3 text-sm font-semibold text-gray-600 px-2">
+              <span>Subject</span>
+              <span>Marks</span>
+              <span>Full Marks</span>
+            </div>
 
+            {/* SUBJECT LIST */}
             {subjects.map((sub, index) => (
-              <div key={index} className="flex gap-2 border p-2 rounded">
-                <div className="w-1/3">{sub.subject}</div>
+              <div
+                key={index}
+                className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center border rounded-lg p-3 hover:shadow-md transition"
+              >
+                {/* SUBJECT NAME */}
+                <div className="font-medium text-gray-700">{sub.subject}</div>
 
+                {/* MARKS */}
                 <input
                   type="number"
-                  value={sub.marks}
-                  onChange={(e) =>
-                    handleMarksChange(index, e.target.value)
-                  }
-                  className="w-1/3 border p-2 rounded"
+                  placeholder="Enter Marks"
+                  value={sub.marks || ""}
+                  onChange={(e) => handleMarksChange(index, e.target.value)}
+                  className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
                 />
 
+                {/* FULL MARKS */}
                 <input
                   type="number"
-                  value={sub.fullMarks}
-                  onChange={(e) =>
-                    handleFullMarksChange(index, e.target.value)
-                  }
-                  className="w-1/3 border p-2 rounded"
+                  placeholder="Full Marks"
+                  value={sub.fullMarks || ""}
+                  onChange={(e) => handleFullMarksChange(index, e.target.value)}
+                  className="border p-2 rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
                 />
               </div>
             ))}
 
-            <div className="bg-gray-50 p-3 rounded">
-              <p><b>Total:</b> {totalMarks} / {totalFullMarks}</p>
-              <p><b>Percentage:</b> {percentage.toFixed(2)}%</p>
-              <p><b>Grade:</b> {getGrade()}</p>
-              <p><b>Result:</b> {getResult()}</p>
-            </div>
+            {/* RESULT CARD */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border rounded-xl p-4 mt-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                <div>
+                  <p className="text-xs text-gray-500">Total</p>
+                  <p className="font-semibold text-gray-800">
+                    {totalMarks} / {totalFullMarks}
+                  </p>
+                </div>
 
+                <div>
+                  <p className="text-xs text-gray-500">Percentage</p>
+                  <p className="font-semibold text-blue-600">
+                    {percentage.toFixed(2)}%
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-xs text-gray-500">Grade</p>
+                  <p className="font-semibold text-green-600">{getGrade()}</p>
+                </div>
+
+                <div>
+                  <p className="text-xs text-gray-500">Result</p>
+                  <p
+                    className={`font-semibold ${
+                      getResult() === "Pass" ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {getResult()}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
         <button className="bg-blue-600 text-white px-4 py-2 rounded">
           {editId ? "Update Result" : "Save Result"}
         </button>
-
       </form>
 
       {/* RESULT LIST SAME */}
@@ -330,7 +361,6 @@ export default function ExamResultAdmin() {
           </div>
         ))}
       </div> */}
-
     </div>
   );
 }
