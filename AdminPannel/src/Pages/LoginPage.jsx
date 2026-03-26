@@ -9,7 +9,8 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // ❌ removed name
+  // ✅ ADD NAME
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,8 +35,9 @@ const Auth = () => {
           navigate(from, { replace: true });
         }
       } else {
-        // ✅ REGISTER (EMAIL + PASSWORD)
+        // ✅ REGISTER (WITH NAME)
         const res = await API.post("/auth/register", {
+          name,
           email,
           password,
         });
@@ -43,6 +45,9 @@ const Auth = () => {
         if (res.status === 201) {
           alert("Admin registered successfully ✅");
           setIsLogin(true);
+          setName(""); // reset
+          setEmail("");
+          setPassword("");
         }
       }
     } catch (err) {
@@ -73,7 +78,19 @@ const Auth = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
 
-          {/* ✅ EMAIL FOR BOTH */}
+          {/* ✅ NAME ONLY IN REGISTER */}
+          {!isLogin && (
+            <input
+              type="text"
+              placeholder="Admin Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="inputPremium"
+              required
+            />
+          )}
+
+          {/* EMAIL */}
           <input
             type="email"
             placeholder="Email Address"
@@ -138,7 +155,7 @@ const Auth = () => {
         {/* Demo */}
         {isLogin && (
           <p className="text-center text-gray-500 text-xs mt-3">
-            admin@gmail.com | 123456
+            Use your registered email & password
           </p>
         )}
       </div>
