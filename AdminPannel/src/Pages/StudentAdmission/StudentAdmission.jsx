@@ -82,6 +82,7 @@ export default function StudentAdmission() {
   const [files, setFiles] = useState({});
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [classes, setClasses] = useState([]);
 
   useEffect(() => {
     const id = localStorage.getItem("editStudentId");
@@ -166,6 +167,19 @@ export default function StudentAdmission() {
     formData.motherPhone,
   ]);
 
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await API.get("/classes");
+        setClasses(res.data.data || []);
+      } catch (err) {
+        console.error("Class fetch error:", err);
+      }
+    };
+
+    fetchClasses();
+  }, []);
+
   const handleChange = (name, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -188,8 +202,7 @@ export default function StudentAdmission() {
         !formData.section ||
         !formData.firstName ||
         !formData.gender ||
-        !formData.dob 
-        
+        !formData.dob
       ) {
         alert("Please fill all required fields");
         return;
@@ -288,21 +301,7 @@ export default function StudentAdmission() {
                   label="Class *"
                   name="class"
                   value={formData.class}
-                  options={[
-                    "Nursery",
-                    "LKG",
-                    "UKG",
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10",
-                  ]}
+                  options={classes.map((cls) => cls.className)}
                   onChange={handleChange}
                 />
 
@@ -1139,11 +1138,17 @@ const FormSelect = ({ label, name, onChange, options = [], value }) => (
     >
       <option value="">Select</option>
 
-      {options.map((opt) => (
-        <option key={opt} value={opt}>
-          {opt}
-        </option>
-      ))}
+      {options.map((opt) =>
+        typeof opt === "object" ? (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ) : (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ),
+      )}
     </select>
   </div>
 );

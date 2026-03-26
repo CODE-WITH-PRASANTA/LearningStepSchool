@@ -2,19 +2,20 @@ const Admin = require("../models/adminAuth.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
-// ================= REGISTER =================
+// ================= REGISTER (ONLY ONE ADMIN) =================
 exports.registerAdmin = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // check existing
-    const existing = await Admin.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ message: "Admin already exists" });
+    // ✅ CHECK IF ANY ADMIN EXISTS
+    const existingAdmin = await Admin.findOne();
+
+    if (existingAdmin) {
+      return res.status(400).json({
+        message: "Only one admin allowed. Already registered.",
+      });
     }
 
-    // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const admin = await Admin.create({
@@ -24,7 +25,7 @@ exports.registerAdmin = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Registration successful",
+      message: "Admin created successfully",
       admin,
     });
 
@@ -32,7 +33,6 @@ exports.registerAdmin = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // ================= LOGIN =================
 exports.loginAdmin = async (req, res) => {
@@ -58,6 +58,7 @@ exports.loginAdmin = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: false, // true in production
+      sameSite: "lax",
     });
 
     res.json({
@@ -75,18 +76,58 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
+// ================= UPDATE PASSWORD =================
+exports.updatePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    const admin = await Admin.findById(req.user.id);
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    // ✅ CHECK OLD PASSWORD
+    const isMatch = await bcrypt.compare(oldPassword, admin.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Old password incorrect" });
+    }
+
+    // ✅ VALIDATION
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    // ✅ HASH NEW PASSWORD
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    admin.password = hashedPassword;
+    await admin.save();
+
+    res.status(200).json({
+      message: "Password updated successfully ✅",
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // ================= LOGOUT =================
 exports.logoutAdmin = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false, // true in production (HTTPS)
+      secure: false, // true in production
       sameSite: "lax",
     });
 
     res.status(200).json({
       message: "Logout successful",
     });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
