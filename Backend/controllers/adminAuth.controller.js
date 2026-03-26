@@ -2,30 +2,30 @@ const Admin = require("../models/adminAuth.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// ================= REGISTER (ONLY FIRST TIME SETUP) =================
 exports.registerAdmin = async (req, res) => {
   try {
     const { name, password } = req.body;
 
-    // ✅ Only one admin allowed
-    let admin = await Admin.findOne();
+    // ✅ STRICT CHECK (only one admin EVER)
+    const adminCount = await Admin.countDocuments();
 
-    if (admin) {
+    if (adminCount > 0) {
       return res.status(400).json({
-        message: "Admin already exists",
+        message: "Admin already registered. You cannot create another.",
       });
     }
 
+    // ✅ DEFAULT PASSWORD IF NOT PROVIDED
     const hashedPassword = await bcrypt.hash(password || "123456", 10);
 
-    admin = await Admin.create({
+    const admin = await Admin.create({
       name: name || "Admin",
-      email: "admin@gmail.com", // 🔒 FIXED EMAIL
+      email: "admin@gmail.com", // 🔒 fixed
       password: hashedPassword,
     });
 
     res.status(201).json({
-      message: "Admin created successfully",
+      message: "Admin registered successfully ✅",
       admin,
     });
 
