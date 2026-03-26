@@ -2,6 +2,7 @@
 const Fee = require("../models/admissionfee.model");
 const Counter = require("../models/counter.model");
 
+
 exports.collectFee = async (req, res) => {
   try {
     const {
@@ -11,47 +12,55 @@ exports.collectFee = async (req, res) => {
       rollNumber,
       class: className,
       section,
-      amount,
+
+      fees, // 🔥 NEW (array)
+
       paid,
       discount,
       paymentMethod,
       note,
-      feeType,
       date,
     } = req.body;
 
-    if (!studentId || !amount) {
+    // ✅ VALIDATION
+    if (!studentId || !fees || fees.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Student and amount are required",
+        message: "Student and fees are required",
       });
     }
 
-    const totalAmount = Number(amount || 0);
-    const paidAmount = Number(paid || 0);
-    const discountPercent = Number(discount || 0);
+    // 🔥 TOTAL CALCULATION
+    const totalAmount = fees.reduce(
+      (sum, f) => sum + Number(f.amount || 0),
+      0
+    );
 
+    const discountPercent = Number(discount || 0);
     const discountAmount = (totalAmount * discountPercent) / 100;
+
     const finalAmount = totalAmount - discountAmount;
 
+    const paidAmount = Number(paid || 0);
     const due = finalAmount - paidAmount;
 
+    // 🔥 STATUS
     let status = "Paid";
     if (due > 0 && paidAmount > 0) status = "Partial";
     if (paidAmount === 0) status = "Unpaid";
 
-    // 🔥 ORDER-WISE RECEIPT NUMBER (ATOMIC)
+    // 🔥 RECEIPT NUMBER (FIXED INCREMENT)
     const counter = await Counter.findOneAndUpdate(
       { name: "receiptNo" },
-      { $inc: { value: 1 } },
+      { $inc: { value: 1 } }, // ✅ FIX (not 1000)
       { new: true, upsert: true }
     );
 
-    // 🔥 4 DIGIT FORMAT
     const receiptNo = String(counter.value).padStart(4, "0");
 
+    // 🔥 SAVE
     const fee = new Fee({
-      receiptNo, // ✅ IMPORTANT
+      receiptNo,
 
       studentId,
       admissionNo,
@@ -60,15 +69,17 @@ exports.collectFee = async (req, res) => {
       class: className,
       section,
 
-      amount: totalAmount,
+      fees, // ✅ IMPORTANT
+
+      totalAmount,
+      discount: discountPercent,
+      finalAmount,
+
       paid: paidAmount,
       due,
 
-      discount: discountPercent,
       paymentMethod,
       note,
-
-      feeType,
       date,
       status,
     });
