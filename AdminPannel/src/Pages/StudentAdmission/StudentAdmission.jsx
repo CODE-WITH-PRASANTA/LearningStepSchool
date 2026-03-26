@@ -188,9 +188,8 @@ export default function StudentAdmission() {
         !formData.section ||
         !formData.firstName ||
         !formData.gender ||
-        !formData.dob ||
-        !formData.guardianName ||
-        !formData.guardianPhone
+        !formData.dob 
+        
       ) {
         alert("Please fill all required fields");
         return;
@@ -640,7 +639,7 @@ export default function StudentAdmission() {
           <h3 className="Student-Admission-SectionTitle">Guardian Details</h3>
 
           <div className="Student-Admission-Group">
-            <label className="Student-Admission-Label">If Guardian Is *</label>
+            <label className="Student-Admission-Label">If Guardian Is </label>
 
             <div className="Student-Admission-RadioGroup">
               <label>
@@ -682,7 +681,7 @@ export default function StudentAdmission() {
             <div className="Student-Admission-Left">
               <div className="Student-Admission-Row">
                 <FormInput
-                  label="Guardian Name *"
+                  label="Guardian Name"
                   name="guardianName"
                   value={formData.guardianName}
                   onChange={handleChange}
@@ -707,7 +706,7 @@ export default function StudentAdmission() {
 
               <div className="Student-Admission-Row Student-Admission-TwoColumn">
                 <FormInput
-                  label="Guardian Phone *"
+                  label="Guardian Phone"
                   name="guardianPhone"
                   value={formData.guardianPhone}
                   onChange={handleChange}

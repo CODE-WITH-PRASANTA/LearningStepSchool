@@ -1,8 +1,6 @@
+
 const Fee = require("../models/admissionfee.model");
-
-/* ================= COLLECT FEE ================= */
-
-
+const Counter = require("../models/counter.model");
 
 exports.collectFee = async (req, res) => {
   try {
@@ -22,7 +20,6 @@ exports.collectFee = async (req, res) => {
       date,
     } = req.body;
 
-    // ✅ VALIDATION
     if (!studentId || !amount) {
       return res.status(400).json({
         success: false,
@@ -34,19 +31,28 @@ exports.collectFee = async (req, res) => {
     const paidAmount = Number(paid || 0);
     const discountPercent = Number(discount || 0);
 
-    // ✅ APPLY DISCOUNT FIRST
     const discountAmount = (totalAmount * discountPercent) / 100;
     const finalAmount = totalAmount - discountAmount;
 
-    // ✅ CORRECT DUE
     const due = finalAmount - paidAmount;
 
-    // ✅ AUTO STATUS
     let status = "Paid";
     if (due > 0 && paidAmount > 0) status = "Partial";
     if (paidAmount === 0) status = "Unpaid";
 
+    // 🔥 ORDER-WISE RECEIPT NUMBER (ATOMIC)
+    const counter = await Counter.findOneAndUpdate(
+      { name: "receiptNo" },
+      { $inc: { value: 1 } },
+      { new: true, upsert: true }
+    );
+
+    // 🔥 4 DIGIT FORMAT
+    const receiptNo = String(counter.value).padStart(4, "0");
+
     const fee = new Fee({
+      receiptNo, // ✅ IMPORTANT
+
       studentId,
       admissionNo,
       name,
@@ -54,9 +60,9 @@ exports.collectFee = async (req, res) => {
       class: className,
       section,
 
-      amount: totalAmount,     // ✅ FULL AMOUNT
-      paid: paidAmount,        // ✅ ACTUAL PAID
-      due,                     // ✅ CORRECT DUE
+      amount: totalAmount,
+      paid: paidAmount,
+      due,
 
       discount: discountPercent,
       paymentMethod,
@@ -88,7 +94,7 @@ exports.collectFee = async (req, res) => {
 
 exports.getFees = async (req, res) => {
   try {
-    const fees = await Fee.find().sort({ createdAt: -1 });
+    const fees = await Fee.find().sort({ receiptNo: -1 }); // 🔥 IMPORTANT
 
     res.json({
       success: true,
