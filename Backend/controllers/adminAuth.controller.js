@@ -4,23 +4,27 @@ const jwt = require("jsonwebtoken");
 
 exports.registerAdmin = async (req, res) => {
   try {
-    const { name, password } = req.body;
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
 
-    // ✅ STRICT CHECK (only one admin EVER)
-    const adminCount = await Admin.countDocuments();
+    // ✅ Only one admin allowed
+    const adminExists = await Admin.findOne();
 
-    if (adminCount > 0) {
+    if (adminExists) {
       return res.status(400).json({
         message: "Admin already registered. You cannot create another.",
       });
     }
 
-    // ✅ DEFAULT PASSWORD IF NOT PROVIDED
-    const hashedPassword = await bcrypt.hash(password || "123456", 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const admin = await Admin.create({
-      name: name || "Admin",
-      email: "admin@gmail.com", // 🔒 fixed
+      name: "Admin",
+      email, // ✅ dynamic email
       password: hashedPassword,
     });
 
@@ -28,7 +32,6 @@ exports.registerAdmin = async (req, res) => {
       message: "Admin registered successfully ✅",
       admin,
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -38,31 +41,31 @@ exports.registerAdmin = async (req, res) => {
 exports.loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // 🔒 FIX EMAIL CHECK
-    if (email !== "admin@gmail.com") {
-      return res.status(400).json({ message: "Invalid email" });
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
     }
 
-    const admin = await Admin.findOne({ email: "admin@gmail.com" });
+    const admin = await Admin.findOne({ email });
 
     if (!admin) {
       return res.status(400).json({
-        message: "Admin not registered. Please register once.",
+        message: "Admin not found",
       });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({
+        message: "Invalid password",
+      });
     }
 
-    const token = jwt.sign(
-      { id: admin._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -70,8 +73,8 @@ exports.loginAdmin = async (req, res) => {
       sameSite: "lax",
     });
 
-    res.json({
-      message: "Login successful",
+    res.status(200).json({
+      message: "Login successful ✅",
       token,
       admin: {
         id: admin._id,
@@ -79,7 +82,6 @@ exports.loginAdmin = async (req, res) => {
         email: admin.email,
       },
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -116,7 +118,6 @@ exports.updatePassword = async (req, res) => {
     res.status(200).json({
       message: "Password updated successfully ✅",
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -134,7 +135,6 @@ exports.logoutAdmin = async (req, res) => {
     res.status(200).json({
       message: "Logout successful",
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
