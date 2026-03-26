@@ -2,7 +2,8 @@ const express = require("express");
 const {
   registerAdmin,
   loginAdmin,
-  logoutAdmin
+  logoutAdmin,
+  updatePassword, // ✅ ADD THIS
 } = require("../controllers/adminAuth.controller");
 
 const protect = require("../middleware/authMiddleware");
@@ -20,7 +21,10 @@ router.post("/login", loginAdmin);
 // Logout (PROTECTED)
 router.post("/logout", protect, logoutAdmin);
 
-// Protected test route (check login working or not)
+// ✅ UPDATE PASSWORD (PROTECTED)
+router.put("/update-password", protect, updatePassword);
+
+// Protected test route
 router.get("/profile", protect, (req, res) => {
   res.status(200).json({
     message: "Authorized access ✅",
