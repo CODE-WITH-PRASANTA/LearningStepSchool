@@ -2,6 +2,8 @@
 
 import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi";
 import {
   FiHome,
   FiBookOpen,
@@ -19,6 +21,10 @@ import {
   FiMonitor,
   FiStar,
   FiUserPlus,
+  FiImage,
+  // FiBookOpen,
+  FiEdit,
+  // FiLayers,
 
   // NEW ADDED ICONS
   FiFileText,
@@ -28,7 +34,7 @@ import {
   FiActivity,
   FiCreditCard,
   FiTrendingUp,
-  FiMessageSquare
+  FiMessageSquare,
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -43,13 +49,19 @@ const menu = [
     path: "/admin/coldleads",
   },
 
+  {
+    label: "Advertisements",
+    icon: FiImage,
+    path: "/admin/advertisement",
+  },
+
   { type: "section", label: "Contact Enquiry" },
 
   {
-  label: "Contact Enquiries",
-  icon: FiMessageSquare,   
-  path: "/admin/contact-enq",
-},
+    label: "Contact Enquiries",
+    icon: FiMessageSquare,
+    path: "/admin/contact-enq",
+  },
 
   { type: "section", label: "Main Section" },
 
@@ -106,131 +118,170 @@ const menu = [
   { type: "section", label: "ERP Solution" },
 
   {
-    label: "Front Office",
-    icon: FiBriefcase,
-    children: [
-      { label: "Admission Enquiry", path: "/front-office/enquiry" },
-      { label: "Visitors Book", path: "/front-office/visitors" },
-      { label: "Postal Dispatch", path: "/front-office/postal-dispatch" },
-      { label: "Postal Receive", path: "/front-office/postal-receive" },
-      { label: "Complain", path: "/front-office/complain" },
-      { label: "Setup Front Office", path: "/front-office/setup" },
-      { label: "Gate Pass", path: "/front-office/gate-pass" },
-      { label: "Entrance Examination Form", path: "/front-office/exam-form" },
-    ],
-  },
-
-  {
-    label: "Attendance",
-    icon: FiCheckSquare,
-    children: [
-      { label: "Student Attendance", path: "/attendance/student-attendance" },
-      { label: "Student Leave", path: "/attendance/student-leave" },
-      { label: "Attendance Report", path: "/attendance/attendance-report" },
-    ],
-  },
-
-  {
-    label: "Primary Evaluation",
-    icon: FiActivity,
-    children: [
-      { label: "Activity", path: "/primary-evaluation/activity" },
-      { label: "Assessment", path: "/primary-evaluation/assessment" },
-      {
-        label: "Evaluation Remark",
-        path: "/primary-evaluation/evaluation-remark",
-      },
-      {
-        label: "Primary Class Report",
-        path: "/primary-evaluation/class-report",
-      },
-    ],
-  },
-
-  {
-    label: "Library",
-    icon: FiBook,
-    children: [
-      { label: "Book List", path: "/library/book-list" },
-      { label: "Issue Book", path: "/library/issue-book" },
-      { label: "Return Book", path: "/library/return-book" },
-      { label: "Add Student", path: "/library/student" },
-      { label: "Add Staff", path: "/library/staff" },
-    ],
-  },
-
-  { type: "divider" },
-
-  {
-    label: "Question Paper",
-    icon: FiGrid,
-    children: [
-      { label: "Type", path: "/type-question" },
-      { label: "Question", path: "/question" },
-      { label: "Generate", path: "/paper-generate" },
-    ],
-  },
-
-  { type: "divider" },
-
-  {
-    label: "Online Exam",
-    icon: FiMonitor,
-    children: [
-      { label: "Online Exam", path: "/online-exam" },
-      { label: "Question Bank", path: "/online-exam/question-bank" },
-      { label: "Exam Report", path: "/online-exam/exam-report" },
-      {
-        label: "Students Exam Report",
-        path: "/online-exam/students-exam-report",
-      },
-    ],
-  },
-
-  { type: "divider" },
-
-  {
-    label: "Student Info",
+    label: "Student Hub",
     icon: FiUsers,
     children: [
       { label: "Student Admission", path: "/student/admission" },
-      { label: "Online Admission", path: "/online/admission" },
-      { label: "Student Details", path: "/student/details" },
-      { label: "Student Catagory", path: "/student/catagory"},
-      { label: "House", path: "/house"},
-      { label: "Student Referral", path: "/student/referral"},
-      { label: "Inactive Students", path: "/inactive/student"},
-      { label: "Link Siblings", path: "/link/siblings"},
-      { label: "Student Update", path: "/student/update"},
-      { label: "Student Report", path: "/student/report"},
-
-
+      {
+        label: "Student Details",
+        path: "/student/admission/details",
+      },
+      // { label: "Online Admission", path: "/online/admission" },
+      // { label: "Student Details", path: "/student/details" },
+      // { label: "Student Catagory", path: "/student/catagory" },
+      // { label: "House", path: "/house" },
+      // { label: "Student Referral", path: "/student/referral" },
+      // { label: "Inactive Students", path: "/inactive/student" },
+      // { label: "Link Siblings", path: "/link/siblings" },
+      // { label: "Student Update", path: "/student/update" },
+      // { label: "Student Report", path: "/student/report" },
     ],
   },
 
+  {
+    label: "Student Paytrack",
+    icon: FiActivity,
+    children: [
+      { label: "Fee collect", path: "/fee-collect" },
+      { label: "Fee Type", path: "/fee-type" },
+      { label: "PaymentRecipt", path: "/Paymentrecipt" },
+    ],
+  },
+  {
+    label: "Class Post",
+    icon: FiBookOpen,
+    path: "/class-post",
+  },
+
+  {
+    label: "Subject Post",
+    icon: FiEdit,
+    path: "/subject-post",
+  },
+  {
+    label: "Classwise Subject",
+    icon: FiLayers,
+    path: "/classwise-subject",
+  },
   { type: "divider" },
 
   {
-    label: "Expense",
-    icon: FiCreditCard,
+    label: "Exam Result Desk",
+    icon: FiBriefcase,
     children: [
-      { label: "Add Expense", path: "/expense/details" },
-      { label: "Expense Search", path: "/expense-search" },
-      { label: "Expense Head", path: "/expense-head" },
+      { label: "Exam Result", path: "/exam-result" },
+      { label: "Exam Score Manager", path: "/exam-result-manager" },
+      { label: "Type of Exam Publish", path: "/exam-type" },
     ],
   },
 
-  { type: "divider" },
+  // {
+  //   label: "Front Office",
+  //   icon: FiBriefcase,
+  //   children: [
+  //     { label: "Admission Enquiry", path: "/front-office/enquiry" },
+  //     { label: "Visitors Book", path: "/front-office/visitors" },
+  //     { label: "Postal Dispatch", path: "/front-office/postal-dispatch" },
+  //     { label: "Postal Receive", path: "/front-office/postal-receive" },
+  //     { label: "Complain", path: "/front-office/complain" },
+  //     { label: "Setup Front Office", path: "/front-office/setup" },
+  //     { label: "Gate Pass", path: "/front-office/gate-pass" },
+  //     { label: "Entrance Examination Form", path: "/front-office/exam-form" },
+  //   ],
+  // },
 
-  {
-    label: "Income",
-    icon: FiTrendingUp,
-    children: [
-      { label: "Add Income", path: "/income/details" },
-      { label: "Search Income", path: "/income-search" },
-      { label: "Income Head", path: "/income-head" },
-    ],
-  },
+  // {
+  //   label: "Attendance",
+  //   icon: FiCheckSquare,
+  //   children: [
+  //     { label: "Student Attendance", path: "/attendance/student-attendance" },
+  //     { label: "Student Leave", path: "/attendance/student-leave" },
+  //     { label: "Attendance Report", path: "/attendance/attendance-report" },
+  //   ],
+  // },
+
+  // {
+  //   label: "Primary Evaluation",
+  //   icon: FiActivity,
+  //   children: [
+  //     { label: "Activity", path: "/primary-evaluation/activity" },
+  //     { label: "Assessment", path: "/primary-evaluation/assessment" },
+  //     {
+  //       label: "Evaluation Remark",
+  //       path: "/primary-evaluation/evaluation-remark",
+  //     },
+  //     {
+  //       label: "Primary Class Report",
+  //       path: "/primary-evaluation/class-report",
+  //     },
+  //   ],
+  // },
+
+  // {
+  //   label: "Library",
+  //   icon: FiBook,
+  //   children: [
+  //     { label: "Book List", path: "/library/book-list" },
+  //     { label: "Issue Book", path: "/library/issue-book" },
+  //     { label: "Return Book", path: "/library/return-book" },
+  //     { label: "Add Student", path: "/library/student" },
+  //     { label: "Add Staff", path: "/library/staff" },
+  //   ],
+  // },
+
+  // { type: "divider" },
+
+  // {
+  //   label: "Question Paper",
+  //   icon: FiGrid,
+  //   children: [
+  //     { label: "Type", path: "/type-question" },
+  //     { label: "Question", path: "/question" },
+  //     { label: "Generate", path: "/paper-generate" },
+  //   ],
+  // },
+
+  // { type: "divider" },
+
+  // {
+  //   label: "Online Exam",
+  //   icon: FiMonitor,
+  //   children: [
+  //     { label: "Online Exam", path: "/online-exam" },
+  //     { label: "Question Bank", path: "/online-exam/question-bank" },
+  //     { label: "Exam Report", path: "/online-exam/exam-report" },
+  //     {
+  //       label: "Students Exam Report",
+  //       path: "/online-exam/students-exam-report",
+  //     },
+  //   ],
+  // },
+
+  // { type: "divider" },
+
+  // { type: "divider" },
+
+  // {
+  //   label: "Expense",
+  //   icon: FiCreditCard,
+  //   children: [
+  //     { label: "Add Expense", path: "/expense/details" },
+  //     { label: "Expense Search", path: "/expense-search" },
+  //     { label: "Expense Head", path: "/expense-head" },
+  //   ],
+  // },
+
+  // { type: "divider" },
+
+  // {
+  //   label: "Income",
+  //   icon: FiTrendingUp,
+  //   children: [
+  //     { label: "Add Income", path: "/income/details" },
+  //     { label: "Search Income", path: "/income-search" },
+  //     { label: "Income Head", path: "/income-head" },
+  //   ],
+  // },
 ];
 
 /* ================= COMPONENT ================= */
@@ -238,14 +289,21 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const location = useLocation();
   const [openGroup, setOpenGroup] = useState(null);
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("admin");
+
+    navigate("/login");
+  };
+
   /* AUTO OPEN ACTIVE GROUP (ONLY ON FIRST LOAD) */
   useEffect(() => {
     const activeGroup = menu.find(
       (item) =>
         item.children &&
-        item.children.some((c) =>
-          location.pathname.startsWith(c.path)
-        )
+        item.children.some((c) => location.pathname.startsWith(c.path)),
     );
 
     if (activeGroup) {
@@ -264,19 +322,19 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
       <aside
         className={`fixed top-0 left-0 z-50 h-screen bg-white/80 backdrop-blur-xl border-r border-gray-200
-        transition-all duration-500 ease-in-out
-        ${sidebarOpen ? "w-72" : "w-20"}
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+  transition-all duration-500 ease-in-out flex flex-col
+  ${sidebarOpen ? "w-72" : "w-20"}
+  ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* LOGO */}
-        <div className="h-16 flex items-center justify-center border-b">
+        <div className="h-16 flex items-center justify-center border-b shrink-0">
           <span className="text-xl font-bold text-indigo-600 transition-all duration-300">
             {sidebarOpen ? "School Admin" : "SA"}
           </span>
         </div>
 
         {/* NAVIGATION */}
-        <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
+        <nav className="flex-1 overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
             if (item.type === "section") {
               return (
@@ -299,11 +357,8 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
             const isChildActive =
               item.children &&
-              item.children.some((c) =>
-                location.pathname.startsWith(c.path)
-              );
+              item.children.some((c) => location.pathname.startsWith(c.path));
 
-            // 👇 ONLY manual open controls dropdown
             const isOpen = openGroup === item.label;
 
             /* ================= GROUP MENU ================= */
@@ -312,22 +367,20 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 <div key={i}>
                   <button
                     onClick={() =>
-                      sidebarOpen &&
-                      setOpenGroup(isOpen ? null : item.label)
+                      sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
                     className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300
-                    ${
-                      isChildActive
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
-                        : isOpen
-                        ? "bg-indigo-100 text-indigo-700"
-                        : "hover:bg-gray-100"
-                    }`}
+              ${
+                isChildActive
+                  ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
+                  : isOpen
+                    ? "bg-indigo-100 text-indigo-700"
+                    : "hover:bg-gray-100"
+              }`}
                   >
                     {Icon && (
                       <span
-                        className={`icon-bubble transition-all duration-300
-                        ${
+                        className={`icon-bubble ${
                           isChildActive
                             ? "text-indigo-600 bg-white shadow-sm"
                             : "text-indigo-600"
@@ -392,13 +445,12 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               <NavLink key={i} to={item.path}>
                 {({ isActive }) => (
                   <div
-                    className={`nav-item flex items-center gap-3 px-3 py-3 rounded-2xl 
-                    transition-all duration-300
-                    ${
-                      isActive
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg"
-                        : "hover:bg-indigo-50"
-                    }`}
+                    className={`flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300
+              ${
+                isActive
+                  ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg"
+                  : "hover:bg-indigo-50"
+              }`}
                   >
                     {Icon && (
                       <span
@@ -413,9 +465,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                     )}
 
                     {sidebarOpen && (
-                      <span className="text-sm font-medium">
-                        {item.label}
-                      </span>
+                      <span className="text-sm font-medium">{item.label}</span>
                     )}
                   </div>
                 )}
@@ -423,6 +473,27 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
             );
           })}
         </nav>
+
+        {/* LOGOUT BUTTON */}
+        <div className="p-4 border-t border-gray-200 shrink-0 bg-white/60 backdrop-blur">
+          <button
+            onClick={() => {
+              if (window.confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem("isAdmin");
+                localStorage.removeItem("admin");
+                navigate("/login");
+              }
+            }}
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl 
+      text-red-600 hover:bg-red-50 transition-all duration-300"
+          >
+            <span className=" cursor-pointer icon-bubble text-red-600">
+              <FiLogOut />
+            </span>
+
+            {sidebarOpen && <span className="cursor-pointer text-sm font-medium">Logout</span>}
+          </button>
+        </div>
       </aside>
     </>
   );

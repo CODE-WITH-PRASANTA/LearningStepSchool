@@ -452,25 +452,24 @@
 .table-wrapper::-webkit-scrollbar {
   display: none;
 }
-
-table {
+.EnquiryListForm-TableWrapper table {
   width: 100%;
   border-collapse: collapse;
   min-width: 1200px;
 }
 
-thead th {
+.EnquiryListForm-Table thead th {
   background: #ffeaf0;
   padding: 10px;
   border: 1px solid #ccc;
 }
 
-tbody td {
+.EnquiryListForm-Table tbody td {
   padding: 10px;
   border: 1px solid #ccc;
 }
 
-tbody tr:nth-child(even) {
+.EnquiryListForm-Table tbody tr:nth-child(even) {
   background: #f5f6ff;
 }
 

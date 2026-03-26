@@ -1,14 +1,27 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { Navigate, useLocation } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
-  const { user, loading } = useAuth();
+const ProtectedRoute = ({ children }) => {
+  const location = useLocation();
 
-  if (loading) return null; // or spinner
+  // ✅ Get admin safely
+  const isAdmin = localStorage.getItem("isAdmin");
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  // 🔐 Convert to boolean (important)
+  const isAuthenticated = isAdmin === "true";
+
+  // ❌ Not logged in → redirect to login
+  if (!isAuthenticated) {
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ from: location }} // 🔥 remember previous page
+      />
+    );
   }
 
+  // ✅ Logged in → allow access
   return children;
-}
+};
+
+export default ProtectedRoute;

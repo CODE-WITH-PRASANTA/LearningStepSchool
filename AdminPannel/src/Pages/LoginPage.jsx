@@ -1,103 +1,158 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiMail, FiLock } from "react-icons/fi";
-import { useAuth } from "../Auth/AuthContext";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import API from "../api/axios";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
-export default function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const [form, setForm] = useState({ email: "", password: "" });
+const Auth = () => {
+  const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const success = login(form.email, form.password);
+  // ✅ DEFAULT ADMIN (AUTO FILL)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    if (success) {
-      navigate("/dashboard");
-    } else {
-      setError("Invalid email or password");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/dashboard";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await API.post("/auth/login", { email, password });
+
+      if (res.status === 200) {
+        localStorage.setItem("isAdmin", "true");
+        localStorage.setItem("admin", JSON.stringify(res.data.admin));
+        navigate(from, { replace: true });
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid credentials");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center
-      bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-4"
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-6 rounded-2xl
-        shadow-xl border border-indigo-100"
-      >
-        <h1 className="text-2xl font-bold text-center text-indigo-700 mb-6">
-          Admin Login
-        </h1>
+    <div className="min-h-screen flex items-center justify-center 
+    bg-gradient-to-br from-black via-gray-900 to-gray-950 
+    px-4 sm:px-6 md:px-8 relative overflow-hidden">
 
+      {/* Glow */}
+      <div className="absolute w-[220px] sm:w-[300px] md:w-[400px] 
+      h-[220px] sm:h-[300px] md:h-[400px] 
+      bg-blue-500/20 blur-3xl rounded-full top-5 left-5"></div>
+
+      <div className="absolute w-[220px] sm:w-[300px] md:w-[400px] 
+      h-[220px] sm:h-[300px] md:h-[400px] 
+      bg-purple-500/20 blur-3xl rounded-full bottom-5 right-5"></div>
+
+      {/* Card */}
+      <div className="relative w-full 
+        max-w-sm sm:max-w-md md:max-w-lg lg:max-w-md
+        bg-white/10 backdrop-blur-2xl border border-white/20 
+        rounded-2xl sm:rounded-3xl 
+        shadow-[0_20px_60px_rgba(0,0,0,0.7)] 
+        p-5 sm:p-6 md:p-8">
+
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center text-white mb-2">
+          Admin Login 🔐
+        </h2>
+
+        <p className="text-center text-gray-300 mb-5 sm:mb-6 text-xs sm:text-sm">
+          Login to access dashboard
+        </p>
+
+        {/* ❌ ERROR MESSAGE */}
         {error && (
-          <p className="text-sm text-rose-600 mb-4 text-center">
-            {error}
-          </p>
+          <p className="text-red-400 text-sm text-center">{error}</p>
         )}
 
-        <label className="label">Email</label>
-        <div className="relative mb-4">
-          <FiMail className="icon" />
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+
           <input
             type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="inputPremium"
             required
-            className="input pl-10"
-            value={form.email}
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
           />
-        </div>
 
-        <label className="label">Password</label>
-        <div className="relative mb-6">
-          <FiLock className="icon" />
-          <input
-            type="password"
-            required
-            className="input pl-10"
-            value={form.password}
-            onChange={(e) =>
-              setForm({ ...form, password: e.target.value })
-            }
-          />
-        </div>
+          <div className="relative">
+            <input
+              type={showPass ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="inputPremium pr-10"
+              required
+            />
 
-        <button className="w-full py-3 rounded-xl text-white
-          bg-gradient-to-r from-indigo-600 to-violet-600">
-          Login
-        </button>
+            <span
+              onClick={() => setShowPass(!showPass)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 
+              text-gray-300 cursor-pointer hover:text-white text-lg"
+            >
+              {showPass ? <FiEyeOff /> : <FiEye />}
+            </span>
+          </div>
 
-        <p className="text-xs text-center text-slate-400 mt-4">
-          admin@gmail.com | 123456
+          <button
+            disabled={loading}
+            className="w-full py-2.5 sm:py-3 rounded-lg sm:rounded-xl 
+            text-white font-semibold text-sm sm:text-base
+            bg-gradient-to-r from-blue-600 to-purple-600 
+            hover:scale-[1.02] active:scale-95 transition 
+            shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+
+        {/* Demo */}
+        <p className="text-center text-gray-500 text-[10px] sm:text-xs mt-4">
+          Default: admin@gmail.com | 123456
         </p>
-      </form>
+      </div>
 
+      {/* Styles */}
       <style>{`
-        .label {
-          font-size: 13px;
-          font-weight: 600;
-          color: #4f46e5;
-        }
-        .input {
+        .inputPremium {
           width: 100%;
-          border: 1px solid #e2e8f0;
-          border-radius: 0.75rem;
-          padding: 0.6rem 1rem;
+          padding: 10px 14px;
+          border-radius: 10px;
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.2);
+          color: white;
+          outline: none;
+          font-size: 14px;
+          transition: 0.3s;
         }
-        .icon {
-          position: absolute;
-          left: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #6366f1;
+
+        @media (min-width: 640px) {
+          .inputPremium {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 15px;
+          }
+        }
+
+        .inputPremium::placeholder {
+          color: #bbb;
+        }
+
+        .inputPremium:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 12px rgba(59,130,246,0.5);
         }
       `}</style>
     </div>
   );
-}
+};
+
+export default Auth;

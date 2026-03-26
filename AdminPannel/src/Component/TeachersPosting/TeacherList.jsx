@@ -27,7 +27,7 @@ const TeacherList = ({ teachers, onEdit, onDelete }) => {
                 <tr key={teacher._id} className="border-b">
                   <td className="p-2">
                     <img
-                      src={`http://localhost:5000${teacher.photo}`}
+                      src={`${IMAGE_URL}${teacher.photo}`}
                       alt={teacher.name}
                       className="w-12 h-12 object-cover rounded"
                     />

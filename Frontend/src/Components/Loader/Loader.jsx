@@ -16,7 +16,7 @@ const PageLoader = () => {
         </div>
 
         <h1 className="school-name">
-          LearningStep <span>International School</span>
+          Learning Step <span>International School</span>
         </h1>
 
         <p className="tagline">

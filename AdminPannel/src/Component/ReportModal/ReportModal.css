@@ -1,0 +1,359 @@
+/* =========================
+   OVERLAY
+========================= */
+.reports-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 10px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+/* =========================
+   CARD (PREMIUM LOOK)
+========================= */
+.reports-card {
+  background: #fff;
+  width: 210mm;
+  min-height: 297mm;
+  padding: 12mm;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+
+  border: 2.5px solid #000;
+  position: relative;
+}
+
+/* INNER BORDER */
+.reports-card::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid #000;
+  pointer-events: none;
+}
+
+/* =========================
+   HEADER
+========================= */
+.reports-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.reports-logo {
+  width: 80px;
+}
+
+.reports-title {
+  margin: 0;
+  color: #1e3a8a;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.reports-subtitle {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* =========================
+   INFO BOX
+========================= */
+.reports-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  background: #f9fafb;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #000;
+  font-size: 13px;
+}
+
+/* =========================
+   TABLE (PREMIUM)
+========================= */
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+/* HEADER */
+.reports-table thead tr:first-child th {
+  background: #e5e7eb;
+  font-weight: 700;
+  border-bottom: 2px solid #000;
+}
+
+.reports-table thead tr:nth-child(2) th {
+  background: #f3f4f6;
+}
+
+/* CELLS */
+.reports-table th,
+.reports-table td {
+  border: 1px solid #444;
+  padding: 7px 6px;
+  text-align: center;
+}
+
+/* SUBJECT COLUMN */
+.reports-table td:first-child,
+.reports-table th:first-child {
+  text-align: left;
+  padding-left: 10px;
+}
+
+/* ROW STYLE */
+.reports-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* COLORS */
+.pass {
+  color: green;
+  font-weight: 600;
+}
+
+.fail {
+  color: red;
+  font-weight: 600;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+.reports-summary {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #000;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* =========================
+   ATTENDANCE
+========================= */
+.reports-attendance {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+/* =========================
+   REMARK
+========================= */
+.reports-remark {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* =========================
+   SIGN
+========================= */
+.reports-sign {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.line {
+  border-top: 1px solid #000;
+  width: 130px;
+  margin: auto;
+  margin-bottom: 5px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.reports-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 15px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+
+  .reports-card {
+    width: 100%;
+    min-height: auto;
+    padding: 15px;
+  }
+
+  .reports-header {
+    flex-direction: column;
+  }
+
+  .reports-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reports-attendance {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reports-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .reports-table {
+    min-width: 500px;
+  }
+}
+
+/* =========================
+   PRINT FIX (SAFE)
+========================= */
+@media print {
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* ❌ REMOVE overlay fixed behavior */
+  .reports-overlay {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ❌ HIDE EVERYTHING */
+  body * {
+    /* visibility: hidden; */
+  }
+
+  /* 🔥 FORCE PERFECT TABLE GRID */
+  .reports-table {
+    border-collapse: collapse !important;
+    width: 100%;
+  }
+
+  /* FORCE FULL BORDER */
+  .reports-table,
+  .reports-table th,
+  .reports-table td {
+    border: 1px solid #000 !important;
+  }
+
+  /* FIX HEADER STRUCTURE */
+  .reports-table thead {
+    display: table-header-group !important;
+  }
+
+  /* PREVENT BREAKING */
+  .reports-table tr {
+    page-break-inside: avoid !important;
+  }
+
+  /* REMOVE BACKGROUND BREAK */
+  .reports-table th {
+    background: #e5e7eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 🔥 FIX DOUBLE HEADER LINE ISSUE */
+  .reports-table thead tr:first-child th {
+    border-bottom: 1px solid #000 !important;
+  }
+
+  .reports-table thead tr:nth-child(2) th {
+    border-top: none !important;
+  }
+
+  /* ENSURE COLUMN LINES CONTINUE */
+  .reports-table td,
+  .reports-table th {
+    border-left: 1px solid #000 !important;
+    border-right: 1px solid #000 !important;
+  }
+
+  /* ✅ SHOW ONLY REPORT */
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  /* ✅ POSITION REPORT */
+  #printArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 210mm;
+    min-height: 297mm;
+
+    padding: 12mm;
+    box-sizing: border-box;
+    background: #fff;
+  }
+
+  /* 🔥 FIX TABLE HEADER (IMPORTANT) */
+  thead {
+    display: table-header-group !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  th,
+  td {
+    page-break-inside: avoid !important;
+  }
+
+  /* HIDE BUTTONS */
+  .reports-buttons {
+    display: none !important;
+  }
+
+}

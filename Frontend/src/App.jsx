@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -37,7 +42,7 @@ import Gallery from "./Pages/Gallery/Gallery";
 import PublishNotification from "./Pages/PublishNotification/PublishNotification";
 import ScrollToTop from "./Components/ScrollToTop";
 import BlogDetails from "./Pages/BlogDetails/BlogDetails";
-
+import ResultSystem from "./Components/StudentLogin/ResultSystem";
 
 /* ================= ROUTE LOADER WRAPPER ================= */
 
@@ -55,13 +60,14 @@ function AppContent() {
     return () => clearTimeout(timer);
   }, [location]);
 
+  const hideLayout =
+    location.pathname === "/login" || location.pathname === "/student/result";
+
   return (
     <>
       {loading && <PageLoader />}
-      <Navbar />
-        <ScrollToTop />  {/* 🔥 ADD HERE */}
-
-
+      {!hideLayout && <Navbar />}
+      <ScrollToTop /> {/* 🔥 ADD HERE */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -74,6 +80,8 @@ function AppContent() {
         <Route path="/admissions" element={<Admissions />} />
         <Route path="/infrastructure" element={<Infrastructure />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/student/result" element={<ResultSystem />} />
+
         <Route path="/register" element={<Register />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/academics/calendar" element={<AcademicsCalender />} />
@@ -88,14 +96,12 @@ function AppContent() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/notification" element={<PublishNotification />} />
       </Routes>
-
-      <Footer />
-      <FloatingForm />
-      <FloatingActions />
+      {!hideLayout && <Footer />}
+      {!hideLayout && <FloatingForm />}
+      {!hideLayout && <FloatingActions />}
     </>
   );
 }
-
 
 /* ================= MAIN APP ================= */
 
