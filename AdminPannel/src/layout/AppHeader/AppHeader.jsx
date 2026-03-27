@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../../api/axios";
+import Swal from "sweetalert2";
 import {
   FiMenu,
   FiBell,
@@ -28,6 +30,44 @@ export default function AppHeader({
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
+
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#6366f1",
+      cancelButtonColor: "#ef4444",
+      confirmButtonText: "Yes, logout",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await API.post("/auth/logout");
+    } catch (error) {
+      console.log("Logout API error:", error);
+    }
+
+    // ✅ CLEAR STORAGE
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("admin");
+
+    setOpen(false);
+
+    // ✅ SUCCESS ALERT
+    Swal.fire({
+      title: "Logged out 👋",
+      text: "You have been logged out successfully",
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+
+    navigate("/login");
+  };
 
   return (
     <header
@@ -107,9 +147,7 @@ export default function AppHeader({
                 <p className="text-sm font-semibold text-indigo-700">
                   Admin User
                 </p>
-                <p className="text-xs text-slate-500">
-                  admin@school.com
-                </p>
+                <p className="text-xs text-slate-500">admin@school.com</p>
               </div>
 
               <button
@@ -132,7 +170,10 @@ export default function AppHeader({
                 <FiSettings /> Settings
               </button>
 
-              <button className="dropdown-item text-rose-600">
+              <button
+                className="dropdown-item text-rose-600"
+                onClick={handleLogout}
+              >
                 <FiLogOut /> Logout
               </button>
             </div>

@@ -12,7 +12,6 @@ const ExamResult = () => {
   const [search, setSearch] = useState("");
   const [viewData, setViewData] = useState(null);
 
-  // ✅ NEW FILTER STATES
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
 
@@ -32,6 +31,7 @@ const ExamResult = () => {
     fetchResults();
   }, []);
 
+  /* ================= DELETE ================= */
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this result?",
@@ -40,10 +40,7 @@ const ExamResult = () => {
 
     try {
       await API.delete(`/exam-results/${id}`);
-
-      // refresh list
       fetchResults();
-
       setMenuOpen(null);
     } catch (err) {
       console.error(err);
@@ -51,7 +48,7 @@ const ExamResult = () => {
     }
   };
 
-  /* ================= UNIQUE FILTER OPTIONS ================= */
+  /* ================= FILTER ================= */
   const classOptions = useMemo(() => {
     return [
       ...new Set(
@@ -66,7 +63,6 @@ const ExamResult = () => {
     return [...new Set(results.map((item) => item.examType))];
   }, [results]);
 
-  /* ================= FILTER + SEARCH ================= */
   const filteredData = results.filter((item) => {
     const className =
       item.classId?.className || item.class || item.className || "";
@@ -102,7 +98,6 @@ const ExamResult = () => {
 
       {/* TOOLBAR */}
       <div className="ExamResult-toolbar">
-        {/* SEARCH */}
         <div className="ExamResult-search">
           <FiSearch />
           <input
@@ -112,9 +107,7 @@ const ExamResult = () => {
           />
         </div>
 
-        {/* FILTERS */}
         <div className="ExamResult-filters">
-          {/* CLASS FILTER */}
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
@@ -127,7 +120,6 @@ const ExamResult = () => {
             ))}
           </select>
 
-          {/* EXAM TYPE FILTER */}
           <select
             value={selectedExam}
             onChange={(e) => setSelectedExam(e.target.value)}
@@ -215,17 +207,70 @@ const ExamResult = () => {
 
                         {menuOpen === item._id && (
                           <div className="ExamResult-dropdown">
-                            {/* VIEW */}
+                            {/* ✅ UPDATED VIEW */}
                             <button
-                              onClick={() => {
-                                setViewData(item);
+                              onClick={async () => {
+                                try {
+                                  console.log(
+                                    "CLICKED ITEM:",
+                                    item.admissionNo,
+                                  );
+                                  const res = await API.get(
+                                    `/students/${item.admissionNo}`,
+                                  );
+
+                                  // console.log("API RESPONSE:", res.data);
+
+                                  const student = res.data.data || {};
+
+                                  // console.log("STUDENT DATA:", student);
+
+                                  const mergedData = {
+                                    ...item,
+
+                                    name:
+                                      student.name ||
+                                      `${student.firstName || ""} ${student.lastName || ""}`.trim(),
+
+                                    fatherName: student.fatherName || "",
+                                    motherName: student.motherName || "",
+                                    aadhaarNumber: student.aadhaarNumber || "",
+                                    bloodGroup: student.bloodGroup || "",
+                                    height: student.height || "",
+                                    weight: student.weight || "",
+                                    penNo: student.penNo || "",
+                                    houseName: student.houseName || "",
+                                    dob: student.dob || "",
+
+                                    rollNumber:
+                                      student.rollNumber ||
+                                      item.rollNumber ||
+                                      "",
+                                    class:
+                                      student.className ||
+                                      student.class ||
+                                      item.class ||
+                                      "",
+
+                                    // 🔥 ADD THIS
+                                    studentPhoto:
+                                      student.studentPhoto?.path ||
+                                      student.studentPhoto ||
+                                      "",
+                                  };
+
+                                  setViewData(mergedData);
+                                } catch (error) {
+                                  console.error("Fetch error:", error);
+                                  setViewData(item);
+                                }
+
                                 setMenuOpen(null);
                               }}
                             >
                               <FiEye /> View
                             </button>
 
-                            {/* DELETE */}
                             <button
                               style={{ color: "red" }}
                               onClick={() => handleDelete(item._id)}
