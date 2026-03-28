@@ -170,8 +170,6 @@ exports.deleteResult = async (req, res) => {
   }
 };
 
-
-// ================= SEARCH RESULT =================
 exports.searchResult = async (req, res) => {
   try {
     const { name, roll, exam } = req.query;
@@ -183,13 +181,14 @@ exports.searchResult = async (req, res) => {
       });
     }
 
-   const cleanName = name.trim();
-    const cleanExam = exam.trim();
+    const cleanName = name.trim().replace(/\s+/g, " ");
+    const cleanExam = exam.trim().replace(/\s+/g, " ");
+    const cleanRoll = roll.trim(); // 🔥 IMPORTANT
 
     const result = await ExamResult.findOne({
-      name: { $regex: new RegExp("^" + cleanName + "$", "i") },
-      rollNumber: roll.trim(),
-      examType: { $regex: new RegExp("^" + cleanExam + "$", "i") }
+      rollNumber: cleanRoll,
+      examType: { $regex: cleanExam, $options: "i" },
+      name: { $regex: cleanName, $options: "i" }
     });
 
     if (!result) {

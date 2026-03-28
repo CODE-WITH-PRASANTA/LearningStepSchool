@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./ResultSystem.css";
 import API from "../../Api/Api";
 import logo from "../../assets/LearningStepLogo.png";
@@ -16,6 +16,7 @@ const ResultSystem = () => {
   const [examTypes, setExamTypes] = useState([]);
   const [error, setError] = useState("");
 
+  // ✅ Fetch Exam Types
   useEffect(() => {
     const fetchExamTypes = async () => {
       try {
@@ -28,13 +29,22 @@ const ResultSystem = () => {
     fetchExamTypes();
   }, []);
 
+  // ✅ Handle Input Change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // ✅ Handle Submit
   const handleSubmit = async () => {
+    // Basic validation
     if (!form.name || !form.roll || !form.exam) {
       setError("Please fill all fields");
+      return;
+    }
+
+    // 🔥 Name validation (min 3 letters)
+    if (form.name.trim().length < 3) {
+      setError("Please enter at least 3 characters of the name");
       return;
     }
 
@@ -55,49 +65,68 @@ const ResultSystem = () => {
     }
   };
 
- 
-
-  
   return (
     <div className="result-container">
       <div className="result-box">
         <h1 className="result-title">🎓 Exam Result Portal</h1>
 
         <div className="result-form">
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter Name"
-            value={form.name}
-            onChange={handleChange}
-          />
+          {/* ✅ NAME INPUT */}
+          <div className="input-group">
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter name (min 3 characters)"
+              value={form.name}
+              onChange={handleChange}
+              minLength={3}
+              required
+            />
+            <small className="input-hint">
+              Enter at least first 3 letters or full name
+            </small>
+          </div>
 
-          <input
-            type="text"
-            name="roll"
-            placeholder="Enter Roll Number"
-            value={form.roll}
-            onChange={handleChange}
-          />
+          {/* ✅ ROLL INPUT */}
+          <div className="input-group">
+            <input
+              type="text"
+              name="roll"
+              placeholder="Enter Roll Number"
+              value={form.roll}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <select name="exam" value={form.exam} onChange={handleChange}>
-            <option value="">Select Exam</option>
-            {examTypes.map((exam) => (
-              <option key={exam._id} value={exam.name}>
-                {exam.name}
-              </option>
-            ))}
-          </select>
+          {/* ✅ EXAM SELECT */}
+          <div className="input-group">
+            <select
+              name="exam"
+              value={form.exam}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Exam</option>
+              {examTypes.map((exam) => (
+                <option key={exam._id} value={exam.name}>
+                  {exam.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <button onClick={handleSubmit}>
-            {loading ? "Loading..." : "Check Result"}
+          {/* ✅ BUTTON */}
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Checking..." : "Check Result"}
           </button>
 
+          {/* ✅ ERROR MESSAGE */}
           {error && <p className="error-text">{error}</p>}
         </div>
       </div>
 
-      {/* ✅ MODAL */}
+      {/* ✅ RESULT MODAL */}
       {result && (
         <ReportModal viewData={result} setViewData={setResult} logo={logo} />
       )}

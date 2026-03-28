@@ -330,3 +330,51 @@ body {
     padding: 15mm;
   }
 }
+
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-hint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.result-form input,
+.result-form select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.result-form input:focus,
+.result-form select:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.result-form button {
+  margin-top: 10px;
+  padding: 12px;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.result-form button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
