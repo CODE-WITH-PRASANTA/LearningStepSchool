@@ -32,6 +32,7 @@ const ResultSystem = () => {
   // ✅ Handle Input Change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError(""); // 🔥 add this
   };
 
   // ✅ Handle Submit
@@ -54,12 +55,27 @@ const ResultSystem = () => {
       setResult(null);
 
       const res = await API.get("/exam-results/search", {
-        params: form,
+        params: {
+          name: form.name.trim(),
+          roll: form.roll.trim(), // 🔥 match backend
+          exam: form.exam.trim(), // 🔥 match backend
+        },
       });
 
-      setResult(res.data.data);
+      const data = res.data.data;
+
+      if (!data) {
+        setError("Result not found");
+        return;
+      }
+
+      setResult(data);
     } catch (err) {
-      setError("Result not found");
+      if (err.response?.status === 404) {
+        setError("Result not found");
+      } else {
+        setError("Server error, try again");
+      }
     } finally {
       setLoading(false);
     }
