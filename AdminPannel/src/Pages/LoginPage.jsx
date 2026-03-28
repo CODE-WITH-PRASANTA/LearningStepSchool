@@ -153,11 +153,11 @@ const Auth = () => {
         </p>
 
         {/* Demo */}
-        {isLogin && (
+        {/* {isLogin && (
           <p className="text-center text-gray-500 text-xs mt-3">
             Use your registered email & password
           </p>
-        )}
+        )} */}
       </div>
 
       {/* Styles */}
