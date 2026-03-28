@@ -171,13 +171,177 @@
 }
 
 .ExamResult-dropdown button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .ExamResult-dropdown button:hover {
-  background: #f1f5f9;
+    background: #f1f5f9;
+}
+
+
+
+
+/* 🔥 OVERLAY */
+.ExamResult-modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 999;
+}
+
+/* 🔥 MODAL */
+.ExamResult-modal {
+    background: #fff;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+/* 🔥 INPUT */
+.ExamResult-modal input {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* 🔥 TABLE */
+.ExamResult-modal table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.ExamResult-modal th,
+.ExamResult-modal td {
+    padding: 8px;
+    border: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+}
+
+.ExamResult-modal th {
+    background: #f5f6fa;
+    font-weight: 600;
+}
+
+/* 🔥 BUTTONS */
+.ExamResult-modalActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.ExamResult-modalActions button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.ExamResult-modalActions button:first-child {
+    background: #eee;
+}
+
+.ExamResult-modalActions button:last-child {
+    background: #4CAF50;
+    color: white;
+}
+
+/* 🔥 ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .ExamResult-modal {
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .ExamResult-modal input {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .ExamResult-modal th,
+    .ExamResult-modal td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .ExamResult-modalActions {
+        flex-direction: column;
+    }
+
+    .ExamResult-modalActions button {
+        width: 100%;
+    }
+}
+
+/* ================= SMALL MOBILE ================= */
+@media (max-width: 480px) {
+    .ExamResult-modal {
+        max-width: 100%;
+        padding: 12px;
+    }
+
+    .ExamResult-modal h3 {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .ExamResult-modal table {
+        font-size: 12px;
+    }
+
+    /* 🔥 TABLE SCROLL */
+    .ExamResult-modal table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+
+.ExamResult-liveResult {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.ExamResult-liveResult p {
+    margin: 5px 0;
+    font-size: 14px;
 }
 
 /* RESPONSIVE */

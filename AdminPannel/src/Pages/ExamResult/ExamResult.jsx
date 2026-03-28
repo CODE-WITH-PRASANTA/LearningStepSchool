@@ -6,6 +6,8 @@ import logo from "../../Assets/Learning-Step-Logo-1.png";
 import ReportModal from "../../Component/ReportModal/ReportModal";
 
 const ExamResult = () => {
+  const [editData, setEditData] = useState(null);
+  const [editModal, setEditModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(null);
   const [page, setPage] = useState(1);
   const [results, setResults] = useState([]);
@@ -99,11 +101,65 @@ const ExamResult = () => {
     setPage(1);
   }, [search, selectedClass, selectedExam]);
 
+  const handleUpdate = async () => {
+    try {
+      const res = await API.put(`/exam-results/${editData._id}`, editData);
+
+      // ✅ update UI instantly
+      setResults((prev) =>
+        prev.map((item) => (item._id === editData._id ? res.data.data : item)),
+      );
+
+      setEditModal(false);
+    } catch (err) {
+      console.error(err);
+      alert("Update failed");
+    }
+  };
+
   /* ================= PAGINATION ================= */
   const totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
   const indexLast = page * rowsPerPage;
   const indexFirst = indexLast - rowsPerPage;
   const currentRows = filteredData.slice(indexFirst, indexLast);
+
+  const calculateResult = () => {
+    const subjects = editData?.subjects || [];
+
+    const totalMarks = subjects.reduce(
+      (sum, s) => sum + Number(s.marks || 0),
+      0,
+    );
+
+    const totalFullMarks = subjects.reduce(
+      (sum, s) => sum + Number(s.fullMarks || 0),
+      0,
+    );
+
+    const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
+
+    let grade = "F";
+    if (percentage >= 90) grade = "A+";
+    else if (percentage >= 75) grade = "A";
+    else if (percentage >= 60) grade = "B";
+    else if (percentage >= 40) grade = "C";
+
+    const isFail = subjects.some(
+      (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
+    );
+
+    const result = isFail ? "Fail" : "Pass";
+
+    return {
+      totalMarks,
+      totalFullMarks,
+      percentage,
+      grade,
+      result,
+    };
+  };
+
+  const liveResult = calculateResult();
 
   return (
     <div className="ExamResult">
@@ -238,10 +294,7 @@ const ExamResult = () => {
                             <button
                               onClick={async () => {
                                 try {
-                                  console.log(
-                                    "CLICKED ITEM:",
-                                    item.admissionNo,
-                                  );
+                                 
                                   const res = await API.get(
                                     `/students/${item.admissionNo}`,
                                   );
@@ -301,6 +354,16 @@ const ExamResult = () => {
                             </button>
 
                             <button
+                              onClick={() => {
+                                setEditData(item); // store data
+                                setEditModal(true); // open modal
+                                setMenuOpen(null);
+                              }}
+                            >
+                              ✏️ Edit
+                            </button>
+
+                            <button
                               style={{ color: "red" }}
                               onClick={() => handleDelete(item._id)}
                             >
@@ -351,6 +414,122 @@ const ExamResult = () => {
 
       {/* MODAL */}
       <ReportModal viewData={viewData} setViewData={setViewData} logo={logo} />
+
+      {editModal && (
+        <div className="ExamResult-modalOverlay">
+          <div className="ExamResult-modal" style={{ width: "600px" }}>
+            <h3>Edit Result</h3>
+
+            {/* BASIC FIELDS */}
+            <input
+              value={editData.name}
+              onChange={(e) =>
+                setEditData({ ...editData, name: e.target.value })
+              }
+              placeholder="Name"
+            />
+
+            <input
+              value={editData.rollNumber}
+              onChange={(e) =>
+                setEditData({ ...editData, rollNumber: e.target.value })
+              }
+              placeholder="Roll No"
+            />
+
+            <input
+              value={editData.examType}
+              onChange={(e) =>
+                setEditData({ ...editData, examType: e.target.value })
+              }
+              placeholder="Exam Type"
+            />
+
+            {/* 🔥 SUBJECT TABLE */}
+            <table style={{ width: "100%", marginTop: "10px" }}>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Marks</th>
+                  <th>Full Marks</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {editData.subjects?.map((sub, i) => (
+                  <tr key={i}>
+                    <td>{sub.subject}</td>
+
+                    <td>
+                      <input
+                        type="number"
+                        value={sub.marks}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].marks = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="number"
+                        value={sub.fullMarks}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].fullMarks = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* 🔥 LIVE RESULT */}
+            <div className="ExamResult-liveResult">
+              <p>
+                <strong>Total:</strong> {liveResult.totalMarks} /{" "}
+                {liveResult.totalFullMarks}
+              </p>
+
+              <p>
+                <strong>Percentage:</strong> {liveResult.percentage.toFixed(2)}%
+              </p>
+
+              <p>
+                <strong>Grade:</strong> {liveResult.grade}
+              </p>
+
+              <p>
+                <strong>Result:</strong>{" "}
+                <span
+                  style={{
+                    color: liveResult.result === "Pass" ? "green" : "red",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {liveResult.result}
+                </span>
+              </p>
+            </div>
+
+            <div className="ExamResult-modalActions">
+              <button onClick={() => setEditModal(false)}>Cancel</button>
+              <button onClick={handleUpdate}>Update</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

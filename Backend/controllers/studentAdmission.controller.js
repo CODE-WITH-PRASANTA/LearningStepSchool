@@ -3,10 +3,10 @@ const { deleteImageFile } = require("../middleware/upload");
 
 /* ================= HELPER ================= */
 
-const getFile = (file) => {
+const getFilePath = (file) => {
   if (!file) return null;
-  if (Array.isArray(file)) return file[0];
-  return file;
+  if (Array.isArray(file)) return file[0].path;
+  return file.path || file;
 };
 
 /* ================= PARSE ARRAY ================= */
@@ -27,30 +27,29 @@ const parseStudentBehaviour = (body) => {
 
 exports.createStudent = async (req, res) => {
   try {
-
-    /* FIX ARRAY */
     parseStudentBehaviour(req.body);
 
     const student = new Student({
       ...req.body,
 
-      studentPhoto: getFile(req.body.studentPhoto),
-      fatherPhoto: getFile(req.body.fatherPhoto),
-      motherPhoto: getFile(req.body.motherPhoto),
-      guardianPhoto: getFile(req.body.guardianPhoto),
+      // ✅ FIXED FILES
+      studentPhoto: getFilePath(req.files?.studentPhoto),
+      fatherPhoto: getFilePath(req.files?.fatherPhoto),
+      motherPhoto: getFilePath(req.files?.motherPhoto),
+      guardianPhoto: getFilePath(req.files?.guardianPhoto),
 
       documents: {
-        reportCard: getFile(req.body.reportCard),
-        tc: getFile(req.body.tc),
-        samagraId: getFile(req.body.samagraId),
-        nidaCard: getFile(req.body.nidaCard),
-        previousMarksheet: getFile(req.body.previousMarksheet),
-        dobCertificate: getFile(req.body.dobCertificate),
-        aadhaarStudent: getFile(req.body.aadhaarStudent),
-        aadhaarParent: getFile(req.body.aadhaarParent),
-        incomeCertificate: getFile(req.body.incomeCertificate),
-        pip: getFile(req.body.pip)
-      }
+        reportCard: getFilePath(req.files?.reportCard),
+        tc: getFilePath(req.files?.tc),
+        samagraId: getFilePath(req.files?.samagraId),
+        nidaCard: getFilePath(req.files?.nidaCard),
+        previousMarksheet: getFilePath(req.files?.previousMarksheet),
+        dobCertificate: getFilePath(req.files?.dobCertificate),
+        aadhaarStudent: getFilePath(req.files?.aadhaarStudent),
+        aadhaarParent: getFilePath(req.files?.aadhaarParent),
+        incomeCertificate: getFilePath(req.files?.incomeCertificate),
+        pip: getFilePath(req.files?.pip),
+      },
     });
 
     await student.save();
@@ -58,16 +57,15 @@ exports.createStudent = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Student Admission Successful",
-      data: student
+      data: student,
     });
 
   } catch (error) {
-
     console.error("CREATE STUDENT ERROR:", error);
 
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -76,42 +74,35 @@ exports.createStudent = async (req, res) => {
 
 exports.getStudents = async (req, res) => {
   try {
-
     const students = await Student.find().sort({ createdAt: -1 });
 
     res.json({
       success: true,
       count: students.length,
-      data: students
+      data: students,
     });
 
   } catch (error) {
-
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
+
+/* ================= GET STUDENT BY ID ================= */
 
 exports.getStudentById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // console.log("PARAM ID:", id);
-
     let student;
 
-    // ✅ CHECK IF MONGODB ID
     if (/^[0-9a-fA-F]{24}$/.test(id)) {
       student = await Student.findById(id);
     } else {
-      // ✅ OTHERWISE ADMISSION NO
       student = await Student.findOne({ admissionNo: id });
     }
-
-    console.log("FOUND:", student?.admissionNo);
 
     if (!student) {
       return res.status(404).json({
@@ -137,100 +128,66 @@ exports.getStudentById = async (req, res) => {
 
 exports.updateStudent = async (req, res) => {
   try {
-
     const student = await Student.findById(req.params.id);
 
     if (!student) {
       return res.status(404).json({
         success: false,
-        message: "Student not found"
+        message: "Student not found",
       });
     }
 
-    /* FIX ARRAY */
     parseStudentBehaviour(req.body);
 
     const updateData = { ...req.body };
 
-    /* ================= PHOTO UPDATES ================= */
+    /* ================= PHOTO ================= */
 
     if (req.files?.studentPhoto) {
       deleteImageFile(student.studentPhoto);
-      updateData.studentPhoto = req.files.studentPhoto[0].path;
+      updateData.studentPhoto = getFilePath(req.files.studentPhoto);
     }
 
     if (req.files?.fatherPhoto) {
       deleteImageFile(student.fatherPhoto);
-      updateData.fatherPhoto = req.files.fatherPhoto[0].path;
+      updateData.fatherPhoto = getFilePath(req.files.fatherPhoto);
     }
 
     if (req.files?.motherPhoto) {
       deleteImageFile(student.motherPhoto);
-      updateData.motherPhoto = req.files.motherPhoto[0].path;
+      updateData.motherPhoto = getFilePath(req.files.motherPhoto);
     }
 
     if (req.files?.guardianPhoto) {
       deleteImageFile(student.guardianPhoto);
-      updateData.guardianPhoto = req.files.guardianPhoto[0].path;
+      updateData.guardianPhoto = getFilePath(req.files.guardianPhoto);
     }
 
-    /* ================= DOCUMENT UPDATES ================= */
+    /* ================= DOCUMENT ================= */
 
     const documents = { ...student.documents };
 
-    if (req.files?.reportCard) {
-      deleteImageFile(student.documents?.reportCard);
-      documents.reportCard = req.files.reportCard[0].path;
-    }
+    const docFields = [
+      "reportCard",
+      "tc",
+      "samagraId",
+      "nidaCard",
+      "previousMarksheet",
+      "dobCertificate",
+      "aadhaarStudent",
+      "aadhaarParent",
+      "incomeCertificate",
+      "pip",
+    ];
 
-    if (req.files?.tc) {
-      deleteImageFile(student.documents?.tc);
-      documents.tc = req.files.tc[0].path;
-    }
-
-    if (req.files?.samagraId) {
-      deleteImageFile(student.documents?.samagraId);
-      documents.samagraId = req.files.samagraId[0].path;
-    }
-
-    if (req.files?.nidaCard) {
-      deleteImageFile(student.documents?.nidaCard);
-      documents.nidaCard = req.files.nidaCard[0].path;
-    }
-
-    if (req.files?.previousMarksheet) {
-      deleteImageFile(student.documents?.previousMarksheet);
-      documents.previousMarksheet = req.files.previousMarksheet[0].path;
-    }
-
-    if (req.files?.dobCertificate) {
-      deleteImageFile(student.documents?.dobCertificate);
-      documents.dobCertificate = req.files.dobCertificate[0].path;
-    }
-
-    if (req.files?.aadhaarStudent) {
-      deleteImageFile(student.documents?.aadhaarStudent);
-      documents.aadhaarStudent = req.files.aadhaarStudent[0].path;
-    }
-
-    if (req.files?.aadhaarParent) {
-      deleteImageFile(student.documents?.aadhaarParent);
-      documents.aadhaarParent = req.files.aadhaarParent[0].path;
-    }
-
-    if (req.files?.incomeCertificate) {
-      deleteImageFile(student.documents?.incomeCertificate);
-      documents.incomeCertificate = req.files.incomeCertificate[0].path;
-    }
-
-    if (req.files?.pip) {
-      deleteImageFile(student.documents?.pip);
-      documents.pip = req.files.pip[0].path;
-    }
+    docFields.forEach((field) => {
+      if (req.files?.[field]) {
+        deleteImageFile(student.documents?.[field]);
+        documents[field] = getFilePath(req.files[field]);
+      }
+    });
 
     updateData.documents = documents;
-
-    /* ================= UPDATE ================= */
 
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
@@ -241,58 +198,27 @@ exports.updateStudent = async (req, res) => {
     res.json({
       success: true,
       message: "Student updated successfully",
-      data: updatedStudent
+      data: updatedStudent,
     });
 
   } catch (error) {
-
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
-
-// ================= GET STUDENT BY ADMISSION NO =================
-
-// exports.getStudentByAdmissionNo = async (req, res) => {
-//   try {
-//     const student = await Student.findOne({
-//       admissionNo: req.params.admissionNo,
-//     });
-
-//     if (!student) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Student not found",
-//       });
-//     }
-
-//     res.json({
-//       success: true,
-//       data: student,
-//     });
-
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: error.message,
-//     });
-//   }
-// };
 
 /* ================= DELETE STUDENT ================= */
 
 exports.deleteStudent = async (req, res) => {
   try {
-
     const student = await Student.findById(req.params.id);
 
     if (!student) {
       return res.status(404).json({
         success: false,
-        message: "Student not found"
+        message: "Student not found",
       });
     }
 
@@ -301,31 +227,21 @@ exports.deleteStudent = async (req, res) => {
     deleteImageFile(student.motherPhoto);
     deleteImageFile(student.guardianPhoto);
 
-    deleteImageFile(student.documents?.reportCard);
-    deleteImageFile(student.documents?.tc);
-    deleteImageFile(student.documents?.samagraId);
-    deleteImageFile(student.documents?.nidaCard);
-    deleteImageFile(student.documents?.previousMarksheet);
-    deleteImageFile(student.documents?.dobCertificate);
-    deleteImageFile(student.documents?.aadhaarStudent);
-    deleteImageFile(student.documents?.aadhaarParent);
-    deleteImageFile(student.documents?.incomeCertificate);
-    deleteImageFile(student.documents?.pip);
+    Object.values(student.documents || {}).forEach((file) => {
+      deleteImageFile(file);
+    });
 
     await student.deleteOne();
 
     res.json({
       success: true,
-      message: "Student deleted successfully"
+      message: "Student deleted successfully",
     });
 
   } catch (error) {
-
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
-

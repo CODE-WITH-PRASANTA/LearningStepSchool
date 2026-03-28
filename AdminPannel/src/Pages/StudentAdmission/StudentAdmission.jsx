@@ -3,6 +3,7 @@ import AccordionSection from "../../Component/AccordionSection/AccordionSection"
 import API, { IMAGE_URL } from "../../api/axios";
 import { Download } from "lucide-react";
 import "./StudentAdmission.css";
+import { useNavigate } from "react-router-dom";
 
 const initialFormState = {
   admissionNo: "",
@@ -83,6 +84,7 @@ export default function StudentAdmission() {
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
   const [classes, setClasses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const id = localStorage.getItem("editStudentId");
@@ -98,6 +100,10 @@ export default function StudentAdmission() {
         setFormData({
           ...initialFormState,
           ...studentData,
+
+          // 🔥 ADD THIS LINE
+          documents: studentData.documents || {},
+
           studentBehaviour: Array.isArray(studentData.studentBehaviour)
             ? studentData.studentBehaviour
             : studentData.studentBehaviour
@@ -186,12 +192,22 @@ export default function StudentAdmission() {
       [name]: value,
     }));
   };
-
   const handleFileChange = (name, file) => {
     setFiles((prev) => ({
       ...prev,
       [name]: file,
     }));
+
+    // 🔥 ALSO update formData (IMPORTANT)
+    if (!file) {
+      setFormData((prev) => ({
+        ...prev,
+        documents: {
+          ...prev.documents,
+          [name]: null,
+        },
+      }));
+    }
   };
 
   const handleSubmit = async () => {
@@ -218,13 +234,14 @@ export default function StudentAdmission() {
       setLoading(true);
 
       const data = new FormData();
-
       Object.keys(formData).forEach((key) => {
         const value = formData[key];
 
-        if (value !== undefined && value !== null && value !== "") {
+        if (value !== undefined) {
           if (Array.isArray(value)) {
             data.append(key, JSON.stringify(value));
+          } else if (value === null) {
+            data.append(key, ""); // 🔥 FIX
           } else {
             data.append(key, value);
           }
@@ -249,7 +266,7 @@ export default function StudentAdmission() {
         alert("Student Updated Successfully");
 
         localStorage.removeItem("editStudentId");
-        window.location.href = "/student/admission/details";
+        navigate("/student/admission/details");
       } else {
         await API.post("/students", data, {
           headers: {
@@ -279,7 +296,10 @@ export default function StudentAdmission() {
           <h1 className="Student-Admission-Title">
             {editId ? "Edit Student" : "Student Admission"}
           </h1>
-          <button className="Student-Admission-DownloadBtn">
+          <button
+            className="Student-Admission-DownloadBtn"
+            onClick={() => window.print()}
+          >
             <Download size={18} />
             Download Form
           </button>
@@ -991,66 +1011,21 @@ export default function StudentAdmission() {
                 { label: "Aadhaar Card (Parent)", field: "aadhaarParent" },
                 { label: "Income Certificate", field: "incomeCertificate" },
                 { label: "PIP", field: "pip" },
-              ].map((item, index) => {
-                const existingFile = formData?.documents?.[item.field];
+              ].map((item, index) => (
+                <tr key={item.field}>
+                  <td>{index + 1}</td>
 
-                const fileUrl =
-                  existingFile && !existingFile.startsWith("http")
-                    ? `${IMAGE_URL}${existingFile}`
-                    : existingFile;
+                  <td className="Student-Admission-DocName">{item.label}</td>
 
-                return (
-                  <tr key={item.field}>
-                    <td>{index + 1}</td>
-
-                    <td className="Student-Admission-DocName">{item.label}</td>
-
-                    <td className="Student-Admission-DocumentCell">
-                      {existingFile && (
-                        <a
-                          href={fileUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="Student-Admission-ViewFile"
-                        >
-                          View File
-                        </a>
-                      )}
-
-                      <input
-                        type="file"
-                        name={item.field}
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        className="Student-Admission-FileInput"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-
-                          if (!file) return;
-
-                          if (file.size > 2 * 1024 * 1024) {
-                            alert("File must be under 2MB");
-                            return;
-                          }
-
-                          const allowedTypes = [
-                            "application/pdf",
-                            "image/jpeg",
-                            "image/png",
-                            "image/jpg",
-                          ];
-
-                          if (!allowedTypes.includes(file.type)) {
-                            alert("Only PDF, JPG, PNG allowed");
-                            return;
-                          }
-
-                          handleFileChange(item.field, file);
-                        }}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
+                  <td className="Student-Admission-DocumentCell">
+                    <DocumentUpload
+                      name={item.field}
+                      existingFile={(formData.documents || {})[item.field]}
+                      onFileChange={handleFileChange}
+                    />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </AccordionSection>
@@ -1166,42 +1141,79 @@ const FormTextarea = ({ label, name, onChange, value, disabled }) => (
     />
   </div>
 );
-
 const PhotoUploadBox = ({ name, onFileChange, existingImage }) => {
   const [preview, setPreview] = useState(null);
 
+  // ✅ LOAD EXISTING IMAGE (SAFE)
   useEffect(() => {
-    if (!existingImage) return;
+    if (!existingImage) {
+      setPreview(null);
+      return;
+    }
 
-    let imageUrl = existingImage;
+    let imagePath =
+      existingImage && typeof existingImage === "object"
+        ? existingImage?.path
+        : existingImage || null;
 
-    // If backend returns relative path
-    if (!existingImage.startsWith("http")) {
-      imageUrl = `${IMAGE_URL}${existingImage}`;
+    let imageUrl = imagePath;
+
+    if (
+      imagePath &&
+      typeof imagePath === "string" &&
+      !imagePath.startsWith("http")
+    ) {
+      imageUrl = `${IMAGE_URL}${imagePath}`;
     }
 
     setPreview(imageUrl);
   }, [existingImage]);
 
+  // ✅ CLEANUP (MEMORY LEAK FIX)
+  useEffect(() => {
+    return () => {
+      if (preview && preview.startsWith("blob:")) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
+
+  // ✅ HANDLE FILE CHANGE
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // ✅ SIZE CHECK
     if (file.size > 2 * 1024 * 1024) {
       alert("Image must be under 2MB");
       return;
     }
 
+    // ✅ TYPE CHECK
     const allowed = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
     if (!allowed.includes(file.type)) {
       alert("Only JPG, PNG, WEBP allowed");
       return;
     }
 
+    // ✅ CLEAN OLD PREVIEW
+    if (preview && preview.startsWith("blob:")) {
+      URL.revokeObjectURL(preview);
+    }
+
     const url = URL.createObjectURL(file);
     setPreview(url);
 
     onFileChange(name, file);
+  };
+
+  // ✅ REMOVE IMAGE
+  const handleRemove = () => {
+    if (preview && preview.startsWith("blob:")) {
+      URL.revokeObjectURL(preview);
+    }
+    setPreview(null);
+    onFileChange(name, null);
   };
 
   return (
@@ -1213,7 +1225,17 @@ const PhotoUploadBox = ({ name, onFileChange, existingImage }) => {
             alt="Preview"
             className="Student-Admission-PhotoPreview"
           />
+
           <div className="Student-Admission-PhotoOverlay">Change Photo</div>
+
+          {/* 🔥 REMOVE BUTTON */}
+          <button
+            type="button"
+            className="Student-Admission-RemoveBtn"
+            onClick={handleRemove}
+          >
+            Remove
+          </button>
         </>
       ) : (
         <div className="Student-Admission-PhotoPlaceholder">
@@ -1232,23 +1254,45 @@ const PhotoUploadBox = ({ name, onFileChange, existingImage }) => {
     </div>
   );
 };
+const DocumentUpload = ({ name, existingFile, onFileChange }) => {
+  // ✅ SAFE FILE PATH (no crash)
+  const filePath =
+    existingFile && typeof existingFile === "object"
+      ? existingFile?.path
+      : existingFile || null;
 
-const DocumentUpload = ({ name, label, existingFile, onFileChange }) => {
+  // ✅ SAFE URL
   const fileUrl =
-    existingFile && !existingFile.startsWith("http")
-      ? `${IMAGE_URL}${existingFile}`
-      : existingFile;
+    filePath && typeof filePath === "string" && !filePath.startsWith("http")
+      ? `${IMAGE_URL}${filePath}`
+      : filePath || "";
 
   return (
     <div className="Student-Admission-DocumentBox">
-      {existingFile && (
+      {/* ✅ FILE PREVIEW */}
+      {filePath && (
         <div className="Student-Admission-DocumentPreview">
           <a href={fileUrl} target="_blank" rel="noreferrer">
             View File
           </a>
+
+          {/* 🔥 Show file name */}
+          <p style={{ fontSize: "12px", color: "#666" }}>
+            {filePath.split("/").pop()}
+          </p>
+
+          {/* 🔥 REMOVE BUTTON */}
+          {/* <button
+            type="button"
+            className="Student-Admission-RemoveBtn"
+            onClick={() => onFileChange(name, null)}
+          >
+            Remove
+          </button> */}
         </div>
       )}
 
+      {/* ✅ FILE INPUT */}
       <input
         type="file"
         name={name}
@@ -1258,11 +1302,13 @@ const DocumentUpload = ({ name, label, existingFile, onFileChange }) => {
           const file = e.target.files?.[0];
           if (!file) return;
 
+          // ✅ SIZE CHECK
           if (file.size > 2 * 1024 * 1024) {
             alert("File must be under 2MB");
             return;
           }
 
+          // ✅ TYPE CHECK
           const allowedTypes = [
             "application/pdf",
             "image/jpeg",

@@ -16,7 +16,7 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
           margin: 0,
           filename: `${viewData.name}_Report.pdf`,
           html2canvas: {
-            scale: 2,
+            scale: 3,
             useCORS: true, // ✅ FIX
             allowTaint: true, // ✅ FIX
           },
@@ -30,6 +30,17 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
         .save();
     }, 500); // wait for image load
   };
+
+  const gradeConfig = [
+    { min: 91, grade: "A1", point: 10 },
+    { min: 81, grade: "A2", point: 9 },
+    { min: 71, grade: "B1", point: 8 },
+    { min: 61, grade: "B2", point: 7 },
+    { min: 51, grade: "C1", point: 6 },
+    { min: 41, grade: "C2", point: 5 },
+    { min: 33, grade: "D", point: 4 },
+    { min: 0, grade: "E", point: 0 },
+  ];
 
   return (
     <div className="reports-overlay">
@@ -131,25 +142,24 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
             <tbody>
               {viewData.subjects?.map((sub, i) => {
-                const getGrade = (marks) => {
-                  if (marks >= 91) return "A1";
-                  if (marks >= 81) return "A2";
-                  if (marks >= 71) return "B1";
-                  if (marks >= 61) return "B2";
-                  if (marks >= 51) return "C1";
-                  if (marks >= 41) return "C2";
-                  if (marks >= 33) return "D";
-                  return "E"; // Fail
+                const getGrade = (marks, fullMarks) => {
+                  if (!fullMarks) return "-";
+
+                  const percent = (marks / fullMarks) * 100;
+
+                  const found = gradeConfig.find((g) => percent >= g.min);
+
+                  return found ? found.grade : "-";
                 };
 
-                const grade = getGrade(sub.marks);
+                const grade = getGrade(sub.marks, sub.fullMarks);
 
                 return (
                   <tr key={i}>
                     <td className="reports-subject">{sub.subject}</td>
 
                     {/* FULL MARK */}
-                    <td className="full-mark">100</td>
+                    <td className="full-mark">{sub.fullMarks || "-"}</td>
 
                     <td className="mark">{sub.marks}</td>
 
@@ -164,7 +174,9 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
                     <td>-</td>
 
                     {/* TOTAL */}
-                    <td className="total">{sub.marks}</td>
+                    <td className="total">
+                      {sub.marks} / {sub.fullMarks || 100}
+                    </td>
                   </tr>
                 );
               })}
@@ -173,40 +185,37 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
         </div>
 
         {/* GRADING SCALE */}
-        <div className="reports-grade-scale">
-          <table className="reports-grade-table">
-            <thead>
-              <tr>
-                <th>Mark Range</th>
-                <th>91-100</th>
-                <th>0-33</th>
-                <th>22-32</th>
-                <th>81-91</th>
-                <th>71-81</th>
-                <th>61-70</th>
-                <th>51-60</th>
-                <th>41-50</th>
-                <th>80-100</th>
-                <th>62-80</th>
-                <th>40-60</th>
-              </tr>
-            </thead>
+        <div className="reports-grade-scale small">
+          <table className="reports-grade-table small">
             <tbody>
+              {/* 🔥 GRADE ROW */}
               <tr>
                 <td>
                   <b>Grade</b>
                 </td>
-                <td>A1</td>
-                <td>E1</td>
-                <td>TE</td>
-                <td>A2</td>
-                <td>B1</td>
-                <td>B2</td>
-                <td>C1</td>
-                <td>C2</td>
-                <td>A</td>
-                <td>B</td>
-                <td>D</td>
+                {gradeConfig.map((g, i) => (
+                  <td key={i}>{g.grade}</td>
+                ))}
+              </tr>
+
+              {/* 🔥 POINT ROW */}
+              <tr>
+                <td>
+                  <b>Point</b>
+                </td>
+                {gradeConfig.map((g, i) => (
+                  <td key={i}>{g.point}</td>
+                ))}
+              </tr>
+
+              {/* 🔥 MIN % ROW */}
+              <tr>
+                <td>
+                  <b>Min %</b>
+                </td>
+                {gradeConfig.map((g, i) => (
+                  <td key={i}>{g.min}+</td>
+                ))}
               </tr>
             </tbody>
           </table>
