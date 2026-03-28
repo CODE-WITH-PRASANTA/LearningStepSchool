@@ -183,10 +183,13 @@ exports.searchResult = async (req, res) => {
       });
     }
 
+   const cleanName = name.trim();
+    const cleanExam = exam.trim();
+
     const result = await ExamResult.findOne({
-      name: { $regex: new RegExp("^" + name + "$", "i") }, // case-insensitive
-      rollNumber: roll,
-      examType: { $regex: new RegExp("^" + exam + "$", "i") }
+      name: { $regex: new RegExp("^" + cleanName + "$", "i") },
+      rollNumber: roll.trim(),
+      examType: { $regex: new RegExp("^" + cleanExam + "$", "i") }
     });
 
     if (!result) {
