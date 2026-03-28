@@ -95,32 +95,41 @@ exports.getStudents = async (req, res) => {
   }
 };
 
-/* ================= GET SINGLE STUDENT ================= */
-
 exports.getStudentById = async (req, res) => {
   try {
+    const { id } = req.params;
 
-    const student = await Student.findById(req.params.id);
+    // console.log("PARAM ID:", id);
+
+    let student;
+
+    // ✅ CHECK IF MONGODB ID
+    if (/^[0-9a-fA-F]{24}$/.test(id)) {
+      student = await Student.findById(id);
+    } else {
+      // ✅ OTHERWISE ADMISSION NO
+      student = await Student.findOne({ admissionNo: id });
+    }
+
+    console.log("FOUND:", student?.admissionNo);
 
     if (!student) {
       return res.status(404).json({
         success: false,
-        message: "Student not found"
+        message: "Student not found",
       });
     }
 
     res.json({
       success: true,
-      data: student
+      data: student,
     });
 
   } catch (error) {
-
     res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
-
   }
 };
 
@@ -245,6 +254,34 @@ exports.updateStudent = async (req, res) => {
   }
 };
 
+// ================= GET STUDENT BY ADMISSION NO =================
+
+// exports.getStudentByAdmissionNo = async (req, res) => {
+//   try {
+//     const student = await Student.findOne({
+//       admissionNo: req.params.admissionNo,
+//     });
+
+//     if (!student) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Student not found",
+//       });
+//     }
+
+//     res.json({
+//       success: true,
+//       data: student,
+//     });
+
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
 /* ================= DELETE STUDENT ================= */
 
 exports.deleteStudent = async (req, res) => {
@@ -291,3 +328,4 @@ exports.deleteStudent = async (req, res) => {
 
   }
 };
+

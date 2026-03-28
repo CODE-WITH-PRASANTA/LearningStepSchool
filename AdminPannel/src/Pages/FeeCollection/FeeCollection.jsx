@@ -368,7 +368,6 @@ const FeeCollection = () => {
 
           <tbody>
             {currentRows.map((s, i) => {
-              console.log("Fee Row:", s);
               const amountValue = Number(s.amount || 0);
               const discountPercent =
                 s.discount !== undefined && s.discount !== null
@@ -424,7 +423,7 @@ const FeeCollection = () => {
 
                       {activeMenu === s._id && (
                         <div className="FeeCollection-actionDropdown">
-                          <button
+                          {/* <button
                             onClick={() => {
                               setSelectedFee(s);
                               setShowReceipt(true);
@@ -432,7 +431,7 @@ const FeeCollection = () => {
                             }}
                           >
                             View 
-                          </button>
+                          </button> */}
 
                           <button
                             onClick={() => {
@@ -619,12 +618,12 @@ const FeeCollection = () => {
         </div>
       )}
 
-      <ReceiptModal
+      {/* <ReceiptModal
         showReceipt={showReceipt}
         setShowReceipt={setShowReceipt}
         selectedFee={selectedFee}
         logo={logo}
-      />
+      /> */}
     </div>
   );
 };
