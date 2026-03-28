@@ -5,7 +5,7 @@ import { IMAGE_URL } from "../../Api/Api";
 
 const ReportModal = ({ viewData, setViewData, logo }) => {
   if (!viewData) return null;
-
+console.log(viewData);
   /* ================= PDF ================= */
   const handleDownloadPDF = () => {
     const element = document.getElementById("printArea");

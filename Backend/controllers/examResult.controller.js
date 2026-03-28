@@ -171,7 +171,8 @@ exports.deleteResult = async (req, res) => {
 };
 
 
-// ================= SEARCH RESULT =================
+const Student = require("../models/sudentAdmission.model");
+
 exports.searchResult = async (req, res) => {
   try {
     const { name, roll, exam } = req.query;
@@ -183,9 +184,10 @@ exports.searchResult = async (req, res) => {
       });
     }
 
-   const cleanName = name.trim();
+    const cleanName = name.trim();
     const cleanExam = exam.trim();
 
+    // ✅ FIND RESULT
     const result = await ExamResult.findOne({
       name: { $regex: new RegExp("^" + cleanName + "$", "i") },
       rollNumber: roll.trim(),
@@ -199,12 +201,34 @@ exports.searchResult = async (req, res) => {
       });
     }
 
+    let student = null;
+
+    try {
+      // ✅ SAFE STUDENT FETCH
+      student = await Student.findOne({
+        admissionNo: result.admissionNo
+      });
+    } catch (err) {
+      console.log("Student fetch error:", err.message);
+    }
+
+    // ✅ SAFE MERGE (NO CRASH)
+    const finalData = {
+      ...result.toObject(),
+      fatherName: student?.fatherName || "",
+      motherName: student?.motherName || "",
+      dob: student?.dob || "",
+      studentPhoto: student?.studentPhoto || ""
+    };
+
     res.json({
       success: true,
-      data: result
+      data: finalData
     });
 
   } catch (err) {
+    console.error("SEARCH ERROR:", err); // 🔥 IMPORTANT
+
     res.status(500).json({
       success: false,
       message: err.message

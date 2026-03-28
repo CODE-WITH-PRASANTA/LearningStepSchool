@@ -681,7 +681,22 @@
   background: #f1f5f9;
 }
 
+.reports-grade-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
 
+.reports-grade-table th {
+  background: #f4c542;
+  border: 1px solid #000;
+  padding: 8px;
+}
+
+.reports-grade-table td {
+  border: 1px solid #000;
+  padding: 8px;
+}
 
 /* =========================
    PERFECT PRINT (A4)
