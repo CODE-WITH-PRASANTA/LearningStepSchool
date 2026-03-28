@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./ExamResult.css";
-import API from "../../api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 import ReportModal from "../../Component/ReportModal/ReportModal";
@@ -31,6 +31,13 @@ const ExamResult = () => {
     fetchResults();
   }, []);
 
+  useEffect(() => {
+    const closeMenu = () => setMenuOpen(null);
+    window.addEventListener("click", closeMenu);
+
+    return () => window.removeEventListener("click", closeMenu);
+  }, []);
+
   /* ================= DELETE ================= */
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
@@ -40,7 +47,10 @@ const ExamResult = () => {
 
     try {
       await API.delete(`/exam-results/${id}`);
-      fetchResults();
+
+      // ✅ remove from UI instantly (NO API re-fetch)
+      setResults((prev) => prev.filter((item) => item._id !== id));
+
       setMenuOpen(null);
     } catch (err) {
       console.error(err);
@@ -52,29 +62,38 @@ const ExamResult = () => {
   const classOptions = useMemo(() => {
     return [
       ...new Set(
-        results.map(
-          (item) => item.classId?.className || item.class || item.className,
-        ),
+        results
+          .map(
+            (item) => item.classId?.className || item.class || item.className,
+          )
+          .filter(Boolean),
+      ),
+    ];
+  }, [results]);
+  const examOptions = useMemo(() => {
+    return [
+      ...new Set(
+        results.map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
       ),
     ];
   }, [results]);
 
-  const examOptions = useMemo(() => {
-    return [...new Set(results.map((item) => item.examType))];
-  }, [results]);
+  const filteredData = results
+    .filter((item) => {
+      const className =
+        item.classId?.className || item.class || item.className || "";
 
-  const filteredData = results.filter((item) => {
-    const className =
-      item.classId?.className || item.class || item.className || "";
-
-    return (
-      ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-        (item.admissionNo || "").toLowerCase().includes(search.toLowerCase()) ||
-        (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
-      (selectedClass ? className === selectedClass : true) &&
-      (selectedExam ? item.examType === selectedExam : true)
-    );
-  });
+      return (
+        ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+          (item.admissionNo || "")
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
+        (selectedClass ? className === selectedClass : true) &&
+        (selectedExam ? item.examType === selectedExam : true)
+      );
+    })
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)); // 🔥 ADD THIS
 
   useEffect(() => {
     setPage(1);
@@ -157,7 +176,7 @@ const ExamResult = () => {
             {currentRows.length === 0 ? (
               <tr>
                 <td colSpan="11" style={{ textAlign: "center" }}>
-                  No Data Found
+                  No results found
                 </td>
               </tr>
             ) : (
@@ -187,7 +206,9 @@ const ExamResult = () => {
                     <td>
                       {item.total || 0} / {fullMarks}
                     </td>
-                    <td>{item.percentage?.toFixed(2) || "0.00"}</td>
+                    <td>
+                      {item.percentage ? item.percentage.toFixed(2) : "0.00"}
+                    </td>
                     <td>{item.grade}</td>
                     <td>
                       <span className={`ExamResult-result ${item.result}`}>
@@ -198,15 +219,21 @@ const ExamResult = () => {
                     <td>
                       <div className="ExamResult-action">
                         <button
-                          onClick={() =>
-                            setMenuOpen(menuOpen === item._id ? null : item._id)
-                          }
+                          onClick={(e) => {
+                            e.stopPropagation(); // 🔥 VERY IMPORTANT
+                            setMenuOpen(
+                              menuOpen === item._id ? null : item._id,
+                            );
+                          }}
                         >
                           <FiMoreVertical />
                         </button>
 
                         {menuOpen === item._id && (
-                          <div className="ExamResult-dropdown">
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="ExamResult-dropdown"
+                          >
                             {/* ✅ UPDATED VIEW */}
                             <button
                               onClick={async () => {
@@ -253,10 +280,12 @@ const ExamResult = () => {
                                       "",
 
                                     // 🔥 ADD THIS
-                                    studentPhoto:
-                                      student.studentPhoto?.path ||
-                                      student.studentPhoto ||
-                                      "",
+                                    studentPhoto: student.studentPhoto
+                                      ? `${IMAGE_URL}${
+                                          student.studentPhoto.path ||
+                                          student.studentPhoto
+                                        }`
+                                      : "",
                                   };
 
                                   setViewData(mergedData);
