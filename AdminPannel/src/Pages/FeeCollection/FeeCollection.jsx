@@ -229,7 +229,12 @@ const FeeCollection = () => {
         paymentMethod,
         note,
 
-        feeType,
+        fees: [
+          {
+            feeType,
+            amount: Number(amount),
+          },
+        ],
         date,
       });
 
@@ -274,76 +279,74 @@ const FeeCollection = () => {
 
       {/* TOOLBAR */}
 
-     <div className="FeeCollection-toolbar">
+      <div className="FeeCollection-toolbar">
+        {/* SEARCH */}
+        <div className="FeeCollection-search">
+          <FiSearch />
+          <input
+            placeholder="Search..."
+            value={tableSearch}
+            onChange={(e) => setTableSearch(e.target.value)}
+          />
+        </div>
 
-  {/* SEARCH */}
-  <div className="FeeCollection-search">
-    <FiSearch />
-    <input
-      placeholder="Search..."
-      value={tableSearch}
-      onChange={(e) => setTableSearch(e.target.value)}
-    />
-  </div>
+        {/* CLASS DROPDOWN */}
+        <select
+          className="FeeCollection-select"
+          value={filterClass}
+          onChange={(e) => setFilterClass(e.target.value)}
+        >
+          <option value="">All Classes</option>
+          {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
+            <option key={i} value={cls}>
+              {cls}
+            </option>
+          ))}
+        </select>
 
-  {/* CLASS DROPDOWN */}
-  <select
-    className="FeeCollection-select"
-    value={filterClass}
-    onChange={(e) => setFilterClass(e.target.value)}
-  >
-    <option value="">All Classes</option>
-    {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
-      <option key={i} value={cls}>
-        {cls}
-      </option>
-    ))}
-  </select>
+        {/* MONTH DROPDOWN */}
+        <select
+          className="FeeCollection-select"
+          value={filterMonth}
+          onChange={(e) => setFilterMonth(e.target.value)}
+        >
+          <option value="">All Months</option>
+          {[...Array(12)].map((_, i) => (
+            <option key={i} value={i + 1}>
+              {new Date(0, i).toLocaleString("default", { month: "long" })}
+            </option>
+          ))}
+        </select>
 
-  {/* MONTH DROPDOWN */}
-  <select
-    className="FeeCollection-select"
-    value={filterMonth}
-    onChange={(e) => setFilterMonth(e.target.value)}
-  >
-    <option value="">All Months</option>
-    {[...Array(12)].map((_, i) => (
-      <option key={i} value={i + 1}>
-        {new Date(0, i).toLocaleString("default", { month: "long" })}
-      </option>
-    ))}
-  </select>
+        {/* DATE FROM */}
+        <input
+          type="date"
+          className="FeeCollection-date"
+          value={filterFromDate}
+          onChange={(e) => setFilterFromDate(e.target.value)}
+        />
 
-  {/* DATE FROM */}
-  <input
-    type="date"
-    className="FeeCollection-date"
-    value={filterFromDate}
-    onChange={(e) => setFilterFromDate(e.target.value)}
-  />
+        {/* DATE TO */}
+        <input
+          type="date"
+          className="FeeCollection-date"
+          value={filterToDate}
+          onChange={(e) => setFilterToDate(e.target.value)}
+        />
 
-  {/* DATE TO */}
-  <input
-    type="date"
-    className="FeeCollection-date"
-    value={filterToDate}
-    onChange={(e) => setFilterToDate(e.target.value)}
-  />
-
-  {/* RESET */}
-  <button
-    className="FeeCollection-resetBtn"
-    onClick={() => {
-      setFilterClass("");
-      setFilterMonth("");
-      setFilterFromDate("");
-      setFilterToDate("");
-    }}
-  >
-    Reset
-  </button>
-
-</div>
+        {/* RESET */}
+        <button
+          className="FeeCollection-resetBtn"
+          onClick={() => {
+            setFilterClass("");
+            setFilterMonth("");
+            setFilterFromDate("");
+            setFilterToDate("");
+          }}
+        >
+          Reset
+        </button>
+      </div>
 
       {/* TABLE */}
 
@@ -356,6 +359,7 @@ const FeeCollection = () => {
               <th>Name</th>
               <th>Roll</th>
               <th>Class</th>
+              <th>Fee Type</th> {/* ✅ NEW */}
               <th>Amount</th>
               <th>Discount %</th>
               <th>Paid</th>
@@ -368,27 +372,43 @@ const FeeCollection = () => {
 
           <tbody>
             {currentRows.map((s, i) => {
-              const amountValue = Number(s.amount || 0);
+              console.log(s);
+
+              // ✅ HANDLE OLD + NEW DATA
+              const amountValue = s.totalAmount
+                ? Number(s.totalAmount)
+                : Number(s.amount || 0);
+
               const discountPercent =
                 s.discount !== undefined && s.discount !== null
                   ? Number(s.discount)
                   : 0;
 
-              const discountAmount = (amountValue * discountPercent) / 100;
+              // ✅ FEE TYPE HANDLING
+              const feeTypeText =
+                s.fees && s.fees.length > 0
+                  ? s.fees.map((f) => f.feeType).join(", ")
+                  : s.feeType || "-";
 
               return (
                 <tr key={s._id}>
                   <td>{indexFirst + i + 1}</td>
 
-                  <td className="FeeCollection-admission">{s.admissionNo}</td>
+                  <td className="FeeCollection-admission">
+                    {s.admissionNo || "-"}
+                  </td>
 
-                  <td>{s.name}</td>
+                  <td>{s.name || "-"}</td>
 
-                  <td>{s.rollNumber}</td>
+                  <td>{s.rollNumber || "-"}</td>
 
                   <td>
-                    {s.class} ({s.section})
+                    {s.class || "-"} ({s.section || "-"})
                   </td>
+
+                  {/* ✅ NEW COLUMN */}
+                  <td>{feeTypeText}</td>
+
                   <td>₹{amountValue.toLocaleString("en-IN")}</td>
 
                   <td>{discountPercent}%</td>
@@ -405,7 +425,7 @@ const FeeCollection = () => {
 
                   <td>
                     <span className={`FeeCollection-status ${s.status}`}>
-                      {s.status}
+                      {s.status || "-"}
                     </span>
                   </td>
 
@@ -414,7 +434,7 @@ const FeeCollection = () => {
                       <button
                         className="FeeCollection-actionBtn"
                         onClick={(e) => {
-                          e.stopPropagation(); // ✅ IMPORTANT
+                          e.stopPropagation();
                           setActiveMenu(activeMenu === s._id ? null : s._id);
                         }}
                       >
@@ -423,16 +443,6 @@ const FeeCollection = () => {
 
                       {activeMenu === s._id && (
                         <div className="FeeCollection-actionDropdown">
-                          {/* <button
-                            onClick={() => {
-                              setSelectedFee(s);
-                              setShowReceipt(true);
-                              setActiveMenu(null);
-                            }}
-                          >
-                            View 
-                          </button> */}
-
                           <button
                             onClick={() => {
                               deleteFee(s._id);

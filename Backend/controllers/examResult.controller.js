@@ -1,4 +1,5 @@
 const ExamResult = require("../models/ExamResult.model");
+const Student = require("../models/sudentAdmission.model");
 
 // 🎯 GRADE
 const getGrade = (percentage) => {
@@ -171,7 +172,6 @@ exports.deleteResult = async (req, res) => {
 };
 
 
-const Student = require("../models/sudentAdmission.model");
 
 exports.searchResult = async (req, res) => {
   try {

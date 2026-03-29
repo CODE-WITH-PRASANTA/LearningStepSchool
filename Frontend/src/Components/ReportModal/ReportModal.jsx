@@ -5,7 +5,6 @@ import { IMAGE_URL } from "../../Api/Api";
 
 const ReportModal = ({ viewData, setViewData, logo }) => {
   if (!viewData) return null;
-console.log(viewData);
   /* ================= PDF ================= */
   const handleDownloadPDF = () => {
     const element = document.getElementById("printArea");
@@ -174,12 +173,12 @@ console.log(viewData);
 
         {/* SUMMARY */}
         <div className="reports-summary">
-          <p>
+          {/* <p>
             <b>Total:</b> {viewData.total} / {viewData.fullMarks}
-          </p>
-          <p>
+          </p> */}
+          {/* <p>
             <b>Percentage:</b> {viewData.percentage?.toFixed(2)}%
-          </p>
+          </p> */}
           <p>
             <b>Grade:</b> {viewData.grade}
           </p>

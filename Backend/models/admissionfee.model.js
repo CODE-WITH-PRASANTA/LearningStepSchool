@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const feeSchema = new mongoose.Schema(
   {
-    // 🔥 ADD THIS
     receiptNo: {
       type: Number,
       unique: true,
@@ -21,9 +20,26 @@ const feeSchema = new mongoose.Schema(
     class: String,
     section: String,
 
-    amount: Number,
+    // ✅ NEW (IMPORTANT)
+    fees: [
+      {
+        feeType: {
+          type: String,
+          required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+
+    // ✅ CALCULATED FIELDS
+    totalAmount: Number,
     paid: Number,
     due: Number,
+    discount: Number,
+    finalAmount: Number,
 
     paymentMethod: {
       type: String,
@@ -31,13 +47,7 @@ const feeSchema = new mongoose.Schema(
       default: "Cash",
     },
 
-    discount: Number,
     note: String,
-
-    feeType: {
-      type: String,
-      required: true,
-    },
 
     status: {
       type: String,
