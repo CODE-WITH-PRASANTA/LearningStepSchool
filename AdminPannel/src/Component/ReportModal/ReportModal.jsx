@@ -32,14 +32,11 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
   };
 
   const gradeConfig = [
-    { min: 91, grade: "A1", point: 10 },
-    { min: 81, grade: "A2", point: 9 },
-    { min: 71, grade: "B1", point: 8 },
-    { min: 61, grade: "B2", point: 7 },
-    { min: 51, grade: "C1", point: 6 },
-    { min: 41, grade: "C2", point: 5 },
-    { min: 33, grade: "D", point: 4 },
-    { min: 0, grade: "E", point: 0 },
+    { min: 81, max: 100, grade: "A" },
+    { min: 61, max: 80, grade: "B" },
+    { min: 41, max: 60, grade: "C" },
+    { min: 33, max: 40, grade: "D" },
+    { min: 0, max: 32, grade: "E" },
   ];
 
   return (
@@ -147,12 +144,16 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
                   const percent = (marks / fullMarks) * 100;
 
-                  const found = gradeConfig.find((g) => percent >= g.min);
+                  const found = gradeConfig.find(
+                    (g) => percent >= g.min && percent <= g.max,
+                  );
 
                   return found ? found.grade : "-";
                 };
 
                 const grade = getGrade(sub.marks, sub.fullMarks);
+
+                <td>{grade}</td>;
 
                 return (
                   <tr key={i}>
@@ -186,39 +187,27 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
         {/* GRADING SCALE */}
         <div className="reports-grade-scale small">
-          <table className="reports-grade-table small">
-            <tbody>
-              {/* 🔥 GRADE ROW */}
-              <tr>
-                <td>
-                  <b>Grade</b>
-                </td>
-                {gradeConfig.map((g, i) => (
-                  <td key={i}>{g.grade}</td>
-                ))}
-              </tr>
+         <table className="reports-grade-table small">
+  <tbody>
+    {/* HEADER ROW */}
+    <tr>
+      <td><b>Grade</b></td>
+      {gradeConfig.map((g, i) => (
+        <td key={i}>{g.grade}</td>
+      ))}
+    </tr>
 
-              {/* 🔥 POINT ROW */}
-              <tr>
-                <td>
-                  <b>Point</b>
-                </td>
-                {gradeConfig.map((g, i) => (
-                  <td key={i}>{g.point}</td>
-                ))}
-              </tr>
-
-              {/* 🔥 MIN % ROW */}
-              <tr>
-                <td>
-                  <b>Min %</b>
-                </td>
-                {gradeConfig.map((g, i) => (
-                  <td key={i}>{g.min}+</td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+    {/* MARKS ROW */}
+    <tr>
+      <td><b>Marks</b></td>
+      {gradeConfig.map((g, i) => (
+        <td key={i}>
+          {g.min}-{g.max}
+        </td>
+      ))}
+    </tr>
+  </tbody>
+</table>
         </div>
 
         {/* SUMMARY */}

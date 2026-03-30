@@ -1,4 +1,5 @@
 const ExamResult = require("../models/ExamResult.model");
+const Student = require("../models/sudentAdmission.model");
 
 // 🎯 GRADE
 const getGrade = (percentage) => {
@@ -181,10 +182,12 @@ exports.searchResult = async (req, res) => {
       });
     }
 
+    // ✅ CLEAN INPUT (ONLY ONCE)
     const cleanName = name.trim().replace(/\s+/g, " ");
     const cleanExam = exam.trim().replace(/\s+/g, " ");
-    const cleanRoll = roll.trim(); // 🔥 IMPORTANT
+    const cleanRoll = roll.trim();
 
+    // ✅ FIND RESULT
     const result = await ExamResult.findOne({
       rollNumber: cleanRoll,
       examType: { $regex: cleanExam, $options: "i" },
@@ -198,12 +201,32 @@ exports.searchResult = async (req, res) => {
       });
     }
 
+    let student = null;
+
+    try {
+      student = await Student.findOne({
+        admissionNo: result.admissionNo
+      });
+    } catch (err) {
+      console.log("Student fetch error:", err.message);
+    }
+
+    const finalData = {
+      ...result.toObject(),
+      fatherName: student?.fatherName || "",
+      motherName: student?.motherName || "",
+      dob: student?.dob || "",
+      studentPhoto: student?.studentPhoto || ""
+    };
+
     res.json({
       success: true,
-      data: result
+      data: finalData
     });
 
   } catch (err) {
+    console.error("SEARCH ERROR:", err);
+
     res.status(500).json({
       success: false,
       message: err.message
