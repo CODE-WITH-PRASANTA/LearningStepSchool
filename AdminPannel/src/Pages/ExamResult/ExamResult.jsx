@@ -4,13 +4,18 @@ import API, { IMAGE_URL } from "../../api/axios";
 import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 import ReportModal from "../../Component/ReportModal/ReportModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchResults,
+  removeResult,
+  updateResult,
+} from "../../utils/resultSlice";
 
 const ExamResult = () => {
   const [editData, setEditData] = useState(null);
   const [editModal, setEditModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(null);
   const [page, setPage] = useState(1);
-  const [results, setResults] = useState([]);
   const [search, setSearch] = useState("");
   const [viewData, setViewData] = useState(null);
 
@@ -19,19 +24,21 @@ const ExamResult = () => {
 
   const rowsPerPage = 10;
 
-  /* ================= FETCH ================= */
-  const fetchResults = async () => {
-    try {
-      const res = await API.get("/exam-results");
-      setResults(res.data.data || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const dispatch = useDispatch();
+
+  const {
+    data: results,
+    loading,
+    lastFetched,
+  } = useSelector((state) => state.results);
 
   useEffect(() => {
-    fetchResults();
-  }, []);
+    const isExpired = !lastFetched || Date.now() - lastFetched > 5 * 60 * 1000;
+
+    if (isExpired) {
+      dispatch(fetchResults());
+    }
+  }, [dispatch, lastFetched]);
 
   useEffect(() => {
     const closeMenu = () => setMenuOpen(null);
@@ -48,15 +55,18 @@ const ExamResult = () => {
     if (!confirmDelete) return;
 
     try {
+      // ⚡ instant remove from UI
+      if (id) dispatch(removeResult(id));
+
       await API.delete(`/exam-results/${id}`);
-
-      // ✅ remove from UI instantly (NO API re-fetch)
-      setResults((prev) => prev.filter((item) => item._id !== id));
-
-      setMenuOpen(null);
     } catch (err) {
       console.error(err);
       alert("Delete failed");
+
+      // 🔁 rollback if API fails
+      dispatch(fetchResults());
+    } finally {
+      setMenuOpen(null);
     }
   };
 
@@ -64,9 +74,10 @@ const ExamResult = () => {
   const classOptions = useMemo(() => {
     return [
       ...new Set(
-        results
+        (results || [])
           .map(
-            (item) => item.classId?.className || item.class || item.className,
+            (item) =>
+              item.classId?.className || item.class || item.className || "",
           )
           .filter(Boolean),
       ),
@@ -81,7 +92,7 @@ const ExamResult = () => {
     ];
   }, [results]);
 
-  const filteredData = results
+  const filteredData = (results || [])
     .filter((item) => {
       const className =
         item.classId?.className || item.class || item.className || "";
@@ -104,17 +115,19 @@ const ExamResult = () => {
 
   const handleUpdate = async () => {
     try {
-      const res = await API.put(`/exam-results/${editData._id}`, editData);
+      if (editData?._id) {
+        dispatch(updateResult(editData));
+      }
 
-      // ✅ update UI instantly
-      setResults((prev) =>
-        prev.map((item) => (item._id === editData._id ? res.data.data : item)),
-      );
-
-      setEditModal(false);
+      await API.put(`/exam-results/${editData._id}`, editData);
     } catch (err) {
       console.error(err);
       alert("Update failed");
+
+      // 🔁 rollback if error
+      dispatch(fetchResults());
+    } finally {
+      setEditModal(false);
     }
   };
 
@@ -233,176 +246,183 @@ const ExamResult = () => {
         </div>
       </div>
 
-      {/* TABLE */}
-      <div className="ExamResult-tableWrapper">
-        <table className="ExamResult-table">
-          <thead>
-            <tr>
-              <th>S.L</th>
-              <th>Admission No</th>
-              <th>Name</th>
-              <th>Roll No</th>
-              <th>Class</th>
-              <th>Exam</th>
-              <th>Grand Total</th>
-              <th>Percent (%)</th>
-              <th>Grade</th>
-              <th>Result</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {currentRows.length === 0 ? (
+      {loading ? (
+        <div style={{ textAlign: "center", padding: "40px" }}>
+          Loading results...
+        </div>
+      ) : (
+        <div className="ExamResult-tableWrapper">
+          <table className="ExamResult-table">
+            <thead>
               <tr>
-                <td colSpan="11" style={{ textAlign: "center" }}>
-                  No results found
-                </td>
+                <th>S.L</th>
+                <th>Admission No</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Exam</th>
+                <th>Grand Total</th>
+                <th>Percent (%)</th>
+                <th>Grade</th>
+                <th>Result</th>
+                <th>Action</th>
               </tr>
-            ) : (
-              currentRows.map((item, index) => {
-                const className =
-                  item.classId?.className ||
-                  item.class ||
-                  item.className ||
-                  "N/A";
+            </thead>
 
-                const fullMarks =
-                  item.fullMarks ||
-                  item.subjects?.reduce(
-                    (sum, s) => sum + (s.fullMarks || 0),
-                    0,
-                  ) ||
-                  0;
+            <tbody>
+              {currentRows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="11"
+                    style={{ textAlign: "center", padding: "20px" }}
+                  >
+                    🚫 No results found
+                  </td>
+                </tr>
+              ) : (
+                currentRows.map((item, index) => {
+                  const className =
+                    item.classId?.className ||
+                    item.class ||
+                    item.className ||
+                    "N/A";
 
-                return (
-                  <tr key={item._id}>
-                    <td>{indexFirst + index + 1}</td>
-                    <td>{item.admissionNo}</td>
-                    <td>{item.name}</td>
-                    <td>{item.rollNumber}</td>
-                    <td>{className}</td>
-                    <td>{item.examType}</td>
-                    <td>
-                      {item.total || 0} / {fullMarks}
-                    </td>
-                    <td>
-                      {item.percentage ? item.percentage.toFixed(2) : "0.00"}
-                    </td>
-                    <td>{item.grade}</td>
-                    <td>
-                      <span className={`ExamResult-result ${item.result}`}>
-                        {item.result}
-                      </span>
-                    </td>
+                  const fullMarks =
+                    item.fullMarks ||
+                    item.subjects?.reduce(
+                      (sum, s) => sum + (s.fullMarks || 0),
+                      0,
+                    ) ||
+                    0;
 
-                    <td>
-                      <div className="ExamResult-action">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // 🔥 VERY IMPORTANT
-                            setMenuOpen(
-                              menuOpen === item._id ? null : item._id,
-                            );
-                          }}
-                        >
-                          <FiMoreVertical />
-                        </button>
+                  return (
+                    <tr key={item._id}>
+                      <td>{indexFirst + index + 1}</td>
+                      <td>{item.admissionNo}</td>
+                      <td>{item.name}</td>
+                      <td>{item.rollNumber}</td>
+                      <td>{className}</td>
+                      <td>{item.examType}</td>
+                      <td>
+                        {item.total || 0} / {fullMarks}
+                      </td>
+                      <td>
+                        {item.percentage ? item.percentage.toFixed(2) : "0.00"}
+                      </td>
+                      <td>{item.grade}</td>
+                      <td>
+                        <span className={`ExamResult-result ${item.result}`}>
+                          {item.result}
+                        </span>
+                      </td>
 
-                        {menuOpen === item._id && (
-                          <div
-                            onClick={(e) => e.stopPropagation()}
-                            className="ExamResult-dropdown"
+                      <td>
+                        <div className="ExamResult-action">
+                          <button
+                            disabled={loading}
+                            onClick={(e) => {
+                              e.stopPropagation(); // 🔥 VERY IMPORTANT
+                              setMenuOpen(
+                                menuOpen === item._id ? null : item._id,
+                              );
+                            }}
                           >
-                            {/* ✅ UPDATED VIEW */}
-                            <button
-                              onClick={async () => {
-                                try {
-                                  const res = await API.get(
-                                    `/students/${item.admissionNo}`,
-                                  );
+                            <FiMoreVertical />
+                          </button>
 
-                                  // console.log("API RESPONSE:", res.data);
-
-                                  const student = res.data.data || {};
-
-                                  // console.log("STUDENT DATA:", student);
-
-                                  const mergedData = {
-                                    ...item,
-
-                                    name:
-                                      student.name ||
-                                      `${student.firstName || ""} ${student.lastName || ""}`.trim(),
-
-                                    fatherName: student.fatherName || "",
-                                    motherName: student.motherName || "",
-                                    aadhaarNumber: student.aadhaarNumber || "",
-                                    bloodGroup: student.bloodGroup || "",
-                                    height: student.height || "",
-                                    weight: student.weight || "",
-                                    penNo: student.penNo || "",
-                                    houseName: student.houseName || "",
-                                    dob: student.dob || "",
-
-                                    rollNumber:
-                                      student.rollNumber ||
-                                      item.rollNumber ||
-                                      "",
-                                    class:
-                                      student.className ||
-                                      student.class ||
-                                      item.class ||
-                                      "",
-
-                                    // 🔥 ADD THIS
-                                    studentPhoto: student.studentPhoto
-                                      ? `${IMAGE_URL}${
-                                          student.studentPhoto.path ||
-                                          student.studentPhoto
-                                        }`
-                                      : "",
-                                  };
-
-                                  setViewData(mergedData);
-                                } catch (error) {
-                                  console.error("Fetch error:", error);
-                                  setViewData(item);
-                                }
-
-                                setMenuOpen(null);
-                              }}
+                          {menuOpen === item._id && (
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="ExamResult-dropdown"
                             >
-                              <FiEye /> View
-                            </button>
+                              {/* ✅ UPDATED VIEW */}
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const res = await API.get(
+                                      `/students/${item.admissionNo}`,
+                                    );
 
-                            <button
-                              onClick={() => {
-                                setEditData(item); // store data
-                                setEditModal(true); // open modal
-                                setMenuOpen(null);
-                              }}
-                            >
-                              ✏️ Edit
-                            </button>
+                                    const student = res.data.data || {};
 
-                            <button
-                              style={{ color: "red" }}
-                              onClick={() => handleDelete(item._id)}
-                            >
-                              🗑 Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
+                                    const mergedData = {
+                                      ...item,
+
+                                      name:
+                                        student.name ||
+                                        `${student.firstName || ""} ${student.lastName || ""}`.trim(),
+
+                                      fatherName: student.fatherName || "",
+                                      motherName: student.motherName || "",
+                                      aadhaarNumber:
+                                        student.aadhaarNumber || "",
+                                      bloodGroup: student.bloodGroup || "",
+                                      height: student.height || "",
+                                      weight: student.weight || "",
+                                      penNo: student.penNo || "",
+                                      houseName: student.houseName || "",
+                                      dob: student.dob || "",
+
+                                      rollNumber:
+                                        student.rollNumber ||
+                                        item.rollNumber ||
+                                        "",
+                                      class:
+                                        student.className ||
+                                        student.class ||
+                                        item.class ||
+                                        "",
+
+                                      // 🔥 ADD THIS
+                                      studentPhoto: student.studentPhoto
+                                        ? `${IMAGE_URL}${
+                                            student.studentPhoto.path ||
+                                            student.studentPhoto
+                                          }`
+                                        : "",
+                                    };
+
+                                    setViewData(mergedData);
+                                  } catch (error) {
+                                    console.error("Fetch error:", error);
+                                    setViewData(item);
+                                  }
+
+                                  setMenuOpen(null);
+                                }}
+                              >
+                                <FiEye /> View
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  setEditData(item); // store data
+                                  setEditModal(true); // open modal
+                                  setMenuOpen(null);
+                                }}
+                              >
+                                ✏️ Edit
+                              </button>
+
+                              <button
+                                disabled={loading}
+                                style={{ color: "red" }}
+                                onClick={() => handleDelete(item._id)}
+                              >
+                                🗑 Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* PAGINATION */}
       <div className="ExamResult-pagination">
@@ -567,7 +587,9 @@ const ExamResult = () => {
 
             <div className="ExamResult-modalActions">
               <button onClick={() => setEditModal(false)}>Cancel</button>
-              <button onClick={handleUpdate}>Update</button>
+              <button disabled={loading} onClick={handleUpdate}>
+                {loading ? "Updating..." : "Update"}
+              </button>
             </div>
           </div>
         </div>
