@@ -72,15 +72,43 @@ const PaymentRecipt = () => {
   };
 
   const handleView = (item) => {
-    const win = window.open("", "_blank");
+  const win = window.open("", "_blank");
 
-    const logoUrl = logo; // ✅ your imported logo
+  const logoUrl = logo;
 
-    const total = item.amount || 0;
-    const discountAmount = (total * (item.discount || 0)) / 100;
-    const finalAmount = total - discountAmount;
+  // ✅ HANDLE BOTH OLD + NEW DATA
+  const fees =
+    Array.isArray(item.fees) && item.fees.length > 0
+      ? item.fees
+      : [
+          {
+            feeType: item.feeType || "Fee",
+            amount: item.amount || 0,
+          },
+        ];
 
-    win.document.write(`
+  // ✅ TOTAL CALCULATION
+  const total =
+    item.totalAmount ||
+    fees.reduce((sum, f) => sum + Number(f.amount || 0), 0);
+
+  const discount = Number(item.discount || 0);
+  const discountAmount = (total * discount) / 100;
+  const finalAmount = item.finalAmount || total - discountAmount;
+
+  // ✅ GENERATE MULTIPLE FEE ROWS
+  const feeRows = fees
+    .map(
+      (f) => `
+        <tr>
+          <td>${f.feeType || "-"}</td>
+          <td>₹ ${Number(f.amount || 0).toLocaleString("en-IN")}</td>
+        </tr>
+      `
+    )
+    .join("");
+
+  win.document.write(`
   <html>
     <head>
       <title>Receipt</title>
@@ -99,7 +127,6 @@ const PaymentRecipt = () => {
           padding: 15px;
         }
 
-        /* HEADER */
         .header-table {
           width: 100%;
           border-bottom: 2px solid #000;
@@ -117,7 +144,6 @@ const PaymentRecipt = () => {
           text-align: center;
         }
 
-        /* TABLES */
         .info-table, .fee-table {
           width: 100%;
           border-collapse: collapse;
@@ -134,7 +160,6 @@ const PaymentRecipt = () => {
           background: #d1e7dd;
         }
 
-        /* FOOTER */
         .footer {
           display: flex;
           justify-content: space-between;
@@ -154,14 +179,13 @@ const PaymentRecipt = () => {
         .sign {
           text-align: right;
         }
-
       </style>
     </head>
 
     <body>
       <div class="receipt">
 
-        <!-- HEADER WITH LOGO -->
+        <!-- HEADER -->
         <table class="header-table">
           <tr>
             <td style="width:100px;">
@@ -182,7 +206,11 @@ const PaymentRecipt = () => {
         <table class="info-table">
           <tr>
             <td><b>Receipt No:</b> ${item.receiptNo || "-"}</td>
-            <td><b>Date:</b> ${formatDate(item.date)}</td>
+            <td><b>Date:</b> ${
+              item.date
+                ? new Date(item.date).toLocaleDateString("en-IN")
+                : "-"
+            }</td>
           </tr>
           <tr>
             <td><b>Name:</b> ${item.name || "-"}</td>
@@ -205,34 +233,31 @@ const PaymentRecipt = () => {
             <th>Amount</th>
           </tr>
 
-          <tr>
-            <td>${item.feeType || "Fee"}</td>
-            <td>₹ ${item.amount || 0}</td>
-          </tr>
+          ${feeRows}
 
           <tr>
             <td><b>Total</b></td>
-            <td>₹ ${total}</td>
+            <td>₹ ${total.toLocaleString("en-IN")}</td>
           </tr>
 
           <tr>
-            <td>Discount (${item.discount || 0}%)</td>
-            <td>- ₹ ${discountAmount}</td>
+            <td>Discount (${discount}%)</td>
+            <td>- ₹ ${discountAmount.toLocaleString("en-IN")}</td>
           </tr>
 
           <tr>
             <td><b>Final Amount</b></td>
-            <td>₹ ${finalAmount}</td>
+            <td>₹ ${finalAmount.toLocaleString("en-IN")}</td>
           </tr>
 
           <tr>
             <td>Paid</td>
-            <td>₹ ${item.paid || 0}</td>
+            <td>₹ ${Number(item.paid || 0).toLocaleString("en-IN")}</td>
           </tr>
 
           <tr>
             <td>Due</td>
-            <td>₹ ${item.due || 0}</td>
+            <td>₹ ${Number(item.due || 0).toLocaleString("en-IN")}</td>
           </tr>
         </table>
 
@@ -251,8 +276,8 @@ const PaymentRecipt = () => {
   </html>
   `);
 
-    win.document.close();
-  };
+  win.document.close();
+};
 
   // ================= DOWNLOAD RECEIPT =================
   const handleDownload = (item) => {
@@ -521,7 +546,6 @@ const PaymentRecipt = () => {
                 <th>Student Name</th>
                 <th>Admission No</th>
                 <th>Fee Types</th>
-
                 <th>Status</th>
                 <th>Date</th>
                 <th>Amount</th>
@@ -532,35 +556,77 @@ const PaymentRecipt = () => {
             </thead>
 
             <tbody>
-              {currentData.map((item, index) => (
-                <tr key={item._id || index}>
-                  <td>{indexOfFirst + index + 1}</td>
-                  <td>{item.receiptNo || "-"}</td>
-                  <td>{item.name || "-"}</td>
-                  <td>{item.admissionNo || "-"}</td>
-                  <td>{item.feeType || "-"}</td>
+              {currentData.map((item, index) => {
+                // ✅ HANDLE FEES (NEW + OLD)
+                const fees =
+                  Array.isArray(item.fees) && item.fees.length > 0
+                    ? item.fees
+                    : [
+                        {
+                          feeType: item.feeType || "Fee",
+                          amount: item.amount || 0,
+                        },
+                      ];
 
-                  <td className="paid">{item.status || "Paid"}</td>
-                  <td>{formatDate(item.date)}</td>
-                  <td>{item.amount || 0}</td>
-                  <td>{item.discount || 0}%</td>
-                  <td>{item.paid || 0}</td>
-                  <td>
-                    <div className="paymentRecipt-actions">
-                      <button className="view" onClick={() => handleView(item)}>
-                        <FaEye />
-                      </button>
+                // ✅ FEE TYPES TEXT
+                const feeTypeText = fees.map((f) => f.feeType).join(", ");
 
-                      <button
-                        className="download"
-                        onClick={() => handleDownload(item)}
-                      >
-                        <FaDownload />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                // ✅ TOTAL AMOUNT
+                const totalAmount =
+                  item.totalAmount ||
+                  fees.reduce((sum, f) => sum + Number(f.amount || 0), 0);
+
+                // ✅ FINAL AMOUNT AFTER DISCOUNT
+                const discount = Number(item.discount || 0);
+                const discountAmount = (totalAmount * discount) / 100;
+                const finalAmount =
+                  item.finalAmount || totalAmount - discountAmount;
+
+                return (
+                  <tr key={item._id || index}>
+                    <td>{indexOfFirst + index + 1}</td>
+
+                    <td>{item.receiptNo || "-"}</td>
+
+                    <td>{item.name || "-"}</td>
+
+                    <td>{item.admissionNo || "-"}</td>
+
+                    {/* ✅ FIXED */}
+                    <td>{feeTypeText}</td>
+
+                    <td className="paid">{item.status || "Paid"}</td>
+
+                    <td>{formatDate(item.date)}</td>
+
+                    {/* ✅ FIXED */}
+                    <td>₹{totalAmount.toLocaleString("en-IN")}</td>
+
+                    <td>{discount}%</td>
+
+                    {/* ✅ FINAL AMOUNT */}
+                    <td>₹{finalAmount.toLocaleString("en-IN")}</td>
+
+                    <td>
+                      <div className="paymentRecipt-actions">
+                        <button
+                          className="view"
+                          onClick={() => handleView(item)}
+                        >
+                          <FaEye />
+                        </button>
+
+                        <button
+                          className="download"
+                          onClick={() => handleDownload(item)}
+                        >
+                          <FaDownload />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -267,6 +267,43 @@
     color: white;
 }
 
+
+.pagination-controls {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.pagination-controls button {
+    padding: 6px 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.pagination-controls button:hover {
+    background: #ddd;
+}
+
+.pagination-controls button.active {
+    background: #667eea;
+    color: white;
+}
+
+.pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-controls button.active {
+    background: #667eea;
+    color: white;
+    transform: scale(1.1);
+}
+
 /* 🔥 ANIMATION */
 @keyframes fadeIn {
     from {
