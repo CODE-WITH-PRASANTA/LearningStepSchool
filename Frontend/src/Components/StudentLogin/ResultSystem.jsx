@@ -1,42 +1,73 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./ResultSystem.css";
 import API from "../../Api/Api";
 import logo from "../../assets/LearningStepLogo.png";
 import ReportModal from "../ReportModal/ReportModal";
 
 const ResultSystem = () => {
+  const [searchType, setSearchType] = useState("roll");
+
   const [form, setForm] = useState({
     name: "",
     roll: "",
     exam: "",
+    className: "",
+    dob: "",
   });
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [examTypes, setExamTypes] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchExamTypes = async () => {
+    const fetchData = async () => {
       try {
-        const res = await API.get("/exam-types/published");
-        setExamTypes(res.data.data || []);
+        const [examRes, classRes] = await Promise.all([
+          API.get("/exam-types/published"),
+          API.get("/classes"),
+        ]);
+
+        setExamTypes(examRes.data.data || []);
+        setClasses(classRes.data.data || []);
       } catch (err) {
         console.error(err);
       }
     };
-    fetchExamTypes();
+
+    fetchData();
   }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError(""); // 🔥 add this
+    setError("");
+  };
+
+  const switchToRoll = () => {
+    setSearchType("roll");
+    setForm({ ...form, className: "", dob: "" });
+    setError("");
+  };
+
+  const switchToDetails = () => {
+    setSearchType("details");
+    setForm({ ...form, roll: "" });
+    setError("");
   };
 
   const handleSubmit = async () => {
-    if (!form.name || !form.roll || !form.exam) {
-      setError("Please fill all fields");
-      return;
+    // ✅ VALIDATION FIRST
+    if (searchType === "roll") {
+      if (!form.name || !form.roll || !form.exam) {
+        setError("Please fill all fields");
+        return;
+      }
+    } else {
+      if (!form.name || !form.className || !form.dob || !form.exam) {
+        setError("Please fill all fields");
+        return;
+      }
     }
 
     try {
@@ -44,22 +75,31 @@ const ResultSystem = () => {
       setError("");
       setResult(null);
 
-      const res = await API.get("/exam-results/search", {
-        params: {
+      let params = {};
+
+      if (searchType === "roll") {
+        params = {
           name: form.name.trim(),
-          roll: form.roll.trim(), // 🔥 match backend
-          exam: form.exam.trim(), // 🔥 match backend
-        },
-      });
+          roll: form.roll.trim(),
+          exam: form.exam.trim(),
+        };
+      } else {
+        params = {
+          name: form.name.trim(),
+          className: form.className.trim(),
+          dob: form.dob,
+          exam: form.exam.trim(),
+        };
+      }
 
-      const data = res.data.data;
+      const res = await API.get("/exam-results/search", { params });
 
-      if (!data) {
+      if (!res.data.data) {
         setError("Result not found");
         return;
       }
 
-      setResult(data);
+      setResult(res.data.data);
     } catch (err) {
       if (err.response?.status === 404) {
         setError("Result not found");
@@ -76,6 +116,22 @@ const ResultSystem = () => {
       <div className="result-box">
         <h1 className="result-title">🎓 Exam Result Portal</h1>
 
+        {/* Toggle */}
+        <div className="search-toggle">
+          <button
+            className={searchType === "roll" ? "active" : ""}
+            onClick={switchToRoll}
+          >
+            Roll Search
+          </button>
+          <button
+            className={searchType === "details" ? "active" : ""}
+            onClick={switchToDetails}
+          >
+            Without Roll
+          </button>
+        </div>
+
         <div className="result-form">
           <input
             type="text"
@@ -85,13 +141,43 @@ const ResultSystem = () => {
             onChange={handleChange}
           />
 
-          <input
-            type="text"
-            name="roll"
-            placeholder="Enter Roll Number"
-            value={form.roll}
-            onChange={handleChange}
-          />
+          {searchType === "roll" && (
+            <input
+              type="text"
+              name="roll"
+              placeholder="Enter Roll Number"
+              value={form.roll}
+              onChange={handleChange}
+            />
+          )}
+
+          {searchType === "details" && (
+            <>
+              <select
+                name="className"
+                value={form.className}
+                onChange={handleChange}
+              >
+                <option value="">Select Class</option>
+                {classes.length === 0 ? (
+                  <option disabled>Loading...</option>
+                ) : (
+                  classes.map((cls) => (
+                    <option key={cls._id} value={cls.className}>
+                      {cls.className}
+                    </option>
+                  ))
+                )}
+              </select>
+
+              <input
+                type="date"
+                name="dob"
+                value={form.dob}
+                onChange={handleChange}
+              />
+            </>
+          )}
 
           <select name="exam" value={form.exam} onChange={handleChange}>
             <option value="">Select Exam</option>
@@ -102,15 +188,14 @@ const ResultSystem = () => {
             ))}
           </select>
 
-          <button onClick={handleSubmit}>
-            {loading ? "Loading..." : "Check Result"}
+          <button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Checking..." : "Check Result"}
           </button>
 
           {error && <p className="error-text">{error}</p>}
         </div>
       </div>
 
-      {/* ✅ MODAL */}
       {result && (
         <ReportModal viewData={result} setViewData={setResult} logo={logo} />
       )}

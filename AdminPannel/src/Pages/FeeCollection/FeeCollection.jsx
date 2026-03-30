@@ -372,7 +372,6 @@ const FeeCollection = () => {
 
           <tbody>
             {currentRows.map((s, i) => {
-              console.log(s);
 
               // ✅ HANDLE OLD + NEW DATA
               const amountValue = s.totalAmount

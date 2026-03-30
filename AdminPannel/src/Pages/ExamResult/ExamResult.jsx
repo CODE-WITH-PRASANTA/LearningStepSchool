@@ -17,7 +17,7 @@ const ExamResult = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
   /* ================= FETCH ================= */
   const fetchResults = async () => {
@@ -72,6 +72,7 @@ const ExamResult = () => {
       ),
     ];
   }, [results]);
+
   const examOptions = useMemo(() => {
     return [
       ...new Set(
@@ -118,10 +119,33 @@ const ExamResult = () => {
   };
 
   /* ================= PAGINATION ================= */
+  // ✅ PAGINATION CORE
   const totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
+
   const indexLast = page * rowsPerPage;
   const indexFirst = indexLast - rowsPerPage;
+
   const currentRows = filteredData.slice(indexFirst, indexLast);
+
+  const pageLimit = 5;
+
+  const startPage = Math.floor((page - 1) / pageLimit) * pageLimit + 1;
+  const endPage = Math.min(startPage + pageLimit - 1, totalPages);
+
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [filteredData, totalPages]);
 
   const calculateResult = () => {
     const subjects = editData?.subjects || [];
@@ -294,7 +318,6 @@ const ExamResult = () => {
                             <button
                               onClick={async () => {
                                 try {
-                                 
                                   const res = await API.get(
                                     `/students/${item.admissionNo}`,
                                   );
@@ -388,26 +411,45 @@ const ExamResult = () => {
           {Math.min(indexLast, filteredData.length)} of {filteredData.length}
         </p>
 
-        <div>
-          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+        <div className="pagination-controls">
+          {/* FIRST */}
+          <button disabled={page === 1} onClick={() => setPage(1)}>
+            {"<<"}
+          </button>
+
+          {/* PREVIOUS */}
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          >
             {"<"}
           </button>
 
-          {[...Array(totalPages)].map((_, i) => (
+          {/* PAGE NUMBERS (ONLY 5) */}
+          {pageNumbers.map((num) => (
             <button
-              key={i}
-              className={page === i + 1 ? "active" : ""}
-              onClick={() => setPage(i + 1)}
+              key={num}
+              className={page === num ? "active" : ""}
+              onClick={() => setPage(num)}
             >
-              {i + 1}
+              {num}
             </button>
           ))}
 
+          {/* NEXT */}
           <button
             disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           >
             {">"}
+          </button>
+
+          {/* LAST */}
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage(totalPages)}
+          >
+            {">>"}
           </button>
         </div>
       </div>

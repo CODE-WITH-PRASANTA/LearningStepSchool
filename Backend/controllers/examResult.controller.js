@@ -13,7 +13,7 @@ const getGrade = (percentage) => {
 // 🎯 RESULT
 const getResult = (subjects) => {
   const failed = subjects.some(
-    (s) => Number(s.marks) < Number(s.fullMarks) * 0.35
+    (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
   );
   return failed ? "Fail" : "Pass";
 };
@@ -28,29 +28,27 @@ exports.createResult = async (req, res) => {
       classId,
       class: className, // ✅ NEW
       examType,
-      subjects
+      subjects,
     } = req.body;
 
     if (!subjects || subjects.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Subjects required"
+        message: "Subjects required",
       });
     }
 
     const totalMarks = subjects.reduce(
       (sum, s) => sum + Number(s.marks || 0),
-      0
+      0,
     );
 
     const totalFullMarks = subjects.reduce(
       (sum, s) => sum + Number(s.fullMarks || 0),
-      0
+      0,
     );
 
-    const percentage = totalFullMarks
-      ? (totalMarks / totalFullMarks) * 100
-      : 0;
+    const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
 
     const grade = getGrade(percentage);
     const result = getResult(subjects);
@@ -67,15 +65,14 @@ exports.createResult = async (req, res) => {
       fullMarks: totalFullMarks,
       percentage,
       grade,
-      result
+      result,
     });
 
     res.json({ success: true, data });
-
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
 };
@@ -88,11 +85,10 @@ exports.getResults = async (req, res) => {
       .sort({ createdAt: -1 });
 
     res.json({ success: true, data });
-
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
 };
@@ -102,29 +98,27 @@ exports.updateResult = async (req, res) => {
   try {
     const {
       subjects,
-      class: className // ✅ NEW
+      class: className, // ✅ NEW
     } = req.body;
 
     if (!subjects || subjects.length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Subjects required"
+        message: "Subjects required",
       });
     }
 
     const totalMarks = subjects.reduce(
       (sum, s) => sum + Number(s.marks || 0),
-      0
+      0,
     );
 
     const totalFullMarks = subjects.reduce(
       (sum, s) => sum + Number(s.fullMarks || 0),
-      0
+      0,
     );
 
-    const percentage = totalFullMarks
-      ? (totalMarks / totalFullMarks) * 100
-      : 0;
+    const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
 
     const grade = getGrade(percentage);
     const result = getResult(subjects);
@@ -138,17 +132,16 @@ exports.updateResult = async (req, res) => {
         fullMarks: totalFullMarks,
         percentage,
         grade,
-        result
+        result,
       },
-      { new: true }
+      { new: true },
     );
 
     res.json({ success: true, data });
-
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
 };
@@ -160,13 +153,12 @@ exports.deleteResult = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Deleted successfully"
+      message: "Deleted successfully",
     });
-
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
 };
@@ -175,63 +167,115 @@ exports.deleteResult = async (req, res) => {
 
 exports.searchResult = async (req, res) => {
   try {
-    const { name, roll, exam } = req.query;
+    const { name, roll, exam, className, dob } = req.query;
 
-    if (!name || !roll || !exam) {
+    // ✅ Basic validation
+    if (!name || !exam) {
       return res.status(400).json({
         success: false,
-        message: "Name, Roll & Exam required"
+        message: "Name & Exam required",
       });
     }
 
-    const cleanName = name.trim();
-    const cleanExam = exam.trim();
+    // ✅ Require either roll OR class+dob
+    if (!roll && !(className && className.trim() !== "" && dob)) {
+      return res.status(400).json({
+        success: false,
+        message: "Provide Roll OR Class + DOB",
+      });
+    }
 
-    // ✅ FIND RESULT
-    const result = await ExamResult.findOne({
-      name: { $regex: new RegExp("^" + cleanName + "$", "i") },
-      rollNumber: roll.trim(),
-      examType: { $regex: new RegExp("^" + cleanExam + "$", "i") }
-    });
+    // 🔐 Escape regex (security)
+    const escapeRegex = (text) =>
+      text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+    const safeName = escapeRegex(name.trim());
+    const safeExam = escapeRegex(exam.trim());
+
+    let result = null;
+    let student = null;
+
+    // ================= WITH ROLL =================
+    if (roll && roll.trim() !== "") {
+      result = await ExamResult.findOne({
+        name: { $regex: new RegExp("^" + safeName + "$", "i") },
+        rollNumber: roll.trim(),
+        examType: { $regex: new RegExp("^" + safeExam + "$", "i") },
+      });
+    }
+
+    // ================= WITHOUT ROLL =================
+    else {
+      result = await ExamResult.findOne({
+        name: { $regex: new RegExp("^" + safeName + "$", "i") },
+        class: { $regex: className.trim(), $options: "i" },
+        examType: { $regex: new RegExp("^" + safeExam + "$", "i") },
+      });
+
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: "Result not found",
+        });
+      }
+
+      // ✅ Fetch student
+      student = await Student.findOne({
+        admissionNo: result.admissionNo,
+      });
+
+      // ✅ DOB validation (safe + no crash)
+      if (
+        !student ||
+        !student.dob ||
+        new Date(student.dob).toISOString().split("T")[0] !== dob
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: "DOB does not match",
+        });
+      }
+    }
+
+    // ================= NOT FOUND =================
     if (!result) {
       return res.status(404).json({
         success: false,
-        message: "Result not found"
+        message: "Result not found",
       });
     }
 
-    let student = null;
-
-    try {
-      // ✅ SAFE STUDENT FETCH
-      student = await Student.findOne({
-        admissionNo: result.admissionNo
-      });
-    } catch (err) {
-      console.log("Student fetch error:", err.message);
+    // ================= FETCH STUDENT (ROLL CASE) =================
+    if (!student) {
+      try {
+        student = await Student.findOne({
+          admissionNo: result.admissionNo,
+        });
+      } catch (err) {
+        console.log("Student fetch error:", err.message);
+      }
     }
 
-    // ✅ SAFE MERGE (NO CRASH)
+    // ================= FINAL RESPONSE =================
     const finalData = {
       ...result.toObject(),
       fatherName: student?.fatherName || "",
       motherName: student?.motherName || "",
       dob: student?.dob || "",
-      studentPhoto: student?.studentPhoto || ""
+      studentPhoto: student?.studentPhoto || "",
     };
 
-    res.json({
+    return res.json({
       success: true,
-      data: finalData
+      data: finalData,
     });
 
   } catch (err) {
-    console.error("SEARCH ERROR:", err); // 🔥 IMPORTANT
+    console.error("SEARCH ERROR:", err);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: err.message
+      message: "Server error",
     });
   }
 };
