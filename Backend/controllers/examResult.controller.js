@@ -10,14 +10,6 @@ const getGrade = (percentage) => {
   return "F";
 };
 
-// 🎯 RESULT
-const getResult = (subjects) => {
-  const failed = subjects.some(
-    (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
-  );
-  return failed ? "Fail" : "Pass";
-};
-
 // ================= CREATE =================
 exports.createResult = async (req, res) => {
   try {
@@ -165,6 +157,14 @@ exports.deleteResult = async (req, res) => {
 
 
 
+// 🎯 RESULT
+const getResult = (subjects) => {
+  const failed = subjects.some(
+    (s) => Number(s.marks) < Number(s.fullMarks) * 0.35
+  );
+  return failed ? "Fail" : "Pass";
+};
+
 exports.searchResult = async (req, res) => {
   try {
     const { name, roll, exam, className, dob } = req.query;
@@ -177,20 +177,25 @@ exports.searchResult = async (req, res) => {
       });
     }
 
-    // ✅ Require either roll OR class+dob
-    if (!roll && !(className && className.trim() !== "" && dob)) {
+    // ✅ Require strong validation
+    if (!roll && !(className && dob)) {
       return res.status(400).json({
         success: false,
         message: "Provide Roll OR Class + DOB",
       });
     }
 
-    // 🔐 Escape regex (security)
+    // 🔐 Escape regex
     const escapeRegex = (text) =>
       text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-    const safeName = escapeRegex(name.trim());
-    const safeExam = escapeRegex(exam.trim());
+    // ✅ Take ONLY first 3 letters
+    const shortName = name.trim().substring(0, 3);
+
+    // ✅ Match FIRST NAME only
+    const nameRegex = new RegExp("^" + escapeRegex(shortName), "i");
+
+    const examRegex = new RegExp("^" + escapeRegex(exam.trim()), "i");
 
     let result = null;
     let student = null;
@@ -198,18 +203,9 @@ exports.searchResult = async (req, res) => {
     // ================= WITH ROLL =================
     if (roll && roll.trim() !== "") {
       result = await ExamResult.findOne({
-        name: { $regex: new RegExp("^" + safeName + "$", "i") },
+        name: { $regex: nameRegex }, // 🔥 partial match
         rollNumber: roll.trim(),
-        examType: { $regex: new RegExp("^" + safeExam + "$", "i") },
-      });
-    }
-
-    // ================= WITHOUT ROLL =================
-    else {
-      result = await ExamResult.findOne({
-        name: { $regex: new RegExp("^" + safeName + "$", "i") },
-        class: { $regex: className.trim(), $options: "i" },
-        examType: { $regex: new RegExp("^" + safeExam + "$", "i") },
+        examType: { $regex: examRegex },
       });
 
       if (!result) {
@@ -219,12 +215,31 @@ exports.searchResult = async (req, res) => {
         });
       }
 
-      // ✅ Fetch student
+      student = await Student.findOne({
+        admissionNo: result.admissionNo,
+      });
+    }
+
+    // ================= WITHOUT ROLL =================
+    else {
+      result = await ExamResult.findOne({
+        name: { $regex: nameRegex }, // 🔥 partial match
+        class: { $regex: className.trim(), $options: "i" },
+        examType: { $regex: examRegex },
+      });
+
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: "Result not found",
+        });
+      }
+
       student = await Student.findOne({
         admissionNo: result.admissionNo,
       });
 
-      // ✅ DOB validation (safe + no crash)
+      // 🔥 MAIN SECURITY CHECK (MOST IMPORTANT)
       if (
         !student ||
         !student.dob ||
@@ -237,26 +252,7 @@ exports.searchResult = async (req, res) => {
       }
     }
 
-    // ================= NOT FOUND =================
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        message: "Result not found",
-      });
-    }
-
-    // ================= FETCH STUDENT (ROLL CASE) =================
-    if (!student) {
-      try {
-        student = await Student.findOne({
-          admissionNo: result.admissionNo,
-        });
-      } catch (err) {
-        console.log("Student fetch error:", err.message);
-      }
-    }
-
-    // ================= FINAL RESPONSE =================
+    // ✅ FINAL RESPONSE
     const finalData = {
       ...result.toObject(),
       fatherName: student?.fatherName || "",

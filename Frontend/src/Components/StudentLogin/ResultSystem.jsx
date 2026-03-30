@@ -21,6 +21,7 @@ const ResultSystem = () => {
   const [classes, setClasses] = useState([]);
   const [error, setError] = useState("");
 
+  // ✅ Fetch Data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,11 +40,13 @@ const ResultSystem = () => {
     fetchData();
   }, []);
 
+  // ✅ Handle Input Change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setError("");
   };
 
+  // ✅ Switch Modes
   const switchToRoll = () => {
     setSearchType("roll");
     setForm({ ...form, className: "", dob: "" });
@@ -56,8 +59,9 @@ const ResultSystem = () => {
     setError("");
   };
 
+  // ✅ Submit
   const handleSubmit = async () => {
-    // ✅ VALIDATION FIRST
+    // ✅ VALIDATION
     if (searchType === "roll") {
       if (!form.name || !form.roll || !form.exam) {
         setError("Please fill all fields");
@@ -68,6 +72,11 @@ const ResultSystem = () => {
         setError("Please fill all fields");
         return;
       }
+    }
+
+    if (form.name.trim().length < 3) {
+      setError("Enter at least 3 characters of name");
+      return;
     }
 
     try {
@@ -81,20 +90,20 @@ const ResultSystem = () => {
         params = {
           name: form.name.trim(),
           roll: form.roll.trim(),
-          exam: form.exam.trim(),
+          exam: form.exam,
         };
       } else {
         params = {
           name: form.name.trim(),
-          className: form.className.trim(),
+          className: form.className,
           dob: form.dob,
-          exam: form.exam.trim(),
+          exam: form.exam,
         };
       }
 
       const res = await API.get("/exam-results/search", { params });
 
-      if (!res.data.data) {
+      if (!res.data?.data) {
         setError("Result not found");
         return;
       }
@@ -104,7 +113,7 @@ const ResultSystem = () => {
       if (err.response?.status === 404) {
         setError("Result not found");
       } else {
-        setError("Server error, try again");
+        setError("Server error");
       }
     } finally {
       setLoading(false);
@@ -133,69 +142,87 @@ const ResultSystem = () => {
         </div>
 
         <div className="result-form">
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter Name"
-            value={form.name}
-            onChange={handleChange}
-          />
 
-          {searchType === "roll" && (
+          {/* NAME */}
+          <div className="input-group">
             <input
               type="text"
-              name="roll"
-              placeholder="Enter Roll Number"
-              value={form.roll}
+              name="name"
+              placeholder="Enter name (min 3 characters)"
+              value={form.name}
               onChange={handleChange}
             />
+          </div>
+
+          {/* ROLL INPUT */}
+          {searchType === "roll" && (
+            <div className="input-group">
+              <input
+                type="text"
+                name="roll"
+                placeholder="Enter Roll Number"
+                value={form.roll}
+                onChange={handleChange}
+              />
+            </div>
           )}
 
+          {/* WITHOUT ROLL */}
           {searchType === "details" && (
             <>
-              <select
-                name="className"
-                value={form.className}
-                onChange={handleChange}
-              >
-                <option value="">Select Class</option>
-                {classes.length === 0 ? (
-                  <option disabled>Loading...</option>
-                ) : (
-                  classes.map((cls) => (
+              <div className="input-group">
+                <select
+                  name="className"
+                  value={form.className}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Class</option>
+                  {classes.map((cls) => (
                     <option key={cls._id} value={cls.className}>
                       {cls.className}
                     </option>
-                  ))
-                )}
-              </select>
+                  ))}
+                </select>
+              </div>
 
-              <input
-                type="date"
-                name="dob"
-                value={form.dob}
-                onChange={handleChange}
-              />
+              <div className="input-group">
+                <input
+                  type="date"
+                  name="dob"
+                  value={form.dob}
+                  onChange={handleChange}
+                />
+              </div>
             </>
           )}
 
-          <select name="exam" value={form.exam} onChange={handleChange}>
-            <option value="">Select Exam</option>
-            {examTypes.map((exam) => (
-              <option key={exam._id} value={exam.name}>
-                {exam.name}
-              </option>
-            ))}
-          </select>
+          {/* EXAM */}
+          <div className="input-group">
+            <select
+              name="exam"
+              value={form.exam}
+              onChange={handleChange}
+            >
+              <option value="">Select Exam</option>
+              {examTypes.map((exam) => (
+                <option key={exam._id} value={exam.name}>
+                  {exam.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
+          {/* BUTTON */}
           <button onClick={handleSubmit} disabled={loading}>
             {loading ? "Checking..." : "Check Result"}
           </button>
 
+          {/* ERROR */}
           {error && <p className="error-text">{error}</p>}
         </div>
       </div>
 
+      {/* RESULT MODAL */}
       {result && (
         <ReportModal viewData={result} setViewData={setResult} logo={logo} />
       )}
