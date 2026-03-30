@@ -174,6 +174,15 @@ const menu = [
       { label: "Type of Exam Publish", path: "/exam-type" },
     ],
   },
+  {
+    label: "Attendance",
+    icon: FiCheckSquare,
+    children: [
+      { label: "Student Attendance", path: "/attendance/student-attendance" },
+      { label: "Student Leave", path: "/attendance/student-leave" },
+      { label: "Attendance Report", path: "/attendance/attendance-report" },
+    ],
+  },
 
   // {
   //   label: "Front Office",
@@ -190,15 +199,7 @@ const menu = [
   //   ],
   // },
 
-  // {
-  //   label: "Attendance",
-  //   icon: FiCheckSquare,
-  //   children: [
-  //     { label: "Student Attendance", path: "/attendance/student-attendance" },
-  //     { label: "Student Leave", path: "/attendance/student-leave" },
-  //     { label: "Attendance Report", path: "/attendance/attendance-report" },
-  //   ],
-  // },
+  
 
   // {
   //   label: "Primary Evaluation",
