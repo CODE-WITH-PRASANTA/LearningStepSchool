@@ -165,8 +165,6 @@ const getResult = (subjects) => {
   return failed ? "Fail" : "Pass";
 };
 
-
-// ================= SEARCH RESULT (FIXED) =================
 exports.searchResult = async (req, res) => {
   try {
     const { name, roll, exam, className, dob } = req.query;
@@ -179,7 +177,7 @@ exports.searchResult = async (req, res) => {
       });
     }
 
-    // ✅ Require either roll OR class + dob
+    // ✅ Require strong validation
     if (!roll && !(className && dob)) {
       return res.status(400).json({
         success: false,
@@ -187,12 +185,17 @@ exports.searchResult = async (req, res) => {
       });
     }
 
-    // 🔐 Escape regex (security)
+    // 🔐 Escape regex
     const escapeRegex = (text) =>
       text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-    const safeName = escapeRegex(name.trim());
-    const safeExam = escapeRegex(exam.trim());
+    // ✅ Take ONLY first 3 letters
+    const shortName = name.trim().substring(0, 3);
+
+    // ✅ Match FIRST NAME only
+    const nameRegex = new RegExp("^" + escapeRegex(shortName), "i");
+
+    const examRegex = new RegExp("^" + escapeRegex(exam.trim()), "i");
 
     let result = null;
     let student = null;
@@ -200,9 +203,9 @@ exports.searchResult = async (req, res) => {
     // ================= WITH ROLL =================
     if (roll && roll.trim() !== "") {
       result = await ExamResult.findOne({
-        name: { $regex: new RegExp("^" + safeName + "$", "i") },
+        name: { $regex: nameRegex }, // 🔥 partial match
         rollNumber: roll.trim(),
-        examType: { $regex: new RegExp("^" + safeExam + "$", "i") },
+        examType: { $regex: examRegex },
       });
 
       if (!result) {
@@ -212,7 +215,6 @@ exports.searchResult = async (req, res) => {
         });
       }
 
-      // fetch student
       student = await Student.findOne({
         admissionNo: result.admissionNo,
       });
@@ -221,9 +223,9 @@ exports.searchResult = async (req, res) => {
     // ================= WITHOUT ROLL =================
     else {
       result = await ExamResult.findOne({
-        name: { $regex: new RegExp("^" + safeName + "$", "i") },
+        name: { $regex: nameRegex }, // 🔥 partial match
         class: { $regex: className.trim(), $options: "i" },
-        examType: { $regex: new RegExp("^" + safeExam + "$", "i") },
+        examType: { $regex: examRegex },
       });
 
       if (!result) {
@@ -237,7 +239,7 @@ exports.searchResult = async (req, res) => {
         admissionNo: result.admissionNo,
       });
 
-      // ✅ DOB validation
+      // 🔥 MAIN SECURITY CHECK (MOST IMPORTANT)
       if (
         !student ||
         !student.dob ||
@@ -250,7 +252,7 @@ exports.searchResult = async (req, res) => {
       }
     }
 
-    // ================= FINAL RESPONSE =================
+    // ✅ FINAL RESPONSE
     const finalData = {
       ...result.toObject(),
       fatherName: student?.fatherName || "",
