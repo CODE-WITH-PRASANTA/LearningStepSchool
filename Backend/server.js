@@ -46,6 +46,8 @@ const classWiseSubjectRoutes = require("./routes/classWiseSubject.routes");
 const examResult = require("./routes/examResult.routes");
 const examType = require("./routes/examType.routes")
 const authRoutes = require("./routes/adminAuth.routes");
+const attendanceRoutes = require("./routes/attendance.routes");
+
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -77,6 +79,7 @@ app.use("/api/classwise-subjects", classWiseSubjectRoutes);
 app.use("/api/exam-results", examResult);
 app.use("/api/exam-types",examType );
 app.use("/api/auth", authRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 
 /* ================= 404 HANDLER ================= */
