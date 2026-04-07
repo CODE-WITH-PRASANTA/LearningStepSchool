@@ -1,54 +1,27 @@
+// models/attendance.model.js
 const mongoose = require("mongoose");
 
-const attendanceSchema = new mongoose.Schema(
-  {
-    className: {
-      type: String,
-      required: true,
-    },
-    section: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
+const attendanceSchema = new mongoose.Schema({
+  className: String,
+  section: String,
+  date: String,
 
-    students: [
-      {
-        studentId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Student",
-          required: true,
-        },
-
-        // ✅ ADD THESE
-        name: {
-          type: String,
-          required: true,
-        },
-        rollNumber: {
-          type: String,
-          default: "",
-        },
-
-        status: {
-          type: String,
-          enum: ["Present", "Absent", "Leave"],
-          default: "Present",
-        },
-        note: {
-          type: String,
-          default: "",
-        },
+  students: [
+    {
+      studentId: String,
+      name: String,
+      rollNumber: String,
+      status: {
+        type: String,
+        enum: ["Present", "Absent", "Leave"],
+        default: "Present",
       },
-    ],
-  },
-  { timestamps: true }
-);
+      note: String,
+    },
+  ],
+});
 
-// 🔥 prevent duplicate per day
+// prevent duplicate same date attendance
 attendanceSchema.index(
   { className: 1, section: 1, date: 1 },
   { unique: true }

@@ -79,7 +79,7 @@ app.use("/api/classwise-subjects", classWiseSubjectRoutes);
 app.use("/api/exam-results", examResult);
 app.use("/api/exam-types",examType );
 app.use("/api/auth", authRoutes);
-app.use("/api", attendanceRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 
 /* ================= 404 HANDLER ================= */

@@ -4,11 +4,11 @@ import React, { useState, useEffect } from "react";
 
 const StudentAttendance = () => {
   const [criteria, setCriteria] = useState({
-    class: "",
-    section: "",
-    attendance: "",
-    date: "",
-  });
+  className: "",
+  section: "",
+  attendance: "All",
+  date: "",
+});
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -68,87 +68,98 @@ const StudentAttendance = () => {
     );
   };
 
-  /* ================= FILTER ================= */
-  const filtered = data.filter((s) => {
-    return (
-      (!criteria.class || s.class === criteria.class) &&
-      (!criteria.section || s.section === criteria.section) &&
-      (!criteria.attendance ||
-        criteria.attendance === "All" ||
-        s.attendance === criteria.attendance) &&
-      (s.name || "").toLowerCase().includes(search.toLowerCase())
-    );
-  });
 
-  /* ================= LOAD ATTENDANCE BY DATE ================= */
-  const handleSearch = async () => {
-    if (!criteria.date) {
-      alert("Select Date");
-      return;
-    }
+ const handleSearch = async () => {
+  if (!criteria.date || !criteria.className || !criteria.section) {
+    alert("Select Class, Section & Date");
+    return;
+  }
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const attendanceRes = await API.get("/attendance", {
-        params: {
-          className: criteria.class,
-          section: criteria.section,
-          date: criteria.date,
-        },
-      });
-
-      const attendance = attendanceRes.data?.data;
-
-      setData((prev) =>
-        prev.map((stu) => {
-          const found = attendance?.students?.find(
-            (s) => String(s.studentId) === String(stu.id),
-          );
-
-          return {
-            ...stu,
-            attendance: found?.status || "Present",
-            note: found?.note || "",
-          };
-        }),
-      );
-    } catch (err) {
-      console.error(err);
-      alert("Failed to load attendance");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /* ================= SAVE ================= */
-  const saveAttendance = async () => {
-    if (!criteria.date) {
-      alert("Select date");
-      return;
-    }
-
-    try {
-      const payload = {
-        className: criteria.class,
+    const res = await API.get("/attendance", {
+      params: {
+        className: criteria.className,
         section: criteria.section,
         date: criteria.date,
-        students: filtered.map((s) => ({
+      },
+    });
+
+    const attendance = res.data?.data;
+
+    setData((prev) =>
+      prev.map((stu) => {
+        const found = attendance?.students?.find(
+          (s) => String(s.studentId) === String(stu.id)
+        );
+
+        return {
+          ...stu,
+          attendance: found?.status || "Present",
+          note: found?.note || "",
+        };
+      })
+    );
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load attendance");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  /* ================= SAVE ================= */
+const saveAttendance = async () => {
+  if (!criteria.date || !criteria.className || !criteria.section) {
+    alert("Select Class, Section & Date");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const payload = {
+      className: criteria.className,
+      section: criteria.section,
+      date: criteria.date,
+      students: data
+        .filter(
+          (s) =>
+            s.class === criteria.className &&
+            s.section === criteria.section
+        )
+        .map((s) => ({
           studentId: s.id,
           name: s.name,
           rollNumber: s.roll,
           status: s.attendance,
           note: s.note,
         })),
-      };
+    };
 
-      await API.post("/attendance", payload);
-      alert("Attendance Saved ✅");
-    } catch (err) {
-      console.error(err);
-      alert("Save failed ❌");
-    }
-  };
+    await API.post("/attendance", payload);
+
+    alert("✅ Attendance Saved Successfully");
+  } catch (err) {
+    console.error(err);
+    alert("❌ Save failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+const filtered = data.filter((s) => {
+  return (
+    (!criteria.className || s.class === criteria.className) &&
+    (!criteria.section || s.section === criteria.section) &&
+    (criteria.attendance === "All" ||
+      s.attendance === criteria.attendance) &&
+    (s.name || "").toLowerCase().includes(search.toLowerCase())
+  );
+});
+
 
   return (
     <div className="StudentAttendance-container">
@@ -161,18 +172,15 @@ const StudentAttendance = () => {
       <div className="StudentAttendance-card">
         <div className="StudentAttendance-cardHeader">
           🔎 Select Criteria
-          <button className="StudentAttendance-btnPrimary">
-            Mark Holiday Range
-          </button>
         </div>
 
         <div className="StudentAttendance-formGrid">
           <div>
             <label>Class *</label>
-            <select
-              value={criteria.class}
+          <select
+              value={criteria.className}
               onChange={(e) =>
-                setCriteria({ ...criteria, class: e.target.value })
+                setCriteria({ ...criteria, className: e.target.value })
               }
             >
               <option value="">Select Class</option>
@@ -242,7 +250,7 @@ const StudentAttendance = () => {
         <div className="StudentAttendance-cardHeader">
           📋 Student Attendance List
           <div className="StudentAttendance-headerBtns">
-            <button onClick={saveAttendance} disabled={loading}>
+            <button onClick={saveAttendance} disabled={filtered.length === 0 || loading}>
               {loading ? "Saving..." : "Save Attendance"}
             </button>
           </div>

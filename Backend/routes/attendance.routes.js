@@ -1,19 +1,16 @@
+// routes/attendance.routes.js
 const express = require("express");
 const router = express.Router();
 
 const {
-  getStudentsByClass,
   getAttendance,
   saveAttendance,
-  deleteAttendance,
 } = require("../controllers/attendance.controller");
 
-// ================= STUDENTS =================
-router.get("/students", getStudentsByClass);
+// GET (load attendance)
+router.get("/", getAttendance);
 
-// ================= ATTENDANCE =================
-router.get("/attendance", getAttendance);
-router.post("/attendance", saveAttendance);
-router.delete("/attendance/:id", deleteAttendance); // optional
+// POST (save attendance)
+router.post("/", saveAttendance);
 
 module.exports = router;
