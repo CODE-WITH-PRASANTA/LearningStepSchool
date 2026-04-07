@@ -21,6 +21,7 @@ const ExamResult = () => {
 
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
+  const [markRange, setMarkRange] = useState("");
 
   const rowsPerPage = 10;
 
@@ -84,6 +85,10 @@ const ExamResult = () => {
     ];
   }, [results]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [markRange]);
+
   const examOptions = useMemo(() => {
     return [
       ...new Set(
@@ -97,6 +102,19 @@ const ExamResult = () => {
       const className =
         item.classId?.className || item.class || item.className || "";
 
+      // 🔥 MARK RANGE FILTER (IMPROVED)
+      let isInRange = true;
+
+      if (markRange) {
+        const [min, max] = markRange.split("-").map((n) => Number(n.trim()));
+
+        const marks = parseFloat(item.total) || 0;
+
+        if (!isNaN(min) && !isNaN(max)) {
+          isInRange = marks >= min && marks <= max;
+        }
+      }
+
       return (
         ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
           (item.admissionNo || "")
@@ -104,7 +122,8 @@ const ExamResult = () => {
             .includes(search.toLowerCase()) ||
           (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
         (selectedClass ? className === selectedClass : true) &&
-        (selectedExam ? item.examType === selectedExam : true)
+        (selectedExam ? item.examType === selectedExam : true) &&
+        isInRange // ✅ NEW CONDITION
       );
     })
     .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)); // 🔥 ADD THIS
@@ -242,6 +261,26 @@ const ExamResult = () => {
                 {exam}
               </option>
             ))}
+          </select>
+
+          <select
+            value={markRange}
+            onChange={(e) => setMarkRange(e.target.value)}
+          >
+            <option value="">All</option>
+
+            {Array.from({ length: 8 }, (_, i) => {
+              const min = i * 50;
+              const max = min + 50;
+
+              return (
+                <option key={i} value={`${min}-${max}`}>
+                  {min} - {max}
+                </option>
+              );
+            })}
+
+            <option value="400-9999">400+</option>
           </select>
         </div>
       </div>
