@@ -75,12 +75,18 @@ const ExamResult = () => {
   const classOptions = useMemo(() => {
     return [
       ...new Set(
+<<<<<<< HEAD
+        results.map(
+          (item) => item.classId?.className || item.class || item.className
+        )
+=======
         (results || [])
           .map(
             (item) =>
               item.classId?.className || item.class || item.className || "",
           )
           .filter(Boolean),
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
       ),
     ];
   }, [results]);
@@ -90,11 +96,15 @@ const ExamResult = () => {
   }, [markRange]);
 
   const examOptions = useMemo(() => {
+<<<<<<< HEAD
+    return [...new Set(results.map((item) => item.examType))];
+=======
     return [
       ...new Set(
         results.map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
       ),
     ];
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
   }, [results]);
 
   const filteredData = (results || [])
@@ -102,6 +112,16 @@ const ExamResult = () => {
       const className =
         item.classId?.className || item.class || item.className || "";
 
+<<<<<<< HEAD
+    return (
+      ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+        (item.admissionNo || "").toLowerCase().includes(search.toLowerCase()) ||
+        (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
+      (selectedClass ? className === selectedClass : true) &&
+      (selectedExam ? item.examType === selectedExam : true)
+    );
+  });
+=======
       // 🔥 MARK RANGE FILTER (IMPROVED)
       let isInRange = true;
 
@@ -127,6 +147,7 @@ const ExamResult = () => {
       );
     })
     .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)); // 🔥 ADD THIS
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
 
   useEffect(() => {
     setPage(1);
@@ -221,7 +242,7 @@ const ExamResult = () => {
     <div className="ExamResult">
       {/* HEADER */}
       <div className="ExamResult-header">
-        <div>
+        <div className="ExamResult-headerText">
           <h2>Exam Result</h2>
           <p>Dashboard / Exam Result</p>
         </div>
@@ -229,8 +250,12 @@ const ExamResult = () => {
 
       {/* TOOLBAR */}
       <div className="ExamResult-toolbar">
+<<<<<<< HEAD
+        {/* SEARCH */}
+=======
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
         <div className="ExamResult-search">
-          <FiSearch />
+          <FiSearch className="ExamResult-searchIcon" />
           <input
             placeholder="Search..."
             value={search}
@@ -239,6 +264,10 @@ const ExamResult = () => {
         </div>
 
         <div className="ExamResult-filters">
+<<<<<<< HEAD
+          {/* CLASS FILTER */}
+=======
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
@@ -262,6 +291,8 @@ const ExamResult = () => {
               </option>
             ))}
           </select>
+<<<<<<< HEAD
+=======
 
           <select
             value={markRange}
@@ -282,6 +313,7 @@ const ExamResult = () => {
 
             <option value="400-9999">400+</option>
           </select>
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
         </div>
       </div>
 
@@ -294,6 +326,11 @@ const ExamResult = () => {
           <table className="ExamResult-table">
             <thead>
               <tr>
+<<<<<<< HEAD
+                <td colSpan="11" className="ExamResult-noData">
+                  No Data Found
+                </td>
+=======
                 <th>S.L</th>
                 <th>Admission No</th>
                 <th>Name</th>
@@ -305,9 +342,63 @@ const ExamResult = () => {
                 <th>Grade</th>
                 <th>Result</th>
                 <th>Action</th>
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
               </tr>
             </thead>
 
+<<<<<<< HEAD
+                const fullMarks =
+                  item.fullMarks ||
+                  item.subjects?.reduce((sum, s) => sum + (s.fullMarks || 0), 0) ||
+                  0;
+
+                return (
+                  <tr key={item._id}>
+                    <td>{indexFirst + index + 1}</td>
+                    <td className="ExamResult-admission">{item.admissionNo}</td>
+                    <td className="ExamResult-nameCell">{item.name}</td>
+                    <td>{item.rollNumber}</td>
+                    <td>{className}</td>
+                    <td>{item.examType}</td>
+                    <td className="ExamResult-totalCell">
+                      {item.total || 0} / {fullMarks}
+                    </td>
+                    <td>{item.percentage?.toFixed(2) || "0.00"}</td>
+                    <td>{item.grade}</td>
+                    <td>
+                      <span className={`ExamResult-result ${item.result}`}>
+                        {item.result}
+                      </span>
+                    </td>
+
+                    <td>
+                      <div className="ExamResult-action">
+                        <button
+                          className="ExamResult-actionBtn"
+                          onClick={() =>
+                            setMenuOpen(menuOpen === item._id ? null : item._id)
+                          }
+                        >
+                          <FiMoreVertical />
+                        </button>
+
+                        {menuOpen === item._id && (
+                          <div className="ExamResult-dropdown">
+                            <button onClick={() => setViewData(item)}>
+                              <FiEye /> View
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
+=======
             <tbody>
               {currentRows.length === 0 ? (
                 <tr>
@@ -462,6 +553,7 @@ const ExamResult = () => {
           </table>
         </div>
       )}
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
 
       {/* PAGINATION */}
       <div className="ExamResult-pagination">
@@ -470,6 +562,10 @@ const ExamResult = () => {
           {Math.min(indexLast, filteredData.length)} of {filteredData.length}
         </p>
 
+<<<<<<< HEAD
+        <div className="ExamResult-pageGroup">
+          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+=======
         <div className="pagination-controls">
           {/* FIRST */}
           <button disabled={page === 1} onClick={() => setPage(1)}>
@@ -481,6 +577,7 @@ const ExamResult = () => {
             disabled={page === 1}
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           >
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
             {"<"}
           </button>
 

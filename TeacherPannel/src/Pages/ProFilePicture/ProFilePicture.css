@@ -1,0 +1,225 @@
+.ProfilePage {
+  width: 100%;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.ProfilePage__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Header */
+.ProfilePage__header {
+  padding: 24px;
+  border-radius: 22px;
+  background: linear-gradient(90deg, #eef2ff 0%, #ffffff 50%, #f5f3ff 100%);
+  border: 1px solid #dbeafe;
+}
+
+.ProfilePage__title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  color: #4338ca;
+}
+
+.ProfilePage__subtitle {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #475569;
+}
+
+/* Main layout */
+.ProfilePage__content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Left Card */
+.ProfilePage__sidebarCard {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 28px 24px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.ProfilePage__avatar {
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #c7d2fe;
+}
+
+.ProfilePage__name {
+  margin: 18px 0 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ProfilePage__roleBadge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #e0e7ff;
+  color: #4338ca;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ProfilePage__avatarBtn {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f46e5;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.ProfilePage__avatarBtn:hover {
+  text-decoration: underline;
+}
+
+.ProfilePage__hiddenInput {
+  display: none;
+}
+
+/* Form card */
+.ProfilePage__formCard {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 28px 30px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.ProfilePage__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.ProfilePage__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.ProfilePage__label {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+.ProfilePage__input {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  padding: 12px 14px;
+  outline: none;
+  font-size: 14px;
+  color: #0f172a;
+  background: #ffffff;
+  transition: all 0.25s ease;
+}
+
+.ProfilePage__input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
+}
+
+.ProfilePage__input--disabled {
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.ProfilePage__textarea {
+  resize: none;
+  min-height: 120px;
+}
+
+/* Actions */
+.ProfilePage__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.ProfilePage__saveBtn {
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.ProfilePage__saveBtn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .ProfilePage__content {
+    grid-template-columns: 1fr;
+  }
+
+  .ProfilePage__sidebarCard {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .ProfilePage {
+    padding: 16px;
+  }
+
+  .ProfilePage__header,
+  .ProfilePage__sidebarCard,
+  .ProfilePage__formCard {
+    border-radius: 16px;
+    padding: 18px;
+  }
+
+  .ProfilePage__title {
+    font-size: 24px;
+  }
+
+  .ProfilePage__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ProfilePage__avatar {
+    width: 110px;
+    height: 110px;
+  }
+
+  .ProfilePage__name {
+    font-size: 20px;
+  }
+
+  .ProfilePage__actions {
+    justify-content: stretch;
+  }
+
+  .ProfilePage__saveBtn {
+    width: 100%;
+  }
+}
