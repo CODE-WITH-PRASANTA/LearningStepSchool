@@ -1,92 +1,194 @@
-import React, { useState, useEffect } from "react";
 import "./Studentattendance.css";
+import API from "../../api/axios";
+import React, { useState, useEffect } from "react";
 
 const StudentAttendance = () => {
-
-  /* ================= FORM STATE ================= */
   const [criteria, setCriteria] = useState({
-    class: "",
-    section: "",
-    attendance: "",
-    date: ""
-  });
+  className: "",
+  section: "",
+  attendance: "All",
+  date: "",
+});
 
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const [classes, setClasses] = useState([]);
 
-  /* ================= SAMPLE DATA ================= */
-  const students = Array.from({ length: 22 }, (_, i) => ({
-    id: i + 1,
-    admission: `ADM00${i + 1}`,
-    roll: `${i + 1}`,
-    name: ["Rahul Sharma", "Priya Das", "Amit Roy"][i % 3],
-    attendance: ["Present", "Absent", "Leave"][i % 3],
-    note: ""
-  }));
+  /* ================= LOAD CLASSES ================= */
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await API.get("/classes");
+        setClasses(res.data.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  const [data, setData] = useState(students);
+    fetchClasses();
+  }, []);
 
-  /* ================= PAGINATION ================= */
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
+  /* ================= LOAD ALL STUDENTS FIRST ================= */
+  useEffect(() => {
+    const fetchAllStudents = async () => {
+      try {
+        setLoading(true);
 
-  /* ================= HANDLERS ================= */
+        const res = await API.get("/students"); // 🔥 NO FILTER
 
+        const students = res.data?.data || [];
+
+        const formatted = students.map((stu) => ({
+          id: stu._id,
+          admission: stu.admissionNo,
+          roll: stu.rollNumber,
+          name: `${stu.firstName || ""} ${stu.lastName || ""}`.trim(),
+          attendance: "Present",
+          note: "",
+          class: stu.class,
+          section: stu.section,
+        }));
+
+        setData(formatted);
+      } catch (err) {
+        console.error("FETCH ALL ERROR:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllStudents();
+  }, []);
+
+  /* ================= ATTENDANCE CHANGE ================= */
   const handleAttendanceChange = (id, value) => {
-    setData(prev =>
-      prev.map(s =>
-        s.id === id ? { ...s, attendance: value } : s
-      )
+    setData((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, attendance: value } : s)),
     );
   };
 
-  /* SEARCH FILTER */
-  const filtered = data.filter(s =>
-    s.name.toLowerCase().includes(search.toLowerCase())
+
+ const handleSearch = async () => {
+  if (!criteria.date || !criteria.className || !criteria.section) {
+    alert("Select Class, Section & Date");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const res = await API.get("/attendance", {
+      params: {
+        className: criteria.className,
+        section: criteria.section,
+        date: criteria.date,
+      },
+    });
+
+    const attendance = res.data?.data;
+
+    setData((prev) =>
+      prev.map((stu) => {
+        const found = attendance?.students?.find(
+          (s) => String(s.studentId) === String(stu.id)
+        );
+
+        return {
+          ...stu,
+          attendance: found?.status || "Present",
+          note: found?.note || "",
+        };
+      })
+    );
+  } catch (err) {
+    console.error(err);
+    alert("Failed to load attendance");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  /* ================= SAVE ================= */
+const saveAttendance = async () => {
+  if (!criteria.date || !criteria.className || !criteria.section) {
+    alert("Select Class, Section & Date");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const payload = {
+      className: criteria.className,
+      section: criteria.section,
+      date: criteria.date,
+      students: data
+        .filter(
+          (s) =>
+            s.class === criteria.className &&
+            s.section === criteria.section
+        )
+        .map((s) => ({
+          studentId: s.id,
+          name: s.name,
+          rollNumber: s.roll,
+          status: s.attendance,
+          note: s.note,
+        })),
+    };
+
+    await API.post("/attendance", payload);
+
+    alert("✅ Attendance Saved Successfully");
+  } catch (err) {
+    console.error(err);
+    alert("❌ Save failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+const filtered = data.filter((s) => {
+  return (
+    (!criteria.className || s.class === criteria.className) &&
+    (!criteria.section || s.section === criteria.section) &&
+    (criteria.attendance === "All" ||
+      s.attendance === criteria.attendance) &&
+    (s.name || "").toLowerCase().includes(search.toLowerCase())
   );
+});
 
-  /* RESET PAGE WHEN SEARCH */
-  useEffect(() => {
-    setCurrentPage;
-  }, [search]);
-
-  /* PAGINATION CALCULATION */
-  const totalPages = Math.ceil(filtered.length / rowsPerPage);
-  const startIndex = (currentPage - 1) * rowsPerPage;
-
-  const currentRows = filtered.slice(
-    startIndex,
-    startIndex + rowsPerPage
-  );
-
-  const saveAttendance = () => {
-    alert("Attendance Saved Successfully ✅");
-  };
 
   return (
     <div className="StudentAttendance-container">
+      {loading && (
+        <div style={{ textAlign: "center", padding: "10px" }}>
+          🔄 Loading students...
+        </div>
+      )}
 
-      {/* ================= SELECT CRITERIA ================= */}
       <div className="StudentAttendance-card">
-
         <div className="StudentAttendance-cardHeader">
           🔎 Select Criteria
-          <button className="StudentAttendance-btnPrimary">
-            Mark Holiday Range
-          </button>
         </div>
 
         <div className="StudentAttendance-formGrid">
-
           <div>
             <label>Class *</label>
-            <select
-              value={criteria.class}
-              onChange={(e)=>setCriteria({...criteria,class:e.target.value})}
+          <select
+              value={criteria.className}
+              onChange={(e) =>
+                setCriteria({ ...criteria, className: e.target.value })
+              }
             >
               <option value="">Select Class</option>
-              <option>KSV 5th</option>
-              <option>KSV 6th</option>
-              <option>KSV 7th</option>
+              {classes.map((cls) => (
+                <option key={cls._id} value={cls.className}>
+                  {cls.className}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -94,11 +196,14 @@ const StudentAttendance = () => {
             <label>Section *</label>
             <select
               value={criteria.section}
-              onChange={(e)=>setCriteria({...criteria,section:e.target.value})}
+              onChange={(e) =>
+                setCriteria({ ...criteria, section: e.target.value })
+              }
             >
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
+              <option value="">Select Section</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
             </select>
           </div>
 
@@ -106,7 +211,9 @@ const StudentAttendance = () => {
             <label>Attendance</label>
             <select
               value={criteria.attendance}
-              onChange={(e)=>setCriteria({...criteria,attendance:e.target.value})}
+              onChange={(e) =>
+                setCriteria({ ...criteria, attendance: e.target.value })
+              }
             >
               <option>All</option>
               <option>Present</option>
@@ -120,44 +227,42 @@ const StudentAttendance = () => {
             <input
               type="date"
               value={criteria.date}
-              onChange={(e)=>setCriteria({...criteria,date:e.target.value})}
+              onChange={(e) =>
+                setCriteria({ ...criteria, date: e.target.value })
+              }
             />
           </div>
-
         </div>
 
         <div className="StudentAttendance-searchRow">
-          <button className="StudentAttendance-btnSearch">
-            🔍 Search
+          <button
+            className="StudentAttendance-btnSearch"
+            onClick={handleSearch}
+            disabled={loading}
+          >
+            {loading ? "Searching..." : "🔍 Load Attendance"}
           </button>
         </div>
       </div>
 
-      {/* ================= ATTENDANCE TABLE ================= */}
+      {/* TABLE */}
       <div className="StudentAttendance-card">
-
         <div className="StudentAttendance-cardHeader">
           📋 Student Attendance List
-
           <div className="StudentAttendance-headerBtns">
-            <button onClick={saveAttendance}>
-              Save Attendance
+            <button onClick={saveAttendance} disabled={filtered.length === 0 || loading}>
+              {loading ? "Saving..." : "Save Attendance"}
             </button>
           </div>
         </div>
 
-        {/* TOOLBAR */}
         <div className="StudentAttendance-toolbar">
           <div>
             Search :
-            <input
-              value={search}
-              onChange={(e)=>setSearch(e.target.value)}
-            />
+            <input value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
         </div>
 
-        {/* TABLE */}
         <div className="StudentAttendance-tableWrapper">
           <table className="StudentAttendance-table">
             <thead>
@@ -166,31 +271,39 @@ const StudentAttendance = () => {
                 <th>ADMISSION NO.</th>
                 <th>ROLL NUMBER</th>
                 <th>NAME</th>
+                <th>CLASS</th>
+                <th>SECTION</th> 
                 <th>ATTENDANCE</th>
                 <th>NOTE</th>
               </tr>
             </thead>
 
             <tbody>
-              {currentRows.length === 0 ? (
+              {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="StudentAttendance-empty">
-                    No data available in table
+                  <td colSpan="8" className="StudentAttendance-empty">
+                    🚫 No students found
                   </td>
                 </tr>
               ) : (
-                currentRows.map((s, i) => (
+                filtered.map((s, i) => (
                   <tr key={s.id}>
-                    <td>{startIndex + i + 1}</td>
+                    <td>{i + 1}</td>
                     <td>{s.admission}</td>
                     <td>{s.roll}</td>
                     <td>{s.name}</td>
 
+                   
+                    <td>{s.class}</td>
+
+                    
+                    <td>{s.section}</td>
+
                     <td>
                       <select
                         value={s.attendance}
-                        onChange={(e)=>
-                          handleAttendanceChange(s.id,e.target.value)
+                        onChange={(e) =>
+                          handleAttendanceChange(s.id, e.target.value)
                         }
                       >
                         <option>Present</option>
@@ -202,15 +315,15 @@ const StudentAttendance = () => {
                     <td>
                       <input
                         value={s.note}
-                        onChange={(e)=>{
-                          setData(prev =>
-                            prev.map(st =>
+                        onChange={(e) =>
+                          setData((prev) =>
+                            prev.map((st) =>
                               st.id === s.id
-                                ? {...st,note:e.target.value}
-                                : st
-                            )
-                          );
-                        }}
+                                ? { ...st, note: e.target.value }
+                                : st,
+                            ),
+                          )
+                        }
                       />
                     </td>
                   </tr>
@@ -220,44 +333,9 @@ const StudentAttendance = () => {
           </table>
         </div>
 
-        {/* FOOTER */}
         <div className="StudentAttendance-footer">
-          Showing {currentRows.length} of {filtered.length} entries
+          Showing {filtered.length} students
         </div>
-
-        {/* ================= PAGINATION ================= */}
-        <div className="StudentAttendance-pagination">
-
-          <button
-            className="page-nav"
-            disabled={currentPage === 1}
-            onClick={()=>setCurrentPage(p=>p-1)}
-          >
-            Previous
-          </button>
-
-          {[...Array(totalPages)].map((_,index)=>(
-            <button
-              key={index}
-              className={`page-number ${
-                currentPage===index+1 ? "active": ""
-              }`}
-              onClick={()=>setCurrentPage(index+1)}
-            >
-              {index+1}
-            </button>
-          ))}
-
-          <button
-            className="page-nav"
-            disabled={currentPage === totalPages}
-            onClick={()=>setCurrentPage(p=>p+1)}
-          >
-            Next
-          </button>
-
-        </div>
-
       </div>
     </div>
   );

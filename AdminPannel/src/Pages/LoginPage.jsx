@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import API from "../api/axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import Swal from "sweetalert2";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -18,7 +19,6 @@ const Auth = () => {
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/dashboard";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -30,12 +30,23 @@ const Auth = () => {
         const res = await API.post("/auth/login", { email, password });
 
         if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
           localStorage.setItem("isAdmin", "true");
           localStorage.setItem("admin", JSON.stringify(res.data.admin));
+
+          // ✅ SUCCESS ALERT
+          Swal.fire({
+            title: "Login Successful 🎉",
+            text: "Welcome back!",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+
           navigate(from, { replace: true });
         }
       } else {
-        // ✅ REGISTER (WITH NAME)
+        // ✅ REGISTER
         const res = await API.post("/auth/register", {
           name,
           email,
@@ -43,30 +54,50 @@ const Auth = () => {
         });
 
         if (res.status === 201) {
-          alert("Admin registered successfully ✅");
+          // ✅ SUCCESS ALERT
+          Swal.fire({
+            title: "Registered Successfully 🎉",
+            text: "Admin account created",
+            icon: "success",
+            confirmButtonColor: "#6366f1",
+          });
+
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("isAdmin", "true");
+          localStorage.setItem("admin", JSON.stringify(res.data.admin));
+
+          navigate(from, { replace: true });
+
           setIsLogin(true);
-          setName(""); // reset
+          setName("");
           setEmail("");
           setPassword("");
         }
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      // ❌ ERROR ALERT
+      Swal.fire(
+        "Error ❌",
+        err.response?.data?.message || "Something went wrong",
+        "error",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center 
+    <div
+      className="min-h-screen flex items-center justify-center 
     bg-gradient-to-br from-black via-gray-900 to-gray-950 
-    px-4 relative overflow-hidden">
-
-      <div className="relative w-full max-w-md
+    px-4 relative overflow-hidden"
+    >
+      <div
+        className="relative w-full max-w-md
         bg-white/10 backdrop-blur-2xl border border-white/20 
         rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] 
-        p-6">
-
+        p-6"
+      >
         <h2 className="text-2xl font-bold text-center text-white mb-2">
           {isLogin ? "Admin Login 🔐" : "Admin Register 📝"}
         </h2>
@@ -77,7 +108,6 @@ const Auth = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-
           {/* ✅ NAME ONLY IN REGISTER */}
           {!isLogin && (
             <input
@@ -130,11 +160,7 @@ const Auth = () => {
             bg-gradient-to-r from-blue-600 to-purple-600 
             disabled:opacity-60"
           >
-            {loading
-              ? "Please wait..."
-              : isLogin
-              ? "Login"
-              : "Register"}
+            {loading ? "Please wait..." : isLogin ? "Login" : "Register"}
           </button>
         </form>
 
@@ -153,11 +179,11 @@ const Auth = () => {
         </p>
 
         {/* Demo */}
-        {isLogin && (
+        {/* {isLogin && (
           <p className="text-center text-gray-500 text-xs mt-3">
             Use your registered email & password
           </p>
-        )}
+        )} */}
       </div>
 
       {/* Styles */}

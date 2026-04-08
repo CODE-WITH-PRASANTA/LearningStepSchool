@@ -21,7 +21,26 @@
 .Student-Admission-Container>*{
   margin-bottom:20px;
 }
-
+.Student-Admission-RemoveBtn {
+  margin-top: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.Student-Admission-RemoveBtn {
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 /* ================= HEADER ================= */
 
 .Student-Admission-Header{

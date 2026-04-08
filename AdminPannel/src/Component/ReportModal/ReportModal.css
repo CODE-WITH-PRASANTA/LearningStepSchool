@@ -207,6 +207,56 @@
   border-radius: 6px;
 }
 
+
+
+.reports-student-photo {
+  width: 80px;
+  height: 90px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.reports-student-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.reports-grade-scale {
+  margin-top: 20px;
+}
+
+.reports-grade-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.reports-grade-table th,
+.reports-grade-table td {
+  border: 1px solid #999;
+  padding: 6px;
+  text-align: center;
+}
+
+.reports-grade-table th {
+  background: #f1f1f1;
+}
+
 /* =========================
    MOBILE
 ========================= */
@@ -356,4 +406,407 @@
     display: none !important;
   }
 
+}
+
+
+/* HEADER GRID FIX */
+.reports-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 90px;
+  align-items: center;
+}
+
+.reports-title-box {
+  text-align: center;
+}
+
+/* =========================
+   PERFECT PRINT (A4)
+========================= */
+@media print {
+
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* REMOVE OVERLAY */
+  .reports-overlay {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+  /* SHOW ONLY REPORT */
+  body * {
+    visibility: hidden;
+  }
+
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  #printArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 190mm; /* 🔥 safe width */
+    min-height: auto;
+    padding: 10mm;
+    box-sizing: border-box;
+  }
+
+  /* REMOVE SHADOW */
+  .reports-card {
+    box-shadow: none !important;
+    border: 2px solid #000;
+  }
+
+  /* TABLE FIX */
+  .reports-table {
+    width: 100%;
+    border-collapse: collapse !important;
+    font-size: 11px;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    border: 1px solid #000 !important;
+    padding: 6px;
+  }
+
+  /* HEADER REPEAT ON NEXT PAGE */
+  thead {
+    display: table-header-group !important;
+  }
+
+  /* PREVENT ROW BREAK */
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  td, th {
+    page-break-inside: avoid !important;
+  }
+
+  /* FIX COLORS */
+  th {
+    background: #e5e7eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* FIX SUMMARY GRID */
+  .reports-summary {
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 12px;
+  }
+
+  /* FIX ATTENDANCE */
+  .reports-attendance {
+    flex-direction: row;
+    font-size: 12px;
+  }
+
+  /* FIX SIGN */
+  .reports-sign {
+    margin-top: 40px;
+  }
+
+  /* HIDE BUTTONS */
+  .reports-buttons {
+    display: none !important;
+  }
+
+  /* 🔥 IMAGE FIX */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+
+/* =========================
+   PREMIUM TABLE UPGRADE
+========================= */
+
+.reports-table {
+  border: 2px solid #000;
+}
+
+/* HEADER STRONG */
+.reports-table thead th {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+/* HOVER EFFECT */
+.reports-table tbody tr:hover {
+  background: #eef2ff;
+  transition: 0.2s;
+}
+
+/* FULL MARK STYLE */
+.full-mark {
+  font-weight: 600;
+  color: #555;
+}
+
+/* MARK STYLE */
+.mark {
+  font-weight: 600;
+  color: #111;
+}
+
+/* TOTAL STYLE */
+.total {
+  font-weight: bold;
+  color: #1e3a8a;
+}
+
+/* =========================
+   GRADE BADGES (PREMIUM)
+========================= */
+
+.grade-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* COLORS */
+.grade-badge.a1 {
+  background: #16a34a;
+  color: #fff;
+}
+
+.grade-badge.a2 {
+  background: #22c55e;
+  color: #fff;
+}
+
+.grade-badge.b1 {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.grade-badge.c {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.grade-badge.e {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* =========================
+   CARD PREMIUM LOOK
+========================= */
+
+.reports-card {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================
+   SUMMARY UPGRADE
+========================= */
+
+.reports-summary {
+  font-weight: 600;
+}
+
+.reports-summary p {
+  padding: 6px;
+  border-right: 1px solid #000;
+}
+
+.reports-summary p:last-child {
+  border-right: none;
+}
+
+.grade-badge.b2 {
+  background: #0ea5e9;
+  color: #fff;
+}
+
+.grade-badge.c1 {
+  background: #eab308;
+  color: #fff;
+}
+
+.grade-badge.c2 {
+  background: #f97316;
+  color: #fff;
+}
+
+.grade-badge.d {
+  background: #a855f7;
+  color: #fff;
+}
+
+.reports-grade-scale.small {
+  margin-top: 10px;
+  overflow-x: auto;
+  /* mobile scroll */
+}
+
+.reports-grade-table.small {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: #f9fafb;
+}
+
+.reports-grade-table.small td {
+  padding: 6px 10px;
+  border: 1px solid #eee;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* First column label */
+.reports-grade-table.small td:first-child {
+  font-weight: bold;
+  background: #f1f5f9;
+}
+
+.reports-grade-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.reports-grade-table th {
+  background: #f4c542;
+  border: 1px solid #000;
+  padding: 8px;
+}
+
+.reports-grade-table td {
+  border: 1px solid #000;
+  padding: 8px;
+}
+
+/* =========================
+   PERFECT PRINT (A4)
+========================= */
+@media print {
+
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* REMOVE OVERLAY */
+  .reports-overlay {
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+  /* SHOW ONLY REPORT */
+  body * {
+    visibility: hidden;
+  }
+
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  #printArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 190mm; /* 🔥 safe width */
+    min-height: auto;
+    padding: 10mm;
+    box-sizing: border-box;
+  }
+
+  /* REMOVE SHADOW */
+  .reports-card {
+    box-shadow: none !important;
+    border: 2px solid #000;
+  }
+
+  /* TABLE FIX */
+  .reports-table {
+    width: 100%;
+    border-collapse: collapse !important;
+    font-size: 11px;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    border: 1px solid #000 !important;
+    padding: 6px;
+  }
+
+  /* HEADER REPEAT ON NEXT PAGE */
+  thead {
+    display: table-header-group !important;
+  }
+
+  /* PREVENT ROW BREAK */
+  tr {
+    page-break-inside: avoid !important;
+  }
+
+  td, th {
+    page-break-inside: avoid !important;
+  }
+
+  /* FIX COLORS */
+  th {
+    background: #e5e7eb !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* FIX SUMMARY GRID */
+  .reports-summary {
+    grid-template-columns: repeat(2, 1fr);
+    font-size: 12px;
+  }
+
+  /* FIX ATTENDANCE */
+  .reports-attendance {
+    flex-direction: row;
+    font-size: 12px;
+  }
+
+  /* FIX SIGN */
+  .reports-sign {
+    margin-top: 40px;
+  }
+
+  /* HIDE BUTTONS */
+  .reports-buttons {
+    display: none !important;
+  }
+
+  /* 🔥 IMAGE FIX */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
 }

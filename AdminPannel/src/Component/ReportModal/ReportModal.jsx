@@ -1,9 +1,43 @@
 import React from "react";
 import html2pdf from "html2pdf.js";
 import "./ReportModal.css";
+import { IMAGE_URL } from "../../api/axios";
 
 const ReportModal = ({ viewData, setViewData, logo }) => {
   if (!viewData) return null;
+
+  const handleDownloadPDF = () => {
+    const element = document.getElementById("printArea");
+
+    // ⏳ WAIT FOR IMAGE LOAD (IMPORTANT)
+    setTimeout(() => {
+      html2pdf()
+        .set({
+          margin: 0,
+          filename: `${viewData.name}_Report.pdf`,
+          html2canvas: {
+            scale: 3,
+            useCORS: true, // ✅ FIX
+            allowTaint: true, // ✅ FIX
+          },
+          jsPDF: {
+            unit: "mm",
+            format: "a4",
+            orientation: "portrait",
+          },
+        })
+        .from(element)
+        .save();
+    }, 500); // wait for image load
+  };
+
+  const gradeConfig = [
+    { min: 81, max: 100, grade: "A" },
+    { min: 61, max: 80, grade: "B" },
+    { min: 41, max: 60, grade: "C" },
+    { min: 33, max: 40, grade: "D" },
+    { min: 0, max: 32, grade: "E" },
+  ];
 
   return (
     <div className="reports-overlay">
@@ -12,52 +46,85 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
         <div className="reports-header">
           <img src={logo} alt="logo" className="reports-logo" />
 
-          <div>
+          <div className="reports-title-box">
             <h1 className="reports-title">
               Learning Step International School
             </h1>
             <p className="reports-subtitle">Report Card - 2025-26</p>
           </div>
+
+          <div className="reports-student-photo">
+            <img
+              crossOrigin="anonymous" // 🔥 VERY IMPORTANT
+              src={
+                viewData.studentPhoto
+                  ? `${IMAGE_URL}${viewData.studentPhoto}`
+                  : "https://via.placeholder.com/80"
+              }
+              alt="student"
+            />
+          </div>
         </div>
 
         <hr />
 
-        {/* INFO BOX (LIKE PDF) */}
+        {/* INFO */}
         <div className="reports-info reports-box">
           <div>
             <p>
-              <b>Name:</b> {viewData.name}
+              <b>Name of Student:</b> {viewData.name || "-"}
             </p>
             <p>
-              <b>Admission:</b> {viewData.admissionNo}
+              <b>Father's Name:</b> {viewData.fatherName || "-"}
             </p>
             <p>
-              <b>Roll:</b> {viewData.rollNumber}
+              <b>Mother's Name:</b> {viewData.motherName || "-"}
             </p>
             <p>
-              <b>Father:</b> {viewData.fatherName || "-"}
+              <b>Admission No:</b> {viewData.admissionNo || "-"}
+            </p>
+            <p>
+              <b>Aadhaar No:</b> {viewData.aadhaarNumber || "-"}
+            </p>
+            <p>
+              <b>Height:</b> {viewData.height || "-"}
+            </p>
+            <p>
+              <b>PEN No:</b> {viewData.penNo || "-"}
             </p>
           </div>
 
           <div>
             <p>
-              <b>Class:</b> {viewData.class || viewData.classId?.className}
+              <b>Roll No:</b> {viewData.rollNumber || "-"}
             </p>
             <p>
-              <b>Exam:</b> {viewData.examType}
+              <b>Class:</b>{" "}
+              {viewData.class || viewData.classId?.className || "-"}
             </p>
             <p>
-              <b>Date:</b> {new Date().toLocaleDateString()}
+              <b>DOB:</b>{" "}
+              {viewData.dob ? new Date(viewData.dob).toLocaleDateString() : "-"}
+            </p>
+            <p>
+              <b>House Name:</b> {viewData.houseName || "-"}
+            </p>
+            <p>
+              <b>Blood Group:</b> {viewData.bloodGroup || "-"}
+            </p>
+            <p>
+              <b>Weight:</b> {viewData.weight || "-"}
             </p>
           </div>
         </div>
 
-        {/* TABLE (PDF STYLE) */}
+        {/* SUBJECT TABLE */}
         <div className="reports-table-wrapper">
           <table className="reports-table">
             <thead>
               <tr>
                 <th rowSpan="2">Subject</th>
+                <th rowSpan="2">Full Marks</th>
                 <th colSpan="2">Term</th>
                 <th colSpan="2">Final</th>
                 <th rowSpan="2">Total</th>
@@ -72,30 +139,75 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
             <tbody>
               {viewData.subjects?.map((sub, i) => {
-                const grade =
-                  sub.marks >= 90
-                    ? "A1"
-                    : sub.marks >= 75
-                      ? "A2"
-                      : sub.marks >= 60
-                        ? "B1"
-                        : sub.marks >= 40
-                          ? "C"
-                          : "E";
+                const getGrade = (marks, fullMarks) => {
+                  if (!fullMarks) return "-";
+
+                  const percent = (marks / fullMarks) * 100;
+
+                  const found = gradeConfig.find(
+                    (g) => percent >= g.min && percent <= g.max,
+                  );
+
+                  return found ? found.grade : "-";
+                };
+
+                const grade = getGrade(sub.marks, sub.fullMarks);
+
+                <td>{grade}</td>;
 
                 return (
                   <tr key={i}>
                     <td className="reports-subject">{sub.subject}</td>
-                    <td>{sub.marks}</td>
-                    <td>{grade}</td>
+
+                    {/* FULL MARK */}
+                    <td className="full-mark">{sub.fullMarks || "-"}</td>
+
+                    <td className="mark">{sub.marks}</td>
+
+                    {/* 🔥 PREMIUM GRADE BADGE */}
+                    <td>
+                      <span className={`grade-badge ${grade.toLowerCase()}`}>
+                        {grade}
+                      </span>
+                    </td>
+
                     <td>-</td>
                     <td>-</td>
-                    <td>{sub.marks}</td>
+
+                    {/* TOTAL */}
+                    <td className="total">
+                      {sub.marks} / {sub.fullMarks || 100}
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+        </div>
+
+        {/* GRADING SCALE */}
+        <div className="reports-grade-scale small">
+         <table className="reports-grade-table small">
+  <tbody>
+    {/* HEADER ROW */}
+    <tr>
+      <td><b>Grade</b></td>
+      {gradeConfig.map((g, i) => (
+        <td key={i}>{g.grade}</td>
+      ))}
+    </tr>
+
+    {/* MARKS ROW */}
+    <tr>
+      <td><b>Marks</b></td>
+      {gradeConfig.map((g, i) => (
+        <td key={i}>
+          {g.min}-{g.max}
+        </td>
+      ))}
+    </tr>
+  </tbody>
+</table>
         </div>
 
         {/* SUMMARY */}
@@ -104,7 +216,7 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
             <b>Total:</b> {viewData.total} / {viewData.fullMarks}
           </p>
           <p>
-            <b>Percentage:</b> {viewData.percentage?.toFixed(2)}%
+            <b>Percentage:</b> {viewData.percentage?.toFixed(2) || "0.00"}%
           </p>
           <p>
             <b>Grade:</b> {viewData.grade}
@@ -117,7 +229,7 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
           </p>
         </div>
 
-        {/* ATTENDANCE (NEW - PDF STYLE) */}
+        {/* ATTENDANCE */}
         <div className="reports-attendance">
           <p>
             <b>Working Days:</b> 200
@@ -143,12 +255,10 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
             <div className="line" />
             <p>Parent</p>
           </div>
-
           <div>
             <div className="line" />
             <p>Class Teacher</p>
           </div>
-
           <div>
             <div className="line" />
             <p>Principal</p>
@@ -158,28 +268,7 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
       {/* BUTTONS */}
       <div className="reports-buttons">
-        <button
-          className="btn green"
-          onClick={() => {
-            html2pdf()
-              .set({
-                margin: 0,
-                filename: `${viewData.name}_Report.pdf`,
-                html2canvas: {
-                  scale: 2,
-                  useCORS: true,
-                },
-                jsPDF: {
-                  unit: "mm",
-                  format: "a4",
-                  orientation: "portrait",
-                },
-                pagebreak: { mode: ["avoid-all"] },
-              })
-              .from(document.getElementById("printArea"))
-              .save();
-          }}
-        >
+        <button className="btn green" onClick={handleDownloadPDF}>
           PDF
         </button>
 
