@@ -192,89 +192,90 @@ const FeeCollection = () => {
   const totalPages = Math.ceil(filteredFees.length / rowsPerPage);
 
   /* ================= SAVE FEE ================= */
-    const saveFee = async () => {
-      if (!selectedStudent) {
-        alert("⚠️ Please select a student");
-        return;
-      }
 
-      if (!amount || isNaN(amount) || Number(amount) <= 0) {
-        alert("⚠️ Enter valid amount");
-        return;
-      }
+  const saveFee = async () => {
+  if (!selectedStudent) {
+    alert("⚠️ Please select a student");
+    return;
+  }
 
-      if (!feeType) {
-        alert("⚠️ Select fee type");
-        return;
-      }
+  if (!amount || isNaN(amount) || Number(amount) <= 0) {
+    alert("⚠️ Enter valid amount");
+    return;
+  }
 
-      if (!date) {
-        alert("⚠️ Select date");
-        return;
-      }
+  if (!feeType) {
+    alert("⚠️ Select fee type");
+    return;
+  }
 
-      try {
-        const totalAmount = Number(amount);
+  if (!date) {
+    alert("⚠️ Select date");
+    return;
+  }
 
-        // ✅ Discount Calculation
-        const discountAmount = (totalAmount * discount) / 100;
-        const finalAmount = totalAmount - discountAmount;
+  try {
+    const totalAmount = Number(amount);
 
-        const paidAmount = finalAmount; // Full paid
-        const dueAmount = totalAmount - paidAmount;
+    // ✅ Discount Calculation
+    const discountAmount = (totalAmount * discount) / 100;
+    const finalAmount = totalAmount - discountAmount;
 
-        const payload = {
-          studentId: selectedStudent._id,
-          admissionNo: selectedStudent.admissionNo,
-          name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
-          rollNumber: selectedStudent.rollNumber,
+    const paidAmount = finalAmount;
+    const dueAmount = totalAmount - paidAmount;
 
-          class: selectedStudent.class,
-          section: selectedStudent.section,
+    const payload = {
+      studentId: selectedStudent._id,
+      admissionNo: selectedStudent.admissionNo,
+      name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
+      rollNumber: selectedStudent.rollNumber,
 
+      class: selectedStudent.class,
+      section: selectedStudent.section,
+
+      amount: totalAmount,
+      paid: paidAmount,
+      due: dueAmount,
+
+      discount,
+      paymentMethod,
+      note,
+      status,
+
+      fees: [
+        {
+          feeType,
           amount: totalAmount,
-          paid: paidAmount,
-          due: dueAmount,
+        },
+      ],
 
-          discount,
-          paymentMethod,
-          note,
-          status,
-
-          fees: [
-            {
-              feeType,
-              amount: totalAmount,
-            },
-          ],
-
-          date,
-        };
-
-        await API.post("/admission/fees", payload);
-
-        alert("✅ Fee collected successfully");
-
-        fetchFees();
-
-        // ✅ RESET ALL STATES
-        setShowCollect(false);
-        setSelectedStudent(null);
-        setStudentSearch("");
-        setAmount("");
-        setDiscount(0);
-        setFeeType("");
-        setPaymentMethod("Cash");
-        setNote("");
-        setStatus("Paid");
-
-        const today = new Date().toISOString().split("T")[0];
-        setDate(today);
-      } catch (err) {
-        console.error(err);
-        alert("❌ Failed to save fee");
-      }
+      date,
     };
+
+    await API.post("/admission/fees", payload);
+
+    alert("✅ Fee collected successfully");
+
+    fetchFees();
+
+    // ✅ RESET
+    setShowCollect(false);
+    setSelectedStudent(null);
+    setStudentSearch("");
+    setAmount("");
+    setDiscount(0);
+    setFeeType("");
+    setPaymentMethod("Cash");
+    setNote("");
+    setStatus("Paid");
+
+    const today = new Date().toISOString().split("T")[0];
+    setDate(today);
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to save fee");
+  }
+};
   return (
     <div className="FeeCollection">
       {/* HEADER */}
@@ -368,14 +369,14 @@ const FeeCollection = () => {
 
       <div className="FeeCollection-tableWrapper">
         <table className="FeeCollection-table">
-         <thead>
+          <thead>
             <tr>
               <th>S.L</th>
               <th>Admission No</th>
               <th>Name</th>
               <th>Roll</th>
               <th>Class</th>
-              <th>Fee Type</th>
+              <th>Fee Type</th> 
               <th>Amount</th>
               <th>Discount %</th>
               <th>Paid</th>
