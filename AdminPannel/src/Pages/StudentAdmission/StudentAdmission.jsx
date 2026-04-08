@@ -4,6 +4,7 @@ import API, { IMAGE_URL } from "../../api/axios";
 import { Download } from "lucide-react";
 import "./StudentAdmission.css";
 import { useNavigate } from "react-router-dom";
+import DownloadFrom from '../../assets/ApplicationForm.pdf.pdf'
 
 const initialFormState = {
   admissionNo: "",
@@ -296,13 +297,20 @@ export default function StudentAdmission() {
           <h1 className="Student-Admission-Title">
             {editId ? "Edit Student" : "Student Admission"}
           </h1>
-          <button
-            className="Student-Admission-DownloadBtn"
-            onClick={() => window.print()}
-          >
-            <Download size={18} />
-            Download Form
-          </button>
+         <button
+          className="Student-Admission-DownloadBtn"
+          onClick={() => {
+            const link = document.createElement("a");
+            link.href = DownloadFrom;
+            link.download = "ApplicationForm.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
+        >
+          <Download size={18} />
+          Download Form
+        </button>
         </div>
 
         {/* ================= STUDENT DETAILS ================= */}
