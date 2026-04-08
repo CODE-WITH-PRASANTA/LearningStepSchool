@@ -269,9 +269,9 @@ const ExamResult = () => {
           >
             <option value="">All</option>
 
-            {Array.from({ length: 8 }, (_, i) => {
-              const min = i * 50;
-              const max = min + 50;
+            {Array.from({ length: 40 }, (_, i) => {
+              const min = i * 10;
+              const max = min + 10;
 
               return (
                 <option key={i} value={`${min}-${max}`}>

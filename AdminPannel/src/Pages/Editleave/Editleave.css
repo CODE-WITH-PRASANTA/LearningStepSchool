@@ -110,6 +110,37 @@
   padding: 20px;
 }
 
+.leave-wrapper .form-group select {
+  padding: 5px 10px;
+  height: 36px;
+}
+
+.file-link {
+  color: #0b0f7a;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+
+.edit-btn {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .leave-wrapper .grid-3 {

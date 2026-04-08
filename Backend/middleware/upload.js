@@ -12,7 +12,19 @@ const ensureDir = (dir) => {
 
 /* ================= ROUTE → FOLDER MAP ================= */
 const routeFolderMap = {
-  
+  "/advertisements": "uploads/advertisements",
+  "/blogs": "uploads/blogs",
+  "/class-data": "uploads/class-data",
+  "/classes": "uploads/classes",
+  "/gallery": "uploads/gallery",
+  "/notices": "uploads/notices",
+  "/students": "uploads/students",
+  "/subjects": "uploads/subjects",
+  "/teachers": "uploads/teachers",
+  "/testimonials": "uploads/testimonials",
+
+  // ✅ NEW (your current feature)
+  "/student-leave": "uploads/student-leave",
 };
 
 /* ================= GET UPLOAD PATH ================= */
