@@ -47,6 +47,8 @@ const examResult = require("./routes/examResult.routes");
 const examType = require("./routes/examType.routes")
 const authRoutes = require("./routes/adminAuth.routes");
 const attendanceRoutes = require("./routes/attendance.routes");
+const studentLeaveRoutes = require("./routes/studentLeave.routes");
+
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -80,6 +82,7 @@ app.use("/api/exam-results", examResult);
 app.use("/api/exam-types",examType );
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/student-leave", studentLeaveRoutes);
 
 
 /* ================= 404 HANDLER ================= */
