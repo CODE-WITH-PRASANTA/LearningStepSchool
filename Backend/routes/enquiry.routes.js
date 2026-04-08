@@ -10,4 +10,7 @@ router.get("/", enquiryController.getEnquiries);
 router.delete("/:id", enquiryController.deleteEnquiry);
 router.put("/:id/status", enquiryController.updateStatus);
 
+// ✅ NEW ROUTE
+router.put("/:id/feedback", enquiryController.updateFeedback);
+
 module.exports = router;

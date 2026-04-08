@@ -2,6 +2,8 @@
 
 import { NavLink, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi";
 import {
   FiHome,
   FiBookOpen,
@@ -142,6 +144,7 @@ const menu = [
     children: [
       { label: "Fee collect", path: "/fee-collect" },
       { label: "Fee Type", path: "/fee-type" },
+      { label: "PaymentRecipt", path: "/Paymentrecipt" },
     ],
   },
   {
@@ -171,6 +174,15 @@ const menu = [
       { label: "Type of Exam Publish", path: "/exam-type" },
     ],
   },
+  {
+    label: "Attendance",
+    icon: FiCheckSquare,
+    children: [
+      { label: "Student Attendance", path: "/attendance/student-attendance" },
+      { label: "Student Leave", path: "/attendance/student-leave" },
+      { label: "Attendance Report", path: "/attendance/attendance-report" },
+    ],
+  },
 
   // {
   //   label: "Front Office",
@@ -187,15 +199,7 @@ const menu = [
   //   ],
   // },
 
-  // {
-  //   label: "Attendance",
-  //   icon: FiCheckSquare,
-  //   children: [
-  //     { label: "Student Attendance", path: "/attendance/student-attendance" },
-  //     { label: "Student Leave", path: "/attendance/student-leave" },
-  //     { label: "Attendance Report", path: "/attendance/attendance-report" },
-  //   ],
-  // },
+  
 
   // {
   //   label: "Primary Evaluation",
@@ -286,6 +290,15 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const location = useLocation();
   const [openGroup, setOpenGroup] = useState(null);
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAdmin");
+    localStorage.removeItem("admin");
+
+    navigate("/login");
+  };
+
   /* AUTO OPEN ACTIVE GROUP (ONLY ON FIRST LOAD) */
   useEffect(() => {
     const activeGroup = menu.find(
@@ -310,19 +323,19 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
       <aside
         className={`fixed top-0 left-0 z-50 h-screen bg-white/80 backdrop-blur-xl border-r border-gray-200
-        transition-all duration-500 ease-in-out
-        ${sidebarOpen ? "w-72" : "w-20"}
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+  transition-all duration-500 ease-in-out flex flex-col
+  ${sidebarOpen ? "w-72" : "w-20"}
+  ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* LOGO */}
-        <div className="h-16 flex items-center justify-center border-b">
+        <div className="h-16 flex items-center justify-center border-b shrink-0">
           <span className="text-xl font-bold text-indigo-600 transition-all duration-300">
             {sidebarOpen ? "School Admin" : "SA"}
           </span>
         </div>
 
         {/* NAVIGATION */}
-        <nav className="h-[calc(100vh-4rem)] overflow-y-auto p-4 space-y-2">
+        <nav className="flex-1 overflow-y-auto p-4 space-y-2">
           {menu.map((item, i) => {
             if (item.type === "section") {
               return (
@@ -347,7 +360,6 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               item.children &&
               item.children.some((c) => location.pathname.startsWith(c.path));
 
-            // 👇 ONLY manual open controls dropdown
             const isOpen = openGroup === item.label;
 
             /* ================= GROUP MENU ================= */
@@ -359,18 +371,17 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                       sidebarOpen && setOpenGroup(isOpen ? null : item.label)
                     }
                     className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300
-                    ${
-                      isChildActive
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
-                        : isOpen
-                          ? "bg-indigo-100 text-indigo-700"
-                          : "hover:bg-gray-100"
-                    }`}
+              ${
+                isChildActive
+                  ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
+                  : isOpen
+                    ? "bg-indigo-100 text-indigo-700"
+                    : "hover:bg-gray-100"
+              }`}
                   >
                     {Icon && (
                       <span
-                        className={`icon-bubble transition-all duration-300
-                        ${
+                        className={`icon-bubble ${
                           isChildActive
                             ? "text-indigo-600 bg-white shadow-sm"
                             : "text-indigo-600"
@@ -435,13 +446,12 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               <NavLink key={i} to={item.path}>
                 {({ isActive }) => (
                   <div
-                    className={`nav-item flex items-center gap-3 px-3 py-3 rounded-2xl 
-                    transition-all duration-300
-                    ${
-                      isActive
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg"
-                        : "hover:bg-indigo-50"
-                    }`}
+                    className={`flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300
+              ${
+                isActive
+                  ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg"
+                  : "hover:bg-indigo-50"
+              }`}
                   >
                     {Icon && (
                       <span
@@ -464,6 +474,27 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
             );
           })}
         </nav>
+
+        {/* LOGOUT BUTTON */}
+        <div className="p-4 border-t border-gray-200 shrink-0 bg-white/60 backdrop-blur">
+          <button
+            onClick={() => {
+              if (window.confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem("isAdmin");
+                localStorage.removeItem("admin");
+                navigate("/login");
+              }
+            }}
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl 
+      text-red-600 hover:bg-red-50 transition-all duration-300"
+          >
+            <span className=" cursor-pointer icon-bubble text-red-600">
+              <FiLogOut />
+            </span>
+
+            {sidebarOpen && <span className="cursor-pointer text-sm font-medium">Logout</span>}
+          </button>
+        </div>
       </aside>
     </>
   );

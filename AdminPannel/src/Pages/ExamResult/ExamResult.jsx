@@ -1,57 +1,118 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./ExamResult.css";
-import API from "../../api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 import ReportModal from "../../Component/ReportModal/ReportModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchResults,
+  removeResult,
+  updateResult,
+} from "../../utils/resultSlice";
 
 const ExamResult = () => {
+  const [editData, setEditData] = useState(null);
+  const [editModal, setEditModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(null);
   const [page, setPage] = useState(1);
-  const [results, setResults] = useState([]);
   const [search, setSearch] = useState("");
   const [viewData, setViewData] = useState(null);
 
-  // ✅ NEW FILTER STATES
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
+  const [markRange, setMarkRange] = useState("");
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
-  /* ================= FETCH ================= */
-  const fetchResults = async () => {
+  const dispatch = useDispatch();
+
+  const {
+    data: results,
+    loading,
+    lastFetched,
+  } = useSelector((state) => state.results);
+
+  useEffect(() => {
+    const isExpired = !lastFetched || Date.now() - lastFetched > 5 * 60 * 1000;
+
+    if (isExpired) {
+      dispatch(fetchResults());
+    }
+  }, [dispatch, lastFetched]);
+
+  useEffect(() => {
+    const closeMenu = () => setMenuOpen(null);
+    window.addEventListener("click", closeMenu);
+
+    return () => window.removeEventListener("click", closeMenu);
+  }, []);
+
+  /* ================= DELETE ================= */
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this result?",
+    );
+    if (!confirmDelete) return;
+
     try {
-      const res = await API.get("/exam-results");
-      setResults(res.data.data || []);
+      // ⚡ instant remove from UI
+      if (id) dispatch(removeResult(id));
+
+      await API.delete(`/exam-results/${id}`);
     } catch (err) {
       console.error(err);
+      alert("Delete failed");
+
+      // 🔁 rollback if API fails
+      dispatch(fetchResults());
+    } finally {
+      setMenuOpen(null);
     }
   };
 
-  useEffect(() => {
-    fetchResults();
-  }, []);
-
-  /* ================= UNIQUE FILTER OPTIONS ================= */
+  /* ================= FILTER ================= */
   const classOptions = useMemo(() => {
     return [
       ...new Set(
+<<<<<<< HEAD
         results.map(
           (item) => item.classId?.className || item.class || item.className
         )
+=======
+        (results || [])
+          .map(
+            (item) =>
+              item.classId?.className || item.class || item.className || "",
+          )
+          .filter(Boolean),
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
       ),
     ];
   }, [results]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [markRange]);
+
   const examOptions = useMemo(() => {
+<<<<<<< HEAD
     return [...new Set(results.map((item) => item.examType))];
+=======
+    return [
+      ...new Set(
+        results.map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
+      ),
+    ];
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
   }, [results]);
 
-  /* ================= FILTER + SEARCH ================= */
-  const filteredData = results.filter((item) => {
-    const className =
-      item.classId?.className || item.class || item.className || "";
+  const filteredData = (results || [])
+    .filter((item) => {
+      const className =
+        item.classId?.className || item.class || item.className || "";
 
+<<<<<<< HEAD
     return (
       ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
         (item.admissionNo || "").toLowerCase().includes(search.toLowerCase()) ||
@@ -60,16 +121,122 @@ const ExamResult = () => {
       (selectedExam ? item.examType === selectedExam : true)
     );
   });
+=======
+      // 🔥 MARK RANGE FILTER (IMPROVED)
+      let isInRange = true;
+
+      if (markRange) {
+        const [min, max] = markRange.split("-").map((n) => Number(n.trim()));
+
+        const marks = parseFloat(item.total) || 0;
+
+        if (!isNaN(min) && !isNaN(max)) {
+          isInRange = marks >= min && marks <= max;
+        }
+      }
+
+      return (
+        ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+          (item.admissionNo || "")
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
+        (selectedClass ? className === selectedClass : true) &&
+        (selectedExam ? item.examType === selectedExam : true) &&
+        isInRange // ✅ NEW CONDITION
+      );
+    })
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)); // 🔥 ADD THIS
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
 
   useEffect(() => {
     setPage(1);
   }, [search, selectedClass, selectedExam]);
 
+  const handleUpdate = async () => {
+    try {
+      if (editData?._id) {
+        dispatch(updateResult(editData));
+      }
+
+      await API.put(`/exam-results/${editData._id}`, editData);
+    } catch (err) {
+      console.error(err);
+      alert("Update failed");
+
+      // 🔁 rollback if error
+      dispatch(fetchResults());
+    } finally {
+      setEditModal(false);
+    }
+  };
+
   /* ================= PAGINATION ================= */
+  // ✅ PAGINATION CORE
   const totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
+
   const indexLast = page * rowsPerPage;
   const indexFirst = indexLast - rowsPerPage;
+
   const currentRows = filteredData.slice(indexFirst, indexLast);
+
+  const pageLimit = 5;
+
+  const startPage = Math.floor((page - 1) / pageLimit) * pageLimit + 1;
+  const endPage = Math.min(startPage + pageLimit - 1, totalPages);
+
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [filteredData, totalPages]);
+
+  const calculateResult = () => {
+    const subjects = editData?.subjects || [];
+
+    const totalMarks = subjects.reduce(
+      (sum, s) => sum + Number(s.marks || 0),
+      0,
+    );
+
+    const totalFullMarks = subjects.reduce(
+      (sum, s) => sum + Number(s.fullMarks || 0),
+      0,
+    );
+
+    const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
+
+    let grade = "F";
+    if (percentage >= 90) grade = "A+";
+    else if (percentage >= 75) grade = "A";
+    else if (percentage >= 60) grade = "B";
+    else if (percentage >= 40) grade = "C";
+
+    const isFail = subjects.some(
+      (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
+    );
+
+    const result = isFail ? "Fail" : "Pass";
+
+    return {
+      totalMarks,
+      totalFullMarks,
+      percentage,
+      grade,
+      result,
+    };
+  };
+
+  const liveResult = calculateResult();
 
   return (
     <div className="ExamResult">
@@ -83,7 +250,10 @@ const ExamResult = () => {
 
       {/* TOOLBAR */}
       <div className="ExamResult-toolbar">
+<<<<<<< HEAD
         {/* SEARCH */}
+=======
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
         <div className="ExamResult-search">
           <FiSearch className="ExamResult-searchIcon" />
           <input
@@ -93,9 +263,11 @@ const ExamResult = () => {
           />
         </div>
 
-        {/* FILTERS */}
         <div className="ExamResult-filters">
+<<<<<<< HEAD
           {/* CLASS FILTER */}
+=======
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
@@ -108,7 +280,6 @@ const ExamResult = () => {
             ))}
           </select>
 
-          {/* EXAM TYPE FILTER */}
           <select
             value={selectedExam}
             onChange={(e) => setSelectedExam(e.target.value)}
@@ -120,43 +291,62 @@ const ExamResult = () => {
               </option>
             ))}
           </select>
+<<<<<<< HEAD
+=======
+
+          <select
+            value={markRange}
+            onChange={(e) => setMarkRange(e.target.value)}
+          >
+            <option value="">All</option>
+
+            {Array.from({ length: 8 }, (_, i) => {
+              const min = i * 50;
+              const max = min + 50;
+
+              return (
+                <option key={i} value={`${min}-${max}`}>
+                  {min} - {max}
+                </option>
+              );
+            })}
+
+            <option value="400-9999">400+</option>
+          </select>
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
         </div>
       </div>
 
-      {/* TABLE */}
-      <div className="ExamResult-tableWrapper">
-        <table className="ExamResult-table">
-          <thead>
-            <tr>
-              <th>S.L</th>
-              <th>Admission No</th>
-              <th>Name</th>
-              <th>Roll No</th>
-              <th>Class</th>
-              <th>Exam</th>
-              <th>Grand Total</th>
-              <th>Percent (%)</th>
-              <th>Grade</th>
-              <th>Result</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {currentRows.length === 0 ? (
+      {loading ? (
+        <div style={{ textAlign: "center", padding: "40px" }}>
+          Loading results...
+        </div>
+      ) : (
+        <div className="ExamResult-tableWrapper">
+          <table className="ExamResult-table">
+            <thead>
               <tr>
+<<<<<<< HEAD
                 <td colSpan="11" className="ExamResult-noData">
                   No Data Found
                 </td>
+=======
+                <th>S.L</th>
+                <th>Admission No</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Exam</th>
+                <th>Grand Total</th>
+                <th>Percent (%)</th>
+                <th>Grade</th>
+                <th>Result</th>
+                <th>Action</th>
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
               </tr>
-            ) : (
-              currentRows.map((item, index) => {
-                const className =
-                  item.classId?.className ||
-                  item.class ||
-                  item.className ||
-                  "N/A";
+            </thead>
 
+<<<<<<< HEAD
                 const fullMarks =
                   item.fullMarks ||
                   item.subjects?.reduce((sum, s) => sum + (s.fullMarks || 0), 0) ||
@@ -208,6 +398,162 @@ const ExamResult = () => {
           </tbody>
         </table>
       </div>
+=======
+            <tbody>
+              {currentRows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="11"
+                    style={{ textAlign: "center", padding: "20px" }}
+                  >
+                    🚫 No results found
+                  </td>
+                </tr>
+              ) : (
+                currentRows.map((item, index) => {
+                  const className =
+                    item.classId?.className ||
+                    item.class ||
+                    item.className ||
+                    "N/A";
+
+                  const fullMarks =
+                    item.fullMarks ||
+                    item.subjects?.reduce(
+                      (sum, s) => sum + (s.fullMarks || 0),
+                      0,
+                    ) ||
+                    0;
+
+                  return (
+                    <tr key={item._id}>
+                      <td>{indexFirst + index + 1}</td>
+                      <td>{item.admissionNo}</td>
+                      <td>{item.name}</td>
+                      <td>{item.rollNumber}</td>
+                      <td>{className}</td>
+                      <td>{item.examType}</td>
+                      <td>
+                        {item.total || 0} / {fullMarks}
+                      </td>
+                      <td>
+                        {item.percentage ? item.percentage.toFixed(2) : "0.00"}
+                      </td>
+                      <td>{item.grade}</td>
+                      <td>
+                        <span className={`ExamResult-result ${item.result}`}>
+                          {item.result}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div className="ExamResult-action">
+                          <button
+                            disabled={loading}
+                            onClick={(e) => {
+                              e.stopPropagation(); // 🔥 VERY IMPORTANT
+                              setMenuOpen(
+                                menuOpen === item._id ? null : item._id,
+                              );
+                            }}
+                          >
+                            <FiMoreVertical />
+                          </button>
+
+                          {menuOpen === item._id && (
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="ExamResult-dropdown"
+                            >
+                              {/* ✅ UPDATED VIEW */}
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const res = await API.get(
+                                      `/students/${item.admissionNo}`,
+                                    );
+
+                                    const student = res.data.data || {};
+
+                                    const mergedData = {
+                                      ...item,
+
+                                      name:
+                                        student.name ||
+                                        `${student.firstName || ""} ${student.lastName || ""}`.trim(),
+
+                                      fatherName: student.fatherName || "",
+                                      motherName: student.motherName || "",
+                                      aadhaarNumber:
+                                        student.aadhaarNumber || "",
+                                      bloodGroup: student.bloodGroup || "",
+                                      height: student.height || "",
+                                      weight: student.weight || "",
+                                      penNo: student.penNo || "",
+                                      houseName: student.houseName || "",
+                                      dob: student.dob || "",
+
+                                      rollNumber:
+                                        student.rollNumber ||
+                                        item.rollNumber ||
+                                        "",
+                                      class:
+                                        student.className ||
+                                        student.class ||
+                                        item.class ||
+                                        "",
+
+                                      // 🔥 ADD THIS
+                                      studentPhoto: student.studentPhoto
+                                        ? `${IMAGE_URL}${
+                                            student.studentPhoto.path ||
+                                            student.studentPhoto
+                                          }`
+                                        : "",
+                                    };
+
+                                    setViewData(mergedData);
+                                  } catch (error) {
+                                    console.error("Fetch error:", error);
+                                    setViewData(item);
+                                  }
+
+                                  setMenuOpen(null);
+                                }}
+                              >
+                                <FiEye /> View
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  setEditData(item); // store data
+                                  setEditModal(true); // open modal
+                                  setMenuOpen(null);
+                                }}
+                              >
+                                ✏️ Edit
+                              </button>
+
+                              <button
+                                disabled={loading}
+                                style={{ color: "red" }}
+                                onClick={() => handleDelete(item._id)}
+                              >
+                                🗑 Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
 
       {/* PAGINATION */}
       <div className="ExamResult-pagination">
@@ -216,36 +562,174 @@ const ExamResult = () => {
           {Math.min(indexLast, filteredData.length)} of {filteredData.length}
         </p>
 
+<<<<<<< HEAD
         <div className="ExamResult-pageGroup">
           <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+=======
+        <div className="pagination-controls">
+          {/* FIRST */}
+          <button disabled={page === 1} onClick={() => setPage(1)}>
+            {"<<"}
+          </button>
+
+          {/* PREVIOUS */}
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          >
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
             {"<"}
           </button>
 
-          {[...Array(totalPages)].map((_, i) => (
+          {/* PAGE NUMBERS (ONLY 5) */}
+          {pageNumbers.map((num) => (
             <button
-              key={i}
-              className={page === i + 1 ? "active" : ""}
-              onClick={() => setPage(i + 1)}
+              key={num}
+              className={page === num ? "active" : ""}
+              onClick={() => setPage(num)}
             >
-              {i + 1}
+              {num}
             </button>
           ))}
 
+          {/* NEXT */}
           <button
             disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           >
             {">"}
+          </button>
+
+          {/* LAST */}
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage(totalPages)}
+          >
+            {">>"}
           </button>
         </div>
       </div>
 
       {/* MODAL */}
-      <ReportModal
-        viewData={viewData}
-        setViewData={setViewData}
-        logo={logo}
-      />
+      <ReportModal viewData={viewData} setViewData={setViewData} logo={logo} />
+
+      {editModal && (
+        <div className="ExamResult-modalOverlay">
+          <div className="ExamResult-modal" style={{ width: "600px" }}>
+            <h3>Edit Result</h3>
+
+            {/* BASIC FIELDS */}
+            <input
+              value={editData.name}
+              onChange={(e) =>
+                setEditData({ ...editData, name: e.target.value })
+              }
+              placeholder="Name"
+            />
+
+            <input
+              value={editData.rollNumber}
+              onChange={(e) =>
+                setEditData({ ...editData, rollNumber: e.target.value })
+              }
+              placeholder="Roll No"
+            />
+
+            <input
+              value={editData.examType}
+              onChange={(e) =>
+                setEditData({ ...editData, examType: e.target.value })
+              }
+              placeholder="Exam Type"
+            />
+
+            {/* 🔥 SUBJECT TABLE */}
+            <table style={{ width: "100%", marginTop: "10px" }}>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Marks</th>
+                  <th>Full Marks</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {editData.subjects?.map((sub, i) => (
+                  <tr key={i}>
+                    <td>{sub.subject}</td>
+
+                    <td>
+                      <input
+                        type="number"
+                        value={sub.marks}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].marks = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="number"
+                        value={sub.fullMarks}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].fullMarks = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* 🔥 LIVE RESULT */}
+            <div className="ExamResult-liveResult">
+              <p>
+                <strong>Total:</strong> {liveResult.totalMarks} /{" "}
+                {liveResult.totalFullMarks}
+              </p>
+
+              <p>
+                <strong>Percentage:</strong> {liveResult.percentage.toFixed(2)}%
+              </p>
+
+              <p>
+                <strong>Grade:</strong> {liveResult.grade}
+              </p>
+
+              <p>
+                <strong>Result:</strong>{" "}
+                <span
+                  style={{
+                    color: liveResult.result === "Pass" ? "green" : "red",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {liveResult.result}
+                </span>
+              </p>
+            </div>
+
+            <div className="ExamResult-modalActions">
+              <button onClick={() => setEditModal(false)}>Cancel</button>
+              <button disabled={loading} onClick={handleUpdate}>
+                {loading ? "Updating..." : "Update"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

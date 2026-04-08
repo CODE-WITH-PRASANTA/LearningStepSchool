@@ -20,7 +20,6 @@ const FloatingForm = () => {
   const fetchAds = async () => {
     try {
       const res = await API.get("/advertisements/all");
-      console.log(res.data.data);
 
       if (res.data.success) {
         const activeAds = res.data.data.filter((ad) => ad.active);
@@ -48,7 +47,7 @@ const FloatingForm = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowForm(true);
-    }, 6000);
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, []);

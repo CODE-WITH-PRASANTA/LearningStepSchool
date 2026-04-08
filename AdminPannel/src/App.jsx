@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
 import AppLayout from "./layout/AppLayout/AppLayout";
 
@@ -22,7 +22,6 @@ import AdmissionSurveyView from "./Component/AdmissionSurveyView/AdmissionSurvey
 
 // Auth
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import { AuthProvider } from "./Auth/AuthContext";
 
 // School / Admin
 import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
@@ -52,8 +51,6 @@ import DailyTimeTable from "./Pages/DailyTimeTable/DailyTimeTable";
 import ClassTimeTable from "./Pages/ClassTimeTable/ClassTimeTable";
 import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
 
-
-
 // Attendance
 import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
 import Studentleave from "./Pages/Studentleave/Studentleave";
@@ -64,7 +61,7 @@ import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import Editleave from "./Pages/Editleave/Editleave";
 import Cocurricular from "./Pages/Cocurricular/Cocurricular";
 import Subject from "./Pages/Subject/Subject";
-import AssignSubjects from "./Pages/Assignsubject/Assignsubject"
+import AssignSubjects from "./Pages/Assignsubject/Assignsubject";
 import Activity from "./Pages/Activity/Activity";
 import Assessment from "./Pages/Assesment/Assesment";
 import EvaluationRemark from "./Pages/EvaluationRemark/EvaluationRemark";
@@ -77,8 +74,8 @@ import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
 import EditAdmissionEnquiry from "./Component/AdmisionEnquiryPage/EditAdmissionEnquiry";
-import  NotificationPublish  from "./Pages/NotificationPublish/NotificationPublish";
-import  LatestNewsAdmin  from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
+import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish";
+import LatestNewsAdmin from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
 import Photogallery from "./Pages/Photogallery/Photogallery";
 import Videogallery from "./Pages/Videogallery/Videogallery";
 import AddBook from "./Pages/AddBook/AddBook";
@@ -104,7 +101,7 @@ import StudentLink from "./Pages/StudentLink/StudentLink";
 import StudentCatagory from "./Pages/StudentCatagory/StudentCatagory";
 import ExpenseList from "./Pages/ExpenseList/ExpenseList";
 
-            ////////**Student info**/////
+////////**Student info**/////
 import House from "./Pages/House/House";
 import LinkSiblings from "./Pages/LinkSiblings/LinkSiblings";
 import StudentUpdate from "./Pages/StudentUpdate/StudentUpdate";
@@ -124,16 +121,14 @@ import FeeType from "./Pages/FeeType/FeeType";
 import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
+import PaymentRecipt from "./Component/PaymentRecipt/PaymentRecipt";
 
 /* ===================== APP ===================== */
 
 export default function App() {
   return (
-    <AuthProvider>
+    <BrowserRouter>
       <Routes>
-
-        {/* ===== PUBLIC ===== */}
-        {/* ===== PUBLIC ROUTE ===== */}
         <Route path="/login" element={<LoginPage />} />
 
         {/* ===== PROTECTED APP ===== */}
@@ -159,14 +154,11 @@ export default function App() {
 
           <Route path="notification" element={<NotificationPublish />} />
 
-
           <Route path="latest-news" element={<LatestNewsAdmin />} />
 
-           {/* {Media} */}
+          {/* {Media} */}
           <Route path="media-photo" element={<Photogallery />} />
           <Route path="media-video" element={<Videogallery />} />
-
-
 
           {/* Class Data */}
           <Route path="class-data" element={<ClsWiseDataManagements />} />
@@ -214,24 +206,15 @@ export default function App() {
             element={<PostalReceive />}
           />
 
-           <Route
-            path="admin/contact-enq"
-            element={<AdminEnquiryManager />}
-          />
+          <Route path="admin/contact-enq" element={<AdminEnquiryManager />} />
 
           {/* Attendance */}
           <Route
             path="attendance/student-attendance"
             element={<StudentAttendance />}
           />
-          <Route
-            path="attendance/student-leave"
-            element={<Studentleave />}
-          />
-          <Route
-            path="attendance/student-leave/add"
-            element={<Editleave />}
-          />
+          <Route path="attendance/student-leave" element={<Studentleave />} />
+          <Route path="attendance/student-leave/add" element={<Editleave />} />
           <Route
             path="attendance/attendance-report"
             element={<AttendanceReport />}
@@ -240,12 +223,18 @@ export default function App() {
           {/* FAQ */}
           <Route path="faq" element={<FaqPosting />} />
           <Route path="/awards" element={<AwardAdminPage />} />
-          <Route path="/learning/pre" element={<PrePrimery />} />   
-          <Route path="/learning/primary" element={<Primery />} />   
-          <Route path="/front-office/postal-dispatch" element={<PostalDispatch />} />   
-          <Route path="/front-office/postal-receive" element={<PostalReceive />} />   
-          <Route path="/learning/secondary" element={<Secondary />} />   
-          <Route path="/front-office/visitors" element={<VisitorBook />} />   
+          <Route path="/learning/pre" element={<PrePrimery />} />
+          <Route path="/learning/primary" element={<Primery />} />
+          <Route
+            path="/front-office/postal-dispatch"
+            element={<PostalDispatch />}
+          />
+          <Route
+            path="/front-office/postal-receive"
+            element={<PostalReceive />}
+          />
+          <Route path="/learning/secondary" element={<Secondary />} />
+          <Route path="/front-office/visitors" element={<VisitorBook />} />
           <Route path="/teachers" element={<TeacherAdminPage />} />
 
           {/*ADD INCOME*/}
@@ -253,86 +242,120 @@ export default function App() {
           <Route path="/income-search" element={<SearchIncome />} />
           <Route path="/income-head" element={<IncomeHead />} />
 
-
-           <Route path="/front-office/complain" element={<Complain />} />
-           <Route path="/front-office/complain/add" element={<ComplainAdd />} />
-           <Route path="/academics/daily-time-table" element={<DailyTimeTable />} />
-           <Route path="/academics/class-time-table" element={<ClassTimeTable />} />
-           <Route path="/academics/teacher-timetable" element={<TeacherTimeTable/>}/>
+          <Route path="/front-office/complain" element={<Complain />} />
+          <Route path="/front-office/complain/add" element={<ComplainAdd />} />
+          <Route
+            path="/academics/daily-time-table"
+            element={<DailyTimeTable />}
+          />
+          <Route
+            path="/academics/class-time-table"
+            element={<ClassTimeTable />}
+          />
+          <Route
+            path="/academics/teacher-timetable"
+            element={<TeacherTimeTable />}
+          />
 
           <Route path="/front-office/gate-pass" element={<GatePass />} />
 
-          <Route path="academics/co-curricular-subject" element={<Cocurricular/>}/>
-          <Route path="academics/Subject" element={<Subject/>}/>
-          <Route path="/academics/assign-subjects" element={<AssignSubjects/>}/>
+          <Route
+            path="academics/co-curricular-subject"
+            element={<Cocurricular />}
+          />
+          <Route path="academics/Subject" element={<Subject />} />
+          <Route
+            path="/academics/assign-subjects"
+            element={<AssignSubjects />}
+          />
 
           {/*Primary Evaluation*/}
-          <Route path="/primary-evaluation/activity" element={<Activity/>}/>
-          <Route path="/primary-evaluation/assessment"element={<Assessment/>}/>
-          <Route path="/primary-evaluation/evaluation-remark" element={<EvaluationRemark/>}/>
-          <Route path="/primary-evaluation/class-report" element={<PrimaryClassReport/>}/>
-
+          <Route path="/primary-evaluation/activity" element={<Activity />} />
+          <Route
+            path="/primary-evaluation/assessment"
+            element={<Assessment />}
+          />
+          <Route
+            path="/primary-evaluation/evaluation-remark"
+            element={<EvaluationRemark />}
+          />
+          <Route
+            path="/primary-evaluation/class-report"
+            element={<PrimaryClassReport />}
+          />
 
           <Route path="/library/book-list" element={<BookList />} />
-          <Route path="/library/issue-return" element={< IssueReturn/>}/>
-          
+          <Route path="/library/issue-return" element={<IssueReturn />} />
+
           {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
-          <Route path="/library/add-student" element={< AddStudent/>}/>
-          <Route path="/library/issued-return-report" element={<IssuedReturnReport/>}/>
-          
-          <Route path="/academics/assign-class-teacher" element={<AssignClassTeacher />} />
+          <Route path="/library/add-student" element={<AddStudent />} />
+          <Route
+            path="/library/issued-return-report"
+            element={<IssuedReturnReport />}
+          />
+
+          <Route
+            path="/academics/assign-class-teacher"
+            element={<AssignClassTeacher />}
+          />
           <Route path="/academics/class" element={<ClassPage />} />
           <Route path="/academics/section" element={<SectionPage />} />
           <Route path="/front-office/enquiry" element={<AdmissionEnquiry />} />
-          <Route path="/edit-admission-enquiry" element={<EditAdmissionEnquiry />} />
+          <Route
+            path="/edit-admission-enquiry"
+            element={<EditAdmissionEnquiry />}
+          />
           <Route path="/add-book" element={<AddBook />} />
-          <Route path="/library/issue-book" element={<IssueReturn/>}/>
-          <Route path="/student-list" element={<StudentList/>}/>
-          <Route path="/library/return-book" element={<ReturnBook/>}/>
-          <Route path="/library/student" element={<AddStudent/>}/>
-          <Route path="/Add/Studentlist" element={<AddStudentlist/>}/>
-          <Route path="/library/staff" element={<Stafflibrary/>}/>
-          <Route path="/student/admission" element={<StudentAdmission/>}/>
-          <Route path="/student/admission/details" element={<StudentAdmsnDetails/>}/>
-          <Route path="/type-question"element={<TypeList/>}/>
-          <Route path="/question" element={<Question/>}/>
-          <Route path="/update-question" element={<UpdateQuestion/>}/>
-          <Route path="/paper-generate" element={<Generate/>}/>
-          <Route path="/generate-question" element={<GenerateQuestion/>}/>
-          <Route path="/expense/details" element={<AddExpense/>}/>
-          <Route path="/expense-search" element={<ExpenseSearch/>}/>
-          <Route path="/expense-list" element={<ExpenseList/>}/>
-          <Route path="expense-head" element={<ExpenseHead/>}/>
+          <Route path="/library/issue-book" element={<IssueReturn />} />
+          <Route path="/student-list" element={<StudentList />} />
+          <Route path="/library/return-book" element={<ReturnBook />} />
+          <Route path="/library/student" element={<AddStudent />} />
+          <Route path="/Add/Studentlist" element={<AddStudentlist />} />
+          <Route path="/library/staff" element={<Stafflibrary />} />
+          <Route path="/student/admission" element={<StudentAdmission />} />
+          <Route
+            path="/student/admission/details"
+            element={<StudentAdmsnDetails />}
+          />
+          <Route path="/type-question" element={<TypeList />} />
+          <Route path="/question" element={<Question />} />
+          <Route path="/update-question" element={<UpdateQuestion />} />
+          <Route path="/paper-generate" element={<Generate />} />
+          <Route path="/generate-question" element={<GenerateQuestion />} />
+          <Route path="/expense/details" element={<AddExpense />} />
+          <Route path="/expense-search" element={<ExpenseSearch />} />
+          <Route path="/expense-list" element={<ExpenseList />} />
+          <Route path="expense-head" element={<ExpenseHead />} />
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
-          <Route path="/online/admission"element={<OnlineAdmission/>}/>
-         <Route path="/student/details" element={<StudentDetails/>}/>
-         <Route path="/student/link" element={<StudentLink/>}/>
-         <Route path="/student/catagory" element={<StudentCatagory/>}/>
+          <Route path="/online/admission" element={<OnlineAdmission />} />
+          <Route path="/student/details" element={<StudentDetails />} />
+          <Route path="/student/link" element={<StudentLink />} />
+          <Route path="/student/catagory" element={<StudentCatagory />} />
 
           {/* Student Info */}
 
-          <Route path="/house" element={<House/>} />
-          <Route path="/link/siblings" element={<LinkSiblings/>} />
-          <Route path="/student/update" element={<StudentUpdate/>} />
-          <Route path="/student/referral" element={<StudentReferral/>} />
-          <Route path="/add/referral" element={<AddReferral/>} />
-          <Route path="/inactive/student" element={<InactiveStudent/>} />
-          <Route path="/student/report" element={<StudentReport/>} />
+          <Route path="/house" element={<House />} />
+          <Route path="/link/siblings" element={<LinkSiblings />} />
+          <Route path="/student/update" element={<StudentUpdate />} />
+          <Route path="/student/referral" element={<StudentReferral />} />
+          <Route path="/add/referral" element={<AddReferral />} />
+          <Route path="/inactive/student" element={<InactiveStudent />} />
+          <Route path="/student/report" element={<StudentReport />} />
 
-          <Route path="/admin/advertisement" element={<AdminAdvertisement/>} />
+          <Route path="/admin/advertisement" element={<AdminAdvertisement />} />
 
           <Route path="/fee-collect" element={<FeeCollection />} />
-           <Route path="/fee-type" element={<FeeType />} />
-           <Route path="/exam-result" element={<ExamResult />} />
-           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
-           <Route path="/exam-type" element={<ExamTypeAdmin />} />
+          <Route path="/fee-type" element={<FeeType />} />
+          <Route path="/exam-result" element={<ExamResult />} />
+          <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
+          <Route path="/exam-type" element={<ExamTypeAdmin />} />
+          <Route path="/Paymentrecipt" element={<PaymentRecipt />} />
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
-         
 
           <Route path="/faq" element={<FaqPosting />} />
         </Route>
@@ -340,6 +363,6 @@ export default function App() {
         {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
-    </AuthProvider>
+    </BrowserRouter>
   );
 }

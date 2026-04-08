@@ -203,7 +203,17 @@ const FeeCollection = () => {
         discount,
         paymentMethod,
         note,
+<<<<<<< HEAD
         feeType,
+=======
+
+        fees: [
+          {
+            feeType,
+            amount: Number(amount),
+          },
+        ],
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
         date,
         status,
       });
@@ -249,12 +259,13 @@ const FeeCollection = () => {
         <div className="FeeCollection-search">
           <FiSearch />
           <input
-            placeholder="Search name / admission / roll"
+            placeholder="Search..."
             value={tableSearch}
             onChange={(e) => setTableSearch(e.target.value)}
           />
         </div>
 
+<<<<<<< HEAD
         <div className="FeeCollection-toolbarRight">
           <div style={{ position: "relative" }}>
             <button
@@ -325,6 +336,64 @@ const FeeCollection = () => {
             )}
           </div>
         </div>
+=======
+        {/* CLASS DROPDOWN */}
+        <select
+          className="FeeCollection-select"
+          value={filterClass}
+          onChange={(e) => setFilterClass(e.target.value)}
+        >
+          <option value="">All Classes</option>
+          {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
+            <option key={i} value={cls}>
+              {cls}
+            </option>
+          ))}
+        </select>
+
+        {/* MONTH DROPDOWN */}
+        <select
+          className="FeeCollection-select"
+          value={filterMonth}
+          onChange={(e) => setFilterMonth(e.target.value)}
+        >
+          <option value="">All Months</option>
+          {[...Array(12)].map((_, i) => (
+            <option key={i} value={i + 1}>
+              {new Date(0, i).toLocaleString("default", { month: "long" })}
+            </option>
+          ))}
+        </select>
+
+        {/* DATE FROM */}
+        <input
+          type="date"
+          className="FeeCollection-date"
+          value={filterFromDate}
+          onChange={(e) => setFilterFromDate(e.target.value)}
+        />
+
+        {/* DATE TO */}
+        <input
+          type="date"
+          className="FeeCollection-date"
+          value={filterToDate}
+          onChange={(e) => setFilterToDate(e.target.value)}
+        />
+
+        {/* RESET */}
+        <button
+          className="FeeCollection-resetBtn"
+          onClick={() => {
+            setFilterClass("");
+            setFilterMonth("");
+            setFilterFromDate("");
+            setFilterToDate("");
+          }}
+        >
+          Reset
+        </button>
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
       </div>
 
       <div className="FeeCollection-tableCard">
@@ -347,6 +416,7 @@ const FeeCollection = () => {
               </tr>
             </thead>
 
+<<<<<<< HEAD
             <tbody>
               {currentRows.length > 0 ? (
                 currentRows.map((s, i) => {
@@ -415,6 +485,108 @@ const FeeCollection = () => {
                               </button>
                             </div>
                           )}
+=======
+      <div className="FeeCollection-tableWrapper">
+        <table className="FeeCollection-table">
+          <thead>
+            <tr>
+              <th>S.L</th>
+              <th>Admission No</th>
+              <th>Name</th>
+              <th>Roll</th>
+              <th>Class</th>
+              <th>Fee Type</th> {/* ✅ NEW */}
+              <th>Amount</th>
+              <th>Discount %</th>
+              <th>Paid</th>
+              <th>Due</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {currentRows.map((s, i) => {
+
+              // ✅ HANDLE OLD + NEW DATA
+              const amountValue = s.totalAmount
+                ? Number(s.totalAmount)
+                : Number(s.amount || 0);
+
+              const discountPercent =
+                s.discount !== undefined && s.discount !== null
+                  ? Number(s.discount)
+                  : 0;
+
+              // ✅ FEE TYPE HANDLING
+              const feeTypeText =
+                s.fees && s.fees.length > 0
+                  ? s.fees.map((f) => f.feeType).join(", ")
+                  : s.feeType || "-";
+
+              return (
+                <tr key={s._id}>
+                  <td>{indexFirst + i + 1}</td>
+
+                  <td className="FeeCollection-admission">
+                    {s.admissionNo || "-"}
+                  </td>
+
+                  <td>{s.name || "-"}</td>
+
+                  <td>{s.rollNumber || "-"}</td>
+
+                  <td>
+                    {s.class || "-"} ({s.section || "-"})
+                  </td>
+
+                  {/* ✅ NEW COLUMN */}
+                  <td>{feeTypeText}</td>
+
+                  <td>₹{amountValue.toLocaleString("en-IN")}</td>
+
+                  <td>{discountPercent}%</td>
+
+                  <td>₹{Number(s.paid || 0).toLocaleString("en-IN")}</td>
+
+                  <td>₹{Number(s.due || 0).toLocaleString("en-IN")}</td>
+
+                  <td>
+                    {s.date
+                      ? new Date(s.date).toLocaleDateString("en-IN")
+                      : "-"}
+                  </td>
+
+                  <td>
+                    <span className={`FeeCollection-status ${s.status}`}>
+                      {s.status || "-"}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div className="FeeCollection-actionWrapper">
+                      <button
+                        className="FeeCollection-actionBtn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveMenu(activeMenu === s._id ? null : s._id);
+                        }}
+                      >
+                        <FiMoreVertical />
+                      </button>
+
+                      {activeMenu === s._id && (
+                        <div className="FeeCollection-actionDropdown">
+                          <button
+                            onClick={() => {
+                              deleteFee(s._id);
+                              setActiveMenu(null);
+                            }}
+                          >
+                            Delete
+                          </button>
+>>>>>>> 6c5568ee935a6f08a2376b97a10af77de1c204ef
                         </div>
                       </td>
                     </tr>
@@ -597,12 +769,12 @@ const FeeCollection = () => {
         </div>
       )}
 
-      <ReceiptModal
+      {/* <ReceiptModal
         showReceipt={showReceipt}
         setShowReceipt={setShowReceipt}
         selectedFee={selectedFee}
         logo={logo}
-      />
+      /> */}
     </div>
   );
 };

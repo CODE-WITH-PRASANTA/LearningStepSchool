@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
-import logo from "../../assets/Learning Step Logo.png";
+import logo from "../../assets/LearningStepLogo.png";
 import {
   FaFacebookF,
   FaTwitter,
@@ -155,8 +155,8 @@ const Navbar = () => {
             </button>
 
             <div className={`Navbar-login-dropdown ${loginOpen ? "open" : ""}`}>
-              <Link to="/login/student" className="Navbar-dropdown-item">
-                🎓 Student Login
+              <Link to="/student/result" className="Navbar-dropdown-item">
+                🎓 Student Results
               </Link>
               <Link to="/login/institute" className="Navbar-dropdown-item">
                 🏫 Institute Login

@@ -1,103 +1,205 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiMail, FiLock } from "react-icons/fi";
-import { useAuth } from "../Auth/AuthContext";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import API from "../api/axios";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import Swal from "sweetalert2";
 
-export default function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
-  const [form, setForm] = useState({ email: "", password: "" });
+const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const success = login(form.email, form.password);
+  // ✅ ADD NAME
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    if (success) {
-      navigate("/dashboard");
-    } else {
-      setError("Invalid email or password");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/dashboard";
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      if (isLogin) {
+        // ✅ LOGIN
+        const res = await API.post("/auth/login", { email, password });
+
+        if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("isAdmin", "true");
+          localStorage.setItem("admin", JSON.stringify(res.data.admin));
+
+          // ✅ SUCCESS ALERT
+          Swal.fire({
+            title: "Login Successful 🎉",
+            text: "Welcome back!",
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+
+          navigate(from, { replace: true });
+        }
+      } else {
+        // ✅ REGISTER
+        const res = await API.post("/auth/register", {
+          name,
+          email,
+          password,
+        });
+
+        if (res.status === 201) {
+          // ✅ SUCCESS ALERT
+          Swal.fire({
+            title: "Registered Successfully 🎉",
+            text: "Admin account created",
+            icon: "success",
+            confirmButtonColor: "#6366f1",
+          });
+
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("isAdmin", "true");
+          localStorage.setItem("admin", JSON.stringify(res.data.admin));
+
+          navigate(from, { replace: true });
+
+          setIsLogin(true);
+          setName("");
+          setEmail("");
+          setPassword("");
+        }
+      }
+    } catch (err) {
+      // ❌ ERROR ALERT
+      Swal.fire(
+        "Error ❌",
+        err.response?.data?.message || "Something went wrong",
+        "error",
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center
-      bg-gradient-to-br from-indigo-50 via-white to-violet-50 px-4"
+    <div
+      className="min-h-screen flex items-center justify-center 
+    bg-gradient-to-br from-black via-gray-900 to-gray-950 
+    px-4 relative overflow-hidden"
     >
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white p-6 rounded-2xl
-        shadow-xl border border-indigo-100"
+      <div
+        className="relative w-full max-w-md
+        bg-white/10 backdrop-blur-2xl border border-white/20 
+        rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] 
+        p-6"
       >
-        <h1 className="text-2xl font-bold text-center text-indigo-700 mb-6">
-          Admin Login
-        </h1>
+        <h2 className="text-2xl font-bold text-center text-white mb-2">
+          {isLogin ? "Admin Login 🔐" : "Admin Register 📝"}
+        </h2>
 
+        {/* ERROR */}
         {error && (
-          <p className="text-sm text-rose-600 mb-4 text-center">
-            {error}
-          </p>
+          <p className="text-red-400 text-sm text-center mb-3">{error}</p>
         )}
 
-        <label className="label">Email</label>
-        <div className="relative mb-4">
-          <FiMail className="icon" />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* ✅ NAME ONLY IN REGISTER */}
+          {!isLogin && (
+            <input
+              type="text"
+              placeholder="Admin Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="inputPremium"
+              required
+            />
+          )}
+
+          {/* EMAIL */}
           <input
             type="email"
+            placeholder="Email Address"
+            value={email}
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+            className="inputPremium"
             required
-            className="input pl-10"
-            value={form.email}
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
           />
-        </div>
 
-        <label className="label">Password</label>
-        <div className="relative mb-6">
-          <FiLock className="icon" />
-          <input
-            type="password"
-            required
-            className="input pl-10"
-            value={form.password}
-            onChange={(e) =>
-              setForm({ ...form, password: e.target.value })
-            }
-          />
-        </div>
+          {/* PASSWORD */}
+          <div className="relative">
+            <input
+              type={showPass ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              autoComplete="new-password"
+              onChange={(e) => setPassword(e.target.value)}
+              className="inputPremium pr-10"
+              required
+            />
 
-        <button className="w-full py-3 rounded-xl text-white
-          bg-gradient-to-r from-indigo-600 to-violet-600">
-          Login
-        </button>
+            <span
+              onClick={() => setShowPass(!showPass)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 
+              text-gray-300 cursor-pointer"
+            >
+              {showPass ? <FiEyeOff /> : <FiEye />}
+            </span>
+          </div>
 
-        <p className="text-xs text-center text-slate-400 mt-4">
-          admin@gmail.com | 123456
+          {/* BUTTON */}
+          <button
+            disabled={loading}
+            className="w-full py-3 rounded-xl 
+            text-white font-semibold
+            bg-gradient-to-r from-blue-600 to-purple-600 
+            disabled:opacity-60"
+          >
+            {loading ? "Please wait..." : isLogin ? "Login" : "Register"}
+          </button>
+        </form>
+
+        {/* TOGGLE */}
+        <p className="text-center text-gray-400 text-sm mt-4">
+          {isLogin ? "Don't have admin?" : "Already registered?"}
+          <span
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setError("");
+            }}
+            className="text-blue-400 cursor-pointer ml-1"
+          >
+            {isLogin ? "Register" : "Login"}
+          </span>
         </p>
-      </form>
 
+        {/* Demo */}
+        {/* {isLogin && (
+          <p className="text-center text-gray-500 text-xs mt-3">
+            Use your registered email & password
+          </p>
+        )} */}
+      </div>
+
+      {/* Styles */}
       <style>{`
-        .label {
-          font-size: 13px;
-          font-weight: 600;
-          color: #4f46e5;
-        }
-        .input {
+        .inputPremium {
           width: 100%;
-          border: 1px solid #e2e8f0;
-          border-radius: 0.75rem;
-          padding: 0.6rem 1rem;
-        }
-        .icon {
-          position: absolute;
-          left: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #6366f1;
+          padding: 12px;
+          border-radius: 10px;
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.2);
+          color: white;
+          outline: none;
         }
       `}</style>
     </div>
   );
-}
+};
+
+export default Auth;
