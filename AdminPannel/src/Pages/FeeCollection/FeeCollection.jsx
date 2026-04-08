@@ -359,7 +359,7 @@ const FeeCollection = () => {
               <th>Name</th>
               <th>Roll</th>
               <th>Class</th>
-              <th>Fee Type</th> {/* ✅ NEW */}
+              <th>Fee Type</th> 
               <th>Amount</th>
               <th>Discount %</th>
               <th>Paid</th>
