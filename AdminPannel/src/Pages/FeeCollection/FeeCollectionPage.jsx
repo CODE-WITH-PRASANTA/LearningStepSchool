@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./FeeCollection.css";
+import "./FeeCollectionPage.css";
 import API from "../../api/axios";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 import {
@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import ReceiptModal from "../../Component/ReceiptModal/ReceiptModal";
 
-const FeeCollection = () => {
+const FeeCollectionPage = () => {
   const [filterClass, setFilterClass] = useState("");
   const [filterMonth, setFilterMonth] = useState("");
   const [filterFromDate, setFilterFromDate] = useState("");
@@ -71,15 +71,13 @@ const FeeCollection = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [tableSearch]);
+  }, [tableSearch, filterClass, filterMonth, filterFromDate, filterToDate]);
 
-  // ✅ AUTO DATE (runs once)
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     setDate(today);
   }, []);
 
-  // ✅ CLOSE ACTION MENU (global click)
   useEffect(() => {
     const closeMenu = () => setActiveMenu(null);
 
@@ -90,8 +88,6 @@ const FeeCollection = () => {
     };
   }, []);
 
-  /* ================= FETCH STUDENTS ================= */
-
   const fetchStudents = async () => {
     try {
       const res = await API.get("/students");
@@ -100,8 +96,6 @@ const FeeCollection = () => {
       console.error(err);
     }
   };
-
-  /* ================= FETCH FEES ================= */
 
   const fetchFees = async () => {
     try {
@@ -117,27 +111,21 @@ const FeeCollection = () => {
     fetchFees();
   }, []);
 
-  /* ================= DELETE FEE ================= */
-
   const deleteFee = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this fee?",
+      "Are you sure you want to delete this fee?"
     );
 
     if (!confirmDelete) return;
 
     try {
       await API.delete(`/admission/fees/${id}`);
-
       alert("Fee deleted successfully");
-
       fetchFees();
     } catch (err) {
       console.log(err);
     }
   };
-
-  /* ================= FILTER STUDENTS ================= */
 
   const filteredStudents = students.filter((s) => {
     const name = `${s.firstName || ""} ${s.lastName || ""}`.toLowerCase();
@@ -148,8 +136,6 @@ const FeeCollection = () => {
     );
   });
 
-  /* ================= FILTER FEES ================= */
-
   const filteredFees = fees.filter((f) => {
     const name = (f.name || "").toLowerCase();
 
@@ -158,17 +144,14 @@ const FeeCollection = () => {
       (f.admissionNo || "").toLowerCase().includes(tableSearch.toLowerCase()) ||
       (f.rollNumber || "").toString().includes(tableSearch);
 
-    // ✅ CLASS FILTER
     const matchesClass = filterClass
       ? (f.class || "").toLowerCase() === filterClass.toLowerCase()
       : true;
 
-    // ✅ MONTH FILTER
     const matchesMonth = filterMonth
       ? new Date(f.date).getMonth() + 1 === Number(filterMonth)
       : true;
 
-    // ✅ DATE RANGE FILTER
     const feeDate = f.date ? new Date(f.date) : null;
 
     const matchesFromDate = filterFromDate
@@ -191,7 +174,6 @@ const FeeCollection = () => {
   const currentRows = filteredFees.slice(indexFirst, indexLast);
   const totalPages = Math.ceil(filteredFees.length / rowsPerPage);
 
-  /* ================= SAVE FEE ================= */
   const saveFee = async () => {
     if (!selectedStudent) {
       alert("Select student first");
@@ -205,12 +187,8 @@ const FeeCollection = () => {
 
     try {
       const totalAmount = Number(amount) || 0;
-
-      // ✅ DISCOUNT CALCULATION
       const discountAmount = (totalAmount * discount) / 100;
       const finalAmount = totalAmount - discountAmount;
-
-      // ✅ FULL PAYMENT (AFTER DISCOUNT)
       const paidAmount = finalAmount;
 
       await API.post("/admission/fees", {
@@ -218,31 +196,22 @@ const FeeCollection = () => {
         admissionNo: selectedStudent.admissionNo,
         name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
         rollNumber: selectedStudent.rollNumber,
-
         class: selectedStudent.class,
         section: selectedStudent.section,
-
-        amount: totalAmount, // ✅ FULL AMOUNT (IMPORTANT)
-        paid: paidAmount, // ✅ AFTER DISCOUNT
-
+        amount: totalAmount,
+        paid: paidAmount,
         discount,
         paymentMethod,
         note,
-
-        fees: [
-          {
-            feeType,
-            amount: Number(amount),
-          },
-        ],
+        feeType,
         date,
+        status,
       });
 
       alert("Fee collected successfully");
 
       fetchFees();
 
-      // RESET
       setShowCollect(false);
       setSelectedStudent(null);
       setStudentSearch("");
@@ -251,20 +220,19 @@ const FeeCollection = () => {
       setFeeType("");
       setPaymentMethod("Cash");
       setNote("");
+      setStatus("Paid");
 
-      // ✅ RESET DATE
       const today = new Date().toISOString().split("T")[0];
       setDate(today);
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <div className="FeeCollection">
-      {/* HEADER */}
-
       <div className="FeeCollection-header">
-        <div>
+        <div className="FeeCollection-headerLeft">
           <h2>Fees Collect</h2>
           <p>Dashboard / Fees Collect</p>
         </div>
@@ -277,10 +245,7 @@ const FeeCollection = () => {
         </button>
       </div>
 
-      {/* TOOLBAR */}
-
       <div className="FeeCollection-toolbar">
-        {/* SEARCH */}
         <div className="FeeCollection-search">
           <FiSearch />
           <input
@@ -290,185 +255,189 @@ const FeeCollection = () => {
           />
         </div>
 
-        {/* CLASS DROPDOWN */}
-        <select
-          className="FeeCollection-select"
-          value={filterClass}
-          onChange={(e) => setFilterClass(e.target.value)}
-        >
-          <option value="">All Classes</option>
-          {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
-            <option key={i} value={cls}>
-              {cls}
-            </option>
-          ))}
-        </select>
+        <div className="FeeCollection-toolbarRight">
+          <div style={{ position: "relative" }}>
+            <button
+              className="FeeCollection-filterBtn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveMenu(activeMenu === "filter" ? null : "filter");
+              }}
+            >
+              Filter <FiChevronDown />
+            </button>
 
-        {/* MONTH DROPDOWN */}
-        <select
-          className="FeeCollection-select"
-          value={filterMonth}
-          onChange={(e) => setFilterMonth(e.target.value)}
-        >
-          <option value="">All Months</option>
-          {[...Array(12)].map((_, i) => (
-            <option key={i} value={i + 1}>
-              {new Date(0, i).toLocaleString("default", { month: "long" })}
-            </option>
-          ))}
-        </select>
+            {activeMenu === "filter" && (
+              <div
+                className="FeeCollection-filterDropdown"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <select
+                  value={filterClass}
+                  onChange={(e) => setFilterClass(e.target.value)}
+                >
+                  <option value="">All Classes</option>
+                  {[...new Set(fees.map((f) => f.class))].map((cls, i) => (
+                    <option key={i} value={cls}>
+                      {cls}
+                    </option>
+                  ))}
+                </select>
 
-        {/* DATE FROM */}
-        <input
-          type="date"
-          className="FeeCollection-date"
-          value={filterFromDate}
-          onChange={(e) => setFilterFromDate(e.target.value)}
-        />
+                <select
+                  value={filterMonth}
+                  onChange={(e) => setFilterMonth(e.target.value)}
+                >
+                  <option value="">All Months</option>
+                  {[...Array(12)].map((_, i) => (
+                    <option key={i} value={i + 1}>
+                      {new Date(0, i).toLocaleString("default", {
+                        month: "long",
+                      })}
+                    </option>
+                  ))}
+                </select>
 
-        {/* DATE TO */}
-        <input
-          type="date"
-          className="FeeCollection-date"
-          value={filterToDate}
-          onChange={(e) => setFilterToDate(e.target.value)}
-        />
+                <input
+                  type="date"
+                  value={filterFromDate}
+                  onChange={(e) => setFilterFromDate(e.target.value)}
+                />
 
-        {/* RESET */}
-        <button
-          className="FeeCollection-resetBtn"
-          onClick={() => {
-            setFilterClass("");
-            setFilterMonth("");
-            setFilterFromDate("");
-            setFilterToDate("");
-          }}
-        >
-          Reset
-        </button>
+                <input
+                  type="date"
+                  value={filterToDate}
+                  onChange={(e) => setFilterToDate(e.target.value)}
+                />
+
+                <button
+                  className="FeeCollection-resetBtn"
+                  onClick={() => {
+                    setFilterClass("");
+                    setFilterMonth("");
+                    setFilterFromDate("");
+                    setFilterToDate("");
+                  }}
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* TABLE */}
+      <div className="FeeCollection-tableCard">
+        <div className="FeeCollection-tableWrapper">
+          <table className="FeeCollection-table">
+            <thead>
+              <tr>
+                <th>S.L</th>
+                <th>Admission No</th>
+                <th>Name</th>
+                <th>Roll</th>
+                <th>Class</th>
+                <th>Amount</th>
+                <th>Discount %</th>
+                <th>Paid</th>
+                <th>Due</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-      <div className="FeeCollection-tableWrapper">
-        <table className="FeeCollection-table">
-          <thead>
-            <tr>
-              <th>S.L</th>
-              <th>Admission No</th>
-              <th>Name</th>
-              <th>Roll</th>
-              <th>Class</th>
-              <th>Fee Type</th> {/* ✅ NEW */}
-              <th>Amount</th>
-              <th>Discount %</th>
-              <th>Paid</th>
-              <th>Due</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+            <tbody>
+              {currentRows.length > 0 ? (
+                currentRows.map((s, i) => {
+                  const amountValue = Number(s.amount || 0);
+                  const discountPercent =
+                    s.discount !== undefined && s.discount !== null
+                      ? Number(s.discount)
+                      : 0;
 
-          <tbody>
-            {currentRows.map((s, i) => {
-
-              // ✅ HANDLE OLD + NEW DATA
-              const amountValue = s.totalAmount
-                ? Number(s.totalAmount)
-                : Number(s.amount || 0);
-
-              const discountPercent =
-                s.discount !== undefined && s.discount !== null
-                  ? Number(s.discount)
-                  : 0;
-
-              // ✅ FEE TYPE HANDLING
-              const feeTypeText =
-                s.fees && s.fees.length > 0
-                  ? s.fees.map((f) => f.feeType).join(", ")
-                  : s.feeType || "-";
-
-              return (
-                <tr key={s._id}>
-                  <td>{indexFirst + i + 1}</td>
-
-                  <td className="FeeCollection-admission">
-                    {s.admissionNo || "-"}
-                  </td>
-
-                  <td>{s.name || "-"}</td>
-
-                  <td>{s.rollNumber || "-"}</td>
-
-                  <td>
-                    {s.class || "-"} ({s.section || "-"})
-                  </td>
-
-                  {/* ✅ NEW COLUMN */}
-                  <td>{feeTypeText}</td>
-
-                  <td>₹{amountValue.toLocaleString("en-IN")}</td>
-
-                  <td>{discountPercent}%</td>
-
-                  <td>₹{Number(s.paid || 0).toLocaleString("en-IN")}</td>
-
-                  <td>₹{Number(s.due || 0).toLocaleString("en-IN")}</td>
-
-                  <td>
-                    {s.date
-                      ? new Date(s.date).toLocaleDateString("en-IN")
-                      : "-"}
-                  </td>
-
-                  <td>
-                    <span className={`FeeCollection-status ${s.status}`}>
-                      {s.status || "-"}
-                    </span>
-                  </td>
-
-                  <td>
-                    <div className="FeeCollection-actionWrapper">
-                      <button
-                        className="FeeCollection-actionBtn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveMenu(activeMenu === s._id ? null : s._id);
-                        }}
-                      >
-                        <FiMoreVertical />
-                      </button>
-
-                      {activeMenu === s._id && (
-                        <div className="FeeCollection-actionDropdown">
+                  return (
+                    <tr key={s._id}>
+                      <td>{indexFirst + i + 1}</td>
+                      <td className="FeeCollection-admission">
+                        {s.admissionNo}
+                      </td>
+                      <td>{s.name}</td>
+                      <td>{s.rollNumber}</td>
+                      <td>
+                        {s.class} ({s.section})
+                      </td>
+                      <td>₹{amountValue.toLocaleString("en-IN")}</td>
+                      <td>{discountPercent}%</td>
+                      <td>₹{Number(s.paid || 0).toLocaleString("en-IN")}</td>
+                      <td>₹{Number(s.due || 0).toLocaleString("en-IN")}</td>
+                      <td>
+                        {s.date
+                          ? new Date(s.date).toLocaleDateString("en-IN")
+                          : "-"}
+                      </td>
+                      <td>
+                        <span className={`FeeCollection-status ${s.status}`}>
+                          {s.status}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="FeeCollection-actionWrapper">
                           <button
-                            onClick={() => {
-                              deleteFee(s._id);
-                              setActiveMenu(null);
+                            className="FeeCollection-actionBtn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveMenu(activeMenu === s._id ? null : s._id);
                             }}
                           >
-                            Delete
+                            <FiMoreVertical />
                           </button>
+
+                          {activeMenu === s._id && (
+                            <div className="FeeCollection-actionDropdown">
+                              <button
+                                onClick={() => {
+                                  setSelectedFee(s);
+                                  setShowReceipt(true);
+                                  setActiveMenu(null);
+                                }}
+                              >
+                                View Details
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  deleteFee(s._id);
+                                  setActiveMenu(null);
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="12" className="FeeCollection-empty">
+                    No fee records found
                   </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      {/* PAGINATION */}
 
       <div className="FeeCollection-pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>
           {"<"}
         </button>
 
-        {[...Array(totalPages)].map((_, i) => (
+        {[...Array(totalPages || 1)].map((_, i) => (
           <button
             key={i}
             className={page === i + 1 ? "active" : ""}
@@ -479,7 +448,7 @@ const FeeCollection = () => {
         ))}
 
         <button
-          disabled={page === totalPages}
+          disabled={page === totalPages || totalPages === 0}
           onClick={() => setPage(page + 1)}
         >
           {">"}
@@ -491,54 +460,55 @@ const FeeCollection = () => {
           <div className="FeeCollection-modalContent">
             <FiX className="close" onClick={() => setShowCollect(false)} />
 
-            <h3>Collect Fees</h3>
+            <div className="FeeCollection-modalTop">
+              <h3>Collect Fees</h3>
+              <p>Manage student payment details with a premium workflow</p>
+            </div>
 
             <div className="FeeCollection-formGrid">
-              <input
-                placeholder="Search Name / Roll No"
-                value={studentSearch}
-                onChange={(e) => setStudentSearch(e.target.value)}
-              />
+              <div className="FeeCollection-fieldFull">
+                <input
+                  placeholder="Search Name / Roll No"
+                  value={studentSearch}
+                  onChange={(e) => setStudentSearch(e.target.value)}
+                />
 
-              {studentSearch && (
-                <div className="FeeCollection-studentResults">
-                  {filteredStudents.slice(0, 5).map((s) => (
-                    <div
-                      key={s._id}
-                      className="FeeCollection-studentItem"
-                      onClick={() => {
-                        setSelectedStudent(s);
-                        setStudentSearch(`${s.firstName} ${s.lastName}`);
-                      }}
-                    >
-                      <strong>
-                        {s.firstName} {s.lastName}
-                      </strong>
-
-                      <p>
-                        Roll: {s.rollNumber} | {s.class} ({s.section})
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
+                {studentSearch && (
+                  <div className="FeeCollection-studentResults">
+                    {filteredStudents.slice(0, 5).map((s) => (
+                      <div
+                        key={s._id}
+                        className="FeeCollection-studentItem"
+                        onClick={() => {
+                          setSelectedStudent(s);
+                          setStudentSearch(`${s.firstName} ${s.lastName}`);
+                        }}
+                      >
+                        <strong>
+                          {s.firstName} {s.lastName}
+                        </strong>
+                        <p>
+                          Roll: {s.rollNumber} | {s.class} ({s.section})
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               {selectedStudent && (
-                <div className="FeeCollection-selectedStudent">
+                <div className="FeeCollection-selectedStudent FeeCollection-fieldFull">
                   <p>
                     <b>Admission:</b> {selectedStudent.admissionNo}
                   </p>
-
                   <p>
                     <b>Name:</b> {selectedStudent.firstName}{" "}
                     {selectedStudent.lastName}
                   </p>
-
                   <p>
                     <b>Class:</b> {selectedStudent.class} (
                     {selectedStudent.section})
                   </p>
-
                   <p>
                     <b>Roll:</b> {selectedStudent.rollNumber}
                   </p>
@@ -637,4 +607,4 @@ const FeeCollection = () => {
   );
 };
 
-export default FeeCollection;
+export default FeeCollectionPage;

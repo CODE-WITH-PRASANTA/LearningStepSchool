@@ -221,7 +221,7 @@ const ExamResult = () => {
     <div className="ExamResult">
       {/* HEADER */}
       <div className="ExamResult-header">
-        <div>
+        <div className="ExamResult-headerText">
           <h2>Exam Result</h2>
           <p>Dashboard / Exam Result</p>
         </div>
@@ -230,7 +230,7 @@ const ExamResult = () => {
       {/* TOOLBAR */}
       <div className="ExamResult-toolbar">
         <div className="ExamResult-search">
-          <FiSearch />
+          <FiSearch className="ExamResult-searchIcon" />
           <input
             placeholder="Search..."
             value={search}

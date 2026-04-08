@@ -116,12 +116,12 @@ import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
 
-import FeeCollection from "./Pages/FeeCollection/FeeCollection";
 import FeeType from "./Pages/FeeType/FeeType";
 import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 import PaymentRecipt from "./Component/PaymentRecipt/PaymentRecipt";
+import FeeCollectionPage from "./Pages/FeeCollection/FeeCollectionPage";
 
 /* ===================== APP ===================== */
 
@@ -346,7 +346,7 @@ export default function App() {
 
           <Route path="/admin/advertisement" element={<AdminAdvertisement />} />
 
-          <Route path="/fee-collect" element={<FeeCollection />} />
+          <Route path="/fee-collect" element={<FeeCollectionPage />} />
           <Route path="/fee-type" element={<FeeType />} />
           <Route path="/exam-result" element={<ExamResult />} />
           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />

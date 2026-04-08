@@ -1,15 +1,38 @@
 .ExamResult {
     padding: 25px;
-    background: #f6f8fb;
+    background:
+        radial-gradient(circle at top left, rgba(30, 142, 126, 0.08), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.08), transparent 22%),
+        #f6f8fb;
     min-height: 100vh;
     overflow-y: auto;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
 }
 
 /* HEADER */
 
 .ExamResult-header {
     margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff, #f8fbff);
+    border-radius: 18px;
+    padding: 22px 24px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e9eef5;
+}
+
+.ExamResult-headerText h2 {
+    margin: 0;
+    font-size: 28px;
+    color: #132238;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.ExamResult-headerText p {
+    margin: 7px 0 0;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 /* TOOLBAR */
@@ -18,29 +41,85 @@
     display: flex;
     gap: 15px;
     align-items: center;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 16px;
+    border-radius: 16px;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e9eef5;
 }
 
 .ExamResult-search {
     display: flex;
     align-items: center;
-    border: 1px solid #ddd;
-    padding: 8px 10px;
-    border-radius: 6px;
+    border: 1px solid #d9e2ec;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: #f8fafc;
+    min-width: 260px;
+    flex: 1;
+    max-width: 420px;
+    transition: all 0.3s ease;
+}
+
+.ExamResult-search:focus-within {
+    border-color: #1e8e7e;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(30, 142, 126, 0.08);
+}
+
+.ExamResult-searchIcon {
+    font-size: 18px;
+    color: #64748b;
+    flex-shrink: 0;
 }
 
 .ExamResult-search input {
     border: none;
     outline: none;
-    margin-left: 6px;
+    margin-left: 10px;
+    width: 100%;
+    background: transparent;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.ExamResult-search input::placeholder {
+    color: #94a3b8;
 }
 
 .ExamResult-rows {
     margin-left: auto;
+}
+
+/* FILTERS */
+
+.ExamResult-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ExamResult-filters select {
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid #d9e2ec;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    font-size: 14px;
+    color: #334155;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 160px;
+}
+
+.ExamResult-filters select:hover,
+.ExamResult-filters select:focus {
+    border-color: #1e8e7e;
+    box-shadow: 0 0 0 4px rgba(30, 142, 126, 0.08);
 }
 
 /* TABLE */
@@ -48,42 +127,162 @@
 .ExamResult-tableWrapper {
     overflow-x: auto;
     background: white;
-    border-radius: 10px;
+    border-radius: 18px;
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.07);
+    border: 1px solid #e9eef5;
 }
 
 .ExamResult-table {
     width: 100%;
-    border-collapse: collapse;
-    min-width: 900px;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 1100px;
+}
+
+.ExamResult-table thead tr {
+    background: linear-gradient(135deg, #1e8e7e, #15786a);
 }
 
 .ExamResult-table th,
 .ExamResult-table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
+    padding: 16px 14px;
+    border-bottom: 1px solid #edf2f7;
     font-size: 14px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.ExamResult-table th {
+    color: ##1a1919;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.ExamResult-table th:first-child {
+    border-top-left-radius: 18px;
+}
+
+.ExamResult-table th:last-child {
+    border-top-right-radius: 18px;
+}
+
+.ExamResult-table tbody tr {
+    transition: all 0.25s ease;
+    background: #ffffff;
+}
+
+.ExamResult-table tbody tr:hover {
+    background: linear-gradient(90deg, rgba(30, 142, 126, 0.05), rgba(59, 130, 246, 0.04));
+}
+
+.ExamResult-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.ExamResult-table td:nth-child(1),
+.ExamResult-table th:nth-child(1) {
+    min-width: 70px;
+    text-align: center;
+}
+
+.ExamResult-table td:nth-child(2),
+.ExamResult-table th:nth-child(2) {
+    min-width: 140px;
+}
+
+.ExamResult-table td:nth-child(3),
+.ExamResult-table th:nth-child(3) {
+    min-width: 180px;
+}
+
+.ExamResult-table td:nth-child(4),
+.ExamResult-table th:nth-child(4) {
+    min-width: 110px;
+    text-align: center;
+}
+
+.ExamResult-table td:nth-child(5),
+.ExamResult-table th:nth-child(5) {
+    min-width: 120px;
+}
+
+.ExamResult-table td:nth-child(6),
+.ExamResult-table th:nth-child(6) {
+    min-width: 130px;
+}
+
+.ExamResult-table td:nth-child(7),
+.ExamResult-table th:nth-child(7) {
+    min-width: 150px;
+    text-align: center;
+}
+
+.ExamResult-table td:nth-child(8),
+.ExamResult-table th:nth-child(8) {
+    min-width: 120px;
+    text-align: center;
+}
+
+.ExamResult-table td:nth-child(9),
+.ExamResult-table th:nth-child(9) {
+    min-width: 100px;
+    text-align: center;
+}
+
+.ExamResult-table td:nth-child(10),
+.ExamResult-table th:nth-child(10) {
+    min-width: 110px;
+    text-align: center;
+}
+
+.ExamResult-table td:nth-child(11),
+.ExamResult-table th:nth-child(11) {
+    min-width: 90px;
+    text-align: center;
 }
 
 .ExamResult-admission {
     color: #1e8e7e;
-    font-weight: 500;
+    font-weight: 700;
+}
+
+.ExamResult-nameCell {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.ExamResult-totalCell {
+    font-weight: 600;
+    color: #0f172a;
 }
 
 /* RESULT */
 
 .ExamResult-result {
-    padding: 4px 12px;
-    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    padding: 6px 14px;
+    border-radius: 999px;
     font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
 }
 
 .Pass {
-    background: #d7f5e6;
+    background: linear-gradient(135deg, #d7f5e6, #c4f1da);
     color: #1a8f5c;
 }
 
 .Fail {
-    background: #ffdada;
+    background: linear-gradient(135deg, #ffdada, #ffc8c8);
     color: #e11d48;
 }
 
@@ -91,13 +290,31 @@
 
 .ExamResult-action {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ExamResult-actionBtn {
-    border: none;
-    background: none;
+    border: 1px solid #e2e8f0;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
     cursor: pointer;
     font-size: 18px;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #334155;
+    transition: all 0.25s ease;
+}
+
+.ExamResult-actionBtn:hover {
+    background: #1e8e7e;
+    color: #ffffff;
+    border-color: #1e8e7e;
+    box-shadow: 0 10px 20px rgba(30, 142, 126, 0.2);
 }
 
 /* DROPDOWN */
@@ -105,32 +322,46 @@
 .ExamResult-dropdown {
     position: absolute;
     right: 0;
-    top: 30px;
+    top: 45px;
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 14px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
     padding: 8px 0;
     width: 130px;
     z-index: 999;
-    /* ensures it stays above table */
+    border: 1px solid #eef2f7;
 }
 
 .ExamResult-dropdown button {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 15px;
+    padding: 11px 15px;
     border: none;
     background: none;
     width: 100%;
     cursor: pointer;
     position: relative;
     z-index: 1000;
-    /* optional extra layer for safety */
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    transition: all 0.25s ease;
 }
 
 .ExamResult-dropdown button:hover {
     background: #f3f4f6;
+    color: #1e8e7e;
+}
+
+/* NO DATA */
+
+.ExamResult-noData {
+    text-align: center;
+    padding: 28px !important;
+    color: #94a3b8;
+    font-weight: 600;
+    white-space: normal !important;
 }
 
 /* PAGINATION */
@@ -142,6 +373,25 @@
     margin-top: 20px;
     flex-wrap: wrap;
     gap: 10px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+    border: 1px solid #e9eef5;
+}
+
+.ExamResult-pagination p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.ExamResult-pageGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .ExamResult-pagination button {
@@ -149,25 +399,30 @@
     border: 1px solid #ddd;
     background: white;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
+    min-width: 38px;
+    height: 38px;
+    font-weight: 600;
+    color: #334155;
+    transition: all 0.25s ease;
+}
+
+.ExamResult-pagination button:hover:not(:disabled) {
+    border-color: #1e8e7e;
+    color: #1e8e7e;
+    background: #f0fbf8;
+}
+
+.ExamResult-pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .ExamResult-pagination .active {
     background: #1e8e7e;
     color: white;
-}
-
-
-
-.ExamResult-filters {
-    display: flex;
-    gap: 10px;
-}
-
-.ExamResult-filters select {
-    padding: 6px 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-color: #1e8e7e;
+    box-shadow: 0 8px 18px rgba(30, 142, 126, 0.22);
 }
 
 .ExamResult-dropdown button {
@@ -383,23 +638,60 @@
 
 /* RESPONSIVE */
 
-@media(max-width:768px) {
+@media (max-width: 992px) {
+    .ExamResult {
+        padding: 20px;
+    }
 
+    .ExamResult-table {
+        min-width: 1050px;
+    }
+}
+
+@media(max-width:768px) {
     .ExamResult-toolbar {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .ExamResult-search {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .ExamResult-filters {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .ExamResult-filters select {
+        width: 100%;
     }
 
     .ExamResult-rows {
         margin-left: 0;
     }
 
+    .ExamResult-pagination {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 @media(max-width:480px) {
-
-    .ExamResult-table {
-        min-width: 900px;
+    .ExamResult {
+        padding: 15px;
     }
 
+    .ExamResult-header {
+        padding: 18px;
+    }
+
+    .ExamResult-headerText h2 {
+        font-size: 22px;
+    }
+
+    .ExamResult-table {
+        min-width: 1000px;
+    }
 }
