@@ -124,7 +124,6 @@ import FeeCollectionPage from "./Pages/FeeCollection/FeeCollectionPage";
 import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
-import FeeCollectionPage from "./Pages/FeeCollection/FeeCollectionPage";
 
 /* ===================== APP ===================== */
 
