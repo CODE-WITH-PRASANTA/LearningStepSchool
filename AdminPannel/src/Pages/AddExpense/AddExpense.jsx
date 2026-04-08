@@ -1,216 +1,282 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./AddExpense.css";
-import { FaWallet, FaList, FaEdit } from "react-icons/fa";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaWallet } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const AddExpense = () => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const menuRef = useRef();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const [formData, setFormData] = useState({
     head: "",
+    accountType: "",
+    accountName: "",
     name: "",
-    accountNumber: "",
-    invoice: "",
     amount: "",
+    invoice: "",
     date: "",
+    paymentMode: "",
     description: "",
   });
 
-  const [expenses, setExpenses] = useState([
-    {
-      head: "Electricity",
-      name: "Nikhil Sharma",
-      accountNumber: "ACC001",
-      invoice: "272",
-      amount: "5500",
-      date: "2026-02-23",
-      description: "Electricity bill payment",
-    },
-    {
-      head: "Transport",
-      name: "Kapil",
-      accountNumber: "ACC002",
-      invoice: "270",
-      amount: "10000",
-      date: "2026-02-22",
-      description: "Bus maintenance",
-    },
-    {
-      head: "Salary",
-      name: "Palak Garg",
-      accountNumber: "ACC003",
-      invoice: "269",
-      amount: "12000",
-      date: "2026-02-20",
-      description: "Staff salary",
-    },
-  ]);
+  const expenseHeads = ["Electricity", "Kitchen", "Transport", "Books"];
+  const accountTypes = ["Savings", "Salary", "Current"];
+  const paymentModes = ["Cash", "Cheque", "Online"];
 
-  // HANDLE INPUT CHANGE
+  const [expenses, setExpenses] = useState([]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setActiveMenu(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // SAVE EXPENSE
   const handleSave = () => {
-    if (!formData.head || !formData.name || !formData.invoice || !formData.amount || !formData.date) {
-      alert("Please fill all required fields!");
-      return;
-    }
-
     setExpenses([...expenses, formData]);
+  };
 
-    // Clear form
-    setFormData({
-      head: "",
-      name: "",
-      accountNumber: "",
-      invoice: "",
-      amount: "",
-      date: "",
-      description: "",
+  // DELETE FUNCTION
+  const handleDelete = (index) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This expense will be deleted permanently!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#4f46e5",
+      cancelButtonColor: "#ef4444",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updated = [...expenses];
+        updated.splice(index, 1);
+        setExpenses(updated);
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Expense has been removed.",
+          icon: "success",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
     });
   };
 
+  // PAGINATION LOGIC
+  const totalPages = Math.ceil(expenses.length / itemsPerPage);
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentData = expenses.slice(indexOfFirst, indexOfLast);
+
   return (
-    <div className="add-expense-page">
+    <div className="ae-page">
 
       {/* HEADER */}
-      <div className="expense-header">
-        <h2><FaWallet /> Add Expense</h2>
+      <div className="ae-header">
+        <div className="ae-header-left">
+          <FaWallet className="ae-icon" />
+          <h2>Add Expense</h2>
+        </div>
+        <span className="ae-breadcrumb">Expense / Add Expense</span>
       </div>
 
-      <div className="expense-layout">
+      <div className="ae-layout">
 
-        {/* LEFT FORM */}
-        <div className="expense-form-card">
-          <h3><FaEdit /> Add / Edit Expense</h3>
+        {/* ================= FORM ================= */}
+        <div className="ae-card">
+          <div className="ae-card-top">✏ Add / Edit Expense</div>
 
-          <div className="form-scroll">
+          <div className="ae-form ae-scroll">
 
-            <div className="form-group">
+            <div className="ae-field">
               <label>Expense Head *</label>
-              <select name="head" value={formData.head} onChange={handleChange}>
-                <option value="">Select</option>
-                <option>Electricity</option>
-                <option>Transport</option>
-                <option>Salary</option>
+              <select name="head" onChange={handleChange}>
+                <option>Select</option>
+                {expenseHeads.map((e, i) => (
+                  <option key={i}>{e}</option>
+                ))}
               </select>
             </div>
 
-            <div className="form-group">
+            <div className="ae-field">
+              <label>Account Type</label>
+              <select name="accountType" onChange={handleChange}>
+                <option>Select</option>
+                {accountTypes.map((e, i) => (
+                  <option key={i}>{e}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="ae-field">
+              <label>Account Name</label>
+              <select name="accountName" onChange={handleChange}>
+                <option>Select</option>
+                <option>Office Account</option>
+              </select>
+            </div>
+
+            <div className="ae-field">
               <label>Name *</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter Name"
-                value={formData.name}
-                onChange={handleChange}
-              />
+              <input name="name" onChange={handleChange} />
             </div>
 
-            <div className="form-group">
-              <label>Account Number</label>
-              <input
-                type="text"
-                name="accountNumber"
-                placeholder="Enter Account Number"
-                value={formData.accountNumber}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Invoice Number *</label>
-              <input
-                type="text"
-                name="invoice"
-                placeholder="Enter Invoice No"
-                value={formData.invoice}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
+            <div className="ae-field">
               <label>Amount *</label>
-              <input
-                type="number"
-                name="amount"
-                placeholder="Enter Amount"
-                value={formData.amount}
-                onChange={handleChange}
-              />
+              <input name="amount" />
             </div>
 
-            <div className="form-group">
+            <div className="ae-field">
+              <label>Invoice No *</label>
+              <input name="invoice" />
+            </div>
+
+            <div className="ae-field">
               <label>Date *</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-              />
+              <input type="date" name="date" />
             </div>
 
-            <div className="form-group">
+            <div className="ae-field">
+              <label>Payment Mode *</label>
+              <select name="paymentMode">
+                <option>Select</option>
+                {paymentModes.map((e, i) => (
+                  <option key={i}>{e}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="ae-field">
               <label>Description</label>
-              <textarea
-                name="description"
-                placeholder="Enter Description"
-                value={formData.description}
-                onChange={handleChange}
-              ></textarea>
+              <textarea />
+            </div>
+
+            <button className="ae-btn" onClick={handleSave}>
+              Save
+            </button>
+          </div>
+        </div>
+
+        {/* ================= TABLE ================= */}
+        <div className="ae-card">
+          <div className="ae-card-top">📋 Expense List</div>
+
+          <div className="ae-table-top">
+            <div>
+              Show <select><option>5</option></select>
+            </div>
+            <div>
+              Search: <input />
             </div>
           </div>
 
-          <button className="save-btn" onClick={handleSave}>Save Expense</button>
-        </div>
-
-        {/* RIGHT TABLE */}
-        <div className="expense-table-card">
-          <h3><FaList /> Expense List</h3>
-
-          <div className="table-wrapper">
+          <div className="ae-table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Expense Head</th>
-                  <th>Name</th>
-                  <th>Account</th>
-                  <th>Amount</th>
-                  <th>Date</th>
-                  <th>Action</th>
+                  <th>HEAD</th>
+                  <th>NAME</th>
+                  <th>ACCOUNT</th>
+                  <th>INVOICE</th>
+                  <th>AMOUNT</th>
+                  <th>DATE</th>
+                  <th>DESCRIPTION</th>
+                  <th>CREATED BY</th>
+                  <th>APPROVED BY</th>
+                  <th>ACTION</th>
                 </tr>
               </thead>
 
               <tbody>
-                {expenses.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item.head}</td>
-                    <td>{item.name}</td>
-                    <td>{item.accountNumber}</td>
-                    <td>₹ {item.amount}</td>
-                    <td>{item.date}</td>
+                {currentData.map((e, i) => {
+                  const realIndex = indexOfFirst + i;
 
-                    <td className="action-cell">
-                      <BsThreeDotsVertical
-                        className="action-icon"
-                        onClick={() => setActiveMenu(activeMenu === index ? null : index)}
-                      />
+                  return (
+                    <tr key={i}>
+                      <td>{e.head}</td>
+                      <td>{e.name}</td>
+                      <td>{e.accountName}</td>
+                      <td>{e.invoice}</td>
+                      <td>{e.amount}</td>
+                      <td>{e.date}</td>
+                      <td>{e.description}</td>
+                      <td>Admin</td>
+                      <td>-</td>
 
-                      {activeMenu === index && (
-                        <div className="dropdown-menu">
-                          <div className="dropdown-item">Edit</div>
-                          <div className="dropdown-item delete">Delete</div>
-                        </div>
-                      )}
-                    </td>
+                      <td className="ae-action">
+                        <button
+                          onClick={() => setActiveMenu(realIndex)}
+                          className="ae-action-btn"
+                        >
+                          Action
+                        </button>
 
-                  </tr>
-                ))}
+                        {activeMenu === realIndex && (
+                          <div className="ae-dropdown" ref={menuRef}>
+                            <div>View</div>
+                            <div>Edit</div>
+                            <div
+                              className="del"
+                              onClick={() => handleDelete(realIndex)}
+                            >
+                              🗑 Delete
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
-
             </table>
+
+            {/* PAGINATION */}
+            <div className="ae-pagination">
+              <span>
+                Showing {indexOfFirst + 1} to{" "}
+                {Math.min(indexOfLast, expenses.length)} of{" "}
+                {expenses.length} entries
+              </span>
+
+              <div className="ae-pagination-controls">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  Previous
+                </button>
+
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i}
+                    className={currentPage === i + 1 ? "active" : ""}
+                    onClick={() => setCurrentPage(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 

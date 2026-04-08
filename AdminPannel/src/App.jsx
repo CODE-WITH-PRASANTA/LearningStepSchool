@@ -88,9 +88,6 @@ import Question from "./Pages/Question/Question";
 import UpdateQuestion from "./Pages/UpdateQuestion/UpdateQuestion";
 import Generate from "./Pages/Generate/Generate";
 import GenerateQuestion from "./Pages/GenerateQuestion/GenerateQuestion";
-import AddExpense from "./Pages/AddExpense/AddExpense";
-import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
-import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 import OnlineExam from "./Pages/OnlineExam/OnlineExam";
 import QustionBank from "./Pages/QustionBank/QustionBank";
 import StudentAdmission from "./Pages/StudentAdmission/StudentAdmission";
@@ -122,6 +119,11 @@ import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 import PaymentRecipt from "./Component/PaymentRecipt/PaymentRecipt";
+
+/* ===================== EXPENSE ===================== */
+import AddExpense from "./Pages/AddExpense/AddExpense";
+import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
+import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 
 /* ===================== APP ===================== */
 
@@ -322,10 +324,7 @@ export default function App() {
           <Route path="/update-question" element={<UpdateQuestion />} />
           <Route path="/paper-generate" element={<Generate />} />
           <Route path="/generate-question" element={<GenerateQuestion />} />
-          <Route path="/expense/details" element={<AddExpense />} />
-          <Route path="/expense-search" element={<ExpenseSearch />} />
           <Route path="/expense-list" element={<ExpenseList />} />
-          <Route path="expense-head" element={<ExpenseHead />} />
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
@@ -333,6 +332,13 @@ export default function App() {
           <Route path="/student/details" element={<StudentDetails />} />
           <Route path="/student/link" element={<StudentLink />} />
           <Route path="/student/catagory" element={<StudentCatagory />} />
+
+          {/* EXPENSE */}
+
+          <Route path="/expense/details" element={<AddExpense />} />
+          <Route path="/expense-search" element={<ExpenseSearch />} />
+          <Route path="expense-head" element={<ExpenseHead />} />
+
 
           {/* Student Info */}
 

@@ -115,6 +115,17 @@ const menu = [
   { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiMessageCircle, path: "/faq" },
 
+  // { 
+  //   label: "Expense", 
+  //   icon: FiCreditCard, 
+  //   children: [
+  //     { label: "Add Expense", path: "/expense" },
+  //     { label: "Expense Search", path: "/expense/search" },
+  //     { label: "Expense Head", path: "/expense/head" },
+  //   ],
+  // },
+
+
   { type: "section", label: "ERP Solution" },
 
   {
@@ -262,15 +273,15 @@ const menu = [
 
   // { type: "divider" },
 
-  // {
-  //   label: "Expense",
-  //   icon: FiCreditCard,
-  //   children: [
-  //     { label: "Add Expense", path: "/expense/details" },
-  //     { label: "Expense Search", path: "/expense-search" },
-  //     { label: "Expense Head", path: "/expense-head" },
-  //   ],
-  // },
+  {
+    label: "Expense",
+    icon: FiCreditCard,
+    children: [
+      { label: "Add Expense", path: "/expense/details" },
+      { label: "Expense Search", path: "/expense-search" },
+      { label: "Expense Head", path: "/expense-head" },
+    ],
+  },
 
   // { type: "divider" },
 

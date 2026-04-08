@@ -30,7 +30,7 @@ const ExpenseList = () => {
         session: "2025-26",
         date: "28-01-2026",
         description: "",
-        amount: 1000,
+        amount: 3000,
       },
       {
         id: 3,

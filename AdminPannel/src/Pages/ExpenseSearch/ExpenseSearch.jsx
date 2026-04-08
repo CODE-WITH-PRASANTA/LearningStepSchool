@@ -1,4 +1,3 @@
-// ExpenseSearch.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ExpenseSearch.css";
@@ -23,22 +22,25 @@ const ExpenseSearch = () => {
   };
 
   const handleSearch = () => {
-    // pass filter data to expense list page
     navigate("/expense-list", { state: form });
   };
 
   return (
     <div className={base}>
-      {/* ===== HEADER ===== */}
+      {/* HEADER */}
       <div className={`${base}__header`}>
-        <h2>Expense Search</h2>
-        <p className={`${base}__breadcrumb`}>Expense / Expense Search</p>
+        <div>
+          <h2>Expense Search</h2>
+          <p className={`${base}__breadcrumb`}>
+            Dashboard / Expense / Search
+          </p>
+        </div>
       </div>
 
-      {/* ===== CARD ===== */}
+      {/* CARD */}
       <div className={`${base}__card`}>
         <div className={`${base}__cardHeader`}>
-          <h3>Select Criteria</h3>
+          <h3>Filter Expenses</h3>
         </div>
 
         <div className={`${base}__form`}>
@@ -48,9 +50,7 @@ const ExpenseSearch = () => {
             <select name="head" value={form.head} onChange={handleChange}>
               <option value="">Select</option>
               {expenseHeads.map((item, i) => (
-                <option key={i} value={item}>
-                  {item}
-                </option>
+                <option key={i}>{item}</option>
               ))}
             </select>
           </div>
@@ -61,9 +61,7 @@ const ExpenseSearch = () => {
             <select name="payment" value={form.payment} onChange={handleChange}>
               <option value="">Select</option>
               {paymentModes.map((item, i) => (
-                <option key={i} value={item}>
-                  {item}
-                </option>
+                <option key={i}>{item}</option>
               ))}
             </select>
           </div>
@@ -80,13 +78,13 @@ const ExpenseSearch = () => {
             <input type="date" name="to" value={form.to} onChange={handleChange} />
           </div>
 
-          {/* Search Text */}
+          {/* Search */}
           <div className={`${base}__group`}>
             <label>Search</label>
             <input
               type="text"
               name="text"
-              placeholder="Search by Expense"
+              placeholder="Search expenses..."
               value={form.text}
               onChange={handleChange}
             />
@@ -94,8 +92,8 @@ const ExpenseSearch = () => {
 
           {/* Button */}
           <div className={`${base}__btnWrap`}>
-            <button type="button" onClick={handleSearch} className={`${base}__btn`}>
-              Search
+            <button onClick={handleSearch} className={`${base}__btn`}>
+              🔍 Search
             </button>
           </div>
         </div>

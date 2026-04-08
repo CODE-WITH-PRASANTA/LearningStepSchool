@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./ExpenseHead.css";
-import { FaEllipsisV } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const ExpenseHead = () => {
   const [openMenu, setOpenMenu] = useState(null);
+  const menuRef = useRef();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const data = [
     { id: 1, name: "ABC Limited" },
@@ -14,24 +19,64 @@ const ExpenseHead = () => {
     { id: 6, name: "Chair" }
   ];
 
+  // ✅ CLOSE DROPDOWN ON OUTSIDE CLICK
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const toggleMenu = (id) => {
     setOpenMenu(openMenu === id ? null : id);
   };
 
+  // ✅ DELETE
+  const handleDelete = (name) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `Delete "${name}" ?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#4f46e5",
+      cancelButtonColor: "#ef4444",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "Expense head deleted.", "success");
+      }
+    });
+  };
+
+  // PAGINATION
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentData = data.slice(indexOfFirst, indexOfLast);
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    setOpenMenu(null);
+  };
+
   return (
     <div className="expenseHead-wrapper">
-
       <div className="expenseHead-pageTitle">Expense Head</div>
 
       <div className="expenseHead-grid">
-
-        {/* LEFT FORM */}
+        {/* LEFT */}
         <div className="expenseHead-card">
-          <div className="expenseHead-cardHeader">Add / Edit Expense Head</div>
+          <div className="expenseHead-cardHeader">
+            Add / Edit Expense Head
+          </div>
 
           <div className="expenseHead-form">
             <label>Expense Head *</label>
-            <input type="text" placeholder="Enter Expense Head" />
+            <input placeholder="Enter Expense Head" />
 
             <label>Description</label>
             <textarea placeholder="Enter description" />
@@ -40,47 +85,91 @@ const ExpenseHead = () => {
           </div>
         </div>
 
-        {/* RIGHT TABLE */}
+        {/* RIGHT */}
         <div className="expenseHead-card">
-          <div className="expenseHead-cardHeader">Expense Head List</div>
+          <div className="expenseHead-cardHeader">
+            Expense Head List
+          </div>
 
           <div className="expenseHead-tableWrap">
             <table className="expenseHead-table">
               <thead>
                 <tr>
                   <th>EXPENSE HEAD</th>
-                  <th style={{ width: "70px" }}>ACTION</th>
+                  <th className="actionHeader">ACTION</th>
                 </tr>
               </thead>
 
               <tbody>
-                {data.map((item) => (
+                {currentData.map((item) => (
                   <tr key={item.id}>
                     <td>{item.name}</td>
 
                     <td className="expenseHead-actionCell">
                       <button
-                        className="expenseHead-actionIcon"
+                        className="expenseHead-actionBtn"
                         onClick={() => toggleMenu(item.id)}
                       >
-                        <FaEllipsisV size={16} />
+                        Action ▾
                       </button>
 
                       {openMenu === item.id && (
-                        <div className="expenseHead-menu">
-                          <button>Edit</button>
-                          <button className="delete">Delete</button>
+                        <div className="expenseHead-menu" ref={menuRef}>
+                          <button>
+                            <FaEdit /> Edit
+                          </button>
+
+                          <button
+                            className="delete"
+                            onClick={() => handleDelete(item.name)}
+                          >
+                            <FaTrash /> Delete
+                          </button>
                         </div>
                       )}
                     </td>
                   </tr>
                 ))}
               </tbody>
-
             </table>
+
+            {/* PAGINATION */}
+            <div className="expenseHead-pagination">
+              <div className="expenseHead-paginationInfo">
+                Showing {indexOfFirst + 1} to{" "}
+                {Math.min(indexOfLast, data.length)} of {data.length}
+              </div>
+
+              <div className="expenseHead-paginationControls">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={currentPage === 1 ? "disabled" : ""}
+                >
+                  Previous
+                </button>
+
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handlePageChange(i + 1)}
+                    className={currentPage === i + 1 ? "active" : ""}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={currentPage === totalPages ? "disabled" : ""}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );
