@@ -205,24 +205,9 @@ font-weight: 700;
   animation: scaleIn .35s ease;
 }
 
-.FeeCollection-modalTop{
-  margin-bottom:18px;
-}
-
-.FeeCollection-modalTop h3{
-  margin:0;
-  font-size:26px;
-  font-weight:700;
-  color:#0f172a;
-}
-
-.FeeCollection-modalTop p{
-  margin:6px 0 0;
-  color:#64748b;
-  font-size:14px;
-}
 
 /* RECEIPT */
+/* RECEIPT TABLE */
 
 .FeeCollection-receipt table {
   width: 100%;
@@ -425,47 +410,6 @@ font-weight: 700;
     flex-direction: column;
   }
 
-  .FeeCollection-search{
-    max-width:100%;
-  }
-
-  .FeeCollection-toolbarRight{
-    width:100%;
-    justify-content:flex-start;
-  }
-
-  .FeeCollection-filterDropdown{
-    right:auto;
-    left:0;
-    width:100%;
-    min-width:unset;
-  }
-
-  .FeeCollection-formGrid{
-    grid-template-columns:1fr;
-  }
-
-  .FeeCollection-fieldFull{
-    grid-column:span 1;
-  }
-
-  .FeeCollection-formGrid textarea{
-    grid-column:span 1;
-  }
-
-  .FeeCollection-receiptInfo{
-    flex-direction:column;
-  }
-
-  .FeeCollection-modalContent,
-  .FeeCollection-receipt{
-    padding:24px 18px;
-    border-radius:20px;
-  }
-
-  .FeeCollection-modalTop h3{
-    font-size:22px;
-  }
 }
 
 @media(max-width:480px) {
@@ -479,24 +423,4 @@ font-weight: 700;
     padding: 20px;
   }
 
-  .FeeCollection-collectBtn,
-  .FeeCollection-filterBtn,
-  .save,
-  .cancel{
-    width:100%;
-    justify-content:center;
-  }
-
-  .FeeCollection-formBtns{
-    flex-direction:column;
-  }
-
-  .FeeCollection-pagination{
-    gap:8px;
-  }
-
-  .FeeCollection-pagination button{
-    min-width:36px;
-    height:36px;
-  }
 }

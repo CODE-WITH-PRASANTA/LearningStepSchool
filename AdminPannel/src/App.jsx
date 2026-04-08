@@ -118,7 +118,7 @@ import ExamResult from "./Pages/ExamResult/ExamResult";
 import ExamResultAdmin from "./Pages/ExamResultAdmin/ExamResultAdmin";
 import ExamTypeAdmin from "./Pages/ExamTypeAdmin/ExamTypeAdmin";
 import PaymentRecipt from "./Component/PaymentRecipt/PaymentRecipt";
-import FeeCollectionPage from "./Pages/FeeCollection/FeeCollectionPage";
+import FeeCollectionPage from "./Pages/FeeCollection/FeeCollection";
 
 /* ===================== EXPENSE ===================== */
 import AddExpense from "./Pages/AddExpense/AddExpense";
