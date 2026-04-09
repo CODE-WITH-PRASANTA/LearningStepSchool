@@ -1,0 +1,152 @@
+/* ================= SCREEN STYLE ================= */
+.print-area {
+  display: none;
+  width: 800px;
+  margin: auto;
+  padding: 20px;
+  background: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #222;
+
+  /* 🔥 subtle premium effect */
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* HEADER */
+.pf-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pf-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+
+  /* 🔥 PREMIUM SCHOOL GRADIENT */
+  background: linear-gradient(
+    90deg,
+    #2563eb,   /* deep blue */
+    #a346e5,   /* indigo */
+    #d9058b    /* purple */
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* 🔥 smooth rendering */
+  letter-spacing: 0.5px;
+}
+
+.pf-header p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.pf-header h3 {
+  margin-top: 10px;
+  padding: 6px 14px;
+  display: inline-block;
+
+  /* 🔥 upgraded color */
+  background: linear-gradient(135deg, #ff6b6b, #ff9a9e);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* SECTION */
+.pf-section {
+  margin-top: 25px;
+}
+
+.pf-section h3 {
+  border-bottom: 2px solid #4facfe; /* 🔥 colored border */
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  color: #374151;
+}
+
+/* FIELD */
+.pf-field {
+  display: flex;
+  margin: 8px 0;
+  align-items: center;
+}
+
+.pf-field label {
+  width: 180px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.pf-field span {
+  flex: 1;
+
+  /* 🔥 premium underline */
+  border-bottom: 1.5px dashed #4facfe;
+  min-height: 20px;
+}
+
+/* TWO COLUMN */
+.pf-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pf-row .pf-field {
+  width: 48%;
+}
+
+/* SIGN */
+.pf-sign {
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  color: #374151;
+}
+
+.pf-sign span {
+  border-top: 2px solid #4facfe; /* 🔥 colored sign line */
+  padding-top: 5px;
+  width: 180px;
+  text-align: center;
+}
+
+/* ================= PRINT STYLE ================= */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  /* 🔥 ensure colors print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

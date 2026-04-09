@@ -22,6 +22,7 @@ const ExamResult = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
   const [markRange, setMarkRange] = useState("");
+  const [rankRange, setRankRange] = useState("");
 
   const rowsPerPage = 10;
 
@@ -97,36 +98,46 @@ const ExamResult = () => {
     ];
   }, [results]);
 
-  const filteredData = (results || [])
-    .filter((item) => {
-      const className =
-        item.classId?.className || item.class || item.className || "";
+  const rankedData = useMemo(() => {
+    return [...(results || [])]
+      .sort((a, b) => (b.total || 0) - (a.total || 0)) // 🔥 highest first
+      .map((item, index) => ({
+        ...item,
+        rank: index + 1, // ✅ assign rank
+      }));
+  }, [results]);
 
-      // 🔥 MARK RANGE FILTER (IMPROVED)
-      let isInRange = true;
+  const filteredData = rankedData.filter((item) => {
+    const className =
+      item.classId?.className || item.class || item.className || "";
 
-      if (markRange) {
-        const [min, max] = markRange.split("-").map((n) => Number(n.trim()));
+    let isInRange = true;
 
-        const marks = parseFloat(item.total) || 0;
+    if (markRange) {
+      const [min, max] = markRange.split("-").map(Number);
+      const marks = parseFloat(item.total) || 0;
+      isInRange = marks >= min && marks <= max;
+    }
 
-        if (!isNaN(min) && !isNaN(max)) {
-          isInRange = marks >= min && marks <= max;
-        }
-      }
+    // ✅ RANK FILTER
+    let isRankMatch = true;
 
-      return (
-        ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-          (item.admissionNo || "")
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
-        (selectedClass ? className === selectedClass : true) &&
-        (selectedExam ? item.examType === selectedExam : true) &&
-        isInRange // ✅ NEW CONDITION
-      );
-    })
-    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)); // 🔥 ADD THIS
+    if (rankRange) {
+      const [min, max] = rankRange.split("-").map(Number);
+      isRankMatch = item.rank >= min && item.rank <= max;
+    }
+
+    return (
+      ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+        (item.admissionNo || "")
+          .toLowerCase()
+          .includes(search.toLowerCase())) &&
+      (selectedClass ? className === selectedClass : true) &&
+      (selectedExam ? item.examType === selectedExam : true) &&
+      isInRange &&
+      isRankMatch // ✅ APPLY HERE
+    );
+  });
 
   useEffect(() => {
     setPage(1);
@@ -240,6 +251,15 @@ const ExamResult = () => {
 
         <div className="ExamResult-filters">
           <select
+            value={rankRange}
+            onChange={(e) => setRankRange(e.target.value)}
+          >
+            <option value="">All Rank</option>
+            <option value="1-10">1 - 10</option>
+            <option value="11-20">11 - 20</option>
+            <option value="21-50">21 - 50</option>
+          </select>
+          <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
           >
@@ -295,6 +315,7 @@ const ExamResult = () => {
             <thead>
               <tr>
                 <th>S.L</th>
+                <th>Rank</th>
                 <th>Admission No</th>
                 <th>Name</th>
                 <th>Roll No</th>
@@ -337,6 +358,11 @@ const ExamResult = () => {
                   return (
                     <tr key={item._id}>
                       <td>{indexFirst + index + 1}</td>
+                      <td>
+                        <span style={{ fontWeight: "bold", color: "#2563eb" }}>
+                          #{item.rank}
+                        </span>
+                      </td>
                       <td>{item.admissionNo}</td>
                       <td>{item.name}</td>
                       <td>{item.rollNumber}</td>
