@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./ExpenseHead.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
+import API from "../../api/axios";
 
 const ExpenseHead = () => {
   const [openMenu, setOpenMenu] = useState(null);
@@ -10,16 +11,18 @@ const ExpenseHead = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const data = [
-    { id: 1, name: "ABC Limited" },
-    { id: 2, name: "Annual Wifi Charges" },
-    { id: 3, name: "Books" },
-    { id: 4, name: "books" },
-    { id: 5, name: "BOOKS ( Foundation EXAM )" },
-    { id: 6, name: "Chair" }
-  ];
+  // ✅ BACKEND DATA
+  const [data, setData] = useState([]);
 
-  // ✅ CLOSE DROPDOWN ON OUTSIDE CLICK
+  // ✅ FORM STATE
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+  });
+
+  const [editId, setEditId] = useState(null);
+
+  // ✅ CLOSE DROPDOWN
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -30,12 +33,54 @@ const ExpenseHead = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // ✅ FETCH FROM BACKEND
+  useEffect(() => {
+    fetchHeads();
+  }, []);
+
+  const fetchHeads = async () => {
+    try {
+      const res = await API.get("/expense-heads");
+      setData(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const toggleMenu = (id) => {
     setOpenMenu(openMenu === id ? null : id);
   };
 
+  // ✅ INPUT CHANGE
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // ✅ SAVE / UPDATE
+  const handleSave = async () => {
+    if (!form.name) {
+      return Swal.fire("Error", "Expense head required ❌", "error");
+    }
+
+    try {
+      if (editId) {
+        await API.put(`/expense-heads/${editId}`, form);
+        Swal.fire("Updated!", "", "success");
+      } else {
+        await API.post("/expense-heads", form);
+        Swal.fire("Saved!", "", "success");
+      }
+
+      setForm({ name: "", description: "" });
+      setEditId(null);
+      fetchHeads();
+    } catch (err) {
+      Swal.fire("Error", "Operation failed ❌", "error");
+    }
+  };
+
   // ✅ DELETE
-  const handleDelete = (name) => {
+  const handleDelete = (id, name) => {
     Swal.fire({
       title: "Are you sure?",
       text: `Delete "${name}" ?`,
@@ -43,15 +88,27 @@ const ExpenseHead = () => {
       showCancelButton: true,
       confirmButtonColor: "#4f46e5",
       cancelButtonColor: "#ef4444",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
+        await API.delete(`/expense-heads/${id}`);
+        fetchHeads();
         Swal.fire("Deleted!", "Expense head deleted.", "success");
       }
     });
   };
 
-  // PAGINATION
+  // ✅ EDIT
+  const handleEdit = (item) => {
+    setForm({
+      name: item.name,
+      description: item.description || "",
+    });
+    setEditId(item._id);
+    setOpenMenu(null);
+  };
+
+  // PAGINATION (NO CHANGE)
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
@@ -76,12 +133,24 @@ const ExpenseHead = () => {
 
           <div className="expenseHead-form">
             <label>Expense Head *</label>
-            <input placeholder="Enter Expense Head" />
+            <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Enter Expense Head"
+            />
 
             <label>Description</label>
-            <textarea placeholder="Enter description" />
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Enter description"
+            />
 
-            <button className="expenseHead-saveBtn">Save</button>
+            <button className="expenseHead-saveBtn" onClick={handleSave}>
+              {editId ? "Update" : "Save"}
+            </button>
           </div>
         </div>
 
@@ -102,26 +171,28 @@ const ExpenseHead = () => {
 
               <tbody>
                 {currentData.map((item) => (
-                  <tr key={item.id}>
+                  <tr key={item._id}>
                     <td>{item.name}</td>
 
                     <td className="expenseHead-actionCell">
                       <button
                         className="expenseHead-actionBtn"
-                        onClick={() => toggleMenu(item.id)}
+                        onClick={() => toggleMenu(item._id)}
                       >
                         Action ▾
                       </button>
 
-                      {openMenu === item.id && (
+                      {openMenu === item._id && (
                         <div className="expenseHead-menu" ref={menuRef}>
-                          <button>
+                          <button onClick={() => handleEdit(item)}>
                             <FaEdit /> Edit
                           </button>
 
                           <button
                             className="delete"
-                            onClick={() => handleDelete(item.name)}
+                            onClick={() =>
+                              handleDelete(item._id, item.name)
+                            }
                           >
                             <FaTrash /> Delete
                           </button>
@@ -168,6 +239,7 @@ const ExpenseHead = () => {
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </div>

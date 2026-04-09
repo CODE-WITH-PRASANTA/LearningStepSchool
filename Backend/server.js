@@ -48,6 +48,9 @@ const examType = require("./routes/examType.routes")
 const authRoutes = require("./routes/adminAuth.routes");
 const attendanceRoutes = require("./routes/attendance.routes");
 const studentLeaveRoutes = require("./routes/studentLeave.routes");
+const expenseHeadRoutes = require("./routes/expenseHead.routes");
+const expenseRoutes = require("./routes/expense.routes");
+
 
 
 
@@ -83,6 +86,8 @@ app.use("/api/exam-types",examType );
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/student-leave", studentLeaveRoutes);
+app.use("/api/expense-heads", expenseHeadRoutes);
+app.use("/api/expenses", expenseRoutes);
 
 
 /* ================= 404 HANDLER ================= */

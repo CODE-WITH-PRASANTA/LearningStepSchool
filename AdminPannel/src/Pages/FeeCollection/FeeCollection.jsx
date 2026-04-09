@@ -192,73 +192,90 @@ const FeeCollection = () => {
   const totalPages = Math.ceil(filteredFees.length / rowsPerPage);
 
   /* ================= SAVE FEE ================= */
+
   const saveFee = async () => {
-    if (!selectedStudent) {
-      alert("Select student first");
-      return;
-    }
+  if (!selectedStudent) {
+    alert("⚠️ Please select a student");
+    return;
+  }
 
-    if (!amount || !date || !feeType) {
-      alert("Please fill all required fields");
-      return;
-    }
+  if (!amount || isNaN(amount) || Number(amount) <= 0) {
+    alert("⚠️ Enter valid amount");
+    return;
+  }
 
-    try {
-      const totalAmount = Number(amount) || 0;
+  if (!feeType) {
+    alert("⚠️ Select fee type");
+    return;
+  }
 
-      // ✅ DISCOUNT CALCULATION
-      const discountAmount = (totalAmount * discount) / 100;
-      const finalAmount = totalAmount - discountAmount;
+  if (!date) {
+    alert("⚠️ Select date");
+    return;
+  }
 
-      // ✅ FULL PAYMENT (AFTER DISCOUNT)
-      const paidAmount = finalAmount;
+  try {
+    const totalAmount = Number(amount);
 
-      await API.post("/admission/fees", {
-        studentId: selectedStudent._id,
-        admissionNo: selectedStudent.admissionNo,
-        name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
-        rollNumber: selectedStudent.rollNumber,
+    // ✅ Discount Calculation
+    const discountAmount = (totalAmount * discount) / 100;
+    const finalAmount = totalAmount - discountAmount;
 
-        class: selectedStudent.class,
-        section: selectedStudent.section,
+    const paidAmount = finalAmount;
+    const dueAmount = totalAmount - paidAmount;
 
-        amount: totalAmount, // ✅ FULL AMOUNT (IMPORTANT)
-        paid: paidAmount, // ✅ AFTER DISCOUNT
+    const payload = {
+      studentId: selectedStudent._id,
+      admissionNo: selectedStudent.admissionNo,
+      name: `${selectedStudent.firstName} ${selectedStudent.lastName}`,
+      rollNumber: selectedStudent.rollNumber,
 
-        discount,
-        paymentMethod,
-        note,
+      class: selectedStudent.class,
+      section: selectedStudent.section,
 
-        fees: [
-          {
-            feeType,
-            amount: Number(amount),
-          },
-        ],
-        date,
-      });
+      amount: totalAmount,
+      paid: paidAmount,
+      due: dueAmount,
 
-      alert("Fee collected successfully");
+      discount,
+      paymentMethod,
+      note,
+      status,
 
-      fetchFees();
+      fees: [
+        {
+          feeType,
+          amount: totalAmount,
+        },
+      ],
 
-      // RESET
-      setShowCollect(false);
-      setSelectedStudent(null);
-      setStudentSearch("");
-      setAmount("");
-      setDiscount(0);
-      setFeeType("");
-      setPaymentMethod("Cash");
-      setNote("");
+      date,
+    };
 
-      // ✅ RESET DATE
-      const today = new Date().toISOString().split("T")[0];
-      setDate(today);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    await API.post("/admission/fees", payload);
+
+    alert("✅ Fee collected successfully");
+
+    fetchFees();
+
+    // ✅ RESET
+    setShowCollect(false);
+    setSelectedStudent(null);
+    setStudentSearch("");
+    setAmount("");
+    setDiscount(0);
+    setFeeType("");
+    setPaymentMethod("Cash");
+    setNote("");
+    setStatus("Paid");
+
+    const today = new Date().toISOString().split("T")[0];
+    setDate(today);
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to save fee");
+  }
+};
   return (
     <div className="FeeCollection">
       {/* HEADER */}
