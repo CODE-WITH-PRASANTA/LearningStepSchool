@@ -187,31 +187,35 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
         {/* GRADING SCALE */}
         <div className="reports-grade-scale small">
-         <table className="reports-grade-table small">
-  <tbody>
-    {/* HEADER ROW */}
-    <tr>
-      <td><b>Grade</b></td>
-      {gradeConfig.map((g, i) => (
-        <td key={i}>{g.grade}</td>
-      ))}
-    </tr>
+          <table className="reports-grade-table small">
+            <tbody>
+              {/* HEADER ROW */}
+              <tr>
+                <td>
+                  <b>Grade</b>
+                </td>
+                {gradeConfig.map((g, i) => (
+                  <td key={i}>{g.grade}</td>
+                ))}
+              </tr>
 
-    {/* MARKS ROW */}
-    <tr>
-      <td><b>Marks</b></td>
-      {gradeConfig.map((g, i) => (
-        <td key={i}>
-          {g.min}-{g.max}
-        </td>
-      ))}
-    </tr>
-  </tbody>
-</table>
+              {/* MARKS ROW */}
+              <tr>
+                <td>
+                  <b>Marks</b>
+                </td>
+                {gradeConfig.map((g, i) => (
+                  <td key={i}>
+                    {g.min}-{g.max}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         {/* SUMMARY */}
-        <div className="reports-summary">
+        <div className="reports-summarys">
           <p>
             <b>Total:</b> {viewData.total} / {viewData.fullMarks}
           </p>
@@ -220,6 +224,11 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
           </p>
           <p>
             <b>Grade:</b> {viewData.grade}
+          </p>
+          <p>
+            <b>Rank:</b> {viewData.rank === 1 && "🥇 "}
+            {viewData.rank === 2 && "🥈 "}
+            {viewData.rank === 3 && "🥉 "}#{viewData.rank || "-"}
           </p>
           <p>
             <b>Result:</b>{" "}

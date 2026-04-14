@@ -321,7 +321,7 @@ const AddExpense = () => {
           </div>
 
           <div className="ae-table-wrap">
-            <table>
+            <table className="ae-table">
               <thead>
                 <tr>
                   <th>HEAD</th>

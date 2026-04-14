@@ -154,7 +154,7 @@
 }
 
 .ExamResult-table th {
-    color: ##1a1919;
+    color: #1a1919;
     font-weight: 700;
     font-size: 13px;
     text-transform: uppercase;
@@ -557,6 +557,38 @@
     background: #667eea;
     color: white;
     transform: scale(1.1);
+}
+
+.topper-row {
+    background: linear-gradient(90deg, #f59e0b, #facc15) !important;
+    /* color: #000; */
+    font-weight: bold;
+    /* background: #e04ea8 !important; */
+    /* 🔥 FORCE APPLY */
+    color: #fff;
+    /* optional for contrast */
+}
+
+.topper-row td {
+    background: #ec40aa !important;
+    /* 🔥 FIX TABLE CELL OVERRIDE */
+    border-bottom: 2px solid #f59e0b;
+}
+
+
+.ExamResult-resetBtn {
+    padding: 6px 12px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.ExamResult-resetBtn:hover {
+    background: #dc2626;
 }
 
 /* 🔥 ANIMATION */

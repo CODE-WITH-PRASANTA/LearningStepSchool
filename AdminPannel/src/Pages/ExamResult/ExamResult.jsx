@@ -93,55 +93,110 @@ const ExamResult = () => {
   const examOptions = useMemo(() => {
     return [
       ...new Set(
-        results.map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
+        (results || []).map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
       ),
     ];
   }, [results]);
 
   const rankedData = useMemo(() => {
-    return [...(results || [])]
-      .sort((a, b) => (b.total || 0) - (a.total || 0)) // 🔥 highest first
-      .map((item, index) => ({
-        ...item,
-        rank: index + 1, // ✅ assign rank
-      }));
+    const grouped = {};
+
+    (results || []).forEach((item) => {
+      const className =
+        item.classId?.className || item.class || item.className || "Unknown";
+
+      const exam = item.examType || "Unknown";
+
+      const key = `${className}_${exam}`;
+
+      if (!grouped[key]) grouped[key] = [];
+
+      grouped[key].push(item);
+    });
+
+    let finalData = [];
+
+    Object.keys(grouped).forEach((key) => {
+      const sorted = [...grouped[key]].sort(
+        (a, b) => (b.total || 0) - (a.total || 0),
+      );
+
+      // ✅ DENSE RANKING
+      const ranked = [];
+      let lastRank = 1;
+
+      sorted.forEach((item, index) => {
+        if (index === 0) {
+          ranked.push({ ...item, rank: 1 });
+        } else {
+          const prev = sorted[index - 1];
+
+          if ((item.total || 0) === (prev.total || 0)) {
+            // ✅ SAME MARK → SAME RANK
+            ranked.push({ ...item, rank: lastRank });
+          } else {
+            // ✅ INCREMENT ONLY BY 1
+            lastRank += 1;
+            ranked.push({ ...item, rank: lastRank });
+          }
+        }
+      });
+
+      finalData.push(...ranked);
+    });
+
+    return finalData;
   }, [results]);
 
-  const filteredData = rankedData.filter((item) => {
-    const className =
-      item.classId?.className || item.class || item.className || "";
-
-    let isInRange = true;
-
-    if (markRange) {
-      const [min, max] = markRange.split("-").map(Number);
-      const marks = parseFloat(item.total) || 0;
-      isInRange = marks >= min && marks <= max;
-    }
-
-    // ✅ RANK FILTER
-    let isRankMatch = true;
-
-    if (rankRange) {
-      const [min, max] = rankRange.split("-").map(Number);
-      isRankMatch = item.rank >= min && item.rank <= max;
-    }
-
+  const filteredData = useMemo(() => {
     return (
-      ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-        (item.admissionNo || "")
-          .toLowerCase()
-          .includes(search.toLowerCase())) &&
-      (selectedClass ? className === selectedClass : true) &&
-      (selectedExam ? item.examType === selectedExam : true) &&
-      isInRange &&
-      isRankMatch // ✅ APPLY HERE
+      rankedData
+        // 🔥 SEARCH
+        .filter((item) => {
+          return (
+            (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+            (item.admissionNo || "")
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          );
+        })
+
+        // 🔥 CLASS
+        .filter((item) => {
+          const className =
+            item.classId?.className || item.class || item.className || "";
+          return selectedClass ? className === selectedClass : true;
+        })
+
+        // 🔥 EXAM
+        .filter((item) => {
+          return selectedExam ? item.examType === selectedExam : true;
+        })
+
+        // 🔥 MARK RANGE
+        .filter((item) => {
+          if (!markRange) return true;
+
+          const [min, max] = markRange.split("-").map(Number);
+          const marks = parseFloat(item.total) || 0;
+
+          return marks >= min && marks <= max;
+        })
+
+        // 🔥 RANK (LAST)
+        .filter((item) => {
+          if (!rankRange) return true;
+
+          const [min, max] = rankRange.split("-").map(Number);
+
+          return item.rank >= min && item.rank <= max;
+        })
     );
-  });
+  }, [rankedData, search, selectedClass, selectedExam, markRange, rankRange]);
 
   useEffect(() => {
     setPage(1);
-  }, [search, selectedClass, selectedExam]);
+  }, [search, selectedClass, selectedExam, markRange, rankRange]);
 
   const handleUpdate = async () => {
     try {
@@ -228,6 +283,15 @@ const ExamResult = () => {
 
   const liveResult = calculateResult();
 
+  const handleResetFilters = () => {
+    setSearch("");
+    setSelectedClass("");
+    setSelectedExam("");
+    setMarkRange("");
+    setRankRange("");
+    setPage(1);
+  };
+
   return (
     <div className="ExamResult">
       {/* HEADER */}
@@ -250,9 +314,24 @@ const ExamResult = () => {
         </div>
 
         <div className="ExamResult-filters">
+          <button
+            className="ExamResult-resetBtn"
+            onClick={handleResetFilters}
+            disabled={
+              !search &&
+              !selectedClass &&
+              !selectedExam &&
+              !markRange &&
+              !rankRange
+            }
+            
+          >
+            Reset
+          </button>
           <select
             value={rankRange}
             onChange={(e) => setRankRange(e.target.value)}
+            disabled={!selectedClass}
           >
             <option value="">All Rank</option>
             <option value="1-10">1 - 10</option>
@@ -300,7 +379,7 @@ const ExamResult = () => {
               );
             })}
 
-            <option value="400-9999">400+</option>
+            <option value="400-100000">400+</option>
           </select>
         </div>
       </div>
@@ -356,11 +435,16 @@ const ExamResult = () => {
                     0;
 
                   return (
-                    <tr key={item._id}>
+                    <tr
+                      key={item._id || index}
+                      className={item.rank === 1 ? "topper-row" : ""}
+                    >
                       <td>{indexFirst + index + 1}</td>
                       <td>
                         <span style={{ fontWeight: "bold", color: "#2563eb" }}>
-                          #{item.rank}
+                          {item.rank === 1 && "🥇 "}
+                          {item.rank === 2 && "🥈 "}
+                          {item.rank === 3 && "🥉 "}#{item.rank}
                         </span>
                       </td>
                       <td>{item.admissionNo}</td>
@@ -412,6 +496,7 @@ const ExamResult = () => {
 
                                     const mergedData = {
                                       ...item,
+                                      rank: item.rank,
 
                                       name:
                                         student.name ||
@@ -450,7 +535,7 @@ const ExamResult = () => {
                                     setViewData(mergedData);
                                   } catch (error) {
                                     console.error("Fetch error:", error);
-                                    setViewData(item);
+                                    setViewData({ ...item, rank: item.rank });
                                   }
 
                                   setMenuOpen(null);
