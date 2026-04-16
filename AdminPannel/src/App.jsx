@@ -124,6 +124,7 @@ import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
+import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
 
 /* ===================== APP ===================== */
 
@@ -357,6 +358,7 @@ export default function App() {
           <Route path="/exam-result" element={<ExamResult />} />
           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
           <Route path="/exam-type" element={<ExamTypeAdmin />} />
+          <Route path="/exam-report" element={<ExamProgressReport />} />
           <Route path="/Paymentrecipt" element={<PaymentRecipt />} />
           <Route
             path="/front-office/postal-dispatch"

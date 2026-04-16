@@ -1,0 +1,29 @@
+.search-wrapper {
+  position: relative;
+  width: 400px;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.search-dropdown {
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.search-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-item:hover {
+  background: #f0f0f0;
+}
