@@ -112,10 +112,15 @@ exports.getStudentAllResults = async (req, res) => {
           subjectMap[subjectName] = {
             name: subjectName,
             exams: {},
+            fullMarks: {},
           };
         }
 
         subjectMap[subjectName].exams[exam.examType] = Number(sub.marks) || 0;
+
+        // ✅ ALSO STORE FULL MARKS
+        subjectMap[subjectName].fullMarks[exam.examType] =
+          Number(sub.fullMarks) || 0;
       });
     });
 
@@ -147,10 +152,30 @@ exports.getStudentAllResults = async (req, res) => {
 
     const percentage = fullMarks ? (grandTotal / fullMarks) * 100 : 0;
 
+    const studentData = await Student.findOne({
+      admissionNo: results[0].admissionNo,
+    });
+
     const student = {
-      name: results[0].name,
+      admissionNo: results[0].admissionNo || "",
+
+      name: `${studentData?.firstName || ""} ${studentData?.lastName || ""}`.trim(),
+
       rollNumber: results[0].rollNumber,
       class: results[0].class,
+
+      fatherName: studentData?.fatherName || "",
+      motherName: studentData?.motherName || "",
+
+      dob: studentData?.dob || "",
+
+      aadhar: studentData?.aadharNumber || "", // ✅ FIXED
+      bloodGroup: studentData?.bloodGroup || "",
+      house: studentData?.house || "",
+      penNo: studentData?.pen || "", // ✅ FIXED
+      weight: studentData?.weight || "",
+
+      studentPhoto: studentData?.studentPhoto || "", // 🔥 BONUS
     };
 
     res.json({
