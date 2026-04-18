@@ -84,6 +84,91 @@ exports.getResults = async (req, res) => {
     });
   }
 };
+exports.getStudentAllResults = async (req, res) => {
+  try {
+    const { admissionNo } = req.params;
+
+    const results = await ExamResult.find({ admissionNo });
+
+    if (!results.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No results found",
+      });
+    }
+
+    // ✅ SORT EXAMS (IMPORTANT)
+    const exams = [...new Set(results.map((r) => r.examType))];
+
+    // 🔥 SUBJECT MAP FIX (MAIN FIX)
+    const subjectMap = {};
+
+    results.forEach((exam) => {
+      exam.subjects.forEach((sub) => {
+        // ✅ HANDLE BOTH CASES
+        const subjectName = sub.name || sub.subject || "Unknown";
+
+        if (!subjectMap[subjectName]) {
+          subjectMap[subjectName] = {
+            name: subjectName,
+            exams: {},
+          };
+        }
+
+        subjectMap[subjectName].exams[exam.examType] = Number(sub.marks) || 0;
+      });
+    });
+
+    // ✅ CONVERT TO ARRAY
+    const subjects = Object.values(subjectMap);
+
+    // 🔥 TOTALS
+    const totals = {};
+    let grandTotal = 0;
+
+    exams.forEach((examName) => {
+      let sum = 0;
+
+      subjects.forEach((s) => {
+        sum += s.exams[examName] || 0;
+      });
+
+      totals[examName] = sum;
+      grandTotal += sum;
+    });
+
+    // 🔥 FULL MARKS (SAFE FIX)
+    const fullMarks = results.reduce((total, exam) => {
+      return (
+        total +
+        exam.subjects.reduce((sum, s) => sum + Number(s.fullMarks || 0), 0)
+      );
+    }, 0);
+
+    const percentage = fullMarks ? (grandTotal / fullMarks) * 100 : 0;
+
+    const student = {
+      name: results[0].name,
+      rollNumber: results[0].rollNumber,
+      class: results[0].class,
+    };
+
+    res.json({
+      success: true,
+      student,
+      exams,
+      subjects,
+      totals,
+      grandTotal,
+      fullMarks,
+      percentage,
+      grade: percentage >= 60 ? "Pass" : "Fail",
+    });
+  } catch (err) {
+    console.error("REPORT ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // ================= UPDATE =================
 exports.updateResult = async (req, res) => {
@@ -155,12 +240,10 @@ exports.deleteResult = async (req, res) => {
   }
 };
 
-
-
 // 🎯 RESULT
 const getResult = (subjects) => {
   const failed = subjects.some(
-    (s) => Number(s.marks) < Number(s.fullMarks) * 0.35
+    (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
   );
   return failed ? "Fail" : "Pass";
 };
@@ -186,8 +269,7 @@ exports.searchResult = async (req, res) => {
     }
 
     // 🔐 Escape regex
-    const escapeRegex = (text) =>
-      text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
     // ✅ Take ONLY first 3 letters
     const shortName = name.trim().substring(0, 3);
@@ -265,7 +347,6 @@ exports.searchResult = async (req, res) => {
       success: true,
       data: finalData,
     });
-
   } catch (err) {
     console.error("SEARCH ERROR:", err);
 

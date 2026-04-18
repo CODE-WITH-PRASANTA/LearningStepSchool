@@ -183,6 +183,7 @@ const menu = [
       { label: "Exam Result", path: "/exam-result" },
       { label: "Exam Score Manager", path: "/exam-result-manager" },
       { label: "Type of Exam Publish", path: "/exam-type" },
+      { label: "Progress Report Card", path: "/exam-report" },
     ],
   },
   {
