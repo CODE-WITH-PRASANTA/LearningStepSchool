@@ -39,6 +39,15 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
     { min: 0, max: 32, grade: "E" },
   ];
 
+  const getRegularSubjects = (data) => {
+    return (data.subjects || [])
+      .map((s) => ({
+        ...s,
+        type: s.type || "regular",
+      }))
+      .filter((s) => s.type === "regular");
+  };
+
   return (
     <div className="reports-overlay">
       <div id="printArea" className="reports-card">
@@ -157,7 +166,20 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
                 return (
                   <tr key={i}>
-                    <td className="reports-subject">{sub.subject}</td>
+                    <td className="reports-subject">
+                      {sub.subject}
+                      {(sub.type || "regular") === "optional" && (
+                        <span
+                          style={{
+                            color: "blue",
+                            fontSize: "10px",
+                            marginLeft: "4px",
+                          }}
+                        >
+                          (Opt)
+                        </span>
+                      )}
+                    </td>
 
                     {/* FULL MARK */}
                     <td className="full-mark">{sub.fullMarks || "-"}</td>
@@ -216,20 +238,43 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
         {/* SUMMARY */}
         <div className="reports-summarys">
-          <p>
-            <b>Total:</b> {viewData.total} / {viewData.fullMarks}
-          </p>
-          <p>
-            <b>Percentage:</b> {viewData.percentage?.toFixed(2) || "0.00"}%
-          </p>
+          {(() => {
+            const regularSubjects = getRegularSubjects(viewData);
+
+            const total = regularSubjects.reduce(
+              (sum, s) => sum + Number(s.marks || 0),
+              0,
+            );
+
+            const full = regularSubjects.reduce(
+              (sum, s) => sum + Number(s.fullMarks || 0),
+              0,
+            );
+
+            const percent = full ? (total / full) * 100 : 0;
+
+            return (
+              <>
+                <p>
+                  <b>Total:</b> {total} / {full}
+                </p>
+                <p>
+                  <b>Percentage:</b> {percent.toFixed(2)}%
+                </p>
+              </>
+            );
+          })()}
+
           <p>
             <b>Grade:</b> {viewData.grade}
           </p>
+
           <p>
             <b>Rank:</b> {viewData.rank === 1 && "🥇 "}
             {viewData.rank === 2 && "🥈 "}
             {viewData.rank === 3 && "🥉 "}#{viewData.rank || "-"}
           </p>
+
           <p>
             <b>Result:</b>{" "}
             <span className={viewData.result === "Fail" ? "fail" : "pass"}>

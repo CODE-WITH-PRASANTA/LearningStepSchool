@@ -70,7 +70,8 @@ export default function ExamResultAdmin() {
     if (found && found.subjects?.length > 0) {
       setSubjects(
         found.subjects.map((sub) => ({
-          subject: sub,
+          subject: typeof sub === "string" ? sub : sub.name,
+          type: typeof sub === "string" ? "regular" : sub.type || "regular", // ✅ ADD THIS
           marks: 0,
           fullMarks: 100,
         })),
@@ -110,8 +111,13 @@ export default function ExamResultAdmin() {
 
   /* ================= CALC ================= */
 
-  const totalMarks = subjects.reduce((sum, s) => sum + s.marks, 0);
-  const totalFullMarks = subjects.reduce((sum, s) => sum + s.fullMarks, 0);
+  const regularSubjects = subjects.filter((s) => s.type === "regular");
+
+  const totalMarks = regularSubjects.reduce((sum, s) => sum + s.marks, 0);
+  const totalFullMarks = regularSubjects.reduce(
+    (sum, s) => sum + s.fullMarks,
+    0,
+  );
 
   const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
 
@@ -124,7 +130,7 @@ export default function ExamResultAdmin() {
   };
 
   const getResult = () =>
-    subjects.some((s) => s.marks < s.fullMarks * 0.35) ? "Fail" : "Pass";
+    regularSubjects.some((s) => s.marks < s.fullMarks * 0.35) ? "Fail" : "Pass";
 
   /* ================= SUBMIT ================= */
 
@@ -184,7 +190,12 @@ export default function ExamResultAdmin() {
     });
 
     setSearch(res.name);
-    setSubjects(res.subjects || []);
+    setSubjects(
+      (res.subjects || []).map((s) => ({
+        ...s,
+        type: s.type || "regular",
+      })),
+    );
     setExamType(res.examType || "");
     setEditId(res._id);
   };
@@ -265,7 +276,14 @@ export default function ExamResultAdmin() {
                 className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center border rounded-lg p-3 hover:shadow-md transition"
               >
                 {/* SUBJECT NAME */}
-                <div className="font-medium text-gray-700">{sub.subject}</div>
+                <div className="font-medium text-gray-700">
+                  {sub.subject}
+                  {sub.type === "optional" && (
+                    <span className="text-blue-500 text-xs ml-1">
+                      (Optional)
+                    </span>
+                  )}
+                </div>
 
                 {/* MARKS */}
                 <input

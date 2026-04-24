@@ -9,7 +9,7 @@ const ExamProgressReport = () => {
   const [filtered, setFiltered] = useState([]);
   const [viewData, setViewData] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  console.log("REPORT DATA:", viewData);
   // 🔥 FETCH STUDENTS
   useEffect(() => {
     fetchAllResults();
@@ -45,7 +45,7 @@ const ExamProgressReport = () => {
     const data = students.filter(
       (s) =>
         s.name?.toLowerCase().includes(search.toLowerCase()) ||
-        s.rollNumber?.toString().includes(search)
+        s.rollNumber?.toString().includes(search),
     );
 
     setFiltered(data);
@@ -57,21 +57,27 @@ const ExamProgressReport = () => {
       setSearch(student.name);
       setFiltered([]);
 
-      const res = await API.get(
-        `/exam-results/student/${student.admissionNo}`
-      );
+      const res = await API.get(`/exam-results/student/${student.admissionNo}`);
+
+      // ✅ DO NOT FILTER — keep all subjects
+      const allSubjects = res.data.subjects || [];
 
       setViewData({
+        // ✅ student info
         ...res.data.student,
-        ...res.data,
-        name: res.data.student.name,
-        subjects: res.data.subjects,
+
+        // ✅ ALL subjects (regular + optional)
+        subjects: allSubjects,
+
+        exams: res.data.exams,
+        totals: res.data.totals,
+
+        // ✅ totals already calculated correctly in backend
         total: res.data.grandTotal,
         fullMarks: res.data.fullMarks,
         percentage: res.data.percentage,
         grade: res.data.grade,
       });
-
     } catch (err) {
       console.error(err);
     }
