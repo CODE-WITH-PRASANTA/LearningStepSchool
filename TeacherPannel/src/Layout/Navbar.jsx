@@ -2,18 +2,27 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBars, FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
 // import "./Navbar.css";
+import API from "../api/axios";
 
 export default function Navbar({ sidebarOpen, setSidebarOpen }) {
   const [openProfile, setOpenProfile] = useState(false);
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("teacher"));
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleLogout = () => {
-    alert("Logout Clicked");
-    setOpenProfile(false);
+  const handleLogout = async () => {
+    try {
+      await API.post("/auth/logout");
+    } catch (err) {
+      console.log("Logout error:", err);
+    }
+
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleGoToProfile = () => {
@@ -33,7 +42,19 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
           <FaBars />
         </button>
 
-        <h2 className="navbar-title">Admin Dashboard</h2>
+        <div className="navbar-user">
+          <div className="navbar-text">
+            <h2 className="navbar-title">Welcome, {user?.name || "User"} 👋</h2>
+            <span className="navbar-role">{user?.role || "Teacher"}</span>
+          </div>
+
+          {/* <img
+            src={user?.avatar || "https://i.pravatar.cc/40"}
+            alt="user"
+            className="profile-img"
+            onClick={() => setOpenProfile(!openProfile)}
+          /> */}
+        </div>
       </div>
 
       <div className="navbar-profile">

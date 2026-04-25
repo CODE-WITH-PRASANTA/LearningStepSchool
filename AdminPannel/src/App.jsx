@@ -125,6 +125,8 @@ import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
 import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
+import CreateTeacher from "./Pages/CreateTeacher/CreateTeacher";
+import PermissionManager from "./Pages/PermissionManager/PermissionManager";
 
 /* ===================== APP ===================== */
 
@@ -364,6 +366,13 @@ export default function App() {
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
+
+
+          {/* Create ,edit teacher  */}
+
+          <Route path="/admin/create-teacher" element={<CreateTeacher />} />
+          <Route path="/admin/create-permission" element={<PermissionManager />} />
+
 
           <Route path="/faq" element={<FaqPosting />} />
         </Route>
