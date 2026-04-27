@@ -47,10 +47,11 @@
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(14px);
   border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
   flex: 1;
   display: flex;
   flex-direction: column;
+  width: 50%;
 }
 
 /* ===== CARD HEADER ===== */
@@ -67,15 +68,11 @@
   padding: 20px;
 }
 
-/* SCROLL FIX */
 .ae-scroll {
   max-height: 550px;
   overflow-y: auto;
-  overflow-x: visible;
-  position: relative;
 }
 
-/* HIDE SCROLLBAR */
 .ae-scroll::-webkit-scrollbar {
   width: 0;
 }
@@ -92,7 +89,6 @@
   display: block;
 }
 
-/* INPUTS */
 .ae-field input,
 .ae-field select,
 .ae-field textarea {
@@ -101,34 +97,17 @@
   border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: #f9fafb;
-  font-size: 14px;
-  transition: 0.25s ease;
 }
 
-/* HOVER */
-.ae-field input:hover,
-.ae-field select:hover,
-.ae-field textarea:hover {
-  border-color: #c7d2fe;
-}
-
-/* FOCUS */
 .ae-field input:focus,
 .ae-field select:focus,
 .ae-field textarea:focus {
   border-color: #6366f1;
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
   outline: none;
 }
 
-/* TEXTAREA */
-.ae-field textarea {
-  min-height: 90px;
-  resize: none;
-}
-
-/* BUTTON */
+/* ===== BUTTON ===== */
 .ae-btn {
   margin-top: 10px;
   background: linear-gradient(135deg, #4f46e5, #4338ca);
@@ -136,15 +115,7 @@
   padding: 12px;
   border-radius: 10px;
   border: none;
-  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease;
-  box-shadow: 0 10px 25px rgba(79,70,229,0.35);
-}
-
-.ae-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(79,70,229,0.45);
 }
 
 /* ===== TABLE TOP ===== */
@@ -152,59 +123,55 @@
   display: flex;
   justify-content: space-between;
   padding: 15px 20px;
-  gap: 10px;
-}
-
-.ae-table-top select,
-.ae-table-top input {
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
 }
 
 /* ===== TABLE WRAP ===== */
 .ae-table-wrap {
   overflow-x: auto;
+  overflow-y: auto;
   max-height: 500px;
 }
 
-/* ===== TABLE ===== */
-table {
-  width: 100%;
-  min-width: 1000px; /* 🔥 wider table */
+/* ===== TABLE (SCOPED ✅) ===== */
+.ae-table {
+  width: max-content;
+  min-width: 1400px;
   border-collapse: collapse;
 }
 
 /* HEADER */
-thead {
+.ae-table thead {
   background: #f1f5f9;
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: 10;
 }
 
-th {
-  padding: 12px;
+/* HEADER CELLS */
+.ae-table th {
+  padding: 14px;
   font-size: 12px;
   color: #334155;
   text-align: left;
   border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
 }
 
-/* BODY */
-td {
-  padding: 12px;
+/* BODY CELLS */
+.ae-table td {
+  padding: 14px;
   font-size: 13px;
   border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
 }
 
 /* STRIPES */
-tbody tr:nth-child(even) {
+.ae-table tbody tr:nth-child(even) {
   background: #fafbff;
 }
 
 /* HOVER */
-tbody tr:hover {
+.ae-table tbody tr:hover {
   background: #f1f5ff;
 }
 
@@ -219,7 +186,6 @@ tbody tr:hover {
   padding: 6px 10px;
   border-radius: 6px;
   border: none;
-  cursor: pointer;
 }
 
 /* DROPDOWN */
@@ -230,19 +196,13 @@ tbody tr:hover {
   background: #fff;
   border-radius: 10px;
   width: 140px;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-  overflow: hidden;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
   z-index: 20;
 }
 
 .ae-dropdown div {
   padding: 10px;
   cursor: pointer;
-  font-size: 14px;
-}
-
-.ae-dropdown div:hover {
-  background: #f1f5ff;
 }
 
 .ae-dropdown .del:hover {
@@ -254,102 +214,18 @@ tbody tr:hover {
 .ae-pagination {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  padding: 12px 10px;
-  border-top: 1px solid #e5e7eb;
+  padding: 12px;
 }
 
-.ae-pagination span {
-  font-size: 13px;
-  color: #64748b;
-}
-
-/* CONTROLS */
 .ae-pagination-controls {
   display: flex;
   gap: 6px;
 }
 
-/* BUTTON */
 .ae-pagination-controls button {
   padding: 6px 12px;
   border: none;
   background: #f1f5f9;
-  border-radius: 6px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-/* HOVER */
-.ae-pagination-controls button:hover {
-  background: #e2e8f0;
-}
-
-/* ACTIVE */
-.ae-pagination-controls .active {
-  background: #1e40af;
-  color: #fff;
-}
-
-/* DISABLED */
-.ae-pagination-controls button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* ===== LAYOUT FIX (50-50) ===== */
-.ae-layout {
-  display: flex;
-  gap: 25px;
-  margin-top: 20px;
-}
-
-.ae-card {
-  width: 50%;
-}
-
-/* ===== TABLE SCROLL ===== */
-.ae-table-wrap {
-  overflow-x: auto;
-  overflow-y: auto;
-  max-height: 500px;
-}
-
-/* TABLE WIDTH */
-table {
-  min-width: 1400px;
-  width: max-content;
-  border-collapse: collapse;
-}
-
-/* STICKY HEADER */
-thead {
-  position: sticky;
-  top: 0;
-  background: #f1f5f9;
-  z-index: 10;
-}
-
-/* TABLE CELLS */
-th, td {
-  padding: 14px;
-  white-space: nowrap;
-}
-
-/* PAGINATION */
-.ae-pagination {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px;
-}
-
-.ae-pagination-controls button {
-  padding: 6px 12px;
-  border: none;
-  background: #f1f5f9;
-  margin: 2px;
   border-radius: 6px;
 }
 
@@ -358,68 +234,13 @@ th, td {
   color: white;
 }
 
-@media (max-width: 576px) {
-  .ae-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .ae-layout {
-    flex-direction: column;
-  }
-
-  .ae-card {
-    width: 100%;
-  }
-
-  .ae-form {
-    padding: 15px;
-  }
-
-  .ae-table-top {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ae-pagination {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .ae-pagination-controls {
-    flex-wrap: wrap;
-  }
-
-  table {
-    min-width: 900px;
-  }
-}
-
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .ae-page{
-    padding: 0px;
-  }
   .ae-layout {
     flex-direction: column;
   }
 
   .ae-card {
     width: 100%;
-  }
-
-  .ae-header {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .ae-table-top {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  table {
-    min-width: 1000px;
   }
 }

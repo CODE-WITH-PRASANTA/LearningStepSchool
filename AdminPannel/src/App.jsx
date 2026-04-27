@@ -124,6 +124,9 @@ import AddExpense from "./Pages/AddExpense/AddExpense";
 import ExpenseSearch from "./Pages/ExpenseSearch/ExpenseSearch";
 import ExpenseHead from "./Pages/ExpenseHead/ExpenseHead";
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
+import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
+import CreateTeacher from "./Pages/CreateTeacher/CreateTeacher";
+import PermissionManager from "./Pages/PermissionManager/PermissionManager";
 
 /* ===================== APP ===================== */
 
@@ -324,7 +327,6 @@ export default function App() {
           <Route path="/update-question" element={<UpdateQuestion />} />
           <Route path="/paper-generate" element={<Generate />} />
           <Route path="/generate-question" element={<GenerateQuestion />} />
-          <Route path="/expense-list" element={<ExpenseList />} />
           <Route path="/online-exam" element={<OnlineExam />} />
           <Route path="/online-exam/question-bank" element={<QustionBank />} />
           <Route path="/admin/coldleads" element={<AdminColdLeads />} />
@@ -335,9 +337,10 @@ export default function App() {
 
           {/* EXPENSE */}
 
+          <Route path="/expense-list" element={<ExpenseList />} />
           <Route path="/expense/details" element={<AddExpense />} />
           <Route path="/expense-search" element={<ExpenseSearch />} />
-          <Route path="expense-head" element={<ExpenseHead />} />
+          <Route path="/expense-head" element={<ExpenseHead />} />
 
 
           {/* Student Info */}
@@ -357,11 +360,19 @@ export default function App() {
           <Route path="/exam-result" element={<ExamResult />} />
           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
           <Route path="/exam-type" element={<ExamTypeAdmin />} />
+          <Route path="/exam-report" element={<ExamProgressReport />} />
           <Route path="/Paymentrecipt" element={<PaymentRecipt />} />
           <Route
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
+
+
+          {/* Create ,edit teacher  */}
+
+          <Route path="/admin/create-teacher" element={<CreateTeacher />} />
+          <Route path="/admin/create-permission" element={<PermissionManager />} />
+
 
           <Route path="/faq" element={<FaqPosting />} />
         </Route>

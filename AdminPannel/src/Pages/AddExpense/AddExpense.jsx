@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./AddExpense.css";
 import { FaWallet } from "react-icons/fa";
 import Swal from "sweetalert2";
+import API from "../../api/axios";
 
 const AddExpense = () => {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -9,6 +10,8 @@ const AddExpense = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  const [editId, setEditId] = useState(null);
 
   const [formData, setFormData] = useState({
     head: "",
@@ -22,9 +25,9 @@ const AddExpense = () => {
     description: "",
   });
 
-  const expenseHeads = ["Electricity", "Kitchen", "Transport", "Books"];
+  const [expenseHeads, setExpenseHeads] = useState([]);
   const accountTypes = ["Savings", "Salary", "Current"];
-  const paymentModes = ["Cash", "Cheque", "Online"];
+  const paymentModes = ["Cash", "Cheque", "UPI", "Card", "Bank Transfer"];
 
   const [expenses, setExpenses] = useState([]);
 
@@ -39,37 +42,115 @@ const AddExpense = () => {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    fetchExpenseHeads();
+  }, []);
+
+  const fetchExpenseHeads = async () => {
+    try {
+      const res = await API.get("/expense-heads");
+      setExpenseHeads(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleSave = () => {
-    setExpenses([...expenses, formData]);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: name === "amount" ? Number(value) : value,
+    });
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const fetchExpenses = async () => {
+    try {
+      const res = await API.get("/expenses");
+      setExpenses(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!formData.head || !formData.name || !formData.amount) {
+      return Swal.fire("Error", "Fill required fields ❌", "error");
+    }
+
+    try {
+      let res;
+
+      if (editId) {
+        // 🔥 UPDATE
+        res = await API.put(`/expenses/${editId}`, formData);
+        Swal.fire("Updated!", "", "success");
+      } else {
+        // ➕ CREATE
+        res = await API.post("/expenses", formData);
+        Swal.fire("Saved!", "", "success");
+      }
+
+      fetchExpenses();
+
+      setEditId(null);
+
+      setFormData({
+        head: "",
+        accountType: "",
+        accountName: "",
+        name: "",
+        amount: "",
+        invoice: "",
+        date: "",
+        paymentMode: "",
+        description: "",
+      });
+    } catch (err) {
+      Swal.fire("Error", "Operation failed ❌", "error");
+    }
+  };
+
+  const handleEdit = (item) => {
+    setFormData({
+      head: item.head || "",
+      accountType: item.accountType || "",
+      accountName: item.accountName || "",
+      name: item.name || "",
+      amount: item.amount || "",
+      invoice: item.invoice || "",
+      date: item.date?.slice(0, 10), // fix date format
+      paymentMode: item.paymentMode || "",
+      description: item.description || "",
+    });
+
+    setEditId(item._id);
   };
 
   // DELETE FUNCTION
-  const handleDelete = (index) => {
+  const handleDelete = async (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "This expense will be deleted permanently!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#4f46e5",
-      cancelButtonColor: "#ef4444",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const updated = [...expenses];
-        updated.splice(index, 1);
-        setExpenses(updated);
+        try {
+          await API.delete(`/expenses/${id}`);
 
-        Swal.fire({
-          title: "Deleted!",
-          text: "Expense has been removed.",
-          icon: "success",
-          timer: 1500,
-          showConfirmButton: false,
-        });
+          fetchExpenses(); // reload data
+
+          Swal.fire("Deleted!", "Expense removed.", "success");
+        } catch (err) {
+          console.log(err);
+          Swal.fire("Error", "Delete failed ❌", "error");
+        }
       }
     });
   };
@@ -82,7 +163,6 @@ const AddExpense = () => {
 
   return (
     <div className="ae-page">
-
       {/* HEADER */}
       <div className="ae-header">
         <div className="ae-header-left">
@@ -93,76 +173,131 @@ const AddExpense = () => {
       </div>
 
       <div className="ae-layout">
-
         {/* ================= FORM ================= */}
         <div className="ae-card">
           <div className="ae-card-top">✏ Add / Edit Expense</div>
 
           <div className="ae-form ae-scroll">
-
+            {/* Expense Head */}
             <div className="ae-field">
               <label>Expense Head *</label>
-              <select name="head" onChange={handleChange}>
-                <option>Select</option>
-                {expenseHeads.map((e, i) => (
-                  <option key={i}>{e}</option>
+              <select name="head" value={formData.head} onChange={handleChange}>
+                <option value="">Select</option>
+                {expenseHeads.length === 0 && (
+                  <option disabled>No Expense Head Found</option>
+                )}
+                {expenseHeads.map((e) => (
+                  <option key={e._id} value={e.name}>
+                    {e.name}
+                  </option>
                 ))}
               </select>
             </div>
 
+            {/* Account Type */}
             <div className="ae-field">
               <label>Account Type</label>
-              <select name="accountType" onChange={handleChange}>
-                <option>Select</option>
+              <select
+                name="accountType"
+                value={formData.accountType}
+                onChange={handleChange}
+              >
+                <option value="">Select</option>
                 {accountTypes.map((e, i) => (
-                  <option key={i}>{e}</option>
+                  <option key={i} value={e}>
+                    {e}
+                  </option>
                 ))}
               </select>
             </div>
 
+            {/* Account Name */}
             <div className="ae-field">
               <label>Account Name</label>
-              <select name="accountName" onChange={handleChange}>
-                <option>Select</option>
-                <option>Office Account</option>
+              <select
+                name="accountName"
+                value={formData.accountName}
+                onChange={handleChange}
+              >
+                <option value="">Select</option>
+                <option value="Office Account">Office Account</option>
               </select>
             </div>
 
+            {/* Name */}
             <div className="ae-field">
               <label>Name *</label>
-              <input name="name" onChange={handleChange} />
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter name"
+              />
             </div>
 
+            {/* Amount */}
             <div className="ae-field">
               <label>Amount *</label>
-              <input name="amount" />
+              <input
+                type="number"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                placeholder="Enter amount"
+              />
             </div>
 
+            {/* Invoice */}
             <div className="ae-field">
               <label>Invoice No *</label>
-              <input name="invoice" />
+              <input
+                name="invoice"
+                value={formData.invoice}
+                onChange={handleChange}
+                placeholder="Enter invoice number"
+              />
             </div>
 
+            {/* Date */}
             <div className="ae-field">
               <label>Date *</label>
-              <input type="date" name="date" />
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+              />
             </div>
 
+            {/* Payment Mode */}
             <div className="ae-field">
               <label>Payment Mode *</label>
-              <select name="paymentMode">
-                <option>Select</option>
+              <select
+                name="paymentMode"
+                value={formData.paymentMode}
+                onChange={handleChange}
+              >
+                <option value="">Select</option>
                 {paymentModes.map((e, i) => (
-                  <option key={i}>{e}</option>
+                  <option key={i} value={e}>
+                    {e}
+                  </option>
                 ))}
               </select>
             </div>
 
+            {/* Description */}
             <div className="ae-field">
               <label>Description</label>
-              <textarea />
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Enter description"
+              />
             </div>
 
+            {/* Button */}
             <button className="ae-btn" onClick={handleSave}>
               Save
             </button>
@@ -175,7 +310,10 @@ const AddExpense = () => {
 
           <div className="ae-table-top">
             <div>
-              Show <select><option>5</option></select>
+              Show{" "}
+              <select>
+                <option>5</option>
+              </select>
             </div>
             <div>
               Search: <input />
@@ -183,7 +321,7 @@ const AddExpense = () => {
           </div>
 
           <div className="ae-table-wrap">
-            <table>
+            <table className="ae-table">
               <thead>
                 <tr>
                   <th>HEAD</th>
@@ -204,13 +342,13 @@ const AddExpense = () => {
                   const realIndex = indexOfFirst + i;
 
                   return (
-                    <tr key={i}>
+                    <tr key={e._id}>
                       <td>{e.head}</td>
                       <td>{e.name}</td>
                       <td>{e.accountName}</td>
                       <td>{e.invoice}</td>
                       <td>{e.amount}</td>
-                      <td>{e.date}</td>
+                      <td>{new Date(e.date).toLocaleDateString()}</td>
                       <td>{e.description}</td>
                       <td>Admin</td>
                       <td>-</td>
@@ -226,10 +364,10 @@ const AddExpense = () => {
                         {activeMenu === realIndex && (
                           <div className="ae-dropdown" ref={menuRef}>
                             <div>View</div>
-                            <div>Edit</div>
+                            <div onClick={() => handleEdit(e)}>✏ Edit</div>
                             <div
                               className="del"
-                              onClick={() => handleDelete(realIndex)}
+                              onClick={() => handleDelete(e._id)}
                             >
                               🗑 Delete
                             </div>
@@ -246,8 +384,8 @@ const AddExpense = () => {
             <div className="ae-pagination">
               <span>
                 Showing {indexOfFirst + 1} to{" "}
-                {Math.min(indexOfLast, expenses.length)} of{" "}
-                {expenses.length} entries
+                {Math.min(indexOfLast, expenses.length)} of {expenses.length}{" "}
+                entries
               </span>
 
               <div className="ae-pagination-controls">
@@ -276,10 +414,8 @@ const AddExpense = () => {
                 </button>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
   );

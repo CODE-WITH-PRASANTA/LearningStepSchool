@@ -22,6 +22,7 @@ const ExamResult = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
   const [markRange, setMarkRange] = useState("");
+  const [rankRange, setRankRange] = useState("");
 
   const rowsPerPage = 10;
 
@@ -71,6 +72,11 @@ const ExamResult = () => {
     }
   };
 
+  const getRegularSubjects = (item) => {
+    if (!item || !item.subjects) return []; // ✅ FIX
+
+    return item.subjects.filter((s) => (s.type || "regular") === "regular");
+  };
   /* ================= FILTER ================= */
   const classOptions = useMemo(() => {
     return [
@@ -92,45 +98,114 @@ const ExamResult = () => {
   const examOptions = useMemo(() => {
     return [
       ...new Set(
-        results.map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
+        (results || []).map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
       ),
     ];
   }, [results]);
 
-  const filteredData = (results || [])
-    .filter((item) => {
+  const getTotal = (item) => {
+    return getRegularSubjects(item).reduce(
+      (sum, s) => sum + Number(s.marks || 0),
+      0,
+    );
+  };
+
+  const rankedData = useMemo(() => {
+    const grouped = {};
+
+    (results || []).forEach((item) => {
       const className =
-        item.classId?.className || item.class || item.className || "";
+        item.classId?.className || item.class || item.className || "Unknown";
 
-      // 🔥 MARK RANGE FILTER (IMPROVED)
-      let isInRange = true;
+      const exam = item.examType || "Unknown";
 
-      if (markRange) {
-        const [min, max] = markRange.split("-").map((n) => Number(n.trim()));
+      const key = `${className}_${exam}`;
 
-        const marks = parseFloat(item.total) || 0;
+      if (!grouped[key]) grouped[key] = [];
 
-        if (!isNaN(min) && !isNaN(max)) {
-          isInRange = marks >= min && marks <= max;
-        }
-      }
+      grouped[key].push(item);
+    });
 
-      return (
-        ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-          (item.admissionNo || "")
-            .toLowerCase()
-            .includes(search.toLowerCase()) ||
-          (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
-        (selectedClass ? className === selectedClass : true) &&
-        (selectedExam ? item.examType === selectedExam : true) &&
-        isInRange // ✅ NEW CONDITION
+    let finalData = [];
+
+    Object.keys(grouped).forEach((key) => {
+      const sorted = [...grouped[key]].sort(
+        (a, b) => getTotal(b) - getTotal(a),
       );
-    })
-    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)); // 🔥 ADD THIS
+
+      const ranked = [];
+      let lastRank = 1;
+
+      sorted.forEach((item, index) => {
+        if (index === 0) {
+          ranked.push({ ...item, rank: 1 });
+        } else {
+          const prev = sorted[index - 1];
+
+          if (getTotal(item) === getTotal(prev)) {
+            ranked.push({ ...item, rank: lastRank });
+          } else {
+            lastRank += 1;
+            ranked.push({ ...item, rank: lastRank });
+          }
+        }
+      });
+
+      finalData.push(...ranked);
+    });
+
+    return finalData;
+  }, [results]);
+
+  const filteredData = useMemo(() => {
+    return (
+      rankedData
+        // 🔥 SEARCH
+        .filter((item) => {
+          return (
+            (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+            (item.admissionNo || "")
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          );
+        })
+
+        // 🔥 CLASS
+        .filter((item) => {
+          const className =
+            item.classId?.className || item.class || item.className || "";
+          return selectedClass ? className === selectedClass : true;
+        })
+
+        // 🔥 EXAM
+        .filter((item) => {
+          return selectedExam ? item.examType === selectedExam : true;
+        })
+
+        // 🔥 MARK RANGE
+        .filter((item) => {
+          if (!markRange) return true;
+
+          const [min, max] = markRange.split("-").map(Number);
+          const marks = getTotal(item);
+
+          return marks >= min && marks <= max;
+        })
+
+        // 🔥 RANK (LAST)
+        .filter((item) => {
+          if (!rankRange) return true;
+
+          const [min, max] = rankRange.split("-").map(Number);
+
+          return item.rank >= min && item.rank <= max;
+        })
+    );
+  }, [rankedData, search, selectedClass, selectedExam, markRange, rankRange]);
 
   useEffect(() => {
     setPage(1);
-  }, [search, selectedClass, selectedExam]);
+  }, [search, selectedClass, selectedExam, markRange, rankRange]);
 
   const handleUpdate = async () => {
     try {
@@ -180,14 +255,26 @@ const ExamResult = () => {
   }, [filteredData, totalPages]);
 
   const calculateResult = () => {
-    const subjects = editData?.subjects || [];
+    // ✅ prevent crash when editData is null
+    if (!editData || !editData.subjects) {
+      return {
+        totalMarks: 0,
+        totalFullMarks: 0,
+        percentage: 0,
+        grade: "-",
+        result: "-",
+      };
+    }
 
-    const totalMarks = subjects.reduce(
+    // ✅ only regular subjects (optional excluded)
+    const regularSubjects = getRegularSubjects(editData);
+
+    const totalMarks = regularSubjects.reduce(
       (sum, s) => sum + Number(s.marks || 0),
       0,
     );
 
-    const totalFullMarks = subjects.reduce(
+    const totalFullMarks = regularSubjects.reduce(
       (sum, s) => sum + Number(s.fullMarks || 0),
       0,
     );
@@ -200,7 +287,7 @@ const ExamResult = () => {
     else if (percentage >= 60) grade = "B";
     else if (percentage >= 40) grade = "C";
 
-    const isFail = subjects.some(
+    const isFail = regularSubjects.some(
       (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
     );
 
@@ -214,8 +301,16 @@ const ExamResult = () => {
       result,
     };
   };
-
   const liveResult = calculateResult();
+
+  const handleResetFilters = () => {
+    setSearch("");
+    setSelectedClass("");
+    setSelectedExam("");
+    setMarkRange("");
+    setRankRange("");
+    setPage(1);
+  };
 
   return (
     <div className="ExamResult">
@@ -239,6 +334,29 @@ const ExamResult = () => {
         </div>
 
         <div className="ExamResult-filters">
+          <button
+            className="ExamResult-resetBtn"
+            onClick={handleResetFilters}
+            disabled={
+              !search &&
+              !selectedClass &&
+              !selectedExam &&
+              !markRange &&
+              !rankRange
+            }
+          >
+            Reset
+          </button>
+          <select
+            value={rankRange}
+            onChange={(e) => setRankRange(e.target.value)}
+            disabled={!selectedClass}
+          >
+            <option value="">All Rank</option>
+            <option value="1-10">1 - 10</option>
+            <option value="11-20">11 - 20</option>
+            <option value="21-50">21 - 50</option>
+          </select>
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
@@ -280,7 +398,7 @@ const ExamResult = () => {
               );
             })}
 
-            <option value="400-9999">400+</option>
+            <option value="400-100000">400+</option>
           </select>
         </div>
       </div>
@@ -295,6 +413,7 @@ const ExamResult = () => {
             <thead>
               <tr>
                 <th>S.L</th>
+                <th>Rank</th>
                 <th>Admission No</th>
                 <th>Name</th>
                 <th>Roll No</th>
@@ -326,27 +445,61 @@ const ExamResult = () => {
                     item.className ||
                     "N/A";
 
-                  const fullMarks =
-                    item.fullMarks ||
-                    item.subjects?.reduce(
-                      (sum, s) => sum + (s.fullMarks || 0),
-                      0,
-                    ) ||
-                    0;
-
                   return (
-                    <tr key={item._id}>
+                    <tr
+                      key={item._id || index}
+                      className={item.rank === 1 ? "topper-row" : ""}
+                    >
                       <td>{indexFirst + index + 1}</td>
+                      <td>
+                        <span style={{ fontWeight: "bold", color: "#2563eb" }}>
+                          {item.rank === 1 && "🥇 "}
+                          {item.rank === 2 && "🥈 "}
+                          {item.rank === 3 && "🥉 "}#{item.rank}
+                        </span>
+                      </td>
                       <td>{item.admissionNo}</td>
                       <td>{item.name}</td>
                       <td>{item.rollNumber}</td>
                       <td>{className}</td>
                       <td>{item.examType}</td>
                       <td>
-                        {item.total || 0} / {fullMarks}
+                        {(() => {
+                          const regularSubjects = getRegularSubjects(item);
+
+                          const total = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.marks || 0),
+                            0,
+                          );
+
+                          const full = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.fullMarks || 0),
+                            0,
+                          );
+
+                          return `${total} / ${full}`;
+                        })()}
                       </td>
+
                       <td>
-                        {item.percentage ? item.percentage.toFixed(2) : "0.00"}
+                        {(() => {
+                          const regularSubjects = getRegularSubjects(item);
+
+                          const total = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.marks || 0),
+                            0,
+                          );
+
+                          const full = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.fullMarks || 0),
+                            0,
+                          );
+
+                          const percent = full ? (total / full) * 100 : 0;
+
+                          return percent.toFixed(2);
+                        })()}
+                        %
                       </td>
                       <td>{item.grade}</td>
                       <td>
@@ -386,6 +539,7 @@ const ExamResult = () => {
 
                                     const mergedData = {
                                       ...item,
+                                      rank: item.rank,
 
                                       name:
                                         student.name ||
@@ -424,7 +578,7 @@ const ExamResult = () => {
                                     setViewData(mergedData);
                                   } catch (error) {
                                     console.error("Fetch error:", error);
-                                    setViewData(item);
+                                    setViewData({ ...item, rank: item.rank });
                                   }
 
                                   setMenuOpen(null);
@@ -557,14 +711,50 @@ const ExamResult = () => {
               </thead>
 
               <tbody>
-                {editData.subjects?.map((sub, i) => (
+                {editData?.subjects?.map((sub, i) => (
                   <tr key={i}>
-                    <td>{sub.subject}</td>
+                    <td>
+                      {sub.subject}
+
+                      <br />
+
+                      {/* ✅ NEW DROPDOWN */}
+                      <select
+                        value={sub.type || "regular"}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].type = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                        style={{ marginTop: "4px" }}
+                      >
+                        <option value="regular">Regular</option>
+                        <option value="optional">Optional</option>
+                      </select>
+
+                      {/* ✅ Optional label */}
+                      {(sub.type || "regular") === "optional" && (
+                        <div
+                          style={{
+                            color: "blue",
+                            fontSize: "12px",
+                            marginTop: "2px",
+                          }}
+                        >
+                          (Optional)
+                        </div>
+                      )}
+                    </td>
 
                     <td>
                       <input
                         type="number"
                         value={sub.marks}
+                        disabled={(sub.type || "regular") === "optional"} // 🔥 add this
                         onChange={(e) => {
                           const updated = [...editData.subjects];
                           updated[i].marks = e.target.value;

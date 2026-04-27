@@ -4,7 +4,12 @@ const { Schema, model } = mongoose;
 const subjectSchema = new Schema({
   subject: String,
   marks: Number,
-  fullMarks: Number
+  fullMarks: Number,
+  type: {
+    type: String,
+    enum: ["regular", "optional"],
+    default: "regular"
+  }
 });
 
 const examResultSchema = new Schema(

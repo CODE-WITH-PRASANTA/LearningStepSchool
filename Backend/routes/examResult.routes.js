@@ -1,13 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
+const controller = require("../controllers/examResult.controller");
+
 const {
   createResult,
   getResults,
   updateResult,
   deleteResult,
-  searchResult
-} = require("../controllers/examResult.controller");
+  searchResult,
+  getStudentAllResults,
+  fixResultsData,
+} = controller;
 
 // ✅ CREATE
 router.post("/", createResult);
@@ -15,8 +19,14 @@ router.post("/", createResult);
 // ✅ GET ALL
 router.get("/", getResults);
 
-// ✅ SEARCH (IMPORTANT)
+// ✅ SEARCH
 router.get("/search", searchResult);
+
+// ✅ STUDENT REPORT
+router.get("/student/:admissionNo", getStudentAllResults);
+
+// 🔥 ADD THIS (IMPORTANT)
+router.get("/fix", fixResultsData);
 
 // ✅ UPDATE
 router.put("/:id", updateResult);

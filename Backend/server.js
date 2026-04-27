@@ -48,6 +48,15 @@ const examType = require("./routes/examType.routes")
 const authRoutes = require("./routes/adminAuth.routes");
 const attendanceRoutes = require("./routes/attendance.routes");
 const studentLeaveRoutes = require("./routes/studentLeave.routes");
+const expenseHeadRoutes = require("./routes/expenseHead.routes");
+const expenseRoutes = require("./routes/expense.routes");
+
+
+/// TEACHER CREATE ROUTE
+const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes")
+const permissionRoutes = require("./routes/teacherRoutes/permission.routes")
+const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes")
+
 
 
 
@@ -83,7 +92,12 @@ app.use("/api/exam-types",examType );
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/student-leave", studentLeaveRoutes);
+app.use("/api/expense-heads", expenseHeadRoutes);
+app.use("/api/expenses", expenseRoutes);
 
+app.use("/api/admin", teacherCreateRoutes);
+app.use("/api/teacher", teacherAuthRoutes);
+app.use("/api",permissionRoutes)
 
 /* ================= 404 HANDLER ================= */
 

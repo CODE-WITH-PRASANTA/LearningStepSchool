@@ -141,14 +141,51 @@
 /* =========================
    SUMMARY
 ========================= */
-.reports-summary {
+/* =========================
+   SUMMARY (HORIZONTAL CLEAN)
+========================= */
+.reports-summarys {
   margin-top: 12px;
   padding: 10px;
   border: 1px solid #000;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+
+  display: flex;                  /* 🔥 use flex */
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;                /* responsive */
+
   font-size: 13px;
-  text-align: center;
+  font-weight: 600;
+}
+
+/* EACH ITEM */
+.reports-summarys p {
+  margin: 0;
+  padding: 0 12px;
+  position: relative;
+  white-space: nowrap;
+}
+
+/* 🔥 VERTICAL DIVIDER */
+.reports-summarys p:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: #000;
+}
+
+/* RESULT COLORS */
+.pass {
+  color: green;
+  font-weight: bold;
+}
+
+.fail {
+  color: red;
+  font-weight: bold;
 }
 
 /* =========================
@@ -505,10 +542,11 @@
   }
 
   /* FIX SUMMARY GRID */
-  .reports-summary {
-    grid-template-columns: repeat(2, 1fr);
-    font-size: 12px;
-  }
+ .reports-summarys {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
 
   /* FIX ATTENDANCE */
   .reports-attendance {

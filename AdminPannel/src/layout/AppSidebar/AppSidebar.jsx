@@ -35,6 +35,7 @@ import {
   FiCreditCard,
   FiTrendingUp,
   FiMessageSquare,
+  FiSettings,
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -177,12 +178,28 @@ const menu = [
   { type: "divider" },
 
   {
+    label: " RBAC Management",
+    icon: FiSettings,
+    children: [
+      {
+        label: "Create Teacher",
+        path: "/admin/create-teacher",
+      },
+      {
+        label: "Create Permission",
+        path: "/admin/create-permission",
+      },
+    ],
+  },
+
+  {
     label: "Exam Result Desk",
     icon: FiBriefcase,
     children: [
       { label: "Exam Result", path: "/exam-result" },
       { label: "Exam Score Manager", path: "/exam-result-manager" },
       { label: "Type of Exam Publish", path: "/exam-type" },
+      { label: "Progress Report Card", path: "/exam-report" },
     ],
   },
   {

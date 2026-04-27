@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./StudentAdmsnDetails.css";
 import API, { IMAGE_URL } from "../../api/axios";
+import StudentPrintForm from "./StudentPrintForm";
+
 export default function StudentAdmsnDetails() {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
@@ -58,6 +60,33 @@ export default function StudentAdmsnDetails() {
     window.location.href = "/student/admission";
   };
 
+
+
+  const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this student?")) return;
+
+  try {
+    await API.delete(`/students/${id}`);
+
+    // remove from UI instantly
+    setStudents((prev) => prev.filter((s) => s._id !== id));
+    setFilteredStudents((prev) => prev.filter((s) => s._id !== id));
+
+    if (student?._id === id) {
+      setStudent(null);
+    }
+
+    alert("Student deleted successfully ✅");
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed ❌");
+  }
+};
+
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="Student-Details-Wrapper">
       {/* LEFT PANEL */}
@@ -88,6 +117,7 @@ export default function StudentAdmsnDetails() {
                 <th>Name</th>
                 <th>Roll</th>
                 <th>Class</th>
+                <th>Action</th> 
               </tr>
             </thead>
 
@@ -106,6 +136,16 @@ export default function StudentAdmsnDetails() {
                   </td>
                   <td>{s.rollNumber}</td>
                   <td>{s.class}</td>
+
+                  {/* ✅ ACTION BUTTON */}
+                  <td onClick={(e) => e.stopPropagation()}>
+                    <button
+                      className="Student-Delete-Btn"
+                      onClick={() => handleDelete(s._id)}
+                    >
+                      🗑 Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -151,6 +191,9 @@ export default function StudentAdmsnDetails() {
 
               <button className="Student-Edit-Btn" onClick={handleEdit}>
                 Edit
+              </button>
+              <button className="Student-Edit-Btn" onClick={handlePrint}>
+                Print
               </button>
             </div>
 
@@ -484,6 +527,8 @@ export default function StudentAdmsnDetails() {
             </Section>
           </div>
         )}
+
+        <StudentPrintForm student={student} />
       </div>
     </div>
   );
