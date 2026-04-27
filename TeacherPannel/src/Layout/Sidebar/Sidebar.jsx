@@ -10,6 +10,8 @@ import {
   FaMoneyBillWave,
   FaCommentDots,
   FaChevronDown,
+  // FiActivity,
+  // FiBookOpen
 } from "react-icons/fa";
 import "./Sidebar.css";
 import API from "../../api/axios";
@@ -75,6 +77,9 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
       permission: "NEWS_POST",
     },
 
+
+
+
     {
       type: "section",
       label: "ERP Solution",
@@ -117,7 +122,35 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
           icon: <FaMoneyBillWave />,
           permission: "FEE_MANAGEMENT",
         },
+
+        {
+          name: "Payment Recipt",
+          path: "/paymentrecipt",
+          icon: <FaMoneyBillWave />,
+          permission: "FEE_MANAGEMENT",
+        },
       ],
+    },
+
+    {
+      name: "Class Post",
+      path: "/class-post",
+      icon: <FaClipboardList />,
+      permission: "CLASS_POST",
+    },
+
+    {
+      name: "Subject Post",
+      path: "/subject-post",
+      icon: <FaClipboardList />,
+      permission: "SUBJECT_POST",
+    },
+
+    {
+      name: "Classwise Subject",
+      path: "/classwise-subject-post",
+      icon: <FaClipboardList />,
+      permission: "CLASSWISE_SUBJECT",
     },
   ];
 
