@@ -3,53 +3,60 @@ import React, { useEffect, useState } from "react";
 import {
   FaHome,
   FaNewspaper,
-  FaImages,
-  FaCalendarAlt,
   FaChalkboardTeacher,
-  FaUserTie,
-  FaCommentDots,
-  FaChevronDown,
-  FaAddressBook,
-  FaMoneyBillWave,
   FaUserGraduate,
   FaClipboardList,
-  FaQuoteLeft,
+  FaUserTie,
+  FaMoneyBillWave,
+  FaCommentDots,
+  FaChevronDown,
 } from "react-icons/fa";
 import "./Sidebar.css";
-import API from "../../api/axios"; // adjust path
+import API from "../../api/axios";
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
+  const [permissions, setPermissions] = useState([]);
+  const [openMenu, setOpenMenu] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
-const [permissions, setPermissions] = useState([]);
-const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const res = await API.get("/teacher/me");
+        const data = res.data;
 
-useEffect(() => {
-  const loadUser = async () => {
-    try {
-      // ✅ use axios instance
-      const res = await API.get("/teacher/me");
+        setPermissions(data.permissions || []);
+        localStorage.setItem("teacher", JSON.stringify(data));
+      } catch (err) {
+        console.log("Auth error:", err);
+      }
+    };
 
-      const data = res.data;
+    loadUser();
+  }, []);
 
-      // ✅ update state
-      setPermissions(data.permissions || []);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
 
-      // ✅ sync localStorage
-      localStorage.setItem("teacher", JSON.stringify(data));
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    } catch (err) {
-      console.log("Auth error:", err);
-
-      // 🔥 auto logout if token invalid
-      // localStorage.clear();
-      // window.location.href = "/login";
-    } finally {
-      setLoading(false);
-    }
+  const hasPermission = (perm) => {
+    if (!perm) return true;
+    if (permissions.includes("ALL")) return true;
+    return permissions.includes(perm);
   };
 
-  loadUser();
-}, []);
+  const toggleMenu = (name) => {
+    setOpenMenu(openMenu === name ? null : name);
+  };
+
+  const handleMenuClick = () => {
+    if (isMobile) setSidebarOpen(false);
+  };
 
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaHome /> },
@@ -114,35 +121,6 @@ useEffect(() => {
     },
   ];
 
-  
-  const hasPermission = (perm) => {
-    if (!perm) return true;
-    if (permissions.includes("ALL")) return true;
-    return permissions.includes(perm);
-  };
-
-  const [openMenu, setOpenMenu] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const toggleMenu = (name) => {
-    setOpenMenu(openMenu === name ? null : name);
-  };
-
-  const handleMenuClick = () => {
-    if (isMobile) setSidebarOpen(false);
-  };
-
   return (
     <>
       {sidebarOpen && isMobile && (
@@ -152,121 +130,102 @@ useEffect(() => {
         />
       )}
 
-      <aside className={`admin-sidebar ${sidebarOpen ? "open" : "close"}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-brand">
-            <div className="sidebar-brand-icon">A</div>
+      <aside className={sidebarOpen ? "sidebar" : "sidebar collapsed"}>
+        
+        {/* TOP */}
+        <div className="sidebar-top">
+          <div className="logo-box">A</div>
 
-            {sidebarOpen && (
-              <div className="sidebar-brand-text">
-                <h2>Teacher Panel</h2>
-                <p>Management Teacher</p>
-              </div>
-            )}
-          </div>
+          {sidebarOpen && (
+            <div className="logo-text">
+              <h2>Teacher Panel</h2>
+              <p>Management System</p>
+            </div>
+          )}
         </div>
 
-        <nav className="sidebar-menu">
+        {/* MENU */}
+        <div className="sidebar-menu">
           {menu
             .filter((item) => {
-              // ✅ Always show section
               if (item.type === "section") return true;
 
-              // ✅ No submenu → normal permission check
               if (!item.submenu) return hasPermission(item.permission);
 
-              // ✅ With submenu → check if ANY child is allowed
-              const allowedSubmenu = item.submenu.filter((sub) =>
-                hasPermission(sub.permission),
+              const allowed = item.submenu.filter((sub) =>
+                hasPermission(sub.permission)
               );
 
-              return allowedSubmenu.length > 0;
+              return allowed.length > 0;
             })
             .map((item, index) => {
-              // 🔹 SECTION
               if (item.type === "section") {
                 return sidebarOpen ? (
-                  <div
-                    className="sidebar-section"
-                    key={`${item.label}-${index}`}
-                  >
+                  <div className="sidebar-section" key={index}>
                     {item.label}
                   </div>
                 ) : null;
               }
 
-              // 🔹 NORMAL MENU
-              return (
-                <div className="sidebar-menu-item" key={item.name}>
-                  {item.submenu ? (
-                    <>
-                      {/* MENU BUTTON */}
-                      <button
-                        type="button"
-                        className={`menu-btn ${
-                          openMenu === item.name ? "expanded" : ""
-                        }`}
-                        onClick={() => toggleMenu(item.name)}
-                      >
-                        <div className="menu-main">
-                          <span className="menu-icon">{item.icon}</span>
-                          {sidebarOpen && (
-                            <span className="menu-text">{item.name}</span>
-                          )}
-                        </div>
+              return item.submenu ? (
+                <div key={item.name}>
+                  <button
+                    className="menu-btn"
+                    onClick={() => toggleMenu(item.name)}
+                  >
+                    {item.icon}
+                    {sidebarOpen && <span>{item.name}</span>}
+                    {sidebarOpen && (
+                      <FaChevronDown
+                        className={
+                          openMenu === item.name ? "rotate" : ""
+                        }
+                      />
+                    )}
+                  </button>
 
-                        {sidebarOpen && (
-                          <span
-                            className={`menu-arrow ${
-                              openMenu === item.name ? "rotate" : ""
-                            }`}
+                  {openMenu === item.name && sidebarOpen && (
+                    <div className="submenu">
+                      {item.submenu
+                        .filter((sub) => hasPermission(sub.permission))
+                        .map((sub) => (
+                          <NavLink
+                            key={sub.path}
+                            to={sub.path}
+                            onClick={handleMenuClick}
+                            className={({ isActive }) =>
+                              isActive
+                                ? "submenu-link active"
+                                : "submenu-link"
+                            }
                           >
-                            <FaChevronDown />
-                          </span>
-                        )}
-                      </button>
-
-                      {/* SUBMENU */}
-                      {openMenu === item.name && sidebarOpen && (
-                        <div className="submenu">
-                          {item.submenu
-                            .filter((sub) => hasPermission(sub.permission))
-                            .map((sub) => (
-                              <NavLink
-                                key={sub.path}
-                                to={sub.path}
-                                onClick={handleMenuClick}
-                                className={({ isActive }) =>
-                                  `submenu-link ${isActive ? "active" : ""}`
-                                }
-                              >
-                                <span className="submenu-icon">{sub.icon}</span>
-                                <span className="submenu-text">{sub.name}</span>
-                              </NavLink>
-                            ))}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <NavLink
-                      to={item.path}
-                      onClick={handleMenuClick}
-                      className={({ isActive }) =>
-                        `menu-link ${isActive ? "active" : ""}`
-                      }
-                    >
-                      <div className="menu-main">
-                        <span className="menu-icon">{item.icon}</span>
-                        {sidebarOpen && (
-                          <span className="menu-text">{item.name}</span>
-                        )}
-                      </div>
-                    </NavLink>
+                            {sub.icon}
+                            <span>{sub.name}</span>
+                          </NavLink>
+                        ))}
+                    </div>
                   )}
                 </div>
+              ) : (
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  onClick={handleMenuClick}
+                  className={({ isActive }) =>
+                    isActive ? "menu-link active" : "menu-link"
+                  }
+                >
+                  {item.icon}
+                  {sidebarOpen && <span>{item.name}</span>}
+                </NavLink>
               );
             })}
-        </nav>
+        </div>
+
+        {/* FOOTER */}
+        <div className="sidebar-footer">
+          <button className="logout-btn">Logout</button>
+        </div>
       </aside>
     </>
   );
