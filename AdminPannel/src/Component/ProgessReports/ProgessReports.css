@@ -108,34 +108,109 @@
   font-size: 13px;
 }
 
-/* ===== SUMMARY ===== */
-.pr-summary {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  font-size: 14px;
+/* ===== SUMMARY CARD ===== */
+.pr-summary-card {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 20px;
 }
 
-/* ===== ATTENDANCE ===== */
-.pr-attendance {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 14px;
+.pr-summary-item {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
 }
 
-/* ===== REMARK ===== */
-.pr-remark {
+.pr-summary-item span {
+  display: block;
+  font-size: 12px;
+  color: #777;
+}
+
+.pr-summary-item strong {
+  font-size: 16px;
+  color: #222;
+}
+
+/* ===== PASS / FAIL COLORS ===== */
+.pass {
+  color: #2e7d32;
+}
+
+.fail {
+  color: #d32f2f;
+}
+
+/* ===== ATTENDANCE CARD ===== */
+.pr-attendance-card {
+  display: flex;
+  justify-content: space-around;
   margin-top: 15px;
-  font-size: 14px;
+  background: #f1f8e9;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #c5e1a5;
+}
+
+.pr-attendance-card div {
+  text-align: center;
+}
+
+.pr-attendance-card span {
+  display: block;
+  font-size: 12px;
+  color: #555;
+}
+
+.pr-attendance-card strong {
+  font-size: 16px;
+}
+
+/* ===== REMARK BOX ===== */
+.pr-remark-box {
+  margin-top: 20px;
+  padding: 12px;
+  border: 1px dashed #999;
+  background: #fafafa;
+  border-radius: 6px;
 }
 
 /* ===== SIGNATURE ===== */
 .pr-sign {
   display: flex;
   justify-content: space-between;
-  margin-top: 50px;
-  font-size: 14px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.pr-sign .line {
+  width: 150px;
+  height: 1px;
+  background: #000;
+  margin: 0 auto 8px;
+}
+
+/* ===== TABLE IMPROVEMENT ===== */
+.pr-table th {
+  background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+
+.pr-table td {
+  font-size: 13px;
+}
+
+/* ===== PAGE SHADOW ===== */
+.pr-page {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}
+
+.pr-table tr:first-child {
+  background: #e8f5e9;
+  font-weight: bold;
 }
 
 /* ================= PRINT PERFECT ================= */

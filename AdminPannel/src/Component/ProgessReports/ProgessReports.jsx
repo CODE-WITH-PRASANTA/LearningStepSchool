@@ -5,6 +5,8 @@ import "./ProgessReports.css";
 const ProgessReports = ({ viewData, setViewData }) => {
   const reportRef = useRef();
 
+  console.log("Viewing Report:", viewData);
+
   if (!viewData) return null;
 
   // 🔥 DOWNLOAD PDF FUNCTION
@@ -31,7 +33,6 @@ const ProgessReports = ({ viewData, setViewData }) => {
 
   return (
     <div className="pr-main">
-
       {/* 🔥 ACTION BAR (OUTSIDE PAGE) */}
       <div className="pr-actions no-print">
         <button onClick={() => setViewData(null)}>← Back</button>
@@ -40,62 +41,112 @@ const ProgessReports = ({ viewData, setViewData }) => {
 
       {/* 📄 A4 PAGE */}
       <div className="pr-page" ref={reportRef}>
-
         {/* 🏫 HEADER */}
         <div className="pr-header">
           <img src="/logo.png" alt="logo" />
+
           <div>
             <h2>Learning Step International School</h2>
             <p>Report Card - 2025-26</p>
           </div>
+
+          <img
+            src={viewData.student?.studentPhoto || "/default.png"}
+            className="student-photo"
+            alt="student"
+          />
         </div>
 
         {/* 👤 STUDENT DETAILS */}
         <div className="pr-info">
           <div>
-            <p><b>Name:</b> {viewData.name}</p>
-            <p><b>Father's Name:</b> {viewData.fatherName || "-"}</p>
-            <p><b>Mother's Name:</b> {viewData.motherName || "-"}</p>
-            <p><b>Admission No:</b> {viewData.admissionNo || "-"}</p>
-            <p><b>Aadhar No:</b> {viewData.aadhar || "-"}</p>
-            <p><b>PEN No:</b> -</p>
+            <p>
+              <b>Name:</b> {viewData.student?.name || "-"}
+            </p>
+            <p>
+              <b>Father's Name:</b> {viewData.student?.fatherName || "-"}
+            </p>
+            <p>
+              <b>Mother's Name:</b> {viewData.student?.motherName || "-"}
+            </p>
+            <p>
+              <b>Admission No:</b> {viewData.student?.admissionNo || "-"}
+            </p>
+            <p>
+              <b>Aadhar No:</b> {viewData.student?.aadhar || "-"}
+            </p>
+            <p>
+              <b>PEN No:</b> {viewData.student?.penNo || "-"}
+            </p>
           </div>
 
           <div>
-            <p><b>Roll No:</b> {viewData.rollNumber}</p>
-            <p><b>Class:</b> {viewData.class}</p>
-            <p><b>DOB:</b> {viewData.dob || "-"}</p>
-            <p><b>House:</b> {viewData.house || "-"}</p>
-            <p><b>Blood Group:</b> {viewData.bloodGroup || "-"}</p>
-            <p><b>Weight:</b> -</p>
+            <p>
+              <b>Roll No:</b> {viewData.student?.rollNumber || "-"}
+            </p>
+            <p>
+              <b>Class:</b> {viewData.student?.class || "-"}
+            </p>
+
+            <p>
+              <b>DOB:</b>{" "}
+              {viewData.student?.dob
+                ? new Date(viewData.student.dob).toLocaleDateString("en-GB")
+                : "-"}
+            </p>
+
+            <p>
+              <b>House:</b> {viewData.student?.house || "-"}
+            </p>
+            <p>
+              <b>Blood Group:</b> {viewData.student?.bloodGroup || "-"}
+            </p>
+            <p>
+              <b>Weight:</b> {viewData.student?.weight || "-"}
+            </p>
           </div>
         </div>
-
         {/* 📊 TABLE */}
         <table className="pr-table">
           <thead>
             <tr>
-              <th rowSpan="2">Subject</th>
-              <th rowSpan="2">Full Marks</th>
+              <th>Subject</th>
               <th colSpan={viewData.exams?.length || 1}>Term</th>
-              <th rowSpan="2">Total</th>
+              <th>Total</th>
             </tr>
 
             <tr>
+              <th></th>
               {viewData.exams?.map((e, i) => (
                 <th key={i}>{e}</th>
               ))}
+              <th></th>
             </tr>
           </thead>
 
           <tbody>
+            {/* ✅ FULL MARKS ROW */}
+            <tr>
+              <td>
+                <b>Full Marks</b>
+              </td>
+
+              {viewData.exams?.map((e, idx) => (
+                <td key={idx}>
+                  {viewData.subjects?.[0]?.fullMarks?.[e] || "-"}
+                </td>
+              ))}
+
+              <td>-</td>
+            </tr>
+
+            {/* 🔽 SUBJECT ROWS */}
             {viewData.subjects?.map((sub, i) => {
               let total = 0;
 
               return (
                 <tr key={i}>
                   <td>{sub.name}</td>
-                  <td>100</td>
 
                   {viewData.exams?.map((e, idx) => {
                     const mark = Number(sub.exams?.[e]) || 0;
@@ -120,33 +171,78 @@ const ProgessReports = ({ viewData, setViewData }) => {
         </div>
 
         {/* 📊 SUMMARY */}
-        <div className="pr-summary">
-          <p><b>Total:</b> {viewData.total} / {viewData.fullMarks}</p>
-          <p><b>Percentage:</b> {viewData.percentage?.toFixed(2)}%</p>
-          <p><b>Grade:</b> {viewData.grade}</p>
-          <p><b>Rank:</b> 🏅 #1</p>
-          <p><b>Result:</b> {viewData.grade === "Fail" ? "Fail" : "Pass"}</p>
+        <div className="pr-summary-card">
+          <div className="pr-summary-item">
+            <span>Total</span>
+            <strong>
+              {viewData.total} / {viewData.fullMarks}
+            </strong>
+          </div>
+
+          <div className="pr-summary-item">
+            <span>Percentage</span>
+            <strong>{viewData.percentage?.toFixed(2)}%</strong>
+          </div>
+
+          <div className="pr-summary-item">
+            <span>Grade</span>
+            <strong
+              className={`grade ${viewData.grade === "Fail" ? "fail" : "pass"}`}
+            >
+              {viewData.grade}
+            </strong>
+          </div>
+
+          <div className="pr-summary-item">
+            <span>Rank</span>
+            <strong>🏅 #1</strong>
+          </div>
+
+          <div className="pr-summary-item">
+            <span>Result</span>
+            <strong className={viewData.grade === "Fail" ? "fail" : "pass"}>
+              {viewData.grade === "Fail" ? "Fail" : "Pass"}
+            </strong>
+          </div>
         </div>
 
         {/* 📊 ATTENDANCE */}
-        <div className="pr-attendance">
-          <p>Working Days: 200</p>
-          <p>Present: 140</p>
-          <p>Attendance: 70%</p>
+        <div className="pr-attendance-card">
+          <div>
+            <span>Working Days</span>
+            <strong>200</strong>
+          </div>
+          <div>
+            <span>Present</span>
+            <strong>140</strong>
+          </div>
+          <div>
+            <span>Attendance</span>
+            <strong>70%</strong>
+          </div>
         </div>
 
         {/* 📝 REMARK */}
-        <div className="pr-remark">
-          Teacher Remark: Keep improving and stay consistent.
+        <div className="pr-remark-box">
+          <b>Teacher Remark:</b>
+          <p>Keep improving and stay consistent.</p>
         </div>
 
         {/* ✍ SIGN */}
         <div className="pr-sign">
-          <div>Parent</div>
-          <div>Class Teacher</div>
-          <div>Principal</div>
+          <div>
+            <div className="line"></div>
+            <p>Parent</p>
+          </div>
+          <div>
+            <div className="line"></div>
+            <p>Class Teacher</p>
+          </div>
+          <div>
+            <div className="line"></div>
+            <p>Principal</p>
+          </div>
         </div>
-
       </div>
     </div>
   );

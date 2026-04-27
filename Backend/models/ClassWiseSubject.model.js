@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
-
 const { Schema, model } = mongoose;
+
+const subjectSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  type: {
+    type: String,
+    enum: ["regular", "optional"],
+    default: "regular",
+  },
+});
 
 const classWiseSubjectSchema = new Schema(
   {
@@ -8,16 +20,10 @@ const classWiseSubjectSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Class",
       required: true,
-      unique: true, // one class = one document
+      unique: true,
     },
 
-    subjects: [
-      {
-        type: String,
-        required: true,
-        trim: true,
-      },
-    ],
+    subjects: [subjectSchema], // ✅ UPDATED
   },
   {
     timestamps: true,
