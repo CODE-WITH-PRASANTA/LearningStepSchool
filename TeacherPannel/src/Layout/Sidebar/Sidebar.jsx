@@ -14,6 +14,7 @@ import {
   FaUserGraduate,
   FaClipboardList,
   FaQuoteLeft,
+  FaUser,
 } from "react-icons/fa";
 import "./Sidebar.css";
 import API from "../../api/axios"; // adjust path
@@ -53,6 +54,7 @@ useEffect(() => {
 
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaHome /> },
+    { name: "Profile", path: "/admin/profile", icon: <FaUser /> },
 
     {
       name: "Cold Lead",

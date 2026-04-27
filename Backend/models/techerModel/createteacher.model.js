@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
+  contact: String, // ✅ NEW
+  department: String, // ✅ NEW
+  image: String, // ✅ NEW (store path)
+
   password: String,
   role: {
     type: String,

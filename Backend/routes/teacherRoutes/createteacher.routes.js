@@ -12,6 +12,7 @@ const {
 
 const auth = require("../../middleware/authMiddleware");
 const checkPermission = require("../../middleware/checkPermission");
+const {upload, convertToWebp} = require("../../middleware/upload");
 
 
 
@@ -24,6 +25,8 @@ router.post(
   "/teachers",
   auth,
   checkPermission("CREATE_TEACHER"),
+  upload.single("image"), // ✅ ADD THIS
+  convertToWebp,
   createTeacher
 );
 
@@ -49,12 +52,15 @@ router.put(
   "/teachers/:id",
   auth,
   checkPermission("UPDATE_TEACHER"),
+  upload.single("image"), // ✅ ADD THIS
+  convertToWebp,
   updateTeacher
 );
 
 // DELETE
 router.delete(
   "/teachers/:id",
+  
   auth,
   checkPermission("DELETE_TEACHER"),
   deleteTeacher

@@ -4,26 +4,37 @@ const hashPassword = require("../../utils/hash");
 
 exports.createTeacher = async (req, res) => {
   try {
-    const { name, email, password, permissions } = req.body;
+    const {
+      name,
+      email,
+      password,
+      permissions,
+      contact,
+      department,
+    } = req.body;
+
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    // check existing
+
     const exists = await User.findOne({ email });
     if (exists) {
       return res.status(400).json({ message: "Teacher already exists" });
     }
 
-    // hash password
     const hashed = await hashPassword(password);
 
-    // create teacher
     const teacher = await User.create({
       name,
       email,
       password: hashed,
+      contact,
+      department,
+      // `convertToWebp` writes the final public path to `req.file.path`
+      // and also mirrors it onto `req.body.image`.
+      image: req.file?.path || req.body.image || "",
       role: "teacher",
-      permissions: permissions || [],
+      permissions: permissions ? JSON.parse(permissions) : [],
     });
 
     res.status(201).json({
@@ -74,6 +85,9 @@ exports.getMeTeacher = async (req, res) => {
       name: teacher.name,
       email: teacher.email,
       role: teacher.role,
+      contact: teacher.contact || "",
+      department: teacher.department || "",
+      image: teacher.image || "",
       permissions: teacher.permissions || [],
     });
 
@@ -84,19 +98,34 @@ exports.getMeTeacher = async (req, res) => {
 
 exports.updateTeacher = async (req, res) => {
   try {
-    const { name, email, password, permissions } = req.body;
+    const {
+      name,
+      email,
+      password,
+      permissions,
+      contact,
+      department,
+    } = req.body;
 
     const teacher = await User.findById(req.params.id);
     if (!teacher) {
       return res.status(404).json({ message: "Teacher not found" });
     }
 
-    // ✅ update fields
     if (name) teacher.name = name;
     if (email) teacher.email = email;
-    if (permissions) teacher.permissions = permissions;
+    if (contact) teacher.contact = contact;
+    if (department) teacher.department = department;
 
-    // 🔐 update password only if provided
+    if (permissions) {
+      teacher.permissions = JSON.parse(permissions);
+    }
+
+    // update image
+    if (req.file) {
+      teacher.image = req.file.path || req.body.image || teacher.image;
+    }
+
     if (password) {
       teacher.password = await hashPassword(password);
     }
@@ -109,6 +138,30 @@ exports.updateTeacher = async (req, res) => {
     res.json({
       message: "Teacher updated successfully",
       teacher: teacherObj,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Teacher self-service: update only profile image
+exports.updateMyTeacherImage = async (req, res) => {
+  try {
+    const teacher = await User.findById(req.user.id);
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found" });
+    }
+
+    if (!req.file && !req.body.image) {
+      return res.status(400).json({ message: "Image file is required" });
+    }
+
+    teacher.image = req.file?.path || req.body.image || teacher.image;
+    await teacher.save();
+
+    res.json({
+      message: "Profile image updated successfully",
+      image: teacher.image || "",
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
