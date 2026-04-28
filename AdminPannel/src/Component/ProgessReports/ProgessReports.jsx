@@ -5,7 +5,7 @@ import "./ProgessReports.css";
 const ProgessReports = ({ viewData, setViewData }) => {
   const reportRef = useRef();
 
-  console.log("Viewing Report:", viewData);
+  // console.log("Viewing Report:", viewData);
 
   if (!viewData) return null;
 
@@ -61,48 +61,48 @@ const ProgessReports = ({ viewData, setViewData }) => {
         <div className="pr-info">
           <div>
             <p>
-              <b>Name:</b> {viewData.student?.name || "-"}
+              <b>Name:</b> {viewData?.name || "-"}
             </p>
             <p>
-              <b>Father's Name:</b> {viewData.student?.fatherName || "-"}
+              <b>Father's Name:</b> {viewData?.fatherName || "-"}
             </p>
             <p>
-              <b>Mother's Name:</b> {viewData.student?.motherName || "-"}
+              <b>Mother's Name:</b> {viewData?.motherName || "-"}
             </p>
             <p>
-              <b>Admission No:</b> {viewData.student?.admissionNo || "-"}
+              <b>Admission No:</b> {viewData?.admissionNo || "-"}
             </p>
             <p>
-              <b>Aadhar No:</b> {viewData.student?.aadhar || "-"}
+              <b>Aadhar No:</b> {viewData?.aadhar || "-"}
             </p>
             <p>
-              <b>PEN No:</b> {viewData.student?.penNo || "-"}
+              <b>PEN No:</b> {viewData?.penNo || "-"}
             </p>
           </div>
 
           <div>
             <p>
-              <b>Roll No:</b> {viewData.student?.rollNumber || "-"}
+              <b>Roll No:</b> {viewData?.rollNumber || "-"}
             </p>
             <p>
-              <b>Class:</b> {viewData.student?.class || "-"}
+              <b>Class:</b> {viewData?.class || "-"}
             </p>
 
             <p>
               <b>DOB:</b>{" "}
-              {viewData.student?.dob
-                ? new Date(viewData.student.dob).toLocaleDateString("en-GB")
+              {viewData?.dob
+                ? new Date(viewData.dob).toLocaleDateString("en-GB")
                 : "-"}
             </p>
 
             <p>
-              <b>House:</b> {viewData.student?.house || "-"}
+              <b>House:</b> {viewData?.house || "-"}
             </p>
             <p>
-              <b>Blood Group:</b> {viewData.student?.bloodGroup || "-"}
+              <b>Blood Group:</b> {viewData?.bloodGroup || "-"}
             </p>
             <p>
-              <b>Weight:</b> {viewData.student?.weight || "-"}
+              <b>Weight:</b> {viewData?.weight || "-"}
             </p>
           </div>
         </div>
@@ -131,11 +131,15 @@ const ProgessReports = ({ viewData, setViewData }) => {
                 <b>Full Marks</b>
               </td>
 
-              {viewData.exams?.map((e, idx) => (
-                <td key={idx}>
-                  {viewData.subjects?.[0]?.fullMarks?.[e] || "-"}
-                </td>
-              ))}
+              {viewData.exams?.map((e, idx) => {
+                const subjectWithMarks = viewData.subjects?.find(
+                  (s) => s.fullMarks && s.fullMarks[e],
+                );
+
+                return (
+                  <td key={idx}>{subjectWithMarks?.fullMarks?.[e] || "-"}</td>
+                );
+              })}
 
               <td>-</td>
             </tr>
@@ -145,12 +149,38 @@ const ProgessReports = ({ viewData, setViewData }) => {
               let total = 0;
 
               return (
-                <tr key={i}>
-                  <td>{sub.name}</td>
+                <tr
+                  key={i}
+                  style={{
+                    background:
+                      (sub.type || "regular") === "optional"
+                        ? "#eef6ff"
+                        : "white",
+                  }}
+                >
+                  <td>
+                    {sub.name}
+                    {sub.type === "optional" && (
+                      <span
+                        style={{
+                          color: "blue",
+                          fontSize: "12px",
+                          marginLeft: "6px",
+                        }}
+                      >
+                        (Optional)
+                      </span>
+                    )}
+                  </td>
 
                   {viewData.exams?.map((e, idx) => {
                     const mark = Number(sub.exams?.[e]) || 0;
-                    total += mark;
+
+                    // ❌ DO NOT add optional to total
+                    if ((sub.type || "regular") === "regular") {
+                      total += mark;
+                    }
+
                     return <td key={idx}>{mark || "-"}</td>;
                   })}
 
@@ -158,6 +188,25 @@ const ProgessReports = ({ viewData, setViewData }) => {
                 </tr>
               );
             })}
+
+            {/* 🔥 ✅ ADD THIS ROW */}
+            <tr style={{ fontWeight: "bold", background: "#f5f5f5" }}>
+              <td>Term Total</td>
+
+              {viewData.exams?.map((e, idx) => {
+                let termTotal = 0;
+
+                viewData.subjects?.forEach((sub) => {
+                  if ((sub.type || "regular") === "regular") {
+                    termTotal += Number(sub.exams?.[e]) || 0;
+                  }
+                });
+
+                return <td key={idx}>{termTotal}</td>;
+              })}
+
+              <td>{viewData.total}</td>
+            </tr>
           </tbody>
         </table>
 
