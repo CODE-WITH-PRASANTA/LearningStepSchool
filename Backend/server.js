@@ -56,6 +56,7 @@ const expenseRoutes = require("./routes/expense.routes");
 const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes")
 const permissionRoutes = require("./routes/teacherRoutes/permission.routes")
 const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes")
+const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
 
 
 
@@ -98,7 +99,7 @@ app.use("/api/expenses", expenseRoutes);
 app.use("/api/admin", teacherCreateRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
 app.use("/api",permissionRoutes)
-
+app.use("/api/teacher", leaveRoutes);
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {
