@@ -9,6 +9,7 @@ const PermissionManager = () => {
   });
 
   const PERMISSION_OPTIONS = [
+    { name: "VIEW_PROFILE", label: "Profile" }, // ✅ fixed
     { name: "VIEW_LEADS", label: "Cold Lead" },
     { name: "NEWS_POST", label: "News Posting" },
     { name: "VIEW_STUDENT_DETAILS", label: "Student Hub" },
@@ -17,7 +18,6 @@ const PermissionManager = () => {
     { name: "SUBJECT_POST", label: "Subject Post" },
     { name: "CLASSWISE_SUBJECT", label: "Classwise Subject" },
   ];
-
   const [permissions, setPermissions] = useState([]);
   const [editId, setEditId] = useState(null);
 
@@ -103,12 +103,12 @@ const PermissionManager = () => {
 
             {PERMISSION_OPTIONS.map((p) => (
               <option
-              key={p.name}
-              value={p.name}
-              disabled={permissions.some((perm) => perm.name === p.name)}
-            >
-              {p.label}
-            </option>
+                key={p.name}
+                value={p.name}
+                disabled={permissions.some((perm) => perm.name === p.name)}
+              >
+                {p.label}
+              </option>
             ))}
           </select>
 
