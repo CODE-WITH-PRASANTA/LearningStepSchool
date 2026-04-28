@@ -1,0 +1,371 @@
+/* ==================================================
+   EMPLOYEE MODAL FULL UPDATED CSS
+   Fully Responsive | No Scroll | All Form Visible
+   Safe for Sidebar / Layout
+================================================== */
+
+.employee-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px;
+}
+
+/* ======================================
+   MODAL BOX
+====================================== */
+.employee-modal {
+  width: 100%;
+  max-width: 780px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
+
+  animation: modalPop 0.35s ease;
+}
+
+/* Animation */
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ======================================
+   HEADER
+====================================== */
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #edf1f6;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.modal-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* Close Button */
+.close-btn {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f3f4f6;
+  color: #374151;
+
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.close-btn:hover {
+  background: #e5e7eb;
+  transform: rotate(90deg);
+}
+
+/* ======================================
+   FORM BODY
+====================================== */
+.employee-form {
+  padding: 20px 24px;
+}
+
+/* Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+}
+
+/* Full width */
+.full {
+  grid-column: span 2;
+}
+
+/* Group */
+.form-group {
+  margin-bottom: 6px;
+}
+
+/* Label */
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Inputs */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+
+  border: 1px solid #d8e0ea;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #111827;
+
+  font-size: 14px;
+  padding: 0 14px;
+
+  outline: none;
+  transition: 0.25s ease;
+}
+
+/* Heights */
+.form-group input,
+.form-group select {
+  height: 44px;
+}
+
+.form-group textarea {
+  height: 80px;
+  padding-top: 12px;
+  resize: none;
+}
+
+/* Focus */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08);
+}
+
+/* Placeholder */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* ======================================
+   FOOTER
+====================================== */
+.modal-footer {
+  margin-top: 12px;
+  text-align: right;
+}
+
+/* Submit */
+.submit-btn {
+  min-width: 170px;
+  height: 46px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+}
+
+/* ======================================
+   LARGE LAPTOPS
+====================================== */
+@media (max-width: 1200px) {
+  .employee-modal {
+    max-width: 740px;
+  }
+}
+
+/* ======================================
+   LAPTOP / TABLET
+====================================== */
+@media (max-width: 992px) {
+  .employee-modal {
+    max-width: 92%;
+  }
+
+  .modal-header h2 {
+    font-size: 24px;
+  }
+
+  .employee-form {
+    padding: 18px 22px;
+  }
+}
+
+/* ======================================
+   TABLET
+====================================== */
+@media (max-width: 768px) {
+  .employee-modal-overlay {
+    padding: 14px;
+  }
+
+  .employee-modal {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+  }
+
+  .employee-form {
+    padding: 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .full {
+    grid-column: span 1;
+  }
+
+  .modal-footer {
+    text-align: center;
+  }
+
+  .submit-btn {
+    width: 100%;
+  }
+}
+
+/* ======================================
+   MOBILE
+====================================== */
+@media (max-width: 576px) {
+  .employee-modal-overlay {
+    padding: 10px;
+  }
+
+  .employee-modal {
+    border-radius: 14px;
+  }
+
+  .modal-header {
+    padding: 14px 16px;
+  }
+
+  .modal-header h2 {
+    font-size: 20px;
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .employee-form {
+    padding: 16px;
+  }
+
+  .form-group label {
+    font-size: 13px;
+  }
+
+  .form-group input,
+  .form-group select {
+    height: 42px;
+    font-size: 14px;
+  }
+
+  .form-group textarea {
+    height: 75px;
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    height: 44px;
+    font-size: 14px;
+  }
+}
+
+/* ======================================
+   EXTRA SMALL DEVICES
+====================================== */
+@media (max-width: 420px) {
+  .modal-header h2 {
+    font-size: 18px;
+  }
+
+  .employee-form {
+    padding: 14px;
+  }
+
+  .form-group input,
+  .form-group select {
+    height: 40px;
+    padding: 0 12px;
+  }
+
+  .form-group textarea {
+    height: 70px;
+  }
+
+  .submit-btn {
+    height: 42px;
+    font-size: 14px;
+  }
+}
+
+/* ======================================
+   VERY SMALL DEVICES
+====================================== */
+@media (max-width: 360px) {
+  .modal-header {
+    padding: 12px 14px;
+  }
+
+  .modal-header h2 {
+    font-size: 17px;
+  }
+
+  .employee-form {
+    padding: 12px;
+  }
+
+  .submit-btn {
+    font-size: 13px;
+  }
+}

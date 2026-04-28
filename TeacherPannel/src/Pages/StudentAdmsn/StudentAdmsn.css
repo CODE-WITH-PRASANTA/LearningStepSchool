@@ -1,0 +1,358 @@
+/* ================= PAGE ================= */
+
+.Student-Admission-Page{
+  min-height:100vh;
+  background:linear-gradient(135deg,#eef2ff,#f8fafc);
+  padding:10px;
+  font-family:"Segoe UI",sans-serif;
+}
+
+/* ================= CONTAINER ================= */
+
+.Student-Admission-Container{
+  max-width:1350px;
+  margin:auto;
+  background:#fff;
+  padding:40px;
+  border-radius:18px;
+  box-shadow:0 25px 60px rgba(0,0,0,.08);
+}
+
+.Student-Admission-Container>*{
+  margin-bottom:20px;
+}
+.Student-Admission-RemoveBtn {
+  margin-top: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.Student-Admission-RemoveBtn {
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+/* ================= HEADER ================= */
+
+.Student-Admission-Header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.Student-Admission-Title{
+  font-size:28px;
+  font-weight:700;
+  color:#1e293b;
+}
+
+/* ================= BUTTONS ================= */
+
+.Student-Admission-DownloadBtn,
+.Student-Admission-SubmitBtn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  color:#fff;
+  border:none;
+  padding:10px 22px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 8px 20px rgba(37,99,235,.3);
+}
+
+.Student-Admission-DownloadBtn:hover,
+.Student-Admission-SubmitBtn:hover{
+  transform:translateY(-2px);
+}
+
+/* ================= FORM GRID ================= */
+
+.Student-Admission-FormGrid{
+  display:grid;
+  grid-template-columns:3fr 1fr;
+  gap:35px;
+}
+
+.Student-Admission-Left{
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.Student-Admission-Row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.Student-Admission-TwoColumn{
+  grid-template-columns:repeat(2,1fr);
+}
+
+/* ================= INPUT ================= */
+
+.Student-Admission-Group{
+  display:flex;
+  flex-direction:column;
+}
+
+.Student-Admission-Label{
+  font-size:13px;
+  margin-bottom:6px;
+  font-weight:600;
+  color:#334155;
+}
+
+.Student-Admission-Input,
+.Student-Admission-Textarea{
+  padding:12px 14px;
+  border-radius:10px;
+  border:1px solid #d1d5db;
+  font-size:14px;
+  background:#f9fafb;
+  transition:.25s;
+}
+
+.Student-Admission-Input:focus,
+.Student-Admission-Textarea:focus{
+  background:#fff;
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+.Student-Admission-Textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+/* ================= PHOTO BOX ================= */
+
+.Student-Admission-PhotoBox{
+  position:relative;
+  width:100%;
+  max-width:220px;
+  height:240px;
+  border:2px dashed #2563eb;
+  border-radius:14px;
+  background:#f1f5ff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+.Student-Admission-PhotoInput{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  cursor:pointer;
+}
+
+.Student-Admission-PhotoPreview{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.Student-Admission-PhotoOverlay{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  text-align:center;
+  padding:8px;
+  font-size:13px;
+  opacity:0;
+  transition:.3s;
+}
+
+.Student-Admission-PhotoBox:hover .Student-Admission-PhotoOverlay{
+  opacity:1;
+}
+
+/* ================= SECTION ================= */
+
+.Student-Admission-SectionTitle{
+  margin:30px 0 15px;
+  font-size:18px;
+  font-weight:600;
+  border-left:4px solid #2563eb;
+  padding-left:10px;
+}
+
+/* ================= ADDRESS GRID ================= */
+
+.Student-Admission-AddressGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+/* ================= DOCUMENT TABLE ================= */
+
+.Student-Admission-DocumentWrapper{
+  width:100%;
+  overflow-x:auto;
+}
+
+.Student-Admission-DocumentTable{
+  width:100%;
+  min-width:550px;
+  border-collapse:collapse;
+}
+
+.Student-Admission-DocumentTable th{
+  background:#f1f5f9;
+  padding:12px;
+  font-weight:600;
+  font-size:14px;
+  text-align:left;
+}
+
+.Student-Admission-DocumentTable td{
+  padding:12px;
+  border-top:1px solid #e5e7eb;
+}
+
+.Student-Admission-DocName{
+  font-weight:500;
+  color:#1f2937;
+}
+
+.Student-Admission-DocumentCell{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.Student-Admission-ViewFile{
+  background:#2563eb;
+  color:white;
+  padding:6px 12px;
+  border-radius:6px;
+  font-size:13px;
+  text-decoration:none;
+}
+
+.Student-Admission-ViewFile:hover{
+  background:#1d4ed8;
+}
+
+.Student-Admission-FileInput{
+  font-size:13px;
+}
+
+/* ================= SUBMIT ================= */
+
+.Student-Admission-SubmitWrapper{
+  text-align:right;
+}
+
+/* ================================================= */
+/* =============== RESPONSIVE ====================== */
+/* ================================================= */
+
+@media (max-width:1200px){
+
+.Student-Admission-Container{
+  padding:30px;
+}
+
+}
+
+@media (max-width:1024px){
+
+.Student-Admission-FormGrid{
+  grid-template-columns:1fr;
+}
+
+.Student-Admission-PhotoBox{
+  margin:auto;
+}
+
+.Student-Admission-Row{
+  grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media (max-width:768px){
+
+.Student-Admission-Header{
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+.Student-Admission-Title{
+  font-size:22px;
+}
+
+.Student-Admission-Row{
+  grid-template-columns:1fr;
+}
+
+.Student-Admission-TwoColumn{
+  grid-template-columns:1fr;
+}
+
+.Student-Admission-AddressGrid{
+  grid-template-columns:1fr;
+}
+
+.Student-Admission-DownloadBtn,
+.Student-Admission-SubmitBtn{
+  width:100%;
+  justify-content:center;
+}
+
+}
+
+@media (max-width:576px){
+
+.Student-Admission-Container{
+  padding:20px;
+}
+
+.Student-Admission-Input,
+.Student-Admission-Textarea{
+  font-size:13px;
+  padding:10px;
+}
+
+.Student-Admission-PhotoBox{
+  height:210px;
+}
+
+.Student-Admission-SubmitWrapper{
+  text-align:center;
+}
+
+}
+
+@media (max-width:400px){
+
+.Student-Admission-Title{
+  font-size:18px;
+}
+
+.Student-Admission-PhotoBox{
+  height:190px;
+}
+
+}

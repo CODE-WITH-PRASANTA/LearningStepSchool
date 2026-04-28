@@ -127,6 +127,9 @@ import FeeCollection from "./Pages/FeeCollection/FeeCollection";
 import ExamProgressReport from "./Pages/ExamProgressReport/ExamProgressReport";
 import CreateTeacher from "./Pages/CreateTeacher/CreateTeacher";
 import PermissionManager from "./Pages/PermissionManager/PermissionManager";
+import AttendanceManagement from "./Pages/AttendanceManagement/AttendanceManagement";
+import LeaveManagement from "./Pages/LeaveManagement/LeaveManagement";
+
 
 /* ===================== APP ===================== */
 
@@ -167,7 +170,7 @@ export default function App() {
 
           {/* Class Data */}
           <Route path="class-data" element={<ClsWiseDataManagements />} />
-          <Route path="class-post" element={<ClassesAdmin />} />
+          <Route path="c" element={<ClassesAdmin />} />
           <Route path="subject-post" element={<SubjectAdmin />} />
           <Route path="classwise-subject" element={<ClassWiseSubjectAdmin />} />
 
@@ -372,6 +375,9 @@ export default function App() {
 
           <Route path="/admin/create-teacher" element={<CreateTeacher />} />
           <Route path="/admin/create-permission" element={<PermissionManager />} />
+          <Route path="/admin/attendance-management" element ={<AttendanceManagement />} />
+          <Route path="/admin/leave-management" element ={<LeaveManagement />} />
+
 
 
           <Route path="/faq" element={<FaqPosting />} />

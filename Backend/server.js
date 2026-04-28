@@ -99,7 +99,7 @@ app.use("/api/expenses", expenseRoutes);
 app.use("/api/admin", teacherCreateRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
 app.use("/api",permissionRoutes)
-app.use("/api/teacher", leaveRoutes);
+app.use("/api", leaveRoutes);
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {

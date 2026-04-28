@@ -189,6 +189,16 @@ const menu = [
         label: "Create Permission",
         path: "/admin/create-permission",
       },
+
+      {
+        label: "Attendance Management",
+        path: "/admin/attendance-management",
+      },
+
+      {
+        label: "Leave Management",
+        path: "/admin/leave-management",
+      },
     ],
   },
 
