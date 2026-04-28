@@ -52,6 +52,13 @@ const expenseHeadRoutes = require("./routes/expenseHead.routes");
 const expenseRoutes = require("./routes/expense.routes");
 
 
+/// TEACHER CREATE ROUTE
+const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes")
+const permissionRoutes = require("./routes/teacherRoutes/permission.routes")
+const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes")
+const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
+
+
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -89,7 +96,10 @@ app.use("/api/student-leave", studentLeaveRoutes);
 app.use("/api/expense-heads", expenseHeadRoutes);
 app.use("/api/expenses", expenseRoutes);
 
-
+app.use("/api/admin", teacherCreateRoutes);
+app.use("/api/teacher", teacherAuthRoutes);
+app.use("/api",permissionRoutes)
+app.use("/api", leaveRoutes);
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {

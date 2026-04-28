@@ -1,0 +1,537 @@
+/* ========================================
+   ATTENDANCE DASHBOARD CSS
+   SAFE FOR SIDEBAR / LAYOUT
+   ONLY TARGETS ATTENDANCE COMPONENT
+======================================== */
+
+/* Root */
+.attendance-dashboard {
+  width: 100%;
+  min-height: 100%;
+  padding: 24px;
+  background: #f5f7fb;
+  overflow-x: hidden;
+}
+
+/* =========================
+   Loader
+========================= */
+.attendance-loader {
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.attendance-loader .spinner {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 4px solid #dbeafe;
+  border-top: 4px solid #2563eb;
+  animation: attendanceSpin .8s linear infinite;
+}
+
+@keyframes attendanceSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.attendance-loader h3 {
+  font-size: 17px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* =========================
+   Header
+========================= */
+.attendance-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.attendance-heading h1 {
+  font-size: 38px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.attendance-heading .breadcrumb {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 15px;
+}
+
+.attendance-heading .breadcrumb .active {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.attendance-heading .breadcrumb span:last-child {
+  color: #94a3b8;
+}
+
+/* =========================
+   Add Employee Button
+========================= */
+.attendance-dashboard .add-btn {
+  border: none;
+  outline: none;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .3s ease;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, .22);
+}
+
+.attendance-dashboard .add-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   Grid
+========================= */
+.attendance-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* =========================
+   Cards
+========================= */
+.attendance-card,
+.employee-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, .05);
+  position: relative;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.card-top h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* =========================
+   Buttons
+========================= */
+.attendance-dashboard .download-btn,
+.attendance-dashboard .menu-btn {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.attendance-dashboard .menu-btn {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+}
+
+/* =========================
+   Chart Area
+========================= */
+.chart-area {
+  display: flex;
+  gap: 16px;
+  min-height: 410px;
+}
+
+.chart-labels {
+  width: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chart-labels span {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.chart-bars {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.single-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.single-bar-col p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.bar-stack {
+  width: 22px;
+  height: 320px;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #f1f5f9;
+}
+
+.bar {
+  width: 100%;
+  animation: attendanceGrow 1s ease forwards;
+}
+
+@keyframes attendanceGrow {
+  from {
+    height: 0;
+  }
+}
+
+.bar.blue {
+  background: #2563eb;
+}
+
+.bar.orange {
+  background: #f97316;
+}
+
+.bar.gray {
+  background: #94a3b8;
+}
+
+/* =========================
+   Legend
+========================= */
+.legend-row {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.legend-row span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #334155;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.legend-row i,
+.employee-stats .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-row .blue,
+.employee-stats .blue {
+  background: #2563eb;
+}
+
+.legend-row .orange,
+.employee-stats .orange {
+  background: #f97316;
+}
+
+.legend-row .gray {
+  background: #94a3b8;
+}
+
+.employee-stats .cyan {
+  background: #06b6d4;
+}
+
+/* =========================
+   Donut Chart
+========================= */
+.donut-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 24px;
+}
+
+.donut-chart {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #2563eb 0% 54%,
+    #f97316 54% 74%,
+    #06b6d4 74% 100%
+  );
+  position: relative;
+  animation: donutShow .9s ease;
+}
+
+@keyframes donutShow {
+  from {
+    transform: scale(.75) rotate(-120deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+.donut-chart::after {
+  content: "";
+  position: absolute;
+  inset: 30px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.donut-center h3 {
+  font-size: 36px;
+  color: #0f172a;
+  margin: 0;
+}
+
+.donut-center p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+/* Pie hover zones */
+.pie-zone {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.pie1 {
+  clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+}
+
+.pie2 {
+  clip-path: polygon(50% 50%, 0 100%, 100% 100%);
+}
+
+.pie3 {
+  clip-path: polygon(50% 50%, 0 0, 100% 0);
+}
+
+/* =========================
+   Stats
+========================= */
+.employee-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.employee-stats .stat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #334155;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* =========================
+   Dropdown
+========================= */
+.employee-dropdown {
+  position: absolute;
+  top: 78px;
+  right: 24px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 15px 30px rgba(0,0,0,.08);
+  overflow: hidden;
+  z-index: 50;
+  min-width: 160px;
+}
+
+.employee-dropdown p {
+  padding: 14px 18px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.employee-dropdown p:hover {
+  background: #f8fafc;
+}
+
+/* =========================
+   Tooltip
+========================= */
+.chart-tooltip {
+  position: fixed;
+  z-index: 99999;
+  background: #0f172a;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 1200px) {
+  .attendance-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .attendance-heading h1 {
+    font-size: 30px;
+  }
+
+  .chart-area {
+    flex-direction: column;
+  }
+
+  .chart-labels {
+    width: 100%;
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 768px) {
+  .attendance-dashboard {
+    padding: 18px;
+  }
+
+  .attendance-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .attendance-dashboard .add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chart-bars {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .chart-bars::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .chart-bars::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  .donut-chart {
+    width: 210px;
+    height: 210px;
+  }
+
+  .donut-chart::after {
+    inset: 26px;
+  }
+}
+
+@media (max-width: 576px) {
+  .attendance-heading h1 {
+    font-size: 24px;
+  }
+
+  .attendance-card,
+  .employee-card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .card-top h2 {
+    font-size: 20px;
+  }
+
+  .chart-labels {
+    display: none;
+  }
+
+  .bar-stack {
+    height: 260px;
+  }
+
+  .donut-chart {
+    width: 180px;
+    height: 180px;
+  }
+
+  .donut-chart::after {
+    inset: 24px;
+  }
+
+  .donut-center h3 {
+    font-size: 28px;
+  }
+
+  .employee-stats .stat-row {
+    font-size: 14px;
+  }
+}

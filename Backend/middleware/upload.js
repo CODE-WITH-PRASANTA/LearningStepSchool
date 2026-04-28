@@ -88,9 +88,7 @@ const fileFilter = (req, file, cb) => {
     }
 
     if (pdfFields.includes(field)) {
-      return isPDF
-        ? cb(null, true)
-        : cb(new Error(`${field} must be a PDF`));
+      return isPDF ? cb(null, true) : cb(new Error(`${field} must be a PDF`));
     }
 
     if (pdfOrImageFields.includes(field)) {
@@ -111,7 +109,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
 });
 
 /* ================= FILE PROCESSOR ================= */

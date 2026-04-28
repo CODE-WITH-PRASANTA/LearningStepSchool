@@ -1,19 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaBars, FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
-// import "./Navbar.css";
+import { FaBars, FaUser, FaCog, FaSignOutAlt  } from "react-icons/fa";
+import { FaUserTie } from "react-icons/fa";
+import "./Navbar.css";
+import API from "../api/axios";
+import { IMAGE_URL } from "../api/axios";
 
 export default function Navbar({ sidebarOpen, setSidebarOpen }) {
   const [openProfile, setOpenProfile] = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState("https://i.pravatar.cc/40");
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("teacher"));
+
+  const getImageSrc = (imagePath) => {
+    if (!imagePath) return "";
+    if (typeof imagePath !== "string") return "";
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      return imagePath;
+    }
+    if (imagePath.startsWith("/")) return `${IMAGE_URL}${imagePath}`;
+    return `${IMAGE_URL}/${imagePath}`;
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await API.get("/teacher/me");
+        const me = res?.data;
+        if (me?.image) setAvatarSrc(getImageSrc(me.image));
+      } catch (err) {
+        // fallback to localStorage (if it ever contains image)
+        if (user?.image) setAvatarSrc(getImageSrc(user.image));
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  const handleLogout = () => {
-    alert("Logout Clicked");
-    setOpenProfile(false);
+  const handleLogout = async () => {
+    try {
+      await API.post("/auth/logout");
+    } catch (err) {
+      console.log("Logout error:", err);
+    }
+
+    localStorage.clear();
+    navigate("/login");
   };
 
   const handleGoToProfile = () => {
@@ -28,34 +64,46 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <header className="admin-navbar">
+      
+      {/* LEFT */}
       <div className="navbar-left">
         <button className="menu-btn" onClick={toggleSidebar}>
           <FaBars />
         </button>
 
-        <h2 className="navbar-title">Admin Dashboard</h2>
+        <div className="navbar-heading">
+          <h2>
+            Welcome, <span>{user?.name || "User"}</span> 👋
+          </h2>
+          <p>{user?.role || "Teacher"}</p>
+        </div>
       </div>
 
-      <div className="navbar-profile">
+      {/* RIGHT */}
+      <div className="navbar-right">
         <img
-          src="https://i.pravatar.cc/40"
+          src={avatarSrc}
           alt="user"
           className="profile-img"
           onClick={() => setOpenProfile(!openProfile)}
+          onError={() => setAvatarSrc("https://i.pravatar.cc/40")}
         />
 
         {openProfile && (
           <div className="profile-dropdown">
             <button className="dropdown-item" onClick={handleGoToProfile}>
-              <FaUser /> Profile
+              <FaUser />
+              <span>Profile</span>
             </button>
 
             <button className="dropdown-item" onClick={handleGoToSettings}>
-              <FaCog /> Settings
+              <FaCog />
+              <span>Settings</span>
             </button>
 
-            <button onClick={handleLogout} className="dropdown-item logout">
-              <FaSignOutAlt /> Logout
+            <button className="dropdown-item logout-item" onClick={handleLogout}>
+              <FaSignOutAlt />
+              <span>Logout</span>
             </button>
           </div>
         )}
