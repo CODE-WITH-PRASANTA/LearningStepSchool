@@ -1,0 +1,222 @@
+/* ==========================================
+   ADD PAYROLL MODAL CSS
+   Responsive + Clean UI
+========================================== */
+
+.payroll-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.payroll-modal {
+  width: 100%;
+  max-width: 680px;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+  animation: payrollModalShow 0.28s ease;
+}
+
+@keyframes payrollModalShow {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================
+   HEADER
+========================== */
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 26px;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.modal-head h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #082b57;
+}
+
+.close-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: #f5f7fc;
+  color: #7b88a8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.close-btn:hover {
+  background: #edf1fb;
+  color: #082b57;
+}
+
+/* ==========================
+   BODY
+========================== */
+.modal-body {
+  padding: 24px 26px 28px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group.full {
+  width: 100%;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #6d7ba0;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #dfe6f3;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0 15px;
+  outline: none;
+  font-size: 15px;
+  color: #082b57;
+  transition: 0.25s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  border-color: #3767ea;
+  box-shadow: 0 0 0 4px rgba(55, 103, 234, 0.08);
+}
+
+.input-group input::placeholder {
+  color: #9ba6c3;
+}
+
+.input-group input[readonly] {
+  background: #f7f8fc;
+  font-weight: 700;
+  color: #3767ea;
+}
+
+/* ==========================
+   BUTTON
+========================== */
+.generate-btn {
+  margin-top: 6px;
+  margin-left: auto;
+  display: block;
+  border: none;
+  background: #3767ea;
+  color: #ffffff;
+  padding: 14px 26px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.generate-btn:hover {
+  background: #2856d7;
+  transform: translateY(-1px);
+}
+
+/* ==========================
+   TABLET
+========================== */
+@media (max-width: 768px) {
+  .payroll-modal {
+    max-width: 100%;
+  }
+
+  .modal-head {
+    padding: 18px 18px;
+  }
+
+  .modal-head h2 {
+    font-size: 24px;
+  }
+
+  .modal-body {
+    padding: 18px;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .generate-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+/* ==========================
+   MOBILE
+========================== */
+@media (max-width: 480px) {
+  .payroll-modal-overlay {
+    padding: 12px;
+  }
+
+  .payroll-modal {
+    border-radius: 16px;
+  }
+
+  .modal-head h2 {
+    font-size: 22px;
+  }
+
+  .input-group label {
+    font-size: 14px;
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .generate-btn {
+    font-size: 14px;
+    padding: 13px 20px;
+  }
+}

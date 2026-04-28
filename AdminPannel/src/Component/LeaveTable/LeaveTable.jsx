@@ -30,7 +30,6 @@ const LeaveTable = () => {
     const fetchLeaves = async () => {
       try {
         const res = await API.get("/admin/leaves");
-        console.log(res.data);
 
         setLeaveData(res.data);
       } catch (err) {
