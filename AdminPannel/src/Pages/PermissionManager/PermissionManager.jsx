@@ -8,6 +8,16 @@ const PermissionManager = () => {
     label: "",
   });
 
+  const PERMISSION_OPTIONS = [
+    { name: "VIEW_LEADS", label: "Cold Lead" },
+    { name: "NEWS_POST", label: "News Posting" },
+    { name: "VIEW_STUDENT_DETAILS", label: "Student Hub" },
+    { name: "FEE_MANAGEMENT", label: "Student Paytrack" },
+    { name: "CLASS_POST", label: "Class Post" },
+    { name: "SUBJECT_POST", label: "Subject Post" },
+    { name: "CLASSWISE_SUBJECT", label: "Classwise Subject" },
+  ];
+
   const [permissions, setPermissions] = useState([]);
   const [editId, setEditId] = useState(null);
 
@@ -74,26 +84,36 @@ const PermissionManager = () => {
         <h2>{editId ? "Edit Permission" : "Create Permission"}</h2>
 
         <form onSubmit={handleSubmit}>
-          <input
+          <select
             name="name"
-            placeholder="Permission Name (e.g. VIEW_STUDENTS)"
             value={form.name}
-            onChange={handleChange}
-            className="input"
-          />
+            onChange={(e) => {
+              const selected = PERMISSION_OPTIONS.find(
+                (p) => p.name === e.target.value,
+              );
 
-          <input
-            name="label"
-            placeholder="Label (e.g. View Students)"
-            value={form.label}
-            onChange={handleChange}
+              setForm({
+                name: selected.name,
+                label: selected.label,
+              });
+            }}
             className="input"
-          />
+          >
+            <option value="">Select Permission</option>
+
+            {PERMISSION_OPTIONS.map((p) => (
+              <option
+              key={p.name}
+              value={p.name}
+              disabled={permissions.some((perm) => perm.name === p.name)}
+            >
+              {p.label}
+            </option>
+            ))}
+          </select>
 
           <div className="form-actions">
-            <button className="button">
-              {editId ? "Update" : "Create"}
-            </button>
+            <button className="button">{editId ? "Update" : "Create"}</button>
 
             {editId && (
               <button
@@ -130,15 +150,12 @@ const PermissionManager = () => {
             <tbody>
               {permissions.map((p) => (
                 <tr key={p._id}>
+                  <td>{p.label}</td>
                   <td>
                     <span className="code">{p.name}</span>
                   </td>
-                  <td>{p.label}</td>
                   <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => handleEdit(p)}
-                    >
+                    <button className="edit-btn" onClick={() => handleEdit(p)}>
                       Edit
                     </button>
 

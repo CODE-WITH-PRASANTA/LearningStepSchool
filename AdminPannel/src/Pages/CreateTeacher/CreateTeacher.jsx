@@ -15,9 +15,6 @@ const CreateTeacher = () => {
     permissions: [],
   });
 
-
-  
-
   const [loading, setLoading] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [editId, setEditId] = useState(null);
@@ -76,7 +73,6 @@ const CreateTeacher = () => {
     fetchPermissions();
   }, []);
 
-
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setForm((prev) => ({
@@ -104,10 +100,10 @@ const CreateTeacher = () => {
         setShowDropdown(false);
       }
     };
-  
+
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, []); 
+  }, []);
   // ================= HANDLERS =================
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -586,88 +582,120 @@ const CreateTeacher = () => {
                   </div>
 
                   <div className="field field--full">
-  <label className="label">Permissions</label>
+                    <label className="label">Permissions</label>
 
-  <div className={`dropdown ${showDropdown ? "open" : ""}`}>
-    
-    {/* Toggle */}
-    <div
-      className="dropdown-toggle"
-      onClick={() => setShowDropdown((prev) => !prev)}
-    >
-      {form.permissions.length > 0
-        ? `${form.permissions.length} selected`
-        : "Select Permissions"}
-    </div>
+                    <div className={`dropdown ${showDropdown ? "open" : ""}`}>
+                      {/* Toggle */}
+                      <div
+                        className="dropdown-toggle"
+                        onClick={() => setShowDropdown((prev) => !prev)}
+                      >
+                        {form.permissions.length > 0
+                          ? `${form.permissions.length} selected`
+                          : "Select Permissions"}
+                      </div>
 
-    {/* Menu */}
-    {showDropdown && (
-      <div className="dropdown-menu">
-        
-        {/* 🔍 Search (Premium Feature) */}
-        <input
-          type="text"
-          placeholder="Search permissions..."
-          className="dropdown-search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+                      {/* Menu */}
+                      {showDropdown && (
+                        <div className="dropdown-menu premium-dropdown">
+                          {/* HEADER */}
+                          <div className="dropdown-header">
+                            <input
+                              type="text"
+                              placeholder="Search permissions..."
+                              className="dropdown-search"
+                              value={searchTerm}
+                              onChange={(e) => setSearchTerm(e.target.value)}
+                            />
 
-        {/* ✅ Select All */}
-        <label className="dropdown-item select-all">
-          <input
-            type="checkbox"
-            checked={
-              permissionsList.length > 0 &&
-              form.permissions.length === permissionsList.length
-            }
-            onChange={handleSelectAll}
-          />
-          <span>Select All</span>
-        </label>
+                            <span className="selected-count">
+                              {form.permissions.length} selected
+                            </span>
+                          </div>
 
-        {/* Divider */}
-        <div className="dropdown-divider"></div>
+                          {/* SELECT ALL */}
+                          <div className="dropdown-section">
+                            <label className="dropdown-item modern">
+                              <input
+                                type="checkbox"
+                                checked={
+                                  permissionsList.length > 0 &&
+                                  form.permissions.length ===
+                                    permissionsList.length
+                                }
+                                onChange={handleSelectAll}
+                              />
+                              <span className="checkmark"></span>
+                              <span className="label">
+                                Select All Permissions
+                              </span>
+                            </label>
+                          </div>
 
-        {/* Permission List */}
-        {permissionsList
-          .filter((perm) =>
-            perm.label.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .map((perm) => (
-            <label key={perm._id} className="dropdown-item">
-              <input
-                type="checkbox"
-                value={perm.name}
-                checked={form.permissions.includes(perm.name)}
-                onChange={handleCheckboxPermissions}
-              />
-              <span>{perm.label}</span>
-            </label>
-          ))}
+                          {/* GROUPED LIST */}
+                          <div className="dropdown-body">
+                            {Object.entries(
+                              permissionsList
+                                .filter((perm) =>
+                                  perm.label
+                                    .toLowerCase()
+                                    .includes(searchTerm.toLowerCase()),
+                                )
+                                .reduce((acc, perm) => {
+                                  const group = perm.group || "General";
+                                  if (!acc[group]) acc[group] = [];
+                                  acc[group].push(perm);
+                                  return acc;
+                                }, {}),
+                            ).map(([group, items]) => (
+                              <div key={group} className="dropdown-group">
+                                <div className="group-title">{group}</div>
 
-        {/* ❌ Clear All */}
-        {form.permissions.length > 0 && (
-          <>
-            <div className="dropdown-divider"></div>
-            <div className="dropdown-clear" onClick={handleClearAll}>
-              Clear All
-            </div>
-          </>
-        )}
-      </div>
-    )}
-  </div>
+                                {items.map((perm) => (
+                                  <label
+                                    key={perm._id}
+                                    className="dropdown-item modern"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                      value={perm.name}
+                                      checked={form.permissions.includes(
+                                        perm.name,
+                                      )}
+                                      onChange={handleCheckboxPermissions}
+                                    />
+                                    <span className="checkmark"></span>
+                                    <span className="label">{perm.label}</span>
+                                  </label>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
 
-  {/* Badges */}
-  <div className="badge-container">
-    {getPermissionLabels(form.permissions)?.map((label, i) => (
-      <span key={i} className="badge">
-        {label}
-      </span>
-    ))}
-  </div>
-</div>
+                          {/* CLEAR */}
+                          {form.permissions.length > 0 && (
+                            <div
+                              className="dropdown-footer"
+                              onClick={handleClearAll}
+                            >
+                              Clear all selections
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Badges */}
+                    <div className="badge-container">
+                      {getPermissionLabels(form.permissions)?.map(
+                        (label, i) => (
+                          <span key={i} className="badge">
+                            {label}
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="modalActions">
