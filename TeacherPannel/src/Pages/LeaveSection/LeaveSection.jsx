@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api/axios";
+import { Editor } from "@tinymce/tinymce-react";
 import "./LeaveSection.css";
 
 const LeaveSection = () => {
@@ -161,12 +162,27 @@ const LeaveSection = () => {
             </div>
           )}
 
-          <textarea
-            name="reason"
+          {/* ✅ TinyMCE Editor */}
+          <Editor
+            apiKey="jeq7g2k84sqpi9364o8x9ptqf09aoesaq8jxmp49dl4sh57z" 
             value={leaveForm.reason}
-            onChange={handleLeaveChange}
-            placeholder="Reason..."
-            required
+            init={{
+              height: 200,
+              menubar: false,
+              plugins: [
+                "lists",
+                "link",
+                "autolink",
+                "code",
+                "preview",
+              ],
+              toolbar:
+                "undo redo | bold italic underline | bullist numlist | link | code",
+              placeholder: "Enter reason for leave...",
+            }}
+            onEditorChange={(content) =>
+              setLeaveForm({ ...leaveForm, reason: content })
+            }
           />
 
           <button type="submit" disabled={leaveLoading}>
@@ -195,7 +211,10 @@ const LeaveSection = () => {
                   {leave.toDate?.slice(0, 10)}
                 </p>
 
-                <p>{leave.reason}</p>
+                {/* Render HTML safely */}
+                <p
+                  dangerouslySetInnerHTML={{ __html: leave.reason }}
+                ></p>
               </div>
             ))
           )}
