@@ -1,16 +1,34 @@
-import React, { useState } from "react";
-import "./ProFilepicture.css";   
+import React, { useEffect, useState } from "react";
+import API from "../../api/axios";
+import "./ProFilepicture.css";
 
 const ProFilePicture = () => {
   const [profile, setProfile] = useState({
-    name: "Admin User",
-    email: "admin@school.com",
-    phone: "9876543210",
-    role: "Administrator",
-    bio: "Managing school operations and academic activities.",
+    name: "",
+    email: "",
+    phone: "",
+    role: "",
+    bio: "",
     avatar: "https://i.pravatar.cc/150",
   });
 
+  const [loading, setLoading] = useState(false);
+
+  // ================= LOAD TEACHER =================
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("teacher"));
+
+    if (user) {
+      setProfile((prev) => ({
+        ...prev,
+        name: user.name || "",
+        email: user.email || "",
+        role: user.role || "Teacher",
+      }));
+    }
+  }, []);
+
+  // ================= INPUT CHANGE =================
   const handleChange = (e) => {
     setProfile({
       ...profile,
@@ -18,6 +36,7 @@ const ProFilePicture = () => {
     });
   };
 
+  // ================= AVATAR =================
   const handleAvatar = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -28,9 +47,36 @@ const ProFilePicture = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  // ================= UPDATE PROFILE =================
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Profile updated successfully!");
+
+    try {
+      setLoading(true);
+
+      const user = JSON.parse(localStorage.getItem("teacher"));
+
+      await API.put(`/admin/teachers/${user.id}`, {
+        name: profile.name,
+        email: profile.email,
+      });
+
+      alert("Profile updated successfully!");
+
+      // ✅ update localStorage
+      localStorage.setItem(
+        "teacher",
+        JSON.stringify({
+          ...user,
+          name: profile.name,
+          email: profile.email,
+        })
+      );
+    } catch (err) {
+      alert(err.response?.data?.message || "Update failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,10 +91,9 @@ const ProFilePicture = () => {
           </p>
         </div>
 
-        {/* Content */}
         <div className="ProfilePage__content">
 
-          {/* Left */}
+          {/* LEFT CARD */}
           <div className="ProfilePage__sidebarCard">
             <img
               src={profile.avatar}
@@ -73,7 +118,7 @@ const ProFilePicture = () => {
             </label>
           </div>
 
-          {/* Right */}
+          {/* RIGHT FORM */}
           <form className="ProfilePage__formCard" onSubmit={handleSubmit}>
             <div className="ProfilePage__grid">
 
@@ -110,7 +155,6 @@ const ProFilePicture = () => {
               <div className="ProfilePage__field">
                 <label className="ProfilePage__label">Role</label>
                 <input
-                  name="role"
                   value={profile.role}
                   disabled
                   className="ProfilePage__input ProfilePage__input--disabled"
@@ -129,8 +173,8 @@ const ProFilePicture = () => {
             </div>
 
             <div className="ProfilePage__actions">
-              <button type="submit" className="ProfilePage__saveBtn">
-                Save Changes
+              <button className="ProfilePage__saveBtn">
+                {loading ? "Saving..." : "Save Changes"}
               </button>
             </div>
 

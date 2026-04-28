@@ -16,36 +16,57 @@ import {
   FaQuoteLeft,
 } from "react-icons/fa";
 import "./Sidebar.css";
+import API from "../../api/axios"; // adjust path
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
+
+const [permissions, setPermissions] = useState([]);
+const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  const loadUser = async () => {
+    try {
+      // ✅ use axios instance
+      const res = await API.get("/teacher/me");
+
+      const data = res.data;
+
+      // ✅ update state
+      setPermissions(data.permissions || []);
+
+      // ✅ sync localStorage
+      localStorage.setItem("teacher", JSON.stringify(data));
+
+    } catch (err) {
+      console.log("Auth error:", err);
+
+      // 🔥 auto logout if token invalid
+      // localStorage.clear();
+      // window.location.href = "/login";
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadUser();
+}, []);
+
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaHome /> },
 
-      { name: "Cold Lead", path: "/admin/cold-lead", icon: <FaChalkboardTeacher /> },   
-      { name: "Cold Lead Table", path: "/admin/cold-lead-table", icon: <FaChalkboardTeacher /> },   
+    {
+      name: "Cold Lead",
+      path: "/admin/cold-lead",
+      icon: <FaChalkboardTeacher />,
+      permission: "VIEW_LEADS",
+    },
 
-        { name: "News Posting", path: "/admin/newsposting", icon: <FaNewspaper /> },
-        { name: "Teacher Posting", path: "/admin/teacherposting", icon: <FaChalkboardTeacher /> },
-        { name: "Testimonial", path: "/admin/testimonial", icon: <FaQuoteLeft /> },
-
-        { name: "Gallery posting", path: "/admin/gallery", icon: <FaMoneyBillWave /> },
-         { name: "Admission Table", path: "/admin/Admission-Table", icon: <FaImages /> },
-     
-
-    // {
-    //   name: "Gallery",
-    //   icon: <FaImages />,
-    //   submenu: [
-    //     { name: "Gallery Post", path: "/admin/gallery-post", icon: <FaImages /> },
-    //     { name: "Gallery View", path: "/admin/gallery-view", icon: <FaImages /> },
-    //   ],
-    // },
-
-    // { name: "Event", path: "/admin/event", icon: <FaCalendarAlt /> },
-    // { name: "Classes", path: "/admin/classes", icon: <FaChalkboardTeacher /> },
-    // { name: "Contact", path: "/admin/contact", icon: <FaAddressBook /> },
-    // { name: "Admission", path: "/admin/admission", icon: <FaClipboardList /> },
-    // { name: "Fees", path: "/admin/fees", icon: <FaMoneyBillWave /> },
+    {
+      name: "News Posting",
+      path: "/admin/newsposting",
+      icon: <FaNewspaper />,
+      permission: "NEWS_POST",
+    },
 
     {
       type: "section",
@@ -55,21 +76,50 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     {
       name: "Student Hub",
       icon: <FaUserGraduate />,
+      permission: "VIEW_STUDENT_DETAILS",
       submenu: [
-        { name: "Student Admission", path: "/student/admission", icon: <FaClipboardList /> },
-        { name: "Student Details", path: "/student/admission/details", icon: <FaUserTie /> },
+        {
+          name: "Student Admission",
+          path: "/student/admission",
+          icon: <FaClipboardList />,
+          permission: "VIEW_STUDENT_DETAILS",
+        },
+        {
+          name: "Student Details",
+          path: "/student/admission/details",
+          icon: <FaUserTie />,
+          permission: "VIEW_STUDENT_DETAILS",
+        },
       ],
     },
 
     {
       name: "Student Paytrack",
       icon: <FaCommentDots />,
+      permission: "FEE_MANAGEMENT",
       submenu: [
-        { name: "Fee Collect", path: "/fee-collect", icon: <FaMoneyBillWave /> },
-        { name: "Fee Type", path: "/fee-type", icon: <FaMoneyBillWave /> },
+        {
+          name: "Fee Collect",
+          path: "/fee-collect",
+          icon: <FaMoneyBillWave />,
+          permission: "FEE_MANAGEMENT",
+        },
+        {
+          name: "Fee Type",
+          path: "/fee-type",
+          icon: <FaMoneyBillWave />,
+          permission: "FEE_MANAGEMENT",
+        },
       ],
     },
   ];
+
+  
+  const hasPermission = (perm) => {
+    if (!perm) return true;
+    if (permissions.includes("ALL")) return true;
+    return permissions.includes(perm);
+  };
 
   const [openMenu, setOpenMenu] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
@@ -117,71 +167,105 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </div>
 
         <nav className="sidebar-menu">
-          {menu.map((item, index) => {
-            if (item.type === "section") {
-              return sidebarOpen ? (
-                <div className="sidebar-section" key={`${item.label}-${index}`}>
-                  {item.label}
-                </div>
-              ) : null;
-            }
+          {menu
+            .filter((item) => {
+              // ✅ Always show section
+              if (item.type === "section") return true;
 
-            return (
-              <div className="sidebar-menu-item" key={item.name}>
-                {item.submenu ? (
-                  <>
-                    <button
-                      type="button"
-                      className={`menu-btn ${openMenu === item.name ? "expanded" : ""}`}
-                      onClick={() => toggleMenu(item.name)}
+              // ✅ No submenu → normal permission check
+              if (!item.submenu) return hasPermission(item.permission);
+
+              // ✅ With submenu → check if ANY child is allowed
+              const allowedSubmenu = item.submenu.filter((sub) =>
+                hasPermission(sub.permission),
+              );
+
+              return allowedSubmenu.length > 0;
+            })
+            .map((item, index) => {
+              // 🔹 SECTION
+              if (item.type === "section") {
+                return sidebarOpen ? (
+                  <div
+                    className="sidebar-section"
+                    key={`${item.label}-${index}`}
+                  >
+                    {item.label}
+                  </div>
+                ) : null;
+              }
+
+              // 🔹 NORMAL MENU
+              return (
+                <div className="sidebar-menu-item" key={item.name}>
+                  {item.submenu ? (
+                    <>
+                      {/* MENU BUTTON */}
+                      <button
+                        type="button"
+                        className={`menu-btn ${
+                          openMenu === item.name ? "expanded" : ""
+                        }`}
+                        onClick={() => toggleMenu(item.name)}
+                      >
+                        <div className="menu-main">
+                          <span className="menu-icon">{item.icon}</span>
+                          {sidebarOpen && (
+                            <span className="menu-text">{item.name}</span>
+                          )}
+                        </div>
+
+                        {sidebarOpen && (
+                          <span
+                            className={`menu-arrow ${
+                              openMenu === item.name ? "rotate" : ""
+                            }`}
+                          >
+                            <FaChevronDown />
+                          </span>
+                        )}
+                      </button>
+
+                      {/* SUBMENU */}
+                      {openMenu === item.name && sidebarOpen && (
+                        <div className="submenu">
+                          {item.submenu
+                            .filter((sub) => hasPermission(sub.permission))
+                            .map((sub) => (
+                              <NavLink
+                                key={sub.path}
+                                to={sub.path}
+                                onClick={handleMenuClick}
+                                className={({ isActive }) =>
+                                  `submenu-link ${isActive ? "active" : ""}`
+                                }
+                              >
+                                <span className="submenu-icon">{sub.icon}</span>
+                                <span className="submenu-text">{sub.name}</span>
+                              </NavLink>
+                            ))}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <NavLink
+                      to={item.path}
+                      onClick={handleMenuClick}
+                      className={({ isActive }) =>
+                        `menu-link ${isActive ? "active" : ""}`
+                      }
                     >
                       <div className="menu-main">
                         <span className="menu-icon">{item.icon}</span>
-                        {sidebarOpen && <span className="menu-text">{item.name}</span>}
+                        {sidebarOpen && (
+                          <span className="menu-text">{item.name}</span>
+                        )}
                       </div>
-
-                      {sidebarOpen && (
-                        <span className={`menu-arrow ${openMenu === item.name ? "rotate" : ""}`}>
-                          <FaChevronDown />
-                        </span>
-                      )}
-                    </button>
-
-                    {openMenu === item.name && sidebarOpen && (
-                      <div className="submenu">
-                        {item.submenu.map((sub) => (
-                          <NavLink
-                            key={sub.path}
-                            to={sub.path}
-                            onClick={handleMenuClick}
-                            className={({ isActive }) =>
-                              `submenu-link ${isActive ? "active" : ""}`
-                            }
-                          >
-                            <span className="submenu-icon">{sub.icon}</span>
-                            <span className="submenu-text">{sub.name}</span>
-                          </NavLink>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <NavLink
-                    to={item.path}
-                    onClick={handleMenuClick}
-                    className={({ isActive }) =>
-                      `menu-link ${isActive ? "active" : ""}`
-                    }
-                  >
-                    <div className="menu-main">
-                      <span className="menu-icon">{item.icon}</span>
-                      {sidebarOpen && <span className="menu-text">{item.name}</span>}
-                    </div>
-                  </NavLink>
-                )}
-              </div>
-            );
-          })}
+                    </NavLink>
+                  )}
+                </div>
+              );
+            })}
         </nav>
       </aside>
     </>

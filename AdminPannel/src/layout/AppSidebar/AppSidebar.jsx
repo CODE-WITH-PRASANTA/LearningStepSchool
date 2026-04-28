@@ -35,6 +35,7 @@ import {
   FiCreditCard,
   FiTrendingUp,
   FiMessageSquare,
+  FiSettings,
 } from "react-icons/fi";
 
 /* ================= UPDATED MENU CONFIG ================= */
@@ -175,6 +176,31 @@ const menu = [
     path: "/classwise-subject",
   },
   { type: "divider" },
+
+  {
+    label: " RBAC Management",
+    icon: FiSettings,
+    children: [
+      {
+        label: "Create Teacher",
+        path: "/admin/create-teacher",
+      },
+      {
+        label: "Create Permission",
+        path: "/admin/create-permission",
+      },
+
+      {
+        label: "Attendance Management",
+        path: "/admin/attendance-management",
+      },
+
+      {
+        label: "Leave Management",
+        path: "/admin/leave-management",
+      },
+    ],
+  },
 
   {
     label: "Exam Result Desk",

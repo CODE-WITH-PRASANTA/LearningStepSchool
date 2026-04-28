@@ -1,0 +1,503 @@
+/* =====================================================
+   LEAVES DASHBOARD CSS
+   Full Responsive | Sidebar Safe | Layout Safe
+   Add Leave Popup Included
+===================================================== */
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+.leaves-page {
+  width: 100%;
+  max-width: 100%;
+  padding: 24px;
+  background: #f7f9fc;
+  border-radius: 18px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  animation: pageFade 0.6s ease;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   LOADER
+========================= */
+.leave-loader {
+  width: 100%;
+  min-height: 460px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.leave-spinner {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 5px solid #dbeafe;
+  border-top: 5px solid #3366ff;
+  border-right: 5px solid #16b7ff;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.leave-loader h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #64748b;
+  font-weight: 700;
+}
+
+/* =========================
+   HEADER
+========================= */
+.leave-topbar {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+
+  margin-bottom: 28px;
+}
+
+.leave-topbar h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.leave-topbar p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: #94a3b8;
+}
+
+.leave-topbar p span {
+  color: #3366ff;
+  font-weight: 600;
+}
+
+/* Add Button */
+.add-leave-btn {
+  height: 52px;
+  padding: 0 28px;
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #4e73ff, #2957f5);
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.add-leave-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(78, 115, 255, 0.18);
+}
+
+/* =========================
+   GRID
+========================= */
+.leave-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* =========================
+   CARD
+========================= */
+.leave-card {
+  width: 100%;
+  min-width: 0;
+
+  background: #fff;
+  border: 1px solid #e8eef6;
+  border-radius: 18px;
+
+  padding: 24px 22px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  transition: 0.3s ease;
+}
+
+.leave-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.05);
+}
+
+.leave-left h2 {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.leave-left h2 span {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.leave-left p {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* =========================
+   CIRCLE
+========================= */
+.progress-ring {
+  width: 96px;
+  height: 96px;
+  min-width: 96px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 1.4s ease;
+}
+
+.ring-center {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* =========================
+   MODAL OVERLAY
+========================= */
+.leave-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 18px;
+}
+
+/* =========================
+   MODAL BOX
+========================= */
+.leave-modal {
+  width: 100%;
+  max-width: 540px;
+
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+
+  animation: modalPop 0.35s ease;
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Header */
+.leave-modal-header {
+  padding: 22px 26px;
+  border-bottom: 1px solid #edf1f7;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leave-modal-header h2 {
+  margin: 0;
+  font-size: 30px;
+  color: #0f172a;
+}
+
+.leave-close-btn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #f1f5f9;
+  color: #475569;
+
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Form */
+.leave-form {
+  padding: 24px 26px;
+}
+
+.leave-group {
+  margin-bottom: 16px;
+}
+
+.leave-group label {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 15px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.leave-group input,
+.leave-group select,
+.leave-group textarea {
+  width: 100%;
+  border: 1px solid #dbe2ec;
+  border-radius: 12px;
+
+  padding: 0 16px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.leave-group input,
+.leave-group select {
+  height: 48px;
+}
+
+.leave-group textarea {
+  height: 92px;
+  padding-top: 12px;
+  resize: none;
+}
+
+.leave-group input:focus,
+.leave-group select:focus,
+.leave-group textarea:focus {
+  border-color: #4e73ff;
+}
+
+/* Submit */
+.leave-submit-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.leave-submit-btn {
+  min-width: 150px;
+  height: 46px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #18b676;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.leave-submit-btn:hover {
+  background: #109865;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* Laptop */
+@media (max-width: 1300px) {
+  .leave-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .leaves-page {
+    padding: 20px;
+  }
+
+  .leave-topbar h1 {
+    font-size: 34px;
+  }
+
+  .leave-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile Large */
+@media (max-width: 768px) {
+  .leave-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-leave-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .leave-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leave-card {
+    padding: 20px 18px;
+  }
+
+  .leave-topbar h1 {
+    font-size: 30px;
+  }
+
+  .leave-topbar p {
+    font-size: 15px;
+  }
+
+  .leave-modal {
+    max-width: 100%;
+  }
+
+  .leave-modal-header h2 {
+    font-size: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .leaves-page {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .leave-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .progress-ring {
+    align-self: center;
+  }
+
+  .leave-left h2 {
+    font-size: 30px;
+  }
+
+  .leave-left h2 span {
+    font-size: 16px;
+  }
+
+  .leave-form {
+    padding: 18px;
+  }
+
+  .leave-submit-wrap {
+    justify-content: center;
+  }
+
+  .leave-submit-btn {
+    width: 100%;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 420px) {
+  .leave-topbar h1 {
+    font-size: 24px;
+  }
+
+  .leave-left h2 {
+    font-size: 24px;
+  }
+
+  .progress-ring {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+  }
+
+  .ring-center {
+    width: 58px;
+    height: 58px;
+    font-size: 18px;
+  }
+
+  .add-leave-btn {
+    height: 46px;
+    font-size: 15px;
+  }
+
+  .leave-loader h3 {
+    font-size: 16px;
+  }
+
+  .leave-modal-header {
+    padding: 18px;
+  }
+
+  .leave-modal-header h2 {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,405 @@
+/* ==========================================
+   EMPLOYEE ATTENDANCE CSS
+   Sidebar Safe | Layout Safe | Responsive
+========================================== */
+
+/* ONLY component scope */
+.attendance-wrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: 24px;
+  background: #f6f8fc;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* =====================================
+   TOPBAR
+===================================== */
+.attendance-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.attendance-topbar h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.attendance-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Search */
+.attendance-wrapper .search-box {
+  width: 240px;
+  height: 46px;
+  background: #ffffff;
+  border: 1px solid #dbe2ec;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+.attendance-wrapper .search-box svg {
+  color: #8c96a8;
+  font-size: 15px;
+}
+
+.attendance-wrapper .search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #111827;
+}
+
+/* Download Button */
+.attendance-wrapper .download-btn {
+  height: 46px;
+  padding: 0 20px;
+  border: 1px solid #dbe2ec;
+  background: #ffffff;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.attendance-wrapper .download-btn:hover {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* Year Dropdown */
+.attendance-wrapper .year-select {
+  position: relative;
+  width: 110px;
+}
+
+.attendance-wrapper .year-select select {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #dbe2ec;
+  border-radius: 12px;
+  padding: 0 36px 0 14px;
+  appearance: none;
+  background: #fff;
+  outline: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.attendance-wrapper .year-select svg {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6b7280;
+}
+
+/* =====================================
+   TABLE WRAPPER
+===================================== */
+.attendance-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background: #ffffff;
+  border: 1px solid #e8edf5;
+  border-radius: 16px;
+}
+
+/* horizontal scrollbar only inside table */
+.attendance-table-wrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.attendance-table-wrap::-webkit-scrollbar-thumb {
+  background: #c8d0df;
+  border-radius: 10px;
+}
+
+/* Table */
+.attendance-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+.attendance-table thead tr {
+  background: #eef3fb;
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 15px 10px;
+  text-align: center;
+  border-bottom: 1px solid #edf1f7;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.attendance-table th {
+  color: #1f2937;
+  font-weight: 700;
+}
+
+/* Sticky first column only in component */
+.attendance-table .sticky-col {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #ffffff;
+  min-width: 250px;
+  text-align: left !important;
+}
+
+.attendance-table thead .sticky-col {
+  background: #eef3fb;
+  z-index: 5;
+}
+
+/* Employee */
+.employee-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.employee-cell img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.employee-cell span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* =====================================
+   STATUS ICONS
+===================================== */
+.status {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 10px;
+}
+
+.present {
+  border: 2px solid #2563eb;
+  color: #2563eb;
+}
+
+.late {
+  border: 2px solid #ff4d4f;
+  color: #ff4d4f;
+}
+
+.absent {
+  border: 2px solid #94a3b8;
+  color: #94a3b8;
+}
+
+.leave {
+  border: 2px solid #f59e0b;
+  color: #f59e0b;
+}
+
+.leave-text {
+  color: #ff4d4f;
+  font-weight: 700;
+}
+
+/* =====================================
+   PAGINATION
+===================================== */
+.pagination-wrap {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pagination-wrap p {
+  margin: 0;
+  font-size: 14px;
+  color: #7b8497;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  min-width: 40px;
+  height: 40px;
+
+  border: 1px solid #d9e0ea;
+  background: #fff;
+  color: #4b5563;
+
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.pagination button:hover,
+.pagination button.active {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 1200px) {
+  .attendance-topbar h2 {
+    font-size: 28px;
+  }
+
+  .attendance-wrapper .search-box {
+    width: 220px;
+  }
+}
+
+@media (max-width: 992px) {
+  .attendance-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .attendance-actions {
+    width: 100%;
+  }
+
+  .attendance-wrapper .search-box {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .attendance-table .sticky-col {
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .attendance-wrapper {
+    padding: 18px;
+  }
+
+  .attendance-topbar h2 {
+    font-size: 24px;
+  }
+
+  .attendance-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .attendance-wrapper .search-box,
+  .attendance-wrapper .download-btn,
+  .attendance-wrapper .year-select {
+    width: 100%;
+  }
+
+  .attendance-table .sticky-col {
+    min-width: 200px;
+  }
+
+  .pagination-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .attendance-wrapper {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .attendance-topbar h2 {
+    font-size: 20px;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+
+  .employee-cell img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .employee-cell span {
+    font-size: 14px;
+  }
+
+  .status {
+    width: 22px;
+    height: 22px;
+    font-size: 9px;
+  }
+
+  .pagination {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .attendance-topbar h2 {
+    font-size: 18px;
+  }
+
+  .attendance-table .sticky-col {
+    min-width: 170px;
+  }
+
+  .pagination button {
+    min-width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+}
