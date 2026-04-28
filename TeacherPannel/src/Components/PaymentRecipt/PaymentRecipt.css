@@ -1,0 +1,255 @@
+.paymentRecipt {
+  padding: 20px;
+  background: #f5f6fa;
+  font-family: "Inter", sans-serif;
+}
+
+/* CARD */
+.paymentRecipt-card {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #f3c6cd;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+/* HEADER */
+.paymentRecipt-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f3c6cd;
+  background: linear-gradient(to right, #fff5f7, #fff);
+}
+
+.paymentRecipt-header h3 {
+  font-size: 16px;
+  color: #1e2a55;
+  font-weight: 600;
+}
+
+/* FORM */
+.paymentRecipt-form {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.paymentRecipt-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.paymentRecipt-field label {
+  font-size: 12px;
+  margin-bottom: 6px;
+  display: block;
+  color: #444;
+}
+
+.paymentRecipt-field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  outline: none;
+  transition: 0.2s;
+}
+
+.paymentRecipt-field input:focus {
+  border-color: #0b1c4d;
+  box-shadow: 0 0 0 2px rgba(11,28,77,0.1);
+}
+
+/* SEARCH BUTTON */
+.paymentRecipt-search button {
+  background: #0b1c4d;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.paymentRecipt-search button:hover {
+  background: #09173c;
+}
+
+/* TABLE */
+.paymentRecipt-tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* SCROLLBAR (optional premium) */
+.paymentRecipt-tableWrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.paymentRecipt-tableWrapper::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.paymentRecipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+/* STICKY HEADER */
+.paymentRecipt-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.paymentRecipt-table th {
+  background: #fbe9ec;
+  padding: 12px;
+  font-size: 12px;
+  text-align: left;
+  color: #1e2a55;
+  white-space: nowrap;
+}
+
+.paymentRecipt-table td {
+  padding: 12px;
+  border-top: 1px solid #eee;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.paymentRecipt-table tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.paymentRecipt-table tr:hover {
+  background: #f1f5ff;
+}
+
+/* STATUS */
+.paid {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+.paymentRecipt-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.paymentRecipt-actions button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentRecipt-actions .view {
+  background: #0b1c4d;
+  color: white;
+}
+
+.paymentRecipt-actions .view:hover {
+  background: #09173c;
+}
+
+.paymentRecipt-actions .download {
+  background: #e91e63;
+  color: white;
+}
+
+.paymentRecipt-actions .download:hover {
+  background: #c2185b;
+}
+
+/* PAGINATION */
+.paymentRecipt-pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.paymentRecipt-pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.paymentRecipt-pagination button:hover {
+  background: #f3f4f6;
+}
+
+.paymentRecipt-pagination .active {
+  background: #0b1c4d;
+  color: white;
+  border-color: #0b1c4d;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .paymentRecipt {
+    padding: 15px;
+  }
+
+  .paymentRecipt-form {
+    gap: 12px;
+  }
+
+  .paymentRecipt-field {
+    min-width: 160px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .paymentRecipt-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .paymentRecipt-field {
+    width: 100%;
+  }
+
+  .paymentRecipt-search button {
+    width: 100%;
+  }
+
+  .paymentRecipt-pagination {
+    justify-content: center;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+  .paymentRecipt-header h3 {
+    font-size: 14px;
+  }
+
+  .paymentRecipt-table th,
+  .paymentRecipt-table td {
+    font-size: 11px;
+    padding: 8px;
+  }
+
+  .paymentRecipt-actions button {
+    padding: 5px 8px;
+  }
+}

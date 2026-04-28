@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBars, FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
-// import "./Navbar.css";
+import "./Navbar.css";
 import API from "../api/axios";
 
 export default function Navbar({ sidebarOpen, setSidebarOpen }) {
@@ -37,30 +37,26 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <header className="admin-navbar">
+      
+      {/* LEFT */}
       <div className="navbar-left">
         <button className="menu-btn" onClick={toggleSidebar}>
           <FaBars />
         </button>
 
-        <div className="navbar-user">
-          <div className="navbar-text">
-            <h2 className="navbar-title">Welcome, {user?.name || "User"} 👋</h2>
-            <span className="navbar-role">{user?.role || "Teacher"}</span>
-          </div>
-
-          {/* <img
-            src={user?.avatar || "https://i.pravatar.cc/40"}
-            alt="user"
-            className="profile-img"
-            onClick={() => setOpenProfile(!openProfile)}
-          /> */}
+        <div className="navbar-heading">
+          <h2>
+            Welcome, <span>{user?.name || "User"}</span> 👋
+          </h2>
+          <p>{user?.role || "Teacher"}</p>
         </div>
       </div>
 
-      <div className="navbar-profile">
+      {/* RIGHT */}
+      <div className="navbar-right">
         <img
-          src="https://i.pravatar.cc/40"
-          alt="user"
+          src={user?.avatar || "https://i.pravatar.cc/150?img=12"}
+          alt="profile"
           className="profile-img"
           onClick={() => setOpenProfile(!openProfile)}
         />
@@ -68,15 +64,18 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
         {openProfile && (
           <div className="profile-dropdown">
             <button className="dropdown-item" onClick={handleGoToProfile}>
-              <FaUser /> Profile
+              <FaUser />
+              <span>Profile</span>
             </button>
 
             <button className="dropdown-item" onClick={handleGoToSettings}>
-              <FaCog /> Settings
+              <FaCog />
+              <span>Settings</span>
             </button>
 
-            <button onClick={handleLogout} className="dropdown-item logout">
-              <FaSignOutAlt /> Logout
+            <button className="dropdown-item logout-item" onClick={handleLogout}>
+              <FaSignOutAlt />
+              <span>Logout</span>
             </button>
           </div>
         )}

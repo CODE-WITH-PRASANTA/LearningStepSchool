@@ -1,0 +1,105 @@
+/* ============================
+   ACCORDION WRAPPER
+============================ */
+.acc {
+  width: 100%;
+  border-radius: 14px;
+  background: #f8f5ec;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+/* ============================
+   HEADER
+============================ */
+.acc__header {
+  width: 100%;
+  padding: 16px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #f1f5f9;
+  border: none;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.acc__header:hover {
+  background: #e0e7ff;
+}
+
+/* TITLE */
+.acc__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* ICON */
+.acc__icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.acc__icon.rotate {
+  transform: rotate(180deg);
+}
+
+/* ============================
+   BODY
+============================ */
+.acc__body {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.acc__body.open {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+/* CONTENT */
+.acc__content {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background: #ffffff;
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
+  .acc__header {
+    padding: 14px 16px;
+  }
+
+  .acc__title {
+    font-size: 15px;
+  }
+
+  .acc__content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .acc__header {
+    padding: 12px 14px;
+  }
+
+  .acc__title {
+    font-size: 14px;
+  }
+
+  .acc__content {
+    padding: 14px;
+  }
+}

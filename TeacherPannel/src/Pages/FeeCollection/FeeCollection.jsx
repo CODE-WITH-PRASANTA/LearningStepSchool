@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./FeeCollection.css";
 import API from "../../api/axios";
-import logo from "../../Assets/Learning-Step-Logo-1.png";
+// import logo from "../../Assets/Learning-Step-Logo-1.png";
 
 import {
   FiMoreVertical,
@@ -10,7 +10,7 @@ import {
   FiDownload,
   FiX,
 } from "react-icons/fi";
-import ReceiptModal from "../../Component/ReceiptModal/ReceiptModal";
+import ReceiptModal from "../../Components/ReceiptModal/ReceiptModal";
 
 const FeeCollection = () => {
   const [filterClass, setFilterClass] = useState("");

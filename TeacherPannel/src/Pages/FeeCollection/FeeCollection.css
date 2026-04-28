@@ -1,0 +1,426 @@
+.FeeCollection {
+  padding: 25px;
+  background: #f6f8fb;
+  font-family: Arial;
+}
+
+/* HEADER */
+
+.FeeCollection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.FeeCollection-collectBtn {
+  background: #1e8e7e;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* TOOLBAR */
+
+.FeeCollection-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.FeeCollection-selectedStudent {
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.FeeCollection-search {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.FeeCollection-search input {
+  border: none;
+  outline: none;
+  margin-left: 5px;
+}
+
+/* EXPORT */
+
+.FeeCollection-exportWrapper {
+  position: relative;
+}
+
+.FeeCollection-exportDropdown {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  padding: 10px 0;
+  z-index: 50;
+}
+
+/* TABLE */
+
+.FeeCollection-tableWrapper {
+  overflow-x: auto;
+}
+
+.FeeCollection-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.FeeCollection-table th,
+.FeeCollection-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* STATUS */
+
+.FeeCollection-status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.Paid {
+  background: #d7f5e6;
+  color: #1a8f5c;
+}
+
+.Partial {
+  background: #ffe5c2;
+  color: #ff7b00;
+}
+
+.Unpaid {
+  background: #ffdada;
+  color: red;
+}
+
+/* ACTION */
+
+.FeeCollection-actionWrapper {
+  position: relative;
+}
+
+.FeeCollection-actionBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.FeeCollection-actionDropdown {
+  position: absolute;
+  top: 30px;
+  padding: 15px;
+  right: 0;
+  z-index: 2;
+  background: rgb(255, 253, 253);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
+  /* gap: 8px; */
+  cursor: pointer;
+}
+
+.FeeCollection-actionDropdown button{
+    cursor: pointer;
+font-weight: 700;
+}
+
+/* PAGINATION */
+
+.FeeCollection-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.FeeCollection-pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+}
+
+.FeeCollection-pagination .active {
+  background: #1e8e7e;
+  color: white;
+}
+
+/* MODAL BACKGROUND */
+
+.FeeCollection-modal,
+.FeeCollection-receiptModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn .3s ease;
+}
+
+/* MODAL BOX */
+
+.FeeCollection-modalContent,
+.FeeCollection-receipt {
+  background: white;
+  width: 92%;
+  max-width: 620px;
+  border-radius: 20px;
+  padding: 35px 30px;
+  position: relative;
+  animation: scaleIn .35s ease;
+}
+
+
+/* RECEIPT */
+/* RECEIPT TABLE */
+
+.FeeCollection-receipt table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  table-layout: fixed;
+}
+
+/* HEADER */
+
+.FeeCollection-receipt th {
+  background: #f2e1e4;
+  color: #1e2a4a;
+  font-weight: 600;
+  padding: 14px;
+  text-align: center;
+  width: 33.33%;
+}
+
+/* BODY */
+
+.FeeCollection-receipt td {
+  padding: 16px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  width: 33.33%;
+}
+
+/* CLOSE ICON */
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+/* FORM */
+
+.FeeCollection-formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.FeeCollection-formGrid textarea {
+  grid-column: span 2;
+}
+
+/* BUTTONS */
+
+.FeeCollection-formBtns {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.cancel {
+  border: 1px solid red;
+  background: white;
+  color: red;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+.save {
+  background: #1e8e7e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.FeeCollection-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+/* SEARCH */
+.FeeCollection-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 220px;
+}
+
+.FeeCollection-search input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* DROPDOWN */
+.FeeCollection-select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* DATE INPUT */
+.FeeCollection-date {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+/* RESET BUTTON */
+.FeeCollection-resetBtn {
+  padding: 8px 12px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.FeeCollection-resetBtn:hover {
+  background: #dc2626;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px) {
+
+  .FeeCollection-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .FeeCollection-search {
+    width: 100%;
+  }
+
+  .FeeCollection-select,
+  .FeeCollection-date,
+  .FeeCollection-resetBtn {
+    width: 100%;
+  }
+
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0
+  }
+
+  to {
+    opacity: 1
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(.85);
+    opacity: 0
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1
+  }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px) {
+
+  .FeeCollection-formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .FeeCollection-receiptInfo {
+    flex-direction: column;
+  }
+
+}
+
+@media(max-width:480px) {
+
+  .FeeCollection {
+    padding: 15px;
+  }
+
+  .FeeCollection-modalContent,
+  .FeeCollection-receipt {
+    padding: 20px;
+  }
+
+}
