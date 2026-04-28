@@ -1,7 +1,7 @@
 module.exports = (permission) => {
   return (req, res, next) => {
 
-    console.log("USER:", req.user);
+    // console.log("USER:", req.user);
 
     // ✅ admin bypass
     if (req.user.role === "admin") return next();
