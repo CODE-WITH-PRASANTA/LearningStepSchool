@@ -129,6 +129,7 @@ import CreateTeacher from "./Pages/CreateTeacher/CreateTeacher";
 import PermissionManager from "./Pages/PermissionManager/PermissionManager";
 import AttendanceManagement from "./Pages/AttendanceManagement/AttendanceManagement";
 import LeaveManagement from "./Pages/LeaveManagement/LeaveManagement";
+import PayRollManagement from "./Pages/PayRollManagement/PayRollManagement";
 
 
 /* ===================== APP ===================== */
@@ -377,6 +378,7 @@ export default function App() {
           <Route path="/admin/create-permission" element={<PermissionManager />} />
           <Route path="/admin/attendance-management" element ={<AttendanceManagement />} />
           <Route path="/admin/leave-management" element ={<LeaveManagement />} />
+          <Route path="/admin/payroll-management" element ={<PayRollManagement />} />
 
 
 

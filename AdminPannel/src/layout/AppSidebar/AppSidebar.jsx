@@ -199,6 +199,12 @@ const menu = [
         label: "Leave Management",
         path: "/admin/leave-management",
       },
+
+
+      {
+        label: "Payroll Management",
+        path: "/admin/payroll-management",
+      },
     ],
   },
 
