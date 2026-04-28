@@ -67,6 +67,7 @@
   border: none;
   cursor: pointer;
   transition: 0.3s;
+  width: 242px;
 }
 
 .menu-link:hover,
@@ -92,6 +93,8 @@
   border-radius: 10px;
   color: #ccc;
   text-decoration: none;
+  /* gap: 3px; */
+  
 }
 
 .submenu-link.active {

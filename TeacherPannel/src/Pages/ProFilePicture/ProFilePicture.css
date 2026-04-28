@@ -1,6 +1,6 @@
 .ProfilePage {
   width: 100%;
-  padding: 24px;
+  /* padding: 24px; */
   background: #f8fafc;
   min-height: 100vh;
 }
@@ -123,7 +123,7 @@
 }
 
 .ProfilePage__input {
-  width: 100%;
+  width: 90%;
   border-radius: 14px;
   border: 1px solid #e2e8f0;
   padding: 12px 14px;

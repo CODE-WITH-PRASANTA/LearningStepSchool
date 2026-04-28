@@ -63,6 +63,7 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaHome /> },
     { name: "Profile", path: "/admin/profile", icon: <FaUser /> },
+    {name: "Leave" , path:"/admin/leave", icon: <FaUser/>},
 
     {
       name: "Cold Lead",

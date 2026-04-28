@@ -17,6 +17,7 @@ import PaymentRecipt from "./Components/PaymentRecipt/PaymentRecipt";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
+import LeaveSection from "./Pages/LeaveSection/LeaveSection";
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
-
+             <Route path="/admin/leave" element={<LeaveSection/>}/>
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"
