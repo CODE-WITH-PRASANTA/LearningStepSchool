@@ -9,6 +9,7 @@ const PermissionManager = () => {
   });
 
   const PERMISSION_OPTIONS = [
+    { name: "VIEW_PROFILE", lebel: "Profile" },
     { name: "VIEW_LEADS", label: "Cold Lead" },
     { name: "NEWS_POST", label: "News Posting" },
     { name: "VIEW_STUDENT_DETAILS", label: "Student Hub" },
@@ -103,12 +104,12 @@ const PermissionManager = () => {
 
             {PERMISSION_OPTIONS.map((p) => (
               <option
-              key={p.name}
-              value={p.name}
-              disabled={permissions.some((perm) => perm.name === p.name)}
-            >
-              {p.label}
-            </option>
+                key={p.name}
+                value={p.name}
+                disabled={permissions.some((perm) => perm.name === p.name)}
+              >
+                {p.label}
+              </option>
             ))}
           </select>
 
