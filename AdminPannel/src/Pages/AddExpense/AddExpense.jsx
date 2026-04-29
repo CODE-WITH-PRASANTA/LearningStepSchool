@@ -27,7 +27,7 @@ const AddExpense = () => {
 
   const [expenseHeads, setExpenseHeads] = useState([]);
   const accountTypes = ["Savings", "Salary", "Current"];
-  const paymentModes = ["Cash", "Cheque", "UPI", "Card", "Bank Transfer"];
+  const paymentModes = ["Cash", "Card", "UPI", "Bank Transfer"];
 
   const [expenses, setExpenses] = useState([]);
 
@@ -78,7 +78,12 @@ const AddExpense = () => {
   };
 
   const handleSave = async () => {
-    if (!formData.head || !formData.name || !formData.amount) {
+    if (
+      !formData.head ||
+      !formData.name ||
+      !formData.amount ||
+      !formData.date
+    ) {
       return Swal.fire("Error", "Fill required fields ❌", "error");
     }
 

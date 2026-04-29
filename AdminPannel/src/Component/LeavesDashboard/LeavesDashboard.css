@@ -236,7 +236,8 @@
 ========================= */
 .leave-modal {
   width: 100%;
-  max-width: 540px;
+  max-width: 640px;
+  max-height: 92vh;
 
   background: #ffffff;
   border-radius: 18px;
@@ -289,10 +290,22 @@
 /* Form */
 .leave-form {
   padding: 24px 26px;
+  max-height: calc(92vh - 88px);
+  overflow-y: auto;
+}
+
+.leave-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .leave-group {
-  margin-bottom: 16px;
+  margin-bottom: 0;
+}
+
+.leave-group-full {
+  grid-column: 1 / -1;
 }
 
 .leave-group label {
@@ -332,6 +345,13 @@
 .leave-group select:focus,
 .leave-group textarea:focus {
   border-color: #4e73ff;
+}
+
+.leave-group input:disabled,
+.leave-group select:disabled,
+.leave-submit-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 /* Submit */
@@ -451,6 +471,10 @@
 
   .leave-form {
     padding: 18px;
+  }
+
+  .leave-form-grid {
+    grid-template-columns: 1fr;
   }
 
   .leave-submit-wrap {

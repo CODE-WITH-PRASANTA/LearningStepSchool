@@ -155,6 +155,7 @@ const menu = [
     icon: FiActivity,
     children: [
       { label: "Fee collect", path: "/fee-collect" },
+      { label: "Wallet", path: "/wallet" },
       { label: "Fee Type", path: "/fee-type" },
       { label: "PaymentRecipt", path: "/Paymentrecipt" },
     ],

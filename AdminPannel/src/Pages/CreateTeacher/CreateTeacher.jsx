@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../../api/axios";
 import { IMAGE_URL } from "../../api/axios";
 import "./CreateTeacher.css";
 
 const CreateTeacher = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -17,6 +20,7 @@ const CreateTeacher = () => {
 
   const [loading, setLoading] = useState(false);
   const [teachers, setTeachers] = useState([]);
+  const [teacherLeaves, setTeacherLeaves] = useState([]);
   const [editId, setEditId] = useState(null);
   const [permissionsList, setPermissionsList] = useState([]);
   const [query, setQuery] = useState("");
@@ -68,9 +72,19 @@ const CreateTeacher = () => {
     }
   };
 
+  const fetchTeacherLeaves = async () => {
+    try {
+      const res = await API.get("/admin/leaves");
+      setTeacherLeaves(res.data.data || res.data || []);
+    } catch (err) {
+      console.log("Failed to load teacher leaves:", err);
+    }
+  };
+
   useEffect(() => {
     fetchTeachers();
     fetchPermissions();
+    fetchTeacherLeaves();
   }, []);
 
   const handleSelectAll = (e) => {
@@ -241,6 +255,27 @@ const CreateTeacher = () => {
     );
   });
 
+  const getActiveLeave = (teacherId) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return teacherLeaves.find((leave) => {
+      const leaveTeacherId =
+        typeof leave.teacher === "object" ? leave.teacher?._id : leave.teacher;
+
+      if (leaveTeacherId !== teacherId || leave.status !== "approved") {
+        return false;
+      }
+
+      const fromDate = new Date(leave.fromDate);
+      const toDate = new Date(leave.toDate);
+      fromDate.setHours(0, 0, 0, 0);
+      toDate.setHours(0, 0, 0, 0);
+
+      return today >= fromDate && today <= toDate;
+    });
+  };
+
   return (
     <div className="teacher-shell" onClick={() => setOpenMenuId(null)}>
       <div className="teacher-pageTop">
@@ -261,7 +296,11 @@ const CreateTeacher = () => {
             <button type="button" className="tab tab--active">
               Teachers
             </button>
-            <button type="button" className="tab tab--disabled" disabled>
+            <button
+              type="button"
+              className="tab"
+              onClick={() => navigate("/admin/leave-management")}
+            >
               Leave Request
             </button>
           </div>
@@ -314,11 +353,24 @@ const CreateTeacher = () => {
           <div className="teacher-gridCards">
             {filteredTeachers.map((t) => {
               const perms = getPermissionLabels(t.permissions) || [];
+              const activeLeave = getActiveLeave(t._id);
+
               return (
                 <div key={t._id} className="teacher-card">
                   <div className="teacher-cardTop">
-                    <span className="statusPill statusPill--active">
-                      Active
+                    <span
+                      className={`statusPill ${
+                        activeLeave
+                          ? "statusPill--leave"
+                          : "statusPill--active"
+                      }`}
+                      title={
+                        activeLeave
+                          ? `${activeLeave.leaveType} leave: ${activeLeave.fromDate?.slice(0, 10)} to ${activeLeave.toDate?.slice(0, 10)}`
+                          : "Teacher is active"
+                      }
+                    >
+                      {activeLeave ? "On Leave" : "Active"}
                     </span>
 
                     <div
