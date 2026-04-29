@@ -18,6 +18,15 @@ import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
 import LeaveSection from "./Pages/LeaveSection/LeaveSection";
+import FaqPosting from "./Pages/FaqPosting/FaqPosting";
+import EventManagement from "./Pages/EventManagement/EventManagement";
+import TestimonialPage from "./Pages/TestimonialPage/TestimonialPage"
+import ClsWiseDataManagements from "./Pages/ClsWiseDataManagements/ClsWiseDataManagements";
+import LatestNewsAdmin from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
+import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish";
+import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
+import FeeManagement from "./Pages/FeeManagement/FeeManagement";
+import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
 
 
 function App() {
@@ -43,7 +52,16 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
-             <Route path="/admin/leave" element={<LeaveSection/>}/>
+            <Route path="/admin/leave" element={<LeaveSection/>}/>
+            <Route path="/faq" element={<FaqPosting/>}/>
+            <Route path="/event-management" element={<EventManagement/>}/>
+            <Route path="/testimonials" element={<TestimonialPage/>}/>
+            <Route path="/class-data" element={<ClsWiseDataManagements/>}/>
+            <Route path="/latest-news" element={<LatestNewsAdmin/>}/>
+            <Route path="/notification-management" element={<NotificationPublish/>}/>
+            <Route path="/notice-management" element={<NoticeManagement/>}/>
+            <Route path="/schoolfee-info" element={<FeeManagement/>}/>
+            <Route path="/award-management" element={<AwardAdminPage/>}/>
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"
