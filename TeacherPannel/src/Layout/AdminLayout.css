@@ -58,7 +58,7 @@
    CONTENT
 ================================ */
 .admin-content {
-  margin-left: 240px;
+  margin-left: 220px;
   width: calc(100% - 260px);
   min-height: calc(100vh - 80px);
 

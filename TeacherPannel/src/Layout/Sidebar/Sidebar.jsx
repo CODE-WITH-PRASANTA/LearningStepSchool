@@ -2,48 +2,40 @@ import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import {
   FaHome,
-  FaNewspaper,
+  FaUser,
   FaChalkboardTeacher,
+  FaNewspaper,
   FaUserGraduate,
   FaClipboardList,
+  FaCommentDots,
+  FaMoneyBillWave,
+  FaChevronDown,
+  FaUserTie,
+  FaBook,
+  FaLayerGroup,
   FaQuoteLeft,
-  FaUser,
-  FaCommentDots,       // ✅ ADD THIS
-  FaMoneyBillWave,     // ✅ ALSO NEEDED (you are using it below)
-  FaChevronDown  
+  FaImage,
+  FaVideo,
+  FaCalendarAlt
 } from "react-icons/fa";
+
 import "./Sidebar.css";
 import API from "../../api/axios";
-import { FaUserTie } from "react-icons/fa";
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const [permissions, setPermissions] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
   useEffect(() => {
     const loadUser = async () => {
       try {
         const res = await API.get("/teacher/me");
-        const data = res.data;
-
-        setPermissions(data.permissions || []);
-        localStorage.setItem("teacher", JSON.stringify(data));
+        setPermissions(res.data.permissions || []);
       } catch (err) {
-        console.log("Auth error:", err);
+        console.log(err);
       }
     };
-
     loadUser();
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const hasPermission = (perm) => {
@@ -56,212 +48,155 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
     setOpenMenu(openMenu === name ? null : name);
   };
 
-  const handleMenuClick = () => {
-    if (isMobile) setSidebarOpen(false);
-  };
+const menu = [
+  { name: "Dashboard", path: "/", icon: <FaHome /> },
+  { name: "Profile", path: "/admin/profile", icon: <FaUser /> },
+  { name: "Leave", path: "/admin/leave", icon: <FaUser /> },
 
-  const menu = [
-    { name: "Dashboard", path: "/", icon: <FaHome /> },
-    { name: "Profile", path: "/admin/profile", icon: <FaUser /> },
-    {name: "Leave" , path:"/admin/leave", icon: <FaUser/>},
+  { type: "section", label: "ERP Solution" },
 
-    {
-      name: "Cold Lead",
-      path: "/admin/cold-lead",
-      icon: <FaChalkboardTeacher />,
-      permission: "VIEW_LEADS",
-    },
+  // ================= STUDENT =================
+  {
+    name: "Student Hub",
+    icon: <FaUserGraduate />,
+    submenu: [
+      { name: "Student Admission", path: "/student/admission", icon: <FaClipboardList /> },
+      { name: "Student Details", path: "/student/admission/details", icon: <FaUserTie /> },
+    ],
+  },
 
-    {
-      name: "News Posting",
-      path: "/admin/newsposting",
-      icon: <FaNewspaper />,
-      permission: "NEWS_POST",
-    },
+  {
+    name: "Student Paytrack",
+    icon: <FaMoneyBillWave />,
+    submenu: [
+      { name: "Fee Collect", path: "/fee-collect", icon: <FaMoneyBillWave /> },
+      { name: "Fee Type", path: "/fee-type", icon: <FaLayerGroup /> },
+      { name: "Payment Receipt", path: "/paymentrecipt", icon: <FaClipboardList /> },
+    ],
+  },
 
+  { name: "Subject Post", path: "/subject-post", icon: <FaBook /> },
+  { name: "Classwise Subject", path: "/classwise-subject-post", icon: <FaLayerGroup /> },
 
+  // ================= BLOG =================
+  {
+    name: "Blog Management",
+    icon: <FaCommentDots />,
+    submenu: [
+      { name: "Blog Post", path: "/blog-post", icon: <FaClipboardList /> },
+      { name: "Blog View", path: "/blog-view", icon: <FaBook /> },
+    ],
+  },
 
+  // ================= NEW MENUS =================
 
-    {
-      type: "section",
-      label: "ERP Solution",
-    },
+  { name: "Teacher Posting", path: "/teacher-posting", icon: <FaUserTie /> },
+  { name: "Award Management", path: "/award-management", icon: <FaLayerGroup /> },
+  { name: "School Fee & Info", path: "/schoolfee-info", icon: <FaMoneyBillWave /> },
+  { name: "Notice Management", path: "/notice-management", icon: <FaClipboardList /> },
+  { name: "Notification Management", path: "/notification-management", icon: <FaCommentDots /> },
+  { name: "Latest News Management", path: "/latest-news", icon: <FaNewspaper /> },
+  { name: "Class Data Registry", path: "/class-data", icon: <FaLayerGroup /> },
 
-    {
-      name: "Student Hub",
-      icon: <FaUserGraduate />,
-      permission: "VIEW_STUDENT_DETAILS",
-      submenu: [
-        {
-          name: "Student Admission",
-          path: "/student/admission",
-          icon: <FaClipboardList />,
-          permission: "VIEW_STUDENT_DETAILS",
-        },
-        {
-          name: "Student Details",
-          path: "/student/admission/details",
-          icon: <FaUserTie />,
-          permission: "VIEW_STUDENT_DETAILS",
-        },
-      ],
-    },
+  // ================= MEDIA (DROPDOWN) =================
+  {
+    name: "Media Management",
+    icon: <FaLayerGroup />,
+    submenu: [
+      {
+        name: "Photo Gallery Managements",
+        path: "/media/photo-gallery",
+        icon: <FaImage />   // 👈 import FaImage
+      },
+      {
+        name: "Video Gallery Managements",
+        path: "/media/video-gallery",
+        icon: <FaVideo />   // 👈 import FaVideo
+      },
+    ],
+  },
 
-    {
-      name: "Student Paytrack",
-      icon: <FaCommentDots />,
-      permission: "FEE_MANAGEMENT",
-      submenu: [
-        {
-          name: "Fee Collect",
-          path: "/fee-collect",
-          icon: <FaMoneyBillWave />,
-          permission: "FEE_MANAGEMENT",
-        },
-        {
-          name: "Fee Type",
-          path: "/fee-type",
-          icon: <FaMoneyBillWave />,
-          permission: "FEE_MANAGEMENT",
-        },
+  // ================= LEARNING (DROPDOWN) =================
+  {
+    name: "Learning Management",
+    icon: <FaBook />,
+    submenu: [
+      { name: "Pre-Primary", path: "/learning/pre-primary", icon: <FaBook /> },
+      { name: "Primary", path: "/learning/primary", icon: <FaBook /> },
+      { name: "Secondary", path: "/learning/secondary", icon: <FaBook /> },
+    ],
+  },
 
-        {
-          name: "Payment Recipt",
-          path: "/paymentrecipt",
-          icon: <FaMoneyBillWave />,
-          permission: "FEE_MANAGEMENT",
-        },
-      ],
-    },
-
-    {
-      name: "Class Post",
-      path: "/class-post",
-      icon: <FaClipboardList />,
-      permission: "CLASS_POST",
-    },
-
-    {
-      name: "Subject Post",
-      path: "/subject-post",
-      icon: <FaClipboardList />,
-      permission: "SUBJECT_POST",
-    },
-
-    {
-      name: "Classwise Subject",
-      path: "/classwise-subject-post",
-      icon: <FaClipboardList />,
-      permission: "CLASSWISE_SUBJECT",
-    },
-  ];
+  { name: "Testimonials", path: "/testimonials", icon: <FaQuoteLeft /> },
+  { name: "Admission Management", path: "/admission-management", icon: <FaUserGraduate /> },
+  { name: "Event Management", path: "/event-management", icon: <FaCalendarAlt /> },
+  { name: "FAQ Posting", path: "/faq", icon: <FaCommentDots /> },
+];
 
   return (
-    <>
-      {sidebarOpen && isMobile && (
-        <div
-          className="sidebar-overlay"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+    <aside className={`sidebar ${sidebarOpen ? "active" : ""}`}>
 
-      <aside className={sidebarOpen ? "sidebar" : "sidebar collapsed"}>
-        
-        {/* TOP */}
-        <div className="sidebar-top">
-          <div className="logo-box">A</div>
-
-          {sidebarOpen && (
-            <div className="logo-text">
-              <h2>Teacher Panel</h2>
-              <p>Management System</p>
-            </div>
-          )}
+      {/* TOP */}
+      <div className="sidebar-top">
+        <div className="logo-box">A</div>
+        <div className="logo-text">
+          <h2>Teacher Panel</h2>
+          <p>Management System</p>
         </div>
+      </div>
 
-        {/* MENU */}
-        <div className="sidebar-menu">
-          {menu
-            .filter((item) => {
-              if (item.type === "section") return true;
+      {/* MENU */}
+      <div className="sidebar-menu">
 
-              if (!item.submenu) return hasPermission(item.permission);
+        {menu.map((item, index) => {
+          if (item.type === "section") {
+            return <div key={index} className="sidebar-section">{item.label}</div>;
+          }
 
-              const allowed = item.submenu.filter((sub) =>
-                hasPermission(sub.permission)
-              );
+          return item.submenu ? (
+            <div key={item.name}>
 
-              return allowed.length > 0;
-            })
-            .map((item, index) => {
-              if (item.type === "section") {
-                return sidebarOpen ? (
-                  <div className="sidebar-section" key={index}>
-                    {item.label}
-                  </div>
-                ) : null;
-              }
-
-              return item.submenu ? (
-                <div key={item.name}>
-                  <button
-                    className="menu-btn"
-                    onClick={() => toggleMenu(item.name)}
-                  >
-                    {item.icon}
-                    {sidebarOpen && <span>{item.name}</span>}
-                    {sidebarOpen && (
-                      <FaChevronDown
-                        className={
-                          openMenu === item.name ? "rotate" : ""
-                        }
-                      />
-                    )}
-                  </button>
-
-                  {openMenu === item.name && sidebarOpen && (
-                    <div className="submenu">
-                      {item.submenu
-                        .filter((sub) => hasPermission(sub.permission))
-                        .map((sub) => (
-                          <NavLink
-                            key={sub.path}
-                            to={sub.path}
-                            onClick={handleMenuClick}
-                            className={({ isActive }) =>
-                              isActive
-                                ? "submenu-link active"
-                                : "submenu-link"
-                            }
-                          >
-                            {sub.icon}
-                            <span>{sub.name}</span>
-                          </NavLink>
-                        ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <NavLink
-                  key={item.name}
-                  to={item.path}
-                  onClick={handleMenuClick}
-                  className={({ isActive }) =>
-                    isActive ? "menu-link active" : "menu-link"
-                  }
-                >
+              <button
+                className="menu-item"
+                onClick={() => toggleMenu(item.name)}
+              >
+                <div className="menu-left">
                   {item.icon}
-                  {sidebarOpen && <span>{item.name}</span>}
-                </NavLink>
-              );
-            })}
-        </div>
+                  <span>{item.name}</span>
+                </div>
 
-        {/* FOOTER */}
-        <div className="sidebar-footer">
-          <button className="logout-btn">Logout</button>
-        </div>
-      </aside>
-    </>
+                <FaChevronDown className={`arrow ${openMenu === item.name ? "open" : ""}`} />
+              </button>
+
+              <div className={`submenu ${openMenu === item.name ? "show" : ""}`}>
+                {item.submenu.map((sub) => (
+                  <NavLink key={sub.path} to={sub.path} className="menu-item submenu-item">
+                    <div className="menu-left">
+                      {sub.icon}
+                      <span>{sub.name}</span>
+                    </div>
+                  </NavLink>
+                ))}
+              </div>
+
+            </div>
+          ) : (
+            <NavLink key={item.name} to={item.path} className="menu-item">
+              <div className="menu-left">
+                {item.icon}
+                <span>{item.name}</span>
+              </div>
+            </NavLink>
+          );
+        })}
+
+      </div>
+
+      {/* FOOTER */}
+      <div className="sidebar-footer">
+        <button className="logout-btn">Logout</button>
+      </div>
+
+    </aside>
   );
 }
