@@ -62,12 +62,20 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-const PayrollDashboard = () => {
-  const [showModal, setShowModal] = useState(false);
+const PayrollDashboard = ({
+  onAddClick,
+  showModal,
+  setShowModal,
+  editData,
+  onSuccess,
+}) => {
+  // const [showModal, setShowModal] = useState(false);
   const [range, setRange] = useState("Yearly");
   const [year, setYear] = useState("2024");
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  // const [editData, setEditData] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -78,6 +86,16 @@ const PayrollDashboard = () => {
   }, []);
 
   const chartData = range === "Yearly" ? yearlyData : monthlyData;
+
+  // const handleAddClick = () => {
+  //   setEditData(null); // create mode
+  //   setShowModal(true);
+  // };
+
+  // const handleEditClick = (data) => {
+  //   setEditData(data); // edit mode
+  //   setShowModal(true);
+  // };
 
   const handleDownload = () => {
     setDownloading(true);
@@ -109,10 +127,7 @@ const PayrollDashboard = () => {
             </p>
           </div>
 
-          <button
-            className="add-payroll-btn"
-            onClick={() => setShowModal(true)}
-          >
+          <button className="add-payroll-btn" onClick={onAddClick}>
             <Plus size={18} />
             Add Payroll
           </button>
@@ -297,9 +312,7 @@ const PayrollDashboard = () => {
               </p>
 
               <button
-                className={`download-btn ${
-                  downloading ? "downloading" : ""
-                }`}
+                className={`download-btn ${downloading ? "downloading" : ""}`}
                 onClick={handleDownload}
               >
                 <Download size={16} />
@@ -314,6 +327,8 @@ const PayrollDashboard = () => {
       <AddPayrollModal
         show={showModal}
         onClose={() => setShowModal(false)}
+        editData={editData}
+        onAdd={onSuccess}
       />
     </>
   );
