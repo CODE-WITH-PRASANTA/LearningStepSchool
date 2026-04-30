@@ -26,8 +26,10 @@ import LatestNewsAdmin from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
 import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish";
 import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
-import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
-
+import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
+import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
+import BlogView from "./Pages/BlogView/BlogView";
+// import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
 
 function App() {
   return (
@@ -62,6 +64,9 @@ function App() {
             <Route path="/notice-management" element={<NoticeManagement/>}/>
             <Route path="/schoolfee-info" element={<FeeManagement/>}/>
             <Route path="/award-management" element={<AwardAdminPage/>}/>
+            <Route path="/blog-post" element={<BlogManagerPage/>}/>
+            <Route path="/blog-view"  element={<BlogView/>}/>
+            {/* <Route path="/teacher-posting" element={<TeacherAdminPage/>}/> */}
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"

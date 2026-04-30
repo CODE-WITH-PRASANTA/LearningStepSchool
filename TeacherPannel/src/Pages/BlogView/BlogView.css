@@ -1,0 +1,145 @@
+.bv-main-section{
+  background:#f6f7fb;
+}
+
+.bv-main-heading{
+  font-size:42px;
+  font-weight:600;
+}
+
+/* TOP LAYOUT */
+
+.bv-top-layout{
+  max-width:1300px;
+  margin:auto;
+  display:flex;
+  gap:30px;
+}
+
+/* FEATURE CARD */
+
+.bv-feature-card{
+  flex:2;
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.bv-feature-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.bv-feature-overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:30px;
+  color:#fff;
+  background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+
+.bv-feature-overlay h3{
+  font-size:28px;
+  margin:15px 0;
+}
+
+.bv-meta{
+  display:flex;
+  gap:20px;
+  font-size:14px;
+}
+
+/* SIDE BLOGS */
+
+.bv-side-wrapper{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+}
+
+.bv-side-card{
+  background:#fff;
+  display:flex;
+  gap:15px;
+  padding:18px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.bv-side-card img{
+  width:120px;
+  height:90px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+.bv-side-content h4{
+  font-size:18px;
+  margin:8px 0;
+}
+
+.bv-side-content p{
+  font-size:14px;
+  color:#666;
+}
+
+.bv-side-date{
+  font-size:14px;
+  font-weight:600;
+}
+
+/* GRID */
+
+.bv-grid-wrapper{
+  max-width:1300px;
+  margin:70px auto 0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:25px;
+}
+
+.bv-grid-card{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+.bv-grid-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.bv-grid-card h5{
+  padding:20px;
+  font-size:16px;
+  text-align:center;
+  line-height:1.5;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+  .bv-top-layout{
+    flex-direction:column;
+  }
+
+  .bv-grid-wrapper{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+  .bv-grid-wrapper{
+    grid-template-columns:1fr;
+  }
+
+  .bv-feature-overlay h3{
+    font-size:22px;
+  }
+}

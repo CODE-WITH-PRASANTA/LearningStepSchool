@@ -57,10 +57,13 @@
 /* ================================
    CONTENT
 ================================ */
+/* MAIN CONTENT SCROLL */
 .admin-content {
   margin-left: 220px;
   width: calc(100% - 260px);
-  min-height: calc(100vh - 80px);
+
+  height: calc(100vh - 80px);   /* 🔥 CHANGE from min-height */
+  overflow-y: auto;             /* 🔥 ENABLE SCROLL */
 
   padding: 24px;
   transition: all 0.3s ease;
