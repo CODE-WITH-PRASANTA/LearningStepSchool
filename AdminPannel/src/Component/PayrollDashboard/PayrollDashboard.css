@@ -1,0 +1,392 @@
+/* =========================================
+   FINAL PERFECT PAYROLL CSS
+   Clean Graph Spacing + Dashboard Layout
+   ========================================= */
+
+.payroll-page,
+.payroll-page * {
+  box-sizing: border-box;
+}
+
+.payroll-page {
+  width: 100%;
+  padding: 22px;
+  background: #f7f8fc;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===============================
+   HEADER
+================================= */
+.payroll-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.payroll-top h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #082b57;
+  font-weight: 700;
+}
+
+.payroll-top p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: #9aa6c5;
+}
+
+.payroll-top p span {
+  color: #3767ea;
+  font-weight: 600;
+}
+
+.add-payroll-btn {
+  border: none;
+  background: #3767ea;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.add-payroll-btn:hover {
+  background: #2856d7;
+}
+
+/* ===============================
+   GRID
+================================= */
+.payroll-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 22px;
+  align-items: stretch;
+}
+
+/* ===============================
+   CARD
+================================= */
+.payroll-card {
+  background: #fff;
+  border: 1px solid #e8edf7;
+  border-radius: 18px;
+  padding: 22px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ===============================
+   CARD HEAD
+================================= */
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 16px;
+}
+
+.card-head h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #082b57;
+  font-weight: 700;
+}
+
+/* ===============================
+   DROPDOWN
+================================= */
+.dropdown-wrap {
+  position: relative;
+  width: 110px;
+}
+
+.select-box {
+  width: 100%;
+  height: 42px;
+  border: 1px solid #dfe6f3;
+  border-radius: 10px;
+  padding: 0 34px 0 14px;
+  background: #fff;
+  font-size: 15px;
+  color: #082b57;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.dropdown-wrap svg {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7180a8;
+  pointer-events: none;
+}
+
+/* ===============================
+   CHART FIXED SPACING
+================================= */
+.chart-wrap {
+  width: 100%;
+  height: 390px;
+  padding-bottom: 12px;
+}
+
+/* ===============================
+   LEGEND
+================================= */
+.legend-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.legend-row span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: #082b57;
+}
+
+.legend-row i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.orange {
+  background: #ff8300;
+}
+
+.blue {
+  background: #3767ea;
+}
+
+.cyan {
+  background: #08aef3;
+}
+
+/* ===============================
+   TOOLTIP
+================================= */
+.payroll-tooltip {
+  background: #fff;
+  border: 1px solid #e6edf8;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.payroll-tooltip h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.payroll-tooltip p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #7080a4;
+}
+
+/* ===============================
+   RIGHT SIDE CARD
+================================= */
+.company-body {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.donut-wrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+}
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.donut-center h3 {
+  margin: 0;
+  font-size: 42px;
+  color: #082b57;
+}
+
+.donut-center p {
+  margin: 5px 0 0;
+  font-size: 16px;
+  color: #98a4c1;
+}
+
+.pay-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pay-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pay-item .dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+
+.pay-item b {
+  min-width: 55px;
+  font-size: 17px;
+  color: #082b57;
+}
+
+.pay-item p {
+  margin: 0;
+  font-size: 17px;
+  color: #8e99b8;
+}
+
+/* ===============================
+   FOOTER
+================================= */
+.bottom-strip {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #edf1f8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.bottom-strip p {
+  margin: 0;
+  font-size: 14px;
+  color: #8c97b6;
+  line-height: 1.5;
+}
+
+.download-btn {
+  border: none;
+  background: #3767ea;
+  color: #fff;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background: #2856d7;
+}
+
+/* ===============================
+   TABLET
+================================= */
+@media (max-width: 1200px) {
+  .payroll-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===============================
+   MOBILE
+================================= */
+@media (max-width: 768px) {
+  .payroll-page {
+    padding: 16px;
+  }
+
+  .payroll-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dropdown-wrap {
+    width: 100%;
+  }
+
+  .add-payroll-btn,
+  .download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chart-wrap {
+    height: 320px;
+  }
+
+  .bottom-strip {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ===============================
+   SMALL MOBILE
+================================= */
+@media (max-width: 480px) {
+  .payroll-top h1 {
+    font-size: 26px;
+  }
+
+  .card-head h2 {
+    font-size: 20px;
+  }
+
+  .payroll-card {
+    padding: 16px;
+  }
+
+  .chart-wrap {
+    height: 280px;
+  }
+
+  .pay-item b,
+  .pay-item p {
+    font-size: 15px;
+  }
+
+  .donut-center h3 {
+    font-size: 34px;
+  }
+}

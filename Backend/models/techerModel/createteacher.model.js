@@ -1,0 +1,20 @@
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: { type: String, unique: true },
+  contact: String, // ✅ NEW
+  department: String, // ✅ NEW
+  image: String, // ✅ NEW (store path)
+
+  password: String,
+  role: {
+    type: String,
+    enum: ["admin", "teacher"],
+    default: "teacher",
+  },
+  permissions: [String], // optional (for custom override)
+}, { timestamps: true });
+
+module.exports = mongoose.model("User", userSchema);

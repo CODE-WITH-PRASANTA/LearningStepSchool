@@ -45,9 +45,23 @@ const feeTypes = require("./routes/feeType.routes");
 const classWiseSubjectRoutes = require("./routes/classWiseSubject.routes");
 const examResult = require("./routes/examResult.routes");
 const examType = require("./routes/examType.routes")
+const authRoutes = require("./routes/adminAuth.routes");
+const attendanceRoutes = require("./routes/attendance.routes");
+const studentLeaveRoutes = require("./routes/studentLeave.routes");
+const expenseHeadRoutes = require("./routes/expenseHead.routes");
+const expenseRoutes = require("./routes/expense.routes");
 
 
+/// TEACHER CREATE ROUTE
+const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes")
+const permissionRoutes = require("./routes/teacherRoutes/permission.routes")
+const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes")
+const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
 
+
+const walletRoutes = require("./routes/wallet.routes")
+
+// const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
 
 
@@ -75,13 +89,32 @@ app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
 app.use("/api", classRoutes);
 app.use("/api", subjectRoutes);
-app.use("/api/admission", AdmsonfeeRoutes);
+
 app.use("/api/feetypes", feeTypes);
+app.use("/api/admission", AdmsonfeeRoutes);
+
 app.use("/api/classwise-subjects", classWiseSubjectRoutes);
-app.use("/api/exam-results", examResult);
+
 app.use("/api/exam-types",examType );
+app.use("/api/exam-results", examResult);
+
+app.use("/api/auth", authRoutes);
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/student-leave", studentLeaveRoutes);
 
 
+app.use("/api/expense-heads", expenseHeadRoutes);
+app.use("/api/expenses", expenseRoutes);
+
+app.use("/api/admin", teacherCreateRoutes);
+app.use("/api/teacher", teacherAuthRoutes);
+app.use("/api",permissionRoutes)
+app.use("/api", leaveRoutes);
+
+app.use("/api/wallet", walletRoutes);
+
+
+// app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {

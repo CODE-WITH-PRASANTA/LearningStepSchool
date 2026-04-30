@@ -55,7 +55,7 @@ function AppContent() {
 
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1800); // 🔥 Professional smooth timing
+    }, 4000); // 🔥 Professional smooth timing
 
     return () => clearTimeout(timer);
   }, [location]);

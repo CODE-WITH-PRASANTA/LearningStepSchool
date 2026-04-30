@@ -1,0 +1,661 @@
+  /* =========================
+    OVERLAY
+  ========================= */
+  .reports-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 10px;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  /* =========================
+    CARD (PREMIUM LOOK)
+  ========================= */
+  .reports-card {
+    background: #fff;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 12mm;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+
+    border: 2.5px solid #000;
+    position: relative;
+  }
+
+  /* INNER BORDER */
+  .reports-card::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid #000;
+    pointer-events: none;
+  }
+
+  /* =========================
+    HEADER
+  ========================= */
+  .reports-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .reports-logo {
+    width: 80px;
+  }
+
+  .reports-title {
+    margin: 0;
+    color: #1e3a8a;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .reports-subtitle {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* =========================
+    INFO BOX
+  ========================= */
+  .reports-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    background: #f9fafb;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #000;
+    font-size: 13px;
+  }
+
+  /* =========================
+    TABLE (PREMIUM)
+  ========================= */
+  .reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  /* HEADER */
+  .reports-table thead tr:first-child th {
+    background: #e5e7eb;
+    font-weight: 700;
+    border-bottom: 2px solid #000;
+  }
+
+  .reports-table thead tr:nth-child(2) th {
+    background: #f3f4f6;
+  }
+
+  /* CELLS */
+  .reports-table th,
+  .reports-table td {
+    border: 1px solid #444;
+    padding: 7px 6px;
+    text-align: center;
+  }
+
+  /* SUBJECT COLUMN */
+  .reports-table td:first-child,
+  .reports-table th:first-child {
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  /* ROW STYLE */
+  .reports-table tbody tr:nth-child(even) {
+    background: #fafafa;
+  }
+
+  /* COLORS */
+  .pass {
+    color: green;
+    font-weight: 600;
+  }
+
+  .fail {
+    color: red;
+    font-weight: 600;
+  }
+
+  /* =========================
+    SUMMARY
+  ========================= */
+  .reports-summary {
+    margin-top: 12px;
+    padding: 10px;
+    border: 1px solid #000;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  /* =========================
+    ATTENDANCE
+  ========================= */
+  .reports-attendance {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  /* =========================
+    REMARK
+  ========================= */
+  .reports-remark {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  /* =========================
+    SIGN
+  ========================= */
+  .reports-sign {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  .line {
+    border-top: 1px solid #000;
+    width: 130px;
+    margin: auto;
+    margin-bottom: 5px;
+  }
+
+  /* =========================
+    BUTTONS
+  ========================= */
+  .reports-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+  }
+
+
+
+  .reports-student-photo {
+    width: 80px;
+    height: 90px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .reports-student-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .reports-grade-scale {
+    margin-top: 20px;
+  }
+
+  .reports-grade-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .reports-grade-table th,
+  .reports-grade-table td {
+    border: 1px solid #999;
+    padding: 6px;
+    text-align: center;
+  }
+
+  .reports-grade-table th {
+    background: #f1f1f1;
+  }
+
+  .reports-note {
+    margin-top: 15px;
+    padding: 8px 10px;
+    border-left: 4px solid red;
+    background: #f9f9f9;
+    font-size: 12px;
+    color: #333;
+  }
+
+  .reports-note p {
+    margin: 0;
+  }
+
+  .reports-address {
+    font-size: 13px;
+    color: #444;
+    margin-top: 2px;
+  }
+
+  /* =========================
+    MOBILE
+  ========================= */
+  @media (max-width: 768px) {
+
+    .reports-card {
+      width: 100%;
+      min-height: auto;
+      padding: 15px;
+    }
+
+    .reports-header {
+      flex-direction: column;
+    }
+
+    .reports-summary {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .reports-attendance {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .reports-table-wrapper {
+      overflow-x: auto;
+    }
+
+    .reports-table {
+      min-width: 500px;
+    }
+  }
+
+  /* =========================
+    PRINT FIX (SAFE)
+  ========================= */
+  @media print {
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+
+    /* ❌ REMOVE overlay fixed behavior */
+    .reports-overlay {
+      position: static !important;
+      background: none !important;
+      padding: 0 !important;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ❌ HIDE EVERYTHING */
+    body * {
+      /* visibility: hidden; */
+    }
+
+    /* 🔥 FORCE PERFECT TABLE GRID */
+    .reports-table {
+      border-collapse: collapse !important;
+      width: 100%;
+    }
+
+    /* FORCE FULL BORDER */
+    .reports-table,
+    .reports-table th,
+    .reports-table td {
+      border: 1px solid #000 !important;
+    }
+
+    /* FIX HEADER STRUCTURE */
+    .reports-table thead {
+      display: table-header-group !important;
+    }
+
+    /* PREVENT BREAKING */
+    .reports-table tr {
+      page-break-inside: avoid !important;
+    }
+
+    /* REMOVE BACKGROUND BREAK */
+    .reports-table th {
+      background: #e5e7eb !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* 🔥 FIX DOUBLE HEADER LINE ISSUE */
+    .reports-table thead tr:first-child th {
+      border-bottom: 1px solid #000 !important;
+    }
+
+    .reports-table thead tr:nth-child(2) th {
+      border-top: none !important;
+    }
+
+    /* ENSURE COLUMN LINES CONTINUE */
+    .reports-table td,
+    .reports-table th {
+      border-left: 1px solid #000 !important;
+      border-right: 1px solid #000 !important;
+    }
+
+    /* ✅ SHOW ONLY REPORT */
+    #printArea,
+    #printArea * {
+      visibility: visible;
+    }
+
+    /* ✅ POSITION REPORT */
+    #printArea {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 210mm;
+      min-height: 297mm;
+
+      padding: 12mm;
+      box-sizing: border-box;
+      background: #fff;
+    }
+
+    /* 🔥 FIX TABLE HEADER (IMPORTANT) */
+    thead {
+      display: table-header-group !important;
+    }
+
+    tr {
+      page-break-inside: avoid !important;
+    }
+
+    th,
+    td {
+      page-break-inside: avoid !important;
+    }
+
+    /* HIDE BUTTONS */
+    .reports-buttons {
+      display: none !important;
+    }
+
+  }
+
+
+  /* HEADER GRID FIX */
+  .reports-header {
+    display: grid;
+    grid-template-columns: 80px 1fr 90px;
+    align-items: center;
+  }
+
+  .reports-title-box {
+    text-align: center;
+  }
+
+
+  /* =========================
+    PREMIUM TABLE UPGRADE
+  ========================= */
+
+  .reports-table {
+    border: 2px solid #000;
+  }
+
+  /* HEADER STRONG */
+  .reports-table thead th {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  /* HOVER EFFECT */
+  .reports-table tbody tr:hover {
+    background: #eef2ff;
+    transition: 0.2s;
+  }
+
+  /* FULL MARK STYLE */
+  .full-mark {
+    font-weight: 600;
+    color: #555;
+  }
+
+  /* MARK STYLE */
+  .mark {
+    font-weight: 600;
+    color: #111;
+  }
+
+  /* TOTAL STYLE */
+  .total {
+    font-weight: bold;
+    color: #1e3a8a;
+  }
+
+  /* =========================
+    GRADE BADGES (PREMIUM)
+  ========================= */
+
+  .grade-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    display: inline-block;
+  }
+
+  /* COLORS */
+  .grade-badge.a1 {
+    background: #16a34a;
+    color: #fff;
+  }
+
+  .grade-badge.a2 {
+    background: #22c55e;
+    color: #fff;
+  }
+
+  .grade-badge.b1 {
+    background: #3b82f6;
+    color: #fff;
+  }
+
+  .grade-badge.c {
+    background: #f59e0b;
+    color: #fff;
+  }
+
+  .grade-badge.e {
+    background: #ef4444;
+    color: #fff;
+  }
+
+  /* =========================
+    CARD PREMIUM LOOK
+  ========================= */
+
+  .reports-card {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  /* =========================
+    SUMMARY UPGRADE
+  ========================= */
+
+  .reports-summary {
+    font-weight: 600;
+  }
+
+  .reports-summary p {
+    padding: 6px;
+    border-right: 1px solid #000;
+  }
+
+  .reports-summary p:last-child {
+    border-right: none;
+  }
+
+  .grade-badge.b2 {
+    background: #0ea5e9;
+    color: #fff;
+  }
+
+  .grade-badge.c1 {
+    background: #eab308;
+    color: #fff;
+  }
+
+  .grade-badge.c2 {
+    background: #f97316;
+    color: #fff;
+  }
+
+  .grade-badge.d {
+    background: #a855f7;
+    color: #fff;
+  }
+
+  .reports-grade-scale.small {
+    margin-top: 10px;
+    overflow-x: auto;
+    /* mobile scroll */
+  }
+
+  .reports-grade-table.small {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    background: #f9fafb;
+  }
+
+  .reports-grade-table.small td {
+    padding: 6px 10px;
+    border: 1px solid #eee;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* First column label */
+  .reports-grade-table.small td:first-child {
+    font-weight: bold;
+    background: #f1f5f9;
+  }
+
+  @media print {
+
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
+
+    /* REMOVE OVERLAY */
+    .reports-overlay {
+      position: static !important;
+      background: none !important;
+      padding: 0 !important;
+      height: auto !important;
+      display: block !important;
+    }
+
+    /* 🔥 FIX MAIN ISSUE */
+    #printArea {
+      position: relative !important;
+      /* 🔥 VERY IMPORTANT */
+      width: 100%;
+      max-width: 210mm;
+      margin: auto;
+      padding: 10mm;
+      box-sizing: border-box;
+      display: block !important;
+    }
+
+    .reports-card {
+      box-shadow: none !important;
+      border: 2px solid #000;
+    }
+
+    /* TABLE FIX */
+    .reports-table {
+      width: 100%;
+      border-collapse: collapse !important;
+    }
+
+    .reports-table th,
+    .reports-table td {
+      border: 1px solid #000 !important;
+      padding: 6px;
+    }
+
+    thead {
+      display: table-header-group !important;
+    }
+
+    tr,
+    td,
+    th {
+      page-break-inside: avoid !important;
+    }
+
+    th {
+      background: #e5e7eb !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* HIDE BUTTONS */
+    .reports-buttons {
+      display: none !important;
+    }
+  }

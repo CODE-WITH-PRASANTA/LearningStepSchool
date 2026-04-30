@@ -1,37 +1,55 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./ExamResult.css";
-import API from "../../api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 import { FiMoreVertical, FiSearch, FiEye } from "react-icons/fi";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 import ReportModal from "../../Component/ReportModal/ReportModal";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchResults,
+  removeResult,
+  updateResult,
+} from "../../utils/resultSlice";
 
 const ExamResult = () => {
+  const [editData, setEditData] = useState(null);
+  const [editModal, setEditModal] = useState(false);
   const [menuOpen, setMenuOpen] = useState(null);
   const [page, setPage] = useState(1);
-  const [results, setResults] = useState([]);
   const [search, setSearch] = useState("");
   const [viewData, setViewData] = useState(null);
 
-  // ✅ NEW FILTER STATES
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedExam, setSelectedExam] = useState("");
+  const [markRange, setMarkRange] = useState("");
+  const [rankRange, setRankRange] = useState("");
 
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
-  /* ================= FETCH ================= */
-  const fetchResults = async () => {
-    try {
-      const res = await API.get("/exam-results");
-      setResults(res.data.data || []);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const dispatch = useDispatch();
+
+  const {
+    data: results,
+    loading,
+    lastFetched,
+  } = useSelector((state) => state.results);
 
   useEffect(() => {
-    fetchResults();
+    const isExpired = !lastFetched || Date.now() - lastFetched > 5 * 60 * 1000;
+
+    if (isExpired) {
+      dispatch(fetchResults());
+    }
+  }, [dispatch, lastFetched]);
+
+  useEffect(() => {
+    const closeMenu = () => setMenuOpen(null);
+    window.addEventListener("click", closeMenu);
+
+    return () => window.removeEventListener("click", closeMenu);
   }, []);
 
+  /* ================= DELETE ================= */
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this result?",
@@ -39,62 +57,266 @@ const ExamResult = () => {
     if (!confirmDelete) return;
 
     try {
+      // ⚡ instant remove from UI
+      if (id) dispatch(removeResult(id));
+
       await API.delete(`/exam-results/${id}`);
-
-      // refresh list
-      fetchResults();
-
-      setMenuOpen(null);
     } catch (err) {
       console.error(err);
       alert("Delete failed");
+
+      // 🔁 rollback if API fails
+      dispatch(fetchResults());
+    } finally {
+      setMenuOpen(null);
     }
   };
 
-  /* ================= UNIQUE FILTER OPTIONS ================= */
+  const getRegularSubjects = (item) => {
+    if (!item || !item.subjects) return []; // ✅ FIX
+
+    return item.subjects.filter((s) => (s.type || "regular") === "regular");
+  };
+  /* ================= FILTER ================= */
   const classOptions = useMemo(() => {
     return [
       ...new Set(
-        results.map(
-          (item) => item.classId?.className || item.class || item.className,
-        ),
+        (results || [])
+          .map(
+            (item) =>
+              item.classId?.className || item.class || item.className || "",
+          )
+          .filter(Boolean),
       ),
     ];
   }, [results]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [markRange]);
+
   const examOptions = useMemo(() => {
-    return [...new Set(results.map((item) => item.examType))];
+    return [
+      ...new Set(
+        (results || []).map((item) => item.examType).filter(Boolean), // 🔥 IMPORTANT
+      ),
+    ];
   }, [results]);
 
-  /* ================= FILTER + SEARCH ================= */
-  const filteredData = results.filter((item) => {
-    const className =
-      item.classId?.className || item.class || item.className || "";
-
-    return (
-      ((item.name || "").toLowerCase().includes(search.toLowerCase()) ||
-        (item.admissionNo || "").toLowerCase().includes(search.toLowerCase()) ||
-        (item.examType || "").toLowerCase().includes(search.toLowerCase())) &&
-      (selectedClass ? className === selectedClass : true) &&
-      (selectedExam ? item.examType === selectedExam : true)
+  const getTotal = (item) => {
+    return getRegularSubjects(item).reduce(
+      (sum, s) => sum + Number(s.marks || 0),
+      0,
     );
-  });
+  };
+
+  const rankedData = useMemo(() => {
+    const grouped = {};
+
+    (results || []).forEach((item) => {
+      const className =
+        item.classId?.className || item.class || item.className || "Unknown";
+
+      const exam = item.examType || "Unknown";
+
+      const key = `${className}_${exam}`;
+
+      if (!grouped[key]) grouped[key] = [];
+
+      grouped[key].push(item);
+    });
+
+    let finalData = [];
+
+    Object.keys(grouped).forEach((key) => {
+      const sorted = [...grouped[key]].sort(
+        (a, b) => getTotal(b) - getTotal(a),
+      );
+
+      const ranked = [];
+      let lastRank = 1;
+
+      sorted.forEach((item, index) => {
+        if (index === 0) {
+          ranked.push({ ...item, rank: 1 });
+        } else {
+          const prev = sorted[index - 1];
+
+          if (getTotal(item) === getTotal(prev)) {
+            ranked.push({ ...item, rank: lastRank });
+          } else {
+            lastRank += 1;
+            ranked.push({ ...item, rank: lastRank });
+          }
+        }
+      });
+
+      finalData.push(...ranked);
+    });
+
+    return finalData;
+  }, [results]);
+
+  const filteredData = useMemo(() => {
+    return (
+      rankedData
+        // 🔥 SEARCH
+        .filter((item) => {
+          return (
+            (item.name || "").toLowerCase().includes(search.toLowerCase()) ||
+            (item.admissionNo || "")
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          );
+        })
+
+        // 🔥 CLASS
+        .filter((item) => {
+          const className =
+            item.classId?.className || item.class || item.className || "";
+          return selectedClass ? className === selectedClass : true;
+        })
+
+        // 🔥 EXAM
+        .filter((item) => {
+          return selectedExam ? item.examType === selectedExam : true;
+        })
+
+        // 🔥 MARK RANGE
+        .filter((item) => {
+          if (!markRange) return true;
+
+          const [min, max] = markRange.split("-").map(Number);
+          const marks = getTotal(item);
+
+          return marks >= min && marks <= max;
+        })
+
+        // 🔥 RANK (LAST)
+        .filter((item) => {
+          if (!rankRange) return true;
+
+          const [min, max] = rankRange.split("-").map(Number);
+
+          return item.rank >= min && item.rank <= max;
+        })
+    );
+  }, [rankedData, search, selectedClass, selectedExam, markRange, rankRange]);
 
   useEffect(() => {
     setPage(1);
-  }, [search, selectedClass, selectedExam]);
+  }, [search, selectedClass, selectedExam, markRange, rankRange]);
+
+  const handleUpdate = async () => {
+    try {
+      if (editData?._id) {
+        dispatch(updateResult(editData));
+      }
+
+      await API.put(`/exam-results/${editData._id}`, editData);
+    } catch (err) {
+      console.error(err);
+      alert("Update failed");
+
+      // 🔁 rollback if error
+      dispatch(fetchResults());
+    } finally {
+      setEditModal(false);
+    }
+  };
 
   /* ================= PAGINATION ================= */
+  // ✅ PAGINATION CORE
   const totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
+
   const indexLast = page * rowsPerPage;
   const indexFirst = indexLast - rowsPerPage;
+
   const currentRows = filteredData.slice(indexFirst, indexLast);
+
+  const pageLimit = 5;
+
+  const startPage = Math.floor((page - 1) / pageLimit) * pageLimit + 1;
+  const endPage = Math.min(startPage + pageLimit - 1, totalPages);
+
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [filteredData, totalPages]);
+
+  const calculateResult = () => {
+    // ✅ prevent crash when editData is null
+    if (!editData || !editData.subjects) {
+      return {
+        totalMarks: 0,
+        totalFullMarks: 0,
+        percentage: 0,
+        grade: "-",
+        result: "-",
+      };
+    }
+
+    // ✅ only regular subjects (optional excluded)
+    const regularSubjects = getRegularSubjects(editData);
+
+    const totalMarks = regularSubjects.reduce(
+      (sum, s) => sum + Number(s.marks || 0),
+      0,
+    );
+
+    const totalFullMarks = regularSubjects.reduce(
+      (sum, s) => sum + Number(s.fullMarks || 0),
+      0,
+    );
+
+    const percentage = totalFullMarks ? (totalMarks / totalFullMarks) * 100 : 0;
+
+    let grade = "F";
+    if (percentage >= 90) grade = "A+";
+    else if (percentage >= 75) grade = "A";
+    else if (percentage >= 60) grade = "B";
+    else if (percentage >= 40) grade = "C";
+
+    const isFail = regularSubjects.some(
+      (s) => Number(s.marks) < Number(s.fullMarks) * 0.35,
+    );
+
+    const result = isFail ? "Fail" : "Pass";
+
+    return {
+      totalMarks,
+      totalFullMarks,
+      percentage,
+      grade,
+      result,
+    };
+  };
+  const liveResult = calculateResult();
+
+  const handleResetFilters = () => {
+    setSearch("");
+    setSelectedClass("");
+    setSelectedExam("");
+    setMarkRange("");
+    setRankRange("");
+    setPage(1);
+  };
 
   return (
     <div className="ExamResult">
       {/* HEADER */}
       <div className="ExamResult-header">
-        <div>
+        <div className="ExamResult-headerText">
           <h2>Exam Result</h2>
           <p>Dashboard / Exam Result</p>
         </div>
@@ -102,9 +324,8 @@ const ExamResult = () => {
 
       {/* TOOLBAR */}
       <div className="ExamResult-toolbar">
-        {/* SEARCH */}
         <div className="ExamResult-search">
-          <FiSearch />
+          <FiSearch className="ExamResult-searchIcon" />
           <input
             placeholder="Search..."
             value={search}
@@ -112,9 +333,30 @@ const ExamResult = () => {
           />
         </div>
 
-        {/* FILTERS */}
         <div className="ExamResult-filters">
-          {/* CLASS FILTER */}
+          <button
+            className="ExamResult-resetBtn"
+            onClick={handleResetFilters}
+            disabled={
+              !search &&
+              !selectedClass &&
+              !selectedExam &&
+              !markRange &&
+              !rankRange
+            }
+          >
+            Reset
+          </button>
+          <select
+            value={rankRange}
+            onChange={(e) => setRankRange(e.target.value)}
+            disabled={!selectedClass}
+          >
+            <option value="">All Rank</option>
+            <option value="1-10">1 - 10</option>
+            <option value="11-20">11 - 20</option>
+            <option value="21-50">21 - 50</option>
+          </select>
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
@@ -127,7 +369,6 @@ const ExamResult = () => {
             ))}
           </select>
 
-          {/* EXAM TYPE FILTER */}
           <select
             value={selectedExam}
             onChange={(e) => setSelectedExam(e.target.value)}
@@ -139,110 +380,242 @@ const ExamResult = () => {
               </option>
             ))}
           </select>
+
+          <select
+            value={markRange}
+            onChange={(e) => setMarkRange(e.target.value)}
+          >
+            <option value="">All</option>
+
+            {Array.from({ length: 40 }, (_, i) => {
+              const min = i * 10;
+              const max = min + 10;
+
+              return (
+                <option key={i} value={`${min}-${max}`}>
+                  {min} - {max}
+                </option>
+              );
+            })}
+
+            <option value="400-100000">400+</option>
+          </select>
         </div>
       </div>
 
-      {/* TABLE */}
-      <div className="ExamResult-tableWrapper">
-        <table className="ExamResult-table">
-          <thead>
-            <tr>
-              <th>S.L</th>
-              <th>Admission No</th>
-              <th>Name</th>
-              <th>Roll No</th>
-              <th>Class</th>
-              <th>Exam</th>
-              <th>Grand Total</th>
-              <th>Percent (%)</th>
-              <th>Grade</th>
-              <th>Result</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {currentRows.length === 0 ? (
+      {loading ? (
+        <div style={{ textAlign: "center", padding: "40px" }}>
+          Loading results...
+        </div>
+      ) : (
+        <div className="ExamResult-tableWrapper">
+          <table className="ExamResult-table">
+            <thead>
               <tr>
-                <td colSpan="11" style={{ textAlign: "center" }}>
-                  No Data Found
-                </td>
+                <th>S.L</th>
+                <th>Rank</th>
+                <th>Admission No</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Class</th>
+                <th>Exam</th>
+                <th>Grand Total</th>
+                <th>Percent (%)</th>
+                <th>Grade</th>
+                <th>Result</th>
+                <th>Action</th>
               </tr>
-            ) : (
-              currentRows.map((item, index) => {
-                const className =
-                  item.classId?.className ||
-                  item.class ||
-                  item.className ||
-                  "N/A";
+            </thead>
 
-                const fullMarks =
-                  item.fullMarks ||
-                  item.subjects?.reduce(
-                    (sum, s) => sum + (s.fullMarks || 0),
-                    0,
-                  ) ||
-                  0;
+            <tbody>
+              {currentRows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="11"
+                    style={{ textAlign: "center", padding: "20px" }}
+                  >
+                    🚫 No results found
+                  </td>
+                </tr>
+              ) : (
+                currentRows.map((item, index) => {
+                  const className =
+                    item.classId?.className ||
+                    item.class ||
+                    item.className ||
+                    "N/A";
 
-                return (
-                  <tr key={item._id}>
-                    <td>{indexFirst + index + 1}</td>
-                    <td>{item.admissionNo}</td>
-                    <td>{item.name}</td>
-                    <td>{item.rollNumber}</td>
-                    <td>{className}</td>
-                    <td>{item.examType}</td>
-                    <td>
-                      {item.total || 0} / {fullMarks}
-                    </td>
-                    <td>{item.percentage?.toFixed(2) || "0.00"}</td>
-                    <td>{item.grade}</td>
-                    <td>
-                      <span className={`ExamResult-result ${item.result}`}>
-                        {item.result}
-                      </span>
-                    </td>
+                  return (
+                    <tr
+                      key={item._id || index}
+                      className={item.rank === 1 ? "topper-row" : ""}
+                    >
+                      <td>{indexFirst + index + 1}</td>
+                      <td>
+                        <span style={{ fontWeight: "bold", color: "#2563eb" }}>
+                          {item.rank === 1 && "🥇 "}
+                          {item.rank === 2 && "🥈 "}
+                          {item.rank === 3 && "🥉 "}#{item.rank}
+                        </span>
+                      </td>
+                      <td>{item.admissionNo}</td>
+                      <td>{item.name}</td>
+                      <td>{item.rollNumber}</td>
+                      <td>{className}</td>
+                      <td>{item.examType}</td>
+                      <td>
+                        {(() => {
+                          const regularSubjects = getRegularSubjects(item);
 
-                    <td>
-                      <div className="ExamResult-action">
-                        <button
-                          onClick={() =>
-                            setMenuOpen(menuOpen === item._id ? null : item._id)
-                          }
-                        >
-                          <FiMoreVertical />
-                        </button>
+                          const total = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.marks || 0),
+                            0,
+                          );
 
-                        {menuOpen === item._id && (
-                          <div className="ExamResult-dropdown">
-                            {/* VIEW */}
-                            <button
-                              onClick={() => {
-                                setViewData(item);
-                                setMenuOpen(null);
-                              }}
+                          const full = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.fullMarks || 0),
+                            0,
+                          );
+
+                          return `${total} / ${full}`;
+                        })()}
+                      </td>
+
+                      <td>
+                        {(() => {
+                          const regularSubjects = getRegularSubjects(item);
+
+                          const total = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.marks || 0),
+                            0,
+                          );
+
+                          const full = regularSubjects.reduce(
+                            (sum, s) => sum + Number(s.fullMarks || 0),
+                            0,
+                          );
+
+                          const percent = full ? (total / full) * 100 : 0;
+
+                          return percent.toFixed(2);
+                        })()}
+                        %
+                      </td>
+                      <td>{item.grade}</td>
+                      <td>
+                        <span className={`ExamResult-result ${item.result}`}>
+                          {item.result}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div className="ExamResult-action">
+                          <button
+                            disabled={loading}
+                            onClick={(e) => {
+                              e.stopPropagation(); // 🔥 VERY IMPORTANT
+                              setMenuOpen(
+                                menuOpen === item._id ? null : item._id,
+                              );
+                            }}
+                          >
+                            <FiMoreVertical />
+                          </button>
+
+                          {menuOpen === item._id && (
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="ExamResult-dropdown"
                             >
-                              <FiEye /> View
-                            </button>
+                              {/* ✅ UPDATED VIEW */}
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const res = await API.get(
+                                      `/students/${item.admissionNo}`,
+                                    );
 
-                            {/* DELETE */}
-                            <button
-                              style={{ color: "red" }}
-                              onClick={() => handleDelete(item._id)}
-                            >
-                              🗑 Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
+                                    const student = res.data.data || {};
+
+                                    const mergedData = {
+                                      ...item,
+                                      rank: item.rank,
+
+                                      name:
+                                        student.name ||
+                                        `${student.firstName || ""} ${student.lastName || ""}`.trim(),
+
+                                      fatherName: student.fatherName || "",
+                                      motherName: student.motherName || "",
+                                      aadhaarNumber:
+                                        student.aadhaarNumber || "",
+                                      bloodGroup: student.bloodGroup || "",
+                                      height: student.height || "",
+                                      weight: student.weight || "",
+                                      penNo: student.penNo || "",
+                                      houseName: student.houseName || "",
+                                      dob: student.dob || "",
+
+                                      rollNumber:
+                                        student.rollNumber ||
+                                        item.rollNumber ||
+                                        "",
+                                      class:
+                                        student.className ||
+                                        student.class ||
+                                        item.class ||
+                                        "",
+
+                                      // 🔥 ADD THIS
+                                      studentPhoto: student.studentPhoto
+                                        ? `${IMAGE_URL}${
+                                            student.studentPhoto.path ||
+                                            student.studentPhoto
+                                          }`
+                                        : "",
+                                    };
+
+                                    setViewData(mergedData);
+                                  } catch (error) {
+                                    console.error("Fetch error:", error);
+                                    setViewData({ ...item, rank: item.rank });
+                                  }
+
+                                  setMenuOpen(null);
+                                }}
+                              >
+                                <FiEye /> View
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  setEditData(item); // store data
+                                  setEditModal(true); // open modal
+                                  setMenuOpen(null);
+                                }}
+                              >
+                                ✏️ Edit
+                              </button>
+
+                              <button
+                                disabled={loading}
+                                style={{ color: "red" }}
+                                onClick={() => handleDelete(item._id)}
+                              >
+                                🗑 Delete
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* PAGINATION */}
       <div className="ExamResult-pagination">
@@ -251,32 +624,205 @@ const ExamResult = () => {
           {Math.min(indexLast, filteredData.length)} of {filteredData.length}
         </p>
 
-        <div>
-          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+        <div className="pagination-controls">
+          {/* FIRST */}
+          <button disabled={page === 1} onClick={() => setPage(1)}>
+            {"<<"}
+          </button>
+
+          {/* PREVIOUS */}
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          >
             {"<"}
           </button>
 
-          {[...Array(totalPages)].map((_, i) => (
+          {/* PAGE NUMBERS (ONLY 5) */}
+          {pageNumbers.map((num) => (
             <button
-              key={i}
-              className={page === i + 1 ? "active" : ""}
-              onClick={() => setPage(i + 1)}
+              key={num}
+              className={page === num ? "active" : ""}
+              onClick={() => setPage(num)}
             >
-              {i + 1}
+              {num}
             </button>
           ))}
 
+          {/* NEXT */}
           <button
             disabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           >
             {">"}
+          </button>
+
+          {/* LAST */}
+          <button
+            disabled={page === totalPages}
+            onClick={() => setPage(totalPages)}
+          >
+            {">>"}
           </button>
         </div>
       </div>
 
       {/* MODAL */}
       <ReportModal viewData={viewData} setViewData={setViewData} logo={logo} />
+
+      {editModal && (
+        <div className="ExamResult-modalOverlay">
+          <div className="ExamResult-modal" style={{ width: "600px" }}>
+            <h3>Edit Result</h3>
+
+            {/* BASIC FIELDS */}
+            <input
+              value={editData.name}
+              onChange={(e) =>
+                setEditData({ ...editData, name: e.target.value })
+              }
+              placeholder="Name"
+            />
+
+            <input
+              value={editData.rollNumber}
+              onChange={(e) =>
+                setEditData({ ...editData, rollNumber: e.target.value })
+              }
+              placeholder="Roll No"
+            />
+
+            <input
+              value={editData.examType}
+              onChange={(e) =>
+                setEditData({ ...editData, examType: e.target.value })
+              }
+              placeholder="Exam Type"
+            />
+
+            {/* 🔥 SUBJECT TABLE */}
+            <table style={{ width: "100%", marginTop: "10px" }}>
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Marks</th>
+                  <th>Full Marks</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {editData?.subjects?.map((sub, i) => (
+                  <tr key={i}>
+                    <td>
+                      {sub.subject}
+
+                      <br />
+
+                      {/* ✅ NEW DROPDOWN */}
+                      <select
+                        value={sub.type || "regular"}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].type = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                        style={{ marginTop: "4px" }}
+                      >
+                        <option value="regular">Regular</option>
+                        <option value="optional">Optional</option>
+                      </select>
+
+                      {/* ✅ Optional label */}
+                      {(sub.type || "regular") === "optional" && (
+                        <div
+                          style={{
+                            color: "blue",
+                            fontSize: "12px",
+                            marginTop: "2px",
+                          }}
+                        >
+                          (Optional)
+                        </div>
+                      )}
+                    </td>
+
+                    <td>
+                      <input
+                        type="number"
+                        value={sub.marks}
+                        disabled={(sub.type || "regular") === "optional"} // 🔥 add this
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].marks = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="number"
+                        value={sub.fullMarks}
+                        onChange={(e) => {
+                          const updated = [...editData.subjects];
+                          updated[i].fullMarks = e.target.value;
+
+                          setEditData({
+                            ...editData,
+                            subjects: updated,
+                          });
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* 🔥 LIVE RESULT */}
+            <div className="ExamResult-liveResult">
+              <p>
+                <strong>Total:</strong> {liveResult.totalMarks} /{" "}
+                {liveResult.totalFullMarks}
+              </p>
+
+              <p>
+                <strong>Percentage:</strong> {liveResult.percentage.toFixed(2)}%
+              </p>
+
+              <p>
+                <strong>Grade:</strong> {liveResult.grade}
+              </p>
+
+              <p>
+                <strong>Result:</strong>{" "}
+                <span
+                  style={{
+                    color: liveResult.result === "Pass" ? "green" : "red",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {liveResult.result}
+                </span>
+              </p>
+            </div>
+
+            <div className="ExamResult-modalActions">
+              <button onClick={() => setEditModal(false)}>Cancel</button>
+              <button disabled={loading} onClick={handleUpdate}>
+                {loading ? "Updating..." : "Update"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

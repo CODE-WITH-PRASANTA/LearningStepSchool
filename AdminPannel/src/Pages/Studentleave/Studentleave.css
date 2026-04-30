@@ -191,6 +191,34 @@
 .Studentleave-tableWrapper::-webkit-scrollbar{
   display: none;
 }
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+  transform: scale(1.08);
+  opacity: 0.9;
+}
+
+.status-badge.green {
+  background: #e6f7ee;
+  color: #1b8a5a;
+}
+
+.status-badge.red {
+  background: #fdecea;
+  color: #d32f2f;
+}
+
+.status-badge.yellow {
+  background: #fff8e1;
+  color: #f57c00;
+}
 /* RESPONSIVE */
 @media(max-width:768px){
   .Studentleave-toolbar{

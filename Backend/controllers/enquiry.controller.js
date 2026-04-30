@@ -51,6 +51,31 @@ exports.getEnquiries = async (req, res) => {
   }
 };
 
+/* ================= UPDATE FEEDBACK ================= */
+exports.updateFeedback = async (req, res) => {
+  try {
+    const { feedback } = req.body;
+
+    const updated = await Enquiry.findByIdAndUpdate(
+      req.params.id,
+      { feedback },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Feedback updated successfully",
+      data: updated,
+    });
+  } catch (error) {
+    console.error("FEEDBACK ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
+
 /* ================= DELETE ENQUIRY ================= */
 exports.deleteEnquiry = async (req, res) => {
   try {

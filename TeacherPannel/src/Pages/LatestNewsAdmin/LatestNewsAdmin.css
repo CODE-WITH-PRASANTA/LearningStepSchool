@@ -1,0 +1,142 @@
+.latestNewsAdmin {
+  padding: 30px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.latestNewsAdmin__container {
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+.latestNewsAdmin__title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.latestNewsAdmin__subTitle {
+  margin: 20px 0 10px;
+  font-weight: 600;
+}
+
+/* FORM */
+.latestNewsAdmin__form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.latestNewsAdmin__input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.latestNewsAdmin__submitBtn {
+  background: #f97316;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* PREVIEW */
+.latestNewsAdmin__previewBar {
+  display: flex;
+  background: #f97316;
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.latestNewsAdmin__previewLabel {
+  padding: 10px 15px;
+  background: #ea580c;
+  font-weight: 600;
+}
+
+.latestNewsAdmin__previewContent {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+/* TABLE */
+.latestNewsAdmin__tableWrap {
+  overflow-x: auto;
+}
+
+.latestNewsAdmin__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.latestNewsAdmin__table th,
+.latestNewsAdmin__table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* STATUS */
+.latestNewsAdmin__status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.latestNewsAdmin__status--active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.latestNewsAdmin__status--inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ACTIONS */
+.latestNewsAdmin__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.latestNewsAdmin__actions button {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.latestNewsAdmin__actions button:nth-child(1) {
+  background: #3b82f6;
+  color: white;
+}
+
+.latestNewsAdmin__actions button:nth-child(2) {
+  background: #8b5cf6;
+  color: white;
+}
+
+.latestNewsAdmin__actions button:nth-child(3) {
+  background: #ef4444;
+  color: white;
+}
+
+/* CENTER */
+.latestNewsAdmin__center {
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .latestNewsAdmin__form {
+    grid-template-columns: 1fr;
+  }
+}

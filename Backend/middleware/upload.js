@@ -12,20 +12,19 @@ const ensureDir = (dir) => {
 
 /* ================= ROUTE → FOLDER MAP ================= */
 const routeFolderMap = {
-  "/students": "uploads/students",
-  "/blogs": "uploads/blogs",
-  "/team": "uploads/team",
-  "/client-logos": "uploads/client-logos",
-  "/photo-gallery": "uploads/gallery",
-  "/teachers": "uploads/teachers",
-  "/notices": "uploads/notices",
-  "/awards": "uploads/awards",
-  "/testimonials": "uploads/testimonials",
-  "/class-data": "uploads/class-data",
-  "/events": "uploads/events",
   "/advertisements": "uploads/advertisements",
+  "/blogs": "uploads/blogs",
+  "/class-data": "uploads/class-data",
   "/classes": "uploads/classes",
+  "/gallery": "uploads/gallery",
+  "/notices": "uploads/notices",
+  "/students": "uploads/students",
   "/subjects": "uploads/subjects",
+  "/teachers": "uploads/teachers",
+  "/testimonials": "uploads/testimonials",
+
+  // ✅ NEW (your current feature)
+  "/student-leave": "uploads/student-leave",
 };
 
 /* ================= GET UPLOAD PATH ================= */
@@ -89,9 +88,7 @@ const fileFilter = (req, file, cb) => {
     }
 
     if (pdfFields.includes(field)) {
-      return isPDF
-        ? cb(null, true)
-        : cb(new Error(`${field} must be a PDF`));
+      return isPDF ? cb(null, true) : cb(new Error(`${field} must be a PDF`));
     }
 
     if (pdfOrImageFields.includes(field)) {
@@ -112,7 +109,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
 });
 
 /* ================= FILE PROCESSOR ================= */

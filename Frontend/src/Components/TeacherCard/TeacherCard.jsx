@@ -5,7 +5,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
   FaShareAlt,
-  FaStar
+  FaStar,
 } from "react-icons/fa";
 
 import API, { IMAGE_URL } from "../../Api/Api";
@@ -19,9 +19,6 @@ const TeacherCard = () => {
     const fetchTeachers = async () => {
       try {
         const res = await API.get("/teachers");
-
-        console.log("API RESPONSE:", res.data);
-
         // Handle all possible response structures safely
         let teacherData = [];
 
@@ -46,23 +43,23 @@ const TeacherCard = () => {
   /* ================= SCROLL REVEAL ================= */
   useEffect(() => {
     const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("teacher-card--reveal");
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
-    cardsRef.current.forEach(card => {
+    cardsRef.current.forEach((card) => {
       if (card) observer.observe(card);
     });
 
     // cleanup observer
     return () => {
-      cardsRef.current.forEach(card => {
+      cardsRef.current.forEach((card) => {
         if (card) observer.unobserve(card);
       });
     };
@@ -72,7 +69,6 @@ const TeacherCard = () => {
     <section className="teacher-section">
       <div className="teacher-container">
         <div className="teacher-grid">
-
           {teachers.length === 0 ? (
             <p style={{ textAlign: "center", width: "100%" }}>
               No teachers found.
@@ -82,7 +78,7 @@ const TeacherCard = () => {
               <div
                 className="teacher-card"
                 key={teacher._id || index}
-                ref={el => (cardsRef.current[index] = el)}
+                ref={(el) => (cardsRef.current[index] = el)}
               >
                 {/* IMAGE */}
                 <div className="teacher-card__image-wrapper">
@@ -113,17 +109,29 @@ const TeacherCard = () => {
 
                     <div className="teacher-card__social">
                       {teacher.facebook && (
-                        <a href={teacher.facebook} target="_blank" rel="noreferrer">
+                        <a
+                          href={teacher.facebook}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
                           <FaFacebookF />
                         </a>
                       )}
                       {teacher.instagram && (
-                        <a href={teacher.instagram} target="_blank" rel="noreferrer">
+                        <a
+                          href={teacher.instagram}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
                           <FaInstagram />
                         </a>
                       )}
                       {teacher.linkedin && (
-                        <a href={teacher.linkedin} target="_blank" rel="noreferrer">
+                        <a
+                          href={teacher.linkedin}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
                           <FaLinkedinIn />
                         </a>
                       )}
@@ -138,7 +146,7 @@ const TeacherCard = () => {
                   </h3>
 
                   <p className="teacher-card__role">
-                    {teacher.role || "Senior Instructor"}
+                    {teacher.designation || "Instructor"}
                   </p>
 
                   {/* Rating */}
@@ -158,7 +166,6 @@ const TeacherCard = () => {
               </div>
             ))
           )}
-
         </div>
       </div>
     </section>

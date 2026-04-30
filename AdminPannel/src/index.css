@@ -31,3 +31,44 @@
   transform: scale(1.1) rotate(-5deg);
   box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
 }
+
+
+
+
+/* =========================
+   AUTO HIDE SCROLLBAR
+========================= */
+
+/* Hide by default */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+/* Show on hover */
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.6);
+}
+
+/* Hover stronger */
+*:hover::-webkit-scrollbar-thumb:hover {
+  background: rgba(37, 99, 235, 1);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(37, 99, 235, 0.6) transparent;
+}
+
+

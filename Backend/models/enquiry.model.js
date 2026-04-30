@@ -6,10 +6,17 @@ const enquirySchema = new mongoose.Schema(
     address: { type: String, required: true },
     phone: { type: String, required: true },
     message: { type: String, required: true },
+
     status: {
       type: String,
       enum: ["Pending", "Contacted", "Closed"],
       default: "Pending",
+    },
+
+    // ✅ NEW FIELD
+    feedback: {
+      type: String,
+      default: "",
     },
   },
   { timestamps: true }

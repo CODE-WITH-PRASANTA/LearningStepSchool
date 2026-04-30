@@ -1,0 +1,10 @@
+/* ===== GLOBAL RESET ===== */
+html, body, #root {
+  height: 100%;
+}
+
+/* Allow vertical scroll */
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}

@@ -1,0 +1,116 @@
+.cw {
+  padding: 24px;
+  background: #f4f7fb;
+  min-height: 100vh;
+}
+
+.cw-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* FORM */
+.cw-form {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* GRID */
+.cw-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+/* CHECKBOX */
+.cw-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.cw-checkbox.active {
+  background: #e0e7ff;
+  border-color: #2563eb;
+}
+
+/* INPUT */
+.cw-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* RADIO */
+.cw-radio {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+/* BUTTONS */
+.cw-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.cw-actions button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cw-actions .secondary {
+  background: gray;
+}
+
+/* CARD */
+.cw-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.cw-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cw-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cw-card li {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #eee;
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+}
+
+.cw-card small {
+  margin-left: 6px;
+  color: #2563eb;
+}
+
+/* LOADING */
+.cw-loading {
+  padding: 20px;
+}

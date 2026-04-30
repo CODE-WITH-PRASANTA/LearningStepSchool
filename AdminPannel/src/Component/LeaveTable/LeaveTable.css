@@ -1,0 +1,456 @@
+/* ==========================================
+   LeaveTable.css
+   Responsive + Sidebar Safe + Dropdown Ready
+========================================== */
+
+.leave-table-page{
+  width:100%;
+  max-width:100%;
+  padding:24px;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+.leave-table-card{
+  width:100%;
+  background:#ffffff;
+  border:1px solid #e8edf5;
+  border-radius:18px;
+  padding:18px;
+  box-sizing:border-box;
+  box-shadow:0 10px 28px rgba(0,0,0,0.03);
+  overflow:hidden;
+}
+
+/* ======================
+   Header
+====================== */
+.leave-table-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.leave-table-top h2{
+  margin:0;
+  font-size:30px;
+  font-weight:700;
+  color:#0f172a;
+}
+
+.leave-table-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* Search */
+.leave-search-box{
+  height:46px;
+  min-width:240px;
+  border:1px solid #dfe6f1;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 14px;
+  background:#fff;
+}
+
+.leave-search-box svg{
+  color:#94a3b8;
+  font-size:14px;
+}
+
+.leave-search-box input{
+  width:100%;
+  border:none;
+  outline:none;
+  font-size:15px;
+  background:transparent;
+}
+
+/* Buttons */
+.report-btn,
+.year-select{
+  height:46px;
+  border:1px solid #dfe6f1;
+  background:#fff;
+  border-radius:12px;
+  padding:0 18px;
+  font-size:15px;
+  cursor:pointer;
+  color:#0f172a;
+  transition:0.25s;
+}
+
+.report-btn:hover,
+.year-select:hover{
+  border-color:#c8d2e3;
+  transform:translateY(-1px);
+}
+
+/* ======================
+   Table Wrapper
+====================== */
+.leave-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  border-radius:14px;
+}
+
+.leave-table-wrap::-webkit-scrollbar{
+  height:8px;
+}
+
+.leave-table-wrap::-webkit-scrollbar-thumb{
+  background:#cfd7e5;
+  border-radius:20px;
+}
+
+/* ======================
+   Table
+====================== */
+.leave-table{
+  width:100%;
+  min-width:1180px;
+  border-collapse:collapse;
+}
+
+.leave-table thead th{
+  background:#f3f7ff;
+  padding:16px 14px;
+  text-align:left;
+  font-size:15px;
+  font-weight:700;
+  color:#0f172a;
+  white-space:nowrap;
+}
+
+.leave-table thead th:first-child{
+  border-top-left-radius:14px;
+  border-bottom-left-radius:14px;
+}
+
+.leave-table thead th:last-child{
+  border-top-right-radius:14px;
+  border-bottom-right-radius:14px;
+}
+
+.leave-table tbody td{
+  padding:14px;
+  border-bottom:1px solid #edf1f7;
+  font-size:15px;
+  color:#1e293b;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+
+.leave-table tbody tr{
+  transition:0.2s;
+}
+
+.leave-table tbody tr:hover{
+  background:#fafcff;
+}
+
+.leave-empty-row{
+  text-align:center;
+  color:#94a3b8;
+  font-weight:600;
+  padding:28px 14px;
+}
+
+/* ======================
+   User Cell
+====================== */
+.user-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:220px;
+}
+
+.user-box img{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  object-fit:cover;
+  flex-shrink:0;
+}
+
+/* ======================
+   Status Button
+====================== */
+.status-btn{
+  border:none;
+  min-width:108px;
+  height:38px;
+  border-radius:10px;
+  padding:0 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.status-btn svg{
+  font-size:11px;
+}
+
+/* Action */
+.dots-btn{
+  width:38px;
+  height:38px;
+  border:1px solid #e4e9f2;
+  background:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  color:#64748b;
+  transition:0.2s;
+}
+
+.dots-btn:hover{
+  background:#f8fafc;
+}
+
+/* ======================
+   Dropdown
+====================== */
+.menu-relative{
+  position:relative;
+}
+
+.table-dropdown{
+  position:absolute;
+  top:48px;
+  right:0;
+  min-width:140px;
+  background:#fff;
+  border:1px solid #edf1f7;
+  border-radius:12px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.08);
+  padding:8px 0;
+  z-index:999;
+  animation:dropFade .25s ease;
+}
+
+.action-drop{
+  min-width:120px;
+}
+
+.table-dropdown p{
+  margin:0;
+  padding:12px 18px;
+  font-size:15px;
+  color:#64748b;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.table-dropdown p:hover{
+  background:#f8fafc;
+  color:#2563eb;
+}
+
+.table-dropdown p.delete-action {
+  color:#b91c1c;
+}
+
+.table-dropdown p.delete-action:hover{
+  background:#fef2f2;
+  color:#991b1b;
+}
+
+@keyframes dropFade{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* ======================
+   Footer
+====================== */
+.leave-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+
+.leave-bottom p{
+  margin:0;
+  color:#94a3b8;
+  font-size:15px;
+}
+
+/* Pagination */
+.pagination{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.pagination button{
+  min-width:40px;
+  height:40px;
+  border:1px solid #dfe6f1;
+  background:#fff;
+  border-radius:10px;
+  cursor:pointer;
+  color:#3366ff;
+  font-size:14px;
+  transition:0.2s;
+}
+
+.pagination button:hover{
+  background:#f4f7ff;
+}
+
+.pagination .active-page{
+  background:#3366ff;
+  color:#fff;
+  border-color:#3366ff;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+/* Large Tablet */
+@media (max-width:992px){
+
+  .leave-table-page{
+    padding:18px;
+  }
+
+  .leave-table-top{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .leave-table-actions{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .leave-search-box{
+    flex:1;
+    min-width:220px;
+  }
+
+  .report-btn,
+  .year-select{
+    flex:1;
+  }
+
+  .leave-bottom{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+/* Tablet */
+@media (max-width:768px){
+
+  .leave-table-page{
+    padding:14px;
+  }
+
+  .leave-table-card{
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .leave-table-top h2{
+    font-size:24px;
+  }
+
+  .leave-table-actions{
+    flex-direction:column;
+    align-items:stretch;
+    width:100%;
+  }
+
+  .leave-search-box,
+  .report-btn,
+  .year-select{
+    width:100%;
+    min-width:100%;
+  }
+
+  .leave-bottom{
+    gap:14px;
+  }
+
+  .pagination{
+    justify-content:flex-start;
+  }
+}
+
+/* Mobile */
+@media (max-width:576px){
+
+  .leave-table-page{
+    padding:10px;
+  }
+
+  .leave-table-card{
+    padding:12px;
+  }
+
+  .leave-table-top h2{
+    font-size:21px;
+  }
+
+  .leave-search-box,
+  .report-btn,
+  .year-select{
+    height:42px;
+    font-size:14px;
+  }
+
+  .pagination button{
+    min-width:34px;
+    height:34px;
+    font-size:13px;
+    border-radius:8px;
+  }
+
+  .leave-bottom p{
+    font-size:13px;
+  }
+}
+
+/* Extra Small */
+@media (max-width:380px){
+
+  .leave-table-top h2{
+    font-size:18px;
+  }
+
+  .pagination{
+    gap:6px;
+  }
+
+  .pagination button{
+    min-width:30px;
+    height:30px;
+    font-size:12px;
+  }
+}

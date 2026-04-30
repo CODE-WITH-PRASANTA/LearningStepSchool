@@ -1,0 +1,174 @@
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 260px;
+  height: calc(100vh - 70px);
+  position: fixed;
+  top: 70px;
+  left: 0;
+  background: linear-gradient(180deg, #864d3e, #8b2e14);
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  overflow-x: hidden;
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+/* ================= TOP ================= */
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.logo-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #c89b5e, #ce5230);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+/* ================= MENU ================= */
+.sidebar-menu {
+  flex: 1;
+  /* overflow-y: auto; */
+  padding: 10px;
+}
+
+/* ================= MENU ITEM ================= */
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 14px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #c89b5e, #8b2e14);
+  color: #fff;
+  text-decoration: none;
+  transition: 0.25s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.menu-item.active {
+  background: #5a1f12;
+}
+
+/* ================= LEFT CONTENT ================= */
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ICON FIX */
+.menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  min-width: 20px; /* 👈 keeps alignment same */
+}
+
+/* ================= SUBMENU ================= */
+.submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu.show {
+  max-height: 500px;
+}
+
+/* 🔥 IMPORTANT FIX */
+.submenu-item {
+  justify-content: flex-start !important;
+  padding-left: 14px; /* 👈 PERFECT ALIGN */
+  height: 42px;
+  font-size: 13px;
+  background: transparent;
+}
+
+.submenu-item .menu-left {
+  margin-left: 22px;  /* 👈 controlled indent (safe) */
+}
+
+/* ================= ARROW ================= */
+.arrow {
+  transition: 0.3s;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* ================= SECTION ================= */
+.sidebar-section {
+  font-size: 11px;
+  margin: 14px 8px 6px;
+  opacity: 0.6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ================= FOOTER ================= */
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.logout-btn {
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #c89b5e, #8b2e14);
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= OVERLAY ================= */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 998;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+}

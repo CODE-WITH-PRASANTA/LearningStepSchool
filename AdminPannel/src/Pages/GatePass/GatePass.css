@@ -1,19 +1,12 @@
 /* ================= WRAPPER ================= */
 
 .gatepass-wrapper {
-   background:#f1f1f6;
-  padding:18px;
-  min-height:90vh;
-  overflow-x:hidden;
+  background: #f1f1f6;
+  padding: 18px;
+  min-height: 90vh;
+  overflow-x: hidden;
 }
-.gatepass-form-card,
-.gatepass-list-card{
-  height:calc(100vh - 80px);
-}
-.gatepass-form-card,
-.gatepass-list-card{
-  height:calc(100vh - 80px);
-}
+
 /* ================= MAIN LAYOUT ================= */
 
 .gatepass-container {
@@ -22,48 +15,35 @@
   height: 100%;
 }
 
-/* ================= HIDE SCROLLBAR ================= */
+/* ================= CARDS ================= */
 
 .gatepass-form-card,
 .gatepass-list-card {
+  height: calc(100vh - 80px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   scrollbar-width: none;
 }
-/* ===== FORM ROW (2 columns) ===== */
-.form-row{
-  display:flex;
-  gap:12px;
-}
 
-.form-row .form-group{
-  flex:1;
-}
 .gatepass-form-card::-webkit-scrollbar,
 .gatepass-list-card::-webkit-scrollbar {
   display: none;
 }
 
-/* ================= CARDS ================= */
+/* ================= HEADER ================= */
 
-.gatepass-form-card,
-.gatepass-list-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,.08);
-  display: flex;
-  flex-direction: column;
-}
-
-/* ================= TOP BAR ================= */
-
-.card-header {
-   background:#f7c6d0;   /* ← your color */
-  padding:14px 18px;
-  border-radius:16px 16px 0 0;
-  font-weight:600;
-  font-size:17px;
-  color:#050a5c;
-  border-bottom:1px solid #f1aebf; 
+.gatepass-card-header {
+  background: #f7c6d0;
+  padding: 14px 18px;
+  border-radius: 16px 16px 0 0;
+  font-weight: 600;
+  font-size: 17px;
+  color: #050a5c;
+  border-bottom: 1px solid #f1aebf;
 }
 
 /* ================= FORM ================= */
@@ -72,24 +52,30 @@
   width: 360px;
 }
 
-.form-body {
+.gatepass-form-body {
   padding: 16px;
 }
 
-.form-group {
-  margin-bottom: 14px;
+.gatepass-form-row {
+  display: flex;
+  gap: 12px;
 }
 
-.form-group label {
+.gatepass-form-group {
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.gatepass-form-group label {
   font-size: 14px;
   color: #050a5c;
   margin-bottom: 6px;
   display: block;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
+.gatepass-input,
+.gatepass-select,
+.gatepass-textarea {
   width: 100%;
   padding: 11px 12px;
   border-radius: 8px;
@@ -98,20 +84,20 @@
   font-size: 14px;
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
+.gatepass-input::placeholder,
+.gatepass-textarea::placeholder {
   color: #9aa4d6;
 }
 
 /* ================= IMAGE ================= */
 
-.image-options {
+.gatepass-image-options {
   display: flex;
   gap: 18px;
   margin-bottom: 12px;
 }
 
-.image-box {
+.gatepass-image-box {
   width: 130px;
   height: 130px;
   border: 2px solid #2563eb;
@@ -123,7 +109,7 @@
   cursor: pointer;
 }
 
-.image-box span {
+.gatepass-image-box span {
   background: #2563eb;
   width: 36px;
   height: 36px;
@@ -135,22 +121,22 @@
   font-size: 18px;
 }
 
-.image-box input {
+.gatepass-image-box input {
   position: absolute;
   inset: 0;
   opacity: 0;
 }
 
-.preview-img {
+.gatepass-preview-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
 
-/* ===== CAPTURE ===== */
+/* ================= CAPTURE ================= */
 
-.capture-placeholder {
+.gatepass-capture-placeholder {
   height: 180px;
   border: 2px dashed #cfd6ff;
   border-radius: 12px;
@@ -159,7 +145,7 @@
 
 /* ================= BUTTON ================= */
 
-.btn-primary {
+.gatepass-btn-primary {
   background: #2563eb;
   color: white;
   padding: 11px 20px;
@@ -172,46 +158,42 @@
 
 /* ================= LIST ================= */
 
-.gatepass-list-card {
-  flex: 1;
-}
-
-.list-body {
+.gatepass-list-body {
   padding: 16px;
 }
 
 /* ================= TABLE ================= */
 
-table {
+.gatepass-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-th {
+.gatepass-table th {
   background: #fde8ee;
   padding: 10px;
   color: #050a5c;
 }
 
-td {
+.gatepass-table td {
   padding: 10px;
   border-bottom: 1px solid #eee;
   text-align: center;
 }
 
-.table-img {
+.gatepass-table-img {
   width: 46px;
   border-radius: 8px;
 }
 
 /* ================= ACTION ================= */
 
-.action-cell {
+.gatepass-action-cell {
   position: relative;
 }
 
-.btn-action {
+.gatepass-btn-action {
   background: #213154;
   color: white;
   padding: 5px 15px;
@@ -220,15 +202,15 @@ td {
   cursor: pointer;
 }
 
-/* ===== DROPDOWN ===== */
+/* ================= DROPDOWN ================= */
 
-.action-menu {
+.gatepass-action-menu {
   position: absolute;
   right: 0;
   top: 45px;
   background: white;
   border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   padding: 10px;
   min-width: 150px;
   display: flex;
@@ -236,7 +218,7 @@ td {
   gap: 4px;
 }
 
-.action-item {
+.gatepass-action-item {
   padding: 10px 14px;
   border: none;
   background: transparent;
@@ -245,24 +227,24 @@ td {
   border-radius: 8px;
 }
 
-.action-item:hover {
+.gatepass-action-item:hover {
   background: #f2f4ff;
 }
 
-.delete-btn {
+.gatepass-delete-btn {
   color: red;
 }
 
 /* ================= PAGINATION ================= */
 
-.pagination {
+.gatepass-pagination {
   margin-top: 14px;
   display: flex;
   gap: 6px;
   justify-content: flex-end;
 }
 
-.pagination button {
+.gatepass-pagination button {
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #ddd;
@@ -270,158 +252,97 @@ td {
   cursor: pointer;
 }
 
-.pagination .active {
+.gatepass-pagination .active {
   background: #2563eb;
   color: white;
 }
 
 /* ================= PRINT MODAL ================= */
 
-.print-overlay {
+.gatepass-print-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-/* ================= PRINT MODAL ================= */
-
-.print-wrapper{
+.gatepass-print-wrapper {
   width: 600px;
   background: white;
   border-radius: 14px;
   overflow: hidden;
 }
 
-/* ===== TOP BAR ===== */
+/* ================= PRINT TOP ================= */
 
-.print-top{
-  background:#050a5c;
-  color:white;
-  padding:12px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  font-size:18px;
+.gatepass-print-top {
+  background: #050a5c;
+  color: white;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
 }
 
-.print-icon{
-  cursor:pointer;
-  font-size:20px;
-}
-
-.print-close{
-  background:none;
-  border:none;
-  color:white;
-  font-size:20px;
-  cursor:pointer;
+.gatepass-print-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 /* ================= ID CARD ================= */
 
-.id-card{
-  margin:18px;
-  border-radius:12px;
-  overflow:hidden;
-  border:2px solid #050a5c;
+.gatepass-id-card {
+  margin: 18px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #050a5c;
 }
 
-/* ===== HEADER ===== */
-
-.id-header{
-  background:linear-gradient(135deg,#050a5c,#2d2fa3);
-  display:flex;
-  align-items:center;
-  padding:14px;
-  gap:14px;
-  color:white;
+.gatepass-id-header {
+  background: linear-gradient(135deg, #050a5c, #2d2fa3);
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  gap: 14px;
+  color: white;
 }
 
-.id-logo{
-  width:90px;
+.gatepass-id-body {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
 }
 
-.id-title{
-  font-size:16px;
-  font-weight:600;
+.gatepass-id-photo img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover;
+  border: 1px solid #aaa;
 }
 
-.id-sub{
-  font-size:13px;
-  margin-top:2px;
-}
-
-/* ===== BODY ===== */
-
-.id-body{
-  display:flex;
-  justify-content:space-between;
-  padding:16px;
-}
-
-.id-info p{
-  margin:6px 0;
-  font-size:14px;
-}
-
-/* ===== PHOTO ===== */
-
-.id-photo{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-}
-
-.id-photo img{
-  width:120px;
-  height:140px;
-  object-fit:cover;
-  border:1px solid #aaa;
-}
-
-.photo-placeholder{
-  width:120px;
-  height:140px;
-  border:1px solid #aaa;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  color:#777;
-}
-
-.id-photo span{
-  font-size:12px;
-}
-
-/* ===== FOOTER ===== */
-
-.id-footer{
-  background:linear-gradient(135deg,#2d2fa3,#050a5c);
-  color:white;
-  padding:10px 14px;
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-}
-
-.sign-text{
-  font-style:italic;
+.gatepass-id-footer {
+  background: linear-gradient(135deg, #2d2fa3, #050a5c);
+  color: white;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
 }
 
 /* ================= RESPONSIVE ================= */
 
-@media(max-width:900px){
-  .gatepass-container{
+@media (max-width: 900px) {
+  .gatepass-container {
     flex-direction: column;
   }
 
-  .gatepass-form-card{
+  .gatepass-form-card {
     width: 100%;
   }
 }

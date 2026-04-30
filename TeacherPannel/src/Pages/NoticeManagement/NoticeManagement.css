@@ -1,0 +1,95 @@
+.noticeMgmt {
+  padding: 30px;
+  background: #f8fafc;
+}
+
+/* GRID */
+.noticeMgmt__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* FORM */
+.noticeMgmt__form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.noticeMgmt__input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.noticeMgmt__btn {
+  background: #6366f1;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* PREVIEW */
+.noticeMgmt__preview {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.noticeMgmt__previewImg {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* SEARCH */
+.noticeMgmt__search {
+  margin: 20px 0;
+  max-width: 300px;
+}
+
+/* LIST */
+.noticeMgmt__list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* CARD */
+.noticeMgmt__card {
+  padding: 15px;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.noticeMgmt__cardImg {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ACTIONS */
+.noticeMgmt__actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* THEMES */
+.theme1 { background: #ffe4e6; }
+.theme2 { background: #e0f2fe; }
+.theme3 { background: #dcfce7; }
+.theme4 { background: #ede9fe; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .noticeMgmt__grid {
+    grid-template-columns: 1fr;
+  }
+}

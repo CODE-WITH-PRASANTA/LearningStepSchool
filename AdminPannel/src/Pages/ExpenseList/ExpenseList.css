@@ -6,8 +6,8 @@
   --ink: #1b1f2a;
   --muted: #6b7280;
   --line: #d6d2dc;
-  --soft2: #fde8f2;
-  --topbar: #faeef5;
+  --soft2: #5752eaa3;
+  --topbar: #5752eac2;
   --shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
   --radius: 14px;
 
@@ -217,6 +217,32 @@
 /* ================================
    RESPONSIVE
 ================================= */
+
+@media (min-width: 1025px) {
+  .expense-list__tableWrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .expense-list__table {
+    min-width: 1300px; /* ensures scroll appears */
+    width: max-content;
+  }
+
+  /* Smooth scrollbar (optional premium feel) */
+  .expense-list__tableWrap::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .expense-list__tableWrap::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  .expense-list__tableWrap::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
 
 @media (max-width: 920px) {
   .expense-list__search input {

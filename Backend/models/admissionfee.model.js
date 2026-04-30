@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const feeSchema = new mongoose.Schema(
   {
+    receiptNo: {
+      type: Number,
+      unique: true,
+    },
+
     studentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Student",
@@ -12,12 +17,29 @@ const feeSchema = new mongoose.Schema(
     name: String,
     rollNumber: String,
 
-    class: String,   // ✅ FIXED
+    class: String,
     section: String,
 
-    amount: Number,
+    // ✅ NEW (IMPORTANT)
+    fees: [
+      {
+        feeType: {
+          type: String,
+          required: true,
+        },
+        amount: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+
+    // ✅ CALCULATED FIELDS
+    totalAmount: Number,
     paid: Number,
     due: Number,
+    discount: Number,
+    finalAmount: Number,
 
     paymentMethod: {
       type: String,
@@ -25,13 +47,7 @@ const feeSchema = new mongoose.Schema(
       default: "Cash",
     },
 
-    discount: Number,
     note: String,
-
-    feeType: {
-      type: String,
-      required: true, // optional but recommended
-    },
 
     status: {
       type: String,
