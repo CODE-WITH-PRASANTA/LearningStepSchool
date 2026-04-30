@@ -1,7 +1,7 @@
-
+const mongoose = require("mongoose");
 const Fee = require("../models/admissionfee.model");
 const Counter = require("../models/counter.model");
-
+const Wallet = require("../models/walletTransaction.model");
 
 exports.collectFee = async (req, res) => {
   try {
@@ -12,9 +12,7 @@ exports.collectFee = async (req, res) => {
       rollNumber,
       class: className,
       section,
-
-      fees, // 🔥 NEW (array)
-
+      fees,
       paid,
       discount,
       paymentMethod,
@@ -22,7 +20,6 @@ exports.collectFee = async (req, res) => {
       date,
     } = req.body;
 
-    // ✅ VALIDATION
     if (!studentId || !fees || fees.length === 0) {
       return res.status(400).json({
         success: false,
@@ -30,71 +27,65 @@ exports.collectFee = async (req, res) => {
       });
     }
 
-    // 🔥 TOTAL CALCULATION
-    const totalAmount = fees.reduce(
-      (sum, f) => sum + Number(f.amount || 0),
-      0
-    );
+    const totalAmount = fees.reduce((sum, f) => sum + Number(f.amount || 0), 0);
 
     const discountPercent = Number(discount || 0);
     const discountAmount = (totalAmount * discountPercent) / 100;
-
     const finalAmount = totalAmount - discountAmount;
 
     const paidAmount = Number(paid || 0);
-    const due = finalAmount - paidAmount;
+    const due = Math.max(finalAmount - paidAmount, 0); // ✅ FIX
 
-    // 🔥 STATUS
     let status = "Paid";
     if (due > 0 && paidAmount > 0) status = "Partial";
     if (paidAmount === 0) status = "Unpaid";
 
-    // 🔥 RECEIPT NUMBER (FIXED INCREMENT)
     const counter = await Counter.findOneAndUpdate(
       { name: "receiptNo" },
-      { $inc: { value: 1 } }, // ✅ FIX (not 1000)
-      { new: true, upsert: true }
+      { $inc: { value: 1 } },
+      { new: true, upsert: true },
     );
 
     const receiptNo = String(counter.value).padStart(4, "0");
 
-    // 🔥 SAVE
-    const fee = new Fee({
+    const fee = await Fee.create({
       receiptNo,
-
       studentId,
       admissionNo,
       name,
       rollNumber,
       class: className,
       section,
-
-      fees, // ✅ IMPORTANT
-
+      fees,
       totalAmount,
       discount: discountPercent,
       finalAmount,
-
       paid: paidAmount,
       due,
-
       paymentMethod,
       note,
       date,
       status,
     });
 
-    await fee.save();
+    // ✅ WALLET CREDIT
+    if (paidAmount > 0) {
+      await Wallet.create({
+        type: "credit",
+        amount: paidAmount,
+        source: "fee",
+        referenceId: fee._id,
+        description: `${fee.name} - ${fees[0]?.feeType || "Fee"}`
+      });
+    }
 
     res.status(201).json({
       success: true,
       message: "Fee collected successfully",
       data: fee,
     });
-
   } catch (error) {
-    console.log("🔥 COLLECT FEE ERROR:", error);
-
+    console.log("🔥 ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -121,28 +112,75 @@ exports.getFees = async (req, res) => {
   }
 };
 
-/* ================= DELETE FEE ================= */
-
-exports.deleteFee = async (req, res) => {
+exports.getFeeById = async (req, res) => {
   try {
-    const feeId = req.params.id;
+    const fee = await Fee.findById(req.params.id);
 
-    const deletedFee = await Fee.findByIdAndDelete(feeId);
-
-    if (!deletedFee) {
+    if (!fee) {
       return res.status(404).json({
         success: false,
         message: "Fee not found",
       });
     }
 
+    res.json({ success: true, data: fee });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.updateFee = async (req, res) => {
+  try {
+    const feeId = req.params.id;
+
+    const updatedFee = await Fee.findByIdAndUpdate(feeId, req.body, {
+      new: true,
+    });
+
+    const walletTx = await Wallet.findOne({ referenceId: feeId });
+
+    if (walletTx) {
+      if (req.body.paid !== undefined) {
+        walletTx.amount = updatedFee.paid;
+      }
+
+      walletTx.description = `Fee from ${updatedFee.name}`;
+      walletTx.updatedAt = new Date();
+
+      await walletTx.save();
+    }
+
+    res.json({ success: true, data: updatedFee });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/* ================= DELETE FEE ================= */
+
+exports.deleteFee = async (req, res) => {
+  try {
+    const feeId = req.params.id;
+
+    const fee = await Fee.findById(feeId);
+    if (!fee) {
+      return res.status(404).json({
+        success: false,
+        message: "Fee not found",
+      });
+    }
+
+    await Wallet.deleteOne({ referenceId: feeId });
+    await Fee.findByIdAndDelete(feeId);
+
     res.json({
       success: true,
       message: "Fee deleted successfully",
     });
   } catch (error) {
-    console.log("🔥 DELETE ERROR:", error);
-
     res.status(500).json({
       success: false,
       message: error.message,

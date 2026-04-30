@@ -222,6 +222,12 @@
   color: var(--ct-success-text);
 }
 
+.statusPill--leave {
+  background: #fff4df;
+  color: #b45309;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
 .menuWrap {
   position: relative;
 }

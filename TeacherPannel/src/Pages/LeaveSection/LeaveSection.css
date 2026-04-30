@@ -74,4 +74,34 @@
 .card .top {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.LeaveHistory__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.LeaveHistory__deleteBtn {
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.LeaveHistory__deleteBtn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.LeaveHistory__deleteBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
