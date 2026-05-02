@@ -44,8 +44,7 @@ export default function AdmissionSurveyView() {
   };
 
   return (
-    <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 h-[80vh] overflow-auto">
-      {/* ================= TOOLBAR ================= */}
+<div className="bg-slate-50 p-6 rounded-xl border border-slate-200 h-[80vh] overflow-hidden">      {/* ================= TOOLBAR ================= */}
       <div className="flex justify-end mb-4">
         <input
           type="text"
@@ -57,7 +56,7 @@ export default function AdmissionSurveyView() {
       </div>
 
       {/* ================= TABLE ================= */}
-      <table className="w-[1500px] bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <table className="min-w-[1500px] w-full bg-white border border-slate-200 rounded-lg overflow-hidden">
         <thead className="sticky top-0 z-10 bg-slate-100">
           <tr>
             <th className="px-4 py-3 text-center text-xs font-semibold uppercase text-slate-600">
