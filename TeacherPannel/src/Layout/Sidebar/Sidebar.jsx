@@ -75,7 +75,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       icon: <FaUser />,
       permission: "VIEW_PROFILE",
     },
-    { name: "Leave", path: "/admin/leave", icon: <FaUser /> },
+    { name: "Leave", path: "/admin/leave", icon: <FaUser />, permission: "TEACHER_LEAVE" },
 
     { type: "section", label: "ERP Solution" },
 
@@ -261,6 +261,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       path: "/admission-management",
       icon: <FaUserGraduate />,
       permission: "ADMISSION_MANAGEMENT",
+
+      submenu: [
+        {
+          name: "Admission Survey",
+          path: "/survey",
+          icon: <FaUserGraduate />,
+          permission: "ADMISSION_MANAGEMENT",
+        },
+        {
+          name: "Admission Data View",
+          path: "/survey/data",
+          icon: <FaUserGraduate />,
+          permission: "ADMISSION_MANAGEMENT",
+        },
+      ],
     },
     {
       name: "Event Management",
