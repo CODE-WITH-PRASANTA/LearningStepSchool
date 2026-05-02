@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./LeaveTable.css";
 
-import API,{IMAGE_URL} from "../../api/axios";
-import { useEffect } from "react";
+import API, { IMAGE_URL } from "../../api/axios";
 import {
   FaSearch,
   FaChevronDown,
@@ -13,9 +12,13 @@ import {
   FaAngleDoubleRight,
 } from "react-icons/fa";
 
-const LeaveTable = () => {
+const LeaveTable = ({
+  leaveData = [],
+  setLeaveData,
+  loading = false,
+}) => {
   const [search, setSearch] = useState("");
-  const [year, setYear] = useState("2024");
+  const [year, setYear] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
   const [statusMenu, setStatusMenu] = useState(null);
@@ -23,35 +26,45 @@ const LeaveTable = () => {
 
   const rowsPerPage = 10;
 
-  const [leaveData, setLeaveData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const yearOptions = useMemo(() => {
+    const currentYear = new Date().getFullYear().toString();
+    const years = leaveData
+      .map(
+        (item) =>
+          item.fromDate && new Date(item.fromDate).getFullYear().toString(),
+      )
+      .filter(Boolean);
 
-  useEffect(() => {
-    const fetchLeaves = async () => {
-      try {
-        const res = await API.get("/admin/leaves");
-
-        setLeaveData(res.data);
-      } catch (err) {
-        console.log("Error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLeaves();
-  }, []);
+    return [currentYear, ...new Set(years)]
+      .filter(Boolean)
+      .sort((a, b) => Number(b) - Number(a));
+  }, [leaveData]);
 
   const filteredData = useMemo(() => {
-    return leaveData.filter((item) =>
-      item.teacher?.name?.toLowerCase().includes(search.toLowerCase()),
-    );
-  }, [search, leaveData]);
+    return leaveData.filter((item) => {
+      const teacherName = item.teacher?.name || "";
+      const matchesSearch = teacherName
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      const itemYear = item.fromDate
+        ? new Date(item.fromDate).getFullYear().toString()
+        : "";
+      const matchesYear = year === "all" || itemYear === year;
+
+      return matchesSearch && matchesYear;
+    });
+  }, [search, year, leaveData]);
 
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
 
   const currentRows = filteredData.slice(startIndex, startIndex + rowsPerPage);
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const changePage = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -72,6 +85,19 @@ const LeaveTable = () => {
       );
     } catch (err) {
       alert("Failed to update status");
+    }
+  };
+
+  const deleteLeave = async (id) => {
+    if (!window.confirm("Delete this leave request?")) return;
+
+    try {
+      const res = await API.delete(`/admin/leaves/${id}`);
+      alert(res.data.message || "Leave deleted successfully");
+      setLeaveData((prev) => prev.filter((item) => item._id !== id));
+      setActionMenu(null);
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to delete leave");
     }
   };
 
@@ -105,11 +131,17 @@ const LeaveTable = () => {
             <select
               className="year-select"
               value={year}
-              onChange={(e) => setYear(e.target.value)}
+              onChange={(e) => {
+                setYear(e.target.value);
+                setCurrentPage(1);
+              }}
             >
-              <option>2024</option>
-              <option>2023</option>
-              <option>2022</option>
+              <option value="all">All Years</option>
+              {yearOptions.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -131,7 +163,13 @@ const LeaveTable = () => {
             </thead>
 
             <tbody>
-              {currentRows.map((item) => {
+              {currentRows.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="leave-empty-row">
+                    No leave requests found
+                  </td>
+                </tr>
+              ) : currentRows.map((item) => {
                 const getDays = (from, to) => {
                   const diff = new Date(to) - new Date(from);
                   return Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1;
@@ -250,7 +288,12 @@ const LeaveTable = () => {
                       {actionMenu === item._id && (
                         <div className="table-dropdown action-drop">
                           <p>Edit</p>
-                          <p>Delete</p>
+                          <p
+                            className="delete-action"
+                            onClick={() => deleteLeave(item._id)}
+                          >
+                            Delete
+                          </p>
                         </div>
                       )}
                     </td>
@@ -264,7 +307,7 @@ const LeaveTable = () => {
         {/* Bottom */}
         <div className="leave-bottom">
           <p>
-            Showing {startIndex + 1} to{" "}
+            Showing {filteredData.length ? startIndex + 1 : 0} to{" "}
             {Math.min(startIndex + rowsPerPage, filteredData.length)} of{" "}
             {filteredData.length} entries
           </p>

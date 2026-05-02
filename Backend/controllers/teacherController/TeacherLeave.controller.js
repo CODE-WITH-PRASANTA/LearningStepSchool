@@ -78,6 +78,85 @@ exports.getAllLeaves = async (req, res) => {
   }
 };
 
+/* ================= CREATE LEAVE (ADMIN) ================= */
+exports.createLeaveByAdmin = async (req, res) => {
+  try {
+    const { teacher, leaveType, fromDate, toDate, reason, status, adminNote } =
+      req.body;
+
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied",
+      });
+    }
+
+    if (!teacher || !leaveType || !fromDate || !toDate || !reason) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    if (new Date(toDate) < new Date(fromDate)) {
+      return res.status(400).json({
+        success: false,
+        message: "'To Date' cannot be before 'From Date'",
+      });
+    }
+
+    if (status && !["pending", "approved", "rejected"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status",
+      });
+    }
+
+    const existing = await Leave.findOne({
+      teacher,
+      $or: [
+        {
+          fromDate: { $lte: toDate },
+          toDate: { $gte: fromDate },
+        },
+      ],
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: "Leave already exists for this teacher in this period",
+      });
+    }
+
+    const leave = await Leave.create({
+      teacher,
+      leaveType,
+      fromDate,
+      toDate,
+      reason,
+      status: status || "pending",
+      adminNote: adminNote || "",
+    });
+
+    const populatedLeave = await leave.populate(
+      "teacher",
+      "name email department image"
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Leave created successfully",
+      data: populatedLeave,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 /* ================= UPDATE STATUS (ADMIN TOGGLE) ================= */
 exports.updateLeaveStatus = async (req, res) => {
     try {
@@ -119,3 +198,46 @@ exports.updateLeaveStatus = async (req, res) => {
       });
     }
   };
+
+/* ================= DELETE LEAVE ================= */
+exports.deleteLeave = async (req, res) => {
+  try {
+    const leave = await Leave.findById(req.params.id);
+
+    if (!leave) {
+      return res.status(404).json({
+        success: false,
+        message: "Leave not found",
+      });
+    }
+
+    const isAdmin = req.user.role === "admin";
+    const isOwner = leave.teacher.toString() === req.user.id;
+
+    if (!isAdmin && !isOwner) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied",
+      });
+    }
+
+    if (!isAdmin && leave.status !== "pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Only pending leaves can be deleted",
+      });
+    }
+
+    await leave.deleteOne();
+
+    res.json({
+      success: true,
+      message: "Leave deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};

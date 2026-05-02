@@ -17,6 +17,20 @@ const PermissionManager = () => {
     { name: "CLASS_POST", label: "Class Post" },
     { name: "SUBJECT_POST", label: "Subject Post" },
     { name: "CLASSWISE_SUBJECT", label: "Classwise Subject" },
+    { name: "BLOG_MANAGEMENT", label: "Blog Management" },
+    { name: "TEACHER_POSTING", label: "Teacher Posting" },
+    { name: "AWARD_MANAGEMENT", label: "Award Management" },
+    { name: "SCHOOLFEE_INFO", label: "School Fee & Info" },
+    { name: "NOTICE_MANAGEMENT", label: "Notice Management" },
+    { name: "NOTIFICATION_MANAGEMENT", label: "Notification Management" },
+    { name: "LATEST_NEWS_MANAGEMENT", label: "Latest News Management" },
+    { name: "CLASS_DATA_REGISTRY", label: "Class Data Registry" },
+    { name: "MEDIA_MANAGEMENT", label: "Media Management" },
+    { name: "LEARNING_MANAGEMENT", label: "Learning Management" },
+    { name: "TESTIMONIALS_MANAGEMENT", label: "Testimonials" },
+    { name: "ADMISSION_MANAGEMENT", label: "Admission Management" },
+    { name: "EVENT_MANAGEMENT", label: "Event Management" },
+    { name: "FAQ_POSTING", label: "FAQ Posting" }
   ];
   const [permissions, setPermissions] = useState([]);
   const [editId, setEditId] = useState(null);

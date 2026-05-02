@@ -1,0 +1,163 @@
+.eventMgmt {
+  padding: 30px;
+  background: linear-gradient(to right, #eef2ff, #fff, #ffe4e6);
+  min-height: 100vh;
+}
+
+/* TITLE */
+.eventMgmt__title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #6366f1, #ec4899);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* GRID */
+.eventMgmt__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* FORM */
+.eventMgmt__form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eventMgmt__formTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.eventMgmt__input,
+.eventMgmt__textarea,
+.eventMgmt__file {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.eventMgmt__textarea {
+  resize: none;
+}
+
+/* BUTTON */
+.eventMgmt__submitBtn {
+  background: #6366f1;
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+/* IMAGE */
+.eventMgmt__preview {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* RATING */
+.eventMgmt__rating {
+  display: flex;
+  gap: 5px;
+}
+
+.eventMgmt__star {
+  font-size: 22px;
+  cursor: pointer;
+  color: #ccc;
+}
+
+.eventMgmt__star--active {
+  color: gold;
+}
+
+/* TABLE WRAP */
+.eventMgmt__tableWrap {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.eventMgmt__tableTitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.eventMgmt__tableContainer {
+  overflow-x: auto;
+}
+
+/* TABLE */
+.eventMgmt__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.eventMgmt__thead {
+  background: #f3f4f6;
+}
+
+.eventMgmt__table th,
+.eventMgmt__table td {
+  padding: 10px;
+  text-align: left;
+}
+
+/* ROW */
+.eventMgmt__row:hover {
+  background: #f9fafb;
+}
+
+/* IMAGE */
+.eventMgmt__tableImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* ACTIONS */
+.eventMgmt__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.eventMgmt__editBtn {
+  color: blue;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.eventMgmt__deleteBtn {
+  color: red;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* EMPTY */
+.eventMgmt__empty {
+  text-align: center;
+  color: #888;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .eventMgmt__grid {
+    grid-template-columns: 1fr;
+  }
+}
