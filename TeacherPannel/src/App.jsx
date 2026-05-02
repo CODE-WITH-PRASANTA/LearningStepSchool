@@ -27,6 +27,7 @@ import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish
 import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
+import TeacherAttendance from "./Components/TeacherAttendance/TeacherAttendance";
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
             <Route path="/notice-management" element={<NoticeManagement/>}/>
             <Route path="/schoolfee-info" element={<FeeManagement/>}/>
             <Route path="/award-management" element={<AwardAdminPage/>}/>
+            <Route path="/teacher-attendance" element={<TeacherAttendance/>}/>
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"

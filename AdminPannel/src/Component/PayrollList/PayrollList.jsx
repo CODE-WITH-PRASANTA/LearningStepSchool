@@ -93,9 +93,10 @@ const PayrollList = ({ refresh, onEdit }) => {
               <th>Department</th>
               <th>Month</th>
               <th>Year</th>
-              <th>Total Days</th>
               <th>Working Days</th>
-              <th>Total Salary</th>
+              <th>Gross Salary</th>
+              <th>Deductions</th>
+              <th>Net Salary</th>
               <th>Overtime</th>
               <th>Status</th>
               <th>Action</th>
@@ -124,10 +125,11 @@ const PayrollList = ({ refresh, onEdit }) => {
                 <td>{item.month}</td>
                 <td>{item.year}</td>
 
-                <td>{item.totalDays}</td>
-                <td>{item.workingDays}</td>
-                <td>₹{item.totalSalary}</td>
-                <td>₹{item.overtimeAmount}</td>
+                <td>{item.workingDays}/{item.totalDays}</td>
+                <td>₹{item.grossSalary?.toFixed(2) || '0.00'}</td>
+                <td>₹{item.totalDeductions?.toFixed(2) || '0.00'}</td>
+                <td>₹{item.totalSalary?.toFixed(2) || '0.00'}</td>
+                <td>₹{item.overtimeAmount?.toFixed(2) || '0.00'}</td>
 
                 <td>
                   <span className={`status-badge ${statusClass(item.status)}`}>

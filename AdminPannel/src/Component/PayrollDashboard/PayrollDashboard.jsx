@@ -16,23 +16,7 @@ import {
 
 import "./PayrollDashboard.css";
 import AddPayrollModal from "./AddPayrollModal";
-
-const yearlyData = [
-  { month: "Jan", gross: 55, net: 25, tax: 25 },
-  { month: "Feb", gross: 60, net: 27, tax: 50 },
-  { month: "Mar", gross: 68, net: 16, tax: 40 },
-  { month: "Apr", gross: 52, net: 16, tax: 20 },
-  { month: "May", gross: 69, net: 16, tax: 52 },
-  { month: "Jun", gross: 73, net: 17, tax: 45 },
-  { month: "Jul", gross: 71, net: 16, tax: 55 },
-  { month: "Aug", gross: 74, net: 17, tax: 47 },
-  { month: "Sep", gross: 70, net: 16, tax: 26 },
-  { month: "Oct", gross: 75, net: 17, tax: 58 },
-  { month: "Nov", gross: 72, net: 16, tax: 36 },
-  { month: "Dec", gross: 77, net: 18, tax: 60 },
-];
-
-const monthlyData = yearlyData.slice(0, 6);
+import API from "../../api/axios";
 
 const pieData = [
   { name: "Salary", value: 15, color: "#ff4b22" },
@@ -52,9 +36,9 @@ const CustomTooltip = ({ active, payload, label }) => {
     return (
       <div className="payroll-tooltip">
         <h4>{label}</h4>
-        <p>Gross Salary: {gross}%</p>
-        <p>Net Salary: {net}%</p>
-        <p>Tax Deduction: {tax}%</p>
+        <p>Gross Salary: ₹{gross}</p>
+        <p>Net Salary: ₹{net}</p>
+        <p>Tax Deduction: ₹{tax}</p>
       </div>
     );
   }
@@ -69,23 +53,67 @@ const PayrollDashboard = ({
   editData,
   onSuccess,
 }) => {
-  // const [showModal, setShowModal] = useState(false);
   const [range, setRange] = useState("Yearly");
-  const [year, setYear] = useState("2024");
+  const [year, setYear] = useState(new Date().getFullYear().toString());
   const [downloading, setDownloading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [payrollData, setPayrollData] = useState([]);
+  const [chartData, setChartData] = useState([]);
 
-  // const [editData, setEditData] = useState(null);
+  const fetchPayrollData = async () => {
+    try {
+      const res = await API.get("/payroll");
+      const data = res.data.data || [];
+      setPayrollData(data);
+      generateChartData(data, year);
+    } catch (err) {
+      console.error("Failed to fetch payroll data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const generateChartData = (data, selectedYear) => {
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    const monthlyStats = months.map((month, index) => {
+      const monthPayrolls = data.filter(p =>
+        p.year === parseInt(selectedYear) && p.month === index + 1
+      );
+
+      const totalSalary = monthPayrolls.reduce((sum, p) => sum + (p.totalSalary || 0), 0);
+      const totalBase = monthPayrolls.reduce((sum, p) => sum + (p.baseSalary || 0), 0);
+      const totalOvertime = monthPayrolls.reduce((sum, p) => sum + (p.overtimeAmount || 0), 0);
+
+      return {
+        month,
+        gross: totalBase,
+        net: totalSalary,
+        tax: totalOvertime, // Using overtime as tax for visualization
+      };
+    });
+
+    setChartData(monthlyStats);
+  };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1200);
-
-    return () => clearTimeout(timer);
+    fetchPayrollData();
   }, []);
 
-  const chartData = range === "Yearly" ? yearlyData : monthlyData;
+  useEffect(() => {
+    if (onSuccess) {
+      fetchPayrollData();
+    }
+  }, [onSuccess]);
+
+  useEffect(() => {
+    generateChartData(payrollData, year);
+  }, [year, payrollData]);
+
+  const currentChartData = range === "Yearly" ? chartData : chartData.slice(0, 6);
 
   // const handleAddClick = () => {
   //   setEditData(null); // create mode
@@ -174,8 +202,8 @@ const PayrollDashboard = ({
                   />
 
                   <YAxis
-                    ticks={[0, 20, 40, 60, 80, 100]}
-                    tickFormatter={(v) => `${v}K`}
+                    ticks={[0, 20000, 40000, 60000, 80000, 100000]}
+                    tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K`}
                     axisLine={false}
                     tickLine={false}
                     tick={{ fill: "#8c95b6", fontSize: 14 }}
@@ -252,9 +280,9 @@ const PayrollDashboard = ({
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
                 >
-                  <option>2024</option>
-                  <option>2023</option>
-                  <option>2022</option>
+                  <option>{new Date().getFullYear()}</option>
+                  <option>{new Date().getFullYear() - 1}</option>
+                  <option>{new Date().getFullYear() - 2}</option>
                 </select>
 
                 <ChevronDown size={16} />
@@ -282,8 +310,8 @@ const PayrollDashboard = ({
                 </ResponsiveContainer>
 
                 <div className="donut-center">
-                  <h3>7433</h3>
-                  <p>Total Data</p>
+                  <h3>{payrollData.reduce((sum, p) => sum + (p.totalSalary || 0), 0).toLocaleString()}</h3>
+                  <p>Total Payroll</p>
                 </div>
               </div>
 
@@ -306,7 +334,7 @@ const PayrollDashboard = ({
 
             <div className="bottom-strip">
               <p>
-                2024 Download Report Company
+                {year} Payroll Report
                 <br />
                 Trends and Insights
               </p>

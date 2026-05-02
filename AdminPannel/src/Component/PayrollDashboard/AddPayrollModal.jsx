@@ -11,11 +11,38 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
     hra: "10000",
     bonus: "5000",
     deduction: "4",
-    totalDays: "30",
-    workingDays: "28",
+    totalDays: "0",
+    workingDays: "0",
+    overtimeHours: "0",
+    city: "metro",
     status: "Pending",
   });
   const [teachers, setTeachers] = useState([]);
+
+  const getMonthDays = (year, month) => new Date(year, month, 0).getDate();
+
+  const fetchTeacherAttendanceSummary = async (teacherId, month, year) => {
+    try {
+      const res = await API.get(`/teacher-attendance?month=${month}&year=${year}`);
+      const list = res.data?.data || [];
+      const teacherRecords = Array.isArray(list)
+        ? list.filter((item) => item.teacherId?._id === teacherId)
+        : [];
+
+      const present = teacherRecords.filter((item) => item.status === "Present").length;
+      const leave = teacherRecords.filter((item) => item.status === "Leave").length;
+      const totalDays = getMonthDays(year, month);
+      const workingDays = present + leave;
+
+      setFormData((prev) => ({
+        ...prev,
+        totalDays: String(totalDays),
+        workingDays: String(workingDays),
+      }));
+    } catch (err) {
+      console.error("Attendance summary fetch failed:", err.response?.data || err.message);
+    }
+  };
 
   // 🔥 PREFILL DATA (EDIT MODE)
   useEffect(() => {
@@ -30,6 +57,11 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
         hra: "0",
         bonus: editData.overtimeAmount || "0",
         deduction: "0",
+        totalDays: String(getMonthDays(editData.year, editData.month || 1)),
+        workingDays: String(editData.workingDays || 0),
+        overtimeHours: String(editData.overtimeHours || 0),
+        city: editData.city || "metro",
+        status: editData.status || "Pending",
       });
     }
   }, [editData]);
@@ -52,14 +84,33 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
     fetchTeachers();
   }, []);
 
+  useEffect(() => {
+    if (!formData.employee || !formData.payDate) return;
+
+    const date = new Date(formData.payDate);
+    if (Number.isNaN(date.getTime())) return;
+
+    fetchTeacherAttendanceSummary(
+      formData.employee,
+      date.getMonth() + 1,
+      date.getFullYear(),
+    );
+  }, [formData.employee, formData.payDate]);
+
   if (!show) return null;
 
-  // 💰 CALCULATE TOTAL
-  const totalPay =
-    Number(formData.basicSalary) +
-    Number(formData.hra) +
-    Number(formData.bonus) -
-    Number(formData.deduction);
+// 💰 CALCULATE ESTIMATED TOTAL (simplified preview)
+  const estimatedGross = Number(formData.basicSalary) +
+    (Number(formData.basicSalary) * (formData.city === 'metro' ? 0.5 : 0.4)) + // HRA
+    1600 + // Conveyance
+    (Number(formData.basicSalary) / 12) + // LTA
+    (15000 / 12); // Medical
+
+  const estimatedDeductions = (Number(formData.basicSalary) * 0.12) + // PF
+    (Number(formData.basicSalary) < 21000 ? Number(formData.basicSalary) * 0.0075 : 0) + // ESI
+    Math.max(0, ((estimatedGross * 12 - 50000 - (Number(formData.basicSalary) * (formData.city === 'metro' ? 0.5 : 0.4) * 12) - 19200) * 0.05) / 12); // Tax
+
+  const estimatedNet = estimatedGross - estimatedDeductions;
 
   // 🔁 INPUT CHANGE
   const handleChange = (e) => {
@@ -93,7 +144,8 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
         totalDays: Number(formData.totalDays) || 0,
         workingDays: Number(formData.workingDays) || 0,
         baseSalary: Number(formData.basicSalary) || 0,
-        overtimeAmount: Number(formData.bonus) || 0,
+        overtimeHours: Number(formData.overtimeHours) || 0,
+        city: formData.city || "metro",
         status: formData.status || "Pending",
       };
 
@@ -114,8 +166,10 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
         hra: "10000",
         bonus: "5000",
         deduction: "4",
-        totalDays: "30",
-        workingDays: "28",
+        totalDays: "0",
+        workingDays: "0",
+        overtimeHours: "0",
+        city: "metro",
         status: "Pending",
       });
 
@@ -175,6 +229,7 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
                 name="totalDays"
                 value={formData.totalDays}
                 onChange={handleChange}
+                readOnly
               />
             </div>
 
@@ -185,6 +240,7 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
                 name="workingDays"
                 value={formData.workingDays}
                 onChange={handleChange}
+                readOnly
               />
             </div>
           </div>
@@ -201,34 +257,27 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
             </div>
 
             <div className="input-group">
-              <label>HRA</label>
+              <label>Overtime Hours</label>
               <input
                 type="number"
-                name="hra"
-                value={formData.hra}
+                name="overtimeHours"
+                value={formData.overtimeHours}
                 onChange={handleChange}
+                placeholder="0"
               />
             </div>
+          </div>
 
-            <div className="input-group">
-              <label>Bonus (Overtime)</label>
-              <input
-                type="number"
-                name="bonus"
-                value={formData.bonus}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Deductions</label>
-              <input
-                type="number"
-                name="deduction"
-                value={formData.deduction}
-                onChange={handleChange}
-              />
-            </div>
+          <div className="input-group full">
+            <label>City Type (for HRA calculation)</label>
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+            >
+              <option value="metro">Metro City (50% HRA)</option>
+              <option value="non-metro">Non-Metro City (40% HRA)</option>
+            </select>
           </div>
 
           {/* 🔥 NEW: STATUS */}
@@ -246,8 +295,8 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
           </div>
 
           <div className="input-group full">
-            <label>Net Pay</label>
-            <input type="text" value={`₹${totalPay}`} readOnly />
+            <label>Estimated Net Pay (after deductions)</label>
+            <input type="text" value={`₹${estimatedNet.toFixed(2)}`} readOnly />
           </div>
 
           <button className="generate-btn" onClick={handleGenerate}>

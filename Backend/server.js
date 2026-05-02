@@ -61,6 +61,7 @@ const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
 
 const walletRoutes = require("./routes/wallet.routes")
 const payrollRoutes = require("./routes/payroll.routes")
+const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
 // const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
@@ -115,6 +116,7 @@ app.use("/api", leaveRoutes);
 app.use("/api/wallet", walletRoutes);
 app.use("/api/payroll", payrollRoutes);
 
+app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
 // app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 /* ================= 404 HANDLER ================= */
