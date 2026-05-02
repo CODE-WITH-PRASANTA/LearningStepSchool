@@ -26,11 +26,9 @@ import LatestNewsAdmin from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
 import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish";
 import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
-<<<<<<< HEAD
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
 import TeacherAttendance from "./Components/TeacherAttendance/TeacherAttendance";
-=======
-import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
+// import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
 import BlogView from "./Pages/BlogView/BlogView";
 import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
@@ -41,7 +39,6 @@ import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
 import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
->>>>>>> 793ca73556590ca0386f32d42e06ac71baab798b
 
 
 function App() {
@@ -77,9 +74,7 @@ function App() {
             <Route path="/notice-management" element={<NoticeManagement/>}/>
             <Route path="/schoolfee-info" element={<FeeManagement/>}/>
             <Route path="/award-management" element={<AwardAdminPage/>}/>
-<<<<<<< HEAD
             <Route path="/teacher-attendance" element={<TeacherAttendance/>}/>
-=======
             <Route path="/blog-post" element={<BlogManagerPage/>}/>
             <Route path="/blog-view"  element={<BlogView/>}/>
             <Route path="/teacher-posting" element={<TeacherAdminPage/>}/>
@@ -92,7 +87,6 @@ function App() {
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             
             
->>>>>>> 793ca73556590ca0386f32d42e06ac71baab798b
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"

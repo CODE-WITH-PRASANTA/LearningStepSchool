@@ -69,19 +69,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   // 📊 MENU
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaHome /> },
-<<<<<<< HEAD
     { name: "Profile", path: "/admin/profile", icon: <FaUser />,  },
     { name: "Leave", path: "/admin/leave", icon: <FaUser /> },
     { name: "Attendance", path: "/teacher-attendance", icon:""},
-=======
-    {
-      name: "Profile",
-      path: "/admin/profile",
-      icon: <FaUser />,
-      permission: "VIEW_PROFILE",
-    },
-    { name: "Leave", path: "/admin/leave", icon: <FaUser />, permission: "TEACHER_LEAVE" },
->>>>>>> 793ca73556590ca0386f32d42e06ac71baab798b
 
     { type: "section", label: "ERP Solution" },
 
