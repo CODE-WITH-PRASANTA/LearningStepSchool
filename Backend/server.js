@@ -59,6 +59,12 @@ const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes")
 const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
 
 
+const walletRoutes = require("./routes/wallet.routes")
+const payrollRoutes = require("./routes/payroll.routes")
+const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
+
+// const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
+
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -85,14 +91,20 @@ app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
 app.use("/api", classRoutes);
 app.use("/api", subjectRoutes);
-app.use("/api/admission", AdmsonfeeRoutes);
+
 app.use("/api/feetypes", feeTypes);
+app.use("/api/admission", AdmsonfeeRoutes);
+
 app.use("/api/classwise-subjects", classWiseSubjectRoutes);
-app.use("/api/exam-results", examResult);
+
 app.use("/api/exam-types",examType );
+app.use("/api/exam-results", examResult);
+
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/student-leave", studentLeaveRoutes);
+
+
 app.use("/api/expense-heads", expenseHeadRoutes);
 app.use("/api/expenses", expenseRoutes);
 
@@ -100,6 +112,13 @@ app.use("/api/admin", teacherCreateRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
 app.use("/api",permissionRoutes)
 app.use("/api", leaveRoutes);
+
+app.use("/api/wallet", walletRoutes);
+app.use("/api/payroll", payrollRoutes);
+
+app.use("/api/teacher-attendance", teacherAttendanceRoutes);
+
+// app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {

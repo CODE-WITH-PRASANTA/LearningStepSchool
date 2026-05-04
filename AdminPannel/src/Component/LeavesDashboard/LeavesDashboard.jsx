@@ -1,62 +1,181 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./LeavesDashboard.css";
+import API from "../../api/axios";
 import { FaPlus, FaTimes } from "react-icons/fa";
 
-const LeavesDashboard = () => {
-  const [loading, setLoading] = useState(true);
+const initialLeaveForm = {
+  teacher: "",
+  leaveType: "sick",
+  fromDate: "",
+  toDate: "",
+  reason: "",
+  status: "pending",
+  adminNote: "",
+};
+
+const LeavesDashboard = ({
+  leaveData = [],
+  loading = false,
+  setLeaveData,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [animateCircle, setAnimateCircle] = useState(false);
+  const [teachers, setTeachers] = useState([]);
+  const [teacherLoading, setTeacherLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [leaveForm, setLeaveForm] = useState(initialLeaveForm);
+
+  const leaveTypes = [
+    { value: "sick", label: "Sick Leave" },
+    { value: "casual", label: "Casual Leave" },
+    { value: "earned", label: "Earned Leave" },
+    { value: "maternity", label: "Maternity Leave" },
+    { value: "emergency", label: "Emergency Leave" },
+    { value: "other", label: "Other" },
+  ];
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
+    if (loading) {
+      setAnimateCircle(false);
+      return undefined;
+    }
 
-      setTimeout(() => {
-        setAnimateCircle(true);
-      }, 250);
-    }, 1500);
+    const timer = setTimeout(() => {
+      setAnimateCircle(true);
+    }, 250);
 
     return () => clearTimeout(timer);
+  }, [loading, leaveData]);
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        setTeacherLoading(true);
+        const res = await API.get("/admin/teachers");
+        setTeachers(res.data.data || []);
+      } catch (err) {
+        console.log("Failed to load teachers:", err);
+      } finally {
+        setTeacherLoading(false);
+      }
+    };
+
+    fetchTeachers();
   }, []);
+
+  const stats = useMemo(() => {
+    const total = leaveData.length;
+    const approved = leaveData.filter(
+      (leave) => leave.status === "approved",
+    ).length;
+    const rejected = leaveData.filter(
+      (leave) => leave.status === "rejected",
+    ).length;
+    const pending = leaveData.filter(
+      (leave) => leave.status === "pending",
+    ).length;
+
+    const getPercent = (value) => {
+      if (!total) return 0;
+      return Math.round((value / total) * 100);
+    };
+
+    return {
+      total,
+      approved,
+      rejected,
+      pending,
+      approvedPercent: getPercent(approved),
+      rejectedPercent: getPercent(rejected),
+      pendingPercent: getPercent(pending),
+      totalPercent: total ? 100 : 0,
+    };
+  }, [leaveData]);
 
   const cards = [
     {
       id: 1,
-      value: "1192",
-      total: "/1206",
-      label: "Today Presents",
-      percent: 80,
+      value: stats.total,
+      total: " requests",
+      label: "Total Leaves",
+      percent: stats.totalPercent,
       color: "#4e73ff",
       track: "#eaf0ff",
     },
     {
       id: 2,
-      value: "128",
-      total: "/1206",
-      label: "Planned Leaves",
-      percent: 20,
-      color: "#ff4d1a",
-      track: "#ffe9e2",
+      value: stats.approved,
+      total: `/${stats.total}`,
+      label: "Approved Leaves",
+      percent: stats.approvedPercent,
+      color: "#18b676",
+      track: "#e5f8ef",
     },
     {
       id: 3,
-      value: "12",
-      total: "/1206",
-      label: "Unplanned Leaves",
-      percent: 49,
-      color: "#16b7ff",
-      track: "#e9f8ff",
+      value: stats.rejected,
+      total: `/${stats.total}`,
+      label: "Rejected Leaves",
+      percent: stats.rejectedPercent,
+      color: "#ef4444",
+      track: "#fee2e2",
     },
     {
       id: 4,
-      value: "50",
-      total: "/70",
+      value: stats.pending,
+      total: `/${stats.total}`,
       label: "Pending Requests",
-      percent: 68,
+      percent: stats.pendingPercent,
       color: "#f59e0b",
       track: "#fff4df",
     },
   ];
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setLeaveForm((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "fromDate" && prev.toDate && new Date(prev.toDate) < new Date(value)
+        ? { toDate: "" }
+        : {}),
+    }));
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setLeaveForm(initialLeaveForm);
+  };
+
+  const handleSubmitLeave = async (e) => {
+    e.preventDefault();
+
+    if (!leaveForm.teacher) return alert("Please select a teacher");
+    if (!leaveForm.fromDate || !leaveForm.toDate) {
+      return alert("Please select from and to dates");
+    }
+    if (new Date(leaveForm.toDate) < new Date(leaveForm.fromDate)) {
+      return alert("'To Date' cannot be before 'From Date'");
+    }
+    if (!leaveForm.reason.trim()) return alert("Please enter leave reason");
+
+    try {
+      setSubmitLoading(true);
+      const res = await API.post("/admin/leaves", leaveForm);
+      const createdLeave = res.data.data;
+
+      if (createdLeave && setLeaveData) {
+        setLeaveData((prev) => [createdLeave, ...prev]);
+      }
+
+      alert(res.data.message || "Leave created successfully");
+      closeModal();
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to create leave");
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -125,7 +244,7 @@ const LeavesDashboard = () => {
       {showModal && (
         <div
           className="leave-modal-overlay"
-          onClick={() => setShowModal(false)}
+          onClick={closeModal}
         >
           <div
             className="leave-modal"
@@ -137,63 +256,121 @@ const LeavesDashboard = () => {
 
               <button
                 className="leave-close-btn"
-                onClick={() => setShowModal(false)}
+                onClick={closeModal}
               >
                 <FaTimes />
               </button>
             </div>
 
             {/* Body */}
-            <div className="leave-form">
-              <div className="leave-group">
-                <label>Employee Name</label>
-                <input
-                  type="text"
-                  placeholder="Enter employee name"
-                />
-              </div>
+            <form className="leave-form" onSubmit={handleSubmitLeave}>
+              <div className="leave-form-grid">
+                <div className="leave-group leave-group-full">
+                  <label>Teacher</label>
+                  <select
+                    name="teacher"
+                    value={leaveForm.teacher}
+                    onChange={handleFormChange}
+                    required
+                    disabled={teacherLoading}
+                  >
+                    <option value="">
+                      {teacherLoading ? "Loading teachers..." : "Select teacher"}
+                    </option>
+                    {teachers.map((teacher) => (
+                      <option key={teacher._id} value={teacher._id}>
+                        {teacher.name}
+                        {teacher.department ? ` - ${teacher.department}` : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              <div className="leave-group">
-                <label>Leave Type</label>
-                <select>
-                  <option>Select leave type</option>
-                  <option>Casual Leave</option>
-                  <option>Sick Leave</option>
-                  <option>Emergency Leave</option>
-                  <option>Maternity Leave</option>
-                </select>
-              </div>
+                <div className="leave-group">
+                  <label>Leave Type</label>
+                  <select
+                    name="leaveType"
+                    value={leaveForm.leaveType}
+                    onChange={handleFormChange}
+                    required
+                  >
+                    {leaveTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              <div className="leave-group">
-                <label>Select Date</label>
-                <input type="date" />
-              </div>
+                <div className="leave-group">
+                  <label>Status</label>
+                  <select
+                    name="status"
+                    value={leaveForm.status}
+                    onChange={handleFormChange}
+                    required
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                </div>
 
-              <div className="leave-group">
-                <label>Reason</label>
-                <textarea
-                  placeholder="Enter leave reason"
-                ></textarea>
-              </div>
+                <div className="leave-group">
+                  <label>From Date</label>
+                  <input
+                    type="date"
+                    name="fromDate"
+                    value={leaveForm.fromDate}
+                    onChange={handleFormChange}
+                    required
+                  />
+                </div>
 
-              <div className="leave-group">
-                <label>Status</label>
-                <select>
-                  <option>Pending</option>
-                  <option>Approved</option>
-                  <option>Rejected</option>
-                </select>
+                <div className="leave-group">
+                  <label>To Date</label>
+                  <input
+                    type="date"
+                    name="toDate"
+                    value={leaveForm.toDate}
+                    onChange={handleFormChange}
+                    min={leaveForm.fromDate}
+                    required
+                  />
+                </div>
+
+                <div className="leave-group leave-group-full">
+                  <label>Reason</label>
+                  <textarea
+                    name="reason"
+                    value={leaveForm.reason}
+                    onChange={handleFormChange}
+                    placeholder="Enter leave reason"
+                    required
+                  ></textarea>
+                </div>
+
+                <div className="leave-group leave-group-full">
+                  <label>Admin Note</label>
+                  <textarea
+                    name="adminNote"
+                    value={leaveForm.adminNote}
+                    onChange={handleFormChange}
+                    placeholder="Optional note for this leave request"
+                  ></textarea>
+                </div>
               </div>
 
               <div className="leave-submit-wrap">
                 <button
+                  type="submit"
                   className="leave-submit-btn"
-                  onClick={() => setShowModal(false)}
+                  disabled={submitLoading}
                 >
-                  Submit Leave
+                  {submitLoading ? "Submitting..." : "Submit Leave"}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       )}

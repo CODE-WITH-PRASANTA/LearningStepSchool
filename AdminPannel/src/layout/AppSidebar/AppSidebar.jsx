@@ -155,6 +155,7 @@ const menu = [
     icon: FiActivity,
     children: [
       { label: "Fee collect", path: "/fee-collect" },
+      { label: "Wallet", path: "/wallet" },
       { label: "Fee Type", path: "/fee-type" },
       { label: "PaymentRecipt", path: "/Paymentrecipt" },
     ],
@@ -262,17 +263,17 @@ const menu = [
   //   ],
   // },
 
-  // {
-  //   label: "Library",
-  //   icon: FiBook,
-  //   children: [
-  //     { label: "Book List", path: "/library/book-list" },
-  //     { label: "Issue Book", path: "/library/issue-book" },
-  //     { label: "Return Book", path: "/library/return-book" },
-  //     { label: "Add Student", path: "/library/student" },
-  //     { label: "Add Staff", path: "/library/staff" },
-  //   ],
-  // },
+   {
+     label: "Library",
+    icon: FiBook,
+  children: [
+      { label: "Book List", path: "/library/book-list" },
+       { label: "Issue Book", path: "/library/issue-book" },
+      { label: "Return Book", path: "/library/return-book" },
+       { label: "Add Student", path: "/library/student" },
+      { label: "Add Staff", path: "/library/staff" },
+     ],
+  },
 
   // { type: "divider" },
 

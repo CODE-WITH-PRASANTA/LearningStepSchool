@@ -12,6 +12,7 @@ const LeaveSection = () => {
   });
 
   const [leaveLoading, setLeaveLoading] = useState(false);
+  const [deletingLeaveId, setDeletingLeaveId] = useState(null);
   const [leaveHistory, setLeaveHistory] = useState([]);
   const [leaveTab, setLeaveTab] = useState("form");
 
@@ -92,6 +93,22 @@ const LeaveSection = () => {
       alert(err.response?.data?.message || "Failed");
     } finally {
       setLeaveLoading(false);
+    }
+  };
+
+  const handleDeleteLeave = async (leaveId) => {
+    if (!leaveId) return;
+    if (!window.confirm("Delete this leave request?")) return;
+
+    try {
+      setDeletingLeaveId(leaveId);
+      const res = await API.delete(`/teacher/leaves/${leaveId}`);
+      setLeaveHistory((prev) => prev.filter((leave) => leave._id !== leaveId));
+      alert(res.data.message || "Leave deleted successfully");
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to delete leave");
+    } finally {
+      setDeletingLeaveId(null);
     }
   };
 
@@ -198,12 +215,25 @@ const LeaveSection = () => {
             <p>No leave requests</p>
           ) : (
             leaveHistory.map((leave, i) => (
-              <div key={i} className="card">
+              <div key={leave._id || i} className="card">
                 <div className="top">
                   <strong>{leave.leaveType}</strong>
-                  <span style={STATUS_STYLES[leave.status]}>
-                    {leave.status}
-                  </span>
+                  <div className="LeaveHistory__actions">
+                    <span style={STATUS_STYLES[leave.status]}>
+                      {leave.status}
+                    </span>
+
+                    {leave.status === "pending" && (
+                      <button
+                        type="button"
+                        className="LeaveHistory__deleteBtn"
+                        disabled={deletingLeaveId === leave._id}
+                        onClick={() => handleDeleteLeave(leave._id)}
+                      >
+                        {deletingLeaveId === leave._id ? "Deleting..." : "Delete"}
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <p>

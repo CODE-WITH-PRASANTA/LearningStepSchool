@@ -69,7 +69,7 @@ import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
 import BookList from "./Pages/BookList/BookList";
 import IssueReturn from "./Pages/IssueReturn/IssueReturn";
 import AddStudent from "./Pages/AddStudent/AddStudent";
-// import AddStaff from "./Pages/AddStaff/AddStaff";
+
 import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
@@ -130,6 +130,7 @@ import PermissionManager from "./Pages/PermissionManager/PermissionManager";
 import AttendanceManagement from "./Pages/AttendanceManagement/AttendanceManagement";
 import LeaveManagement from "./Pages/LeaveManagement/LeaveManagement";
 import PayRollManagement from "./Pages/PayRollManagement/PayRollManagement";
+import Wallet from "./Pages/Wallet/Wallet";
 
 
 /* ===================== APP ===================== */
@@ -296,7 +297,7 @@ export default function App() {
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={<IssueReturn />} />
 
-          {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
+           
           <Route path="/library/add-student" element={<AddStudent />} />
           <Route
             path="/library/issued-return-report"
@@ -360,6 +361,7 @@ export default function App() {
           <Route path="/admin/advertisement" element={<AdminAdvertisement />} />
 
           <Route path="/fee-collect" element={<FeeCollection />} />
+          <Route path="/wallet" element={<Wallet />} />
           <Route path="/fee-type" element={<FeeType />} />
           <Route path="/exam-result" element={<ExamResult />} />
           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />

@@ -419,6 +419,28 @@
   flex-shrink: 0;
 }
 
+.LeaveHistory__deleteBtn {
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.LeaveHistory__deleteBtn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.LeaveHistory__deleteBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .LeaveHistory__reason {
   margin: 0 0 0;
   font-size: 13px;
