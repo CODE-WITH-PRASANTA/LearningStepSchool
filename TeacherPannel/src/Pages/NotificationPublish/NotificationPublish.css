@@ -1,0 +1,137 @@
+.notif {
+  padding: 30px;
+  background: #f4f6f8;
+  min-height: 100vh;
+}
+
+.notif__container {
+  max-width: 1100px;
+  margin: auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.notif__title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.notif__subTitle {
+  margin: 20px 0 10px;
+  font-weight: 600;
+}
+
+/* FORM */
+.notif__form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.notif__input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.notif__submitBtn {
+  background: #f97316;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* TABLE */
+.notif__tableWrap {
+  overflow-x: auto;
+}
+
+.notif__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.notif__table th,
+.notif__table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* ROW */
+.notif__row:hover {
+  background: #f9fafb;
+}
+
+/* STATUS */
+.notif__status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.notif__status--active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.notif__status--inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ACTIONS */
+.notif__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.notif__edit {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.notif__toggle--publish {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.notif__toggle--unpublish {
+  background: #eab308;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.notif__delete {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+/* CENTER */
+.notif__center {
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .notif__form {
+    grid-template-columns: 1fr;
+  }
+}
