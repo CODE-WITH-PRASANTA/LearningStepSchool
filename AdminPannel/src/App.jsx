@@ -69,7 +69,7 @@ import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
 import BookList from "./Pages/BookList/BookList";
 import IssueReturn from "./Pages/IssueReturn/IssueReturn";
 import AddStudent from "./Pages/AddStudent/AddStudent";
-// import AddStaff from "./Pages/AddStaff/AddStaff";
+
 import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
@@ -298,7 +298,7 @@ export default function App() {
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={<IssueReturn />} />
 
-          {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
+           
           <Route path="/library/add-student" element={<AddStudent />} />
           <Route
             path="/library/issued-return-report"
