@@ -1,95 +1,91 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FaClipboardList,
+  FaCalendarAlt,
+  FaCalendarDay,
+  FaUserTimes,
+  FaRegCalendarCheck,
+  FaCalendarPlus,
+} from "react-icons/fa";
 import "./AttendanceReport.css";
 
 const AttendanceReport = () => {
+  const navigate = useNavigate();
 
-  // 🔥 DOWNLOAD EXCEL
-  const downloadExcel = async (type) => {
-    try {
-      let url = "http://localhost:5000/api/attendance/export";
-
-      // 👉 future filters (optional)
-      if (type === "class") url += "?type=class";
-      if (type === "date") url += "?type=date";
-      if (type === "absent") url += "?type=absent";
-
-      const res = await fetch(url);
-
-      const blob = await res.blob();
-      const link = document.createElement("a");
-
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `${type || "attendance"}-report.xlsx`;
-      link.click();
-
-    } catch (error) {
-      console.error("Download error:", error);
-    }
-  };
-
-  const reportList = [
+  const cards = [
     {
       title: "ATTENDANCE REPORT",
       subtitle: "Attendance Report",
-      icon: "📅",
-      action: () => downloadExcel("all"),
+      icon: <FaClipboardList />,
+      path: "/attendance/report",
+      color: "#f39c12",
     },
     {
       title: "CLASS WISE REPORT",
       subtitle: "Class Wise Report",
-      icon: "🏫",
-      action: () => downloadExcel("class"),
+      icon: <FaCalendarAlt />,
+      path: "/attendance/class-wise",
+      color: "#6c5ce7",
     },
     {
       title: "ATTENDANCE BY DATE",
       subtitle: "Attendance By Date",
-      icon: "📆",
-      action: () => downloadExcel("date"),
+      icon: <FaCalendarDay />,
+      path: "/attendance/by-date",
+      color: "#3498db",
     },
     {
       title: "ABSENT STUDENT REPORT",
       subtitle: "Absent Student Report",
-      icon: "🚫",
-      action: () => downloadExcel("absent"),
+      icon: <FaUserTimes />,
+      path: "/attendance/absent",
+      color: "#e74c3c",
     },
     {
       title: "UNMARKED ATTENDANCE",
       subtitle: "Unmarked Attendance",
-      icon: "🗓",
-      action: () => alert("Coming Soon 🚀"),
+      icon: <FaRegCalendarCheck />,
+      path: "/attendance/unmarked",
+      color: "#e67e22",
     },
     {
       title: "CUSTOM ATTENDANCE REPORT",
       subtitle: "Custom Attendance Report",
-      icon: "📊",
-      action: () => alert("Coming Soon 🚀"),
+      icon: <FaCalendarPlus />,
+      path: "/attendance/custom",
+      color: "#2980b9",
     },
   ];
 
   return (
-    <div className="attendance-report-page">
-
-      {/* HEADER */}
-      <div className="attendance-header">
-        <h2>📄 Attendance Report</h2>
-        <p>
-          Attendance / <span>Attendance Report</span>
-        </p>
+    <div className="mainAttendance">
+      {/* Header */}
+      <div className="mainAttendance__header">
+        <h2>Attendance Report</h2>
+        <div className="mainAttendance__breadcrumb">
+          <span>Attendance</span> / <span>Attendance Report</span>
+        </div>
       </div>
 
-      {/* REPORT CARDS */}
-      <div className="attendance-report-list">
-        {reportList.map((item, index) => (
+      {/* Cards */}
+      <div className="mainAttendance__container">
+        {cards.map((card, index) => (
           <div
             key={index}
-            className="attendance-report-card"
-            onClick={item.action} // 🔥 click action
+            className="mainAttendance__card"
+            onClick={() => navigate(card.path)}
           >
-            <div className="report-icon">{item.icon}</div>
+            <div
+              className="mainAttendance__icon"
+              style={{ backgroundColor: card.color }}
+            >
+              {card.icon}
+            </div>
 
-            <div className="report-text">
-              <h3>{item.title}</h3>
-              <p>{item.subtitle}</p>
+            <div className="mainAttendance__content">
+              <h4>{card.title}</h4>
+              <p>{card.subtitle}</p>
             </div>
           </div>
         ))}

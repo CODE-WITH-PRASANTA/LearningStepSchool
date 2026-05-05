@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
+  createTransaction,
   getWalletHistory,
   getWalletSummary,
   getMonthlyReport,
@@ -9,6 +10,7 @@ const {
 } = require("../controllers/wallet.controller");
 
 /* ================= WALLET ================= */
+router.post("/", createTransaction);
 router.get("/history", getWalletHistory);
 router.get("/summary", getWalletSummary);
 router.get("/monthly", getMonthlyReport);

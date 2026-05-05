@@ -69,7 +69,7 @@ import PrimaryClassReport from "./Pages/PrimaryClassReport/PrimaryClassReport";
 import BookList from "./Pages/BookList/BookList";
 import IssueReturn from "./Pages/IssueReturn/IssueReturn";
 import AddStudent from "./Pages/AddStudent/AddStudent";
-// import AddStaff from "./Pages/AddStaff/AddStaff";
+
 import IssuedReturnReport from "./Pages/IssuedReturnReport/IssuedReturnReport";
 
 import AdmissionEnquiry from "./Pages/AdmissionEnquiry/AdmissionEnquiry";
@@ -131,6 +131,12 @@ import AttendanceManagement from "./Pages/AttendanceManagement/AttendanceManagem
 import LeaveManagement from "./Pages/LeaveManagement/LeaveManagement";
 import PayRollManagement from "./Pages/PayRollManagement/PayRollManagement";
 import Wallet from "./Pages/Wallet/Wallet";
+import StudentAttendanceReport from "./Component/StudentAttendanceReport/StudentAttendanceReport";
+import ClassWiseReport from "./Component/ClassWiseReport/ClassWiseReport";
+import AttendanceByDate from "./Component/AttendanceByDate/AttendanceByDate";
+import AbsentStudent from "./Component/AbsentStudent/AbsentStudent";
+import UnmarkedAttendance from "./Component/UnmarkedAttendance/UnmarkedAttendance";
+import CustomAttendanceReport from "./Component/CustomAttendanceReport/CustomAttendanceReport";
 
 
 /* ===================== APP ===================== */
@@ -297,7 +303,7 @@ export default function App() {
           <Route path="/library/book-list" element={<BookList />} />
           <Route path="/library/issue-return" element={<IssueReturn />} />
 
-          {/* <Route path="/library/add-staff" element={< AddStaff/>}/> */}
+           
           <Route path="/library/add-student" element={<AddStudent />} />
           <Route
             path="/library/issued-return-report"
@@ -372,6 +378,14 @@ export default function App() {
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
+        
+
+        <Route path="/attendance/report" element={<StudentAttendanceReport />} />
+        <Route path="/attendance/class-wise" element={<ClassWiseReport />} />
+        <Route path="/attendance/by-date" element={<AttendanceByDate />} />
+        <Route path="/attendance/absent" element={<AbsentStudent />} />
+        <Route path="/attendance/unmarked" element={<UnmarkedAttendance />} />
+        <Route path="/attendance/custom" element={<CustomAttendanceReport />}/>
 
 
           {/* Create ,edit teacher  */}

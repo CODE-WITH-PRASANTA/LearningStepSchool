@@ -1,5 +1,31 @@
 const Wallet = require("../models/walletTransaction.model");
 
+/* ================= CREATE TRANSACTION ================= */
+exports.createTransaction = async (req, res) => {
+  try {
+    const { type, amount, source, referenceId, description, createdBy } = req.body;
+
+    const transaction = new Wallet({
+      type,
+      amount,
+      source,
+      referenceId,
+      description,
+      createdBy,
+    });
+
+    await transaction.save();
+
+    res.status(201).json({
+      success: true,
+      data: transaction,
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 /* ================= WALLET HISTORY ================= */
 exports.getWalletHistory = async (req, res) => {
   try {
