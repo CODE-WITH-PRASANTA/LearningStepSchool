@@ -215,7 +215,7 @@ const LeaveSection = () => {
             <p>No leave requests</p>
           ) : (
             leaveHistory.map((leave, i) => (
-              <div key={leave._id || i} className="card">
+              <div key={leave._id || i} className="Leave-card">
                 <div className="top">
                   <strong>{leave.leaveType}</strong>
                   <div className="LeaveHistory__actions">

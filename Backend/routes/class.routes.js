@@ -8,20 +8,9 @@ const {
   deleteClass,
 } = require("../controllers/class.controller");
 
-/* ================= CREATE CLASS ================= */
-
-router.post("/classes", createClass);
-
-/* ================= GET CLASSES ================= */
-
-router.get("/classes", getClasses);
-
-/* ================= UPDATE CLASS ================= */
-
-router.put("/classes/:id", updateClass);
-
-/* ================= DELETE CLASS ================= */
-
-router.delete("/classes/:id", deleteClass);
+router.post("/", createClass);
+router.get("/", getClasses);
+router.put("/:id", updateClass);
+router.delete("/:id", deleteClass);
 
 module.exports = router;

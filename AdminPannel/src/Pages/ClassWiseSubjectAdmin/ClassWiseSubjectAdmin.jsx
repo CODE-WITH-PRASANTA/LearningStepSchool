@@ -85,9 +85,14 @@
 
       // ✅ duplicate check (frontend)
       const alreadyExists = form.classIds.some((classId) => {
-        const cls = subjects.find(
-          (c) => String(c.classId?._id || c.classId) === String(classId),
-        );
+       const cls = subjects.find((c) => {
+        if (!c || !c.classId) return false;
+
+        const id =
+          typeof c.classId === "object" ? c.classId?._id : c.classId;
+
+        return String(id) === String(classId);
+      });
 
         return cls?.subjects?.some(
           (s) =>
@@ -180,41 +185,40 @@
     /* ================= GROUP ================= */
 
     const groupedSubjects = classes
-      .map((cls) => {
-        // ✅ get ALL matching subject docs
-        const matched = subjects.filter((s) => {
-          const subjectClassId =
-            typeof s.classId === "object" ? s.classId._id : s.classId;
+  .map((cls) => {
+    const matched = subjects.filter((s) => {
+      if (!s || !s.classId) return false; // ✅ FIX 1 (NULL CHECK)
 
-          return String(subjectClassId) === String(cls._id);
-        });
+      const subjectClassId =
+        typeof s.classId === "object"
+          ? s.classId?._id // ✅ FIX 2 (SAFE ACCESS)
+          : s.classId;
 
-        // ❌ no match → skip later
-        if (!matched.length) {
-          return {
-            ...cls,
-            subjects: [],
-          };
-        }
+      return String(subjectClassId) === String(cls._id);
+    });
 
-        // ✅ merge all subjects
-        const allSubjects = matched.flatMap((m) => m.subjects);
-
-        return {
-          ...cls,
-          docId: matched[0]._id,
-          classId:
-            typeof matched[0].classId === "object"
-              ? matched[0].classId._id
-              : matched[0].classId,
-          subjects: allSubjects,
-        };
-      })
-      .filter((cls) => cls.subjects.length > 0);
-
-    if (!classes.length || !subjects.length) {
-      return <div className="p-6">Loading...</div>;
+    if (!matched.length) {
+      return {
+        ...cls,
+        subjects: [],
+      };
     }
+
+    const allSubjects = matched.flatMap((m) => m.subjects || []); // ✅ FIX 3
+
+    return {
+      ...cls,
+      docId: matched[0]?._id, // ✅ FIX 4
+      classId:
+        typeof matched[0]?.classId === "object"
+          ? matched[0]?.classId?._id
+          : matched[0]?.classId,
+      subjects: allSubjects,
+    };
+  })
+  .filter((cls) => cls.subjects?.length > 0); // ✅ FIX 5
+
+
 
     return (
       <div className="p-6 bg-gray-100 min-h-screen">

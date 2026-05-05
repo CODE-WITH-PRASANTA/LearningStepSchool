@@ -178,7 +178,7 @@ export default function App() {
 
           {/* Class Data */}
           <Route path="class-data" element={<ClsWiseDataManagements />} />
-          <Route path="c" element={<ClassesAdmin />} />
+          <Route path="class-post" element={<ClassesAdmin />} />
           <Route path="subject-post" element={<SubjectAdmin />} />
           <Route path="classwise-subject" element={<ClassWiseSubjectAdmin />} />
 
@@ -284,6 +284,7 @@ export default function App() {
             path="/academics/assign-subjects"
             element={<AssignSubjects />}
           />
+  
 
           {/*Primary Evaluation*/}
           <Route path="/primary-evaluation/activity" element={<Activity />} />
