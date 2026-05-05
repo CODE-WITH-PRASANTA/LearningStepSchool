@@ -26,10 +26,20 @@ import LatestNewsAdmin from "./Pages/LatestNewsAdmin/LatestNewsAdmin";
 import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish";
 import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
-import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
+import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
+import TeacherAttendance from "./Components/TeacherAttendance/TeacherAttendance";
+// import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
 import BlogView from "./Pages/BlogView/BlogView";
-// import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
+import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
+import Photogallery from "./Pages/Photogallery/Photogallery";
+import Videogallery from "./Pages/Videogallery/Videogallery";
+import PrePrimery from "./Pages/PrePrimery/PrePrimery";
+import Primery from "./Pages/Primery/Primery";
+import Secondary from "./Pages/Secondary/Secondary";
+import AdmissionSurvey from "./Pages/AdmissionSurvey"
+import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
+
 
 function App() {
   return (
@@ -64,9 +74,19 @@ function App() {
             <Route path="/notice-management" element={<NoticeManagement/>}/>
             <Route path="/schoolfee-info" element={<FeeManagement/>}/>
             <Route path="/award-management" element={<AwardAdminPage/>}/>
+            <Route path="/teacher-attendance" element={<TeacherAttendance/>}/>
             <Route path="/blog-post" element={<BlogManagerPage/>}/>
             <Route path="/blog-view"  element={<BlogView/>}/>
-            {/* <Route path="/teacher-posting" element={<TeacherAdminPage/>}/> */}
+            <Route path="/teacher-posting" element={<TeacherAdminPage/>}/>
+            <Route path="/media/photo-gallery" element={<Photogallery/>}/>
+            <Route path="/media/video-gallery" element={<Videogallery/>}/>
+            <Route path="/learning/pre-primary" element={<PrePrimery/>}/>
+            <Route path="/learning/primary" element={<Primery/>}/>
+            <Route path="/learning/secondary" element={<Secondary/>}/>
+            <Route path="/survey" element={<AdmissionSurvey/>}/>
+            <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
+            
+            
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"

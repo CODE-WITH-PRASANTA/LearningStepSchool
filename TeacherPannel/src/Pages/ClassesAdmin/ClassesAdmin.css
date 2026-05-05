@@ -37,19 +37,15 @@
 .cls__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.cls__field label {
-  display: block;
+display: block;
   font-size: 13px;
   margin-bottom: 6px;
   color: #555;
 }
 
 .cls__field input {
-  width: 100%;
-  padding: 10px;
+  width: 90%;
+  padding: 8px;
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -58,8 +54,8 @@
 .cls__btn {
   background: #2563eb;
   color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 8px 15px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
 }

@@ -2,6 +2,8 @@
   padding: 20px;
   background: #f5f6fa;
   font-family: "Inter", sans-serif;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* CARD */
@@ -12,6 +14,7 @@
   border: 1px solid #f3c6cd;
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   overflow: hidden;
+  width: 100%;
 }
 
 /* HEADER */
@@ -25,6 +28,7 @@
   font-size: 16px;
   color: #1e2a55;
   font-weight: 600;
+  margin: 0;
 }
 
 /* FORM */
@@ -49,12 +53,13 @@
 }
 
 .paymentRecipt-field input {
-  width: 100%;
+  width: 100%; /* FIXED (was 80%) */
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid #dcdcdc;
   outline: none;
   transition: 0.2s;
+  font-size: 13px;
 }
 
 .paymentRecipt-field input:focus {
@@ -71,6 +76,7 @@
   border: none;
   cursor: pointer;
   transition: 0.3s;
+  white-space: nowrap;
 }
 
 .paymentRecipt-search button:hover {
@@ -83,7 +89,7 @@
   width: 100%;
 }
 
-/* SCROLLBAR (optional premium) */
+/* SCROLLBAR */
 .paymentRecipt-tableWrapper::-webkit-scrollbar {
   height: 6px;
 }
@@ -95,7 +101,7 @@
 .paymentRecipt-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1000px;
+  min-width: 900px; /* better for mobile scroll */
 }
 
 /* STICKY HEADER */
@@ -139,6 +145,7 @@
 .paymentRecipt-actions {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .paymentRecipt-actions button {
@@ -215,6 +222,10 @@
   .paymentRecipt-field {
     min-width: 160px;
   }
+
+  .paymentRecipt-table {
+    min-width: 800px;
+  }
 }
 
 /* MOBILE */
@@ -235,6 +246,10 @@
   .paymentRecipt-pagination {
     justify-content: center;
   }
+
+  .paymentRecipt-table {
+    min-width: 700px;
+  }
 }
 
 /* SMALL MOBILE */
@@ -251,5 +266,9 @@
 
   .paymentRecipt-actions button {
     padding: 5px 8px;
+  }
+
+  .paymentRecipt-table {
+    min-width: 600px;
   }
 }

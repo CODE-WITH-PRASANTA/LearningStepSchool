@@ -30,7 +30,8 @@ const PermissionManager = () => {
     { name: "TESTIMONIALS_MANAGEMENT", label: "Testimonials" },
     { name: "ADMISSION_MANAGEMENT", label: "Admission Management" },
     { name: "EVENT_MANAGEMENT", label: "Event Management" },
-    { name: "FAQ_POSTING", label: "FAQ Posting" }
+    { name: "FAQ_POSTING", label: "FAQ Posting" },
+    {name: "TEACHER_LEAVE", label: "Leave"}
   ];
   const [permissions, setPermissions] = useState([]);
   const [editId, setEditId] = useState(null);

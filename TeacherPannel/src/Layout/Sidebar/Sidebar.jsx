@@ -69,13 +69,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   // 📊 MENU
   const menu = [
     { name: "Dashboard", path: "/", icon: <FaHome /> },
-    {
-      name: "Profile",
-      path: "/admin/profile",
-      icon: <FaUser />,
-      permission: "VIEW_PROFILE",
-    },
+    { name: "Profile", path: "/admin/profile", icon: <FaUser />,  },
     { name: "Leave", path: "/admin/leave", icon: <FaUser /> },
+    { name: "Attendance", path: "/teacher-attendance", icon:""},
 
     { type: "section", label: "ERP Solution" },
 
@@ -261,6 +257,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       path: "/admission-management",
       icon: <FaUserGraduate />,
       permission: "ADMISSION_MANAGEMENT",
+
+      submenu: [
+        {
+          name: "Admission Survey",
+          path: "/survey",
+          icon: <FaUserGraduate />,
+          permission: "ADMISSION_MANAGEMENT",
+        },
+        {
+          name: "Admission Data View",
+          path: "/survey/data",
+          icon: <FaUserGraduate />,
+          permission: "ADMISSION_MANAGEMENT",
+        },
+      ],
     },
     {
       name: "Event Management",

@@ -17,7 +17,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     source: {
       type: String,
-      enum: ["fee", "expense"],
+      enum: ["fee", "expense", "payroll"], // ✅ fixed
       required: true,
       index: true,
     },
@@ -51,14 +51,11 @@ const walletTransactionSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { timestamps: true } // auto createdAt + updatedAt
+  { timestamps: true }, // auto createdAt + updatedAt
 );
 
 /* ⚡ Helpful indexes for reports */
 walletTransactionSchema.index({ createdAt: -1 });
 walletTransactionSchema.index({ type: 1, source: 1 });
 
-module.exports = mongoose.model(
-  "WalletTransaction",
-  walletTransactionSchema
-);
+module.exports = mongoose.model("WalletTransaction", walletTransactionSchema);
