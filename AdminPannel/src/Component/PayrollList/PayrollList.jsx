@@ -1,84 +1,39 @@
-import React, { useMemo, useState } from "react";
-import {
-  Search,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontal,
-} from "lucide-react";
+import React, { useMemo, useState, useEffect } from "react";
+import { Search, ChevronDown, MoreHorizontal } from "lucide-react";
 import "./PayrollList.css";
+import API, { IMAGE_URL } from "../../api/axios";
 
-const payrollData = [
-  {
-    id: 1,
-    name: "James Anderson",
-    avatar: "https://i.pravatar.cc/40?img=12",
-    department: "Back-End Developer",
-    totalDays: 30,
-    workingDay: 27,
-    salary: "$22,250",
-    overtime: "$1500",
-    status: "Completed",
-  },
-  {
-    id: 2,
-    name: "William Johnson",
-    avatar: "https://i.pravatar.cc/40?img=32",
-    department: "Full-Stack Developer",
-    totalDays: 29,
-    workingDay: 18,
-    salary: "$21,2500",
-    overtime: "$1800",
-    status: "Completed",
-  },
-  {
-    id: 3,
-    name: "Benjamin Martinez",
-    avatar: "https://i.pravatar.cc/40?img=15",
-    department: "Mobile App Developer",
-    totalDays: 28,
-    workingDay: 4,
-    salary: "$22,250",
-    overtime: "$2900",
-    status: "Reject",
-  },
-  {
-    id: 4,
-    name: "Michael Davis",
-    avatar: "https://i.pravatar.cc/40?img=19",
-    department: "UI/UX Designer",
-    totalDays: 27,
-    workingDay: 27,
-    salary: "$86,000",
-    overtime: "$400",
-    status: "Pending",
-  },
-  {
-    id: 5,
-    name: "Matthew Taylor",
-    avatar: "https://i.pravatar.cc/40?img=26",
-    department: "DevOps Engineer",
-    totalDays: 26,
-    workingDay: 30,
-    salary: "$12,000",
-    overtime: "$700",
-    status: "Pending",
-  },
-];
-
-const PayrollList = () => {
+const PayrollList = ({ refresh, onEdit }) => {
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(null);
+  const [payrollData, setPayrollData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchPayrolls = async () => {
+    try {
+      const res = await API.get("/payroll");
+      setPayrollData(res.data.data || res.data || []); // handle both shapes
+      // console.log("Payrolls fetched:", res.data.data || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPayrolls();
+  }, [refresh]);
 
   const filtered = useMemo(() => {
     return payrollData.filter(
       (item) =>
-        item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.department.toLowerCase().includes(search.toLowerCase())
+        item.teacherId?.name?.toLowerCase().includes(search.toLowerCase()) ||
+        item.teacherId?.department
+          ?.toLowerCase()
+          .includes(search.toLowerCase()),
     );
-  }, [search]);
+  }, [search, payrollData]);
 
   const statusClass = (status) => {
     if (status === "Completed") return "completed";
@@ -86,19 +41,24 @@ const PayrollList = () => {
     return "reject";
   };
 
-  const handleEdit = (name) => {
-    alert(`Edit ${name}`);
+  const handleDelete = async (id) => {
+    try {
+      await API.delete(`/payroll/${id}`);
+      setPayrollData((prev) => prev.filter((item) => item._id !== id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleEdit = (item) => {
+    onEdit(item);
     setMenuOpen(null);
   };
 
-  const handleDelete = (name) => {
-    alert(`Delete ${name}`);
-    setMenuOpen(null);
-  };
+  if (loading) return <h3>Loading payroll...</h3>;
 
   return (
     <div className="payroll-list-wrapper">
-      {/* Top */}
       <div className="payroll-list-top">
         <h2>Payroll List</h2>
 
@@ -113,9 +73,7 @@ const PayrollList = () => {
             />
           </div>
 
-          <button className="download-report-btn">
-            Download Report
-          </button>
+          <button className="download-report-btn">Download Report</button>
 
           <div className="year-dropdown">
             <select>
@@ -127,42 +85,51 @@ const PayrollList = () => {
         </div>
       </div>
 
-      {/* Table */}
       <div className="payroll-table-wrap">
         <table className="payroll-table">
           <thead>
             <tr>
-              <th></th>
-              <th>Name ⇅</th>
-              <th>Department ⇅</th>
-              <th>Total Days ⇅</th>
-              <th>Working Day ⇅</th>
-              <th>Total Salary ⇅</th>
-              <th>Over Time ⇅</th>
-              <th>Status ⇅</th>
-              <th>Action ⇅</th>
+              <th>Name</th>
+              <th>Department</th>
+              <th>Month</th>
+              <th>Year</th>
+              <th>Working Days</th>
+              <th>Gross Salary</th>
+              <th>Deductions</th>
+              <th>Net Salary</th>
+              <th>Overtime</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
             {filtered.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <input type="checkbox" />
-                </td>
-
+              <tr key={item._id}>
                 <td>
                   <div className="user-info">
-                    <img src={item.avatar} alt="" />
-                    <span>{item.name}</span>
+                    <img
+                      src={
+                        item.teacherId?.image
+                          ? `${IMAGE_URL}${item.teacherId.image}`
+                          : "https://i.pravatar.cc/40"
+                      }
+                      alt={item.teacherId?.name}
+                    />
+                    <span>{item.teacherId?.name || "N/A"}</span>
                   </div>
                 </td>
 
-                <td>{item.department}</td>
-                <td>{item.totalDays} Days</td>
-                <td>{item.workingDay} Days</td>
-                <td>{item.salary}</td>
-                <td>{item.overtime}</td>
+                <td>{item.teacherId?.department || "-"}</td>
+
+                <td>{item.month}</td>
+                <td>{item.year}</td>
+
+                <td>{item.workingDays}/{item.totalDays}</td>
+                <td>₹{item.grossSalary?.toFixed(2) || '0.00'}</td>
+                <td>₹{item.totalDeductions?.toFixed(2) || '0.00'}</td>
+                <td>₹{item.totalSalary?.toFixed(2) || '0.00'}</td>
+                <td>₹{item.overtimeAmount?.toFixed(2) || '0.00'}</td>
 
                 <td>
                   <span className={`status-badge ${statusClass(item.status)}`}>
@@ -174,25 +141,16 @@ const PayrollList = () => {
                   <button
                     className="action-btn"
                     onClick={() =>
-                      setMenuOpen(
-                        menuOpen === item.id ? null : item.id
-                      )
+                      setMenuOpen(menuOpen === item._id ? null : item._id)
                     }
                   >
                     <MoreHorizontal size={18} />
                   </button>
 
-                  {menuOpen === item.id && (
+                  {menuOpen === item._id && (
                     <div className="action-menu">
-                      <button
-                        onClick={() => handleEdit(item.name)}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() => handleDelete(item.name)}
-                      >
+                      <button onClick={() => handleEdit(item)}>Edit</button>
+                      <button onClick={() => handleDelete(item._id)}>
                         Delete
                       </button>
                     </div>

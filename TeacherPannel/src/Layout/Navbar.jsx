@@ -1,51 +1,56 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaBars, FaUser, FaCog, FaSignOutAlt  } from "react-icons/fa";
-import { FaUserTie } from "react-icons/fa";
+import {
+  FaBars,
+  FaUser,
+  FaCog,
+  FaSignOutAlt
+} from "react-icons/fa";
 import "./Navbar.css";
-import API from "../api/axios";
-import { IMAGE_URL } from "../api/axios";
+import API, { IMAGE_URL } from "../api/axios";
 
-export default function Navbar({ sidebarOpen, setSidebarOpen }) {
+const Navbar = ({ sidebarOpen, setSidebarOpen }) => {
   const [openProfile, setOpenProfile] = useState(false);
   const [avatarSrc, setAvatarSrc] = useState("https://i.pravatar.cc/40");
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("teacher"));
 
+  // ✅ SINGLE toggle function
+  const toggleSidebar = () => {
+    setSidebarOpen(prev => !prev);
+  };
+
+  // 🔹 Image Helper
   const getImageSrc = (imagePath) => {
     if (!imagePath) return "";
-    if (typeof imagePath !== "string") return "";
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-      return imagePath;
-    }
+    if (imagePath.startsWith("http")) return imagePath;
     if (imagePath.startsWith("/")) return `${IMAGE_URL}${imagePath}`;
     return `${IMAGE_URL}/${imagePath}`;
   };
 
+  // 🔹 Load profile image
   useEffect(() => {
     (async () => {
       try {
         const res = await API.get("/teacher/me");
-        const me = res?.data;
-        if (me?.image) setAvatarSrc(getImageSrc(me.image));
+        if (res?.data?.image) {
+          setAvatarSrc(getImageSrc(res.data.image));
+        }
       } catch (err) {
-        // fallback to localStorage (if it ever contains image)
-        if (user?.image) setAvatarSrc(getImageSrc(user.image));
+        if (user?.image) {
+          setAvatarSrc(getImageSrc(user.image));
+        }
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
+  // 🔹 Logout
   const handleLogout = async () => {
     try {
       await API.post("/auth/logout");
     } catch (err) {
-      console.log("Logout error:", err);
+      console.log(err);
     }
 
     localStorage.clear();
@@ -64,7 +69,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <header className="admin-navbar">
-      
+
       {/* LEFT */}
       <div className="navbar-left">
         <button className="menu-btn" onClick={toggleSidebar}>
@@ -108,6 +113,9 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
           </div>
         )}
       </div>
+
     </header>
   );
-}
+};
+
+export default Navbar;

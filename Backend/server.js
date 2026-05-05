@@ -60,6 +60,8 @@ const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
 
 
 const walletRoutes = require("./routes/wallet.routes")
+const payrollRoutes = require("./routes/payroll.routes")
+const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
 // const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
@@ -87,7 +89,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
-app.use("/api", classRoutes);
+app.use("/api/classes", classRoutes);
 app.use("/api", subjectRoutes);
 
 app.use("/api/feetypes", feeTypes);
@@ -112,7 +114,9 @@ app.use("/api",permissionRoutes)
 app.use("/api", leaveRoutes);
 
 app.use("/api/wallet", walletRoutes);
+app.use("/api/payroll", payrollRoutes);
 
+app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
 // app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 /* ================= 404 HANDLER ================= */
