@@ -133,6 +133,12 @@ import PayRollManagement from "./Pages/PayRollManagement/PayRollManagement";
 import Wallet from "./Pages/Wallet/Wallet";
 import CollectMoney from "./Pages/CollectMoney/CollectMoney";
 
+import StudentAttendanceReport from "./Component/StudentAttendanceReport/StudentAttendanceReport";
+import ClassWiseReport from "./Component/ClassWiseReport/ClassWiseReport";
+import AttendanceByDate from "./Component/AttendanceByDate/AttendanceByDate";
+import AbsentStudent from "./Component/AbsentStudent/AbsentStudent";
+import UnmarkedAttendance from "./Component/UnmarkedAttendance/UnmarkedAttendance";
+import CustomAttendanceReport from "./Component/CustomAttendanceReport/CustomAttendanceReport";
 
 
 /* ===================== APP ===================== */
@@ -376,6 +382,14 @@ export default function App() {
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
+        
+
+        <Route path="/attendance/report" element={<StudentAttendanceReport />} />
+        <Route path="/attendance/class-wise" element={<ClassWiseReport />} />
+        <Route path="/attendance/by-date" element={<AttendanceByDate />} />
+        <Route path="/attendance/absent" element={<AbsentStudent />} />
+        <Route path="/attendance/unmarked" element={<UnmarkedAttendance />} />
+        <Route path="/attendance/custom" element={<CustomAttendanceReport />}/>
 
 
           {/* Create ,edit teacher  */}

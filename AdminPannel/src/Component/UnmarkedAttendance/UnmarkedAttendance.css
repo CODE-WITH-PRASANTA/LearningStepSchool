@@ -1,0 +1,123 @@
+.unmarkedAttendance {
+  padding: 20px;
+  background: #f4f5fb;
+  font-family: "Poppins", sans-serif;
+}
+
+/* CARD */
+.unmarkedAttendance__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-top: 3px solid #e7c3c9;
+}
+
+/* TITLE */
+.unmarkedAttendance__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* FORM */
+.unmarkedAttendance__form {
+  display: flex;
+  gap: 20px;
+}
+
+.unmarkedAttendance__field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.unmarkedAttendance__actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.unmarkedAttendance__btn {
+  background: #1e2a78;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* TOOLBAR */
+.unmarkedAttendance__toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.unmarkedAttendance__dropdown {
+  background: #1e2a78;
+  color: #fff;
+}
+
+.unmarkedAttendance__right {
+  display: flex;
+  gap: 10px;
+}
+
+/* TABLE */
+.unmarkedAttendance__tableWrapper {
+  overflow-x: auto;
+}
+
+.unmarkedAttendance__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.unmarkedAttendance__table th {
+  background: #e7d3d8;
+  padding: 12px;
+  text-align: left;
+}
+
+.unmarkedAttendance__table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.unmarkedAttendance__table tbody tr:nth-child(even) {
+  background: #f2f2f8;
+}
+
+/* PAGINATION */
+.unmarkedAttendance__pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.unmarkedAttendance__pagination button {
+  padding: 6px 12px;
+  margin-left: 5px;
+}
+
+.unmarkedAttendance__pagination .active {
+  background: #1e2a78;
+  color: #fff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .unmarkedAttendance__form {
+    flex-direction: column;
+  }
+
+  .unmarkedAttendance__toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

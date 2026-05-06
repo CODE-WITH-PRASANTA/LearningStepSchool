@@ -1,0 +1,130 @@
+.attendanceByDate {
+  padding: 20px;
+  background: #f4f5fb;
+  font-family: "Poppins", sans-serif;
+}
+
+/* CARD */
+.attendanceByDate__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-top: 3px solid #e7c3c9;
+}
+
+/* TITLE */
+.attendanceByDate__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* FORM */
+.attendanceByDate__form {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.attendanceByDate__field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.attendanceByDate__field select,
+.attendanceByDate__field input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.attendanceByDate__actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.attendanceByDate__btn {
+  background: #1e2a78;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* TOOLBAR */
+.attendanceByDate__toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.attendanceByDate__left button {
+  margin-right: 5px;
+  padding: 6px 10px;
+}
+
+.attendanceByDate__dropdown {
+  background: #1e2a78;
+  color: #fff;
+}
+
+/* TABLE */
+.attendanceByDate__tableWrapper {
+  overflow-x: auto;
+}
+
+.attendanceByDate__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.attendanceByDate__table th {
+  background: #e7d3d8;
+  padding: 10px;
+}
+
+.attendanceByDate__table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.attendanceByDate__table tbody tr:nth-child(even) {
+  background: #f2f2f8;
+}
+
+/* PAGINATION */
+.attendanceByDate__pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.attendanceByDate__pagination button {
+  padding: 6px 12px;
+  margin-left: 5px;
+}
+
+.attendanceByDate__pagination button.active {
+  background: #3f51b5;
+  color: #fff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .attendanceByDate__form {
+    grid-template-columns: 1fr;
+  }
+
+  .attendanceByDate__toolbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

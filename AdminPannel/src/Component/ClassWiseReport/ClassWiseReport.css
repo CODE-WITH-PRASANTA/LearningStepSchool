@@ -1,0 +1,121 @@
+.classWiseReport {
+  padding: 20px;
+  background: #f4f5fb;
+  font-family: "Poppins", sans-serif;
+}
+
+/* CARD */
+.classWiseReport__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-top: 3px solid #e7c3c9;
+}
+
+/* TITLE */
+.classWiseReport__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2d2d5f;
+}
+
+/* FORM */
+.classWiseReport__form {
+  display: flex;
+  gap: 20px;
+}
+
+.classWiseReport__field {
+  flex: 1;
+}
+
+.classWiseReport__field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.classWiseReport__field input {
+  width: 400px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.classWiseReport__actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.classWiseReport__btn {
+  background: #1e2a78;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* TABLE */
+.classWiseReport__tableWrapper {
+  overflow-x: auto;
+}
+
+.classWiseReport__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.classWiseReport__table th {
+  background: #e7d3d8;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.classWiseReport__table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.classWiseReport__table tbody tr:nth-child(even) {
+  background: #f2f2f8;
+}
+
+/* TOTAL */
+.classWiseReport__total {
+  background: #ddd;
+  font-weight: 600;
+}
+
+/* PAGINATION */
+.classWiseReport__pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  align-items: center;
+}
+
+.classWiseReport__pagination button {
+  padding: 6px 12px;
+  margin-left: 5px;
+  border: none;
+  background: #eee;
+}
+
+.classWiseReport__pagination button.active {
+  background: #3f51b5;
+  color: #fff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .classWiseReport__form {
+    flex-direction: column;
+  }
+}
