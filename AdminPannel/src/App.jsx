@@ -131,6 +131,8 @@ import AttendanceManagement from "./Pages/AttendanceManagement/AttendanceManagem
 import LeaveManagement from "./Pages/LeaveManagement/LeaveManagement";
 import PayRollManagement from "./Pages/PayRollManagement/PayRollManagement";
 import Wallet from "./Pages/Wallet/Wallet";
+import CollectMoney from "./Pages/CollectMoney/CollectMoney";
+
 
 
 /* ===================== APP ===================== */
@@ -347,6 +349,7 @@ export default function App() {
           <Route path="/expense/details" element={<AddExpense />} />
           <Route path="/expense-search" element={<ExpenseSearch />} />
           <Route path="/expense-head" element={<ExpenseHead />} />
+          <Route path="/Other income" element={< CollectMoney/>} />
 
 
           {/* Student Info */}

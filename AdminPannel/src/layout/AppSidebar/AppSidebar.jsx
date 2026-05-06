@@ -314,6 +314,7 @@ const menu = [
       { label: "Add Expense", path: "/expense/details" },
       { label: "Expense Search", path: "/expense-search" },
       { label: "Expense Head", path: "/expense-head" },
+      { label: "Other income", path: "/Other income"},
     ],
   },
 
