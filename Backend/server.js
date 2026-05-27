@@ -63,7 +63,9 @@ const walletRoutes = require("./routes/wallet.routes")
 const payrollRoutes = require("./routes/payroll.routes")
 const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
-// const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
+const bookMasterRoutes = require("./routes/bookMaster.routes");
+
+
 
 
 
@@ -89,7 +91,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/students", studentAdmissionRoutes);
 app.use("/api/advertisements", advertisementRoutes);
-app.use("/api", classRoutes);
+app.use("/api/classes", classRoutes);
 app.use("/api", subjectRoutes);
 
 app.use("/api/feetypes", feeTypes);
@@ -118,7 +120,9 @@ app.use("/api/payroll", payrollRoutes);
 
 app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
-// app.use("/api/teacher-attendance", teacherAttendanceRoutes);
+app.use("/api/book-master", bookMasterRoutes);
+
+
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {
@@ -136,22 +140,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
- 
-
-
-

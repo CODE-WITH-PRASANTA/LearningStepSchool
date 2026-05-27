@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../../api/axios";
 import { IMAGE_URL } from "../../api/axios";
-import "./ProFilepicture.css";
+import "./ProFilePicture.css";
 
 const ProFilePicture = () => {
   const [profile, setProfile] = useState({

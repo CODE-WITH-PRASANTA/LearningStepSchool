@@ -14,10 +14,6 @@ const auth = require("../../middleware/authMiddleware");
 const checkPermission = require("../../middleware/checkPermission");
 const {upload, convertToWebp} = require("../../middleware/upload");
 
-
-
-
-
 // ================= ADMIN TEACHER MANAGEMENT =================
 
 // CREATE

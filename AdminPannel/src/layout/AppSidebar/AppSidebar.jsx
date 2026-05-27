@@ -263,17 +263,17 @@ const menu = [
   //   ],
   // },
 
-  // {
-  //   label: "Library",
-  //   icon: FiBook,
-  //   children: [
-  //     { label: "Book List", path: "/library/book-list" },
-  //     { label: "Issue Book", path: "/library/issue-book" },
-  //     { label: "Return Book", path: "/library/return-book" },
-  //     { label: "Add Student", path: "/library/student" },
-  //     { label: "Add Staff", path: "/library/staff" },
-  //   ],
-  // },
+   {
+     label: "Library",
+    icon: FiBook,
+  children: [
+      { label: "Library Master", path: "/library/master" },
+       { label: "Issue Book", path: "/library/issue-book" },
+      { label: "Return Book", path: "/library/return-book" },
+       { label: "Add Student", path: "/library/student" },
+      { label: "Add Staff", path: "/library/staff" },
+     ],
+  },
 
   // { type: "divider" },
 
@@ -315,6 +315,7 @@ const menu = [
       { label: "Add Expense", path: "/expense/details" },
       { label: "Expense Search", path: "/expense-search" },
       { label: "Expense Head", path: "/expense-head" },
+      { label: "Other income", path: "/Other income"},
     ],
   },
 

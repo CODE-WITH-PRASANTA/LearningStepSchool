@@ -64,14 +64,14 @@
 }
 
 /* HISTORY */
-.LeaveHistory .card {
+.LeaveHistory .Leave-card {
   border: 1px solid #eee;
   padding: 12px;
   border-radius: 10px;
   margin-bottom: 10px;
 }
 
-.card .top {
+.Leave-card .top {
   display: flex;
   justify-content: space-between;
   gap: 12px;

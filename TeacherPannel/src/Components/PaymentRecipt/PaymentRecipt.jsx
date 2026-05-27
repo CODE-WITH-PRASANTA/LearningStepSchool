@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import API from "../../api/axios";
 import "./PaymentRecipt.css";
 import { FaSearch, FaEye, FaDownload } from "react-icons/fa";
-import logo from "../../Assets/Learning-Step-Logo-1.png";
+import logo from "../../assets/Learning-Step-Logo-1.png";
 
 const PaymentRecipt = () => {
   const [searchData, setSearchData] = useState({
