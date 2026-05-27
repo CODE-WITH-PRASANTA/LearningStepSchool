@@ -397,13 +397,13 @@ const ReturnBook = () => {
             </div>
 
             <div className="returnBook__pageRight">
-              <button>
+              <button className="returnBook__pageBtn">
                 <FiChevronLeft />
               </button>
 
               <button className="activePage">1</button>
 
-              <button>
+              <button className="returnBook__pageBtn">
                 <FiChevronRight />
               </button>
             </div>
@@ -415,7 +415,9 @@ const ReturnBook = () => {
         <div className="returnBookModal">
           <div className="returnBookModal__box">
             <div className="returnBookModal__header">
-              <h2>Add Return Book</h2>
+              <h2>
+                Issue Book
+              </h2>
 
               <button
                 className="returnBookModal__close"

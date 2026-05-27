@@ -1,131 +1,590 @@
-.addStudentPage{
-  background:#f5f7fb;
-  min-height:100vh;
-  font-family:"Segoe UI",sans-serif;
+.addStudent{
+width:100%;
+min-height:100vh;
+padding:20px;
+background:#f5f7ff;
+font-family:Poppins,sans-serif;
+box-sizing:border-box;
 }
 
-/* ===== HEADER BAR ===== */
-.topHeaderBar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 35px 10px;
+/* TOPBAR */
+
+.addStudent__topbar{
+width:100%;
+background:white;
+border-radius:22px 22px 0 0;
+padding:18px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.04);
 }
 
-/* LEFT TITLE */
-.pageTitle{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.addStudent__search{
+flex:1;
+height:54px;
+background:#f7f8fc;
+border-radius:40px;
+padding:0 18px;
+display:flex;
+align-items:center;
 }
 
-.pageTitle h2{
-  font-size:24px;
-  color:#1d2d50;
-  margin:0;
-  font-weight:600;
+.addStudent__search svg{
+font-size:20px;
+color:#111827;
+margin-right:12px;
 }
 
-.titleIcon{
-  font-size:22px;
-  color:#1d2d50;
+.addStudent__search input{
+flex:1;
+border:none;
+outline:none;
+background:none;
+font-size:14px;
+font-weight:500;
 }
 
-/* RIGHT BREADCRUMB */
-.breadcrumb{
-  font-size:15px;
-  color:#6c757d;
+.addStudent__addBtn{
+width:56px;
+height:56px;
+border:none;
+border-radius:50%;
+background:linear-gradient(
+135deg,
+#6254ff,
+#4b42e8
+);
+color:white;
+font-size:24px;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+box-shadow:0 12px 24px rgba(89,74,255,.25);
 }
 
-.libraryText{ color:#7c8aa5; }
-.slash{ margin:0 8px; }
+/* TABLE */
 
-.currentPage{
-  color:#2c3e50;
-  font-weight:500;
+.addStudent__tableCard{
+background:white;
+border-radius:0 0 22px 22px;
+overflow:hidden;
+box-shadow:0 15px 30px rgba(0,0,0,.04);
 }
 
-/* ===== CONTENT AREA ===== */
-.contentArea{
-  padding:0 35px 35px;
+.addStudent__tableWrap{
+overflow-x:auto;
 }
 
-/* CARD */
-.criteriaCard{
-  background:#fff;
-  border-radius:14px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.08);
-  overflow:hidden;
+.addStudent__table{
+width:100%;
+min-width:780px;
+border-collapse:collapse;
 }
 
-/* CARD HEADER */
-.cardHeader{
-  padding:18px 25px;
-  border-bottom:1px solid #eee;
+.addStudent__table th{
+padding:16px 16px;
+font-size:12px;
+font-weight:700;
+color:#111827;
+text-align:left;
+border-bottom:1px solid #eef2ff;
+white-space:nowrap;
 }
 
-.cardHeader h3{
-  margin:0;
-  font-size:20px;
-  color:#1d2d50;
+.addStudent__table td{
+padding:16px;
+font-size:13px;
+color:#333;
+border-bottom:1px solid #f1f5f9;
+white-space:nowrap;
 }
 
-/* FORM ROW */
-.formRow{
-  display:flex;
-  gap:30px;
-  padding:30px 25px 20px;
+.addStudent__student{
+font-weight:600;
 }
 
-.formGroup{
-  flex:1;
-  display:flex;
-  flex-direction:column;
+.addStudent__class{
+font-weight:600;
 }
 
-.formGroup label{
-  font-size:15px;
-  margin-bottom:8px;
-  color:#2c3e50;
+.addStudent__delete{
+width:34px;
+height:34px;
+border:none;
+background:#fff1f1;
+border-radius:10px;
+color:#ff1d1d;
+font-size:15px;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-.formGroup label span{ color:red; }
-
-.formGroup select{
-  height:45px;
-  border-radius:8px;
-  border:1px solid #d8dee9;
-  padding:0 12px;
-  font-size:15px;
-  background:#f8fafc;
-  transition:0.2s;
+.addStudent__delete:hover{
+background:#ffe3e3;
 }
 
-.formGroup select:focus{
-  outline:none;
-  border-color:#3b82f6;
-  background:#fff;
+/* PAGINATION */
+
+.addStudent__pagination{
+padding:16px 18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
 }
 
-/* SEARCH BUTTON */
-.searchWrapper{
-  padding:15px 25px 25px;
+.addStudent__pageLeft{
+display:flex;
+align-items:center;
+gap:12px;
 }
 
-.searchBtn{
-  background:#1d4ed8;
-  color:#fff;
-  border:none;
-  padding:10px 22px;
-  border-radius:8px;
-  font-size:15px;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  transition:0.2s;
+.addStudent__pageLeft span{
+font-size:13px;
+font-weight:500;
+color:#374151;
 }
 
-.searchBtn:hover{
-  background:#163fae;
+.addStudent__pageLeft select{
+height:42px;
+min-width:82px;
+padding:0 12px;
+border:1px solid #d1d5db;
+border-radius:10px;
+background:white;
+font-size:13px;
+outline:none;
+cursor:pointer;
+}
+
+.addStudent__pageRight{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.addStudent__pageRight span{
+font-size:13px;
+font-weight:500;
+color:#111827;
+}
+
+.addStudent__pageRight button{
+width:34px;
+height:34px;
+border:none;
+background:#f3f4f6;
+border-radius:10px;
+font-size:14px;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:.3s;
+}
+
+.addStudent__pageRight button:hover{
+background:#e5e7eb;
+}
+
+.addStudent__pageRight button:disabled{
+opacity:.4;
+cursor:not-allowed;
+}
+
+/* MODAL */
+
+.addStudentModal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+backdrop-filter:blur(8px);
+z-index:999;
+overflow:auto;
+}
+
+.addStudentModal__box{
+width:100%;
+max-width:1300px;
+background:white;
+border-radius:22px;
+overflow:hidden;
+}
+
+.addStudentModal__header{
+padding:20px 22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #eef2ff;
+}
+
+.addStudentModal__header h2{
+font-size:22px;
+font-weight:700;
+}
+
+.addStudentModal__close{
+width:58px;
+height:58px;
+border:none;
+border-radius:50%;
+background:#fff1f1;
+font-size:26px;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.addStudentModal__search{
+margin:20px 22px 16px;
+height:56px;
+border:1px solid #d1d5db;
+border-radius:14px;
+padding:0 16px;
+display:flex;
+align-items:center;
+}
+
+.addStudentModal__search svg{
+font-size:20px;
+margin-right:10px;
+color:#666;
+}
+
+.addStudentModal__search input{
+flex:1;
+border:none;
+outline:none;
+background:none;
+font-size:14px;
+}
+
+.addStudentModal__inputs{
+padding:0 22px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+margin-bottom:18px;
+}
+
+.addStudentModal__inputs input{
+height:54px;
+border:1px solid #d1d5db;
+border-radius:14px;
+padding:0 16px;
+font-size:14px;
+outline:none;
+}
+
+/* MODAL TABLE */
+
+.addStudentModal__tableWrap{
+overflow-x:auto;
+padding:0 22px;
+}
+
+.addStudentModal__table{
+width:100%;
+min-width:850px;
+border-collapse:collapse;
+}
+
+.addStudentModal__table th{
+padding:14px 12px;
+background:#bdbdbd;
+font-size:12px;
+font-weight:700;
+border:1px solid #9e9e9e;
+white-space:nowrap;
+text-align:left;
+color:#333;
+}
+
+.addStudentModal__table td{
+padding:13px 12px;
+font-size:12px;
+border:1px solid #e5e7eb;
+white-space:nowrap;
+color:#444;
+background:white;
+}
+
+.addStudentModal__footer{
+padding:24px 22px;
+display:flex;
+justify-content:flex-end;
+gap:14px;
+}
+
+.addStudentModal__cancel{
+border:none;
+background:none;
+font-size:15px;
+cursor:pointer;
+}
+
+.addStudentModal__add{
+height:50px;
+padding:0 32px;
+border:none;
+border-radius:12px;
+background:linear-gradient(
+135deg,
+#6254ff,
+#4b42e8
+);
+color:white;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+}
+
+/* TABLET */
+
+@media(max-width:768px){
+
+.addStudent{
+padding:14px;
+}
+
+.addStudent__topbar{
+padding:16px;
+}
+
+.addStudent__search{
+height:50px;
+}
+
+.addStudent__addBtn{
+width:50px;
+height:50px;
+font-size:22px;
+}
+
+.addStudent__table th,
+.addStudent__table td{
+padding:14px 12px;
+font-size:12px;
+}
+
+.addStudent__pagination{
+justify-content:center;
+padding:16px 14px;
+}
+
+.addStudent__pageLeft,
+.addStudent__pageRight{
+width:100%;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.addStudentModal{
+padding:12px;
+align-items:flex-start;
+}
+
+.addStudentModal__box{
+margin-top:10px;
+border-radius:20px;
+}
+
+.addStudentModal__inputs{
+grid-template-columns:1fr;
+}
+
+.addStudentModal__header{
+padding:18px;
+}
+
+.addStudentModal__header h2{
+font-size:20px;
+}
+
+.addStudentModal__close{
+width:52px;
+height:52px;
+font-size:24px;
+}
+
+.addStudentModal__search{
+margin:18px;
+height:52px;
+}
+
+.addStudentModal__inputs{
+padding:0 18px;
+}
+
+.addStudentModal__inputs input{
+height:52px;
+}
+
+.addStudentModal__tableWrap{
+padding:0 18px;
+}
+
+.addStudentModal__table{
+min-width:760px;
+}
+
+.addStudentModal__table th{
+padding:12px 10px;
+font-size:11px;
+}
+
+.addStudentModal__table td{
+padding:12px 10px;
+font-size:11px;
+}
+
+.addStudentModal__footer{
+padding:20px 18px;
+flex-direction:column;
+}
+
+.addStudentModal__cancel,
+.addStudentModal__add{
+width:100%;
+height:50px;
+border-radius:12px;
+}
+
+.addStudentModal__cancel{
+background:#f3f4f6;
+}
+
+}
+
+/* SMALL MOBILE */
+
+@media(max-width:480px){
+
+.addStudent{
+padding:10px;
+}
+
+.addStudent__topbar{
+padding:14px;
+gap:12px;
+}
+
+.addStudent__search{
+height:46px;
+padding:0 14px;
+}
+
+.addStudent__search svg{
+font-size:18px;
+}
+
+.addStudent__search input{
+font-size:13px;
+}
+
+.addStudent__addBtn{
+width:46px;
+height:46px;
+font-size:20px;
+}
+
+.addStudent__table{
+min-width:720px;
+}
+
+.addStudent__pagination{
+padding:14px 12px;
+gap:12px;
+}
+
+.addStudent__pageLeft span,
+.addStudent__pageRight span{
+font-size:12px;
+}
+
+.addStudent__pageLeft select{
+height:40px;
+min-width:76px;
+font-size:12px;
+}
+
+.addStudent__pageRight button{
+width:32px;
+height:32px;
+font-size:13px;
+}
+
+.addStudentModal__header{
+padding:16px;
+}
+
+.addStudentModal__header h2{
+font-size:18px;
+}
+
+.addStudentModal__close{
+width:46px;
+height:46px;
+font-size:20px;
+}
+
+.addStudentModal__search{
+margin:16px;
+padding:0 14px;
+height:48px;
+}
+
+.addStudentModal__search svg{
+font-size:18px;
+}
+
+.addStudentModal__search input{
+font-size:13px;
+}
+
+.addStudentModal__inputs{
+padding:0 16px;
+gap:12px;
+}
+
+.addStudentModal__inputs input{
+height:48px;
+padding:0 14px;
+font-size:13px;
+}
+
+.addStudentModal__tableWrap{
+padding:0 16px;
+}
+
+.addStudentModal__table{
+min-width:700px;
+}
+
+.addStudentModal__table th{
+padding:10px 8px;
+font-size:10px;
+}
+
+.addStudentModal__table td{
+padding:10px 8px;
+font-size:10px;
+}
+
+.addStudentModal__footer{
+padding:18px 16px;
+}
+
 }
