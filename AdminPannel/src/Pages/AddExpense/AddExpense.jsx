@@ -387,38 +387,29 @@ const AddExpense = () => {
 
             {/* PAGINATION */}
             <div className="ae-pagination">
-              <span>
-                Showing {indexOfFirst + 1} to{" "}
-                {Math.min(indexOfLast, expenses.length)} of {expenses.length}{" "}
-                entries
-              </span>
+  <span>
+    Showing {expenses.length === 0 ? 0 : indexOfFirst + 1} to{" "}
+    {Math.min(indexOfLast, expenses.length)} of {expenses.length} entries
+  </span>
 
-              <div className="ae-pagination-controls">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                >
-                  Previous
-                </button>
+  <div className="ae-pagination-controls">
+    <button
+      disabled={currentPage === 1}
+      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+    >
+      Previous
+    </button>
 
-                {[...Array(totalPages)].map((_, i) => (
-                  <button
-                    key={i}
-                    className={currentPage === i + 1 ? "active" : ""}
-                    onClick={() => setCurrentPage(i + 1)}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+    <button className="active">{currentPage}</button>
 
-                <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
+    <button
+      disabled={currentPage === totalPages || totalPages === 0}
+      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+    >
+      Next
+    </button>
+  </div>
+</div>
           </div>
         </div>
       </div>

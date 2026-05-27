@@ -68,6 +68,9 @@ const Wallet = () => {
   const [selectedTx, setSelectedTx] = useState(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
   const fetchWallet = async (nextFilters = filters) => {
     try {
       setLoading(true);
@@ -136,8 +139,7 @@ const Wallet = () => {
         !filters.from || (createdAt && createdAt >= new Date(filters.from));
       const matchesTo =
         !filters.to ||
-        (createdAt &&
-          createdAt <= new Date(`${filters.to}T23:59:59.999`));
+        (createdAt && createdAt <= new Date(`${filters.to}T23:59:59.999`));
       const matchesMin =
         filters.minAmount === "" || amount >= Number(filters.minAmount);
       const matchesMax =
@@ -156,6 +158,17 @@ const Wallet = () => {
       );
     });
   }, [search, filters, transactions]);
+
+  const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+
+  const paginatedTransactions = filteredTransactions.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filters]);
 
   const filteredTotals = useMemo(
     () =>
@@ -228,7 +241,9 @@ const Wallet = () => {
       .sort((a, b) => b.key.localeCompare(a.key));
   }, [filteredTransactions]);
 
-  const visibleMonthlyRows = hasActiveFilters ? filteredMonthlyRows : monthlyRows;
+  const visibleMonthlyRows = hasActiveFilters
+    ? filteredMonthlyRows
+    : monthlyRows;
   const filteredBalance = filteredTotals.credit - filteredTotals.debit;
 
   const netFlow =
@@ -281,7 +296,9 @@ const Wallet = () => {
           <div className="WalletStat__icon">
             <FiCreditCard />
           </div>
-          <span>{hasActiveFilters ? "Filtered Balance" : "Current Balance"}</span>
+          <span>
+            {hasActiveFilters ? "Filtered Balance" : "Current Balance"}
+          </span>
           <strong>
             {formatMoney(hasActiveFilters ? filteredBalance : summary.balance)}
           </strong>
@@ -311,7 +328,9 @@ const Wallet = () => {
           </div>
           <span>{hasActiveFilters ? "Filtered Debit" : "Total Debit"}</span>
           <strong>
-            {formatMoney(hasActiveFilters ? filteredTotals.debit : summary.debit)}
+            {formatMoney(
+              hasActiveFilters ? filteredTotals.debit : summary.debit,
+            )}
           </strong>
           <small>Expense outflow</small>
         </div>
@@ -322,9 +341,13 @@ const Wallet = () => {
           </div>
           <span>Transactions</span>
           <strong>
-            {hasActiveFilters ? filteredTransactions.length : transactions.length}
+            {hasActiveFilters
+              ? filteredTransactions.length
+              : transactions.length}
           </strong>
-          <small>{hasActiveFilters ? "Matching records" : "Loaded records"}</small>
+          <small>
+            {hasActiveFilters ? "Matching records" : "Loaded records"}
+          </small>
         </div>
       </div>
 
@@ -447,6 +470,7 @@ const Wallet = () => {
             <table className="WalletTable">
               <thead>
                 <tr>
+                  <th>Sl No</th>
                   <th>Type</th>
                   <th>Source</th>
                   <th>Description</th>
@@ -459,7 +483,7 @@ const Wallet = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="7" className="WalletEmpty">
+                    <td colSpan="8" className="WalletEmpty">
                       Loading wallet transactions...
                     </td>
                   </tr>
@@ -470,8 +494,9 @@ const Wallet = () => {
                     </td>
                   </tr>
                 ) : (
-                  filteredTransactions.map((tx) => (
+                  paginatedTransactions.map((tx, index) => (
                     <tr key={tx._id}>
+                      <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                       <td>
                         <span className={`WalletPill ${tx.type}`}>
                           {tx.type}
@@ -506,13 +531,39 @@ const Wallet = () => {
               </tbody>
             </table>
           </div>
+
+          {filteredTransactions.length > itemsPerPage && (
+            <div className="WalletPagination">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+              >
+                Prev
+              </button>
+
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </section>
 
         <section className="WalletPanel">
           <div className="WalletPanel__head">
             <div>
               <h2>Monthly Report</h2>
-              <p>{hasActiveFilters ? "Filtered credit vs debit" : "Credit vs debit"}</p>
+              <p>
+                {hasActiveFilters
+                  ? "Filtered credit vs debit"
+                  : "Credit vs debit"}
+              </p>
             </div>
           </div>
 

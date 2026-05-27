@@ -1,134 +1,122 @@
-import React, { useState } from "react";
-import {
-  FaPlus,
-  FaTrash,
-  FaSearch,
-  FaTimes,
-} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import API from "../../api/axios";
+import { FaPlus, FaTrash, FaSearch, FaTimes } from "react-icons/fa";
 
 import "./BookList.css";
 
 const BookList = () => {
   const [activeTab, setActiveTab] = useState("author");
 
-  /* ================= AUTHOR ================= */
-
-  const [authors, setAuthors] = useState([
-    { id: 1, name: "Test" },
-    { id: 2, name: "Demo" },
-    { id: 3, name: "Test02" },
-  ]);
+  const [authors, setAuthors] = useState([]);
+  const [publications, setPublications] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [fines, setFines] = useState([]);
 
   const [authorModal, setAuthorModal] = useState(false);
   const [authorName, setAuthorName] = useState("");
 
-  /* ================= PUBLICATION ================= */
+  const [publicationModal, setPublicationModal] = useState(false);
+  const [publicationName, setPublicationName] = useState("");
 
-  const [publications, setPublications] = useState([
-    { id: 1, name: "publisher 1" },
-  ]);
-
-  const [publicationModal, setPublicationModal] =
-    useState(false);
-
-  const [publicationName, setPublicationName] =
-    useState("");
-
-  /* ================= CATEGORY ================= */
-
-  const [categories, setCategories] = useState([
-    { id: 1, name: "category 1" },
-  ]);
-
-  const [categoryModal, setCategoryModal] =
-    useState(false);
-
-  const [categoryName, setCategoryName] =
-    useState("");
-
-  /* ================= FINE ================= */
-
-  const [fines, setFines] = useState([
-    {
-      id: 1,
-      amount: 50,
-      duration: 7,
-      gst: 0,
-    },
-  ]);
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
 
   const [fineModal, setFineModal] = useState(false);
-
   const [fineData, setFineData] = useState({
     amount: "",
     duration: "",
     gst: "",
   });
 
+  useEffect(() => {
+    fetchAuthors();
+    fetchPublications();
+    fetchCategories();
+    fetchFines();
+  }, []);
+
+  const fetchAuthors = async () => {
+    try {
+      const res = await API.get("/book-master/authors");
+      setAuthors(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchPublications = async () => {
+    try {
+      const res = await API.get("/book-master/publications");
+      setPublications(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const res = await API.get("/book-master/book-categories");
+      setCategories(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchFines = async () => {
+    try {
+      const res = await API.get("/book-master/fines");
+      setFines(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   /* ================= ADD FUNCTIONS ================= */
 
-  const addAuthor = () => {
+  const addAuthor = async () => {
     if (!authorName.trim()) return;
 
-    setAuthors([
-      ...authors,
-      {
-        id: Date.now(),
-        name: authorName,
-      },
-    ]);
+    await API.post("/book-master/authors", {
+      name: authorName,
+    });
 
     setAuthorName("");
     setAuthorModal(false);
+    fetchAuthors();
   };
 
-  const addPublication = () => {
+  const addPublication = async () => {
     if (!publicationName.trim()) return;
 
-    setPublications([
-      ...publications,
-      {
-        id: Date.now(),
-        name: publicationName,
-      },
-    ]);
+    await API.post("/book-master/publications", {
+      name: publicationName,
+    });
 
     setPublicationName("");
     setPublicationModal(false);
+    fetchPublications();
   };
 
-  const addCategory = () => {
+  const addCategory = async () => {
     if (!categoryName.trim()) return;
 
-    setCategories([
-      ...categories,
-      {
-        id: Date.now(),
-        name: categoryName,
-      },
-    ]);
+    await API.post("/book-master/book-categories", {
+      name: categoryName,
+    });
 
     setCategoryName("");
     setCategoryModal(false);
+    fetchCategories();
   };
 
-  const addFine = () => {
-    if (
-      !fineData.amount ||
-      !fineData.duration ||
-      fineData.gst === ""
-    )
-      return;
+  const addFine = async () => {
+    if (!fineData.amount || !fineData.duration || fineData.gst === "") return;
 
-    setFines([
-      ...fines,
-      {
-        id: Date.now(),
-        amount: fineData.amount,
-        duration: fineData.duration,
-        gst: fineData.gst,
-      },
-    ]);
+    await API.post("/book-master/fines", {
+      amount: Number(fineData.amount),
+      duration: Number(fineData.duration),
+      gst: Number(fineData.gst),
+    });
 
     setFineData({
       amount: "",
@@ -137,37 +125,36 @@ const BookList = () => {
     });
 
     setFineModal(false);
+    fetchFines();
   };
 
   /* ================= DELETE ================= */
 
-  const deleteAuthor = (id) => {
-    setAuthors(authors.filter((item) => item.id !== id));
+  const deleteAuthor = async (id) => {
+    await API.delete(`/book-master/authors/${id}`);
+    fetchAuthors();
   };
-
-  const deletePublication = (id) => {
-    setPublications(
-      publications.filter((item) => item.id !== id)
-    );
+  
+  const deletePublication = async (id) => {
+    await API.delete(`/book-master/publications/${id}`);
+    fetchPublications();
   };
-
-  const deleteCategory = (id) => {
-    setCategories(
-      categories.filter((item) => item.id !== id)
-    );
+  
+  const deleteCategory = async (id) => {
+    await API.delete(`/book-master/book-categories/${id}`);
+    fetchCategories();
   };
-
-  const deleteFine = (id) => {
-    setFines(fines.filter((item) => item.id !== id));
+  
+  const deleteFine = async (id) => {
+    await API.delete(`/book-master/fines/${id}`);
+    fetchFines();
   };
 
   return (
     <div className="booklist-page">
-
       {/* ================= TABS ================= */}
 
       <div className="booklist-tabs">
-
         <button
           className={`booklist-tab-btn ${
             activeTab === "author" ? "active" : ""
@@ -179,9 +166,7 @@ const BookList = () => {
 
         <button
           className={`booklist-tab-btn ${
-            activeTab === "publication"
-              ? "active"
-              : ""
+            activeTab === "publication" ? "active" : ""
           }`}
           onClick={() => setActiveTab("publication")}
         >
@@ -198,29 +183,21 @@ const BookList = () => {
         </button>
 
         <button
-          className={`booklist-tab-btn ${
-            activeTab === "fine" ? "active" : ""
-          }`}
+          className={`booklist-tab-btn ${activeTab === "fine" ? "active" : ""}`}
           onClick={() => setActiveTab("fine")}
         >
           Set Fine
         </button>
-
       </div>
 
       {/* ================= AUTHOR ================= */}
 
       {activeTab === "author" && (
         <div className="booklist-section">
-
           <div className="booklist-topbar">
-
             <div className="booklist-search">
               <FaSearch />
-              <input
-                type="text"
-                placeholder="Search..."
-              />
+              <input type="text" placeholder="Search..." />
             </div>
 
             <button
@@ -229,13 +206,10 @@ const BookList = () => {
             >
               <FaPlus />
             </button>
-
           </div>
 
           <div className="booklist-table-wrapper">
-
             <table className="booklist-table">
-
               <thead>
                 <tr>
                   <th>S.NO.</th>
@@ -246,7 +220,7 @@ const BookList = () => {
 
               <tbody>
                 {authors.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item._id}>
                     <td>{index + 1}</td>
 
                     <td>{item.name}</td>
@@ -254,9 +228,7 @@ const BookList = () => {
                     <td>
                       <button
                         className="booklist-delete-btn"
-                        onClick={() =>
-                          deleteAuthor(item.id)
-                        }
+                        onClick={() => deleteAuthor(item._id)}
                       >
                         <FaTrash />
                       </button>
@@ -264,13 +236,10 @@ const BookList = () => {
                   </tr>
                 ))}
               </tbody>
-
             </table>
 
             <div className="booklist-pagination">
-
               <div className="booklist-pagination-left">
-
                 <span>Items per page:</span>
 
                 <select>
@@ -278,26 +247,19 @@ const BookList = () => {
                   <option>25</option>
                   <option>10</option>
                 </select>
-
               </div>
 
               <div className="booklist-pagination-right">
-
                 <span>
-                  1 – {authors.length} of{" "}
-                  {authors.length}
+                  1 – {authors.length} of {authors.length}
                 </span>
 
                 <button>{"<"}</button>
 
                 <button>{">"}</button>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -305,32 +267,22 @@ const BookList = () => {
 
       {activeTab === "publication" && (
         <div className="booklist-section">
-
           <div className="booklist-topbar">
-
             <div className="booklist-search">
               <FaSearch />
-              <input
-                type="text"
-                placeholder="Search..."
-              />
+              <input type="text" placeholder="Search..." />
             </div>
 
             <button
               className="booklist-add-btn"
-              onClick={() =>
-                setPublicationModal(true)
-              }
+              onClick={() => setPublicationModal(true)}
             >
               <FaPlus />
             </button>
-
           </div>
 
           <div className="booklist-table-wrapper">
-
             <table className="booklist-table">
-
               <thead>
                 <tr>
                   <th>S.NO.</th>
@@ -341,7 +293,7 @@ const BookList = () => {
 
               <tbody>
                 {publications.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item._id}>
                     <td>{index + 1}</td>
 
                     <td>{item.name}</td>
@@ -349,9 +301,7 @@ const BookList = () => {
                     <td>
                       <button
                         className="booklist-delete-btn"
-                        onClick={() =>
-                          deletePublication(item.id)
-                        }
+                        onClick={() => deletePublication(item._id)}
                       >
                         <FaTrash />
                       </button>
@@ -359,13 +309,10 @@ const BookList = () => {
                   </tr>
                 ))}
               </tbody>
-
             </table>
 
             <div className="booklist-pagination">
-
               <div className="booklist-pagination-left">
-
                 <span>Items per page:</span>
 
                 <select>
@@ -373,26 +320,19 @@ const BookList = () => {
                   <option>25</option>
                   <option>10</option>
                 </select>
-
               </div>
 
               <div className="booklist-pagination-right">
-
                 <span>
-                  1 – {publications.length} of{" "}
-                  {publications.length}
+                  1 – {publications.length} of {publications.length}
                 </span>
 
                 <button>{"<"}</button>
 
                 <button>{">"}</button>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -400,15 +340,10 @@ const BookList = () => {
 
       {activeTab === "category" && (
         <div className="booklist-section">
-
           <div className="booklist-topbar">
-
             <div className="booklist-search">
               <FaSearch />
-              <input
-                type="text"
-                placeholder="Search..."
-              />
+              <input type="text" placeholder="Search..." />
             </div>
 
             <button
@@ -417,13 +352,10 @@ const BookList = () => {
             >
               <FaPlus />
             </button>
-
           </div>
 
           <div className="booklist-table-wrapper">
-
             <table className="booklist-table">
-
               <thead>
                 <tr>
                   <th>S.NO.</th>
@@ -434,7 +366,7 @@ const BookList = () => {
 
               <tbody>
                 {categories.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item._id}>
                     <td>{index + 1}</td>
 
                     <td>{item.name}</td>
@@ -442,9 +374,7 @@ const BookList = () => {
                     <td>
                       <button
                         className="booklist-delete-btn"
-                        onClick={() =>
-                          deleteCategory(item.id)
-                        }
+                        onClick={() => deleteCategory(item._id)}
                       >
                         <FaTrash />
                       </button>
@@ -452,13 +382,10 @@ const BookList = () => {
                   </tr>
                 ))}
               </tbody>
-
             </table>
 
             <div className="booklist-pagination">
-
               <div className="booklist-pagination-left">
-
                 <span>Items per page:</span>
 
                 <select>
@@ -466,26 +393,19 @@ const BookList = () => {
                   <option>25</option>
                   <option>10</option>
                 </select>
-
               </div>
 
               <div className="booklist-pagination-right">
-
                 <span>
-                  1 – {categories.length} of{" "}
-                  {categories.length}
+                  1 – {categories.length} of {categories.length}
                 </span>
 
                 <button>{"<"}</button>
 
                 <button>{">"}</button>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -493,15 +413,10 @@ const BookList = () => {
 
       {activeTab === "fine" && (
         <div className="booklist-section">
-
           <div className="booklist-topbar">
-
             <div className="booklist-search">
               <FaSearch />
-              <input
-                type="text"
-                placeholder="Search..."
-              />
+              <input type="text" placeholder="Search..." />
             </div>
 
             <button
@@ -510,13 +425,10 @@ const BookList = () => {
             >
               <FaPlus />
             </button>
-
           </div>
 
           <div className="booklist-table-wrapper">
-
             <table className="booklist-table">
-
               <thead>
                 <tr>
                   <th>S.NO.</th>
@@ -529,7 +441,7 @@ const BookList = () => {
 
               <tbody>
                 {fines.map((item, index) => (
-                  <tr key={item.id}>
+                  <tr key={item._id}>
                     <td>{index + 1}</td>
 
                     <td>{item.amount}</td>
@@ -541,9 +453,7 @@ const BookList = () => {
                     <td>
                       <button
                         className="booklist-delete-btn"
-                        onClick={() =>
-                          deleteFine(item.id)
-                        }
+                        onClick={() => deleteFine(item._id)}
                       >
                         <FaTrash />
                       </button>
@@ -551,13 +461,10 @@ const BookList = () => {
                   </tr>
                 ))}
               </tbody>
-
             </table>
 
             <div className="booklist-pagination">
-
               <div className="booklist-pagination-left">
-
                 <span>Items per page:</span>
 
                 <select>
@@ -565,26 +472,19 @@ const BookList = () => {
                   <option>25</option>
                   <option>10</option>
                 </select>
-
               </div>
 
               <div className="booklist-pagination-right">
-
                 <span>
-                  1 – {fines.length} of{" "}
-                  {fines.length}
+                  1 – {fines.length} of {fines.length}
                 </span>
 
                 <button>{"<"}</button>
 
                 <button>{">"}</button>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -592,59 +492,40 @@ const BookList = () => {
 
       {authorModal && (
         <div className="booklist-modal-overlay">
-
           <div className="booklist-modal">
-
             <div className="booklist-modal-header">
-
               <h2>AUTHOR MASTER</h2>
 
               <button
                 className="booklist-close-btn"
-                onClick={() =>
-                  setAuthorModal(false)
-                }
+                onClick={() => setAuthorModal(false)}
               >
                 <FaTimes />
               </button>
-
             </div>
 
             <div className="booklist-modal-body">
-
               <input
                 type="text"
                 placeholder="Author Name*"
                 value={authorName}
-                onChange={(e) =>
-                  setAuthorName(e.target.value)
-                }
+                onChange={(e) => setAuthorName(e.target.value)}
               />
-
             </div>
 
             <div className="booklist-modal-footer">
-
               <button
                 className="booklist-cancel-btn"
-                onClick={() =>
-                  setAuthorModal(false)
-                }
+                onClick={() => setAuthorModal(false)}
               >
                 Cancel
               </button>
 
-              <button
-                className="booklist-submit-btn"
-                onClick={addAuthor}
-              >
+              <button className="booklist-submit-btn" onClick={addAuthor}>
                 Add
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -652,61 +533,40 @@ const BookList = () => {
 
       {publicationModal && (
         <div className="booklist-modal-overlay">
-
           <div className="booklist-modal">
-
             <div className="booklist-modal-header">
-
               <h2>PUBLICATION MASTER</h2>
 
               <button
                 className="booklist-close-btn"
-                onClick={() =>
-                  setPublicationModal(false)
-                }
+                onClick={() => setPublicationModal(false)}
               >
                 <FaTimes />
               </button>
-
             </div>
 
             <div className="booklist-modal-body">
-
               <input
                 type="text"
                 placeholder="Publication Name*"
                 value={publicationName}
-                onChange={(e) =>
-                  setPublicationName(
-                    e.target.value
-                  )
-                }
+                onChange={(e) => setPublicationName(e.target.value)}
               />
-
             </div>
 
             <div className="booklist-modal-footer">
-
               <button
                 className="booklist-cancel-btn"
-                onClick={() =>
-                  setPublicationModal(false)
-                }
+                onClick={() => setPublicationModal(false)}
               >
                 Cancel
               </button>
 
-              <button
-                className="booklist-submit-btn"
-                onClick={addPublication}
-              >
+              <button className="booklist-submit-btn" onClick={addPublication}>
                 Add
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -714,61 +574,40 @@ const BookList = () => {
 
       {categoryModal && (
         <div className="booklist-modal-overlay">
-
           <div className="booklist-modal">
-
             <div className="booklist-modal-header">
-
               <h2>CATEGORY MASTER</h2>
 
               <button
                 className="booklist-close-btn"
-                onClick={() =>
-                  setCategoryModal(false)
-                }
+                onClick={() => setCategoryModal(false)}
               >
                 <FaTimes />
               </button>
-
             </div>
 
             <div className="booklist-modal-body">
-
               <input
                 type="text"
                 placeholder="Category Name*"
                 value={categoryName}
-                onChange={(e) =>
-                  setCategoryName(
-                    e.target.value
-                  )
-                }
+                onChange={(e) => setCategoryName(e.target.value)}
               />
-
             </div>
 
             <div className="booklist-modal-footer">
-
               <button
                 className="booklist-cancel-btn"
-                onClick={() =>
-                  setCategoryModal(false)
-                }
+                onClick={() => setCategoryModal(false)}
               >
                 Cancel
               </button>
 
-              <button
-                className="booklist-submit-btn"
-                onClick={addCategory}
-              >
+              <button className="booklist-submit-btn" onClick={addCategory}>
                 Add
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
 
@@ -776,26 +615,19 @@ const BookList = () => {
 
       {fineModal && (
         <div className="booklist-modal-overlay">
-
           <div className="booklist-modal">
-
             <div className="booklist-modal-header">
-
               <h2>SET FINE</h2>
 
               <button
                 className="booklist-close-btn"
-                onClick={() =>
-                  setFineModal(false)
-                }
+                onClick={() => setFineModal(false)}
               >
                 <FaTimes />
               </button>
-
             </div>
 
             <div className="booklist-modal-body">
-
               <input
                 type="number"
                 placeholder="Fine Amount"
@@ -831,34 +663,23 @@ const BookList = () => {
                   })
                 }
               />
-
             </div>
 
             <div className="booklist-modal-footer">
-
               <button
                 className="booklist-cancel-btn"
-                onClick={() =>
-                  setFineModal(false)
-                }
+                onClick={() => setFineModal(false)}
               >
                 Cancel
               </button>
 
-              <button
-                className="booklist-submit-btn"
-                onClick={addFine}
-              >
+              <button className="booklist-submit-btn" onClick={addFine}>
                 Add
               </button>
-
             </div>
-
           </div>
-
         </div>
       )}
-
     </div>
   );
 };
