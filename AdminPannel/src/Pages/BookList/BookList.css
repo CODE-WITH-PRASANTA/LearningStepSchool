@@ -414,6 +414,11 @@
   cursor: pointer;
   font-size: 16px;
   transition: 0.3s ease;
+
+  /* ADD THESE */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .booklist-close-btn:hover {

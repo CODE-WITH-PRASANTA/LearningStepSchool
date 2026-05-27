@@ -1,238 +1,617 @@
-/* =========================================
-   PAGE WRAPPER
-========================================= */
-.student-page {
-  padding: 26px;
-  background: linear-gradient(to bottom right, #eef2f7, #f5f7fa);
-  font-family: "Poppins", sans-serif;
+.returnBook{
+width:100%;
+min-height:100vh;
+padding:24px;
+background:#f5f7ff;
+font-family:Poppins,sans-serif;
+box-sizing:border-box;
 }
 
-/* =========================================
-   CARD BOX
-========================================= */
-.student-page .card-box {
-  background: #ffffff;
-  border-radius: 20px;
-  padding-bottom: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  margin-bottom: 30px;
-  overflow: hidden;
-  border: 1px solid #e6ebf2;
-  transition: 0.3s ease;
+/* TOP SECTION */
+
+.returnBook__top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:16px;
+margin-bottom:20px;
 }
 
-.student-page .card-box:hover {
-  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+.returnBook__search{
+flex:1;
+height:64px;
+background:white;
+border-radius:20px;
+padding:0 20px;
+display:flex;
+align-items:center;
+box-shadow:0 12px 30px rgba(0,0,0,.05);
 }
 
-/* =========================================
-   CARD HEADER
-========================================= */
-.student-page .card-header {
-  background: #f9e9f5;
-  padding: 22px 30px;
-  border-bottom: 1px solid #eee;
+.returnBook__search svg{
+font-size:20px;
+margin-right:12px;
+color:#777;
+flex-shrink:0;
 }
 
-.student-page .card-header h2 {
-  margin: 0;
-  font-size: 26px;
-  font-weight: 600;
-  color: #0f195f;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.returnBook__search input{
+flex:1;
+border:none;
+outline:none;
+font-size:14px;
+background:none;
+font-weight:500;
+color:#333;
 }
 
-/* =========================================
-   FORM GRID
-========================================= */
-.student-page .criteria-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 22px;
-  padding: 26px 30px;
+.returnBook__actions{
+display:flex;
+gap:12px;
+align-items:center;
 }
 
-.student-page .field label {
-  margin-bottom: 8px;
-  display: block;
-  font-weight: 600;
-  color: #0f195f;
-  font-size: 14px;
+.returnBook__filterWrap{
+position:relative;
 }
 
-.student-page .field select,
-.student-page .field input {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #ced4e4;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 15px;
-  transition: 0.2s ease;
+.returnBook__filterBtn,
+.returnBook__addBtn{
+width:58px;
+height:58px;
+border:none;
+border-radius:18px;
+font-size:22px;
+cursor:pointer;
+transition:.3s;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-shrink:0;
 }
 
-.student-page .field select:focus,
-.student-page .field input:focus {
-  border-color: #0e4a7c;
-  box-shadow: 0 0 8px rgba(14, 74, 124, 0.25);
+.returnBook__filterBtn{
+background:white;
+color:#5d54ff;
+box-shadow:0 10px 25px rgba(0,0,0,.05);
 }
 
-/* =========================================
-   SEARCH BUTTON
-========================================= */
-.student-page .search-btn-wrap {
-  padding: 0 30px 24px;
-  text-align: right;
+.returnBook__addBtn{
+background:linear-gradient(
+135deg,
+#6f63ff,
+#4b42e8
+);
+color:white;
+box-shadow:0 15px 30px rgba(89,74,255,.25);
 }
 
-.student-page .search-btn {
-  background: #0e4a7c;
-  padding: 12px 26px;
-  font-size: 15px;
-  border-radius: 10px;
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  transition: 0.25s ease;
+.returnBook__filterBtn:hover,
+.returnBook__addBtn:hover{
+transform:translateY(-3px);
 }
 
-.student-page .search-btn:hover {
-  background: #09385e;
+/* FILTER */
+
+.returnBook__filterDropdown{
+position:absolute;
+top:72px;
+right:0;
+width:410px;
+padding:26px;
+background:#fff;
+border-radius:26px;
+box-shadow:0 20px 45px rgba(0,0,0,.12);
+z-index:20;
+animation:filterPopup .25s ease;
 }
 
-/* =========================================
-   TABLE TOP (Search + Entries)
-========================================= */
-.student-page .table-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 30px;
+@keyframes filterPopup{
+from{
+opacity:0;
+transform:translateY(10px) scale(.96);
+}
+to{
+opacity:1;
+transform:translateY(0) scale(1);
+}
 }
 
-.student-page .right-tools {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.returnBook__filterGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
 }
 
-.student-page .right-tools select,
-.student-page .right-tools input {
-  padding: 10px 14px;
-  border: 1px solid #d7dce5;
-  border-radius: 10px;
-  font-size: 14px;
-  background: #fff;
+.returnBook__filterGrid label{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:15px;
+font-weight:600;
+color:#333;
+cursor:pointer;
 }
 
-/* =========================================
-   TABLE STYLES
-========================================= */
-.student-page .table-wrap {
-  overflow-x: auto;
-  padding: 0 30px;
+.returnBook__filterGrid input{
+width:22px;
+height:22px;
+accent-color:#5d54ff;
+cursor:pointer;
+flex-shrink:0;
 }
 
-.student-page table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 900px;
-  background: #ffffff;
+/* TABLE */
+
+.returnBook__tableCard{
+background:white;
+border-radius:28px;
+overflow:hidden;
+box-shadow:0 15px 35px rgba(0,0,0,.05);
 }
 
-.student-page thead {
-  background: #f6eaf2;
+.returnBook__tableWrap{
+width:100%;
+overflow-x:auto;
 }
 
-.student-page th,
-.student-page td {
-  padding: 16px;
-  border-bottom: 1px solid #ebeef3;
-  font-size: 15px;
+.returnBook__table{
+width:100%;
+min-width:1000px;
+border-collapse:collapse;
 }
 
-.student-page th {
-  color: #0f195f;
-  font-weight: 700;
+.returnBook__table th{
+padding:20px;
+background:linear-gradient(
+90deg,
+#f7f8ff,
+#eef2ff
+);
+font-size:13px;
+font-weight:700;
+letter-spacing:.4px;
+color:#2d2d2d;
+text-align:left;
+white-space:nowrap;
 }
 
-.student-page tbody tr {
-  transition: 0.2s ease;
+.returnBook__table td{
+padding:18px 20px;
+font-size:14px;
+border-top:1px solid #edf0ff;
+color:#444;
+white-space:nowrap;
 }
 
-.student-page tbody tr:hover {
-  background: #faf6fc;
+.returnBook__table tr:hover{
+background:#fafbff;
 }
 
-/* =========================================
-   RETURN BUTTON
-========================================= */
-.student-page .return-btn {
-  background: #0e4a7c;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  font-weight: 600;
+.returnBook__adm,
+.returnBook__class,
+.returnBook__fine{
+padding:8px 12px;
+border-radius:10px;
+font-size:13px;
+font-weight:600;
+display:inline-flex;
+align-items:center;
+justify-content:center;
 }
 
-.student-page .return-btn:hover {
-  background: #09385e;
+.returnBook__adm{
+background:#edf2ff;
+color:#4255ff;
 }
 
-/* =========================================
-   TABLE FOOTER / PAGINATION
-========================================= */
-.student-page .table-footer {
-  padding: 22px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.returnBook__class{
+background:#f5f3ff;
+color:#655bff;
 }
 
-.student-page .pagination {
-  display: flex;
-  gap: 10px;
+.returnBook__fine{
+background:#ece9ff;
+color:#5d54ff;
 }
 
-.student-page .pagination button {
-  border: 1px solid #ced4e2;
-  background: #fff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
+.returnBook__student{
+font-weight:600;
 }
 
-.student-page .pagination .active {
-  background: #0e4a7c;
-  color: #fff;
+.returnBook__delete{
+width:42px;
+height:42px;
+border:none;
+border-radius:14px;
+background:#fff2f2;
+color:#ff4747;
+cursor:pointer;
+font-size:17px;
+transition:.3s;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
-@media (max-width: 768px) {
-  .student-page .card-header h2 {
-    font-size: 20px;
-  }
+.returnBook__delete:hover{
+background:#ffe2e2;
+transform:scale(1.05);
+}
 
-  .student-page .table-footer {
-    flex-direction: column;
-    gap: 12px;
-  }
+/* PAGINATION */
 
-  .student-page .right-tools {
-    width: 100%;
-    justify-content: flex-end;
-  }
+.returnBook__pagination{
+padding:18px 22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+border-top:1px solid #edf0ff;
+background:#fcfcff;
+flex-wrap:wrap;
+}
+
+.returnBook__pageLeft{
+display:flex;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.returnBook__pageLeft span{
+font-size:14px;
+font-weight:600;
+color:#555;
+line-height:1.3;
+}
+
+.returnBook__pageLeft select{
+height:42px;
+min-width:78px;
+padding:0 14px;
+border:none;
+outline:none;
+border-radius:14px;
+background:#f3f4fb;
+font-weight:600;
+font-size:14px;
+cursor:pointer;
+color:#333;
+}
+
+.returnBook__pageRight{
+display:flex;
+align-items:center;
+gap:10px;
+margin-left:auto;
+}
+
+.returnBook__pageBtn,
+.activePage{
+width:42px;
+height:42px;
+border:none;
+border-radius:14px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+font-size:15px;
+font-weight:600;
+transition:.3s ease;
+}
+
+.returnBook__pageBtn{
+background:#f1f3fb;
+color:#555;
+}
+
+.returnBook__pageBtn:hover{
+background:#e6e9ff;
+}
+
+.activePage{
+background:linear-gradient(
+135deg,
+#6f63ff,
+#4b42e8
+)!important;
+color:white;
+box-shadow:0 10px 20px rgba(89,74,255,.25);
+}
+
+/* MODAL */
+
+.returnBookModal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.35);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+backdrop-filter:blur(8px);
+z-index:999;
+}
+
+.returnBookModal__box{
+width:100%;
+max-width:850px;
+background:white;
+padding:30px;
+border-radius:28px;
+}
+
+.returnBookModal__header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px;
+gap:14px;
+}
+
+.returnBookModal__header h2{
+font-size:28px;
+font-weight:700;
+color:#222;
+}
+
+.returnBookModal__close{
+width:55px;
+height:55px;
+border:none;
+border-radius:50%;
+background:#fff1f1;
+color:#ff4747;
+font-size:22px;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-shrink:0;
+}
+
+.returnBookModal__search{
+height:62px;
+border:1px solid #edf0ff;
+border-radius:16px;
+display:flex;
+align-items:center;
+padding:0 18px;
+margin-bottom:18px;
+background:#fafbff;
+}
+
+.returnBookModal__search svg{
+margin-right:10px;
+color:#777;
+flex-shrink:0;
+}
+
+.returnBookModal__search input{
+flex:1;
+border:none;
+outline:none;
+background:none;
+font-size:14px;
+}
+
+.returnBookModal__footer{
+display:flex;
+justify-content:flex-end;
+gap:12px;
+margin-top:10px;
+flex-wrap:wrap;
+}
+
+.returnBookModal__cancel,
+.returnBookModal__add{
+padding:13px 28px;
+border:none;
+border-radius:14px;
+font-weight:600;
+cursor:pointer;
+font-size:14px;
+transition:.3s;
+}
+
+.returnBookModal__cancel{
+background:#f1f2f7;
+color:#444;
+}
+
+.returnBookModal__add{
+background:#5d54ff;
+color:white;
+}
+
+/* TABLET */
+
+@media(max-width:768px){
+
+.returnBook{
+padding:16px;
+}
+
+.returnBook__top{
+flex-direction:column;
+align-items:stretch;
+}
+
+.returnBook__search{
+width:100%;
+height:60px;
+}
+
+.returnBook__actions{
+width:100%;
+justify-content:flex-end;
+}
+
+.returnBook__filterDropdown{
+width:320px;
+}
+
+.returnBook__filterGrid{
+grid-template-columns:1fr 1fr;
+}
+
+.returnBook__pagination{
+padding:18px 16px;
+flex-direction:column;
+align-items:flex-start;
+}
+
+.returnBook__pageLeft{
+width:100%;
+justify-content:space-between;
+}
+
+.returnBook__pageRight{
+width:100%;
+justify-content:center;
+margin-left:0;
+}
+
+.returnBookModal__box{
+padding:24px;
+}
+
+.returnBookModal__header h2{
+font-size:24px;
+}
+
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+.returnBook{
+padding:12px;
+}
+
+.returnBook__search{
+height:56px;
+border-radius:16px;
+padding:0 16px;
+}
+
+.returnBook__search input{
+font-size:13px;
+}
+
+.returnBook__actions{
+gap:10px;
+}
+
+.returnBook__filterBtn,
+.returnBook__addBtn{
+width:52px;
+height:52px;
+border-radius:16px;
+font-size:20px;
+}
+
+.returnBook__filterDropdown{
+width:280px;
+right:-6px;
+padding:20px;
+border-radius:22px;
+}
+
+.returnBook__filterGrid{
+grid-template-columns:1fr;
+gap:14px;
+}
+
+.returnBook__filterGrid label{
+font-size:14px;
+}
+
+.returnBook__table th{
+padding:16px;
+font-size:12px;
+}
+
+.returnBook__table td{
+padding:16px;
+font-size:13px;
+}
+
+.returnBook__pagination{
+padding:14px;
+border-radius:0 0 24px 24px;
+}
+
+.returnBook__pageLeft{
+gap:10px;
+}
+
+.returnBook__pageLeft span{
+font-size:13px;
+}
+
+.returnBook__pageLeft select{
+height:40px;
+min-width:72px;
+font-size:13px;
+padding:0 12px;
+border-radius:12px;
+}
+
+.returnBook__pageRight{
+gap:8px;
+}
+
+.returnBook__pageBtn,
+.activePage{
+width:38px;
+height:38px;
+border-radius:12px;
+font-size:14px;
+}
+
+.returnBookModal{
+padding:14px;
+}
+
+.returnBookModal__box{
+padding:20px;
+border-radius:22px;
+}
+
+.returnBookModal__header{
+margin-bottom:18px;
+}
+
+.returnBookModal__header h2{
+font-size:20px;
+}
+
+.returnBookModal__close{
+width:46px;
+height:46px;
+font-size:18px;
+}
+
+.returnBookModal__search{
+height:56px;
+padding:0 16px;
+border-radius:14px;
+}
+
+.returnBookModal__footer{
+flex-direction:column;
+}
+
+.returnBookModal__cancel,
+.returnBookModal__add{
+width:100%;
+height:52px;
+padding:0;
+border-radius:14px;
+}
+
 }

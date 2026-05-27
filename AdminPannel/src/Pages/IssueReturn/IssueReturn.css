@@ -314,13 +314,18 @@ background:#f4f4f4;
 cursor:pointer;
 font-size:18px;
 transition:.3s;
+
+/* ADD THIS */
+
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .issueReturnModalHead button:hover{
 background:#ffecec;
 color:#ff4d4d;
 }
-
 /* ================= FORM ================= */
 
 .issueReturnFormGrid{
