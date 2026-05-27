@@ -65,7 +65,7 @@ const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 
 const bookMasterRoutes = require("./routes/bookMaster.routes");
 const bookRoutes = require("./routes/book.routes");
-
+const issueBookRoutes = require("./routes/issueBook.routes");
 
 
 
@@ -124,6 +124,7 @@ app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
 app.use("/api/book-master", bookMasterRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/issue-books", issueBookRoutes);
 
 /* ================= 404 HANDLER ================= */
 
