@@ -268,7 +268,7 @@ const menu = [
     icon: FiBook,
   children: [
       { label: "Library Master", path: "/library/master" },
-       { label: "Issue Book", path: "/library/issue-book" },
+       { label: "Add Book", path: "/library/issue-book" },
       { label: "Return Book", path: "/library/return-book" },
        { label: "Add Student", path: "/library/student" },
       { label: "Add Staff", path: "/library/staff" },
