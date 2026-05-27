@@ -303,7 +303,7 @@ export default function App() {
             element={<PrimaryClassReport />}
           />
 
-          <Route path="/library/book-list" element={<BookList />} />
+          <Route path="/library/master" element={<BookList />} />
           <Route path="/library/issue-return" element={<IssueReturn />} />
 
            
