@@ -1,160 +1,408 @@
-import React, { useState, useRef, useEffect } from "react";
-import "./Stafflibrary.css";
+import React, { useMemo, useState } from "react";
 import {
-  FaUserPlus,
-  FaSearch,
-  FaBars,
-  FaEllipsisV,
-  FaEdit,
-  FaTrash
-} from "react-icons/fa";
+  FiSearch,
+  FiPlus,
+  FiX,
+  FiCalendar,
+  FiEdit2,
+  FiTrash2,
+  FiChevronLeft,
+  FiChevronRight,
+} from "react-icons/fi";
+
+import "./Stafflibrary.css";
 
 const Stafflibrary = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
-  const [openRow, setOpenRow] = useState(null);
-  const menuRef = useRef(null);
+  const [search, setSearch] = useState("");
 
-  const [staffData, setStaffData] = useState([
-    { id:1, member:"1", card:"EMP-1", name:"Nlet Initiatives LLP", email:"ims@nletsolutions.in", dob:"1970-01-01", phone:"9982716888"},
-    { id:2, member:"6", card:"EMP-101", name:"Driver", email:"driver@gmail.com", dob:"2023-10-17", phone:"809436469"},
-    { id:3, member:"7", card:"EMP-205", name:"Test User", email:"test@gmail.com", dob:"2023-05-22", phone:"9772119901"},
-    { id:4, member:"8", card:"EMP-305", name:"Library Staff", email:"library@gmail.com", dob:"2024-01-11", phone:"9123456789"}
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 5;
+
+  const [books, setBooks] = useState([
+    {
+      id: 1,
+      bookNo: "BK101",
+      title: "Mathematics",
+      author: "R.K Sharma",
+      publication: "NCERT",
+      damagedQty: 2,
+      quantity: 20,
+    },
+    {
+      id: 2,
+      bookNo: "BK102",
+      title: "Physics",
+      author: "H.C Verma",
+      publication: "Modern Pub",
+      damagedQty: 1,
+      quantity: 15,
+    },
+    {
+      id: 3,
+      bookNo: "BK103",
+      title: "Chemistry",
+      author: "OP Tandon",
+      publication: "S Chand",
+      damagedQty: 3,
+      quantity: 18,
+    },
+    {
+      id: 4,
+      bookNo: "BK104",
+      title: "Biology",
+      author: "NCERT",
+      publication: "School Pub",
+      damagedQty: 1,
+      quantity: 22,
+    },
+    {
+      id: 5,
+      bookNo: "BK105",
+      title: "English",
+      author: "Wren Martin",
+      publication: "Oxford",
+      damagedQty: 2,
+      quantity: 16,
+    },
+    {
+      id: 6,
+      bookNo: "BK106",
+      title: "History",
+      author: "Agarwal",
+      publication: "S Chand",
+      damagedQty: 1,
+      quantity: 25,
+    },
   ]);
 
-  const [form, setForm] = useState({
-    name:"", email:"", phone:"", dob:"", card:""
+  const [formData, setFormData] = useState({
+    id: null,
+    searchBook: "",
+    date: "",
+    qty: "",
   });
 
-  /* close dropdown outside click */
-  useEffect(()=>{
-    const handler = (e)=>{
-      if(menuRef.current && !menuRef.current.contains(e.target)){
-        setOpenRow(null);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return ()=>document.removeEventListener("mousedown", handler);
-  },[]);
+  const filteredBooks = useMemo(() => {
+    return books.filter((item) =>
+      item.title.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [books, search]);
 
-  const handleChange = (e)=>{
-    setForm({...form,[e.target.name]:e.target.value});
+  const totalPages = Math.ceil(filteredBooks.length / itemsPerPage);
+
+  const paginatedBooks = filteredBooks.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleOpenAdd = () => {
+    setIsEdit(false);
+
+    setFormData({
+      id: null,
+      searchBook: "",
+      date: "",
+      qty: "",
+    });
+
+    setOpenModal(true);
   };
 
-  const handleSave = ()=>{
-    if(!form.name) return alert("Enter staff name");
+  const handleEdit = (book) => {
+    setIsEdit(true);
 
-    const newStaff={
-      id: Date.now(),
-      member: staffData.length+1,
-      card: form.card || "EMP-"+(staffData.length+1),
-      name: form.name,
-      email: form.email,
-      dob: form.dob,
-      phone: form.phone
-    };
+    setFormData({
+      id: book.id,
+      searchBook: book.title,
+      date: "",
+      qty: book.damagedQty,
+    });
 
-    setStaffData([...staffData,newStaff]);
-    setForm({name:"",email:"",phone:"",dob:"",card:""});
+    setOpenModal(true);
   };
 
-  const deleteRow=(id)=>{
-    setStaffData(staffData.filter(s=>s.id!==id));
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure want to delete?"
+    );
+
+    if (!confirmDelete) return;
+
+    const updated = books.filter((item) => item.id !== id);
+
+    setBooks(updated);
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = () => {
+    if (
+      !formData.searchBook ||
+      !formData.date ||
+      !formData.qty
+    ) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    if (isEdit) {
+      const updated = books.map((item) =>
+        item.id === formData.id
+          ? {
+              ...item,
+              title: formData.searchBook,
+              damagedQty: formData.qty,
+            }
+          : item
+      );
+
+      setBooks(updated);
+    } else {
+      const newBook = {
+        id: Date.now(),
+        bookNo: `BK${books.length + 101}`,
+        title: formData.searchBook,
+        author: "New Author",
+        publication: "Publication",
+        damagedQty: formData.qty,
+        quantity: 10,
+      };
+
+      setBooks([newBook, ...books]);
+    }
+
+    setOpenModal(false);
   };
 
   return (
-    <div className="staffPage">
+    <div className="staff-library-page">
+      <div className="staff-library-card">
+        {/* HEADER */}
 
-      {/* HEADER */}
-      <div className="staffTopHeader">
-        <div className="staffTitle">
-          <FaUserPlus/>
-          <h2>Add Staff</h2>
-        </div>
+        <div className="staff-library-header">
+          <div className="staff-library-search">
+            <FiSearch className="staff-library-search-icon" />
 
-        <div className="staffBreadcrumb">
-          <span>library</span>
-          <span className="slash"> / </span>
-          <span className="active">Add Staff</span>
-        </div>
-      </div>
-
-      {/* FORM */}
-      <div className="staffFormCard">
-        <h3 className="cardHeading">Add Staff</h3>
-
-        <div className="formGrid">
-          <div className="field"><input name="name" value={form.name} onChange={handleChange} placeholder="Staff Name"/></div>
-          <div className="field"><input name="email" value={form.email} onChange={handleChange} placeholder="Email"/></div>
-          <div className="field"><input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone"/></div>
-          <div className="field"><input name="dob" value={form.dob} onChange={handleChange} type="date"/></div>
-          <div className="field"><input name="card" value={form.card} onChange={handleChange} placeholder="Library Card No"/></div>
-
-          <div className="field btnField">
-            <button className="saveBtn" onClick={handleSave}>Save Staff</button>
+            <input
+              type="text"
+              placeholder="Search book..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-        </div>
-      </div>
 
-      {/* TABLE */}
-      <div className="staffTableCard">
-        <div className="tableHeader">
-          <h3><FaBars/> Add Staff List</h3>
-
-          <div className="tableSearch">
-            <FaSearch/>
-            <input placeholder="Search staff..."/>
-          </div>
+          <button
+            className="staff-library-add-btn"
+            onClick={handleOpenAdd}
+          >
+            <FiPlus />
+          </button>
         </div>
 
-        <div className="tableWrapper">
-          <table className="staffTable">
+        {/* TABLE */}
+
+        <div className="staff-library-table-wrapper">
+          <table className="staff-library-table">
             <thead>
               <tr>
-                <th>MEMBER ID</th>
-                <th>LIBRARY CARD NO</th>
-                <th>STAFF NAME</th>
-                <th>EMAIL</th>
-                <th>DATE OF BIRTH</th>
-                <th>PHONE</th>
+                <th>S.NO</th>
+                <th>BOOK NO</th>
+                <th>BOOK TITLE</th>
+                <th>AUTHOR</th>
+                <th>PUBLICATION</th>
+                <th>DAMAGE</th>
+                <th>QTY</th>
                 <th>ACTION</th>
               </tr>
             </thead>
 
             <tbody>
-              {staffData.map((s)=>(
-                <tr key={s.id}>
-                  <td>{s.member}</td>
-                  <td>{s.card}</td>
-                  <td className="name">{s.name}</td>
-                  <td>{s.email}</td>
-                  <td>{s.dob}</td>
-                  <td>{s.phone}</td>
+              {paginatedBooks.length > 0 ? (
+                paginatedBooks.map((book, index) => (
+                  <tr key={book.id}>
+                    <td>{index + 1}</td>
 
-                  <td className="actionCell">
-                    <button
-                      className="actionBtn"
-                      onClick={()=>setOpenRow(openRow===s.id?null:s.id)}
+                    <td>{book.bookNo}</td>
+
+                    <td
+                      className="staff-library-book-title"
+                      onClick={() => handleEdit(book)}
                     >
-                      <FaEllipsisV/>
-                    </button>
+                      {book.title}
+                    </td>
 
-                    {openRow===s.id && (
-                      <div className="actionDropdown" ref={menuRef}>
-                        <button className="edit"><FaEdit/> Edit</button>
-                        <button className="delete" onClick={()=>deleteRow(s.id)}>
-                          <FaTrash/> Delete
+                    <td>{book.author}</td>
+
+                    <td>{book.publication}</td>
+
+                    <td>{book.damagedQty}</td>
+
+                    <td>{book.quantity}</td>
+
+                    <td>
+                      <div className="staff-library-action-buttons">
+                        <button
+                          className="staff-library-edit-btn"
+                          onClick={() => handleEdit(book)}
+                        >
+                          <FiEdit2 />
+                        </button>
+
+                        <button
+                          className="staff-library-delete-btn"
+                          onClick={() => handleDelete(book.id)}
+                        >
+                          <FiTrash2 />
                         </button>
                       </div>
-                    )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" className="staff-library-empty">
+                    No Books Found
                   </td>
-
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
+
+        {/* PAGINATION */}
+
+        <div className="staff-library-pagination">
+          <button
+            disabled={currentPage === 1}
+            onClick={() =>
+              setCurrentPage((prev) => prev - 1)
+            }
+          >
+            <FiChevronLeft />
+          </button>
+
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() =>
+              setCurrentPage((prev) => prev + 1)
+            }
+          >
+            <FiChevronRight />
+          </button>
+        </div>
       </div>
 
+      {/* MODAL */}
+
+      {openModal && (
+        <div className="staff-library-modal-overlay">
+          <div className="staff-library-modal">
+            <div className="staff-library-modal-header">
+              <h2>
+                {isEdit
+                  ? "UPDATE DAMAGED BOOK"
+                  : "DAMAGED BOOK"}
+              </h2>
+
+              <button
+                className="staff-library-close-btn"
+                onClick={() => setOpenModal(false)}
+              >
+                <FiX />
+              </button>
+            </div>
+
+            <div className="staff-library-modal-body">
+              <div className="staff-library-input-box">
+                <FiSearch className="staff-library-input-icon" />
+
+                <input
+                  type="text"
+                  name="searchBook"
+                  placeholder="Search Book"
+                  value={formData.searchBook}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="staff-library-input-box">
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                />
+
+                <FiCalendar className="staff-library-input-icon-right" />
+              </div>
+
+              <div className="staff-library-mini-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>S.NO</th>
+                      <th>BOOK NO</th>
+                      <th>BOOK NAME</th>
+                      <th>QTY</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+
+                      <td>BK100</td>
+
+                      <td>
+                        {formData.searchBook || "Book Name"}
+                      </td>
+
+                      <td>
+                        <input
+                          type="number"
+                          name="qty"
+                          placeholder="0"
+                          value={formData.qty}
+                          onChange={handleChange}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="staff-library-modal-footer">
+                <button
+                  className="staff-library-cancel-btn"
+                  onClick={() => setOpenModal(false)}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="staff-library-save-btn"
+                  onClick={handleSubmit}
+                >
+                  {isEdit ? "Update" : "Add"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
