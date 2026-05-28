@@ -172,6 +172,7 @@ transition:.3s;
 
 .issueReturnTable tbody tr:hover{
 background:#f8f9ff;
+cursor: pointer;
 }
 
 .issueReturnDelete{

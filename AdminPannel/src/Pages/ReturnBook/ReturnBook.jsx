@@ -34,6 +34,9 @@ const ReturnBook = () => {
 
   const [issueBooks, setIssueBooks] = useState([]);
 
+  const [mainSearch, setMainSearch] = useState("");
+  const [editId, setEditId] = useState(null);
+
   const fetchStudents = async () => {
     try {
       const res = await API.get("/students");
@@ -67,24 +70,52 @@ const ReturnBook = () => {
     }
   };
 
-  const addIssueBook = async () => {
+  const openEditModal = (item) => {
+    setEditId(item._id);
+
+    setSelectedStudent(item.student?._id || "");
+    setSelectedBook(item.book?._id || "");
+
+    setStudentSearch(
+      `${item.student?.firstName || ""} ${item.student?.lastName || ""} - ${
+        item.student?.admissionNo || ""
+      }`,
+    );
+
+    setBookSearch(`${item.book?.title || ""} - ${item.book?.bookNo || ""}`);
+
+    setOpenModal(true);
+  };
+
+  const saveIssueBook = async () => {
     if (!selectedStudent || !selectedBook) {
       alert("Please select student and book");
       return;
     }
 
-    await API.post("/issue-books", {
+    const payload = {
       student: selectedStudent,
       book: selectedBook,
       qty: 1,
-    });
+    };
 
-    setSelectedStudent("");
-    setSelectedBook("");
-    setStudentSearch("");
-    setBookSearch("");
-    setOpenModal(false);
-    fetchIssueBooks();
+    try {
+      if (editId) {
+        await API.put(`/issue-books/${editId}`, payload);
+      } else {
+        await API.post("/issue-books", payload);
+      }
+
+      setEditId(null);
+      setSelectedStudent("");
+      setSelectedBook("");
+      setStudentSearch("");
+      setBookSearch("");
+      setOpenModal(false);
+      fetchIssueBooks();
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to issue book");
+    }
   };
 
   const [columns, setColumns] = useState({
@@ -111,9 +142,43 @@ const ReturnBook = () => {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
+  const filteredIssueBooks = issueBooks.filter((item) => {
+    const search = mainSearch.toLowerCase();
+
+    const studentName = `${item.student?.firstName || ""} ${
+      item.student?.lastName || ""
+    }`;
+
+    return (
+      studentName.toLowerCase().includes(search) ||
+      item.student?.admissionNo?.toLowerCase().includes(search) ||
+      item.student?.className?.toLowerCase().includes(search) ||
+      item.student?.class?.toLowerCase().includes(search) ||
+      item.book?.bookNo?.toLowerCase().includes(search) ||
+      item.book?.title?.toLowerCase().includes(search)
+    );
+  });
+
+  const totalPages = Math.ceil(filteredIssueBooks.length / itemsPerPage) || 1;
+
   const startIndex = (currentPage - 1) * itemsPerPage;
 
-  const currentData = issueBooks.slice(startIndex, startIndex + itemsPerPage);
+  const currentData = filteredIssueBooks.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
+  const goPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   const filteredStudents = students.filter((student) => {
     const name = `${student.firstName || ""} ${student.lastName || ""}`;
@@ -142,7 +207,14 @@ const ReturnBook = () => {
           <div className="returnBook__search">
             <FiSearch />
 
-            <input placeholder="Search student, admission no..." />
+            <input
+              placeholder="Search student, admission no, book..."
+              value={mainSearch}
+              onChange={(e) => {
+                setMainSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
 
           <div className="returnBook__actions">
@@ -266,7 +338,7 @@ const ReturnBook = () => {
                           })
                         }
                       />
-                      Return Date
+                      ISSUE Date
                     </label>
 
                     <label>
@@ -289,7 +361,14 @@ const ReturnBook = () => {
 
             <button
               className="returnBook__addBtn"
-              onClick={() => setOpenModal(true)}
+              onClick={() => {
+                setEditId(null);
+                setSelectedStudent("");
+                setSelectedBook("");
+                setStudentSearch("");
+                setBookSearch("");
+                setOpenModal(true);
+              }}
             >
               <FiPlus />
             </button>
@@ -308,8 +387,8 @@ const ReturnBook = () => {
                   {columns.class && <th>CLASS</th>}
                   {columns.fine && <th>FINE</th>}
                   {columns.qty && <th>QTY</th>}
-                  {columns.date && <th>RETURN DATE</th>}
-                  {columns.action && <th>ACTION</th>}
+                  {columns.date && <th>ISSUE DATE</th>}
+                  {/* {columns.action && <th>ACTION</th>} */}
                 </tr>
               </thead>
 
@@ -325,7 +404,7 @@ const ReturnBook = () => {
                   </tr>
                 ) : (
                   currentData.map((item, index) => (
-                    <tr key={item._id}>
+                    <tr key={item._id} onClick={() => openEditModal(item)}>
                       {columns.sno && <td>{startIndex + index + 1}</td>}
 
                       {columns.adm && (
@@ -369,13 +448,13 @@ const ReturnBook = () => {
                         <td>{new Date(item.issueDate).toLocaleDateString()}</td>
                       )}
 
-                      {columns.action && (
+                      {/* {columns.action && (
                         <td>
                           <button className="returnBook__delete">
                             <FiTrash2 />
                           </button>
                         </td>
-                      )}
+                      )} */}
                     </tr>
                   ))
                 )}
@@ -389,21 +468,46 @@ const ReturnBook = () => {
 
               <select
                 value={itemsPerPage}
-                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
               >
-                <option>3</option>
-                <option>5</option>
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={25}>25</option>
               </select>
             </div>
 
             <div className="returnBook__pageRight">
-              <button className="returnBook__pageBtn">
+              <span>
+                {filteredIssueBooks.length === 0
+                  ? "0 - 0"
+                  : `${startIndex + 1} - ${Math.min(
+                      startIndex + itemsPerPage,
+                      filteredIssueBooks.length,
+                    )}`}{" "}
+                of {filteredIssueBooks.length}
+              </span>
+
+              <button
+                className="returnBook__pageBtn"
+                disabled={currentPage === 1}
+                onClick={goPrevPage}
+              >
                 <FiChevronLeft />
               </button>
 
-              <button className="activePage">1</button>
+              <button className="activePage">
+                {currentPage} / {totalPages}
+              </button>
 
-              <button className="returnBook__pageBtn">
+              <button
+                className="returnBook__pageBtn"
+                disabled={currentPage === totalPages}
+                onClick={goNextPage}
+              >
                 <FiChevronRight />
               </button>
             </div>
@@ -415,9 +519,7 @@ const ReturnBook = () => {
         <div className="returnBookModal">
           <div className="returnBookModal__box">
             <div className="returnBookModal__header">
-              <h2>
-                Issue Book
-              </h2>
+              <h2>{editId ? "Update Issue Book" : "Issue Book"}</h2>
 
               <button
                 className="returnBookModal__close"
@@ -520,8 +622,8 @@ const ReturnBook = () => {
                 Cancel
               </button>
 
-              <button className="returnBookModal__add" onClick={addIssueBook}>
-                Issue Book
+              <button className="returnBookModal__add" onClick={saveIssueBook}>
+                {editId ? "Update Book" : "Issue Book"}
               </button>
             </div>
           </div>

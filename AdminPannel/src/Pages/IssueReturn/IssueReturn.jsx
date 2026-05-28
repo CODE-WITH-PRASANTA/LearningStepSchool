@@ -31,6 +31,35 @@ const IssueReturn = () => {
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
   const [publications, setPublications] = useState([]);
+  const [editId, setEditId] = useState(null);
+
+  const [searchText, setSearchText] = useState("");
+
+  const openUpdateForm = (book) => {
+    setEditId(book._id);
+
+    setFormData({
+      bookNo: book.bookNo || "",
+      barcode: book.barcode || "",
+      title: book.title || "",
+      author: book.author || "",
+      category: book.category || "",
+      publication: book.publication || "",
+      edition: book.edition || "",
+      volume: book.volume || "",
+      className: book.className || "",
+      subject: book.subject || "",
+      openQuantity: book.openQuantity || "",
+      reorder: book.reorder || "",
+      rate: book.rate || "",
+      remark: book.remark || "",
+      pdf: book.pdf || false,
+      audio: book.audio || false,
+      video: book.video || false,
+    });
+
+    setShowForm(true);
+  };
 
   const [formData, setFormData] = useState({
     bookNo: "",
@@ -111,7 +140,7 @@ const IssueReturn = () => {
     });
   };
 
-  const addBook = async () => {
+  const saveBook = async () => {
     if (
       !formData.bookNo ||
       !formData.title ||
@@ -126,12 +155,18 @@ const IssueReturn = () => {
     }
 
     try {
-      await API.post("/books", {
+      const payload = {
         ...formData,
         openQuantity: Number(formData.openQuantity || 0),
         reorder: Number(formData.reorder || 0),
         rate: Number(formData.rate),
-      });
+      };
+
+      if (editId) {
+        await API.put(`/books/${editId}`, payload);
+      } else {
+        await API.post("/books", payload);
+      }
 
       setFormData({
         bookNo: "",
@@ -153,10 +188,11 @@ const IssueReturn = () => {
         video: false,
       });
 
+      setEditId(null);
       setShowForm(false);
       fetchBooks();
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to add book");
+      alert(err.response?.data?.message || "Failed to save book");
     }
   };
 
@@ -171,6 +207,19 @@ const IssueReturn = () => {
     }
   };
 
+  const filteredBooks = books.filter((book) => {
+    const search = searchText.toLowerCase();
+
+    return (
+      book.bookNo?.toLowerCase().includes(search) ||
+      book.title?.toLowerCase().includes(search) ||
+      book.author?.toLowerCase().includes(search) ||
+      book.publication?.toLowerCase().includes(search) ||
+      book.category?.toLowerCase().includes(search) ||
+      book.edition?.toLowerCase().includes(search)
+    );
+  });
+
   return (
     <div className="issueReturn">
       {/* ================= HEADER ================= */}
@@ -179,7 +228,12 @@ const IssueReturn = () => {
         <div className="issueReturnSearch">
           <FiSearch />
 
-          <input type="text" placeholder="Search books..." />
+          <input
+            type="text"
+            placeholder="Search books..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
         </div>
 
         <div className="issueReturnActionArea">
@@ -192,7 +246,29 @@ const IssueReturn = () => {
 
           <button
             className="issueReturnAddBtn"
-            onClick={() => setShowForm(true)}
+            onClick={() => {
+              setEditId(null);
+              setFormData({
+                bookNo: "",
+                barcode: "",
+                title: "",
+                author: "",
+                category: "",
+                publication: "",
+                edition: "",
+                volume: "",
+                className: "",
+                subject: "",
+                openQuantity: "",
+                reorder: "",
+                rate: "",
+                remark: "",
+                pdf: false,
+                audio: false,
+                video: false,
+              });
+              setShowForm(true);
+            }}
           >
             <FiPlus />
           </button>
@@ -222,8 +298,8 @@ const IssueReturn = () => {
             </thead>
 
             <tbody>
-              {books.map((item, index) => (
-                <tr key={item._id}>
+              {filteredBooks.map((item, index) => (
+                <tr key={item._id} onClick={() => openUpdateForm(item)}>
                   {columns.sno && <td>{index + 1}</td>}
 
                   {columns.bookNo && <td>{item.bookNo}</td>}
@@ -242,7 +318,10 @@ const IssueReturn = () => {
                     <td>
                       <button
                         className="issueReturnDelete"
-                        onClick={() => deleteBook(item._id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteBook(item._id);
+                        }}
                       >
                         <FiTrash2 />
                       </button>
@@ -269,7 +348,7 @@ const IssueReturn = () => {
 
           <div className="issueReturnPageRight">
             <span>
-              1 - {books.length} of {books.length}
+              1 - {filteredBooks.length} of {filteredBooks.length}
             </span>
 
             <button>
@@ -289,9 +368,13 @@ const IssueReturn = () => {
         <div className="issueReturnModal">
           <div className="issueReturnModalBox">
             <div className="issueReturnModalHead">
-              <h2>BOOK MASTER</h2>
-
-              <button onClick={() => setShowForm(false)}>
+              <h2>{editId ? "UPDATE BOOK" : "ADD BOOK "}</h2>
+              <button
+                onClick={() => {
+                  setShowForm(false);
+                  setEditId(null);
+                }}
+              >
                 <FiX />
               </button>
             </div>
@@ -450,12 +533,18 @@ const IssueReturn = () => {
             </div>
 
             <div className="issueReturnButtons">
-              <button className="cancelBtn" onClick={() => setShowForm(false)}>
+              <button
+                className="cancelBtn"
+                onClick={() => {
+                  setShowForm(false);
+                  setEditId(null);
+                }}
+              >
                 Cancel
               </button>
 
-              <button className="saveBtn" onClick={addBook}>
-                Add Book
+              <button className="saveBtn" onClick={saveBook}>
+                {editId ? "Update Book" : "Add Book"}
               </button>
             </div>
           </div>
