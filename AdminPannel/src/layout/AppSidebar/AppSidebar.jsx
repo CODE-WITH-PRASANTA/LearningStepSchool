@@ -138,6 +138,9 @@ const menu = [
         label: "Student Details",
         path: "/student/admission/details",
       },
+       { label: "Promotion", path: "/student/Promotion" },
+       { label: "Student Portfolio", path: "/student/portfolio" },
+
       // { label: "Online Admission", path: "/online/admission" },
       // { label: "Student Details", path: "/student/details" },
       // { label: "Student Catagory", path: "/student/catagory" },
@@ -290,13 +293,25 @@ const menu = [
   
     { type: "divider" },
   {
+     label: "Front Office",
+    icon: FiBook,
+  children: [
+      { label: "App Users", path: "/app/user" },
+       
+     ],
+  },
+
+
+  
+    { type: "divider" },
+  {
      label: "Transport",
     icon: FiBook,
   children: [
       { label: "Transport Vehicle", path: "/transport/vehicle" },
       { label: "Transport Route", path: "/transport/route" },
        { label: "Transport Destination", path: "/transport/destination" },
-        { label: "Assign Routes", path: "/transport/routes" },
+        { label: "Assign Routes", path: "/transport/routesAssigne" },
          { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
        
      ],
