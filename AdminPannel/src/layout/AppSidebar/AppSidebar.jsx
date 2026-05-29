@@ -274,8 +274,32 @@ const menu = [
       { label: "Damaged Book", path: "/library/staff" },
      ],
   },
+  
 
-  // { type: "divider" },
+    { type: "divider" },
+  {
+     label: "Support",
+    icon: FiBook,
+  children: [
+      { label: "Ticket Generator", path: "/ticket/generator" },
+       
+     ],
+  },
+
+
+  
+    { type: "divider" },
+  {
+     label: "Transport",
+    icon: FiBook,
+  children: [
+      { label: "Transport Vehicle", path: "/transport/vehicle" },
+      { label: "Transport Route", path: "/transport/route" },
+       { label: "Transport Destination", path: "/transport/destination" },
+        { label: "Assign Routes", path: "/transport/routes" },
+       
+     ],
+  },
 
   // {
   //   label: "Question Paper",

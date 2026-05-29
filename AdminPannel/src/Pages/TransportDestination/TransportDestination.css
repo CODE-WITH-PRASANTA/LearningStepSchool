@@ -1,0 +1,550 @@
+/* TransportDestination.css */
+
+.transport-destination-page{
+width:100%;
+min-height:100vh;
+padding:18px;
+background:#f4f7ff;
+font-family:Poppins,sans-serif;
+overflow:hidden;
+}
+
+.transport-destination-container{
+width:100%;
+}
+
+.transport-destination-card{
+width:100%;
+background:#ffffff;
+border-radius:22px;
+overflow:hidden;
+box-shadow:
+0 8px 24px rgba(0,0,0,0.07);
+}
+
+/* TOPBAR */
+
+.transport-destination-topbar{
+padding:14px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:18px;
+background:#eef2ff;
+flex-wrap:wrap;
+}
+
+/* SEARCH */
+
+.transport-destination-search-box{
+flex:1;
+max-width:520px;
+height:52px;
+background:#ffffff;
+border-radius:50px;
+display:flex;
+align-items:center;
+gap:12px;
+padding:0 18px;
+border:1px solid #ececec;
+}
+
+.transport-destination-search-icon{
+font-size:18px;
+color:#6b7280;
+}
+
+.transport-destination-search-box input{
+width:100%;
+height:100%;
+border:none;
+outline:none;
+background:transparent;
+font-size:14px;
+font-weight:500;
+}
+
+/* ACTIONS */
+
+.transport-destination-top-actions{
+display:flex;
+align-items:center;
+gap:14px;
+position:relative;
+}
+
+/* FILTER */
+
+.transport-destination-filter-wrapper{
+position:relative;
+}
+
+.transport-destination-filter-btn{
+width:50px;
+height:50px;
+border:none;
+border-radius:14px;
+background:#ffffff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.transport-destination-filter-btn:hover{
+background:#4f46e5;
+color:#ffffff;
+}
+
+.transport-destination-filter-dropdown{
+position:absolute;
+top:64px;
+right:0;
+width:270px;
+background:#ffffff;
+border-radius:18px;
+padding:18px;
+display:flex;
+flex-wrap:wrap;
+gap:16px;
+z-index:99;
+box-shadow:
+0 12px 30px rgba(0,0,0,0.12);
+}
+
+.transport-destination-filter-dropdown label{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:15px;
+font-weight:500;
+}
+
+.transport-destination-filter-dropdown input{
+width:18px;
+height:18px;
+accent-color:#4f46e5;
+}
+
+/* ADD BUTTON */
+
+.transport-destination-add-btn{
+width:58px;
+height:58px;
+border:none;
+border-radius:50%;
+background:
+linear-gradient(135deg,#5b4bff,#4338ca);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+color:#ffffff;
+cursor:pointer;
+transition:0.3s;
+box-shadow:
+0 8px 22px rgba(91,75,255,0.35);
+}
+
+.transport-destination-add-btn:hover{
+transform:scale(1.06);
+}
+
+/* TABLE */
+
+.transport-destination-table-wrapper{
+width:100%;
+overflow-x:auto;
+}
+
+.transport-destination-table{
+width:100%;
+min-width:800px;
+border-collapse:collapse;
+}
+
+.transport-destination-table th{
+padding:18px;
+font-size:15px;
+font-weight:700;
+text-align:left;
+border-bottom:1px solid #ececec;
+white-space:nowrap;
+}
+
+.transport-destination-table td{
+padding:18px;
+font-size:14px;
+font-weight:500;
+border-bottom:1px solid #f1f1f1;
+white-space:nowrap;
+}
+
+.transport-destination-table tbody tr:hover{
+background:#f8f9ff;
+}
+
+/* NAME BUTTON */
+
+.transport-destination-name-btn{
+border:none;
+background:none;
+font-size:14px;
+font-weight:600;
+color:#111827;
+cursor:pointer;
+transition:0.3s;
+}
+
+.transport-destination-name-btn:hover{
+color:#4f46e5;
+}
+
+/* ACTION BUTTONS */
+
+.transport-destination-action-group{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.transport-destination-edit-btn,
+.transport-destination-delete-btn{
+height:38px;
+padding:0 14px;
+border:none;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+font-size:13px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.transport-destination-edit-btn{
+background:#eef2ff;
+color:#4f46e5;
+}
+
+.transport-destination-edit-btn:hover{
+background:#4f46e5;
+color:#ffffff;
+}
+
+.transport-destination-delete-btn{
+background:#fff1f2;
+color:#ef4444;
+}
+
+.transport-destination-delete-btn:hover{
+background:#ef4444;
+color:#ffffff;
+}
+
+/* PAGINATION */
+
+.transport-destination-pagination{
+padding:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:16px;
+}
+
+.transport-destination-pagination-left,
+.transport-destination-pagination-right{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:14px;
+font-weight:500;
+}
+
+.transport-destination-pagination select{
+width:90px;
+height:42px;
+border-radius:12px;
+border:1px solid #d1d5db;
+padding:0 12px;
+background:#ffffff;
+outline:none;
+}
+
+.transport-destination-pagination-right button{
+width:38px;
+height:38px;
+border:none;
+border-radius:10px;
+background:#eef2ff;
+color:#4f46e5;
+cursor:pointer;
+}
+
+.transport-destination-pagination-right button:disabled{
+opacity:0.4;
+cursor:not-allowed;
+}
+
+/* MODAL */
+
+.transport-destination-modal-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100vh;
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(4px);
+display:flex;
+align-items:center;
+justify-content:center;
+padding:18px;
+z-index:999;
+}
+
+.transport-destination-modal{
+width:100%;
+max-width:950px;
+background:#ffffff;
+border-radius:26px;
+overflow:hidden;
+animation:popup 0.3s ease;
+}
+
+@keyframes popup{
+
+from{
+opacity:0;
+transform:scale(0.92);
+}
+
+to{
+opacity:1;
+transform:scale(1);
+}
+
+}
+
+/* HEADER */
+
+.transport-destination-modal-header{
+padding:22px 26px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #ececec;
+}
+
+.transport-destination-modal-header h2{
+font-size:28px;
+font-weight:700;
+}
+
+.transport-destination-close-btn{
+width:56px;
+height:56px;
+border:none;
+border-radius:50%;
+background:#f3f4f6;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.transport-destination-close-btn:hover{
+background:#ef4444;
+color:#ffffff;
+}
+
+/* BODY */
+
+.transport-destination-modal-body{
+padding:28px;
+}
+
+/* GRID */
+
+.transport-destination-form-grid{
+width:100%;
+display:grid;
+grid-template-columns:
+repeat(3,minmax(0,1fr));
+gap:22px;
+align-items:start;
+}
+
+/* INPUT FULL */
+
+.transport-destination-input-full{
+grid-column:span 1;
+}
+
+/* INPUT GROUP */
+
+.transport-destination-input-group{
+width:100%;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+/* LABEL */
+
+.transport-destination-input-group label{
+font-size:14px;
+font-weight:600;
+color:#4f46e5;
+padding-left:4px;
+}
+
+/* INPUT */
+
+.transport-destination-input-group input{
+width:100%;
+height:62px;
+border:1.5px solid #d1d5db;
+border-radius:18px;
+padding:0 18px;
+font-size:15px;
+font-weight:500;
+background:#ffffff;
+outline:none;
+transition:0.3s;
+}
+
+.transport-destination-input-group input:focus{
+border-color:#4f46e5;
+box-shadow:
+0 0 0 4px rgba(79,70,229,0.08);
+}
+
+.transport-destination-input-group input::placeholder{
+color:#9ca3af;
+}
+
+/* FOOTER */
+
+.transport-destination-modal-footer{
+margin-top:28px;
+display:flex;
+align-items:center;
+justify-content:flex-end;
+gap:16px;
+}
+
+.transport-destination-cancel-btn,
+.transport-destination-submit-btn{
+min-width:130px;
+height:50px;
+border:none;
+border-radius:14px;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.transport-destination-cancel-btn{
+background:#f3f4f6;
+}
+
+.transport-destination-submit-btn{
+background:
+linear-gradient(135deg,#5b4bff,#4338ca);
+color:#ffffff;
+}
+
+.transport-destination-submit-btn:hover{
+transform:translateY(-2px);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:992px){
+
+.transport-destination-form-grid{
+grid-template-columns:1fr;
+gap:18px;
+}
+
+.transport-destination-input-full{
+grid-column:span 1;
+}
+
+}
+
+@media(max-width:768px){
+
+.transport-destination-page{
+padding:12px;
+}
+
+.transport-destination-topbar{
+flex-direction:column;
+align-items:stretch;
+}
+
+.transport-destination-search-box{
+max-width:100%;
+}
+
+.transport-destination-pagination{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.transport-destination-modal{
+max-width:100%;
+}
+
+.transport-destination-modal-footer{
+flex-direction:column;
+}
+
+.transport-destination-cancel-btn,
+.transport-destination-submit-btn{
+width:100%;
+}
+
+.transport-destination-action-group{
+flex-direction:column;
+align-items:flex-start;
+}
+
+}
+
+@media(max-width:480px){
+
+.transport-destination-page{
+padding:8px;
+}
+
+.transport-destination-search-box{
+height:48px;
+padding:0 14px;
+}
+
+.transport-destination-table th,
+.transport-destination-table td{
+padding:14px;
+font-size:13px;
+}
+
+.transport-destination-filter-dropdown{
+width:240px;
+}
+
+.transport-destination-modal-header h2{
+font-size:22px;
+}
+
+}

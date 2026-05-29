@@ -139,6 +139,12 @@ import AttendanceByDate from "./Component/AttendanceByDate/AttendanceByDate";
 import AbsentStudent from "./Component/AbsentStudent/AbsentStudent";
 import UnmarkedAttendance from "./Component/UnmarkedAttendance/UnmarkedAttendance";
 import CustomAttendanceReport from "./Component/CustomAttendanceReport/CustomAttendanceReport";
+import Ticket from "./Pages/Ticket/Ticket";
+import TransportVehicle from "./Pages/TransportVehicle/TransportVehicle";
+import Transport from "./Pages/TransportRoute/TransportRoute";
+import TransportRoute from "./Pages/TransportRoute/TransportRoute";
+import TransportDestination from "./Pages/TransportDestination/TransportDestination";
+import AssignRoutes from "./Pages/AssignRoutes/AssignRoutes";
 
 
 /* ===================== APP ===================== */
@@ -403,6 +409,11 @@ export default function App() {
 
 
           <Route path="/faq" element={<FaqPosting />} />
+          <Route path="/ticket/generator" element={<Ticket/>}/>
+          <Route path="/transport/vehicle" element={<TransportVehicle/>}/>
+          <Route path="/transport/route"element={<TransportRoute/>}/>
+          <Route path="/transport/destination" element={<TransportDestination/>}/>
+          <Route path="/transport/routes" element={<AssignRoutes/>}/>
         </Route>
 
         {/* ===== FALLBACK ===== */}
