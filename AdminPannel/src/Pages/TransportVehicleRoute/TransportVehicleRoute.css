@@ -1,0 +1,676 @@
+.transportVehicleRoute {
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f7fc;
+  padding: 24px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+
+.transportVehicleRoute-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+/* SEARCH */
+
+.transportVehicleRoute-search {
+  flex: 1;
+  max-width: 520px;
+  height: 58px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 5px 20px
+    rgba(0, 0, 0, 0.05);
+}
+
+.transportVehicleRoute-search svg {
+  font-size: 22px;
+  color: #777;
+}
+
+.transportVehicleRoute-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+}
+
+/* RIGHT */
+
+.transportVehicleRoute-headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+/* BUTTON */
+
+.transportVehicleRoute-filterBtn,
+.transportVehicleRoute-addBtn {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    #6b5cff,
+    #574bff
+  );
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  box-shadow: 0 12px 24px
+    rgba(90, 79, 243, 0.22);
+}
+
+.transportVehicleRoute-filterBtn:hover,
+.transportVehicleRoute-addBtn:hover {
+  transform: translateY(-3px);
+}
+
+/* FILTER */
+
+.transportVehicleRoute-filterDropdown {
+  position: absolute;
+  top: 72px;
+  right: 0;
+  width: 240px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  box-shadow: 0 15px 40px
+    rgba(0, 0, 0, 0.12);
+  z-index: 999;
+}
+
+.transportVehicleRoute-filterDropdown label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.transportVehicleRoute-filterDropdown input {
+  accent-color: #5a4ff3;
+}
+
+/* TABLE */
+
+.transportVehicleRoute-tableWrapper {
+  background: white;
+  border-radius: 24px;
+  overflow-x: auto;
+  box-shadow: 0 10px 35px
+    rgba(0, 0, 0, 0.05);
+}
+
+.transportVehicleRoute-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 950px;
+}
+
+.transportVehicleRoute-table thead {
+  background: #fafafa;
+}
+
+.transportVehicleRoute-table th {
+  padding: 22px 18px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+  border-bottom: 1px solid #eee;
+}
+
+.transportVehicleRoute-table td {
+  padding: 20px 18px;
+  border-bottom: 1px solid #f1f1f1;
+  font-size: 14px;
+  color: #444;
+  vertical-align: middle;
+}
+
+.transportVehicleRoute-table tbody tr:hover {
+  background: #fafbff;
+}
+
+.actionCenter {
+  text-align: center !important;
+}
+
+/* TYPE */
+
+.transportVehicleRoute-typeBadge,
+.transportVehicleRoute-dropdownBadge,
+.transportVehicleRoute-selectedBadge {
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transportVehicleRoute-typeBadge {
+  cursor: pointer;
+}
+
+.busBadge {
+  background: #e8f7ee;
+  color: #18a957;
+}
+
+.vanBadge {
+  background: #eef1ff;
+  color: #574bff;
+}
+
+/* ROUTE TAG */
+
+.transportVehicleRoute-routeTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.transportVehicleRoute-routeTag {
+  padding: 7px 14px;
+  border-radius: 30px;
+  background: #f2f3ff;
+  color: #574bff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ACTION */
+
+.transportVehicleRoute-actionBtns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.transportVehicleRoute-editBtn,
+.transportVehicleRoute-deleteBtn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.25s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transportVehicleRoute-editBtn {
+  background: #eef1ff;
+  color: #574bff;
+}
+
+.transportVehicleRoute-deleteBtn {
+  background: #fff0f0;
+  color: #ff3b3b;
+}
+
+.transportVehicleRoute-editBtn:hover,
+.transportVehicleRoute-deleteBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* MODAL */
+
+.transportVehicleRoute-modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.transportVehicleRoute-modal {
+  width: 100%;
+  max-width: 760px;
+  background: white;
+  border-radius: 30px;
+  overflow: visible;
+  animation: popup 0.3s ease;
+  box-shadow: 0 30px 60px
+    rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* HEADER */
+
+.transportVehicleRoute-modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.transportVehicleRoute-modalHeader h2 {
+  font-size: 28px;
+  color: #222;
+}
+
+.transportVehicleRoute-modalHeader button {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: none;
+  background: #f3f4ff;
+  color: #574bff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* BODY */
+
+.transportVehicleRoute-modalBody {
+  padding: 24px;
+  max-height: 75vh;
+  overflow-y: auto;
+  overflow-x: visible;
+}
+
+/* DROPDOWN */
+
+.transportVehicleRoute-dropdownBox {
+  position: relative;
+  margin-bottom: 10px;
+  z-index: 10000;
+}
+
+.transportVehicleRoute-dropdownBox label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #555;
+}
+
+.transportVehicleRoute-dropdownSelected {
+  min-height: 62px;
+  border: 2px solid #5a4ff3;
+  border-radius: 18px;
+  padding: 0 18px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.transportVehicleRoute-dropdownSelected:hover {
+  box-shadow: 0 8px 24px
+    rgba(90, 79, 243, 0.15);
+}
+
+.transportVehicleRoute-dropdownActive {
+  box-shadow: 0 10px 28px
+    rgba(90, 79, 243, 0.2);
+}
+
+.transportVehicleRoute-arrow {
+  transition: 0.3s;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.transportVehicleRoute-arrowRotate {
+  transform: rotate(180deg);
+}
+
+/* DROPDOWN MENU */
+
+.transportVehicleRoute-dropdownMenu {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid #ececec;
+  box-shadow: 0 30px 60px
+    rgba(0, 0, 0, 0.16);
+  max-height: 340px;
+  overflow-y: auto;
+  z-index: 99999;
+  padding: 14px;
+  animation: dropdownShow 0.25s ease;
+}
+
+.transportVehicleRoute-dropdownMenu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.transportVehicleRoute-dropdownMenu::-webkit-scrollbar-thumb {
+  background: #d4d1ff;
+  border-radius: 10px;
+}
+
+.transportVehicleRoute-dropdownItem {
+  border-radius: 20px;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.25s;
+  margin-bottom: 12px;
+  border: 1px solid transparent;
+  background: #fff;
+}
+
+.transportVehicleRoute-dropdownItem:last-child {
+  margin-bottom: 0;
+}
+
+.transportVehicleRoute-dropdownItem:hover {
+  background: #f7f6ff;
+  border-color: #ded9ff;
+  transform: translateY(-2px);
+}
+
+.transportVehicleRoute-dropdownSelectedItem {
+  background: #f1efff;
+  border-color: #cfc7ff;
+}
+
+.transportVehicleRoute-dropdownTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.transportVehicleRoute-dropdownTop h4 {
+  font-size: 18px;
+  color: #222;
+}
+
+.transportVehicleRoute-dropdownBottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.transportVehicleRoute-dropdownBottom p {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+/* SELECTED CARD */
+
+.transportVehicleRoute-selectedCard {
+  margin-top: 30px;
+  background: linear-gradient(
+    135deg,
+    #f7f5ff,
+    #eef1ff
+  );
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid #dfd9ff;
+}
+
+.transportVehicleRoute-selectedTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.transportVehicleRoute-selectedTop h3 {
+  font-size: 28px;
+  color: #222;
+}
+
+.transportVehicleRoute-selectedInfo {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.transportVehicleRoute-selectedInfo div {
+  background: white;
+  padding: 18px;
+  border-radius: 18px;
+}
+
+.transportVehicleRoute-selectedInfo strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 14px;
+}
+
+.transportVehicleRoute-selectedInfo p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+}
+
+/* ROUTES */
+
+.transportVehicleRoute-routes {
+  margin-top: 30px;
+}
+
+.transportVehicleRoute-routes h3 {
+  font-size: 24px;
+  margin-bottom: 18px;
+  color: #222;
+}
+
+.transportVehicleRoute-routesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.transportVehicleRoute-routeItem {
+  border: 1px solid #ececec;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: 0.25s;
+  background: white;
+}
+
+.transportVehicleRoute-routeItem:hover {
+  border-color: #574bff;
+}
+
+.transportVehicleRoute-routeActive {
+  background: #f4f2ff;
+  border-color: #574bff;
+}
+
+.transportVehicleRoute-routeItem input {
+  width: 18px;
+  height: 18px;
+  accent-color: #574bff;
+}
+
+.transportVehicleRoute-routeItem span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* FOOTER */
+
+.transportVehicleRoute-modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  padding: 24px;
+  border-top: 1px solid #eee;
+}
+
+.transportVehicleRoute-cancelBtn,
+.transportVehicleRoute-saveBtn {
+  min-width: 120px;
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.transportVehicleRoute-cancelBtn {
+  background: #ececec;
+  color: #333;
+}
+
+.transportVehicleRoute-saveBtn {
+  background: linear-gradient(
+    135deg,
+    #6b5cff,
+    #574bff
+  );
+  color: white;
+  box-shadow: 0 10px 20px
+    rgba(90, 79, 243, 0.25);
+}
+
+.transportVehicleRoute-saveBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* ANIMATION */
+
+@keyframes dropdownShow {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .transportVehicleRoute {
+    padding: 14px;
+  }
+
+  .transportVehicleRoute-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .transportVehicleRoute-search {
+    max-width: 100%;
+  }
+
+  .transportVehicleRoute-modal {
+    max-width: 100%;
+  }
+
+  .transportVehicleRoute-routesGrid,
+  .transportVehicleRoute-selectedInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .transportVehicleRoute-dropdownBottom {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .transportVehicleRoute-filterDropdown {
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .transportVehicleRoute-search {
+    height: 52px;
+  }
+
+  .transportVehicleRoute-filterBtn,
+  .transportVehicleRoute-addBtn {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+  }
+
+  .transportVehicleRoute-modalHeader h2 {
+    font-size: 22px;
+  }
+
+  .transportVehicleRoute-modalBody,
+  .transportVehicleRoute-modalFooter,
+  .transportVehicleRoute-modalHeader {
+    padding: 18px;
+  }
+
+  .transportVehicleRoute-selectedTop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .transportVehicleRoute-dropdownSelected {
+    min-height: 54px;
+  }
+
+  .transportVehicleRoute-filterDropdown {
+    grid-template-columns: 1fr;
+  }
+}
