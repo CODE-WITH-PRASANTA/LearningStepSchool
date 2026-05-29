@@ -30,6 +30,36 @@ exports.getBooks = async (req, res) => {
   }
 };
 
+exports.updateBook = async (req, res) => {
+  try {
+    const book = await Book.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: "Book not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Book updated successfully",
+      data: book,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update book",
+      error: err.message,
+    });
+  }
+};
+
+
 exports.deleteBook = async (req, res) => {
   try {
     await Book.findByIdAndDelete(req.params.id);

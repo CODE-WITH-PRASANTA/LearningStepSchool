@@ -66,6 +66,8 @@ const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
 const bookMasterRoutes = require("./routes/bookMaster.routes");
 const bookRoutes = require("./routes/book.routes");
 const issueBookRoutes = require("./routes/issueBook.routes");
+const returnBook = require("./routes/returnBook.routes")
+const damageBookRoutes = require("./routes/damageBook.routes");
 
 
 
@@ -122,9 +124,13 @@ app.use("/api/payroll", payrollRoutes);
 
 app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
+// library
 app.use("/api/book-master", bookMasterRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/issue-books", issueBookRoutes);
+app.use("/api/return-books",returnBook );
+app.use("/api/damage-books", damageBookRoutes);
+
 
 /* ================= 404 HANDLER ================= */
 
