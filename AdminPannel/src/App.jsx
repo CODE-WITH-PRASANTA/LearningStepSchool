@@ -409,7 +409,9 @@ export default function App() {
 
 
           <Route path="/faq" element={<FaqPosting />} />
+          {/* Ticket Generator */}
           <Route path="/ticket/generator" element={<Ticket/>}/>
+          {/* Transport */}
           <Route path="/transport/vehicle" element={<TransportVehicle/>}/>
           <Route path="/transport/route"element={<TransportRoute/>}/>
           <Route path="/transport/destination" element={<TransportDestination/>}/>

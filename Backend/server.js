@@ -68,43 +68,59 @@ const bookRoutes = require("./routes/book.routes");
 const issueBookRoutes = require("./routes/issueBook.routes");
 const returnBook = require("./routes/returnBook.routes")
 const damageBookRoutes = require("./routes/damageBook.routes");
+const ticketRoutes = require("./routes/ticket.routes")
+const vehicleRoutes = require(
+  "./routes/vehicle.routes"
+);
+const routeRoutes = require(
+  "./routes/route.routes"
+);
+const destinationRoutes =
+  require(
+    "./routes/destination.routes"
+  );
+const assignRouteRoutes =
+  require(
+    "./routes/assignRoute.routes"
+  );
 
-
-
-
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-app.use("/api/notifications", notificationRoutes);
-app.use("/api/latest-news", latestNewsRoutes);
-app.use("/api/photo-gallery", photoGalleryRoutes);
-app.use("/api/video-gallery", videoGalleryRoutes);
-app.use("/api/teachers", teacherRoutes);
-app.use("/api/notices", noticeRoutes);
-app.use("/api/awards", awardRoutes);
-app.use("/api/preprimary", prePrimaryRoutes);
-app.use("/api/primery", primeryRoutes);
-app.use("/api/secondary", secondaryRoutes);
-app.use("/api/testimonials", testimonialRoutes);
-app.use("/api/faqs", faqRoutes);
-app.use("/api/survey", surveyRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/fees", feeRoutes);
-app.use("/api/class-data", classDataRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/enquiries", enquiryRoutes);
-app.use("/api/students", studentAdmissionRoutes);
-app.use("/api/advertisements", advertisementRoutes);
-app.use("/api/classes", classRoutes);
-app.use("/api", subjectRoutes);
-
-app.use("/api/feetypes", feeTypes);
-app.use("/api/admission", AdmsonfeeRoutes);
-
-app.use("/api/classwise-subjects", classWiseSubjectRoutes);
-
-app.use("/api/exam-types",examType );
-app.use("/api/exam-results", examResult);
+  
+  
+  
+  
+  
+  app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+  
+  app.use("/api/notifications", notificationRoutes);
+  app.use("/api/latest-news", latestNewsRoutes);
+  app.use("/api/photo-gallery", photoGalleryRoutes);
+  app.use("/api/video-gallery", videoGalleryRoutes);
+  app.use("/api/teachers", teacherRoutes);
+  app.use("/api/notices", noticeRoutes);
+  app.use("/api/awards", awardRoutes);
+  app.use("/api/preprimary", prePrimaryRoutes);
+  app.use("/api/primery", primeryRoutes);
+  app.use("/api/secondary", secondaryRoutes);
+  app.use("/api/testimonials", testimonialRoutes);
+  app.use("/api/faqs", faqRoutes);
+  app.use("/api/survey", surveyRoutes);
+  app.use("/api/blogs", blogRoutes);
+  app.use("/api/fees", feeRoutes);
+  app.use("/api/class-data", classDataRoutes);
+  app.use("/api/events", eventRoutes);
+  app.use("/api/enquiries", enquiryRoutes);
+  app.use("/api/students", studentAdmissionRoutes);
+  app.use("/api/advertisements", advertisementRoutes);
+  app.use("/api/classes", classRoutes);
+  app.use("/api", subjectRoutes);
+  
+  app.use("/api/feetypes", feeTypes);
+  app.use("/api/admission", AdmsonfeeRoutes);
+  
+  app.use("/api/classwise-subjects", classWiseSubjectRoutes);
+  
+  app.use("/api/exam-types",examType );
+  app.use("/api/exam-results", examResult);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
@@ -130,8 +146,25 @@ app.use("/api/books", bookRoutes);
 app.use("/api/issue-books", issueBookRoutes);
 app.use("/api/return-books",returnBook );
 app.use("/api/damage-books", damageBookRoutes);
+app.use("/api/ticket",ticketRoutes)
 
-
+// Transport
+app.use(
+  "/api/vehicle",
+  vehicleRoutes
+);
+app.use(
+  "/api/transport-route",
+  routeRoutes
+);
+app.use(
+  "/api/transport-destination",
+  destinationRoutes
+);
+app.use(
+  "/api/assign-route",
+  assignRouteRoutes
+);
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {
