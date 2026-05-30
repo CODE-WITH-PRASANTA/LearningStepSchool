@@ -1,0 +1,703 @@
+/* =========================
+   GLOBAL PAGE
+========================= */
+
+.student-portfolio-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f1f5f9;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* =========================
+   HEADER SECTION
+========================= */
+
+.student-portfolio-header-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.student-portfolio-title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.student-portfolio-main-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.student-portfolio-search-wrapper {
+  width: 320px;
+}
+
+.student-portfolio-search-input {
+  width: 100%;
+  height: 52px;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 0px 18px;
+  outline: none;
+  font-size: 14px;
+  background: #ffffff;
+  color: #0f172a;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+.student-portfolio-search-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0px 0px 0px 4px rgba(37, 99, 235, 0.12);
+}
+
+.student-portfolio-search-input::placeholder {
+  color: #94a3b8;
+}
+
+/* =========================
+   TOP GRID
+========================= */
+
+.student-portfolio-top-grid-section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1.4fr;
+  gap: 22px;
+  margin-bottom: 24px;
+  align-items: start;
+}
+
+/* =========================
+   COMMON CARD
+========================= */
+
+.student-portfolio-card {
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  box-shadow: 0px 10px 35px rgba(15, 23, 42, 0.06);
+  transition: 0.3s ease;
+}
+
+.student-portfolio-card:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================
+   CARD HEADERS
+========================= */
+
+.student-portfolio-card-header {
+  width: 100%;
+  padding: 16px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+
+.student-portfolio-card-header-blue {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+}
+
+.student-portfolio-card-header-orange {
+  background: linear-gradient(135deg, #ea580c, #fb923c);
+}
+
+.student-portfolio-card-header-yellow {
+  background: linear-gradient(135deg, #ca8a04, #facc15);
+}
+
+.student-portfolio-card-header-pink {
+  background: linear-gradient(135deg, #c026d3, #ec4899);
+}
+
+/* =========================
+   STUDENT INFO
+========================= */
+
+.student-portfolio-student-info-section {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.student-portfolio-student-image-wrapper {
+  flex-shrink: 0;
+}
+
+.student-portfolio-student-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #dbeafe;
+}
+
+.student-portfolio-student-details {
+  flex: 1;
+}
+
+.student-portfolio-student-name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.student-portfolio-student-class {
+  margin-top: 6px;
+  margin-bottom: 14px;
+  color: #475569;
+  font-size: 14px;
+}
+
+.student-portfolio-student-badge-wrapper {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.student-portfolio-student-badge {
+  padding: 8px 14px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================
+   RESULT SECTION
+========================= */
+
+.student-portfolio-result-section {
+  padding: 34px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-portfolio-result-button {
+  border: none;
+  background: linear-gradient(135deg, #ea580c, #f97316);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0px 10px 20px rgba(249, 115, 22, 0.3);
+}
+
+.student-portfolio-result-button:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   TRANSPORT + HOSTEL
+========================= */
+
+.student-portfolio-transport-hostel-wrapper {
+  width: 100%;
+  display: flex;
+  gap: 18px;
+}
+
+.student-portfolio-transport-card,
+.student-portfolio-hostel-card-main {
+  flex: 1;
+}
+
+.student-portfolio-transport-info-section,
+.student-portfolio-hostel-info-section {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.student-portfolio-transport-item,
+.student-portfolio-hostel-info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 16px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.student-portfolio-transport-label,
+.student-portfolio-hostel-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.student-portfolio-transport-value,
+.student-portfolio-hostel-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* =========================
+   SECTION CONTAINER
+========================= */
+
+.student-portfolio-section-container {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+  box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.05);
+  margin-bottom: 24px;
+}
+
+.student-portfolio-section-header {
+  width: 100%;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #0f172a, #2563eb);
+  box-sizing: border-box;
+}
+
+.student-portfolio-section-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* =========================
+   HORIZONTAL SCROLL
+========================= */
+
+.student-portfolio-horizontal-scroll-wrapper {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 24px;
+  scroll-behavior: smooth;
+}
+
+.student-portfolio-horizontal-scroll-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.student-portfolio-horizontal-scroll-wrapper::-webkit-scrollbar-track {
+  background: #dbeafe;
+  border-radius: 20px;
+}
+
+.student-portfolio-horizontal-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 20px;
+}
+
+/* =========================
+   PROFILE CARD
+========================= */
+
+.student-portfolio-profile-card {
+  min-width: 290px;
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  transition: 0.3s ease;
+}
+
+.student-portfolio-profile-card:hover {
+  transform: translateY(-3px);
+  background: #ffffff;
+}
+
+.student-portfolio-profile-image-wrapper {
+  flex-shrink: 0;
+}
+
+.student-portfolio-profile-image {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #dbeafe;
+}
+
+.student-portfolio-profile-details {
+  flex: 1;
+}
+
+.student-portfolio-profile-name {
+  margin: 0;
+  font-size: 17px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.student-portfolio-profile-role {
+  margin: 6px 0px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.student-portfolio-profile-contact {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================
+   PROGRESS SECTION
+========================= */
+
+.student-portfolio-progress-grid-section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-bottom: 24px;
+}
+
+.student-portfolio-progress-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 24px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.student-portfolio-progress-top-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.student-portfolio-progress-title {
+  color: #334155;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.student-portfolio-progress-value {
+  color: #2563eb;
+  font-size: 18px;
+}
+
+.student-portfolio-progress-bar-wrapper {
+  width: 100%;
+  height: 12px;
+  border-radius: 20px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.student-portfolio-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  border-radius: 20px;
+}
+
+/* =========================
+   FEES SECTION
+========================= */
+
+.student-portfolio-fees-layout-section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 22px;
+  margin-bottom: 24px;
+}
+
+.student-portfolio-fees-card,
+.student-portfolio-fees-reminder-card {
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.student-portfolio-fees-card-header {
+  padding: 20px 22px;
+  background: linear-gradient(135deg, #0f172a, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.student-portfolio-fees-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.student-portfolio-fees-status {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.student-portfolio-fees-paid {
+  color: #4ade80;
+  margin: 0px 6px;
+}
+
+.student-portfolio-fees-due {
+  color: #f87171;
+  margin-left: 6px;
+}
+
+.student-portfolio-fees-chart-area {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.student-portfolio-fees-reminder-card {
+  padding: 24px;
+}
+
+.student-portfolio-fees-reminder-title {
+  margin: 0;
+  color: #0f172a;
+  font-size: 20px;
+}
+
+/* =========================
+   TABLE SECTION
+========================= */
+
+.student-portfolio-table-section {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid #dbeafe;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.student-portfolio-table-header,
+.student-portfolio-table-main-header {
+  width: 100%;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #0f172a, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.student-portfolio-table-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.student-portfolio-view-all-button {
+  border: none;
+  background: #ffffff;
+  color: #2563eb;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* =========================
+   TABLE RESPONSIVE
+========================= */
+
+.student-portfolio-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background: #ffffff;
+}
+
+/* =========================
+   MAIN TABLE
+========================= */
+
+.student-portfolio-main-table {
+  width: 100%;
+  min-width: 1200px;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+/* =========================
+   TABLE HEAD
+========================= */
+
+.student-portfolio-main-table-head {
+  background: #ffffff;
+}
+
+.student-portfolio-main-table-row {
+  height: 62px;
+}
+
+/* =========================
+   TABLE HEADING
+========================= */
+
+.student-portfolio-main-table-heading {
+  padding: 18px 20px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  min-width: 140px;
+}
+
+.student-portfolio-main-table-heading:first-child {
+  min-width: 100px;
+}
+
+.student-portfolio-main-table-heading:last-child {
+  border-right: none;
+}
+
+/* =========================
+   TABLE BODY
+========================= */
+
+.student-portfolio-main-table tbody {
+  background: #ffffff;
+}
+
+.student-portfolio-main-table tbody tr {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.student-portfolio-main-table tbody td {
+  padding: 16px 18px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+}
+/* =========================
+   TABLE SCROLLBAR
+========================= */
+
+.student-portfolio-table-responsive::-webkit-scrollbar {
+  height: 10px;
+}
+
+.student-portfolio-table-responsive::-webkit-scrollbar-track {
+  background: #dbeafe;
+  border-radius: 20px;
+}
+
+.student-portfolio-table-responsive::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+
+  .student-portfolio-top-grid-section {
+    grid-template-columns: 1fr;
+  }
+
+  .student-portfolio-transport-hostel-wrapper {
+    flex-direction: column;
+  }
+
+  .student-portfolio-fees-layout-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .student-portfolio-container {
+    padding: 14px;
+  }
+
+  .student-portfolio-header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .student-portfolio-search-wrapper {
+    width: 100%;
+  }
+
+  .student-portfolio-main-title {
+    font-size: 24px;
+  }
+
+  .student-portfolio-section-title,
+  .student-portfolio-table-title {
+    font-size: 16px;
+  }
+
+  .student-portfolio-progress-grid-section {
+    grid-template-columns: 1fr;
+  }
+
+  .student-portfolio-transport-hostel-wrapper {
+    flex-direction: column;
+  }
+
+  .student-portfolio-profile-card {
+    min-width: 260px;
+  }
+
+  .student-portfolio-student-info-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .student-portfolio-student-badge-wrapper {
+    justify-content: center;
+  }
+
+  .student-portfolio-main-table {
+    min-width: 1000px;
+  }
+
+  .student-portfolio-main-table-heading {
+    font-size: 13px;
+    padding: 16px;
+  }
+}

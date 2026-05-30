@@ -169,52 +169,17 @@ const AssignRoutes = () => {
     );
   }, [transportRoutes]);
 
-  const selectedRouteOption =
-    routeOptions.find(
-      (route) =>
-        route.value === selectedRoute
-    );
-
-  const selectedRouteName =
-    selectedRouteOption?.label ||
-    selectedRoute;
-
   const destinations = useMemo(() => {
     if (!selectedRoute) return [];
 
-    const apiDestinations =
-      transportDestinations.filter(
-        (destination) => {
-          const routeId =
-            destination.routeId?._id ||
-            destination.routeId;
-
-          return (
-            routeId === selectedRoute ||
-            destination.routeId
-              ?.routeName ===
-              selectedRouteName
-          );
-        }
-      );
-
-    if (apiDestinations.length) {
-      return apiDestinations.map(
-        (destination) => ({
-          id: destination._id,
-          name:
-            destination.destination,
-          price: destination.fare,
-        })
-      );
-    }
-
-    return [];
-  }, [
-    selectedRoute,
-    selectedRouteName,
-    transportDestinations,
-  ]);
+    return transportDestinations.map(
+      (destination) => ({
+        id: destination._id,
+        name: destination.destination,
+        price: destination.fare,
+      })
+    );
+  }, [selectedRoute, transportDestinations]);
 
   const handleRouteChange = (route) => {
     setSelectedRoute(route);

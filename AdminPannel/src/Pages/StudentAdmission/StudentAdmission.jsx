@@ -85,6 +85,8 @@ export default function StudentAdmission() {
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
   const [classes, setClasses] = useState([]);
+  const [transportRoutes, setTransportRoutes] = useState([]);
+  const [transportDestinations, setTransportDestinations] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -187,10 +189,70 @@ export default function StudentAdmission() {
     fetchClasses();
   }, []);
 
+  useEffect(() => {
+    const fetchTransportDetails = async () => {
+      try {
+        const [routesRes, destinationsRes] = await Promise.all([
+          API.get("/transport-route"),
+          API.get("/transport-destination"),
+        ]);
+
+        setTransportRoutes(routesRes.data.data || []);
+        setTransportDestinations(destinationsRes.data.data || []);
+      } catch (err) {
+        console.error("Transport fetch error:", err);
+      }
+    };
+
+    fetchTransportDetails();
+  }, []);
+
+  const classOptions = [
+    ...new Set(classes.map((cls) => cls.className).filter(Boolean)),
+  ];
+
+  const sectionOptions = [
+    ...new Set(
+      classes
+        .filter((cls) => cls.className === formData.class)
+        .map((cls) => cls.sectionName)
+        .filter(Boolean),
+    ),
+  ];
+
+  const routeOptions = transportRoutes.map((route) => ({
+    value: route.routeName,
+    label: route.routeName,
+  }));
+
+  const busStopOptions = transportDestinations
+    .filter((destination) => {
+      if (!formData.routeList) return true;
+
+      const routeName = destination.routeId?.routeName;
+      const routeId = destination.routeId?._id || destination.routeId;
+      const selectedRoute = transportRoutes.find(
+        (route) => route.routeName === formData.routeList,
+      );
+
+      return (
+        routeName === formData.routeList ||
+        routeId === selectedRoute?._id
+      );
+    })
+    .map((destination) => ({
+      value: destination.destination,
+      label: `${destination.destination}${
+        destination.fare ? ` - ${destination.fare}/-` : ""
+      }`,
+    }));
+
   const handleChange = (name, value) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+      ...(name === "routeList" ? { busStop: "" } : {}),
+      ...(name === "class" ? { section: "" } : {}),
     }));
   };
   const handleFileChange = (name, file) => {
@@ -329,13 +391,13 @@ export default function StudentAdmission() {
                   label="Class *"
                   name="class"
                   value={formData.class}
-                  options={classes.map((cls) => cls.className)}
+                  options={classOptions}
                   onChange={handleChange}
                 />
 
                 <FormSelect
                   label="Section *"
-                  options={["A", "B", "C"]}
+                  options={sectionOptions}
                   name="section"
                   value={formData.section}
                   onChange={handleChange}
@@ -877,13 +939,7 @@ export default function StudentAdmission() {
               label="Route List"
               name="routeList"
               value={formData.routeList}
-              options={[
-                "Route A - City Center",
-                "Route B - North Area",
-                "Route C - South Area",
-                "Route D - East Area",
-                "Route E - West Area",
-              ]}
+              options={routeOptions}
               onChange={handleChange}
             />
 
@@ -891,18 +947,19 @@ export default function StudentAdmission() {
               label="Bus Stop"
               name="busStop"
               value={formData.busStop}
-              options={[
-                "Main Market",
-                "Bus Stand",
-                "Railway Station",
-                "City Mall",
-                "Hospital Chowk",
-                "Sector 1",
-                "Sector 2",
-                "Sector 3",
-              ]}
+              options={busStopOptions}
               onChange={handleChange}
             />
+          </div>
+
+          <div className="Student-Admission-TransportInfo">
+            {formData.routeList ? (
+              <span>
+                Showing bus stops linked with {formData.routeList}.
+              </span>
+            ) : (
+              <span>Select a route to narrow bus stops.</span>
+            )}
           </div>
 
           <h3 className="Student-Admission-SectionTitle">Hostel Details</h3>
