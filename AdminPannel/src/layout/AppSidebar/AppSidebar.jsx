@@ -138,6 +138,9 @@ const menu = [
         label: "Student Details",
         path: "/student/admission/details",
       },
+       { label: "Promotion", path: "/student/Promotion" },
+       { label: "Student Portfolio", path: "/student/portfolio" },
+
       // { label: "Online Admission", path: "/online/admission" },
       // { label: "Student Details", path: "/student/details" },
       // { label: "Student Catagory", path: "/student/catagory" },
@@ -155,7 +158,7 @@ const menu = [
     icon: FiActivity,
     children: [
       { label: "Fee collect", path: "/fee-collect" },
-      { label: "Wallet", path: "/wallet" },
+      
       { label: "Fee Type", path: "/fee-type" },
       { label: "PaymentRecipt", path: "/Paymentrecipt" },
     ],
@@ -263,19 +266,58 @@ const menu = [
   //   ],
   // },
 
-  // {
-  //   label: "Library",
-  //   icon: FiBook,
-  //   children: [
-  //     { label: "Book List", path: "/library/book-list" },
-  //     { label: "Issue Book", path: "/library/issue-book" },
-  //     { label: "Return Book", path: "/library/return-book" },
-  //     { label: "Add Student", path: "/library/student" },
-  //     { label: "Add Staff", path: "/library/staff" },
-  //   ],
-  // },
+   {
+     label: "Library",
+    icon: FiBook,
+  children: [
+      { label: "Library Master", path: "/library/master" },
+       { label: "Add Book", path: "/library/issue-book" },
+      { label: "Issue Book", path: "/library/return-book" },
+       { label: "Return Book ", path: "/library/student" },
+      { label: "Damaged Book", path: "/library/staff" },
+     ],
+  },
+  
 
-  // { type: "divider" },
+    { type: "divider" },
+  {
+     label: "Support",
+    icon: FiBook,
+  children: [
+      { label: "Ticket Generator", path: "/ticket/generator" },
+       
+     ],
+  },
+
+
+  
+    { type: "divider" },
+  {
+     label: "Front Office",
+    icon: FiBook,
+  children: [
+      { label: "App Users", path: "/app/user" },
+      { label: "Student Gate Pass", path: "/student/gatepass" },
+      { label: "Visitor Enquiry", path: "/visitor/enquiry" },
+       
+     ],
+  },
+
+
+  
+    { type: "divider" },
+  {
+     label: "Transport",
+    icon: FiBook,
+  children: [
+      { label: "Transport Vehicle", path: "/transport/vehicle" },
+      { label: "Transport Route", path: "/transport/route" },
+       { label: "Transport Destination", path: "/transport/destination" },
+        { label: "Assign Routes", path: "/transport/routesAssigne" },
+         { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
+       
+     ],
+  },
 
   // {
   //   label: "Question Paper",
@@ -311,9 +353,11 @@ const menu = [
     label: "Expense",
     icon: FiCreditCard,
     children: [
+      { label: "Wallet", path: "/wallet" },
       { label: "Add Expense", path: "/expense/details" },
       { label: "Expense Search", path: "/expense-search" },
       { label: "Expense Head", path: "/expense-head" },
+      { label: "Other income", path: "/Other income"},
     ],
   },
 

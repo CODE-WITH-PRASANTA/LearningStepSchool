@@ -1,0 +1,459 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.studentGatepassPrint {
+  min-height: 100vh;
+  background: #f4f7ff;
+  padding: 30px;
+}
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.studentGatepassPrint__topbar {
+  max-width: 1100px;
+  margin: 0 auto 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.studentGatepassPrint__backBtn,
+.studentGatepassPrint__downloadBtn {
+  border: none;
+  outline: none;
+
+  height: 50px;
+
+  padding: 0 24px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all 0.3s ease;
+}
+
+.studentGatepassPrint__backBtn {
+  background: #fff;
+  color: #222;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.studentGatepassPrint__downloadBtn {
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  box-shadow:
+    0 10px 25px rgba(91, 92, 246, 0.25);
+}
+
+.studentGatepassPrint__downloadBtn:hover,
+.studentGatepassPrint__backBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   DOCUMENT
+========================================= */
+
+.studentGatepassPrint__document {
+  width: 794px;
+  min-height: 1123px;
+
+  margin: auto;
+
+  background: #fff;
+
+  border-radius: 24px;
+
+  padding: 35px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.studentGatepassPrint__document::before {
+  content: "LEARNING STEP SCHOOL";
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(-30deg);
+
+  font-size: 70px;
+
+  font-weight: 800;
+
+  color: rgba(91, 92, 246, 0.05);
+
+  white-space: nowrap;
+
+  pointer-events: none;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.studentGatepassPrint__header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding-bottom: 20px;
+
+  border-bottom: 3px solid #5b5cf6;
+}
+
+.studentGatepassPrint__logo {
+  width: 100px;
+  height: 100px;
+
+  flex-shrink: 0;
+}
+
+.studentGatepassPrint__logo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.studentGatepassPrint__school {
+  flex: 1;
+  text-align: center;
+}
+
+.studentGatepassPrint__school h1 {
+  margin: 0;
+
+  color: #5b5cf6;
+
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.studentGatepassPrint__school h3 {
+  margin: 6px 0;
+
+  color: #333;
+
+  font-size: 18px;
+}
+
+.studentGatepassPrint__school p {
+  margin: 3px 0;
+
+  color: #666;
+
+  font-size: 14px;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.studentGatepassPrint__heading {
+  text-align: center;
+
+  margin: 25px 0;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  color: #5b5cf6;
+
+  text-transform: uppercase;
+}
+
+.studentGatepassPrint__date {
+  text-align: right;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  margin-bottom: 25px;
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.studentGatepassPrint__content {
+  display: flex;
+  gap: 25px;
+}
+
+.studentGatepassPrint__detailsCard {
+  flex: 1;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 15px;
+}
+
+.studentGatepassPrint__field {
+  background: #fafbff;
+
+  border: 1px solid #e8ebff;
+
+  border-radius: 14px;
+
+  padding: 14px 16px;
+}
+
+.studentGatepassPrint__field label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #667085;
+
+  font-size: 13px;
+}
+
+.studentGatepassPrint__field span {
+  color: #111827;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+.studentGatepassPrint__full {
+  grid-column: span 2;
+}
+
+/* =========================================
+   PHOTO CARD
+========================================= */
+
+.studentGatepassPrint__photoCard {
+  width: 190px;
+
+  background: #fafbff;
+
+  border: 1px solid #e8ebff;
+
+  border-radius: 18px;
+
+  padding: 15px;
+
+  flex-shrink: 0;
+}
+
+.studentGatepassPrint__photoTitle {
+  text-align: center;
+
+  margin-bottom: 12px;
+
+  font-weight: 600;
+  color: #5b5cf6;
+}
+
+.studentGatepassPrint__photoCard img {
+  width: 100%;
+  height: 220px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+}
+
+/* =========================================
+   NOTE
+========================================= */
+
+.studentGatepassPrint__note {
+  margin-top: 35px;
+
+  padding: 18px;
+
+  border-radius: 14px;
+
+  background: #f8f9ff;
+
+  border: 1px solid #e8ebff;
+
+  color: #555;
+
+  line-height: 1.7;
+}
+
+/* =========================================
+   SIGNATURES
+========================================= */
+
+.studentGatepassPrint__signatureArea {
+  margin-top: 100px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+}
+
+.studentGatepassPrint__signatureBox {
+  text-align: center;
+
+  min-width: 180px;
+}
+
+.studentGatepassPrint__signatureLine {
+  border-top: 2px solid #5b5cf6;
+
+  margin-bottom: 10px;
+}
+
+/* =========================================
+   LARGE TABLET
+========================================= */
+
+@media (max-width: 1024px) {
+  .studentGatepassPrint {
+    padding: 20px;
+  }
+
+  .studentGatepassPrint__document {
+    width: 100%;
+    min-height: auto;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+  .studentGatepassPrint__topbar {
+    flex-direction: column;
+  }
+
+  .studentGatepassPrint__backBtn,
+  .studentGatepassPrint__downloadBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .studentGatepassPrint__document {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .studentGatepassPrint__header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .studentGatepassPrint__logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .studentGatepassPrint__school h1 {
+    font-size: 26px;
+  }
+
+  .studentGatepassPrint__school h3 {
+    font-size: 16px;
+  }
+
+  .studentGatepassPrint__content {
+    flex-direction: column;
+  }
+
+  .studentGatepassPrint__photoCard {
+    width: 100%;
+  }
+
+  .studentGatepassPrint__detailsCard {
+    grid-template-columns: 1fr;
+  }
+
+  .studentGatepassPrint__full {
+    grid-column: span 1;
+  }
+
+  .studentGatepassPrint__signatureArea {
+    flex-direction: column;
+    gap: 50px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .studentGatepassPrint {
+    padding: 10px;
+  }
+
+  .studentGatepassPrint__document {
+    padding: 15px;
+    border-radius: 14px;
+  }
+
+  .studentGatepassPrint__heading {
+    font-size: 22px;
+  }
+
+  .studentGatepassPrint__school h1 {
+    font-size: 22px;
+  }
+
+  .studentGatepassPrint__school h3 {
+    font-size: 14px;
+  }
+
+  .studentGatepassPrint__school p {
+    font-size: 12px;
+  }
+
+  .studentGatepassPrint__field {
+    padding: 12px;
+  }
+
+  .studentGatepassPrint__field span {
+    font-size: 14px;
+  }
+
+  .studentGatepassPrint__photoCard img {
+    height: 180px;
+  }
+
+  .studentGatepassPrint__document::before {
+    font-size: 40px;
+  }
+}

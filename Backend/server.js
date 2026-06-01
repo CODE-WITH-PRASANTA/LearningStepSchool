@@ -44,26 +44,34 @@ const AdmsonfeeRoutes = require("./routes/admissionfee.routes");
 const feeTypes = require("./routes/feeType.routes");
 const classWiseSubjectRoutes = require("./routes/classWiseSubject.routes");
 const examResult = require("./routes/examResult.routes");
-const examType = require("./routes/examType.routes")
+const examType = require("./routes/examType.routes");
 const authRoutes = require("./routes/adminAuth.routes");
 const attendanceRoutes = require("./routes/attendance.routes");
 const studentLeaveRoutes = require("./routes/studentLeave.routes");
 const expenseHeadRoutes = require("./routes/expenseHead.routes");
 const expenseRoutes = require("./routes/expense.routes");
 
-
 /// TEACHER CREATE ROUTE
-const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes")
-const permissionRoutes = require("./routes/teacherRoutes/permission.routes")
-const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes")
+const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes");
+const permissionRoutes = require("./routes/teacherRoutes/permission.routes");
+const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes");
 const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
 
+const walletRoutes = require("./routes/wallet.routes");
+const payrollRoutes = require("./routes/payroll.routes");
+const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes");
 
-const walletRoutes = require("./routes/wallet.routes")
-
-// const teacherAttendanceRoutes = require("./routes/teacherAttendance.routes")
-
-
+const bookMasterRoutes = require("./routes/bookMaster.routes");
+const bookRoutes = require("./routes/book.routes");
+const issueBookRoutes = require("./routes/issueBook.routes");
+const returnBook = require("./routes/returnBook.routes");
+const damageBookRoutes = require("./routes/damageBook.routes");
+const ticketRoutes = require("./routes/ticket.routes");
+const vehicleRoutes = require("./routes/vehicle.routes");
+const routeRoutes = require("./routes/route.routes");
+const destinationRoutes = require("./routes/destination.routes");
+const assignRouteRoutes = require("./routes/assignRoute.routes");
+const vehicleRouteRoutes = require("./routes/vehicleRoute.routes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -85,36 +93,58 @@ app.use("/api/fees", feeRoutes);
 app.use("/api/class-data", classDataRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/enquiries", enquiryRoutes);
+
+// ERP routes
+
+// student admission
 app.use("/api/students", studentAdmissionRoutes);
-app.use("/api/advertisements", advertisementRoutes);
-app.use("/api", classRoutes);
+app.use("/api/classes", classRoutes);
 app.use("/api", subjectRoutes);
 
+app.use("/api/advertisements", advertisementRoutes);
+// fees
 app.use("/api/feetypes", feeTypes);
 app.use("/api/admission", AdmsonfeeRoutes);
-
+// classwise subjects
 app.use("/api/classwise-subjects", classWiseSubjectRoutes);
-
-app.use("/api/exam-types",examType );
+// exam
+app.use("/api/exam-types", examType);
 app.use("/api/exam-results", examResult);
-
+// auth and attendance
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/student-leave", studentLeaveRoutes);
+app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
-
+// expenses
 app.use("/api/expense-heads", expenseHeadRoutes);
 app.use("/api/expenses", expenseRoutes);
-
+// teacher routes
 app.use("/api/admin", teacherCreateRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
-app.use("/api",permissionRoutes)
+app.use("/api", permissionRoutes);
 app.use("/api", leaveRoutes);
-
+// salary and payroll
 app.use("/api/wallet", walletRoutes);
+app.use("/api/payroll", payrollRoutes);
 
+// library
+app.use("/api/book-master", bookMasterRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/issue-books", issueBookRoutes);
+app.use("/api/return-books", returnBook);
+app.use("/api/damage-books", damageBookRoutes);
 
-// app.use("/api/teacher-attendance", teacherAttendanceRoutes);
+// Support
+app.use("/api/ticket", ticketRoutes);
+
+// Transport
+app.use("/api/vehicle", vehicleRoutes);
+app.use("/api/transport-route", routeRoutes);
+app.use("/api/transport-destination", destinationRoutes);
+app.use("/api/assign-route", assignRouteRoutes);
+app.use("/api/vehicle-route", vehicleRouteRoutes);
+
 /* ================= 404 HANDLER ================= */
 
 app.use((req, res) => {
@@ -132,22 +162,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
- 
-
-
-

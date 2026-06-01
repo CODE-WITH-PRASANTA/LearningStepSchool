@@ -1,0 +1,570 @@
+.assignRoutes {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  background: #f4f7ff;
+  font-family: Poppins, sans-serif;
+}
+
+/* TOPBAR */
+
+.assignRoutes__topbar {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px 20px 0 0;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  box-shadow: 0 8px 25px
+    rgba(0, 0, 0, 0.05);
+}
+
+/* SEARCH */
+
+.assignRoutes__searchBox {
+  flex: 1;
+  max-width: 450px;
+  height: 52px;
+  background: #f5f7ff;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 18px;
+  border: 2px solid transparent;
+  transition: 0.3s;
+}
+
+.assignRoutes__searchBox:hover {
+  border-color: #5b4ff5;
+}
+
+.assignRoutes__searchBox svg {
+  color: #6b7280;
+}
+
+.assignRoutes__searchBox input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+/* ACTIONS */
+
+.assignRoutes__topActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* FILTER */
+
+.assignRoutes__filterWrapper {
+  position: relative;
+}
+
+.assignRoutes__filterBtn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.assignRoutes__filterBtn:hover {
+  background: #5b4ff5;
+  color: #fff;
+}
+
+/* FILTER DROPDOWN */
+
+.assignRoutes__filterDropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 12px 30px
+    rgba(0, 0, 0, 0.12);
+  z-index: 100;
+}
+
+.assignRoutes__filterDropdown label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ADD BUTTON */
+
+.assignRoutes__addBtn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #6a5cff,
+    #4834d4
+  );
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.assignRoutes__addBtn:hover {
+  transform: rotate(90deg);
+}
+
+/* TABLE */
+
+.assignRoutes__tableWrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 0 0 20px 20px;
+  overflow-x: auto;
+  box-shadow: 0 8px 25px
+    rgba(0, 0, 0, 0.05);
+}
+
+.assignRoutes__table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+}
+
+.assignRoutes__table th {
+  padding: 18px 20px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid
+    #edf0f7;
+}
+
+.assignRoutes__table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid
+    #edf0f7;
+  font-size: 14px;
+}
+
+.assignRoutes__table tbody tr:hover {
+  background: #f8f9ff;
+}
+
+.assignRoutes__routeName {
+  font-weight: 600;
+  color: #374151;
+}
+
+.assignRoutes__destinationNames {
+  max-width: 360px;
+  color: #4b5563;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* ACTION BUTTONS */
+
+.assignRoutes__actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.assignRoutes__editBtn,
+.assignRoutes__deleteBtn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.assignRoutes__editBtn {
+  background: #eef2ff;
+  color: #5b4ff5;
+}
+
+.assignRoutes__editBtn:hover {
+  background: #5b4ff5;
+  color: #fff;
+}
+
+.assignRoutes__deleteBtn {
+  background: #fff1f1;
+  color: #ef4444;
+}
+
+.assignRoutes__deleteBtn:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* NO DATA */
+
+.assignRoutes__noData {
+  text-align: center;
+  padding: 30px !important;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* PAGINATION */
+
+.assignRoutes__pagination {
+  width: 100%;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.assignRoutes__paginationLeft,
+.assignRoutes__paginationRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.assignRoutes__paginationLeft span,
+.assignRoutes__paginationRight p {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.assignRoutes__pagination select {
+  width: 80px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  padding: 0 10px;
+  outline: none;
+}
+
+.assignRoutes__pagination button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #5b4ff5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.assignRoutes__pagination button:hover {
+  background: #5b4ff5;
+  color: #fff;
+}
+
+.assignRoutes__pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* POPUP */
+
+.assignRoutes__popupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(
+    15,
+    23,
+    42,
+    0.45
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 999;
+}
+
+.assignRoutes__popup {
+  width: 100%;
+  max-width: 960px;
+  max-height: 94vh;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  animation: popupAnim 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes popupAnim {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* HEADER */
+
+.assignRoutes__popupHeader {
+  padding: 26px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid
+    #edf0f7;
+}
+
+.assignRoutes__popupHeader h2 {
+  font-size: 24px;
+  margin-bottom: 0;
+  color: #111827;
+  text-transform: uppercase;
+}
+
+.assignRoutes__popupHeader p {
+  display: none;
+}
+
+/* CLOSE BUTTON */
+
+.assignRoutes__closeBtn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.assignRoutes__closeBtn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* BODY */
+
+.assignRoutes__popupBody {
+  padding: 54px 30px 18px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.assignRoutes__formGroup label {
+  display: block;
+  margin-bottom: -8px;
+  margin-left: 14px;
+  width: fit-content;
+  padding: 0 6px;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #5b4ff5;
+}
+
+/* SELECT */
+
+.assignRoutes__selectWrapper {
+  width: 100%;
+  height: 60px;
+  border: 2px solid #5b4ff5;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assignRoutes__selectWrapper select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  appearance: none;
+  font-size: 18px;
+  font-weight: 400;
+  color: #2f3137;
+}
+
+.assignRoutes__selectWrapper svg {
+  color: #5b4ff5;
+}
+
+/* DESTINATIONS */
+
+.assignRoutes__destinations {
+  margin-top: 30px;
+}
+
+.assignRoutes__destinations h3 {
+  margin: 0 0 6px;
+  color: #6b7280;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.assignRoutes__destinationList {
+  display: flex;
+  flex-direction: column;
+}
+
+.assignRoutes__destinationItem {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: #2f3137;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.assignRoutes__destinationLeft {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.assignRoutes__destinationLeft input {
+  width: 22px;
+  height: 22px;
+  accent-color: #ef4444;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.assignRoutes__destinationLeft span {
+  overflow-wrap: anywhere;
+}
+
+.assignRoutes__destinationPrice {
+  color: #666b73;
+  flex: 0 0 auto;
+}
+
+.assignRoutes__noDestinations {
+  padding: 18px 0;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+/* FOOTER */
+
+.assignRoutes__popupFooter {
+  padding: 14px 10px 10px;
+  border-top: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.assignRoutes__cancelBtn,
+.assignRoutes__submitBtn {
+  min-width: 120px;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.assignRoutes__cancelBtn {
+  background: transparent;
+  color: #111827;
+}
+
+.assignRoutes__submitBtn {
+  background: #5548ee;
+  color: #fff;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .assignRoutes {
+    padding: 14px;
+  }
+
+  .assignRoutes__topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .assignRoutes__topActions {
+    justify-content: flex-end;
+  }
+
+  .assignRoutes__pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .assignRoutes__popup {
+    max-width: 100%;
+  }
+
+  .assignRoutes__popupBody {
+    padding: 32px 18px 16px;
+  }
+
+  .assignRoutes__popupHeader {
+    padding: 20px 18px;
+  }
+
+  .assignRoutes__destinationItem {
+    font-size: 16px;
+  }
+
+  .assignRoutes__popupFooter {
+    flex-direction: column;
+  }
+
+  .assignRoutes__cancelBtn,
+  .assignRoutes__submitBtn {
+    width: 100%;
+  }
+}

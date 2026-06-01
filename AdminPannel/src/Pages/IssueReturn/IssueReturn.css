@@ -1,128 +1,571 @@
-/* PAGE */
-.issue-page {
-  min-height: 100vh;
-  padding: 25px;
-  background: #f3f4f8;
-  font-family: "Inter", sans-serif;
+.issueReturn{
+width:100%;
+min-height:100vh;
+padding:20px;
+background:#f4f7ff;
+font-family:"Poppins",sans-serif;
+box-sizing:border-box;
+overflow-x:hidden;
 }
 
-/* HEADER */
-.issue-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 22px;
+/* ================= HEADER ================= */
+
+.issueReturnHeader{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+padding:18px 20px;
+background:#fff;
+border-radius:24px;
+box-shadow:0 10px 30px rgba(0,0,0,.05);
+margin-bottom:20px;
+flex-wrap:wrap;
 }
 
-.issue-header h2 {
-  font-size: 26px;
-  font-weight: 600;
-  color: #0d1a3a;
+.issueReturnSearch{
+flex:1;
+height:54px;
+display:flex;
+align-items:center;
+gap:12px;
+padding:0 18px;
+background:#f7f8ff;
+border:1px solid #e5e9ff;
+border-radius:14px;
+min-width:250px;
 }
 
-.issue-breadcrumb {
-  font-size: 15px;
-  color: #435b7f;
+.issueReturnSearch svg{
+font-size:18px;
+color:#6c63ff;
 }
 
-/* MAIN WHITE CARD */
-.issue-card {
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  margin-top: 10px;
+.issueReturnSearch input{
+width:100%;
+height:100%;
+border:none;
+outline:none;
+background:none;
+font-size:14px;
+font-weight:500;
+color:#333;
 }
 
-/* TOP PINK BAR */
-.issue-card-header {
-  background: #fde7ef;
-  padding: 16px 24px;
-  font-size: 18px;
-  font-weight: 600;
-  border-bottom: 1px solid #f4cbd8;
-  color: #222;
+.issueReturnActionArea{
+display:flex;
+gap:12px;
 }
 
-/* BODY */
-.issue-card-body {
-  padding: 28px;
-  background: #ffffff;
+.issueReturnFilterBtn,
+.issueReturnAddBtn{
+width:50px;
+height:50px;
+border:none;
+border-radius:14px;
+cursor:pointer;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:18px;
+transition:.3s;
 }
 
-/* GRID FORM */
-.issue-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+.issueReturnFilterBtn{
+background:#fff;
+border:1px solid #ececec;
+color:#444;
+box-shadow:0 5px 15px rgba(0,0,0,.04);
 }
 
-/* INPUT GROUP */
-.issue-group label {
-  font-size: 15px;
-  margin-bottom: 6px;
-  display: inline-block;
-  font-weight: 600;
-  color: #24324a;
+.issueReturnAddBtn{
+background:linear-gradient(
+135deg,
+#2563eb,
+#3b82f6
+);
+color:#fff;
+box-shadow:0 10px 20px rgba(37,99,235,.35);
 }
 
-.issue-group input,
-.issue-group select {
-  width: 100%;
-  height: 46px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #cfcfcf;
-  background: #ffffff;
-  font-size: 15px;
-  outline: none;
-  transition: 0.2s ease;
+.issueReturnAddBtn:hover,
+.issueReturnFilterBtn:hover{
+transform:translateY(-2px);
 }
 
-.issue-group input:focus,
-.issue-group select:focus {
-  border-color: #123a6f;
-  box-shadow: 0 0 0 2px rgba(18, 58, 111, 0.15);
+/* ================= TABLE ================= */
+
+.issueReturnTableWrap{
+width:100%;
+background:#fff;
+border-radius:24px;
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+overflow:hidden;
 }
 
-/* SEARCH BUTTON AREA */
-.issue-btn-wrap {
-  text-align: right;
-  margin-top: 25px;
+.issueReturnMobileHint{
+display:none;
+padding:12px;
+font-size:12px;
+font-weight:600;
+text-align:center;
+background:#f7f8ff;
+color:#2563eb;
 }
 
-/* SEARCH BUTTON */
-.issue-btn-primary {
-  background: #123a6f;
-  color: white;
-  padding: 11px 26px;
-  border-radius: 8px;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.2s ease;
+.issueReturnTableScroll{
+width:100%;
+overflow-x:auto;
+overflow-y:hidden;
+-webkit-overflow-scrolling:touch;
+scrollbar-width:thin;
+scrollbar-color:#bfbfbf transparent;
 }
 
-.issue-btn-primary:hover {
-  background: #0b264c;
+.issueReturnTableScroll::-webkit-scrollbar{
+height:8px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1024px) {
-  .issue-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.issueReturnTableScroll::-webkit-scrollbar-track{
+background:#efefef;
+border-radius:20px;
 }
 
-@media (max-width: 600px) {
-  .issue-grid {
-    grid-template-columns: 1fr;
-  }
+.issueReturnTableScroll::-webkit-scrollbar-thumb{
+background:#bdbdbd;
+border-radius:20px;
+}
 
-  .issue-header {
-    flex-direction: column;
-    gap: 6px;
-    text-align: center;
-  }
+.issueReturnTable{
+border-collapse:collapse;
+min-width:1300px;
+width:max-content;
+}
+
+.issueReturnTable thead{
+background:#f8f9ff;
+}
+
+.issueReturnTable th{
+padding:18px;
+font-size:13px;
+font-weight:700;
+white-space:nowrap;
+text-align:left;
+border-bottom:1px solid #ececec;
+min-width:160px;
+color:#222;
+}
+
+.issueReturnTable td{
+padding:16px 18px;
+font-size:14px;
+border-bottom:1px solid #f1f1f1;
+white-space:nowrap;
+min-width:160px;
+color:#555;
+}
+
+.issueReturnTable tbody tr{
+transition:.3s;
+}
+
+.issueReturnTable tbody tr:hover{
+background:#f8f9ff;
+cursor: pointer;
+}
+
+.issueReturnDelete{
+width:38px;
+height:38px;
+border:none;
+background:#fff1f1;
+color:#ff4d4d;
+border-radius:10px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+transition:.3s;
+}
+
+.issueReturnDelete:hover{
+background:#ff4d4d;
+color:white;
+}
+
+/* ================= PAGINATION ================= */
+
+.issueReturnPagination{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 20px;
+gap:15px;
+border-top:1px solid #eee;
+flex-wrap:wrap;
+}
+
+.issueReturnPageLeft,
+.issueReturnPageRight{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.issueReturnPageLeft span,
+.issueReturnPageRight span{
+font-size:14px;
+font-weight:500;
+color:#444;
+}
+
+.issueReturnPageLeft select{
+height:38px;
+padding:0 12px;
+border-radius:10px;
+border:1px solid #ddd;
+outline:none;
+}
+
+.issueReturnPageRight button{
+width:36px;
+height:36px;
+border:none;
+border-radius:10px;
+background:#f4f5fb;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+font-size:16px;
+transition:.3s;
+}
+
+.issueReturnPageRight button:hover{
+background:#2563eb;
+color:#fff;
+}
+
+/* ================= MODAL ================= */
+
+.issueReturnModal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+backdrop-filter:blur(4px);
+}
+
+.issueReturnModalBox{
+width:100%;
+max-width:950px;
+max-height:90vh;
+overflow:auto;
+background:#fff;
+border-radius:24px;
+animation:popup .3s ease;
+}
+
+.issueReturnFilterBox{
+width:100%;
+max-width:420px;
+background:#fff;
+border-radius:22px;
+overflow:hidden;
+animation:popup .3s ease;
+}
+
+@keyframes popup{
+from{
+transform:translateY(20px) scale(.95);
+opacity:0;
+}
+to{
+transform:translateY(0) scale(1);
+opacity:1;
+}
+}
+
+.issueReturnModalHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px;
+border-bottom:1px solid #eee;
+}
+
+.issueReturnModalHead h2,
+.issueReturnModalHead h3{
+font-size:22px;
+font-weight:700;
+color:#222;
+}
+
+.issueReturnModalHead button{
+width:42px;
+height:42px;
+border:none;
+border-radius:50%;
+background:#f4f4f4;
+cursor:pointer;
+font-size:18px;
+transition:.3s;
+
+/* ADD THIS */
+
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.issueReturnModalHead button:hover{
+background:#ffecec;
+color:#ff4d4d;
+}
+/* ================= FORM ================= */
+
+.issueReturnFormGrid{
+padding:22px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px;
+}
+
+.issueReturnFormGrid input,
+.issueReturnFormGrid select{
+height:52px;
+padding:0 16px;
+border:1px solid #ddd;
+border-radius:14px;
+outline:none;
+font-size:14px;
+transition:.3s;
+}
+
+.issueReturnFormGrid input:focus,
+.issueReturnFormGrid select:focus{
+border-color:#2563eb;
+box-shadow:0 0 0 4px rgba(37,99,235,.08);
+}
+
+.issueReturnChecks{
+display:flex;
+gap:20px;
+padding:0 22px;
+flex-wrap:wrap;
+}
+
+.issueReturnChecks label{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:14px;
+font-weight:500;
+color:#444;
+}
+
+.issueReturnButtons{
+padding:22px;
+display:flex;
+justify-content:flex-end;
+gap:12px;
+}
+
+/* ================= BUTTON COLORS UPDATED ================= */
+
+.cancelBtn,
+.saveBtn{
+height:48px;
+padding:0 24px;
+border-radius:12px;
+cursor:pointer;
+font-size:14px;
+font-weight:600;
+transition:.3s;
+}
+
+.cancelBtn{
+background:#ffffff;
+color:#111;
+border:1px solid #dcdcdc;
+}
+
+.cancelBtn:hover{
+background:#f5f5f5;
+}
+
+.saveBtn{
+background:linear-gradient(
+135deg,
+#2563eb,
+#3b82f6
+);
+color:white;
+border:none;
+box-shadow:0 10px 20px rgba(37,99,235,.25);
+}
+
+.saveBtn:hover{
+transform:translateY(-2px);
+}
+
+/* ================= FILTER ================= */
+
+.issueReturnFilterGrid{
+padding:22px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:16px;
+}
+
+.issueReturnFilterGrid label{
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px;
+background:#f8f9ff;
+border-radius:12px;
+font-size:14px;
+font-weight:500;
+}
+
+.issueReturnFilterGrid input{
+accent-color:#2563eb;
+}
+
+/* ================= TABLET ================= */
+
+@media(max-width:768px){
+
+.issueReturn{
+padding:10px;
+}
+
+.issueReturnSearch{
+width:100%;
+min-width:100%;
+}
+
+.issueReturnActionArea{
+width:100%;
+justify-content:flex-end;
+}
+
+.issueReturnMobileHint{
+display:block;
+}
+
+.issueReturnTableScroll{
+overflow-x:auto;
+}
+
+.issueReturnTable{
+min-width:1300px;
+}
+
+.issueReturnPagination{
+flex-direction:column;
+align-items:center;
+}
+
+.issueReturnFormGrid{
+grid-template-columns:1fr;
+}
+
+.issueReturnButtons{
+flex-direction:column;
+}
+
+.cancelBtn,
+.saveBtn{
+width:100%;
+}
+
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:480px){
+
+.issueReturn{
+padding:8px;
+}
+
+.issueReturnHeader{
+padding:12px;
+border-radius:18px;
+}
+
+.issueReturnSearch{
+height:46px;
+padding:0 14px;
+}
+
+.issueReturnSearch input{
+font-size:13px;
+}
+
+.issueReturnFilterBtn,
+.issueReturnAddBtn{
+width:42px;
+height:42px;
+font-size:15px;
+border-radius:12px;
+}
+
+.issueReturnTableWrap{
+overflow:hidden;
+}
+
+.issueReturnTableScroll{
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+
+.issueReturnTable{
+min-width:1300px;
+width:max-content;
+}
+
+.issueReturnTable th,
+.issueReturnTable td{
+padding:12px;
+font-size:12px;
+}
+
+.issueReturnPagination{
+flex-direction:column;
+align-items:center;
+}
+
+.issueReturnModalBox{
+max-height:95vh;
+border-radius:20px;
+}
+
+.issueReturnFormGrid{
+grid-template-columns:1fr;
+padding:16px;
+}
+
+.issueReturnButtons{
+padding:16px;
+}
+
+.issueReturnChecks{
+padding:0 16px;
+flex-direction:column;
+align-items:flex-start;
+gap:12px;
+}
+
+.issueReturnFilterGrid{
+grid-template-columns:1fr;
+}
+
 }

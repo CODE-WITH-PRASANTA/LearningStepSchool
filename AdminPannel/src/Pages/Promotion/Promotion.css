@@ -1,0 +1,555 @@
+.promotion-page-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f3f6fb;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.promotion-main-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e4e8f2;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.06);
+  box-sizing: border-box;
+}
+
+.promotion-topbar-section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.promotion-page-title {
+  margin: 0;
+  color: #111827;
+  font-size: 26px;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.promotion-page-subtitle,
+.promotion-modal-subtitle {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.promotion-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.promotion-search-box {
+  width: 320px;
+  height: 48px;
+  background: #f8fafc;
+  border: 1px solid #dbe2ef;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 10px;
+  transition: 0.25s;
+}
+
+.promotion-search-box:focus-within {
+  border-color: #4f46e5;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.promotion-search-icon {
+  color: #64748b;
+  font-size: 14px;
+  flex: 0 0 auto;
+}
+
+.promotion-search-input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #111827;
+  font-family: "Poppins", sans-serif;
+}
+
+.promotion-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.promotion-add-button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s;
+  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.22);
+}
+
+.promotion-add-button:hover {
+  background: #4338ca;
+}
+
+.promotion-table-wrapper,
+.promotion-student-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.promotion-table-wrapper {
+  border: 1px solid #e4e8f2;
+  border-radius: 14px;
+}
+
+.promotion-table,
+.promotion-student-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.promotion-table {
+  min-width: 620px;
+}
+
+.promotion-table-head,
+.promotion-student-table-head {
+  background: #f8fafc;
+}
+
+.promotion-table-heading,
+.promotion-student-table-heading {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  padding: 15px 16px;
+  white-space: nowrap;
+  letter-spacing: 0;
+  border-bottom: 1px solid #e4e8f2;
+}
+
+.promotion-table-data,
+.promotion-student-table-data {
+  padding: 15px 16px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.promotion-table-body-row:hover,
+.promotion-student-table-body-row:hover {
+  background: #f8fafc;
+}
+
+.promotion-empty-state {
+  padding: 28px 16px;
+  color: #64748b;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.promotion-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.56);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  z-index: 999;
+  box-sizing: border-box;
+  backdrop-filter: blur(5px);
+}
+
+.promotion-modal-container {
+  width: 100%;
+  max-width: 1320px;
+  max-height: 92vh;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  animation: promotionModalAnimation 0.25s ease;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
+}
+
+@keyframes promotionModalAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.promotion-modal-header {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 26px;
+  border-bottom: 1px solid #e7ebf3;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+
+.promotion-modal-title {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.promotion-close-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #f1f5f9;
+  color: #475569;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s;
+  flex: 0 0 auto;
+}
+
+.promotion-close-button:hover {
+  background: #e2e8f0;
+  color: #111827;
+}
+
+.promotion-form-section,
+.promotion-student-search-row,
+.promotion-transfer-main-section {
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+.promotion-form-section {
+  padding-top: 22px;
+  padding-bottom: 16px;
+  background: #fbfcff;
+}
+
+.promotion-form-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.promotion-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.promotion-form-label {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.promotion-form-select {
+  width: 100%;
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid #dbe2ef;
+  background: #ffffff;
+  padding: 0 12px;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: 0.25s;
+  font-family: "Poppins", sans-serif;
+}
+
+.promotion-form-select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.promotion-student-search-row {
+  padding-top: 0;
+  padding-bottom: 16px;
+  background: #fbfcff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.promotion-student-search-box {
+  width: min(420px, 100%);
+}
+
+.promotion-selected-count {
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.promotion-transfer-main-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 18px;
+  padding-top: 0;
+  padding-bottom: 22px;
+  overflow-y: auto;
+  background: #fbfcff;
+  flex: 1 1 auto;
+}
+
+.promotion-student-table-box {
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e4e8f2;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.promotion-student-table-header {
+  width: 100%;
+  padding: 15px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e4e8f2;
+  color: #111827;
+  font-size: 15px;
+  font-weight: 750;
+  box-sizing: border-box;
+}
+
+.promotion-student-table {
+  min-width: 660px;
+}
+
+.promotion-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #4f46e5;
+}
+
+.promotion-transfer-button-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.promotion-transfer-button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 12px;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s;
+}
+
+.promotion-transfer-button:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+.promotion-transfer-button:disabled,
+.promotion-cancel-button:disabled,
+.promotion-save-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.promotion-status-success {
+  padding: 6px 12px;
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promotion-modal-footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 18px 26px;
+  background: #ffffff;
+  border-top: 1px solid #e7ebf3;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+}
+
+.promotion-cancel-button,
+.promotion-save-button {
+  min-width: 122px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.promotion-cancel-button {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.promotion-cancel-button:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.promotion-save-button {
+  background: #4f46e5;
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.2);
+}
+
+.promotion-save-button:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+.promotion-modal-container::-webkit-scrollbar,
+.promotion-transfer-main-section::-webkit-scrollbar,
+.promotion-table-wrapper::-webkit-scrollbar,
+.promotion-student-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.promotion-modal-container::-webkit-scrollbar-thumb,
+.promotion-transfer-main-section::-webkit-scrollbar-thumb,
+.promotion-table-wrapper::-webkit-scrollbar-thumb,
+.promotion-student-table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
+}
+
+@media (max-width: 1200px) {
+  .promotion-form-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .promotion-transfer-main-section {
+    grid-template-columns: 1fr;
+  }
+
+  .promotion-transfer-button-section {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .promotion-page-container {
+    padding: 14px;
+  }
+
+  .promotion-main-card {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .promotion-topbar-section,
+  .promotion-topbar-actions,
+  .promotion-student-search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .promotion-search-box,
+  .promotion-student-search-box,
+  .promotion-add-button {
+    width: 100%;
+  }
+
+  .promotion-page-title {
+    font-size: 22px;
+  }
+
+  .promotion-modal-overlay {
+    padding: 10px;
+  }
+
+  .promotion-modal-container {
+    max-height: 96vh;
+    border-radius: 14px;
+  }
+
+  .promotion-modal-header,
+  .promotion-form-section,
+  .promotion-student-search-row,
+  .promotion-transfer-main-section,
+  .promotion-modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .promotion-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .promotion-modal-title {
+    font-size: 21px;
+  }
+
+  .promotion-modal-footer {
+    flex-direction: column;
+  }
+
+  .promotion-cancel-button,
+  .promotion-save-button {
+    width: 100%;
+  }
+}

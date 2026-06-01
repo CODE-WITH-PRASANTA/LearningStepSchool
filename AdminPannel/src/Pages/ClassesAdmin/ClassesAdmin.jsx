@@ -38,24 +38,23 @@ export default function ClassesAdmin() {
 
   /* ================= SUBMIT ================= */
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      if (editId) {
-        await API.put(`/classes/${editId}`, form);
-      } else {
-        await API.post("/classes", form);
-      }
-
-      fetchClasses();
-      setForm(emptyForm);
-      setEditId(null);
-    } catch (err) {
-      console.error(err);
+  try {
+    if (editId) {
+      await API.put(`/classes/${editId}`, form);
+    } else {
+      await API.post("/classes", form); // ✅ FIXED HERE
     }
-  };
 
+    fetchClasses();
+    setForm(emptyForm);
+    setEditId(null);
+  } catch (err) {
+    console.error(err);
+  }
+};
   /* ================= DELETE ================= */
 
   const deleteClass = async (id) => {

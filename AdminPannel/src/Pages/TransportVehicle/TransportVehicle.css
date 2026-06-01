@@ -1,0 +1,633 @@
+/* =========================
+   PAGE
+========================= */
+
+.transport-vehicle-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  background: #f4f7ff;
+  font-family: Poppins, sans-serif;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.transport-vehicle-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px
+    rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.transport-vehicle-topbar {
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #eef2ff;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.transport-vehicle-search-box {
+  flex: 1;
+  min-width: 250px;
+  max-width: 600px;
+  height: 54px;
+  background: #ffffff;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 12px;
+}
+
+.transport-vehicle-search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #111827;
+}
+
+.transport-vehicle-search-icon {
+  color: #6b7280;
+  font-size: 17px;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.transport-vehicle-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =========================
+   FILTER BUTTON
+========================= */
+
+.transport-vehicle-filter-wrapper {
+  position: relative;
+}
+
+.transport-vehicle-filter-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px
+    rgba(0, 0, 0, 0.05);
+}
+
+.transport-vehicle-filter-btn:hover {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+/* =========================
+   FILTER DROPDOWN
+========================= */
+
+.transport-vehicle-filter-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 240px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 100;
+  box-shadow: 0 10px 30px
+    rgba(0, 0, 0, 0.12);
+}
+
+.transport-vehicle-filter-dropdown label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* =========================
+   ADD BUTTON
+========================= */
+
+.transport-vehicle-add-btn {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #5b4bff,
+    #4338ca
+  );
+  color: #ffffff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 8px 20px
+    rgba(91, 75, 255, 0.25);
+}
+
+.transport-vehicle-add-btn:hover {
+  transform: rotate(90deg)
+    scale(1.05);
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.transport-vehicle-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.transport-vehicle-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+}
+
+.transport-vehicle-table th {
+  padding: 20px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  border-bottom: 1px solid
+    #e5e7eb;
+}
+
+.transport-vehicle-table td {
+  padding: 18px 16px;
+  border-bottom: 1px solid
+    #eef1f6;
+  font-size: 14px;
+  color: #374151;
+}
+
+.transport-vehicle-table tbody tr:hover {
+  background: #f8faff;
+}
+
+.transport-vehicle-edit-link {
+  border: none;
+  background: transparent;
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.transport-vehicle-action-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transport-vehicle-edit-btn,
+.transport-vehicle-delete-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+}
+
+.transport-vehicle-edit-btn {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.transport-vehicle-edit-btn:hover {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.transport-vehicle-delete-btn {
+  background: #fff1f2;
+  color: #ef4444;
+}
+
+.transport-vehicle-delete-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.transport-vehicle-pagination {
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.transport-vehicle-pagination-left,
+.transport-vehicle-pagination-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.transport-vehicle-pagination select {
+  width: 85px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  padding: 0 10px;
+  outline: none;
+}
+
+.transport-vehicle-pagination button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.transport-vehicle-pagination button:hover {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+/* =========================
+   MODAL OVERLAY
+========================= */
+
+.transport-vehicle-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(
+    0,
+    0,
+    0,
+    0.45
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.transport-vehicle-modal {
+  width: 100%;
+  max-width: 620px;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.transport-vehicle-modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid
+    #ececec;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transport-vehicle-heading-box h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.transport-vehicle-heading-box p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.transport-vehicle-close-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.transport-vehicle-close-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* =========================
+   MODAL BODY
+========================= */
+
+.transport-vehicle-modal-body {
+  padding: 22px;
+}
+
+/* =========================
+   FORM GRID
+========================= */
+
+.transport-vehicle-form-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    1fr
+  );
+  gap: 16px;
+}
+
+/* =========================
+   INPUT GROUP
+========================= */
+
+.transport-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.transport-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.transport-input-group input,
+.transport-input-group select {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  padding: 0 14px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+  background: #ffffff;
+}
+
+.transport-input-group input:focus,
+.transport-input-group select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px
+    rgba(79, 70, 229, 0.1);
+}
+
+/* =========================
+   DATE FIELD
+========================= */
+
+.transport-vehicle-date-field {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: #ffffff;
+  transition: 0.3s;
+}
+
+.transport-vehicle-date-field:focus-within {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px
+    rgba(79, 70, 229, 0.1);
+}
+
+.transport-vehicle-date-field input {
+  width: 100%;
+  border: none !important;
+  outline: none;
+  padding: 0 !important;
+  background: transparent;
+  height: auto !important;
+  font-size: 14px;
+}
+
+.transport-vehicle-date-field svg {
+  font-size: 18px;
+  color: #4f46e5;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.transport-vehicle-modal-footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.transport-vehicle-cancel-btn,
+.transport-vehicle-submit-btn {
+  min-width: 130px;
+  height: 46px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.transport-vehicle-cancel-btn {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.transport-vehicle-cancel-btn:hover {
+  background: #e5e7eb;
+}
+
+.transport-vehicle-submit-btn {
+  background: linear-gradient(
+    135deg,
+    #5b4bff,
+    #4338ca
+  );
+  color: #ffffff;
+}
+
+.transport-vehicle-submit-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   NO DATA
+========================= */
+
+.transport-no-data {
+  text-align: center;
+  padding: 35px !important;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.transport-vehicle-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.transport-vehicle-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c7c7c7;
+  border-radius: 20px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .transport-vehicle-page {
+    padding: 12px;
+  }
+
+  .transport-vehicle-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .transport-vehicle-search-box {
+    max-width: 100%;
+  }
+
+  .transport-vehicle-top-actions {
+    justify-content: flex-end;
+  }
+
+  .transport-vehicle-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .transport-vehicle-modal {
+    max-width: 100%;
+  }
+
+  .transport-vehicle-modal-footer {
+    flex-direction: column;
+  }
+
+  .transport-vehicle-cancel-btn,
+  .transport-vehicle-submit-btn {
+    width: 100%;
+  }
+
+  .transport-vehicle-pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .transport-vehicle-search-box {
+    height: 50px;
+  }
+
+  .transport-vehicle-add-btn,
+  .transport-vehicle-filter-btn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .transport-vehicle-table {
+    min-width: 800px;
+  }
+
+  .transport-vehicle-modal-header {
+    padding: 16px;
+  }
+
+  .transport-vehicle-modal-body {
+    padding: 16px;
+  }
+}

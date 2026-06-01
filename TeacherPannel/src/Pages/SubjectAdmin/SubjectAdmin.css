@@ -47,10 +47,10 @@
 .sub__field input,
 .sub__field select,
 .sub__field textarea {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 7px;
 }
 
 /* BUTTON */

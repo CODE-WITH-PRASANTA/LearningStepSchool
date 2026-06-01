@@ -1,126 +1,685 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import API from "../../api/axios";
+import { FaPlus, FaTrash, FaSearch, FaTimes } from "react-icons/fa";
+
 import "./BookList.css";
-import { Link } from "react-router-dom";
 
 const BookList = () => {
-  const booksData = [
-    { title: "Rabbit & Turtle", number: "1", isbn: "1001", publisher: "", author: "", subject: "", rack: "", qty: 10, price: "", category: "", date: "2025-10-18" },
-    { title: "??????? ?? ??????? ?? ?????", number: "1008", isbn: "-", publisher: "none", author: "A", subject: "Jain", rack: "", qty: 1, price: "", category: "none", date: "2020-08-01" },
-    { title: "বলাকা", number: "0001", isbn: "PL0001", publisher: "", author: "", subject: "", rack: "", qty: 5, price: "", category: "", date: "2025-09-13" },
-    { title: "Science workbook 7", number: "123456", isbn: "234567", publisher: "", author: "", subject: "", rack: "", qty: 1, price: "", category: "", date: "2025-05-08" },
-    { title: "Science workbook 7", number: "0032", isbn: "9781108742818", publisher: "Cambridge", author: "Mary Jones", subject: "Science work book", rack: "2", qty: 72, price: "", category: "Science", date: "2024-05-09" },
-    { title: "English learners book 7", number: "0015", isbn: "978521747424", publisher: "Cambridge", author: "Chris Barker", subject: "English", rack: "2", qty: 1, price: "", category: "english", date: "2024-05-09" },
-    { title: "Mathematics Work Book 9", number: "0053", isbn: "9781108746502", publisher: "Cambridge", author: "Lynn Byrd", subject: "Maths", rack: "2", qty: 10, price: "50000", category: "", date: "2024-05-09" },
-    { title: "java", number: "6254", isbn: "54", publisher: "fhfgh", author: "E balagurusamy", subject: "technical", rack: "486", qty: 7, price: "550", category: "ghc", date: "2024-04-25" },
-    { title: "Hum Hindu Hai", number: "8976", isbn: "2234", publisher: "modi", author: "yogi", subject: "Hindu", rack: "3", qty: 23, price: "500", category: "puna", date: "2024-04-25" },
-    { title: "test add book", number: "0101", isbn: "2468", publisher: "test publisher", author: "test author", subject: "story", rack: "", qty: 25, price: "$200", category: "", date: "2024-03-13" }
-  ];
+  const [activeTab, setActiveTab] = useState("author");
 
-  const [search, setSearch] = useState("");
+  const [authors, setAuthors] = useState([]);
+  const [publications, setPublications] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [fines, setFines] = useState([]);
 
-  const format = (v) => (v ? v : "-");
-  const formatPrice = (price) => (!price ? "-" : price.includes("$") ? price : `₹ ${price}`);
-  const formatDate = (date) =>
-    date
-      ? new Date(date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        })
-      : "-";
+  const [authorModal, setAuthorModal] = useState(false);
+  const [authorName, setAuthorName] = useState("");
 
-  const autoCategory = (book) =>
-    book.category || (book.title.toLowerCase().includes("science") ? "Science" : "-");
+  const [publicationModal, setPublicationModal] = useState(false);
+  const [publicationName, setPublicationName] = useState("");
 
-  const filteredBooks = booksData.filter((book) =>
-    book.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const [categoryModal, setCategoryModal] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
 
-  const totalQty = booksData.reduce((sum, b) => sum + b.qty, 0);
+  const [fineModal, setFineModal] = useState(false);
+  const [fineData, setFineData] = useState({
+    amount: "",
+    duration: "",
+    gst: "",
+  });
+
+  useEffect(() => {
+    fetchAuthors();
+    fetchPublications();
+    fetchCategories();
+    fetchFines();
+  }, []);
+
+  const fetchAuthors = async () => {
+    try {
+      const res = await API.get("/book-master/authors");
+      setAuthors(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchPublications = async () => {
+    try {
+      const res = await API.get("/book-master/publications");
+      setPublications(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const res = await API.get("/book-master/book-categories");
+      setCategories(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchFines = async () => {
+    try {
+      const res = await API.get("/book-master/fines");
+      setFines(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  /* ================= ADD FUNCTIONS ================= */
+
+  const addAuthor = async () => {
+    if (!authorName.trim()) return;
+
+    await API.post("/book-master/authors", {
+      name: authorName,
+    });
+
+    setAuthorName("");
+    setAuthorModal(false);
+    fetchAuthors();
+  };
+
+  const addPublication = async () => {
+    if (!publicationName.trim()) return;
+
+    await API.post("/book-master/publications", {
+      name: publicationName,
+    });
+
+    setPublicationName("");
+    setPublicationModal(false);
+    fetchPublications();
+  };
+
+  const addCategory = async () => {
+    if (!categoryName.trim()) return;
+
+    await API.post("/book-master/book-categories", {
+      name: categoryName,
+    });
+
+    setCategoryName("");
+    setCategoryModal(false);
+    fetchCategories();
+  };
+
+  const addFine = async () => {
+    if (!fineData.amount || !fineData.duration || fineData.gst === "") return;
+
+    await API.post("/book-master/fines", {
+      amount: Number(fineData.amount),
+      duration: Number(fineData.duration),
+      gst: Number(fineData.gst),
+    });
+
+    setFineData({
+      amount: "",
+      duration: "",
+      gst: "",
+    });
+
+    setFineModal(false);
+    fetchFines();
+  };
+
+  /* ================= DELETE ================= */
+
+  const deleteAuthor = async (id) => {
+    await API.delete(`/book-master/authors/${id}`);
+    fetchAuthors();
+  };
+  
+  const deletePublication = async (id) => {
+    await API.delete(`/book-master/publications/${id}`);
+    fetchPublications();
+  };
+  
+  const deleteCategory = async (id) => {
+    await API.delete(`/book-master/book-categories/${id}`);
+    fetchCategories();
+  };
+  
+  const deleteFine = async (id) => {
+    await API.delete(`/book-master/fines/${id}`);
+    fetchFines();
+  };
 
   return (
-    <div className="book-page premium-container">
-      <div className="page-header">
-        <h2>Book List</h2>
-        <span className="breadcrumb">Library / Book List</span>
+    <div className="booklist-page">
+      {/* ================= TABS ================= */}
+
+      <div className="booklist-tabs">
+        <button
+          className={`booklist-tab-btn ${
+            activeTab === "author" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("author")}
+        >
+          Author
+        </button>
+
+        <button
+          className={`booklist-tab-btn ${
+            activeTab === "publication" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("publication")}
+        >
+          Publication
+        </button>
+
+        <button
+          className={`booklist-tab-btn ${
+            activeTab === "category" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("category")}
+        >
+          Category
+        </button>
+
+        <button
+          className={`booklist-tab-btn ${activeTab === "fine" ? "active" : ""}`}
+          onClick={() => setActiveTab("fine")}
+        >
+          Set Fine
+        </button>
       </div>
 
-      <div className="stats-row">
-        <div className="stats-box glass-card">Total Qty: {totalQty}</div>
-        <div className="stats-box glass-card">Available Qty: {totalQty - 1}</div>
-      </div>
+      {/* ================= AUTHOR ================= */}
 
-      <div className="table-card glass-card">
-        <div className="top-bar">
-          <Link to="/add-book" className="add-btn premium-btn">+ Add Book</Link>
+      {activeTab === "author" && (
+        <div className="booklist-section">
+          <div className="booklist-topbar">
+            <div className="booklist-search">
+              <FaSearch />
+              <input type="text" placeholder="Search..." />
+            </div>
 
-          <input
-            type="text"
-            className="search-input premium-input"
-            placeholder="Search book..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+            <button
+              className="booklist-add-btn"
+              onClick={() => setAuthorModal(true)}
+            >
+              <FaPlus />
+            </button>
+          </div>
 
-        <div className="table-container">
-          <table className="book-table premium-table">
-            <thead>
-              <tr>
-                <th><input type="checkbox" /></th>
-                <th>BOOK TITLE</th>
-                <th>BOOK NO</th>
-                <th>ISBN</th>
-                <th>PUBLISHER</th>
-                <th>AUTHOR</th>
-                <th>SUBJECT</th>
-                <th>RACK</th>
-                <th>QTY</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>DATE</th>
-                <th>ACTION</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredBooks.map((book, index) => (
-                <tr key={index} className="table-row">
-                  <td><input type="checkbox" /></td>
-                  <td>{format(book.title)}</td>
-                  <td>{format(book.number)}</td>
-
-                  <td>
-                    <div className="barcode">
-                      <div className="fake-barcode"></div>
-                      <span>{format(book.isbn)}</span>
-                    </div>
-                  </td>
-
-                  <td>{format(book.publisher)}</td>
-                  <td>{format(book.author)}</td>
-                  <td>{format(book.subject)}</td>
-                  <td>{format(book.rack)}</td>
-
-                  <td className="qty">{book.qty}</td>
-                  <td>{formatPrice(book.price)}</td>
-
-                  <td>{autoCategory(book)}</td>
-                  <td>{formatDate(book.date)}</td>
-
-                  <td>
-                    <div className="action-buttons">
-                      <button className="edit-btn premium-edit">Edit</button>
-                      <button className="delete-btn premium-delete">Delete</button>
-                    </div>
-                  </td>
+          <div className="booklist-table-wrapper">
+            <table className="booklist-table">
+              <thead>
+                <tr>
+                  <th>S.NO.</th>
+                  <th>AUTHOR</th>
+                  <th>ACTION</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
 
-          </table>
+              <tbody>
+                {authors.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
+
+                    <td>{item.name}</td>
+
+                    <td>
+                      <button
+                        className="booklist-delete-btn"
+                        onClick={() => deleteAuthor(item._id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="booklist-pagination">
+              <div className="booklist-pagination-left">
+                <span>Items per page:</span>
+
+                <select>
+                  <option>50</option>
+                  <option>25</option>
+                  <option>10</option>
+                </select>
+              </div>
+
+              <div className="booklist-pagination-right">
+                <span>
+                  1 – {authors.length} of {authors.length}
+                </span>
+
+                <button>{"<"}</button>
+
+                <button>{">"}</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* ================= PUBLICATION ================= */}
+
+      {activeTab === "publication" && (
+        <div className="booklist-section">
+          <div className="booklist-topbar">
+            <div className="booklist-search">
+              <FaSearch />
+              <input type="text" placeholder="Search..." />
+            </div>
+
+            <button
+              className="booklist-add-btn"
+              onClick={() => setPublicationModal(true)}
+            >
+              <FaPlus />
+            </button>
+          </div>
+
+          <div className="booklist-table-wrapper">
+            <table className="booklist-table">
+              <thead>
+                <tr>
+                  <th>S.NO.</th>
+                  <th>PUBLICATION NAME</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {publications.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
+
+                    <td>{item.name}</td>
+
+                    <td>
+                      <button
+                        className="booklist-delete-btn"
+                        onClick={() => deletePublication(item._id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="booklist-pagination">
+              <div className="booklist-pagination-left">
+                <span>Items per page:</span>
+
+                <select>
+                  <option>50</option>
+                  <option>25</option>
+                  <option>10</option>
+                </select>
+              </div>
+
+              <div className="booklist-pagination-right">
+                <span>
+                  1 – {publications.length} of {publications.length}
+                </span>
+
+                <button>{"<"}</button>
+
+                <button>{">"}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= CATEGORY ================= */}
+
+      {activeTab === "category" && (
+        <div className="booklist-section">
+          <div className="booklist-topbar">
+            <div className="booklist-search">
+              <FaSearch />
+              <input type="text" placeholder="Search..." />
+            </div>
+
+            <button
+              className="booklist-add-btn"
+              onClick={() => setCategoryModal(true)}
+            >
+              <FaPlus />
+            </button>
+          </div>
+
+          <div className="booklist-table-wrapper">
+            <table className="booklist-table">
+              <thead>
+                <tr>
+                  <th>S.NO.</th>
+                  <th>CATEGORY NAME</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {categories.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
+
+                    <td>{item.name}</td>
+
+                    <td>
+                      <button
+                        className="booklist-delete-btn"
+                        onClick={() => deleteCategory(item._id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="booklist-pagination">
+              <div className="booklist-pagination-left">
+                <span>Items per page:</span>
+
+                <select>
+                  <option>50</option>
+                  <option>25</option>
+                  <option>10</option>
+                </select>
+              </div>
+
+              <div className="booklist-pagination-right">
+                <span>
+                  1 – {categories.length} of {categories.length}
+                </span>
+
+                <button>{"<"}</button>
+
+                <button>{">"}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= FINE ================= */}
+
+      {activeTab === "fine" && (
+        <div className="booklist-section">
+          <div className="booklist-topbar">
+            <div className="booklist-search">
+              <FaSearch />
+              <input type="text" placeholder="Search..." />
+            </div>
+
+            <button
+              className="booklist-add-btn"
+              onClick={() => setFineModal(true)}
+            >
+              <FaPlus />
+            </button>
+          </div>
+
+          <div className="booklist-table-wrapper">
+            <table className="booklist-table">
+              <thead>
+                <tr>
+                  <th>S.NO.</th>
+                  <th>FINE AMOUNT</th>
+                  <th>FINE DURATION</th>
+                  <th>GST %</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {fines.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
+
+                    <td>{item.amount}</td>
+
+                    <td>{item.duration}</td>
+
+                    <td>{item.gst}</td>
+
+                    <td>
+                      <button
+                        className="booklist-delete-btn"
+                        onClick={() => deleteFine(item._id)}
+                      >
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="booklist-pagination">
+              <div className="booklist-pagination-left">
+                <span>Items per page:</span>
+
+                <select>
+                  <option>50</option>
+                  <option>25</option>
+                  <option>10</option>
+                </select>
+              </div>
+
+              <div className="booklist-pagination-right">
+                <span>
+                  1 – {fines.length} of {fines.length}
+                </span>
+
+                <button>{"<"}</button>
+
+                <button>{">"}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= AUTHOR MODAL ================= */}
+
+      {authorModal && (
+        <div className="booklist-modal-overlay">
+          <div className="booklist-modal">
+            <div className="booklist-modal-header">
+              <h2>AUTHOR MASTER</h2>
+
+              <button
+                className="booklist-close-btn"
+                onClick={() => setAuthorModal(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="booklist-modal-body">
+              <input
+                type="text"
+                placeholder="Author Name*"
+                value={authorName}
+                onChange={(e) => setAuthorName(e.target.value)}
+              />
+            </div>
+
+            <div className="booklist-modal-footer">
+              <button
+                className="booklist-cancel-btn"
+                onClick={() => setAuthorModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button className="booklist-submit-btn" onClick={addAuthor}>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= PUBLICATION MODAL ================= */}
+
+      {publicationModal && (
+        <div className="booklist-modal-overlay">
+          <div className="booklist-modal">
+            <div className="booklist-modal-header">
+              <h2>PUBLICATION MASTER</h2>
+
+              <button
+                className="booklist-close-btn"
+                onClick={() => setPublicationModal(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="booklist-modal-body">
+              <input
+                type="text"
+                placeholder="Publication Name*"
+                value={publicationName}
+                onChange={(e) => setPublicationName(e.target.value)}
+              />
+            </div>
+
+            <div className="booklist-modal-footer">
+              <button
+                className="booklist-cancel-btn"
+                onClick={() => setPublicationModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button className="booklist-submit-btn" onClick={addPublication}>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= CATEGORY MODAL ================= */}
+
+      {categoryModal && (
+        <div className="booklist-modal-overlay">
+          <div className="booklist-modal">
+            <div className="booklist-modal-header">
+              <h2>CATEGORY MASTER</h2>
+
+              <button
+                className="booklist-close-btn"
+                onClick={() => setCategoryModal(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="booklist-modal-body">
+              <input
+                type="text"
+                placeholder="Category Name*"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+              />
+            </div>
+
+            <div className="booklist-modal-footer">
+              <button
+                className="booklist-cancel-btn"
+                onClick={() => setCategoryModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button className="booklist-submit-btn" onClick={addCategory}>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================= FINE MODAL ================= */}
+
+      {fineModal && (
+        <div className="booklist-modal-overlay">
+          <div className="booklist-modal">
+            <div className="booklist-modal-header">
+              <h2>SET FINE</h2>
+
+              <button
+                className="booklist-close-btn"
+                onClick={() => setFineModal(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="booklist-modal-body">
+              <input
+                type="number"
+                placeholder="Fine Amount"
+                value={fineData.amount}
+                onChange={(e) =>
+                  setFineData({
+                    ...fineData,
+                    amount: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                type="number"
+                placeholder="Fine Duration"
+                value={fineData.duration}
+                onChange={(e) =>
+                  setFineData({
+                    ...fineData,
+                    duration: e.target.value,
+                  })
+                }
+              />
+
+              <input
+                type="number"
+                placeholder="GST %"
+                value={fineData.gst}
+                onChange={(e) =>
+                  setFineData({
+                    ...fineData,
+                    gst: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="booklist-modal-footer">
+              <button
+                className="booklist-cancel-btn"
+                onClick={() => setFineModal(false)}
+              >
+                Cancel
+              </button>
+
+              <button className="booklist-submit-btn" onClick={addFine}>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

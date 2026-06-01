@@ -34,9 +34,7 @@ exports.createClass = async (req, res) => {
   }
 };
 
-
 /* ================= GET ALL CLASSES ================= */
-
 exports.getClasses = async (req, res) => {
   try {
 
@@ -56,10 +54,7 @@ exports.getClasses = async (req, res) => {
 
   }
 };
-
-
 /* ================= UPDATE CLASS ================= */
-
 exports.updateClass = async (req, res) => {
   try {
 
@@ -89,10 +84,7 @@ exports.updateClass = async (req, res) => {
 
   }
 };
-
-
 /* ================= DELETE CLASS ================= */
-
 exports.deleteClass = async (req, res) => {
   try {
 
