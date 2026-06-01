@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import "./Promotion.css";
 
@@ -17,50 +13,35 @@ import {
 import API from "../../api/axios";
 
 const Promotion = () => {
-  const [showModal, setShowModal] =
-    useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const [students, setStudents] =
-    useState([]);
+  const [students, setStudents] = useState([]);
 
-  const [classes, setClasses] =
-    useState([]);
+  const [classes, setClasses] = useState([]);
 
-  const [search, setSearch] =
-    useState("");
+  const [search, setSearch] = useState("");
 
-  const [studentSearch, setStudentSearch] =
-    useState("");
+  const [studentSearch, setStudentSearch] = useState("");
 
-  const [promotedStudents, setPromotedStudents] =
-    useState([]);
+  const [promotedStudents, setPromotedStudents] = useState([]);
 
-  const [selectedLeft, setSelectedLeft] =
-    useState([]);
+  const [selectedLeft, setSelectedLeft] = useState([]);
 
-  const [selectedRight, setSelectedRight] =
-    useState([]);
+  const [selectedRight, setSelectedRight] = useState([]);
 
-  const [loading, setLoading] =
-    useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [saving, setSaving] =
-    useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const [session, setSession] =
-    useState("2025-2026");
+  const [session, setSession] = useState("2025-2026");
 
-  const [currentClass, setCurrentClass] =
-    useState("");
+  const [currentClass, setCurrentClass] = useState("");
 
-  const [currentDivision, setCurrentDivision] =
-    useState("");
+  const [currentDivision, setCurrentDivision] = useState("");
 
-  const [promoteClass, setPromoteClass] =
-    useState("");
+  const [promoteClass, setPromoteClass] = useState("");
 
-  const [promoteDivision, setPromoteDivision] =
-    useState("");
+  const [promoteDivision, setPromoteDivision] = useState("");
 
   const fetchStudents = async () => {
     try {
@@ -92,39 +73,28 @@ const Promotion = () => {
   }, []);
 
   const classNames = useMemo(() => {
-    const names = classes
-      .map((item) => item.className)
-      .filter(Boolean);
+    const names = classes.map((item) => item.className).filter(Boolean);
 
     return [...new Set(names)];
   }, [classes]);
 
   const currentSections = useMemo(() => {
     return classes
-      .filter(
-        (item) =>
-          item.className === currentClass
-      )
+      .filter((item) => item.className === currentClass)
       .map((item) => item.sectionName)
       .filter(Boolean);
   }, [classes, currentClass]);
 
   const promoteSections = useMemo(() => {
     return classes
-      .filter(
-        (item) =>
-          item.className === promoteClass
-      )
+      .filter((item) => item.className === promoteClass)
       .map((item) => item.sectionName)
       .filter(Boolean);
   }, [classes, promoteClass]);
 
   const promotedIds = useMemo(
-    () =>
-      promotedStudents.map(
-        (student) => student._id
-      ),
-    [promotedStudents]
+    () => promotedStudents.map((student) => student._id),
+    [promotedStudents],
   );
 
   const availableStudents = useMemo(() => {
@@ -132,16 +102,13 @@ const Promotion = () => {
       return [];
     }
 
-    const query =
-      studentSearch.toLowerCase();
+    const query = studentSearch.toLowerCase();
 
     return students.filter((student) => {
       const fullName = `${student.firstName || ""} ${student.lastName || ""}`;
 
       const matchesClass =
-        student.class === currentClass &&
-        student.section ===
-          currentDivision;
+        student.class === currentClass && student.section === currentDivision;
 
       const matchesSearch = [
         student.admissionNo,
@@ -154,63 +121,40 @@ const Promotion = () => {
         .includes(query);
 
       return (
-        matchesClass &&
-        matchesSearch &&
-        !promotedIds.includes(student._id)
+        matchesClass && matchesSearch && !promotedIds.includes(student._id)
       );
     });
-  }, [
-    currentClass,
-    currentDivision,
-    promotedIds,
-    studentSearch,
-    students,
-  ]);
+  }, [currentClass, currentDivision, promotedIds, studentSearch, students]);
 
   const classSummary = useMemo(() => {
-    const grouped = students.reduce(
-      (acc, student) => {
-        const key = `${student.class || "N/A"}-${student.section || "N/A"}`;
+    const grouped = students.reduce((acc, student) => {
+      const key = `${student.class || "N/A"}-${student.section || "N/A"}`;
 
-        if (!acc[key]) {
-          acc[key] = {
-            className: key,
-            studentCount: 0,
-          };
-        }
+      if (!acc[key]) {
+        acc[key] = {
+          className: key,
+          studentCount: 0,
+        };
+      }
 
-        acc[key].studentCount += 1;
+      acc[key].studentCount += 1;
 
-        return acc;
-      },
-      {}
-    );
+      return acc;
+    }, {});
 
     return Object.values(grouped)
       .filter((item) =>
-        item.className
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        item.className.toLowerCase().includes(search.toLowerCase()),
       )
-      .sort((a, b) =>
-        a.className.localeCompare(
-          b.className
-        )
-      );
+      .sort((a, b) => a.className.localeCompare(b.className));
   }, [search, students]);
 
   const moveRight = () => {
-    const selected =
-      availableStudents.filter((student) =>
-        selectedLeft.includes(
-          student._id
-        )
-      );
+    const selected = availableStudents.filter((student) =>
+      selectedLeft.includes(student._id),
+    );
 
-    setPromotedStudents([
-      ...promotedStudents,
-      ...selected,
-    ]);
+    setPromotedStudents([...promotedStudents, ...selected]);
 
     setSelectedLeft([]);
   };
@@ -218,11 +162,8 @@ const Promotion = () => {
   const moveLeft = () => {
     setPromotedStudents(
       promotedStudents.filter(
-        (student) =>
-          !selectedRight.includes(
-            student._id
-          )
-      )
+        (student) => !selectedRight.includes(student._id),
+      ),
     );
 
     setSelectedRight([]);
@@ -230,21 +171,13 @@ const Promotion = () => {
 
   const toggleLeftStudent = (id) => {
     setSelectedLeft((prev) =>
-      prev.includes(id)
-        ? prev.filter(
-            (item) => item !== id
-          )
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
   const toggleRightStudent = (id) => {
     setSelectedRight((prev) =>
-      prev.includes(id)
-        ? prev.filter(
-            (item) => item !== id
-          )
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -276,9 +209,7 @@ const Promotion = () => {
     }
 
     if (promotedStudents.length === 0) {
-      alert(
-        "Please select students to promote"
-      );
+      alert("Please select students to promote");
       return;
     }
 
@@ -290,40 +221,27 @@ const Promotion = () => {
           API.put(`/students/${student._id}`, {
             class: promoteClass,
             section: promoteDivision,
-          })
-        )
+          }),
+        ),
       );
 
       await fetchStudents();
 
       closeModal();
 
-      alert(
-        "Students promoted successfully"
-      );
+      alert("Students promoted successfully");
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Failed to promote students"
-      );
+      alert(error.response?.data?.message || "Failed to promote students");
     } finally {
       setSaving(false);
     }
   };
 
-  const renderStudentRows = (
-    list,
-    selected,
-    onToggle,
-    showStatus = false
-  ) => {
+  const renderStudentRows = (list, selected, onToggle, showStatus = false) => {
     if (list.length === 0) {
       return (
         <tr>
-          <td
-            className="promotion-empty-state"
-            colSpan={showStatus ? 6 : 5}
-          >
+          <td className="promotion-empty-state" colSpan={showStatus ? 6 : 5}>
             No students found
           </td>
         </tr>
@@ -331,39 +249,27 @@ const Promotion = () => {
     }
 
     return list.map((student, index) => {
-      const fullName = `${student.firstName || ""} ${student.lastName || ""}`.trim();
+      const fullName =
+        `${student.firstName || ""} ${student.lastName || ""}`.trim();
 
       return (
-        <tr
-          key={student._id}
-          className="promotion-student-table-body-row"
-        >
+        <tr key={student._id} className="promotion-student-table-body-row">
           <td className="promotion-student-table-data">
             <input
               type="checkbox"
               className="promotion-checkbox"
-              checked={selected.includes(
-                student._id
-              )}
-              onChange={() =>
-                onToggle(student._id)
-              }
+              checked={selected.includes(student._id)}
+              onChange={() => onToggle(student._id)}
             />
           </td>
 
-          <td className="promotion-student-table-data">
-            {index + 1}
-          </td>
+          <td className="promotion-student-table-data">{index + 1}</td>
 
           <td className="promotion-student-table-data">
-            {student.rollNumber ||
-              student.admissionNo ||
-              "-"}
+            {student.rollNumber || student.admissionNo || "-"}
           </td>
 
-          <td className="promotion-student-table-data">
-            {fullName || "-"}
-          </td>
+          <td className="promotion-student-table-data">{fullName || "-"}</td>
 
           <td className="promotion-student-table-data">
             {student.fatherName || "-"}
@@ -371,9 +277,7 @@ const Promotion = () => {
 
           {showStatus && (
             <td className="promotion-student-table-data">
-              <span className="promotion-status-success">
-                Ready
-              </span>
+              <span className="promotion-status-success">Ready</span>
             </td>
           )}
         </tr>
@@ -386,9 +290,7 @@ const Promotion = () => {
       <div className="promotion-main-card">
         <div className="promotion-topbar-section">
           <div>
-            <h1 className="promotion-page-title">
-              Student Promotion
-            </h1>
+            <h1 className="promotion-page-title">Student Promotion</h1>
             <p className="promotion-page-subtitle">
               Move students to their next class and section.
             </p>
@@ -403,17 +305,13 @@ const Promotion = () => {
                 placeholder="Search class..."
                 className="promotion-search-input"
                 value={search}
-                onChange={(e) =>
-                  setSearch(e.target.value)
-                }
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
 
             <button
               className="promotion-add-button"
-              onClick={() =>
-                setShowModal(true)
-              }
+              onClick={() => setShowModal(true)}
             >
               <FaPlus />
             </button>
@@ -424,55 +322,32 @@ const Promotion = () => {
           <table className="promotion-table">
             <thead className="promotion-table-head">
               <tr className="promotion-table-head-row">
-                <th className="promotion-table-heading">
-                  S.NO.
-                </th>
-                <th className="promotion-table-heading">
-                  CLASS
-                </th>
-                <th className="promotion-table-heading">
-                  NO. OF STUDENTS
-                </th>
+                <th className="promotion-table-heading">S.NO.</th>
+                <th className="promotion-table-heading">CLASS</th>
+                <th className="promotion-table-heading">NO. OF STUDENTS</th>
               </tr>
             </thead>
 
             <tbody className="promotion-table-body">
               {loading ? (
                 <tr>
-                  <td
-                    className="promotion-empty-state"
-                    colSpan="3"
-                  >
+                  <td className="promotion-empty-state" colSpan="3">
                     Loading students...
                   </td>
                 </tr>
               ) : classSummary.length > 0 ? (
-                classSummary.map(
-                  (item, index) => (
-                    <tr
-                      className="promotion-table-body-row"
-                      key={item.className}
-                    >
-                      <td className="promotion-table-data">
-                        {index + 1}
-                      </td>
-                      <td className="promotion-table-data">
-                        {item.className}
-                      </td>
-                      <td className="promotion-table-data">
-                        {
-                          item.studentCount
-                        }
-                      </td>
-                    </tr>
-                  )
-                )
+                classSummary.map((item, index) => (
+                  <tr className="promotion-table-body-row" key={item.className}>
+                    <td className="promotion-table-data">{index + 1}</td>
+                    <td className="promotion-table-data">{item.className}</td>
+                    <td className="promotion-table-data">
+                      {item.studentCount}
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
-                  <td
-                    className="promotion-empty-state"
-                    colSpan="3"
-                  >
+                  <td className="promotion-empty-state" colSpan="3">
                     No class data found
                   </td>
                 </tr>
@@ -487,18 +362,14 @@ const Promotion = () => {
           <div className="promotion-modal-container">
             <div className="promotion-modal-header">
               <div>
-                <h2 className="promotion-modal-title">
-                  Promote Students
-                </h2>
+                <h2 className="promotion-modal-title">Promote Students</h2>
                 <p className="promotion-modal-subtitle">
-                  Select a source class, choose students, then save their new class details.
+                  Select a source class, choose students, then save their new
+                  class details.
                 </p>
               </div>
 
-              <button
-                className="promotion-close-button"
-                onClick={closeModal}
-              >
+              <button className="promotion-close-button" onClick={closeModal}>
                 <FaTimes />
               </button>
             </div>
@@ -506,16 +377,12 @@ const Promotion = () => {
             <div className="promotion-form-section">
               <div className="promotion-form-row">
                 <div className="promotion-form-group">
-                  <label className="promotion-form-label">
-                    Session
-                  </label>
+                  <label className="promotion-form-label">Session</label>
 
                   <select
                     className="promotion-form-select"
                     value={session}
-                    onChange={(e) =>
-                      setSession(e.target.value)
-                    }
+                    onChange={(e) => setSession(e.target.value)}
                   >
                     <option>2025-2026</option>
                     <option>2026-2027</option>
@@ -523,31 +390,22 @@ const Promotion = () => {
                 </div>
 
                 <div className="promotion-form-group">
-                  <label className="promotion-form-label">
-                    Current Class
-                  </label>
+                  <label className="promotion-form-label">Current Class</label>
 
                   <select
                     className="promotion-form-select"
                     value={currentClass}
                     onChange={(e) => {
-                      setCurrentClass(
-                        e.target.value
-                      );
+                      setCurrentClass(e.target.value);
                       setCurrentDivision("");
                       setPromotedStudents([]);
                       setSelectedLeft([]);
                     }}
                   >
-                    <option value="">
-                      Select Class
-                    </option>
+                    <option value="">Select Class</option>
 
                     {classNames.map((cls) => (
-                      <option
-                        key={cls}
-                        value={cls}
-                      >
+                      <option key={cls} value={cls}>
                         {cls}
                       </option>
                     ))}
@@ -563,27 +421,18 @@ const Promotion = () => {
                     className="promotion-form-select"
                     value={currentDivision}
                     onChange={(e) => {
-                      setCurrentDivision(
-                        e.target.value
-                      );
+                      setCurrentDivision(e.target.value);
                       setPromotedStudents([]);
                       setSelectedLeft([]);
                     }}
                   >
-                    <option value="">
-                      Select Section
-                    </option>
+                    <option value="">Select Section</option>
 
-                    {currentSections.map(
-                      (section) => (
-                        <option
-                          key={section}
-                          value={section}
-                        >
-                          {section}
-                        </option>
-                      )
-                    )}
+                    {currentSections.map((section) => (
+                      <option key={section} value={section}>
+                        {section}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -596,21 +445,14 @@ const Promotion = () => {
                     className="promotion-form-select"
                     value={promoteClass}
                     onChange={(e) => {
-                      setPromoteClass(
-                        e.target.value
-                      );
+                      setPromoteClass(e.target.value);
                       setPromoteDivision("");
                     }}
                   >
-                    <option value="">
-                      Select Class
-                    </option>
+                    <option value="">Select Class</option>
 
                     {classNames.map((cls) => (
-                      <option
-                        key={cls}
-                        value={cls}
-                      >
+                      <option key={cls} value={cls}>
                         {cls}
                       </option>
                     ))}
@@ -625,26 +467,15 @@ const Promotion = () => {
                   <select
                     className="promotion-form-select"
                     value={promoteDivision}
-                    onChange={(e) =>
-                      setPromoteDivision(
-                        e.target.value
-                      )
-                    }
+                    onChange={(e) => setPromoteDivision(e.target.value)}
                   >
-                    <option value="">
-                      Select Section
-                    </option>
+                    <option value="">Select Section</option>
 
-                    {promoteSections.map(
-                      (section) => (
-                        <option
-                          key={section}
-                          value={section}
-                        >
-                          {section}
-                        </option>
-                      )
-                    )}
+                    {promoteSections.map((section) => (
+                      <option key={section} value={section}>
+                        {section}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -659,11 +490,7 @@ const Promotion = () => {
                   placeholder="Search students..."
                   className="promotion-search-input"
                   value={studentSearch}
-                  onChange={(e) =>
-                    setStudentSearch(
-                      e.target.value
-                    )
-                  }
+                  onChange={(e) => setStudentSearch(e.target.value)}
                 />
               </div>
 
@@ -702,7 +529,7 @@ const Promotion = () => {
                       {renderStudentRows(
                         availableStudents,
                         selectedLeft,
-                        toggleLeftStudent
+                        toggleLeftStudent,
                       )}
                     </tbody>
                   </table>
@@ -713,9 +540,7 @@ const Promotion = () => {
                 <button
                   className="promotion-transfer-button"
                   onClick={moveRight}
-                  disabled={
-                    selectedLeft.length === 0
-                  }
+                  disabled={selectedLeft.length === 0}
                 >
                   <FaAngleDoubleRight />
                 </button>
@@ -723,9 +548,7 @@ const Promotion = () => {
                 <button
                   className="promotion-transfer-button"
                   onClick={moveLeft}
-                  disabled={
-                    selectedRight.length === 0
-                  }
+                  disabled={selectedRight.length === 0}
                 >
                   <FaAngleDoubleLeft />
                 </button>
@@ -764,7 +587,7 @@ const Promotion = () => {
                         promotedStudents,
                         selectedRight,
                         toggleRightStudent,
-                        true
+                        true,
                       )}
                     </tbody>
                   </table>

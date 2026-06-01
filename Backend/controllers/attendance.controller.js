@@ -6,6 +6,19 @@ exports.getAttendance = async (req, res) => {
   try {
     const { className, section, date } = req.query;
 
+    if (!date) {
+      const filter = {};
+      if (className) filter.className = className;
+      if (section) filter.section = section;
+
+      const attendance = await Attendance.find(filter).sort({ date: -1 });
+
+      return res.status(200).json({
+        success: true,
+        data: attendance,
+      });
+    }
+
     const attendance = await Attendance.findOne({
       className,
       section,
