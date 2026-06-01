@@ -54,7 +54,6 @@ import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
 // Attendance
 import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
 import Studentleave from "./Pages/Studentleave/Studentleave";
-import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
@@ -149,6 +148,8 @@ import TransportVehicleRoute from "./Pages/TransportVehicleRoute/TransportVehicl
 import Promotion from "./Pages/Promotion/Promotion";
 import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
 import Appuser from "./Pages/Appuser/Appuser";
+import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
+import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
 
 
 /* ===================== APP ===================== */
@@ -243,10 +244,7 @@ export default function App() {
           />
           <Route path="attendance/student-leave" element={<Studentleave />} />
           <Route path="attendance/student-leave/add" element={<Editleave />} />
-          <Route
-            path="attendance/attendance-report"
-            element={<AttendanceReport />}
-          />
+
 
           {/* FAQ */}
           <Route path="faq" element={<FaqPosting />} />
@@ -428,6 +426,8 @@ export default function App() {
           <Route path="/student/Promotion" element={<Promotion/>}/>
           <Route path="/student/portfolio" element={<StudentPortfolio/>}/>
           <Route path="/app/user" element={<Appuser/>}/>
+          <Route path="/student/gatepass" element={<StudentGatepass/>}/>
+          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
         </Route>
 
         {/* ===== FALLBACK ===== */}

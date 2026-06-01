@@ -297,6 +297,8 @@ const menu = [
     icon: FiBook,
   children: [
       { label: "App Users", path: "/app/user" },
+      { label: "Student Gate Pass", path: "/student/gatepass" },
+      { label: "Visitor Enquiry", path: "/visitor/enquiry" },
        
      ],
   },
