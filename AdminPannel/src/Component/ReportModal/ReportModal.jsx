@@ -48,6 +48,9 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
       .filter((s) => s.type === "regular");
   };
 
+  console.log("Report Data", viewData);
+  console.log("Subjects", viewData.subjects);
+
   return (
     <div className="reports-overlay">
       <div id="printArea" className="reports-card">
@@ -148,6 +151,7 @@ const ReportModal = ({ viewData, setViewData, logo }) => {
 
             <tbody>
               {viewData.subjects?.map((sub, i) => {
+                 console.log("SUBJECT =>", sub);
                 const getGrade = (marks, fullMarks) => {
                   if (!fullMarks) return "-";
 
