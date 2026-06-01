@@ -1,4 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import API from "../../api/axios";
 
 import {
   Search,
@@ -15,21 +21,6 @@ import {
 import "./AssignRoutes.css";
 
 const AssignRoutes = () => {
-  const routeOptions = [
-    "Mohd Nagar",
-    "Ravana",
-    "Abusaidpur",
-    "Chaukoni",
-    "Patti Fazilabad",
-    "Sarai Imam",
-    "Alafqani",
-    "Mirzapur",
-    "Noorpur",
-    "Bahadurganj",
-    "Ashok Nagar",
-    "City Center",
-  ];
-
   /* STATES */
 
   const [showPopup, setShowPopup] =
@@ -44,11 +35,27 @@ const AssignRoutes = () => {
   const [isEdit, setIsEdit] =
     useState(false);
 
-  const [editIndex, setEditIndex] =
+  const [editId, setEditId] =
     useState(null);
 
   const [selectedRoute, setSelectedRoute] =
     useState("");
+
+  const [selectedDestinations, setSelectedDestinations] =
+    useState([]);
+
+  const [transportRoutes, setTransportRoutes] =
+    useState([]);
+
+  const [
+    transportDestinations,
+    setTransportDestinations,
+  ] = useState([]);
+
+  const [
+    assignedRoutes,
+    setAssignedRoutes,
+  ] = useState([]);
 
   const [currentPage, setCurrentPage] =
     useState(1);
@@ -60,32 +67,78 @@ const AssignRoutes = () => {
     useState({
       sno: true,
       route: true,
+      destinations: true,
+      fare: true,
       action: true,
     });
 
-  const [routes, setRoutes] = useState([
-    "Mohd Nagar",
-    "Ravana",
-    "Abusaidpur",
-    "Chaukoni",
-    "Patti Fazilabad",
-    "Sarai Imam",
-    "Alafqani",
-    "Mirzapur",
-    "Noorpur",
-  ]);
+  const fetchAssignedRoutes =
+    async () => {
+      try {
+        const res = await API.get(
+          `/assign-route?search=${search}`
+        );
+
+        setAssignedRoutes(
+          res.data.data || []
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  useEffect(() => {
+    const fetchTransportData =
+      async () => {
+        try {
+          const [
+            routesRes,
+            destinationsRes,
+            assignedRoutesRes,
+          ] = await Promise.all([
+            API.get("/transport-route"),
+            API.get(
+              "/transport-destination"
+            ),
+            API.get("/assign-route"),
+          ]);
+
+          setTransportRoutes(
+            routesRes.data.data || []
+          );
+
+          setTransportDestinations(
+            destinationsRes.data.data ||
+              []
+          );
+
+          setAssignedRoutes(
+            assignedRoutesRes.data.data ||
+              []
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+    fetchTransportData();
+  }, []);
+
+  useEffect(() => {
+    fetchAssignedRoutes();
+  }, [search]);
 
   /* SEARCH FILTER */
 
   const filteredRoutes = useMemo(() => {
-    return routes.filter((item) =>
-      item
+    return assignedRoutes.filter((item) =>
+      (item.routeId?.routeName || "")
         .toLowerCase()
         .includes(
           search.toLowerCase()
         )
     );
-  }, [routes, search]);
+  }, [assignedRoutes, search]);
 
   /* PAGINATION */
 
@@ -107,54 +160,139 @@ const AssignRoutes = () => {
       endIndex
     );
 
+  const routeOptions = useMemo(() => {
+    return transportRoutes.map(
+      (route) => ({
+        value: route._id,
+        label: route.routeName,
+      })
+    );
+  }, [transportRoutes]);
+
+  const destinations = useMemo(() => {
+    if (!selectedRoute) return [];
+
+    return transportDestinations.map(
+      (destination) => ({
+        id: destination._id,
+        name: destination.destination,
+        price: destination.fare,
+      })
+    );
+  }, [selectedRoute, transportDestinations]);
+
+  const handleRouteChange = (route) => {
+    setSelectedRoute(route);
+
+    setSelectedDestinations([]);
+  };
+
+  const toggleDestination = (destinationId) => {
+    setSelectedDestinations((prev) =>
+      prev.includes(destinationId)
+        ? prev.filter(
+            (item) =>
+              item !== destinationId
+          )
+        : [
+            ...prev,
+            destinationId,
+          ]
+    );
+  };
+
   /* ADD */
 
-  const handleAddRoute = () => {
+  const handleAddRoute = async () => {
     if (!selectedRoute) {
       alert("Please select route");
       return;
     }
 
-    setRoutes([
-      selectedRoute,
-      ...routes,
-    ]);
+    if (
+      selectedDestinations.length === 0
+    ) {
+      alert(
+        "Please select destination"
+      );
+      return;
+    }
 
-    setSelectedRoute("");
+    try {
+      await API.post(
+        "/assign-route/create",
+        {
+          routeId: selectedRoute,
+          destinationIds:
+            selectedDestinations,
+        }
+      );
 
-    setShowPopup(false);
+      await fetchAssignedRoutes();
+
+      setSelectedRoute("");
+
+      setSelectedDestinations([]);
+
+      setShowPopup(false);
+    } catch (error) {
+      alert(
+        error.response?.data
+          ?.message ||
+          "Failed to assign route"
+      );
+    }
   };
 
   /* DELETE */
 
-  const handleDelete = (
-    routeName
-  ) => {
+  const handleDelete = async (id) => {
     const confirmDelete =
       window.confirm(
-        "Delete this route?"
+        "Delete this assigned route?"
       );
 
     if (!confirmDelete) return;
 
-    const updated =
-      routes.filter(
-        (item) =>
-          item !== routeName
+    try {
+      await API.delete(
+        `/assign-route/${id}`
       );
 
-    setRoutes(updated);
+      await fetchAssignedRoutes();
+    } catch (error) {
+      alert(
+        error.response?.data
+          ?.message ||
+          "Failed to delete assigned route"
+      );
+    }
   };
 
   /* EDIT */
 
   const handleEdit = (
-    route,
-    index
+    item
   ) => {
-    setSelectedRoute(route);
+    const routeValue =
+      item.routeId?._id ||
+      item.routeId ||
+      "";
 
-    setEditIndex(index);
+    setSelectedRoute(routeValue);
+
+    setSelectedDestinations(
+      item.destinations
+        ?.map(
+          (destination) =>
+            destination
+              .destinationId?._id ||
+            destination.destinationId
+        )
+        .filter(Boolean) || []
+    );
+
+    setEditId(item._id);
 
     setIsEdit(true);
 
@@ -164,21 +302,52 @@ const AssignRoutes = () => {
   /* UPDATE */
 
   const handleUpdateRoute =
-    () => {
-      const updated = [...routes];
+    async () => {
+      if (!selectedRoute) {
+        alert(
+          "Please select route"
+        );
+        return;
+      }
 
-      updated[editIndex] =
-        selectedRoute;
+      if (
+        selectedDestinations.length ===
+        0
+      ) {
+        alert(
+          "Please select destination"
+        );
+        return;
+      }
 
-      setRoutes(updated);
+      try {
+        await API.put(
+          `/assign-route/${editId}`,
+          {
+            routeId: selectedRoute,
+            destinationIds:
+              selectedDestinations,
+          }
+        );
 
-      setSelectedRoute("");
+        await fetchAssignedRoutes();
 
-      setEditIndex(null);
+        setSelectedRoute("");
 
-      setIsEdit(false);
+        setSelectedDestinations([]);
 
-      setShowPopup(false);
+        setEditId(null);
+
+        setIsEdit(false);
+
+        setShowPopup(false);
+      } catch (error) {
+        alert(
+          error.response?.data
+            ?.message ||
+            "Failed to update assigned route"
+        );
+      }
     };
 
   /* FILTER */
@@ -200,9 +369,11 @@ const AssignRoutes = () => {
 
     setSelectedRoute("");
 
+    setSelectedDestinations([]);
+
     setIsEdit(false);
 
-    setEditIndex(null);
+    setEditId(null);
   };
 
   return (
@@ -286,6 +457,38 @@ const AssignRoutes = () => {
                   <input
                     type="checkbox"
                     checked={
+                      visibleColumns.destinations
+                    }
+                    onChange={() =>
+                      toggleColumn(
+                        "destinations"
+                      )
+                    }
+                  />
+
+                  Destinations
+                </label>
+
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={
+                      visibleColumns.fare
+                    }
+                    onChange={() =>
+                      toggleColumn(
+                        "fare"
+                      )
+                    }
+                  />
+
+                  Total Fare
+                </label>
+
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={
                       visibleColumns.action
                     }
                     onChange={() =>
@@ -330,6 +533,16 @@ const AssignRoutes = () => {
                 </th>
               )}
 
+              {visibleColumns.destinations && (
+                <th>
+                  DESTINATIONS
+                </th>
+              )}
+
+              {visibleColumns.fare && (
+                <th>TOTAL FARE</th>
+              )}
+
               {visibleColumns.action && (
                 <th>ACTION</th>
               )}
@@ -344,7 +557,7 @@ const AssignRoutes = () => {
                   item,
                   index
                 ) => (
-                  <tr key={index}>
+                  <tr key={item._id}>
                     {visibleColumns.sno && (
                       <td>
                         {startIndex +
@@ -356,8 +569,53 @@ const AssignRoutes = () => {
                     {visibleColumns.route && (
                       <td>
                         <div className="assignRoutes__routeName">
-                          {item}
+                          {
+                            item.routeId
+                              ?.routeName
+                          }
                         </div>
+                      </td>
+                    )}
+
+                    {visibleColumns.destinations && (
+                      <td>
+                        <div className="assignRoutes__destinationNames">
+                          {item.destinations
+                            ?.map(
+                              (
+                                destination
+                              ) =>
+                                destination
+                                  .destinationId
+                                  ?.destination
+                            )
+                            .filter(
+                              Boolean
+                            )
+                            .join(", ") ||
+                            "-"}
+                        </div>
+                      </td>
+                    )}
+
+                    {visibleColumns.fare && (
+                      <td>
+                        {item.destinations
+                          ?.reduce(
+                            (
+                              total,
+                              destination
+                            ) =>
+                              total +
+                              Number(
+                                destination
+                                  .destinationId
+                                  ?.fare ||
+                                  0
+                              ),
+                            0
+                          ) || 0}
+                        /-
                       </td>
                     )}
 
@@ -370,10 +628,7 @@ const AssignRoutes = () => {
                             className="assignRoutes__editBtn"
                             onClick={() =>
                               handleEdit(
-                                item,
-                                routes.indexOf(
-                                  item
-                                )
+                                item
                               )
                             }
                           >
@@ -390,7 +645,7 @@ const AssignRoutes = () => {
                             className="assignRoutes__deleteBtn"
                             onClick={() =>
                               handleDelete(
-                                item
+                                item._id
                               )
                             }
                           >
@@ -409,7 +664,7 @@ const AssignRoutes = () => {
             ) : (
               <tr>
                 <td
-                  colSpan="3"
+                  colSpan="5"
                   className="assignRoutes__noData"
                 >
                   No Routes Found
@@ -549,7 +804,7 @@ const AssignRoutes = () => {
                       selectedRoute
                     }
                     onChange={(e) =>
-                      setSelectedRoute(
+                      handleRouteChange(
                         e.target.value
                       )
                     }
@@ -559,15 +814,18 @@ const AssignRoutes = () => {
                     </option>
 
                     {routeOptions.map(
-                      (
-                        route,
-                        index
-                      ) => (
+                      (route) => (
                         <option
-                          key={index}
-                          value={route}
+                          key={
+                            route.value
+                          }
+                          value={
+                            route.value
+                          }
                         >
-                          {route}
+                          {
+                            route.label
+                          }
                         </option>
                       )
                     )}
@@ -580,13 +838,58 @@ const AssignRoutes = () => {
               </div>
 
               {selectedRoute && (
-                <div className="assignRoutes__selectedRoute">
-                  Selected Route :
-                  <span>
-                    {
-                      selectedRoute
-                    }
-                  </span>
+                <div className="assignRoutes__destinations">
+                  <h3>
+                    Destinations
+                  </h3>
+
+                  <div className="assignRoutes__destinationList">
+                    {destinations.length > 0 ? (
+                      destinations.map(
+                      (
+                        destination
+                      ) => (
+                        <label
+                          className="assignRoutes__destinationItem"
+                          key={
+                            destination.id
+                          }
+                        >
+                          <span className="assignRoutes__destinationLeft">
+                            <input
+                              type="checkbox"
+                              checked={selectedDestinations.includes(
+                                destination.id
+                              )}
+                              onChange={() =>
+                                toggleDestination(
+                                  destination.id
+                                )
+                              }
+                            />
+
+                            <span>
+                              {
+                                destination.name
+                              }
+                            </span>
+                          </span>
+
+                          <span className="assignRoutes__destinationPrice">
+                            {
+                              destination.price
+                            }
+                            /-
+                          </span>
+                        </label>
+                      )
+                      )
+                    ) : (
+                      <div className="assignRoutes__noDestinations">
+                        No destinations found for this route
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

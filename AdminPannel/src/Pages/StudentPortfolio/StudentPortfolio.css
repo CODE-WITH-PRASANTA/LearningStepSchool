@@ -241,6 +241,33 @@
   border: 1px solid #e2e8f0;
 }
 
+.student-portfolio-info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  padding: 15px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.student-portfolio-info-item span {
+  color: #475569;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.student-portfolio-info-item strong {
+  min-width: 0;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
 .student-portfolio-transport-label,
 .student-portfolio-hostel-label {
   font-size: 14px;
@@ -347,6 +374,32 @@
   flex: 1;
 }
 
+.student-portfolio-profile-details h4 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.student-portfolio-profile-details p {
+  margin: 6px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.student-portfolio-profile-details span,
+.student-portfolio-profile-details small {
+  display: block;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.student-portfolio-profile-details small {
+  margin-top: 4px;
+  color: #64748b;
+}
+
 .student-portfolio-profile-name {
   margin: 0;
   font-size: 17px;
@@ -418,6 +471,13 @@
   border-radius: 20px;
 }
 
+.student-portfolio-progress-note {
+  margin: 12px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 /* =========================
    FEES SECTION
 ========================= */
@@ -472,10 +532,14 @@
 .student-portfolio-fees-chart-area {
   height: 260px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 22px;
+  padding: 24px;
   color: #64748b;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .student-portfolio-fees-reminder-card {
@@ -486,6 +550,44 @@
   margin: 0;
   color: #0f172a;
   font-size: 20px;
+}
+
+.student-portfolio-fee-meter {
+  width: 100%;
+  height: 18px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.student-portfolio-fee-meter span {
+  background: #22c55e;
+}
+
+.student-portfolio-fee-meter b {
+  background: #ef4444;
+}
+
+.student-portfolio-fee-summary-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.student-portfolio-reminder-text {
+  margin: 14px 0 0;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.student-portfolio-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 24px;
 }
 
 /* =========================
@@ -610,6 +712,13 @@
   text-align: center;
   white-space: nowrap;
 }
+
+.student-portfolio-empty-cell {
+  color: #64748b !important;
+  font-weight: 600;
+  text-align: center !important;
+}
+
 /* =========================
    TABLE SCROLLBAR
 ========================= */
@@ -628,6 +737,34 @@
   border-radius: 20px;
 }
 
+
+
+.student-portfolio-search-wrapper {
+  position: relative;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 999;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.search-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.search-item:hover {
+  background: #f2f2f2;
+}
+
 /* =========================
    RESPONSIVE
 ========================= */
@@ -643,6 +780,11 @@
   }
 
   .student-portfolio-fees-layout-section {
+    grid-template-columns: 1fr;
+  }
+
+  .student-portfolio-detail-grid,
+  .student-portfolio-fee-summary-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -699,5 +841,14 @@
   .student-portfolio-main-table-heading {
     font-size: 13px;
     padding: 16px;
+  }
+
+  .student-portfolio-info-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .student-portfolio-info-item strong {
+    text-align: left;
   }
 }

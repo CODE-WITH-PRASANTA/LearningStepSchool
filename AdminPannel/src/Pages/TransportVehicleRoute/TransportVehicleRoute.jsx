@@ -15,6 +15,8 @@ import {
   FiEdit2,
 } from "react-icons/fi";
 
+import API from "../../api/axios";
+
 import "./TransportVehicleRoute.css";
 
 const TransportVehicleRoute = () => {
@@ -42,132 +44,14 @@ const TransportVehicleRoute = () => {
       action: true,
     });
 
-  const vehicles = [
-    {
-      id: 1,
-      value: "125 [Bus] [20]",
-      type: "Bus",
-      number: "125",
-      capacity: "20",
-      driver: "Rakesh",
-      routes: ["Mohd Nagar", "Ravana"],
-    },
-
-    {
-      id: 2,
-      value: "128 [Bus] [20]",
-      type: "Bus",
-      number: "128",
-      capacity: "20",
-      driver: "Bintu yadav",
-      routes: ["Chaukoni", "Alafganj"],
-    },
-
-    {
-      id: 3,
-      value: "1280 [Bus] [25]",
-      type: "Bus",
-      number: "1280",
-      capacity: "25",
-      driver: "Bintu yadav",
-      routes: ["Mohd Nagar"],
-    },
-
-    {
-      id: 4,
-      value: "1353 [Van] [20]",
-      type: "Van",
-      number: "1353",
-      capacity: "20",
-      driver: "Vikash",
-      routes: ["Sarai Imam"],
-    },
-
-    {
-      id: 5,
-      value: "2050 [Van] [20]",
-      type: "Van",
-      number: "2050",
-      capacity: "20",
-      driver: "Bintu yadav",
-      routes: [
-        "Ravana",
-        "Patti fazilabad",
-      ],
-    },
-
-    {
-      id: 6,
-      value: "2525 [Van] [20]",
-      type: "Van",
-      number: "2525",
-      capacity: "20",
-      driver: "Vikash",
-      routes: [
-        "Mohd Nagar",
-        "Abusaidpur",
-      ],
-    },
-
-    {
-      id: 7,
-      value: "5678 [Van] [30]",
-      type: "Van",
-      number: "5678",
-      capacity: "30",
-      driver: "Samridhi",
-      routes: ["Alafganj"],
-    },
-  ];
-
-  const routes = [
-    "Mohd Nagar",
-    "Ravana",
-    "Abusaidpur",
-    "Chaukoni",
-    "Patti fazilabad",
-    "Sarai Imam",
-    "Alafganj",
-  ];
-
   const [vehicleData, setVehicleData] =
-    useState([
-      {
-        sno: 1,
-        type: "Van",
-        number: "2525",
-        capacity: "20",
-        driver: "Vikash",
-        routes: [
-          "Mohd Nagar",
-          "Abusaidpur",
-        ],
-      },
+    useState([]);
 
-      {
-        sno: 2,
-        type: "Van",
-        number: "2050",
-        capacity: "20",
-        driver: "Bintu yadav",
-        routes: [
-          "Ravana",
-          "Patti fazilabad",
-        ],
-      },
+  const [vehicles, setVehicles] =
+    useState([]);
 
-      {
-        sno: 3,
-        type: "Bus",
-        number: "128",
-        capacity: "20",
-        driver: "Bintu yadav",
-        routes: [
-          "Chaukoni",
-          "Alafganj",
-        ],
-      },
-    ]);
+  const [routes, setRoutes] =
+    useState([]);
 
   const [selectedVehicle, setSelectedVehicle] =
     useState("");
@@ -177,6 +61,69 @@ const TransportVehicleRoute = () => {
 
   const [editIndex, setEditIndex] =
     useState(null);
+
+  const [editId, setEditId] =
+    useState(null);
+
+  const fetchVehicleRouteData = async () => {
+    try {
+      const res = await API.get(
+        `/vehicle-route?search=${search}`
+      );
+
+      setVehicleData(res.data.data || []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const [
+          vehiclesRes,
+          routesRes,
+          vehicleRoutesRes,
+        ] = await Promise.all([
+          API.get("/vehicle"),
+          API.get("/transport-route"),
+          API.get("/vehicle-route"),
+        ]);
+
+        setVehicles(
+          vehiclesRes.data.data || []
+        );
+
+        setRoutes(
+          routesRes.data.data || []
+        );
+
+        setVehicleData(
+          vehicleRoutesRes.data.data ||
+            []
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
+
+  useEffect(() => {
+    fetchVehicleRouteData();
+  }, [search]);
+
+  const selectedVehicleData =
+    vehicles.find(
+      (vehicle) =>
+        vehicle._id === selectedVehicle
+    );
+
+  const selectedVehicleLabel =
+    selectedVehicleData
+      ? `${selectedVehicleData.vehicleNo} [${selectedVehicleData.vehicleType}] [${selectedVehicleData.capacity}]`
+      : "";
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -210,80 +157,105 @@ const TransportVehicleRoute = () => {
     });
   };
 
-  const handleRouteChange = (route) => {
-    if (selectedRoutes.includes(route)) {
+  const handleRouteChange = (routeId) => {
+    if (selectedRoutes.includes(routeId)) {
       setSelectedRoutes(
         selectedRoutes.filter(
-          (item) => item !== route
+          (item) => item !== routeId
         )
       );
     } else {
       setSelectedRoutes([
         ...selectedRoutes,
-        route,
+        routeId,
       ]);
     }
   };
 
-  const handleSaveVehicle = () => {
-    if (!selectedVehicle) return;
-
-    const vehicleObj = vehicles.find(
-      (item) => item.value === selectedVehicle
-    );
-
-    const newData = {
-      sno:
-        editIndex !== null
-          ? vehicleData[editIndex].sno
-          : vehicleData.length + 1,
-
-      type: vehicleObj.type,
-      number: vehicleObj.number,
-      capacity: vehicleObj.capacity,
-      driver: vehicleObj.driver,
-      routes: selectedRoutes,
-    };
-
-    if (editIndex !== null) {
-      const updatedData = [...vehicleData];
-
-      updatedData[editIndex] = newData;
-
-      setVehicleData(updatedData);
-    } else {
-      setVehicleData([
-        ...vehicleData,
-        newData,
-      ]);
+  const handleSaveVehicle = async () => {
+    if (!selectedVehicle) {
+      alert("Please select vehicle");
+      return;
     }
 
-    closeModal();
+    if (selectedRoutes.length === 0) {
+      alert("Please select route");
+      return;
+    }
+
+    try {
+      const payload = {
+        vehicleId: selectedVehicle,
+        routeIds: selectedRoutes,
+      };
+
+      if (editId) {
+        await API.put(
+          `/vehicle-route/${editId}`,
+          payload
+        );
+      } else {
+        await API.post(
+          "/vehicle-route/create",
+          payload
+        );
+      }
+
+      await fetchVehicleRouteData();
+
+      closeModal();
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Failed to save vehicle route"
+      );
+    }
   };
 
   const handleEdit = (item, index) => {
-    const matchedVehicle = vehicles.find(
-      (vehicle) =>
-        vehicle.number === item.number
-    );
-
     setSelectedVehicle(
-      matchedVehicle?.value || ""
+      item.vehicleId?._id ||
+        item.vehicleId ||
+        ""
     );
 
-    setSelectedRoutes(item.routes || []);
+    setSelectedRoutes(
+      item.routes
+        ?.map(
+          (route) =>
+            route.routeId?._id ||
+            route.routeId
+        )
+        .filter(Boolean) || []
+    );
 
     setEditIndex(index);
+
+    setEditId(item._id);
 
     setShowAddModal(true);
   };
 
-  const handleDelete = (index) => {
-    const updated = vehicleData.filter(
-      (_, i) => i !== index
-    );
+  const handleDelete = async (id) => {
+    const confirmDelete =
+      window.confirm(
+        "Delete this vehicle route assignment?"
+      );
 
-    setVehicleData(updated);
+    if (!confirmDelete) return;
+
+    try {
+      await API.delete(
+        `/vehicle-route/${id}`
+      );
+
+      await fetchVehicleRouteData();
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Failed to delete vehicle route"
+      );
+    }
   };
 
   const closeModal = () => {
@@ -296,11 +268,22 @@ const TransportVehicleRoute = () => {
     setShowDropdown(false);
 
     setEditIndex(null);
+
+    setEditId(null);
   };
 
   const filteredData = useMemo(() => {
     return vehicleData.filter((item) =>
-      Object.values(item)
+      [
+        item.vehicleId?.vehicleType,
+        item.vehicleId?.vehicleNo,
+        item.vehicleId?.capacity,
+        item.vehicleId?.driver,
+        ...(item.routes?.map(
+          (route) =>
+            route.routeId?.routeName
+        ) || []),
+      ]
         .join(" ")
         .toLowerCase()
         .includes(search.toLowerCase())
@@ -415,16 +398,18 @@ const TransportVehicleRoute = () => {
           <tbody>
             {filteredData.map(
               (item, index) => (
-                <tr key={index}>
+                <tr key={item._id}>
                   {selectedColumns.sno && (
-                    <td>{item.sno}</td>
+                    <td>{index + 1}</td>
                   )}
 
                   {selectedColumns.type && (
                     <td>
                       <span
                         className={`transportVehicleRoute-typeBadge ${
-                          item.type === "Bus"
+                          item.vehicleId
+                            ?.vehicleType ===
+                          "Bus"
                             ? "busBadge"
                             : "vanBadge"
                         }`}
@@ -432,21 +417,39 @@ const TransportVehicleRoute = () => {
                           handleEdit(item, index)
                         }
                       >
-                        {item.type}
+                        {
+                          item.vehicleId
+                            ?.vehicleType
+                        }
                       </span>
                     </td>
                   )}
 
                   {selectedColumns.number && (
-                    <td>{item.number}</td>
+                    <td>
+                      {
+                        item.vehicleId
+                          ?.vehicleNo
+                      }
+                    </td>
                   )}
 
                   {selectedColumns.capacity && (
-                    <td>{item.capacity}</td>
+                    <td>
+                      {
+                        item.vehicleId
+                          ?.capacity
+                      }
+                    </td>
                   )}
 
                   {selectedColumns.driver && (
-                    <td>{item.driver}</td>
+                    <td>
+                      {
+                        item.vehicleId
+                          ?.driver
+                      }
+                    </td>
                   )}
 
                   {selectedColumns.routes && (
@@ -458,7 +461,10 @@ const TransportVehicleRoute = () => {
                               key={idx}
                               className="transportVehicleRoute-routeTag"
                             >
-                              {route}
+                              {
+                                route.routeId
+                                  ?.routeName
+                              }
                             </span>
                           )
                         )}
@@ -484,7 +490,9 @@ const TransportVehicleRoute = () => {
                         <button
                           className="transportVehicleRoute-deleteBtn"
                           onClick={() =>
-                            handleDelete(index)
+                            handleDelete(
+                              item._id
+                            )
                           }
                         >
                           <FiTrash2 />
@@ -540,7 +548,7 @@ const TransportVehicleRoute = () => {
                   }
                 >
                   <span>
-                    {selectedVehicle ||
+                    {selectedVehicleLabel ||
                       "Select Vehicle"}
                   </span>
 
@@ -558,23 +566,21 @@ const TransportVehicleRoute = () => {
                 {showDropdown && (
                   <div className="transportVehicleRoute-dropdownMenu">
                     {vehicles.map(
-                      (vehicle, index) => (
+                      (vehicle) => (
                         <div
-                          key={index}
+                          key={vehicle._id}
                           className={`transportVehicleRoute-dropdownItem ${
                             selectedVehicle ===
-                            vehicle.value
+                            vehicle._id
                               ? "transportVehicleRoute-dropdownSelectedItem"
                               : ""
                           }`}
                           onClick={() => {
                             setSelectedVehicle(
-                              vehicle.value
+                              vehicle._id
                             );
 
-                            setSelectedRoutes(
-                              vehicle.routes
-                            );
+                            setSelectedRoutes([]);
 
                             setShowDropdown(
                               false
@@ -583,18 +589,22 @@ const TransportVehicleRoute = () => {
                         >
                           <div className="transportVehicleRoute-dropdownTop">
                             <h4>
-                              {vehicle.number}
+                              {
+                                vehicle.vehicleNo
+                              }
                             </h4>
 
                             <span
                               className={`transportVehicleRoute-dropdownBadge ${
-                                vehicle.type ===
+                                vehicle.vehicleType ===
                                 "Bus"
                                   ? "busBadge"
                                   : "vanBadge"
                               }`}
                             >
-                              {vehicle.type}
+                              {
+                                vehicle.vehicleType
+                              }
                             </span>
                           </div>
 
@@ -625,31 +635,20 @@ const TransportVehicleRoute = () => {
                   <div className="transportVehicleRoute-selectedTop">
                     <h3>
                       {
-                        vehicles.find(
-                          (v) =>
-                            v.value ===
-                            selectedVehicle
-                        )?.number
+                        selectedVehicleData?.vehicleNo
                       }
                     </h3>
 
                     <span
                       className={`transportVehicleRoute-selectedBadge ${
-                        vehicles.find(
-                          (v) =>
-                            v.value ===
-                            selectedVehicle
-                        )?.type === "Bus"
+                        selectedVehicleData?.vehicleType ===
+                        "Bus"
                           ? "busBadge"
                           : "vanBadge"
                       }`}
                     >
                       {
-                        vehicles.find(
-                          (v) =>
-                            v.value ===
-                            selectedVehicle
-                        )?.type
+                        selectedVehicleData?.vehicleType
                       }
                     </span>
                   </div>
@@ -662,11 +661,7 @@ const TransportVehicleRoute = () => {
 
                       <p>
                         {
-                          vehicles.find(
-                            (v) =>
-                              v.value ===
-                              selectedVehicle
-                          )?.capacity
+                          selectedVehicleData?.capacity
                         }
                       </p>
                     </div>
@@ -678,11 +673,7 @@ const TransportVehicleRoute = () => {
 
                       <p>
                         {
-                          vehicles.find(
-                            (v) =>
-                              v.value ===
-                              selectedVehicle
-                          )?.driver
+                          selectedVehicleData?.driver
                         }
                       </p>
                     </div>
@@ -699,13 +690,14 @@ const TransportVehicleRoute = () => {
                   </h3>
 
                   <div className="transportVehicleRoute-routesGrid">
-                    {routes.map(
-                      (route, index) => (
+                    {routes.length > 0 ? (
+                      routes.map(
+                      (route) => (
                         <label
-                          key={index}
+                          key={route._id}
                           className={`transportVehicleRoute-routeItem ${
                             selectedRoutes.includes(
-                              route
+                              route._id
                             )
                               ? "transportVehicleRoute-routeActive"
                               : ""
@@ -714,18 +706,27 @@ const TransportVehicleRoute = () => {
                           <input
                             type="checkbox"
                             checked={selectedRoutes.includes(
-                              route
+                              route._id
                             )}
                             onChange={() =>
                               handleRouteChange(
-                                route
+                                route._id
                               )
                             }
                           />
 
-                          <span>{route}</span>
+                          <span>
+                            {
+                              route.routeName
+                            }
+                          </span>
                         </label>
                       )
+                      )
+                    ) : (
+                      <div className="transportVehicleRoute-noData">
+                        No routes found
+                      </div>
                     )}
                   </div>
                 </div>

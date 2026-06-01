@@ -1,0 +1,1126 @@
+/* ===================================
+   STUDENT GATEPASS PAGE
+=================================== */
+
+.studentGatepass {
+  width: 100%;
+  min-height: 100vh;
+  background: #f3f4f8;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.studentGatepass__card {
+  width: 100%;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ===================================
+   HEADER
+=================================== */
+
+.studentGatepass__header {
+  background: #e8e9ef;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.studentGatepass__searchBox {
+  width: 500px;
+  max-width: 100%;
+  height: 46px;
+  background: #fff;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+}
+
+.studentGatepass__searchBox svg {
+  color: #555;
+  font-size: 16px;
+}
+
+.studentGatepass__searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.studentGatepass__addBtn {
+  width: 50px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #645cff;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 5px 18px rgba(100, 92, 255, 0.4);
+  padding-left: 14px;
+}
+
+/* ===================================
+   TABLE
+=================================== */
+
+.studentGatepass__tableWrapper {
+  overflow-x: auto;
+}
+
+.studentGatepass__table {
+  width: 100%;
+  min-width: 1200px;
+  border-collapse: collapse;
+}
+
+.studentGatepass__tableRow {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.studentGatepass__tableRow:hover {
+  background: #f7f8ff;
+}
+
+.studentGatepass__table thead th {
+  text-align: left;
+  padding: 22px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
+}
+
+.studentGatepass__table tbody td {
+  padding: 18px 22px;
+  border-top: 1px solid #ececec;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+.studentGatepass__table tbody tr:hover {
+  background: #f8f9ff;
+}
+
+.studentGatepass__avatar {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.studentGatepass__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.studentGatepass__deleteBtn,
+.studentGatepass__printBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.studentGatepass__deleteBtn {
+  color: #ff2626;
+}
+
+.studentGatepass__swalPopup {
+  border-radius: 20px !important;
+  padding: 20px !important;
+}
+
+.studentGatepass__swalConfirm {
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #dc2626
+  ) !important;
+
+  border-radius: 10px !important;
+
+  padding: 10px 24px !important;
+
+  font-weight: 600 !important;
+}
+
+.studentGatepass__swalCancel {
+  background: #e5e7eb !important;
+  color: #111827 !important;
+
+  border-radius: 10px !important;
+
+  padding: 10px 24px !important;
+
+  font-weight: 600 !important;
+}
+
+.studentGatepass__printBtn {
+  color: #6258ff;
+}
+
+/* ===================================
+   PAGINATION
+=================================== */
+
+.studentGatepass__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 30px;
+  padding: 20px;
+}
+
+.studentGatepass__pageSize {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.studentGatepass__pageSize select {
+  height: 40px;
+  width: 80px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+
+.studentGatepass__pageBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.studentGatepass__pageBtns button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* ===================================
+   MOBILE CARD
+=================================== */
+
+.studentGatepass__mobileCards {
+  display: none;
+}
+
+.studentGatepass__mobileCard {
+  background: white;
+  margin: 15px;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.studentGatepass__mobileTop {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.studentGatepass__mobileAvatar {
+  width: 60px;
+  height: 60px;
+}
+
+.studentGatepass__mobileBody {
+  margin-top: 15px;
+}
+
+.studentGatepass__mobileBody div {
+  margin-bottom: 12px;
+}
+
+.studentGatepass__mobileBody span {
+  font-size: 12px;
+  color: #777;
+}
+
+.studentGatepass__mobileBody p {
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.studentGatepass__mobileActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+/* ===================================
+   TABLET
+=================================== */
+
+@media (max-width: 1024px) {
+  .studentGatepass {
+    padding: 15px;
+  }
+
+  .studentGatepass__pagination {
+    gap: 15px;
+  }
+}
+
+/* ===================================
+   MOBILE
+=================================== */
+
+@media (max-width: 768px) {
+  .studentGatepass__tableWrapper {
+    display: none;
+  }
+
+  .studentGatepass__mobileCards {
+    display: block;
+  }
+
+  .studentGatepass__header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .studentGatepass__searchBox {
+    width: 100%;
+  }
+
+  .studentGatepass__addBtn {
+    align-self: flex-end;
+  }
+
+  .studentGatepass__pagination {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* ===================================
+   SMALL MOBILE
+=================================== */
+
+@media (max-width: 480px) {
+  .studentGatepass {
+    padding: 10px;
+  }
+
+  .studentGatepass__mobileCard {
+    margin: 10px;
+    padding: 14px;
+  }
+
+  .studentGatepass__mobileAvatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .studentGatepass__mobileTop h4 {
+    font-size: 15px;
+  }
+
+  .studentGatepass__mobileTop p {
+    font-size: 13px;
+  }
+}
+
+
+/* Student add */
+
+/* =========================
+   MODAL WRAPPER
+========================= */
+
+.studentGatepass__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.studentGatepass__modalOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+/* =========================================
+   MODAL ANIMATION
+========================================= */
+
+.studentGatepass__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.studentGatepass__modalOverlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+
+  transition: all 0.3s ease;
+}
+
+.studentGatepass__modalContainer {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* OPEN */
+
+.studentGatepass__modalOpening .studentGatepass__modalOverlay {
+  animation: studentGatepassFadeIn 0.3s ease forwards;
+}
+
+.studentGatepass__modalOpening .studentGatepass__modalContainer {
+  animation: studentGatepassZoomIn 0.3s ease forwards;
+}
+
+/* CLOSE */
+
+.studentGatepass__modalClosing .studentGatepass__modalOverlay {
+  animation: studentGatepassFadeOut 0.3s ease forwards;
+}
+
+.studentGatepass__modalClosing .studentGatepass__modalContainer {
+  animation: studentGatepassZoomOut 0.3s ease forwards;
+}
+
+/* KEYFRAMES */
+
+@keyframes studentGatepassFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes studentGatepassFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes studentGatepassZoomIn {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+}
+
+@keyframes studentGatepassZoomOut {
+  from {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(0.92);
+  }
+}
+
+/* =========================
+   MODAL CONTAINER
+========================= */
+
+.studentGatepass__modalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 72%;
+  max-width: 1050px;
+  min-width: 850px;
+  max-height: 88vh;
+
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  overflow-y: auto;
+
+  border: 1px solid #eceeff;
+
+  box-shadow:
+    0 25px 80px rgba(91, 92, 246, 0.15),
+    0 8px 30px rgba(0, 0, 0, 0.08);
+
+  z-index: 10000;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.studentGatepass__modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 26px 32px;
+
+  background: linear-gradient(
+    135deg,
+    #fafaff 0%,
+    #f4f5ff 100%
+  );
+
+  border-bottom: 1px solid #eceeff;
+}
+
+.studentGatepass__modalHeader h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2f3542;
+  letter-spacing: 0.3px;
+}
+
+.studentGatepass__modalClose {
+  width: 46px;
+  height: 46px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #f3f5ff;
+
+  color: #5b5cf6;
+
+  transition: 0.3s;
+}
+
+.studentGatepass__modalClose:hover {
+  background: #5b5cf6;
+  color: white;
+}
+
+.studentGatepass__modalClose {
+  width: 45px;
+  height: 45px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  background: #f7f7f7;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+}
+
+/* =========================
+   BODY
+========================= */
+
+.studentGatepass__modalBody {
+  padding: 30px;
+}
+
+.studentGatepass__modalTop {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 25px;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.studentGatepass__field input,
+.studentGatepass__field select,
+.studentGatepass__field textarea {
+  height: 56px;
+
+  border: 1px solid #e7e9f7;
+
+  border-radius: 16px;
+
+  background: #fbfcff;
+
+  padding: 0 16px;
+
+  transition: .3s;
+}
+
+.studentGatepass__field input:focus,
+.studentGatepass__field select:focus,
+.studentGatepass__field textarea:focus {
+  outline: none;
+
+  border-color: #5b5cf6;
+
+  box-shadow:
+    0 0 0 4px rgba(91,92,246,.12);
+}
+
+.studentGatepass__field label {
+  font-weight: 600;
+  color: #5d6477;
+  margin-bottom: 8px;
+}
+
+.studentGatepass__modalSearch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  height: 55px;
+  width: 100%;
+
+  border: 1px solid #e6e8ff;
+  border-radius: 14px;
+
+  padding: 0 16px;
+}
+
+.studentGatepass__modalSearch svg {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: #5b5cf6;
+}
+
+.studentGatepass__modalSearch input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.studentGatepass__formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.studentGatepass__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.studentGatepass__field label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.studentGatepass__field input {
+  height: 52px;
+
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+
+  padding: 0 15px;
+
+  outline: none;
+}
+
+.studentGatepass__field input,
+.studentGatepass__field select,
+.studentGatepass__field textarea {
+  height: 56px;
+
+  border: 1px solid #e7e9f7;
+
+  border-radius: 16px;
+
+  background: #fbfcff;
+
+  padding: 0 16px;
+
+  transition: .3s;
+}
+
+.studentGatepass__field input:focus,
+.studentGatepass__field select:focus,
+.studentGatepass__field textarea:focus {
+  outline: none;
+
+  border-color: #5b5cf6;
+
+  box-shadow:
+    0 0 0 4px rgba(91,92,246,.12);
+}
+
+.studentGatepass__field label {
+  font-weight: 600;
+  color: #5d6477;
+  margin-bottom: 8px;
+}
+
+/* =========================
+   PHOTO
+========================= */
+
+.studentGatepass__photoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.studentGatepass__photoSection img {
+  width: 150px;
+  height: 150px;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  background: #f7f8ff;
+
+  border: 4px solid #eef0ff;
+
+  padding: 12px;
+}
+
+.studentGatepass__photoSection button {
+  margin-top: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  color: white;
+
+  border: none;
+
+  border-radius: 14px;
+
+  padding: 12px 24px;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 12px 25px rgba(91,92,246,.25);
+}
+
+/* =========================
+   STUDENT INFO
+========================= */
+
+.studentGatepass__studentCard {
+  margin-top: 28px;
+
+  background: #ffffff;
+
+  border: 1px solid #eceeff;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.studentGatepass__studentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  padding: 22px 24px;
+
+  cursor: pointer;
+}
+
+.studentGatepass__studentHeader span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.studentGatepass__studentHeader svg {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.studentGatepass__studentContent {
+  padding: 20px;
+}
+
+.studentGatepass__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+
+  margin-bottom: 28px;
+}
+
+.studentGatepass__tabs button {
+  border: none;
+  background: transparent;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  padding: 12px 20px;
+
+  border-radius: 12px;
+
+  color: #6d7487;
+
+  transition: .3s;
+}
+
+.studentGatepass__tabs .active {
+  background: #eef0ff;
+
+  color: #5b5cf6;
+}
+
+.studentGatepass__familyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+.studentGatepass__familyCard {
+  background: #fafbff;
+
+  border: 1px solid #eceeff;
+
+  border-radius: 18px;
+
+  min-height: 180px;
+
+  transition: .3s;
+}
+
+.studentGatepass__familyCard:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 15px 30px rgba(91,92,246,.08);
+}
+
+.studentGatepass__familyCard img {
+  width: 70px;
+}
+
+.studentGatepass__address {
+  margin-top: 20px;
+}
+
+.studentGatepass__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 25px;
+}
+
+.studentGatepass__tabs button {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-bottom: 2px solid transparent;
+  transition: .3s;
+}
+
+.studentGatepass__tabs button.active {
+  color: #5b5cf6;
+  border-bottom: 2px solid #5b5cf6;
+}
+
+.studentGatepass__guardianCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px;
+
+  border: 1px solid #e7ebff;
+  border-radius: 16px;
+
+  background: #fff;
+
+  overflow: hidden;
+}
+
+.studentGatepass__guardianDetails {
+  flex: 1;
+}
+
+.studentGatepass__guardianImage {
+  width: 130px;
+  min-width: 130px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.studentGatepass__guardianImage img {
+  width: 110px;
+  height: 110px;
+
+  object-fit: contain;
+
+  border-radius: 12px;
+}
+
+.studentGatepass__photoUploadWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.studentGatepass__uploadedPhoto {
+  width: 150px;
+  height: 150px;
+
+  object-fit: cover;
+
+  border-radius: 18px;
+
+  border: 3px solid #eef0ff;
+
+  background: #fff;
+
+  box-shadow:
+    0 10px 30px rgba(91, 92, 246, 0.08);
+}
+
+.studentGatepass__uploadBtn {
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  color: white;
+
+  padding: 12px 24px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: all .3s ease;
+}
+
+.studentGatepass__uploadBtn:hover {
+  transform: translateY(-2px);
+}
+
+.studentGatepass__hiddenFileInput {
+  display: none;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.studentGatepass__modalFooter {
+  padding: 25px 30px;
+
+  border-top: 1px solid #ececec;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 18px;
+}
+
+.studentGatepass__modalFooter select {
+  width: 180px;
+  height: 50px;
+
+  border-radius: 10px;
+}
+
+.studentGatepass__cancelBtn {
+  height: 50px;
+
+  padding: 0 24px;
+
+  border-radius: 14px;
+
+  border: 1px solid #dfe3ff;
+
+  background: white;
+
+  font-weight: 600;
+}
+
+.studentGatepass__saveBtn {
+  height: 50px;
+
+  padding: 0 36px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  color: white;
+
+  font-weight: 600;
+
+  box-shadow:
+    0 12px 25px rgba(91,92,246,.25);
+}
+
+/* =========================
+   1200px
+========================= */
+
+@media (max-width: 1200px) {
+  .studentGatepass__modalContainer {
+    width: 85%;
+    min-width: unset;
+  }
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+  .studentGatepass__modalContainer {
+    width: 92%;
+  }
+
+  .studentGatepass__modalTop {
+    grid-template-columns: 1fr;
+  }
+
+  .studentGatepass__photoSection {
+    order: -1;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .studentGatepass__modalContainer {
+    width: 96%;
+    max-height: 92vh;
+    border-radius: 14px;
+  }
+
+  .studentGatepass__modalBody {
+    padding: 20px;
+  }
+
+  .studentGatepass__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .studentGatepass__familyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .studentGatepass__tabs {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .studentGatepass__modalFooter {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .studentGatepass__modalFooter select {
+    width: 100%;
+  }
+
+  .studentGatepass__saveBtn,
+  .studentGatepass__cancelBtn {
+    width: 100%;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .studentGatepass__modalHeader {
+    padding: 18px;
+  }
+
+  .studentGatepass__modalHeader h2 {
+    font-size: 18px;
+  }
+
+  .studentGatepass__photoSection img {
+    width: 110px;
+  }
+
+  .studentGatepass__field input {
+    height: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .studentGatepass__guardianCard {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .studentGatepass__guardianImage {
+    width: 100%;
+  }
+
+  .studentGatepass__guardianImage img {
+    width: 90px;
+    height: 90px;
+  }
+}

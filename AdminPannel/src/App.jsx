@@ -54,7 +54,6 @@ import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
 // Attendance
 import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
 import Studentleave from "./Pages/Studentleave/Studentleave";
-import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
@@ -148,6 +147,9 @@ import AssignRoutes from "./Pages/AssignRoutes/AssignRoutes";
 import TransportVehicleRoute from "./Pages/TransportVehicleRoute/TransportVehicleRoute";
 import Promotion from "./Pages/Promotion/Promotion";
 import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
+import Appuser from "./Pages/Appuser/Appuser";
+import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
+import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
 
 import CalenderPlanning from "./Pages/CalenderPlanning/CalenderPlanning";
 import StudentPopForm from "./Pages/StudentPopForm/StudentPopForm";
@@ -247,10 +249,7 @@ export default function App() {
           />
           <Route path="attendance/student-leave" element={<Studentleave />} />
           <Route path="attendance/student-leave/add" element={<Editleave />} />
-          <Route
-            path="attendance/attendance-report"
-            element={<AttendanceReport />}
-          />
+
 
           {/* FAQ */}
           <Route path="faq" element={<FaqPosting />} />
@@ -443,6 +442,23 @@ export default function App() {
           <Route path="/student/popform" element={<StudentPopForm />} />
           <Route path="/staff/gatepass" element={<StaffgatePass />} />
           <Route path="/staff-gate-pass/pdf" element={<StaffGatePassPDF />} />
+          {/* Ticket Generator */}
+          <Route path="/ticket/generator" element={<Ticket/>}/>
+          {/* Transport */}
+          <Route path="/transport/vehicle" element={<TransportVehicle/>}/>
+          <Route path="/transport/route"element={<TransportRoute/>}/>
+          <Route path="/transport/destination" element={<TransportDestination/>}/>
+          <Route path="/transport/routesAssigne" element={<AssignRoutes/>}/>
+          <Route path="/transport/vehicleroute" element={<TransportVehicleRoute/>}/>
+
+
+
+          
+          <Route path="/student/Promotion" element={<Promotion/>}/>
+          <Route path="/student/portfolio" element={<StudentPortfolio/>}/>
+          <Route path="/app/user" element={<Appuser/>}/>
+          <Route path="/student/gatepass" element={<StudentGatepass/>}/>
+          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
         </Route>
 
         {/* ===== FALLBACK ===== */}
