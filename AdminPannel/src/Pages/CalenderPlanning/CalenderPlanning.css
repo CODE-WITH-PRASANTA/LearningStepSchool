@@ -1,0 +1,569 @@
+/* ====================================
+   MAIN CONTAINER
+==================================== */
+.cp-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f8fafc;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ====================================
+   HEADER
+==================================== */
+.cp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cp-search-box {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+}
+
+.cp-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 15px;
+}
+
+.cp-search-input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+  padding-left: 48px;
+  padding-right: 16px;
+  background: #fff;
+  outline: none;
+  font-size: 14px;
+}
+
+.cp-search-input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, .12);
+}
+
+.cp-add-btn {
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 10px 25px rgba(79, 70, 229, .3);
+  transition: .3s;
+}
+
+.cp-add-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ====================================
+   TABLE & ACTION SYSTEM
+==================================== */
+.cp-table-wrapper {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+}
+
+.cp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cp-table thead {
+  background: #f8fafc;
+}
+
+.cp-table th {
+  padding: 22px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cp-table td {
+  padding: 20px 22px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+  color: #475569;
+}
+
+.cp-table tbody tr:hover {
+  background: #fafcff;
+}
+
+.cp-action-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Edit & Delete Action Buttons */
+.cp-edit-btn,
+.cp-delete-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: .25s ease;
+}
+
+.cp-edit-btn {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+.cp-edit-btn:hover {
+  background: #4f46e5;
+  color: #fff;
+}
+
+.cp-delete-btn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.cp-delete-btn:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* ====================================
+   PAGINATION WIDGETS
+==================================== */
+.cp-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: #475569;
+}
+
+.cp-page-select {
+  height: 40px;
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  padding: 0 12px;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.cp-nav-buttons {
+  display: flex;
+  gap: 6px;
+  margin-left: 10px;
+}
+
+.cp-nav-buttons button {
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #334155;
+  transition: 0.2s;
+}
+
+.cp-nav-buttons button:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.cp-nav-buttons button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ====================================
+   MODAL OVERLAY
+==================================== */
+.cp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .4);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* ====================================
+   MODAL DIALOG BOX
+==================================== */
+.cp-modal {
+  width: 100%;
+  max-width: 840px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: cpModal .2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cpModal {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ====================================
+   MODAL HEADER
+==================================== */
+.cp-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  background: #fff;
+}
+
+.cp-modal-header h2 {
+  margin: 0;
+  color: #212529;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.cp-close-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #fde8e8;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: .2s;
+}
+
+.cp-close-btn:hover {
+  background: #fbd5d5;
+}
+
+/* ====================================
+   RADIO ACTION BUTTONS (MUI / IMAGE MATCH)
+==================================== */
+.cp-type-wrapper {
+  display: flex;
+  gap: 32px;
+  padding: 10px 28px 24px;
+}
+
+.cp-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+  color: #2c3e50;
+  cursor: pointer;
+  position: relative;
+  font-size: 16px;
+}
+
+.cp-radio-label input[type="radio"] {
+  display: none;
+}
+
+/* Red indicator circle styling matching screenshot */
+.cp-custom-radio {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #b2bec3;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.cp-radio-label input[type="radio"]:checked + .cp-custom-radio {
+  border-color: #f84b4b;
+}
+
+.cp-radio-label input[type="radio"]:checked + .cp-custom-radio::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background: #f84b4b;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ====================================
+   OUTLINED FIELDSET CONTAINER (IMAGE SPECIFIC)
+==================================== */
+.cp-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 0 28px;
+  margin-bottom: 12px;
+}
+
+.cp-form-row-full {
+  padding: 12px 28px;
+}
+
+.cp-fieldset {
+  position: relative;
+  border: 1px solid #afb9c4;
+  border-radius: 12px;
+  padding: 4px 14px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-fieldset:focus-within {
+  border-color: #4f46e5;
+}
+
+.cp-field-label {
+  position: absolute;
+  top: -10px;
+  left: 14px;
+  background: #fff;
+  padding: 0 6px;
+  font-size: 13px;
+  color: #636e72;
+  font-weight: 500;
+}
+
+.cp-input-inner-wrap {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  width: 100%;
+}
+
+.cp-clean-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #2d3436;
+  width: 40%;
+}
+
+.cp-clean-input.text-field {
+  width: 100%;
+  height: 48px;
+}
+
+.cp-date-sep {
+  color: #2d3436;
+  margin: 0 8px;
+  font-weight: bold;
+}
+
+.cp-date-icon {
+  margin-left: auto;
+  color: #5542f6;
+  font-size: 18px;
+}
+
+.cp-sub-hint {
+  font-size: 11px;
+  color: #95a5a6;
+  margin-top: -2px;
+  margin-bottom: 2px;
+}
+
+.cp-clean-textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+  color: #2d3436;
+  padding: 10px 0;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* ====================================
+   HOLIDAY TOGGLE SWITCH
+==================================== */
+.cp-holiday-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 28px;
+}
+
+.cp-holiday-section label {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.cp-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+}
+
+.cp-switch input {
+  display: none;
+}
+
+.cp-slider {
+  position: absolute;
+  inset: 0;
+  background: #d1d5db;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.cp-slider::before {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 3px;
+  top: 3px;
+  border-radius: 50%;
+  background: #fff;
+  transition: .2s;
+}
+
+.cp-switch input:checked + .cp-slider {
+  background: #22c55e;
+}
+
+.cp-switch input:checked + .cp-slider::before {
+  transform: translateX(24px);
+}
+
+/* ====================================
+   MODAL ACTIONS FOOTER
+==================================== */
+.cp-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 28px;
+  padding: 18px 28px 28px;
+}
+
+.cp-cancel-text-btn {
+  border: none;
+  background: transparent;
+  color: #111;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.cp-cancel-text-btn:hover {
+  text-decoration: underline;
+}
+
+/* Blue button matching modifying actions */
+.cp-modify-btn {
+  min-width: 110px;
+  height: 44px;
+  border: none;
+  border-radius: 10px;
+  background: #5046e5;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(80, 70, 229, 0.2);
+  transition: background 0.2s;
+}
+
+.cp-modify-btn:hover {
+  background: #3c32cb;
+}
+
+/* ====================================
+   RESPONSIVE LAYOUT
+==================================== */
+@media(max-width: 768px) {
+  .cp-container {
+    padding: 16px;
+  }
+
+  .cp-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cp-search-box {
+    max-width: 100%;
+  }
+
+  .cp-add-btn {
+    width: 100%;
+    border-radius: 14px;
+  }
+
+  .cp-form-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .cp-modal {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .cp-type-wrapper,
+  .cp-form-row,
+  .cp-form-row-full,
+  .cp-holiday-section,
+  .cp-modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .cp-pagination {
+    justify-content: center;
+  }
+}
