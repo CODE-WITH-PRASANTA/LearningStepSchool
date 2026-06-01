@@ -352,6 +352,104 @@
   backdrop-filter: blur(4px);
 }
 
+/* =========================================
+   MODAL ANIMATION
+========================================= */
+
+.studentGatepass__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.studentGatepass__modalOverlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+
+  transition: all 0.3s ease;
+}
+
+.studentGatepass__modalContainer {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* OPEN */
+
+.studentGatepass__modalOpening .studentGatepass__modalOverlay {
+  animation: studentGatepassFadeIn 0.3s ease forwards;
+}
+
+.studentGatepass__modalOpening .studentGatepass__modalContainer {
+  animation: studentGatepassZoomIn 0.3s ease forwards;
+}
+
+/* CLOSE */
+
+.studentGatepass__modalClosing .studentGatepass__modalOverlay {
+  animation: studentGatepassFadeOut 0.3s ease forwards;
+}
+
+.studentGatepass__modalClosing .studentGatepass__modalContainer {
+  animation: studentGatepassZoomOut 0.3s ease forwards;
+}
+
+/* KEYFRAMES */
+
+@keyframes studentGatepassFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes studentGatepassFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes studentGatepassZoomIn {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+}
+
+@keyframes studentGatepassZoomOut {
+  from {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform:
+      translate(-50%, -50%)
+      scale(0.92);
+  }
+}
+
 /* =========================
    MODAL CONTAINER
 ========================= */

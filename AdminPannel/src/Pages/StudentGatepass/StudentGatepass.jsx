@@ -109,6 +109,7 @@ const data = [
 ];
 
 const StudentGatepass = () => {
+  const [isClosing, setIsClosing] = useState(false);
   const [showStudentInfo, setShowStudentInfo] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [visitorPhoto, setVisitorPhoto] = useState(
@@ -163,6 +164,15 @@ const StudentGatepass = () => {
     });
 
     setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsClosing(true);
+
+    setTimeout(() => {
+      setOpenModal(false);
+      setIsClosing(false);
+    }, 300);
   };
 
   const [gatePassData, setGatePassData] = useState(data);
@@ -400,10 +410,16 @@ const StudentGatepass = () => {
         </div>
 
         {openModal && (
-          <div className="studentGatepass__modal">
+         <div
+  className={`studentGatepass__modal ${
+    isClosing
+      ? "studentGatepass__modalClosing"
+      : "studentGatepass__modalOpening"
+  }`}
+>
             <div
               className="studentGatepass__modalOverlay"
-              onClick={() => setOpenModal(false)}
+              onClick={handleCloseModal}
             />
 
             <div className="studentGatepass__modalContainer">
@@ -415,7 +431,7 @@ const StudentGatepass = () => {
                 </h2>
                 <button
                   className="studentGatepass__modalClose"
-                  onClick={() => setOpenModal(false)}
+                onClick={handleCloseModal}
                 >
                   <FaTimes />
                 </button>
