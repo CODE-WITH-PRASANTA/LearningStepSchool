@@ -54,7 +54,6 @@ import TeacherTimeTable from "./Pages/TeacherTimeTable/TeacherTimeTable";
 // Attendance
 import StudentAttendance from "./Pages/Studentattendance/Studentattendance";
 import Studentleave from "./Pages/Studentleave/Studentleave";
-import AttendanceReport from "./Pages/AttendanceReport/AttendanceReport";
 
 // Other
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
@@ -225,10 +224,7 @@ export default function App() {
           />
           <Route path="attendance/student-leave" element={<Studentleave />} />
           <Route path="attendance/student-leave/add" element={<Editleave />} />
-          <Route
-            path="attendance/attendance-report"
-            element={<AttendanceReport />}
-          />
+
 
           {/* FAQ */}
           <Route path="faq" element={<FaqPosting />} />
