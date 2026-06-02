@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaPlus,
   FaSearch,
@@ -9,10 +9,21 @@ import {
 } from "react-icons/fa";
 import "./ShopInformation.css";
 
-
 const ShopInformation = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [editData, setEditData] = useState(null);
+
+ 
+  const [formData, setFormData] = useState({
+    shopName: "",
+    mobile: "",
+    gst: "",
+    state: "Uttar Pradesh",
+    city: "Agra",
+    pincode: "",
+    address: "",
+    remark: "",
+  });
 
   const [shops, setShops] = useState([
     {
@@ -39,6 +50,33 @@ const ShopInformation = () => {
     },
   ]);
 
+  
+  useEffect(() => {
+    if (editData) {
+      setFormData({
+        shopName: editData.shopName || "",
+        mobile: editData.mobile || "",
+        gst: editData.gst || "",
+        state: editData.state || "Uttar Pradesh",
+        city: editData.city || "Agra",
+        pincode: editData.pincode || "",
+        address: editData.address || "",
+        remark: editData.remark || "",
+      });
+    } else {
+      setFormData({
+        shopName: "",
+        mobile: "",
+        gst: "",
+        state: "Uttar Pradesh",
+        city: "Agra",
+        pincode: "",
+        address: "",
+        remark: "",
+      });
+    }
+  }, [editData, showPopup]);
+
   const openAddPopup = () => {
     setEditData(null);
     setShowPopup(true);
@@ -58,22 +96,50 @@ const ShopInformation = () => {
     setShops(shops.filter((item) => item.id !== id));
   };
 
+  // Handles input values dynamically
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handles both Adding a new record and Modifying an existing one
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    if (!formData.shopName || !formData.mobile || !formData.pincode) {
+      alert("Please fill in all mandatory fields marked with *");
+      return;
+    }
+
+    if (editData) {
+      // Modify Mode
+      setShops(
+        shops.map((shop) =>
+          shop.id === editData.id ? { ...shop, ...formData } : shop
+        )
+      );
+    } else {
+      // Add Mode
+      const newShop = {
+        id: Date.now(), // Generate unique ID
+        ...formData,
+      };
+      setShops([...shops, newShop]);
+    }
+
+    closePopup();
+  };
+
   return (
     <div className="shopInformation">
-
       <div className="shopInformation__card">
-
         <div className="shopInformation__header">
-
           <div className="shopInformation__search">
-
             <FaSearch />
-
-            <input
-              type="text"
-              placeholder="Search Shop..."
-            />
-
+            <input type="text" placeholder="Search Shop..." />
           </div>
 
           <button
@@ -82,11 +148,10 @@ const ShopInformation = () => {
           >
             <FaPlus />
           </button>
-
         </div>
 
-        <table className="shopInformation__table">
-
+        <div className="shopInformation__tableWrapper">
+  <table className="shopInformation__table">
           <thead>
             <tr>
               <th>S.NO</th>
@@ -99,55 +164,37 @@ const ShopInformation = () => {
           </thead>
 
           <tbody>
-
             {shops.map((item, index) => (
               <tr key={item.id}>
-
                 <td>{index + 1}</td>
-
                 <td>{item.shopName}</td>
-
                 <td>{item.mobile}</td>
-
                 <td>{item.city}</td>
-
                 <td>{item.gst}</td>
-
                 <td>
-
                   <div className="shopInformation__actionBox">
-
                     <button
                       className="shopInformation__editBtn"
-                      onClick={() =>
-                        openEditPopup(item)
-                      }
+                      onClick={() => openEditPopup(item)}
                     >
                       <FaEdit />
                     </button>
 
                     <button
                       className="shopInformation__deleteBtn"
-                      onClick={() =>
-                        deleteShop(item.id)
-                      }
+                      onClick={() => deleteShop(item.id)}
                     >
                       <FaTrash />
                     </button>
-
                   </div>
-
                 </td>
-
               </tr>
             ))}
-
           </tbody>
-
-        </table>
+          </table>
+</div>
 
         <div className="shopInformation__pagination">
-
           <div className="shopInformation__paginationLeft">
             Items per page :
             <select>
@@ -160,207 +207,135 @@ const ShopInformation = () => {
           <div className="shopInformation__paginationRight">
             1 - {shops.length} of {shops.length}
           </div>
-
         </div>
-
       </div>
 
       {showPopup && (
-
         <div className="shopInformation__popupOverlay">
-
-          <div className="shopInformation__popup">
-
+          {/* Changed container to <form> tag to enable submit triggers natively */}
+          <form className="shopInformation__popup" onSubmit={handleSave}>
             <div className="shopInformation__popupHeader">
-
-              <h2>
-                SHOP INFORMATION
-              </h2>
+              <h2>SHOP INFORMATION</h2>
 
               <button
+                type="button"
                 className="shopInformation__closeBtn"
                 onClick={closePopup}
               >
                 <FaTimes />
               </button>
-
             </div>
 
             <div className="shopInformation__formGrid">
-
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Shop Name *
-                </label>
-
+                <label>Shop Name *</label>
                 <input
-                  defaultValue={
-                    editData?.shopName || ""
-                  }
+                  type="text"
+                  name="shopName"
+                  value={formData.shopName}
+                  onChange={handleInputChange}
                 />
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Mob. No *
-                </label>
-
+                <label>Mob. No *</label>
                 <input
-                  defaultValue={
-                    editData?.mobile || ""
-                  }
+                  type="text"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
                 />
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  GST No
-                </label>
-
+                <label>GST No</label>
                 <input
-                  defaultValue={
-                    editData?.gst || ""
-                  }
+                  type="text"
+                  name="gst"
+                  value={formData.gst}
+                  onChange={handleInputChange}
                 />
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Select State *
-                </label>
-
+                <label>Select State *</label>
                 <div className="shopInformation__select">
-
                   <select
-                    defaultValue={
-                      editData?.state ||
-                      "Uttar Pradesh"
-                    }
+                    name="state"
+                    value={formData.state}
+                    onChange={handleInputChange}
                   >
-                    <option>
-                      Uttar Pradesh
-                    </option>
-                    <option>
-                      Delhi
-                    </option>
-                    <option>
-                      Odisha
-                    </option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Odisha">Odisha</option>
                   </select>
-
                   <FaChevronDown />
-
                 </div>
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Select City *
-                </label>
-
+                <label>Select City *</label>
                 <div className="shopInformation__select">
-
                   <select
-                    defaultValue={
-                      editData?.city ||
-                      "Agra"
-                    }
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
                   >
-                    <option>
-                      Agra
-                    </option>
-                    <option>
-                      Delhi
-                    </option>
-                    <option>
-                      Bhubaneswar
-                    </option>
+                    <option value="Agra">Agra</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Bhubaneswar">Bhubaneswar</option>
                   </select>
-
                   <FaChevronDown />
-
                 </div>
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Pincode *
-                </label>
-
+                <label>Pincode *</label>
                 <input
-                  defaultValue={
-                    editData?.pincode || ""
-                  }
+                  type="text"
+                  name="pincode"
+                  value={formData.pincode}
+                  onChange={handleInputChange}
                 />
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Address
-                </label>
-
+                <label>Address</label>
                 <input
-                  defaultValue={
-                    editData?.address || ""
-                  }
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
                 />
-
               </div>
 
               <div className="shopInformation__formGroup">
-
-                <label>
-                  Remark
-                </label>
-
+                <label>Remark</label>
                 <input
-                  defaultValue={
-                    editData?.remark || ""
-                  }
+                  type="text"
+                  name="remark"
+                  value={formData.remark}
+                  onChange={handleInputChange}
                 />
-
               </div>
-
             </div>
 
             <div className="shopInformation__popupFooter">
-
               <button
+                type="button"
                 className="shopInformation__cancelBtn"
                 onClick={closePopup}
               >
                 Cancel
               </button>
 
-              <button
-                className="shopInformation__saveBtn"
-              >
-                {editData
-                  ? "Modify"
-                  : "Add"}
+              <button type="submit" className="shopInformation__saveBtn">
+                {editData ? "Modify" : "Add"}
               </button>
-
             </div>
-
-          </div>
-
+          </form>
         </div>
-
       )}
-
     </div>
   );
 };

@@ -304,10 +304,7 @@ const menu = [
 
       
 
-<<<<<<< HEAD
-=======
-      { label: "App Users", path: "/app/user" },
->>>>>>> fc29b3eac42196fc7e55db7d3417b59d4970857a
+      
       { label: "Student Gate Pass", path: "/student/gatepass" },
       { label: "Visitor Enquiry", path: "/visitor/enquiry" },
        
@@ -321,6 +318,10 @@ const menu = [
     icon: FiBook,
   children: [
       { label: "School Shop Information", path: "/school/information" },
+       { label: "Supplier Shop Master", path: "/school/supplymaster" },
+         { label: "Catagory Master", path: "catagory/master" },
+          { label: "Items Master", path: "catagorry/items" },
+      
        
      ],
   },

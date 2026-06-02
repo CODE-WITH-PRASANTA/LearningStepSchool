@@ -161,6 +161,9 @@ import StaffgatePass from "./Pages/StaffgatePass/StaffgatePass";
 import StaffgatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
 import StaffGatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
 import ShopInformation from "./Pages/ShopInformation/ShopInformation";
+import SupplierMaster from "./Pages/SupplierMaster/SupplierMaster";
+import CatagoryMaster from "./Pages/CatagoryMaster/CatagoryMaster";
+import ItemsMaster from "./Pages/ItemsMaster/ItemsMaster";
 
 
 /* ===================== APP ===================== */
@@ -474,11 +477,14 @@ export default function App() {
           <Route path="/school/information"element={<ShopInformation/>}/>
           <Route path="/student/Promotion" element={<Promotion />} />
           <Route path="/student/portfolio" element={<StudentPortfolio />} />
-          <Route path="/app/user" element={<Appuser />} />
+          
           <Route path="/student/gatepass" element={<StudentGatepass />} />
           <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint />} />
           <Route path="/visitor/enquiry" element={<VisitorEnquiry />} />
           <Route path="/visitor-enquiry/print/:id" element={<VisitorEnquiryPDF />}/>
+          <Route path="/school/supplymaster" element={<SupplierMaster/>}/>
+          <Route path="catagory/master" element={<CatagoryMaster/>}/>
+          <Route path="catagorry/items" element={<ItemsMaster/>}/>
 
         </Route>
 
