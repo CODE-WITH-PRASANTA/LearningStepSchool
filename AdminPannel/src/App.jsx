@@ -147,7 +147,7 @@ import AssignRoutes from "./Pages/AssignRoutes/AssignRoutes";
 import TransportVehicleRoute from "./Pages/TransportVehicleRoute/TransportVehicleRoute";
 import Promotion from "./Pages/Promotion/Promotion";
 import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
-import Appuser from "./Pages/Appuser/Appuser";
+
 import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
 import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
 
@@ -156,6 +156,7 @@ import StudentPopForm from "./Pages/StudentPopForm/StudentPopForm";
 import StaffgatePass from "./Pages/StaffgatePass/StaffgatePass";
 import StaffgatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
 import StaffGatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
+import ShopInformation from "./Pages/ShopInformation/ShopInformation";
 
 /* ===================== APP ===================== */
 
@@ -456,9 +457,10 @@ export default function App() {
           
           <Route path="/student/Promotion" element={<Promotion/>}/>
           <Route path="/student/portfolio" element={<StudentPortfolio/>}/>
-          <Route path="/app/user" element={<Appuser/>}/>
+        
           <Route path="/student/gatepass" element={<StudentGatepass/>}/>
           <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
+          <Route path="/school/information"element={<ShopInformation/>}/>
         </Route>
 
         {/* ===== FALLBACK ===== */}

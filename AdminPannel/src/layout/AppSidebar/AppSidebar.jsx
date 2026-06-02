@@ -296,7 +296,6 @@ const menu = [
      label: "Front Office",
     icon: FiBook,
   children: [
-<<<<<<< HEAD
       { label: "Calender Planning", path: "/calender/planning" },
        { label: "Student Pop Form", path: "/student/popform" },
         { label: "Staff Gate Pass", path: "/staff/gatepass" },
@@ -305,15 +304,22 @@ const menu = [
 
       
 
-=======
-      { label: "App Users", path: "/app/user" },
       { label: "Student Gate Pass", path: "/student/gatepass" },
       { label: "Visitor Enquiry", path: "/visitor/enquiry" },
->>>>>>> f91b9e2a46be9201431d2b11d938452e35d71af8
        
      ],
   },
 
+
+ { type: "divider" },
+  {
+     label: "Stationery",
+    icon: FiBook,
+  children: [
+      { label: "School Shop Information", path: "/school/information" },
+       
+     ],
+  },
 
   
     { type: "divider" },
