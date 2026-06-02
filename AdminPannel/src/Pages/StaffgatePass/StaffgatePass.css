@@ -1,0 +1,476 @@
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
+
+.staffgatepass {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  background: #f5f7fb;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.staffgatepass__topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.staffgatepass__search {
+  width: 350px;
+  height: 45px;
+  background: #fff;
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 15px;
+}
+
+.staffgatepass__search svg {
+  color: #7b8794;
+}
+
+.staffgatepass__search input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  background: transparent;
+}
+
+.staffgatepass__addbtn {
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  padding-left: 14px;
+}
+
+.staffgatepass__addbtn:hover {
+  transform: scale(1.05);
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.staffgatepass__tablewrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 16px;
+  overflow-x: auto;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.staffgatepass__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.staffgatepass__table thead {
+  background: #2563eb;
+}
+
+.staffgatepass__table th {
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 15px;
+  text-align: center;
+}
+
+.staffgatepass__table td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 14px;
+}
+
+.staffgatepass__table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.staffgatepass__photo {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.staffgatepass__actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.staffgatepass__edit,
+.staffgatepass__delete,
+.staffgatepass__print {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.staffgatepass__edit {
+  background: #0ea5e9;
+}
+
+.staffgatepass__delete {
+  background: #ef4444;
+}
+
+.staffgatepass__print {
+  background: #22c55e;
+}
+
+/* =====================================================
+   PAGINATION
+===================================================== */
+
+.staffgatepass__pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.staffgatepass__pageleft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.staffgatepass__pageleft select {
+  border: 1px solid #dbe2ea;
+  border-radius: 8px;
+  height: 35px;
+  padding: 0 10px;
+}
+
+.staffgatepass__pageright {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staffgatepass__pageright button {
+  width: 35px;
+  height: 35px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+.staffgatepass__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.staffgatepass__modal {
+  width: 700px;
+  max-width: 95%;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  animation: popup 0.25s ease;
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.staffgatepass__modal-header {
+  background: #2563eb;
+  color: white;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.staffgatepass__modal-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.staffgatepass__modal-close {
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.staffgatepass__modal-body {
+  padding: 25px;
+}
+
+/* =====================================================
+   STAFF SEARCH
+===================================================== */
+
+.staffgatepass__staff-search-section {
+  height: 48px;
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 15px;
+  margin-bottom: 20px;
+}
+
+.staffgatepass__staff-search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* =====================================================
+   PROFILE CARD
+===================================================== */
+
+.staffgatepass__staff-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.staffgatepass__staff-avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+}
+
+.staffgatepass__staff-information {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.staffgatepass__staff-information p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.staffgatepass__form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.staffgatepass__field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.staffgatepass__field-label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.staffgatepass__field-input {
+  height: 45px;
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+  padding: 0 12px;
+  outline: none;
+}
+
+.staffgatepass__remark-section {
+  margin-top: 20px;
+}
+
+.staffgatepass__remark-input {
+  width: 100%;
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+  padding: 12px;
+  resize: none;
+  margin-top: 8px;
+  outline: none;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.staffgatepass__footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.staffgatepass__print-dropdown {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: #eef2f7;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.staffgatepass__cancel-button,
+.staffgatepass__save-button {
+  border: none;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+}
+
+.staffgatepass__cancel-button {
+  background: #ef4444;
+}
+
+.staffgatepass__save-button {
+  background: #2563eb;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .staffgatepass__topbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .staffgatepass__search {
+    width: 100%;
+  }
+
+  .staffgatepass__form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staffgatepass__footer-actions {
+    flex-direction: column;
+  }
+
+  .staffgatepass__print-dropdown,
+  .staffgatepass__cancel-button,
+  .staffgatepass__save-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .staffgatepass__staff-profile-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .staffgatepass__pagination {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+.staffgatepass__print-wrapper {
+  position: relative;
+}
+
+.staffgatepass__print-menu {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 150px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,.15);
+  z-index: 100;
+}
+
+.staffgatepass__print-menu button {
+  width: 100%;
+  border: none;
+  background: white;
+  padding: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.staffgatepass__print-menu button:hover {
+  background: #f3f4f6;
+}
+.staffgatepass__table thead tr{
+  background: #2563eb;
+}
+
+.staffgatepass__table th{
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 18px 16px;
+  border: none;
+}
+
+.staffgatepass__table thead th:first-child{
+  border-top-left-radius: 12px;
+}
+
+.staffgatepass__table thead th:last-child{
+  border-top-right-radius: 12px;
+}

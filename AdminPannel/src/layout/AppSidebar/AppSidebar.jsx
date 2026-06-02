@@ -296,6 +296,14 @@ const menu = [
      label: "Front Office",
     icon: FiBook,
   children: [
+      { label: "Calender Planning", path: "/calender/planning" },
+       { label: "Student Pop Form", path: "/student/popform" },
+        { label: "Staff Gate Pass", path: "/staff/gatepass" },
+      
+
+
+      
+
       { label: "App Users", path: "/app/user" },
       { label: "Student Gate Pass", path: "/student/gatepass" },
       { label: "Visitor Enquiry", path: "/visitor/enquiry" },

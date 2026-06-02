@@ -150,8 +150,17 @@ import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
 import Appuser from "./Pages/Appuser/Appuser";
 import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
 import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
+<<<<<<< HEAD
 import VisitorEnquiry from "./Pages/VisitorEnquiry/VisitorEnquiry";
 import VisitorEnquiryPDF from "./Component/VisitorEnquiryPDF/VisitorEnquiryPDF";
+=======
+
+import CalenderPlanning from "./Pages/CalenderPlanning/CalenderPlanning";
+import StudentPopForm from "./Pages/StudentPopForm/StudentPopForm";
+import StaffgatePass from "./Pages/StaffgatePass/StaffgatePass";
+import StaffgatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
+import StaffGatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
+>>>>>>> 46b0f08a8abb4dc6b8538731602555419f7e675d
 
 /* ===================== APP ===================== */
 
@@ -419,6 +428,24 @@ export default function App() {
           />
 
           <Route path="/faq" element={<FaqPosting />} />
+          <Route path="/ticket/generator" element={<Ticket />} />
+          <Route path="/transport/vehicle" element={<TransportVehicle />} />
+          <Route path="/transport/route" element={<TransportRoute />} />
+          <Route
+            path="/transport/destination"
+            element={<TransportDestination />}
+          />
+          <Route path="/transport/routesAssigne" element={<AssignRoutes />} />
+          <Route
+            path="/transport/vehicleroute"
+            element={<TransportVehicleRoute />}
+          />
+          <Route path="/student/Promotion" element={<Promotion />} />
+          <Route path="/student/portfolio" element={<StudentPortfolio />} />
+          <Route path="/calender/planning" element={<CalenderPlanning />} />
+          <Route path="/student/popform" element={<StudentPopForm />} />
+          <Route path="/staff/gatepass" element={<StaffgatePass />} />
+          <Route path="/staff-gate-pass/pdf" element={<StaffGatePassPDF />} />
           {/* Ticket Generator */}
           <Route path="/ticket/generator" element={<Ticket />} />
           {/* Transport */}
