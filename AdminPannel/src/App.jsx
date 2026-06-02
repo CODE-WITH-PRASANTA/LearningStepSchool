@@ -150,7 +150,8 @@ import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
 import Appuser from "./Pages/Appuser/Appuser";
 import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
 import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
-
+import VisitorEnquiry from "./Pages/VisitorEnquiry/VisitorEnquiry";
+import VisitorEnquiryPDF from "./Component/VisitorEnquiryPDF/VisitorEnquiryPDF";
 
 /* ===================== APP ===================== */
 
@@ -245,7 +246,6 @@ export default function App() {
           <Route path="attendance/student-leave" element={<Studentleave />} />
           <Route path="attendance/student-leave/add" element={<Editleave />} />
 
-
           {/* FAQ */}
           <Route path="faq" element={<FaqPosting />} />
           <Route path="/awards" element={<AwardAdminPage />} />
@@ -294,7 +294,6 @@ export default function App() {
             path="/academics/assign-subjects"
             element={<AssignSubjects />}
           />
-  
 
           {/*Primary Evaluation*/}
           <Route path="/primary-evaluation/activity" element={<Activity />} />
@@ -314,7 +313,6 @@ export default function App() {
           <Route path="/library/master" element={<BookList />} />
           <Route path="/library/issue-return" element={<IssueReturn />} />
 
-           
           <Route path="/library/add-student" element={<AddStudent />} />
           <Route
             path="/library/issued-return-report"
@@ -363,8 +361,7 @@ export default function App() {
           <Route path="/expense/details" element={<AddExpense />} />
           <Route path="/expense-search" element={<ExpenseSearch />} />
           <Route path="/expense-head" element={<ExpenseHead />} />
-          <Route path="/Other income" element={< CollectMoney/>} />
-
+          <Route path="/Other income" element={<CollectMoney />} />
 
           {/* Student Info */}
 
@@ -390,44 +387,60 @@ export default function App() {
             path="/front-office/postal-dispatch"
             element={<PostalDispatch />}
           />
-        
 
-        <Route path="/attendance/report" element={<StudentAttendanceReport />} />
-        <Route path="/attendance/class-wise" element={<ClassWiseReport />} />
-        <Route path="/attendance/by-date" element={<AttendanceByDate />} />
-        <Route path="/attendance/absent" element={<AbsentStudent />} />
-        <Route path="/attendance/unmarked" element={<UnmarkedAttendance />} />
-        <Route path="/attendance/custom" element={<CustomAttendanceReport />}/>
-
+          <Route
+            path="/attendance/report"
+            element={<StudentAttendanceReport />}
+          />
+          <Route path="/attendance/class-wise" element={<ClassWiseReport />} />
+          <Route path="/attendance/by-date" element={<AttendanceByDate />} />
+          <Route path="/attendance/absent" element={<AbsentStudent />} />
+          <Route path="/attendance/unmarked" element={<UnmarkedAttendance />} />
+          <Route
+            path="/attendance/custom"
+            element={<CustomAttendanceReport />}
+          />
 
           {/* Create ,edit teacher  */}
 
           <Route path="/admin/create-teacher" element={<CreateTeacher />} />
-          <Route path="/admin/create-permission" element={<PermissionManager />} />
-          <Route path="/admin/attendance-management" element ={<AttendanceManagement />} />
-          <Route path="/admin/leave-management" element ={<LeaveManagement />} />
-          <Route path="/admin/payroll-management" element ={<PayRollManagement />} />
-
-
+          <Route
+            path="/admin/create-permission"
+            element={<PermissionManager />}
+          />
+          <Route
+            path="/admin/attendance-management"
+            element={<AttendanceManagement />}
+          />
+          <Route path="/admin/leave-management" element={<LeaveManagement />} />
+          <Route
+            path="/admin/payroll-management"
+            element={<PayRollManagement />}
+          />
 
           <Route path="/faq" element={<FaqPosting />} />
           {/* Ticket Generator */}
-          <Route path="/ticket/generator" element={<Ticket/>}/>
+          <Route path="/ticket/generator" element={<Ticket />} />
           {/* Transport */}
-          <Route path="/transport/vehicle" element={<TransportVehicle/>}/>
-          <Route path="/transport/route"element={<TransportRoute/>}/>
-          <Route path="/transport/destination" element={<TransportDestination/>}/>
-          <Route path="/transport/routesAssigne" element={<AssignRoutes/>}/>
-          <Route path="/transport/vehicleroute" element={<TransportVehicleRoute/>}/>
+          <Route path="/transport/vehicle" element={<TransportVehicle />} />
+          <Route path="/transport/route" element={<TransportRoute />} />
+          <Route
+            path="/transport/destination"
+            element={<TransportDestination />}
+          />
+          <Route path="/transport/routesAssigne" element={<AssignRoutes />} />
+          <Route
+            path="/transport/vehicleroute"
+            element={<TransportVehicleRoute />}
+          />
 
-
-
-          
-          <Route path="/student/Promotion" element={<Promotion/>}/>
-          <Route path="/student/portfolio" element={<StudentPortfolio/>}/>
-          <Route path="/app/user" element={<Appuser/>}/>
-          <Route path="/student/gatepass" element={<StudentGatepass/>}/>
-          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
+          <Route path="/student/Promotion" element={<Promotion />} />
+          <Route path="/student/portfolio" element={<StudentPortfolio />} />
+          <Route path="/app/user" element={<Appuser />} />
+          <Route path="/student/gatepass" element={<StudentGatepass />} />
+          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint />} />
+          <Route path="/visitor/enquiry" element={<VisitorEnquiry />} />
+          <Route path="/visitor-enquiry/print/:id" element={<VisitorEnquiryPDF />}/>
         </Route>
 
         {/* ===== FALLBACK ===== */}
