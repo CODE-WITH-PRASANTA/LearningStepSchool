@@ -150,21 +150,18 @@ import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
 
 import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
 import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
-<<<<<<< HEAD
+
 import VisitorEnquiry from "./Pages/VisitorEnquiry/VisitorEnquiry";
 import VisitorEnquiryPDF from "./Component/VisitorEnquiryPDF/VisitorEnquiryPDF";
-=======
+
 
 import CalenderPlanning from "./Pages/CalenderPlanning/CalenderPlanning";
 import StudentPopForm from "./Pages/StudentPopForm/StudentPopForm";
 import StaffgatePass from "./Pages/StaffgatePass/StaffgatePass";
 import StaffgatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
 import StaffGatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
-<<<<<<< HEAD
 import ShopInformation from "./Pages/ShopInformation/ShopInformation";
-=======
->>>>>>> 46b0f08a8abb4dc6b8538731602555419f7e675d
->>>>>>> fc29b3eac42196fc7e55db7d3417b59d4970857a
+
 
 /* ===================== APP ===================== */
 
