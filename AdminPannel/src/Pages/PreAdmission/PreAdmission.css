@@ -1,0 +1,1021 @@
+/* =========================================
+   PRE ADMISSION
+========================================= */
+
+.PreAdmission {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f5f7ff;
+}
+
+.PreAdmission__card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(91, 92, 246, 0.08);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.PreAdmission__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.PreAdmission__searchBox {
+  flex: 1;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 16px;
+
+  border: 1px solid #e4e8ff;
+  border-radius: 14px;
+
+  background: #fafbff;
+}
+
+.PreAdmission__searchBox svg {
+  color: #5b5cf6;
+  font-size: 18px;
+}
+
+.PreAdmission__searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+}
+
+.PreAdmission__addBtn {
+  width: 54px;
+  height: 54px;
+
+  border: none;
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  color: #fff;
+  font-size: 20px;
+
+  transition: 0.3s;
+  padding-left: 16px;
+}
+
+.PreAdmission__addBtn:hover {
+  transform: translateY(-2px);
+}
+
+
+.PreAdmission__modalOpening .PreAdmission__modalContainer {
+  animation: preAdmissionOpen .3s ease forwards;
+}
+
+.PreAdmission__modalClosing .PreAdmission__modalContainer {
+  animation: preAdmissionClose .3s ease forwards;
+}
+
+@keyframes preAdmissionOpen {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes preAdmissionClose {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(.95);
+  }
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.PreAdmission__tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.PreAdmission__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.PreAdmission__table thead {
+  background: #f7f8ff;
+}
+
+.PreAdmission__table th {
+  padding: 18px;
+  text-align: left;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #475569;
+  white-space: nowrap;
+}
+
+.PreAdmission__table td {
+  padding: 18px;
+  border-top: 1px solid #eef1ff;
+}
+
+.PreAdmission__tableRow {
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.PreAdmission__tableRow:hover {
+  background: #fafbff;
+}
+
+.PreAdmission__avatar {
+  width: 50px;
+  height: 50px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+  border: 2px solid #e5e7ff;
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.PreAdmission__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.PreAdmission__deleteBtn,
+.PreAdmission__printBtn {
+  width: 38px;
+  height: 38px;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PreAdmission__deleteBtn {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.PreAdmission__printBtn {
+  background: #ede9fe;
+  color: #5b5cf6;
+}
+
+/* =========================================
+   MOBILE CARDS
+========================================= */
+
+.PreAdmission__mobileCards {
+  display: none;
+}
+
+.PreAdmission__mobileCard {
+  background: white;
+  border: 1px solid #edf0ff;
+
+  border-radius: 18px;
+
+  padding: 16px;
+  margin-bottom: 15px;
+
+  cursor: pointer;
+}
+
+.PreAdmission__mobileTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.PreAdmission__mobileAvatar {
+  width: 65px;
+  height: 65px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.PreAdmission__mobileTop h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.PreAdmission__mobileTop p {
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.PreAdmission__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.PreAdmission__overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(5px);
+}
+
+.PreAdmission__modalContainer {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 85%;
+  max-width: 1100px;
+
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: white;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.18);
+
+  z-index: 10000;
+}
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.PreAdmission__modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 24px 30px;
+
+  border-bottom: 1px solid #ececec;
+}
+
+.PreAdmission__modalHeader h2 {
+  margin: 0;
+
+  color: #5b5cf6;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.PreAdmission__closeBtn {
+  width: 46px;
+  height: 46px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  background: #f3f4ff;
+
+  color: #5b5cf6;
+
+  font-size: 28px;
+}
+
+/* =========================================
+   MODAL BODY
+========================================= */
+
+.PreAdmission__modalBody {
+  padding: 28px;
+
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 30px;
+}
+
+/* =========================================
+   PHOTO
+========================================= */
+
+.PreAdmission__photoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.PreAdmission__photo {
+  width: 180px;
+  height: 180px;
+
+  object-fit: cover;
+
+  border-radius: 20px;
+  border: 2px solid #e6e9ff;
+}
+
+.PreAdmission__uploadBtn {
+  width: 180px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: white;
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+}
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.PreAdmission__formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.PreAdmission__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.PreAdmission__field label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #475569;
+}
+
+.PreAdmission__field input,
+.PreAdmission__field select,
+.PreAdmission__field textarea {
+  border: 1px solid #dbe2ff;
+  border-radius: 12px;
+
+  padding: 14px;
+
+  font-size: 14px;
+
+  outline: none;
+
+  background: #fafbff;
+}
+
+.PreAdmission__field input:focus,
+.PreAdmission__field select:focus,
+.PreAdmission__field textarea:focus {
+  border-color: #5b5cf6;
+  background: white;
+}
+
+.PreAdmission__fieldFull {
+  grid-column: span 2;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.PreAdmission__modalFooter {
+  padding: 22px 30px;
+
+  border-top: 1px solid #ececec;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.PreAdmission__cancelBtn {
+  border: none;
+
+  padding: 12px 24px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.PreAdmission__saveBtn {
+  border: none;
+
+  padding: 12px 28px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: white;
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+
+  .PreAdmission {
+    padding: 16px;
+  }
+
+  .PreAdmission__modalContainer {
+    width: 92%;
+  }
+
+  .PreAdmission__modalBody {
+    grid-template-columns: 1fr;
+  }
+
+  .PreAdmission__photoSection {
+    order: -1;
+  }
+
+  .PreAdmission__formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .PreAdmission__tableWrapper {
+    display: none;
+  }
+
+  .PreAdmission__mobileCards {
+    display: block;
+  }
+
+  .PreAdmission__modalContainer {
+    width: 96%;
+    max-height: 95vh;
+  }
+
+  .PreAdmission__modalBody {
+    padding: 18px;
+  }
+
+  .PreAdmission__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .PreAdmission__fieldFull {
+    grid-column: span 1;
+  }
+
+  .PreAdmission__modalFooter {
+    flex-direction: column;
+  }
+
+  .PreAdmission__saveBtn,
+  .PreAdmission__cancelBtn {
+    width: 100%;
+  }
+
+  .PreAdmission__photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .PreAdmission__uploadBtn {
+    width: 140px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .PreAdmission__header {
+    flex-direction: column;
+  }
+
+  .PreAdmission__searchBox {
+    width: 100%;
+  }
+
+  .PreAdmission__addBtn {
+    width: 100%;
+  }
+
+  .PreAdmission__modalHeader {
+    padding: 18px;
+  }
+
+  .PreAdmission__modalHeader h2 {
+    font-size: 18px;
+  }
+}
+
+/* =========================================
+   SWEET ALERT
+========================================= */
+
+.swal2-popup {
+  border-radius: 18px !important;
+}
+
+.swal2-confirm {
+  border-radius: 10px !important;
+}
+
+.swal2-cancel {
+  border-radius: 10px !important;
+}
+
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.PreAdmission__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.PreAdmission__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(5px);
+}
+
+/* =========================================
+   MODAL CONTAINER
+========================================= */
+
+.PreAdmission__modalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 85%;
+  max-width: 1100px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #fff;
+  border-radius: 24px;
+
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.18);
+
+  z-index: 10000;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.PreAdmission__modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 24px 30px;
+
+  border-bottom: 1px solid #ececec;
+}
+
+.PreAdmission__modalHeader h2 {
+  margin: 0;
+
+  color: #5b5cf6;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.PreAdmission__closeBtn {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  background: #f3f4ff;
+  color: #5b5cf6;
+
+  font-size: 28px;
+
+  transition: 0.3s;
+}
+
+.PreAdmission__closeBtn:hover {
+  background: #5b5cf6;
+  color: #fff;
+}
+
+/* =========================================
+   BODY
+========================================= */
+
+.PreAdmission__modalBody {
+  padding: 28px;
+
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+}
+
+/* =========================================
+   PHOTO SECTION
+========================================= */
+
+.PreAdmission__photoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.PreAdmission__photo {
+  width: 180px;
+  height: 180px;
+
+  object-fit: cover;
+
+  border-radius: 20px;
+
+  border: 3px solid #e8ebff;
+  background: #f7f8ff;
+}
+
+.PreAdmission__uploadBtn {
+  width: 180px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: #fff;
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+}
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.PreAdmission__formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.PreAdmission__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.PreAdmission__field label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #475569;
+}
+
+.PreAdmission__field input,
+.PreAdmission__field select,
+.PreAdmission__field textarea {
+  width: 100%;
+
+  border: 1px solid #dbe2ff;
+  border-radius: 12px;
+
+  padding: 14px;
+
+  outline: none;
+
+  font-size: 14px;
+
+  background: #fafbff;
+
+  transition: 0.3s;
+}
+
+.PreAdmission__field input:focus,
+.PreAdmission__field select:focus,
+.PreAdmission__field textarea:focus {
+  border-color: #5b5cf6;
+  background: #fff;
+}
+
+.PreAdmission__field textarea {
+  resize: vertical;
+}
+
+.PreAdmission__fieldFull {
+  grid-column: span 2;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.PreAdmission__modalFooter {
+  padding: 22px 30px;
+
+  border-top: 1px solid #ececec;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.PreAdmission__cancelBtn {
+  border: none;
+
+  padding: 12px 24px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  background: #f1f5f9;
+
+  font-weight: 600;
+}
+
+.PreAdmission__saveBtn {
+  border: none;
+
+  padding: 12px 30px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: #fff;
+  font-weight: 600;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  box-shadow:
+    0 10px 25px rgba(91, 92, 246, 0.25);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+
+  .PreAdmission__modalContainer {
+    width: 92%;
+  }
+
+  .PreAdmission__modalBody {
+    grid-template-columns: 1fr;
+  }
+
+  .PreAdmission__photoSection {
+    order: -1;
+  }
+
+  .PreAdmission__formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .PreAdmission__modalContainer {
+    width: 96%;
+    max-height: 95vh;
+  }
+
+  .PreAdmission__modalBody {
+    padding: 18px;
+  }
+
+  .PreAdmission__photoSection {
+    order: -1;
+  }
+
+  .PreAdmission__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .PreAdmission__fieldFull {
+    grid-column: span 1;
+  }
+
+  .PreAdmission__modalFooter {
+    flex-direction: column;
+  }
+
+  .PreAdmission__saveBtn,
+  .PreAdmission__cancelBtn {
+    width: 100%;
+  }
+
+  .PreAdmission__photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .PreAdmission__uploadBtn {
+    width: 140px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .PreAdmission__modalHeader {
+    padding: 18px;
+  }
+
+  .PreAdmission__modalHeader h2 {
+    font-size: 18px;
+  }
+
+  .PreAdmission__photo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .PreAdmission__uploadBtn {
+    width: 120px;
+    height: 40px;
+    font-size: 13px;
+  }
+}
+
+/* pagination */
+
+.PreAdmission__pagination {
+  margin-top: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.PreAdmission__pageSize {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.PreAdmission__pageSize select {
+  height: 40px;
+
+  border: 1px solid #dbe2ff;
+  border-radius: 10px;
+
+  padding: 0 12px;
+}
+
+.PreAdmission__pageInfo {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.PreAdmission__pageBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.PreAdmission__pageBtns button {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f3f4ff;
+
+  color: #5b5cf6;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PreAdmission__pageBtns button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+
+  .PreAdmission__pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .PreAdmission__pageSize,
+  .PreAdmission__pageBtns {
+    justify-content: center;
+  }
+}

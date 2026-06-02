@@ -1,0 +1,560 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.StaffVisitMeeting {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f5f7ff;
+}
+
+.StaffVisitMeeting__card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(91, 92, 246, 0.08);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.StaffVisitMeeting__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+
+.StaffVisitMeeting__searchBox {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  height: 54px;
+
+  border: 1px solid #e5e7ff;
+  border-radius: 14px;
+
+  padding: 0 18px;
+
+  background: #fafbff;
+}
+
+.StaffVisitMeeting__searchBox svg {
+  color: #5b5cf6;
+}
+
+.StaffVisitMeeting__searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+}
+
+.StaffVisitMeeting__filterWrapper {
+  position: relative;
+}
+
+.StaffVisitMeeting__filterBtn,
+.StaffVisitMeeting__addBtn {
+  width: 54px;
+  height: 54px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  color: white;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+
+  transition: .3s;
+}
+
+.StaffVisitMeeting__filterBtn:hover,
+.StaffVisitMeeting__addBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   COLUMN MENU
+========================================= */
+
+.StaffVisitMeeting__columnMenu {
+  position: absolute;
+  top: 65px;
+  right: 0;
+
+  width: 220px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.12);
+
+  padding: 15px;
+
+  z-index: 100;
+}
+
+.StaffVisitMeeting__columnMenu label {
+  display: flex;
+  gap: 10px;
+
+  margin-bottom: 12px;
+
+  cursor: pointer;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.StaffVisitMeeting__tableWrapper {
+  overflow-x: auto;
+}
+
+.StaffVisitMeeting__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.StaffVisitMeeting__table thead {
+  background: #f7f8ff;
+}
+
+.StaffVisitMeeting__table th {
+  padding: 16px;
+
+  text-align: left;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #475569;
+}
+
+.StaffVisitMeeting__table td {
+  padding: 16px;
+
+  border-top: 1px solid #edf1ff;
+}
+
+.StaffVisitMeeting__tableRow {
+  cursor: pointer;
+  transition: .3s;
+}
+
+.StaffVisitMeeting__tableRow:hover {
+  background: #fafbff;
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.StaffVisitMeeting__deleteBtn {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #fee2e2;
+
+  color: #ef4444;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   MOBILE CARDS
+========================================= */
+
+.StaffVisitMeeting__mobileCards {
+  display: none;
+}
+
+.StaffVisitMeeting__mobileCard {
+  background: white;
+
+  border: 1px solid #edf1ff;
+
+  border-radius: 18px;
+
+  padding: 16px;
+
+  margin-bottom: 15px;
+}
+
+.StaffVisitMeeting__mobileRow {
+  margin-bottom: 12px;
+}
+
+.StaffVisitMeeting__mobileRow span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.StaffVisitMeeting__mobileRow p {
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.StaffVisitMeeting__pagination {
+  margin-top: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+}
+
+.StaffVisitMeeting__pageSize {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.StaffVisitMeeting__pageSize select {
+  height: 40px;
+
+  border: 1px solid #dbe2ff;
+  border-radius: 10px;
+
+  padding: 0 10px;
+}
+
+.StaffVisitMeeting__pageInfo {
+  color: #64748b;
+}
+
+.StaffVisitMeeting__pageBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.StaffVisitMeeting__pageBtns button {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #f3f4ff;
+
+  color: #5b5cf6;
+
+  cursor: pointer;
+
+  padding-left: 10px;
+}
+
+.StaffVisitMeeting__pageBtns button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.StaffVisitMeeting__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.StaffVisitMeeting__overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(15,23,42,.45);
+  backdrop-filter: blur(4px);
+}
+
+.StaffVisitMeeting__modalContainer {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 90%;
+  max-width: 850px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  animation: StaffVisitMeetingModal .3s ease;
+}
+
+@keyframes StaffVisitMeetingModal {
+
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -45%)
+      scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+}
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.StaffVisitMeeting__modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 22px 28px;
+
+  border-bottom: 1px solid #eceff8;
+}
+
+.StaffVisitMeeting__modalHeader h2 {
+  margin: 0;
+
+  color: #5b5cf6;
+
+  font-size: 24px;
+}
+
+.StaffVisitMeeting__closeBtn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f3f4ff;
+
+  color: #5b5cf6;
+
+  cursor: pointer;
+
+  font-size: 22px;
+}
+
+/* =========================================
+   MODAL BODY
+========================================= */
+
+.StaffVisitMeeting__modalBody {
+  padding: 28px;
+}
+
+.StaffVisitMeeting__formGrid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 18px;
+}
+
+.StaffVisitMeeting__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.StaffVisitMeeting__field label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #475569;
+}
+
+.StaffVisitMeeting__field input,
+.StaffVisitMeeting__field select,
+.StaffVisitMeeting__field textarea {
+  border: 1px solid #dbe2ff;
+
+  border-radius: 12px;
+
+  padding: 14px;
+
+  background: #fafbff;
+
+  outline: none;
+}
+
+.StaffVisitMeeting__field textarea {
+  resize: none;
+}
+
+.StaffVisitMeeting__fieldFull {
+  grid-column: span 2;
+}
+
+/* =========================================
+   MODAL FOOTER
+========================================= */
+
+.StaffVisitMeeting__modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+
+  padding: 20px 28px;
+
+  border-top: 1px solid #eceff8;
+}
+
+.StaffVisitMeeting__cancelBtn {
+  border: none;
+
+  padding: 12px 24px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  background: #f1f5f9;
+}
+
+.StaffVisitMeeting__saveBtn {
+  border: none;
+
+  padding: 12px 28px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  box-shadow:
+    0 10px 25px rgba(91,92,246,.25);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+
+  .StaffVisitMeeting {
+    padding: 16px;
+  }
+
+  .StaffVisitMeeting__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .StaffVisitMeeting__fieldFull {
+    grid-column: span 1;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .StaffVisitMeeting__tableWrapper {
+    display: none;
+  }
+
+  .StaffVisitMeeting__mobileCards {
+    display: block;
+  }
+
+  .StaffVisitMeeting__header {
+    flex-wrap: wrap;
+  }
+
+  .StaffVisitMeeting__searchBox {
+    width: 100%;
+  }
+
+  .StaffVisitMeeting__pagination {
+    flex-direction: column;
+  }
+
+  .StaffVisitMeeting__modalContainer {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .StaffVisitMeeting__modalFooter {
+    flex-direction: column;
+  }
+
+  .StaffVisitMeeting__saveBtn,
+  .StaffVisitMeeting__cancelBtn {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .StaffVisitMeeting__card {
+    padding: 16px;
+  }
+
+  .StaffVisitMeeting__modalHeader h2 {
+    font-size: 18px;
+  }
+
+  .StaffVisitMeeting__searchBox {
+    height: 48px;
+  }
+
+  .StaffVisitMeeting__addBtn,
+  .StaffVisitMeeting__filterBtn {
+    width: 48px;
+    height: 48px;
+  }
+}

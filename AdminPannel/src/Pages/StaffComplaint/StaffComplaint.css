@@ -1,0 +1,726 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.StaffComplaint {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f6f8ff;
+}
+
+.StaffComplaint__card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(91, 92, 246, 0.08);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.StaffComplaint__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.StaffComplaint__searchBox {
+  flex: 1;
+  height: 54px;
+  border: 1px solid #e5e7ff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: #fafbff;
+}
+
+.StaffComplaint__searchBox svg {
+  color: #5b5cf6;
+}
+
+.StaffComplaint__searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.StaffComplaint__headerBtns {
+  display: flex;
+  gap: 12px;
+}
+
+.StaffComplaint__typeBtn,
+.StaffComplaint__addBtn {
+  border: none;
+  cursor: pointer;
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.StaffComplaint__typeBtn {
+  height: 54px;
+  padding: 0 18px;
+  background: #eef2ff;
+  color: #5b5cf6;
+}
+
+.StaffComplaint__addBtn {
+  width: 54px;
+  height: 54px;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b5cf6
+  );
+  padding-left: 16px;
+}
+
+/* =========================================
+   COMPLAINT CARDS
+========================================= */
+
+.StaffComplaint__list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.StaffComplaint__complaintCard {
+  position: relative;
+  padding: 22px;
+  border-radius: 20px;
+  background: white;
+  border: 1px solid #edf0ff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.StaffComplaint__complaintCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(91, 92, 246, 0.08);
+}
+
+.StaffComplaint__details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.StaffComplaint__detailRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.StaffComplaint__detailRow span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.StaffComplaint__detailRow p {
+  margin: 0;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.StaffComplaint__status {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.StaffComplaint__statusPending {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.StaffComplaint__statusResolved {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.StaffComplaint__statusRejected {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.StaffComplaint__deleteBtn {
+  margin-top: 18px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  background: #fee2e2;
+  color: #ef4444;
+  cursor: pointer;
+  padding-left: 13px;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.StaffComplaint__pagination {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.StaffComplaint__pageSize {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.StaffComplaint__pageSize select {
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid #dbe2ff;
+  padding: 0 10px;
+}
+
+.StaffComplaint__pageInfo {
+  color: #64748b;
+}
+
+.StaffComplaint__pageBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.StaffComplaint__pageBtns button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #5b5cf6;
+}
+
+/* =========================================
+   MODAL OVERLAY
+========================================= */
+
+.StaffComplaint__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.StaffComplaint__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(6px);
+  animation: StaffComplaintFade .25s ease;
+}
+
+@keyframes StaffComplaintFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   MAIN MODAL
+========================================= */
+
+.StaffComplaint__modalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 92%;
+  max-width: 760px;
+  max-height: 92vh;
+
+  overflow-y: auto;
+
+  background: #fff;
+
+  border-radius: 24px;
+
+  transform: translate(-50%, -50%);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.18);
+
+  animation:
+    StaffComplaintModal .25s ease;
+}
+
+@keyframes StaffComplaintModal {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -45%)
+      scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+}
+
+/* =========================================
+   SMALL MODAL
+========================================= */
+
+.StaffComplaint__smallModal {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 92%;
+  max-width: 520px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  transform:
+    translate(-50%, -50%);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.18);
+
+  animation:
+    StaffComplaintModal .25s ease;
+}
+
+/* =========================================
+   COMPLAINT TYPE MODAL
+========================================= */
+
+.StaffComplaint__typeModal {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 92%;
+  max-width: 700px;
+
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 24px;
+
+  transform:
+    translate(-50%, -50%);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.18);
+
+  animation:
+    StaffComplaintModal .25s ease;
+}
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.StaffComplaint__modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 22px 26px;
+
+  border-bottom:
+    1px solid #edf0ff;
+}
+
+.StaffComplaint__modalHeader h2 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  color: #5b5cf6;
+}
+
+.StaffComplaint__closeBtn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  background: #eef2ff;
+
+  color: #5b5cf6;
+   padding-left: 10px;
+}
+
+/* =========================================
+   MODAL BODY
+========================================= */
+
+.StaffComplaint__modalBody {
+  padding: 24px;
+}
+
+.StaffComplaint__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.StaffComplaint__field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.StaffComplaint__field input,
+.StaffComplaint__field textarea,
+.StaffComplaint__field select {
+  width: 100%;
+
+  border: 1px solid #dbe2ff;
+
+  border-radius: 14px;
+
+  padding: 14px;
+
+  font-size: 14px;
+
+  outline: none;
+
+  background: #fafbff;
+
+  transition: .25s;
+}
+
+.StaffComplaint__field input:focus,
+.StaffComplaint__field textarea:focus,
+.StaffComplaint__field select:focus {
+  border-color: #5b5cf6;
+  background: white;
+}
+
+.StaffComplaint__field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* =========================================
+   SELECT WITH BUTTON
+========================================= */
+
+.StaffComplaint__selectWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.StaffComplaint__selectWrapper select {
+  flex: 1;
+}
+
+.StaffComplaint__typeAddBtn {
+  width: 50px;
+  min-width: 50px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b5cf6,
+      #8b5cf6
+    );
+
+    padding-left: 15px;
+}
+
+/* =========================================
+   CHECKBOX
+========================================= */
+
+.StaffComplaint__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.StaffComplaint__checkbox input {
+  width: 18px;
+  height: 18px;
+}
+
+/* =========================================
+   STATUS RADIO
+========================================= */
+
+.StaffComplaint__statusBox {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.StaffComplaint__statusBox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-weight: 600;
+  color: #334155;
+}
+
+/* =========================================
+   MODAL FOOTER
+========================================= */
+
+.StaffComplaint__modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding: 22px 26px;
+
+  border-top:
+    1px solid #edf0ff;
+}
+
+.StaffComplaint__cancelBtn,
+.StaffComplaint__saveBtn {
+  border: none;
+
+  cursor: pointer;
+
+  padding: 12px 24px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+}
+
+.StaffComplaint__cancelBtn {
+  background: #f1f5f9;
+}
+
+.StaffComplaint__saveBtn {
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b5cf6,
+      #8b5cf6
+    );
+}
+
+/* =========================================
+   COMPLAINT TYPE LIST
+========================================= */
+
+.StaffComplaint__typeBody {
+  padding: 24px;
+}
+
+.StaffComplaint__newTypeBtn {
+  border: none;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  margin-bottom: 18px;
+
+  cursor: pointer;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b5cf6,
+      #8b5cf6
+    );
+}
+
+.StaffComplaint__typeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+
+  border: 1px solid #edf0ff;
+  border-radius: 14px;
+
+  margin-bottom: 12px;
+}
+
+.StaffComplaint__typeRow h4 {
+  margin: 0;
+}
+
+.StaffComplaint__typeRow p {
+  margin-top: 4px;
+  color: #64748b;
+}
+
+.StaffComplaint__typeActions {
+  display: flex;
+  gap: 10px;
+}
+
+.StaffComplaint__typeActions button {
+  border: none;
+
+  padding: 10px 14px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.StaffComplaint__typeActions button:first-child {
+  background: #eef2ff;
+  color: #5b5cf6;
+}
+
+.StaffComplaint__typeActions button:last-child {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+
+  .StaffComplaint {
+    padding: 16px;
+  }
+
+  .StaffComplaint__details {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .StaffComplaint__header {
+    flex-direction: column;
+  }
+
+  .StaffComplaint__headerBtns {
+    width: 100%;
+  }
+
+  .StaffComplaint__typeBtn {
+    flex: 1;
+  }
+
+  .StaffComplaint__addBtn {
+    width: 54px;
+  }
+
+  .StaffComplaint__pagination {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .StaffComplaint__modalFooter {
+    flex-direction: column;
+  }
+
+  .StaffComplaint__cancelBtn,
+  .StaffComplaint__saveBtn {
+    width: 100%;
+  }
+
+  .StaffComplaint__statusBox {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .StaffComplaint__typeRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .StaffComplaint__typeActions {
+    width: 100%;
+  }
+
+  .StaffComplaint__typeActions button {
+    flex: 1;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .StaffComplaint__modalHeader h2 {
+    font-size: 18px;
+  }
+
+  .StaffComplaint__modalBody {
+    padding: 18px;
+  }
+
+  .StaffComplaint__typeBody {
+    padding: 18px;
+  }
+}

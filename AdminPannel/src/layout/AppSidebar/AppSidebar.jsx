@@ -299,6 +299,12 @@ const menu = [
       { label: "Calender Planning", path: "/calender/planning" },
        { label: "Student Pop Form", path: "/student/popform" },
         { label: "Staff Gate Pass", path: "/staff/gatepass" },
+        { label: "Pre Admission", path: "/pre/admission" },
+        { label: "Staff Visit Meeting", path: "/staff/meet" },
+        { label: "Admin Complaint", path: "/admin/complaint" },
+        { label: "Staff Complaint", path: "/staff/complaint" },
+
+
       
 
 
