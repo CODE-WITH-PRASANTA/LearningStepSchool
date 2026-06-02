@@ -1,0 +1,389 @@
+.cm_container {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 16px;
+}
+
+/* ==========================
+   TOP BAR
+========================== */
+
+.cm_topbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #d8dbe2;
+  padding: 14px 20px;
+  border-radius: 12px 12px 0 0;
+}
+
+.cm_search_wrapper {
+  width: 45%;
+  position: relative;
+}
+
+.cm_search_icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #555;
+}
+
+.cm_search_input {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 30px;
+  padding-left: 50px;
+  font-size: 14px;
+  outline: none;
+}
+
+/* ==========================
+   ACTIONS
+========================== */
+
+.cm_topbar_actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cm_filter_btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.cm_add_btn {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.25);
+}
+
+/* ==========================
+   FILTER POPUP
+========================== */
+
+.cm_filter_popup {
+  position: absolute;
+  top: 75px;
+  right: 70px;
+  width: 260px;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+}
+
+.cm_filter_popup label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.cm_filter_popup input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.cm_table_wrapper {
+  background: white;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.cm_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cm_table th {
+  text-align: left;
+  padding: 18px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+}
+
+.cm_table td {
+  padding: 18px 20px;
+  border-top: 1px solid #ececec;
+  font-size: 15px;
+}
+
+.cm_table tbody tr:hover {
+  background: #fafbff;
+}
+
+/* ==========================
+   ACTION BUTTONS
+========================== */
+
+.cm_action_group {
+  display: flex;
+  gap: 10px;
+}
+
+.cm_edit_btn,
+.cm_delete_btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.cm_edit_btn {
+  background: #4f46e5;
+  color: white;
+}
+
+.cm_delete_btn {
+  background: #ef4444;
+  color: white;
+}
+
+.cm_edit_btn svg,
+.cm_delete_btn svg {
+  font-size: 18px;
+}
+
+/* ==========================
+   PAGINATION
+========================== */
+
+.cm_pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+}
+
+.cm_page_size {
+  font-size: 14px;
+}
+
+.cm_page_size select {
+  margin-left: 8px;
+  width: 85px;
+  height: 38px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 8px;
+}
+
+.cm_page_buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.cm_page_buttons button {
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  background: #f3f4f6;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+/* ==========================
+   MODAL
+========================== */
+
+.cm_modal_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.cm_modal {
+  width: 820px;
+  max-width: 95%;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.cm_modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #ececec;
+}
+
+.cm_modal_header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.cm_close_btn {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: #fdecec;
+  color: #555;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.cm_close_btn svg {
+  font-size: 28px;
+}
+
+/* ==========================
+   FORM
+========================== */
+
+.cm_form_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 24px;
+}
+
+.cm_form_grid input,
+.cm_form_grid select {
+  height: 56px;
+  border: 1px solid #d8d8d8;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 16px;
+  outline: none;
+}
+
+.cm_form_grid input:focus,
+.cm_form_grid select:focus {
+  border-color: #4f46e5;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+.cm_modal_footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.cm_cancel {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.cm_submit {
+  width: 130px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 768px) {
+  .cm_topbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .cm_search_wrapper {
+    width: 100%;
+  }
+
+  .cm_form_grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cm_table {
+    min-width: 800px;
+  }
+
+  .cm_table_wrapper {
+    overflow-x: auto;
+  }
+
+  .cm_pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cm_filter_popup {
+    width: 240px;
+    right: 10px;
+  }
+
+  .cm_modal {
+    width: 95%;
+  }
+
+  .cm_close_btn {
+    width: 50px;
+    height: 50px;
+  }
+}

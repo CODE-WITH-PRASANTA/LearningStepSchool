@@ -310,13 +310,27 @@ const menu = [
 
       
 
-      { label: "App Users", path: "/app/user" },
+      
       { label: "Student Gate Pass", path: "/student/gatepass" },
       { label: "Visitor Enquiry", path: "/visitor/enquiry" },
        
      ],
   },
 
+
+ { type: "divider" },
+  {
+     label: "Stationery",
+    icon: FiBook,
+  children: [
+      { label: "School Shop Information", path: "/school/information" },
+       { label: "Supplier Shop Master", path: "/school/supplymaster" },
+         { label: "Catagory Master", path: "catagory/master" },
+          { label: "Items Master", path: "catagorry/items" },
+      
+       
+     ],
+  },
 
   
     { type: "divider" },

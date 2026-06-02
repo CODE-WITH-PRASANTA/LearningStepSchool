@@ -1,0 +1,453 @@
+/* =========================================
+   SUPPLIER MASTER
+========================================= */
+
+.spm_container {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.spm_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2563eb;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.spm_searchBox {
+  position: relative;
+  width: 350px;
+  max-width: 100%;
+}
+
+.spm_searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 14px;
+}
+
+.spm_searchInput {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  padding: 0 15px 0 40px;
+  font-size: 14px;
+  background: #ffffff;
+  transition: 0.3s;
+}
+
+.spm_searchInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.spm_addButton {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 18px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 0.3s ease;
+}
+
+.spm_addButton:hover {
+  transform: scale(1.05);
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.spm_tableWrapper {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.spm_table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+/* =========================================
+   TABLE HEADER BLUE
+========================================= */
+
+.spm_table thead,
+.spm_table thead tr {
+  background: #2563eb !important;
+}
+
+.spm_table thead th {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  border: none;
+  white-space: nowrap;
+}
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.spm_table td {
+  padding: 14px;
+  font-size: 14px;
+  color: #374151;
+  text-align: center;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.spm_tableRow {
+  transition: 0.3s;
+}
+
+.spm_tableRow:hover {
+  background: #f8faff;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.spm_actionCell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.spm_editButton {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: #f59e0b;
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s;
+}
+
+.spm_editButton:hover {
+  background: #d97706;
+}
+
+.spm_deleteButton {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s;
+}
+
+.spm_deleteButton:hover {
+  background: #dc2626;
+}
+
+/* =========================================
+   MODAL OVERLAY
+========================================= */
+
+.spm_modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.spm_modal {
+  width: 100%;
+  max-width: 950px;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+
+  max-height: 95vh;
+
+  display: flex;
+  flex-direction: column;
+
+  animation: spmPopup 0.3s ease;
+}
+
+@keyframes spmPopup {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.spm_modalHeader {
+  background: #2563eb;
+  color: #ffffff;
+
+  padding: 18px 22px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spm_modalTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.spm_closeButton {
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s;
+}
+
+.spm_closeButton:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.spm_formGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+
+  padding: 25px;
+
+  overflow-y: auto;
+}
+
+.spm_formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.spm_input,
+.spm_textarea {
+  width: 100%;
+  border: 1px solid #d8dce6;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+  background: #ffffff;
+  transition: 0.3s;
+}
+
+.spm_input:focus,
+.spm_textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.spm_textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.spm_textareaWrapper {
+  grid-column: span 3;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.spm_modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding: 18px 25px;
+
+  border-top: 1px solid #edf0f5;
+  background: #fafbfc;
+}
+
+.spm_cancelButton,
+.spm_saveButton {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 24px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.spm_cancelButton {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.spm_cancelButton:hover {
+  background: #d1d5db;
+}
+
+.spm_saveButton {
+  background: #2563eb;
+  color: white;
+}
+
+.spm_saveButton:hover {
+  background: #1d4ed8;
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.spm_tableWrapper::-webkit-scrollbar,
+.spm_formGrid::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.spm_tableWrapper::-webkit-scrollbar-thumb,
+.spm_formGrid::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.spm_tableWrapper::-webkit-scrollbar-track,
+.spm_formGrid::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 992px) {
+  .spm_formGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .spm_textareaWrapper {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .spm_header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .spm_searchBox {
+    width: 100%;
+  }
+
+  .spm_addButton {
+    width: 100%;
+  }
+
+  .spm_formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .spm_textareaWrapper {
+    grid-column: span 1;
+  }
+
+  .spm_modal {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .spm_modalFooter {
+    flex-direction: column;
+  }
+
+  .spm_cancelButton,
+  .spm_saveButton {
+    width: 100%;
+  }
+}
