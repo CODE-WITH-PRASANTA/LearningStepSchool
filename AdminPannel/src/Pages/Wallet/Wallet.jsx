@@ -40,6 +40,15 @@ const monthNames = [
   "Dec",
 ];
 
+const sourceLabels = {
+  fee: "Fee",
+  expense: "Expense",
+  payroll: "Payroll",
+  otherIncome: "Other Income",
+};
+
+const formatSource = (source) => sourceLabels[source] || source || "-";
+
 const formatMoney = (amount = 0) =>
   new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -282,7 +291,7 @@ const Wallet = () => {
         <div>
           <span className="WalletHero__eyebrow">Finance wallet</span>
           <h1>Wallet Overview</h1>
-          <p>Track every fee credit and expense debit from one place.</p>
+          <p>Track every fee and income credit with every expense debit.</p>
         </div>
 
         <button className="WalletHero__refresh" onClick={() => fetchWallet()}>
@@ -319,7 +328,7 @@ const Wallet = () => {
               hasActiveFilters ? filteredTotals.credit : summary.credit,
             )}
           </strong>
-          <small>Fee and income inflow</small>
+          <small>Fee and other income inflow</small>
         </div>
 
         <div className="WalletStat">
@@ -370,7 +379,9 @@ const Wallet = () => {
         <select name="source" value={filters.source} onChange={updateFilter}>
           <option value="">All Sources</option>
           <option value="fee">Fee</option>
+          <option value="otherIncome">Other Income</option>
           <option value="expense">Expense</option>
+          <option value="payroll">Payroll</option>
         </select>
 
         <select name="year" value={filters.year} onChange={updateFilter}>
@@ -451,7 +462,12 @@ const Wallet = () => {
             .filter(([, value]) => value !== "")
             .map(([key, value]) => (
               <strong key={key}>
-                {key}: {key === "month" ? monthNames[Number(value) - 1] : value}
+                {key}:{" "}
+                {key === "month"
+                  ? monthNames[Number(value) - 1]
+                  : key === "source"
+                    ? formatSource(value)
+                    : value}
               </strong>
             ))}
         </div>
@@ -502,7 +518,9 @@ const Wallet = () => {
                           {tx.type}
                         </span>
                       </td>
-                      <td className="WalletSource">{tx.source}</td>
+                      <td className="WalletSource">
+                        {formatSource(tx.source)}
+                      </td>
                       <td className="WalletDescription">
                         {tx.description || "-"}
                       </td>
@@ -622,7 +640,7 @@ const Wallet = () => {
                 </div>
                 <div>
                   <span>Source</span>
-                  <strong>{selectedTx.source}</strong>
+                  <strong>{formatSource(selectedTx.source)}</strong>
                 </div>
                 <div>
                   <span>Amount</span>

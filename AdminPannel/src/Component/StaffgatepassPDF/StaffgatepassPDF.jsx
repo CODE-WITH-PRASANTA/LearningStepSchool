@@ -13,8 +13,22 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 import logo from "../../Assets/Learning-Step-Logo-1.png";
+import { IMAGE_URL } from "../../api/axios";
 
 import "./StaffGatePassPDF.css";
+
+const fallbackPhoto = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+const getImageUrl = (path) => {
+  if (!path) return fallbackPhoto;
+  if (path.startsWith("http")) return path;
+  return `${IMAGE_URL}${path}`;
+};
+
+const formatDate = (date) => {
+  if (!date) return "-";
+  return new Date(date).toLocaleDateString("en-IN");
+};
 
 const StaffGatePassPDF = () => {
 
@@ -67,7 +81,7 @@ const StaffGatePassPDF = () => {
     );
 
     pdf.save(
-      `StaffGatePass-${staff.name}.pdf`
+      `StaffGatePass-${staff.name || "Staff"}.pdf`
     );
   };
 
@@ -157,7 +171,7 @@ const StaffGatePassPDF = () => {
     <div className="staffGatePassPDF__dateSection">
 
       <div className="staffGatePassPDF__date">
-        Date : {staff.date}
+        Date : {formatDate(staff.date)}
       </div>
 
     </div>
@@ -208,7 +222,7 @@ const StaffGatePassPDF = () => {
               </label>
 
               <span className="staffGatePassPDF__fieldValue">
-                9999999999
+                {staff.contact || "-"}
               </span>
             </div>
 
@@ -258,7 +272,7 @@ const StaffGatePassPDF = () => {
             </div>
 
             <img
-              src={staff.photo}
+              src={getImageUrl(staff.photo || staff.image)}
               alt={staff.name}
               className="staffGatePassPDF__photoImage"
             />

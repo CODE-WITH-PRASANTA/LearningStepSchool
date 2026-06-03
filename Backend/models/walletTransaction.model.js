@@ -17,7 +17,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     source: {
       type: String,
-      enum: ["fee", "expense", "payroll"], // ✅ fixed
+      enum: ["fee", "expense", "payroll", "otherIncome"], // ✅ fixed
       required: true,
       index: true,
     },
