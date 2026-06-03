@@ -301,11 +301,29 @@ const menu = [
         { label: "Staff Gate Pass", path: "/staff/gatepass" },
 
       { label: "App Users", path: "/app/user" },
+        { label: "Pre Admission", path: "/pre/admission" },
+        { label: "Staff Visit Meeting", path: "/staff/meet" },
+        { label: "Admin Complaint", path: "/admin/complaint" },
+        { label: "Staff Complaint", path: "/staff/complaint" },
       { label: "Student Gate Pass", path: "/student/gatepass" },
       { label: "Visitor Enquiry", path: "/visitor/enquiry" },
        
      ],
   },
+ { type: "divider" },
+  {
+     label: "Stationery",
+    icon: FiBook,
+  children: [
+      { label: "School Shop Information", path: "/school/information" },
+       { label: "Supplier Shop Master", path: "/school/supplymaster" },
+         { label: "Catagory Master", path: "catagory/master" },
+          { label: "Items Master", path: "catagorry/items" },
+      
+       
+     ],
+  },
+
   
     { type: "divider" },
   {

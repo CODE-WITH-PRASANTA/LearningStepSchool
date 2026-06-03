@@ -1,0 +1,193 @@
+.visitorEnquiryPDF {
+  min-height: 100vh;
+  background: #f5f7ff;
+  padding: 40px 20px;
+}
+
+.visitorEnquiryPDF__topbar {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.visitorEnquiryPDF__backBtn,
+.visitorEnquiryPDF__downloadBtn {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+}
+
+.visitorEnquiryPDF__paper {
+  width: 100%;
+  max-width: 900px;
+
+  margin: auto;
+
+  background: white;
+
+  border: 2px solid #333;
+
+  padding: 20px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.15);
+}
+
+.visitorEnquiryPDF__header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
+  border-bottom: 2px solid #000;
+
+  padding-bottom: 10px;
+}
+
+.visitorEnquiryPDF__logo {
+  width: 90px;
+}
+
+.visitorEnquiryPDF__school {
+  flex: 1;
+  text-align: center;
+}
+
+.visitorEnquiryPDF__school h1 {
+  color: #5b5cf6;
+  margin: 0;
+  font-size: 38px;
+}
+
+.visitorEnquiryPDF__school h3 {
+  margin: 6px 0;
+}
+
+.visitorEnquiryPDF__school p {
+  margin: 2px;
+}
+
+.visitorEnquiryPDF__titleRow {
+  margin-top: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.visitorEnquiryPDF__titleRow h2 {
+  text-decoration: underline;
+}
+
+.visitorEnquiryPDF__content {
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.visitorEnquiryPDF__left {
+  flex: 1;
+}
+
+.visitorEnquiryPDF__field {
+  display: flex;
+  gap: 10px;
+
+  border-bottom: 1px dashed #000;
+
+  padding: 10px 0;
+}
+
+.visitorEnquiryPDF__photo img {
+  width: 120px;
+  height: 120px;
+
+  object-fit: cover;
+}
+
+.visitorEnquiryPDF__footer {
+  margin-top: 80px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.visitorEnquiryPDF__signLine {
+  width: 150px;
+  border-top: 1px solid #000;
+  margin-bottom: 5px;
+}
+
+.visitorEnquiryPDF__noData {
+  padding: 100px;
+  text-align: center;
+}
+
+/* TABLET */
+
+@media (max-width: 768px) {
+
+  .visitorEnquiryPDF__header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .visitorEnquiryPDF__content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .visitorEnquiryPDF__titleRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .visitorEnquiryPDF__school h1 {
+    font-size: 28px;
+  }
+
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+
+  .visitorEnquiryPDF {
+    padding: 15px;
+  }
+
+  .visitorEnquiryPDF__topbar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .visitorEnquiryPDF__backBtn,
+  .visitorEnquiryPDF__downloadBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .visitorEnquiryPDF__school h1 {
+    font-size: 22px;
+  }
+
+  .visitorEnquiryPDF__footer {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+}

@@ -147,14 +147,26 @@ import AssignRoutes from "./Pages/AssignRoutes/AssignRoutes";
 import TransportVehicleRoute from "./Pages/TransportVehicleRoute/TransportVehicleRoute";
 import Promotion from "./Pages/Promotion/Promotion";
 import StudentPortfolio from "./Pages/StudentPortfolio/StudentPortfolio";
+// import Appuser from "./Pages/Appuser/Appuser";
 import StudentGatepass from "./Pages/StudentGatepass/StudentGatepass";
 import StudentGatepassPrint from "./Component/StudentGatepassPrint/StudentGatepassPrint";
+import VisitorEnquiry from "./Pages/VisitorEnquiry/VisitorEnquiry";
+import VisitorEnquiryPDF from "./Component/VisitorEnquiryPDF/VisitorEnquiryPDF";
 
-import CalenderPlanning from "./Pages/CalenderPlanning/CalenderPlanning";
 import StudentPopForm from "./Pages/StudentPopForm/StudentPopForm";
 import StaffgatePass from "./Pages/StaffgatePass/StaffgatePass";
 import StaffgatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
 import StaffGatePassPDF from "./Component/StaffgatepassPDF/StaffgatepassPDF";
+import PreAdmission from "./Pages/PreAdmission/PreAdmission";
+import PreAdmissionPDF from "./Component/PreAdmissionPDF/PreAdmissionPDF";
+import StaffVisitMeeting from "./Pages/StaffVisitMeeting/StaffVisitMeeting";
+import AdminComplaint from "./Pages/AdminComplaint/AdminComplaint";
+import StaffComplaint from "./Pages/StaffComplaint/StaffComplaint";
+import ShopInformation from "./Pages/ShopInformation/ShopInformation";
+import SupplierMaster from "./Pages/SupplierMaster/SupplierMaster";
+import CatagoryMaster from "./Pages/CatagoryMaster/CatagoryMaster";
+import ItemsMaster from "./Pages/ItemsMaster/ItemsMaster";
+
 
 /* ===================== APP ===================== */
 
@@ -248,7 +260,6 @@ export default function App() {
           />
           <Route path="attendance/student-leave" element={<Studentleave />} />
           <Route path="attendance/student-leave/add" element={<Editleave />} />
-
 
           {/* FAQ */}
           <Route path="faq" element={<FaqPosting />} />
@@ -437,26 +448,50 @@ export default function App() {
           />
           <Route path="/student/Promotion" element={<Promotion />} />
           <Route path="/student/portfolio" element={<StudentPortfolio />} />
-          <Route path="/calender/planning" element={<CalenderPlanning />} />
+        
           <Route path="/student/popform" element={<StudentPopForm />} />
           <Route path="/staff/gatepass" element={<StaffgatePass />} />
           <Route path="/staff-gate-pass/pdf" element={<StaffGatePassPDF />} />
           {/* Ticket Generator */}
-          <Route path="/ticket/generator" element={<Ticket/>}/>
+          <Route path="/ticket/generator" element={<Ticket />} />
           {/* Transport */}
-          <Route path="/transport/vehicle" element={<TransportVehicle/>}/>
-          <Route path="/transport/route"element={<TransportRoute/>}/>
-          <Route path="/transport/destination" element={<TransportDestination/>}/>
-          <Route path="/transport/routesAssigne" element={<AssignRoutes/>}/>
-          <Route path="/transport/vehicleroute" element={<TransportVehicleRoute/>}/>
+          <Route path="/transport/vehicle" element={<TransportVehicle />} />
+          <Route path="/transport/route" element={<TransportRoute />} />
+          <Route
+            path="/transport/destination"
+            element={<TransportDestination />}
+          />
+          <Route path="/transport/routesAssigne" element={<AssignRoutes />} />
+          <Route
+            path="/transport/vehicleroute"
+            element={<TransportVehicleRoute />}
+          />
 
 
-
-          
-          <Route path="/student/Promotion" element={<Promotion/>}/>
-          <Route path="/student/portfolio" element={<StudentPortfolio/>}/>
           <Route path="/student/gatepass" element={<StudentGatepass/>}/>
           <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
+        
+          <Route path="/school/information"element={<ShopInformation/>}/>
+          <Route path="/student/Promotion" element={<Promotion />} />
+          <Route path="/student/portfolio" element={<StudentPortfolio />} />
+          {/* <Route path="/app/user" element={<Appuser />} /> */}
+          <Route path="/student/gatepass" element={<StudentGatepass />} />
+          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint />} />
+         
+          <Route path="/pre/admission" element={<PreAdmission/>}/>
+          <Route path="/preadmission-pdf/:id" element={<PreAdmissionPDF/>}/>
+          <Route path="/staff/meet" element={<StaffVisitMeeting/>}/>
+          <Route path="/admin/complaint" element={<AdminComplaint/>} />
+          <Route path="/staff/complaint" element={<StaffComplaint/>} />
+          
+          <Route path="/student/gatepass" element={<StudentGatepass />} />
+          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint />} />
+          <Route path="/visitor/enquiry" element={<VisitorEnquiry />} />
+          <Route path="/visitor-enquiry/print/:id" element={<VisitorEnquiryPDF />}/>
+          <Route path="/school/supplymaster" element={<SupplierMaster/>}/>
+          <Route path="catagory/master" element={<CatagoryMaster/>}/>
+          <Route path="catagorry/items" element={<ItemsMaster/>}/>
+
         </Route>
 
         {/* ===== FALLBACK ===== */}

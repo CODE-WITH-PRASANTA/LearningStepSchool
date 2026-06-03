@@ -1,0 +1,663 @@
+/* =========================================
+   PAGE
+========================================= */
+
+.AdminComplaint {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  background: #f5f7ff;
+}
+
+.AdminComplaint__card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 40px rgba(91, 92, 246, 0.08);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.AdminComplaint__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.AdminComplaint__searchBox {
+  flex: 1;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid #e5e7ff;
+  background: #fafbff;
+}
+
+.AdminComplaint__searchBox svg {
+  color: #5b5cf6;
+}
+
+.AdminComplaint__searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 15px;
+}
+
+.AdminComplaint__addBtn {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+  transition: 0.3s;
+  padding-left: 16px;
+}
+
+.AdminComplaint__addBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.AdminComplaint__tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.AdminComplaint__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.AdminComplaint__table thead {
+  background: #f7f8ff;
+}
+
+.AdminComplaint__table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 13px;
+  color: #475569;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.AdminComplaint__table td {
+  padding: 16px;
+  border-top: 1px solid #eef1ff;
+}
+
+.AdminComplaint__tableRow {
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.AdminComplaint__tableRow:hover {
+  background: #fafbff;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.AdminComplaint__deleteBtn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #fee2e2;
+  color: #ef4444;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   MOBILE CARDS
+========================================= */
+
+.AdminComplaint__mobileCards {
+  display: none;
+}
+
+.AdminComplaint__mobileCard {
+  background: #fff;
+  border: 1px solid #edf0ff;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.AdminComplaint__mobileRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.AdminComplaint__mobileRow span {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.AdminComplaint__mobileRow p {
+  margin: 0;
+  text-align: right;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.AdminComplaint__pagination {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.AdminComplaint__pageSize {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.AdminComplaint__pageSize select {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid #dbe2ff;
+}
+
+.AdminComplaint__pageInfo {
+  color: #64748b;
+}
+
+.AdminComplaint__pageBtns {
+  display: flex;
+  gap: 10px;
+}
+
+.AdminComplaint__pageBtns button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  background: #f3f4ff;
+  color: #5b5cf6;
+  padding-left: 10px;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.AdminComplaint__modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.AdminComplaint__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(5px);
+}
+
+.AdminComplaint__modalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  transform: translate(-50%, -50%);
+
+  background: #fff;
+  border-radius: 24px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.15);
+
+  z-index: 10000;
+}
+
+.AdminComplaint__smallModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  width: 500px;
+  max-width: 95%;
+
+  transform: translate(-50%, -50%);
+
+  background: #fff;
+  border-radius: 24px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.15);
+
+  z-index: 10000;
+}
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.AdminComplaint__modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 22px 28px;
+
+  border-bottom: 1px solid #eceff8;
+}
+
+.AdminComplaint__modalHeader h2 {
+  margin: 0;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  color: #5b5cf6;
+}
+
+.AdminComplaint__closeBtn {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f4f6ff;
+
+  color: #5b5cf6;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: .3s;
+}
+
+.AdminComplaint__closeBtn:hover {
+  background: #5b5cf6;
+  color: #fff;
+}
+
+/* =========================================
+   MODAL BODY
+========================================= */
+
+.AdminComplaint__modalBody {
+  padding: 28px;
+}
+
+.AdminComplaint__formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.AdminComplaint__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.AdminComplaint__field label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  color: #475569;
+}
+
+.AdminComplaint__field input,
+.AdminComplaint__field select,
+.AdminComplaint__field textarea {
+  width: 100%;
+
+  border: 1px solid #dbe2ff;
+  border-radius: 12px;
+
+  padding: 14px;
+
+  outline: none;
+
+  font-size: 14px;
+
+  background: #fafbff;
+
+  transition: .3s;
+}
+
+.AdminComplaint__field input:focus,
+.AdminComplaint__field select:focus,
+.AdminComplaint__field textarea:focus {
+  border-color: #5b5cf6;
+  background: #fff;
+}
+
+.AdminComplaint__field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.AdminComplaint__fieldFull {
+  grid-column: span 2;
+}
+
+/* =========================================
+   RADIO GROUP
+========================================= */
+
+.AdminComplaint__radioGroup {
+  display: flex;
+  gap: 30px;
+
+  margin-bottom: 24px;
+}
+
+.AdminComplaint__radioGroup label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-weight: 600;
+  color: #334155;
+
+  cursor: pointer;
+}
+
+.AdminComplaint__radioGroup input[type="radio"] {
+  accent-color: #5b5cf6;
+}
+
+/* =========================================
+   TYPE DROPDOWN
+========================================= */
+
+.AdminComplaint__typeWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.AdminComplaint__typeWrapper select {
+  flex: 1;
+}
+
+.AdminComplaint__typeAddBtn {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  color: #fff;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================================
+   TYPE MODAL
+========================================= */
+
+.AdminComplaint__typeModalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  width: 900px;
+  max-width: 95%;
+
+  max-height: 90vh;
+  overflow-y: auto;
+
+  transform: translate(-50%, -50%);
+
+  background: #fff;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.15);
+
+  z-index: 10000;
+}
+
+.AdminComplaint__typeHeader {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 20px 24px;
+}
+
+/* =========================================
+   MODAL FOOTER
+========================================= */
+
+.AdminComplaint__modalFooter {
+  padding: 22px 28px;
+
+  border-top: 1px solid #eceff8;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.AdminComplaint__cancelBtn {
+  border: none;
+
+  padding: 12px 24px;
+
+  border-radius: 12px;
+
+  background: #f1f5f9;
+
+  color: #334155;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.AdminComplaint__saveBtn {
+  border: none;
+
+  padding: 12px 28px;
+
+  border-radius: 12px;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  background: linear-gradient(
+    135deg,
+    #5b5cf6,
+    #8b4dff
+  );
+
+  box-shadow:
+    0 10px 25px rgba(
+      91,
+      92,
+      246,
+      .25
+    );
+}
+
+/* =========================================
+   SWEET ALERT
+========================================= */
+
+.swal2-popup {
+  border-radius: 20px !important;
+}
+
+.swal2-confirm {
+  border-radius: 10px !important;
+}
+
+.swal2-cancel {
+  border-radius: 10px !important;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 992px) {
+
+  .AdminComplaint {
+    padding: 16px;
+  }
+
+  .AdminComplaint__card {
+    padding: 18px;
+  }
+
+  .AdminComplaint__modalContainer {
+    width: 92%;
+  }
+
+  .AdminComplaint__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .AdminComplaint__fieldFull {
+    grid-column: span 1;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .AdminComplaint__tableWrapper {
+    display: none;
+  }
+
+  .AdminComplaint__mobileCards {
+    display: block;
+  }
+
+  .AdminComplaint__header {
+    flex-direction: column;
+  }
+
+  .AdminComplaint__searchBox {
+    width: 100%;
+  }
+
+  .AdminComplaint__addBtn {
+    width: 100%;
+    border-radius: 14px;
+  }
+
+  .AdminComplaint__pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .AdminComplaint__pageSize,
+  .AdminComplaint__pageBtns {
+    justify-content: center;
+  }
+
+  .AdminComplaint__modalContainer,
+  .AdminComplaint__typeModalContainer,
+  .AdminComplaint__smallModal {
+    width: 96%;
+    max-height: 95vh;
+  }
+
+  .AdminComplaint__modalBody {
+    padding: 18px;
+  }
+
+  .AdminComplaint__radioGroup {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .AdminComplaint__modalFooter {
+    flex-direction: column;
+  }
+
+  .AdminComplaint__saveBtn,
+  .AdminComplaint__cancelBtn {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .AdminComplaint__modalHeader {
+    padding: 18px;
+  }
+
+  .AdminComplaint__modalHeader h2 {
+    font-size: 18px;
+  }
+
+  .AdminComplaint__mobileCard {
+    padding: 14px;
+  }
+}
