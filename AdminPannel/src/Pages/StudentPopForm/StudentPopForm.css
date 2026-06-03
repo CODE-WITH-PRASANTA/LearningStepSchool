@@ -1,0 +1,470 @@
+/* =====================================================
+   MAIN PAGE
+===================================================== */
+
+.student-popup-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.spf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.spf-search-box {
+  width: 500px;
+  max-width: 100%;
+  height: 52px;
+  background: #ffffff;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.spf-search-box svg {
+  font-size: 18px;
+  color: #666;
+}
+
+.spf-search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding-left: 12px;
+  font-size: 15px;
+  background: transparent;
+}
+
+.spf-add-btn {
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+  font-size: 22px;
+  box-shadow: 0 10px 25px rgba(79,70,229,.35);
+  transition: .3s;
+  padding-left: 17px;
+}
+
+.spf-add-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* =====================================================
+   TABLE CARD
+===================================================== */
+
+.spf-table-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+}
+
+.spf-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spf-table thead {
+  background: #f8f9fd;
+}
+
+.spf-table th {
+  padding: 22px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.spf-table td {
+  padding: 22px;
+  border-bottom: 1px solid #ececec;
+  font-size: 15px;
+}
+
+.spf-table tr:hover {
+  background: #fafafa;
+}
+
+.spf-table-img {
+  width: 190px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
+
+.spf-action-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.spf-edit-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+  transition: .3s;
+  padding-left: 14px;
+}
+
+.spf-edit-btn:hover {
+  transform: scale(1.08);
+}
+
+.spf-delete-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+  transition: .3s;
+  padding-left: 14px;
+}
+
+.spf-delete-btn:hover {
+  transform: scale(1.08);
+}
+
+/* =====================================================
+   MODAL OVERLAY
+===================================================== */
+
+.spf-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 15px;
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.spf-modal {
+  width: 850px;
+  max-width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  animation: popup .25s ease;
+}
+
+@keyframes popup {
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.spf-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 25px;
+  border-bottom: 1px solid #ececec;
+}
+
+.spf-modal-header h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #111827;
+}
+
+.spf-modal-header button {
+  width: 50px;
+  height: 50px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* =====================================================
+   MODAL BODY
+===================================================== */
+
+.spf-modal-body {
+  display: flex;
+  gap: 20px;
+  padding: 25px;
+}
+
+.spf-left {
+  width: 50%;
+}
+
+.spf-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.spf-preview {
+  width: 100%;
+  height: 220px;
+  border-radius: 15px;
+  overflow: hidden;
+  background: #eef2ff;
+}
+
+.spf-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spf-placeholder {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.spf-browse {
+  margin-top: 12px;
+  width: 100%;
+  height: 52px;
+  background: #ef4444;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.spf-input {
+  width: 100%;
+}
+
+.spf-input input {
+  width: 100%;
+  height: 56px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  padding: 0 16px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.spf-input input:focus {
+  border-color: #4f46e5;
+}
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.spf-description {
+  padding: 0 25px 20px;
+}
+
+.spf-description textarea {
+  width: 100%;
+  height: 120px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  resize: none;
+  outline: none;
+  padding: 15px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.spf-description textarea:focus {
+  border-color: #4f46e5;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.spf-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 20px 25px 25px;
+}
+
+.spf-cancel {
+  min-width: 120px;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.spf-save {
+  min-width: 140px;
+  height: 48px;
+  border-radius: 10px;
+  border: none;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 992px) {
+
+  .spf-modal-body {
+    flex-direction: column;
+  }
+
+  .spf-left,
+  .spf-right {
+    width: 100%;
+  }
+
+  .spf-preview {
+    height: 250px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .student-popup-container {
+    padding: 12px;
+  }
+
+  .spf-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .spf-search-box {
+    width: 100%;
+  }
+
+  .spf-add-btn {
+    width: 55px;
+    height: 55px;
+  }
+
+  .spf-table {
+    min-width: 700px;
+  }
+
+  .spf-table-card {
+    overflow-x: auto;
+  }
+
+  .spf-modal {
+    border-radius: 15px;
+  }
+
+  .spf-modal-header h2 {
+    font-size: 22px;
+  }
+
+  .spf-preview {
+    height: 220px;
+  }
+
+  .spf-footer {
+    flex-direction: column;
+  }
+
+  .spf-save,
+  .spf-cancel {
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+  .spf-modal-header {
+    padding: 15px;
+  }
+
+  .spf-modal-body {
+    padding: 15px;
+  }
+
+  .spf-description {
+    padding: 0 15px 15px;
+  }
+
+  .spf-footer {
+    padding: 15px;
+  }
+
+  .spf-preview {
+    height: 180px;
+  }
+
+  .spf-input input {
+    height: 50px;
+  }
+
+  .spf-description textarea {
+    height: 100px;
+  }
+}

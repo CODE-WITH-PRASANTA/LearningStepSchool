@@ -124,6 +124,27 @@ exports.getStudentById = async (req, res) => {
   }
 };
 
+exports.searchStudents = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const students = await Student.find({
+      firstName: {
+        $regex: q,
+        $options: "i",
+      },
+    })
+      .select("_id firstName lastName admissionNo class")
+      .limit(10);
+
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 /* ================= UPDATE STUDENT ================= */
 
 exports.updateStudent = async (req, res) => {
