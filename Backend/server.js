@@ -75,6 +75,10 @@ const vehicleRouteRoutes = require("./routes/vehicleRoute.routes");
 const otherIncomeRoutes = require("./routes/otherIncome.routes");
 const popupRoutes = require("./routes/popup.routes");
 const staffGatePassRoutes = require("./routes/staffGatePass.routes");
+const preAdmissionRoutes = require("./routes/preAdmission.routes");
+const staffVisitMeetingRoutes = require("./routes/staffVisitMeeting.routes");
+const adminComplaintRoutes = require("./routes/adminComplaint.routes");
+const staffComplaintRoutes = require("./routes/staffComplaint.routes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -148,8 +152,16 @@ app.use("/api/transport-route", routeRoutes);
 app.use("/api/transport-destination", destinationRoutes);
 app.use("/api/assign-route", assignRouteRoutes);
 app.use("/api/vehicle-route", vehicleRouteRoutes);
+
+// Font office
 app.use("/api/popup", popupRoutes);
 app.use("/api/staff-gate-pass", staffGatePassRoutes);
+app.use("/api/pre-admission", preAdmissionRoutes);
+app.use("/api/staff-visit-meeting", staffVisitMeetingRoutes);
+app.use("/api/admin-complaint", adminComplaintRoutes);
+app.use(
+  "/api/staff-complaint", staffComplaintRoutes
+);
 
 /* ================= 404 HANDLER ================= */
 
