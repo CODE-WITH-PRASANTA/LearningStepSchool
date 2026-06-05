@@ -1,0 +1,637 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.staff {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 24px;
+  font-family: "Outfit", sans-serif;
+}
+
+/* =========================
+   TOP HEADER
+========================= */
+
+.staff__topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.staff__topbar h2 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #222;
+}
+
+.staff__floating-btn {
+  width: 54px;
+  height: 54px;
+  border: none;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: #fff;
+  cursor: pointer;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.35);
+  transition: 0.3s;
+}
+
+.staff__floating-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.staff__card {
+  width: 100%;
+  background: #ececec;
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 650px;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.staff__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.staff__tab {
+  height: 50px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 21px;
+  font-weight: 500;
+  color: #444;
+  position: relative;
+  transition: 0.3s;
+}
+
+.staff__tab--active {
+  color: #4f46e5;
+}
+
+.staff__tab--active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 3px;
+  background: #4f46e5;
+}
+
+/* =========================
+   COMPLAINT CARDS
+========================= */
+
+.staff__complaints {
+  padding-top: 14px;
+}
+
+.staff__complaint-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  min-height: 115px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.staff__complaint-card p {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.55;
+}
+
+.staff__status {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  background: #f4b400;
+  color: #000;
+  padding: 4px 12px;
+  border-radius: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.staff__status--green {
+  background: #0db14b;
+  color: white;
+}
+
+.staff__complaint-by {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  background: #5b544f;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.staff__empty {
+  padding: 120px 20px;
+  text-align: center;
+  color: #666;
+  font-size: 20px;
+}
+
+/* =========================
+   MODAL OVERLAY
+========================= */
+
+.staff__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: staffFade 0.3s ease;
+}
+
+.staff__overlay--second {
+  z-index: 1200;
+}
+
+.staff__overlay--third {
+  z-index: 1400;
+}
+
+@keyframes staffFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.staff__modal,
+.staff__type-modal,
+.staff__add-type-modal {
+  background: white;
+  border-radius: 16px;
+  animation: staffScale 0.35s ease;
+}
+
+@keyframes staffScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   ADD COMPLAINT MODAL
+========================= */
+
+.staff__modal {
+  width: 96%;
+  max-width: 980px;
+  overflow: hidden;
+}
+
+.staff__modal-header {
+  height: 82px;
+  border-bottom: 1px solid #ececec;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.staff__modal-header h3 {
+  font-size: 34px;
+  font-weight: 600;
+  color: #333;
+}
+
+.staff__modal-header button {
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 50%;
+  background: #efefef;
+  cursor: pointer;
+  font-size: 28px;
+  color: #555;
+}
+
+.staff__modal-body {
+  padding: 26px;
+}
+
+.staff__search {
+  height: 56px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 22px;
+}
+
+.staff__search svg {
+  font-size: 22px;
+  color: #666;
+}
+
+.staff__search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  margin-left: 12px;
+  font-size: 16px;
+  font-family: "Outfit";
+}
+
+.staff__dropdown-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.staff__dropdown-row select {
+  flex: 1;
+  height: 56px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 16px;
+  font-family: "Outfit";
+}
+
+.staff__mini-plus {
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+}
+
+.staff__modal textarea {
+  width: 100%;
+  height: 150px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  resize: vertical;
+  padding: 14px;
+  font-family: "Outfit";
+  font-size: 16px;
+}
+
+.staff__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.staff__actions button {
+  min-width: 110px;
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: "Outfit";
+}
+
+.staff__primary {
+  background: #4f46e5;
+  color: white;
+}
+
+/* =========================
+   TYPE MODAL
+========================= */
+
+.staff__type-modal {
+  width: 95%;
+  max-width: 1100px;
+  padding: 24px;
+}
+
+.staff__table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eef0f5;
+  padding: 16px;
+  border-radius: 12px 12px 0 0;
+}
+
+.staff__table-search {
+  width: 450px;
+  height: 46px;
+  background: white;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.staff__table-search svg {
+  font-size: 20px;
+}
+
+.staff__table-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  margin-left: 10px;
+  font-family: "Outfit";
+}
+
+.staff__table-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staff__table-actions button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.staff__plus-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #4f46e5 !important;
+  color: white;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+}
+
+.staff__column-dropdown {
+  position: absolute;
+  right: 90px;
+  top: 110px;
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 320px;
+  z-index: 20;
+}
+
+.staff__column-dropdown label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: calc(50% - 8px);
+  font-size: 15px;
+}
+
+.staff__column-dropdown input {
+  width: 18px;
+  height: 18px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.staff__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.staff__table th {
+  text-align: left;
+  padding: 18px;
+  border: 1px solid #ececec;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.staff__table td {
+  padding: 18px;
+  border: 1px solid #ececec;
+  font-size: 15px;
+}
+
+.staff__table tbody tr:hover {
+  background: #fafafa;
+}
+
+.staff__table td svg {
+  color: red;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.staff__pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+  padding-top: 20px;
+}
+
+.staff__pagination button {
+  min-width: 90px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: #4f46e5;
+  color: white;
+  cursor: pointer;
+  font-family: "Outfit";
+}
+
+.staff__pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.staff__pagination span {
+  font-weight: 500;
+}
+
+/* =========================
+   ADD TYPE MODAL
+========================= */
+
+.staff__add-type-modal {
+  width: 95%;
+  max-width: 980px;
+  overflow: hidden;
+}
+
+.staff__radio-row {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+}
+
+.staff__radio-row label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.staff__radio-row input {
+  width: 20px;
+  height: 20px;
+}
+
+.staff__input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 0 30px;
+}
+
+.staff__input-grid input {
+  height: 56px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 16px;
+  font-family: "Outfit";
+  outline: none;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 991px) {
+  .staff__topbar h2 {
+    font-size: 24px;
+  }
+
+  .staff__tab {
+    font-size: 16px;
+  }
+
+  .staff__table-search {
+    width: 100%;
+  }
+
+  .staff__table-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .staff__input-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff__column-dropdown {
+    width: 280px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .staff {
+    padding: 14px;
+  }
+
+  .staff__dropdown-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .staff__mini-plus {
+    align-self: flex-end;
+  }
+
+  .staff__actions {
+    flex-direction: column;
+  }
+
+  .staff__actions button {
+    width: 100%;
+  }
+
+  .staff__modal-header h3 {
+    font-size: 22px;
+  }
+
+  .staff__table {
+    min-width: 700px;
+  }
+
+  .staff__type-modal {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .staff__tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .staff__tab {
+    height: 46px;
+  }
+
+  .staff__radio-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .staff__floating-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .staff__column-dropdown {
+    width: 95%;
+    right: 2.5%;
+  }
+}
