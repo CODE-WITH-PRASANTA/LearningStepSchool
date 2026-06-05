@@ -7,7 +7,7 @@ import {
   FaPrint,
   FaClipboardList,
   FaTimes,
-  FaSearch
+  FaSearch,
 } from "react-icons/fa";
 
 const PreAdmissionReport = () => {
@@ -21,7 +21,7 @@ const PreAdmissionReport = () => {
       contact: "9986836225",
       email: "",
       father: "",
-      feedback: 0
+      feedback: 0,
     },
     {
       id: 2,
@@ -29,34 +29,32 @@ const PreAdmissionReport = () => {
       contact: "4666544234",
       email: "",
       father: "",
-      feedback: 0
-    }
+      feedback: 0,
+    },
   ]);
 
   return (
-    <div className="pre-container">
-      <div className="page-header">
+    <div className="preAdmissionReportContainer">
+      <div className="preAdmissionReportPageHeader">
         <h2>Pre Admission</h2>
       </div>
 
-      <div className="table-card">
-        <div className="table-top">
-
-          <div className="search-box">
+      <div className="preAdmissionReportTableCard">
+        <div className="preAdmissionReportTableTop">
+          <div className="preAdmissionReportSearchBox">
             <FaSearch />
             <input type="text" placeholder="Search..." />
           </div>
 
           <button
-            className="add-btn"
+            className="preAdmissionReportAddBtn"
             onClick={() => setOpenForm(true)}
           >
             <FaPlus />
           </button>
-
         </div>
 
-        <div className="table-wrapper">
+        <div className="preAdmissionReportTableWrapper">
           <table>
             <thead>
               <tr>
@@ -80,7 +78,7 @@ const PreAdmissionReport = () => {
                     <img
                       src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
                       alt=""
-                      className="student-img"
+                      className="preAdmissionReportStudentImg"
                     />
                   </td>
 
@@ -93,7 +91,7 @@ const PreAdmissionReport = () => {
                     <span>{item.feedback}</span>
 
                     <button
-                      className="feedback-btn"
+                      className="preAdmissionReportFeedbackBtn"
                       onClick={() => setOpenFeedback(true)}
                     >
                       <FaClipboardList />
@@ -101,11 +99,15 @@ const PreAdmissionReport = () => {
                   </td>
 
                   <td>
-                    <button className="icon delete">
+                    <button
+                      className="preAdmissionReportIcon preAdmissionReportDelete"
+                    >
                       <FaTrash />
                     </button>
 
-                    <button className="icon print">
+                    <button
+                      className="preAdmissionReportIcon preAdmissionReportPrint"
+                    >
                       <FaPrint />
                     </button>
                   </td>
@@ -115,27 +117,32 @@ const PreAdmissionReport = () => {
           </table>
         </div>
 
-        <div className="pagination">
+        <div className="preAdmissionReportPagination">
           <span>Items per page :</span>
 
-          <select>
-            <option>5</option>
-            <option>10</option>
-            <option>20</option>
-            <option selected>30</option>
-            <option>50</option>
-            <option>100</option>
+          <select defaultValue="30">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
           </select>
         </div>
       </div>
 
       {/* ADD FORM */}
 
-      <div className={`modal ${openForm ? "show" : ""}`}>
-        <div className="modal-content large">
-
+      <div
+        className={`preAdmissionReportModal ${
+          openForm ? "preAdmissionReportShow" : ""
+        }`}
+      >
+        <div
+          className="preAdmissionReportModalContent preAdmissionReportLarge"
+        >
           <button
-            className="close-btn"
+            className="preAdmissionReportCloseBtn"
             onClick={() => setOpenForm(false)}
           >
             <FaTimes />
@@ -143,21 +150,19 @@ const PreAdmissionReport = () => {
 
           <h2>PRE ADMISSION</h2>
 
-          <div className="form-wrapper">
-
-            <div className="upload-section">
+          <div className="preAdmissionReportFormWrapper">
+            <div className="preAdmissionReportUploadSection">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
                 alt=""
               />
 
-              <button className="upload-btn">
+              <button className="preAdmissionReportUploadBtn">
                 Upload
               </button>
             </div>
 
-            <div className="form-grid">
-
+            <div className="preAdmissionReportFormGrid">
               <input placeholder="First Name *" />
               <input placeholder="Last Name" />
 
@@ -186,27 +191,29 @@ const PreAdmissionReport = () => {
 
               <input placeholder="Previous School Name" />
               <input placeholder="Remark" />
-
             </div>
-
           </div>
 
-          <div className="submit-area">
-            <button className="save-btn">
+          <div className="preAdmissionReportSubmitArea">
+            <button className="preAdmissionReportSaveBtn">
               Add
             </button>
           </div>
-
         </div>
       </div>
 
       {/* FEEDBACK */}
 
-      <div className={`modal ${openFeedback ? "show" : ""}`}>
-        <div className="modal-content feedback-modal">
-
+      <div
+        className={`preAdmissionReportModal ${
+          openFeedback ? "preAdmissionReportShow" : ""
+        }`}
+      >
+        <div
+          className="preAdmissionReportModalContent preAdmissionReportFeedbackModal"
+        >
           <button
-            className="close-btn"
+            className="preAdmissionReportCloseBtn"
             onClick={() => setOpenFeedback(false)}
           >
             <FaTimes />
@@ -214,18 +221,17 @@ const PreAdmissionReport = () => {
 
           <h2>ADD FEEDBACK</h2>
 
-          <div className="feedback-row">
+          <div className="preAdmissionReportFeedbackRow">
             <input type="date" />
+
             <input placeholder="Description *" />
 
-            <button className="save-btn">
+            <button className="preAdmissionReportSaveBtn">
               Add
             </button>
           </div>
-
         </div>
       </div>
-
     </div>
   );
 };

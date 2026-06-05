@@ -337,12 +337,23 @@ const Staff = () => {
 
       {/* COMPLAINT TYPE MODAL */}
 
-      {showTypeModal && (
-        <div className="staff__overlay staff__overlay--second">
+   
+       {showTypeModal && (
+  <div className="staff__overlay staff__overlay--second">
 
-          <div className="staff__type-modal">
+    <div className="staff__type-modal">
 
-            <div className="staff__table-header">
+      <button
+        className="staff__type-close-btn"
+        onClick={() => {
+          setShowTypeModal(false);
+          setShowColumnDropdown(false);
+        }}
+      >
+        <FiX />
+      </button>
+
+      <div className="staff__table-header">
 
               <div className="staff__table-search">
                 <FiSearch />
@@ -464,7 +475,8 @@ const Staff = () => {
               </div>
             )}
 
-            <table className="staff__table">
+            <div className="staff__table-wrapper">
+  <table className="staff__table">
               <thead>
                 <tr>
 
@@ -533,7 +545,8 @@ const Staff = () => {
                   )
                 )}
               </tbody>
-            </table>
+             </table>
+</div>
 
             <div className="staff__pagination">
 
