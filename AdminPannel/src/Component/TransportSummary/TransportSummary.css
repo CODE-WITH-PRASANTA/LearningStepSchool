@@ -1,0 +1,265 @@
+.Uab {
+  background: #f2f2f2;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Header */
+
+.UabHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.UabBreadcrumb {
+  display: flex;
+  gap: 10px;
+  color: gray;
+  margin-top: 8px;
+}
+
+.UabHeaderIcons {
+  display: flex;
+  gap: 25px;
+  font-size: 24px;
+  align-items: center;
+}
+
+.UabIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.UabIconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.UabGridIcon {
+  color: green;
+  cursor: pointer;
+}
+
+.UabPrintIcon {
+  color: #4f46e5;
+  cursor: pointer;
+}
+
+.UabPdfIcon {
+  color: red;
+  cursor: pointer;
+}
+
+/* Filter Card */
+
+.UabFilterCard {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.UabFilterGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.UabSelectBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.UabSelectBox label {
+  margin-bottom: 6px;
+  color: gray;
+}
+
+.UabSelectBox select {
+  height: 60px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 0 15px;
+  font-size: 16px;
+}
+
+.UabSearchBtn {
+  height: 60px;
+  margin-top: 24px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.UabError {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+/* Table */
+
+.UabTableWrapper {
+  margin-top: 20px;
+  height: 520px;
+  overflow-y: auto;
+}
+
+.UabTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.UabTable th {
+  background: #b8b8b8;
+  padding: 15px;
+  border: 1px solid #999;
+}
+
+.UabTable td {
+  padding: 12px;
+  border: 1px solid #cfcfcf;
+  text-align: center;
+}
+
+.UabEmptyCell {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* Modal */
+
+.UabModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 999;
+}
+
+.UabModal {
+  display: flex;
+  height: 100vh;
+  background: white;
+}
+
+.UabPreview {
+  flex: 2;
+  overflow-y: auto;
+  padding: 25px;
+}
+
+.UabSchoolLogo {
+  width: 120px;
+}
+
+.UabPreview h1 {
+  color: darkred;
+}
+
+.UabPreviewTable {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.UabPreviewTable th,
+.UabPreviewTable td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.UabPrintPanel {
+  width: 380px;
+  border-left: 1px solid #ddd;
+  padding: 30px;
+}
+
+.UabPrintOption {
+  margin-bottom: 25px;
+}
+
+.UabPrintOption label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.UabPrintOption select {
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.UabPrintButtons {
+  margin-top: 40px;
+  display: flex;
+  gap: 15px;
+}
+
+.UabSaveBtn {
+  flex: 1;
+  height: 50px;
+  border: none;
+  border-radius: 25px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.UabSaveBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.UabCancelBtn {
+  flex: 1;
+  height: 50px;
+  border: 1px solid #2563eb;
+  border-radius: 25px;
+  background: white;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+/* Responsive */
+
+@media (max-width:1200px) {
+  .UabFilterGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width:768px) {
+
+  .UabHeader {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .UabFilterGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .UabModal {
+    flex-direction: column;
+  }
+
+  .UabPrintPanel {
+    width: 100%;
+  }
+}

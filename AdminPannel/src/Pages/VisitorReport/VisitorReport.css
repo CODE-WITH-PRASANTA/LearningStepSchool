@@ -1,0 +1,172 @@
+.report {
+  padding: 20px;
+  background: #f4f4f4;
+  min-height: 100vh;
+  font-family: "Outfit", sans-serif;
+}
+
+.report__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.report__top h2 {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.report__icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.report__icons svg {
+  font-size: 24px;
+}
+
+.report__icons button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.report__card {
+  background: #eceef1;
+  border-radius: 8px;
+  padding: 25px;
+}
+
+.report__filters {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.report__field {
+  width: 365px;
+  position: relative;
+}
+
+.report__field label {
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  background: #eceef1;
+  padding: 0 5px;
+  color: #666;
+  font-size: 14px;
+}
+
+.report__select,
+.report__date {
+  height: 54px;
+  border: 2px solid #5448f5;
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  cursor: pointer;
+}
+
+.report__date input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.report__date svg {
+  color: #5448f5;
+}
+
+.report__dropdown {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.12);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.report__dropdown div {
+  padding: 18px 25px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.report__dropdown div:hover {
+  background: #ece9ff;
+  color: #5448f5;
+}
+
+.report__search {
+  width: 120px;
+  height: 54px;
+  border: none;
+  border-radius: 10px;
+  background: #5448f5;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.report__table-wrapper {
+  margin-top: 25px;
+  overflow-x: auto;
+}
+
+.report__table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.report__table th {
+  background: #cfcfcf;
+  padding: 14px;
+  font-weight: 700;
+  border: 1px solid #b7b7b7;
+}
+
+.report__table td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+@media (max-width: 991px) {
+  .report__field {
+    width: 100%;
+  }
+
+  .report__search {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .report__top {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .report {
+    padding: 15px;
+  }
+
+  .report__top h2 {
+    font-size: 24px;
+  }
+}
