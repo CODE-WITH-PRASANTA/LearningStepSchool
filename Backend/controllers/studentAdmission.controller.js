@@ -59,7 +59,6 @@ exports.createStudent = async (req, res) => {
       message: "Student Admission Successful",
       data: student,
     });
-
   } catch (error) {
     console.error("CREATE STUDENT ERROR:", error);
 
@@ -81,7 +80,6 @@ exports.getStudents = async (req, res) => {
       count: students.length,
       data: students,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -115,7 +113,6 @@ exports.getStudentById = async (req, res) => {
       success: true,
       data: student,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -129,13 +126,47 @@ exports.searchStudents = async (req, res) => {
     const { q } = req.query;
 
     const students = await Student.find({
-      firstName: {
-        $regex: q,
-        $options: "i",
-      },
+      $or: [
+        {
+          firstName: {
+            $regex: q,
+            $options: "i",
+          },
+        },
+        {
+          admissionNo: {
+            $regex: q,
+            $options: "i",
+          },
+        },
+      ],
     })
-      .select("_id firstName lastName admissionNo class")
-      .limit(10);
+      .select(
+        `
+        _id
+        admissionNo
+        firstName
+        lastName
+        class
+
+        studentPhoto
+
+        fatherName
+        fatherMobile
+        fatherPhoto
+
+        motherName
+        motherMobile
+        motherPhoto
+
+        guardianName
+        guardianMobile
+        guardianPhoto
+
+        address
+      `,
+      )
+      .limit(20);
 
     res.status(200).json(students);
   } catch (error) {
@@ -213,7 +244,7 @@ exports.updateStudent = async (req, res) => {
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
       updateData,
-      { new: true }
+      { new: true },
     );
 
     res.json({
@@ -221,7 +252,6 @@ exports.updateStudent = async (req, res) => {
       message: "Student updated successfully",
       data: updatedStudent,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -258,7 +288,6 @@ exports.deleteStudent = async (req, res) => {
       success: true,
       message: "Student deleted successfully",
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,

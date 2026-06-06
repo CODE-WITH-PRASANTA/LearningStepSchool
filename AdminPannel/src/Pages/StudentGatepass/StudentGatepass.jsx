@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import API, { IMAGE_URL } from "../../api/axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import {
@@ -15,98 +16,7 @@ import {
 
 import "./StudentGatepass.css";
 
-const data = [
-  {
-    id: 1,
-    name: "demo",
-    relation: "Father",
-    contact: "3331321211",
-    date: "26-05-2026",
-    time: "10:00 PM - 12:00 AM",
 
-    timeIn: "10:00 PM",
-    timeOut: "12:00 AM",
-
-    reason: "Meeting",
-    remark: "Demo Remark",
-
-    photo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-
-    student: "[1234] Ashmita minj, 2nd - A",
-  },
-  {
-    id: 2,
-    name: "demo",
-    relation: "Father",
-    contact: "3331321211",
-    date: "26-05-2026",
-    time: "10:00 PM - 12:00 AM",
-
-    timeIn: "10:00 PM",
-    timeOut: "12:00 AM",
-
-    reason: "Meeting",
-    remark: "Demo Remark",
-
-    photo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-
-    student: "[1234] Ashmita minj, 2nd - A",
-  },
-  {
-    id: 3,
-    name: "jl",
-    relation: "Father",
-    contact: "3331321211",
-    date: "26-05-2026",
-    time: "10:00 PM - 12:00 AM",
-
-    timeIn: "10:00 PM",
-    timeOut: "12:00 AM",
-
-    reason: "Meeting",
-    remark: "Demo Remark",
-
-    photo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-
-    student: "[1234] Ashmita minj, 2nd - A",
-  },
-  {
-    id: 4,
-    name: "hkhg",
-    relation: "Father",
-    contact: "3331321211",
-    date: "26-05-2026",
-    time: "10:00 PM - 12:00 AM",
-
-    timeIn: "10:00 PM",
-    timeOut: "12:00 AM",
-
-    reason: "Meeting",
-    remark: "Demo Remark",
-
-    photo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-
-    student: "[1234] Ashmita minj, 2nd - A",
-  },
-  {
-    id: 5,
-    name: "inayard",
-    relation: "Father",
-    contact: "3331321211",
-    date: "26-05-2026",
-    time: "10:00 PM - 12:00 AM",
-
-    timeIn: "10:00 PM",
-    timeOut: "12:00 AM",
-
-    reason: "Meeting",
-    remark: "Demo Remark",
-
-    photo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-
-    student: "[1234] Ashmita minj, 2nd - A",
-  },
-];
 
 const StudentGatepass = () => {
   const [isClosing, setIsClosing] = useState(false);
@@ -122,6 +32,18 @@ const StudentGatepass = () => {
 
   const [selectedVisitor, setSelectedVisitor] = useState(null);
 
+  const [gatePassData, setGatePassData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const [photoFile, setPhotoFile] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const [tableSearch, setTableSearch] = useState("");
+  const [studentSearch, setStudentSearch] = useState("");
+  const [studentResults, setStudentResults] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   const [formData, setFormData] = useState({
     visitorName: "",
     relation: "",
@@ -133,10 +55,36 @@ const StudentGatepass = () => {
     photo: "",
   });
 
+  const fetchGatePasses = async () => {
+    try {
+      setLoading(true);
+
+      const res = await API.get("/student-gatepass/all");
+      console.log("Gate Pass Data:", res.data.data);
+
+      setGatePassData(res.data.data || []);
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Failed to load gate passes",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchGatePasses();
+  }, []);
+
   const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
 
     if (!file) return;
+
+    setPhotoFile(file);
 
     const reader = new FileReader();
 
@@ -147,25 +95,107 @@ const StudentGatepass = () => {
     reader.readAsDataURL(file);
   };
 
-  const handleEditVisitor = (visitor) => {
-    setSelectedVisitor(visitor);
+  const handleSaveGatePass = async () => {
+    try {
+      if (!selectedStudent || !formData.visitorName || !formData.phone) {
+        Swal.fire({
+          icon: "warning",
+          title: "Please fill all required fields",
+        });
 
-    setModalMode("edit");
+        return;
+      }
 
-    setFormData({
-      visitorName: visitor.name || "",
-      relation: visitor.relation || "",
-      phone: visitor.contact || "",
-      timeIn: visitor.timeIn || "",
-      timeOut: visitor.timeOut || "",
-      reason: visitor.reason || "",
-      remark: visitor.remark || "",
-      photo: visitor.photo || "",
-    });
+      const payload = new FormData();
 
-    setOpenModal(true);
+      payload.append("studentId", selectedStudent._id);
+
+      payload.append("visitorName", formData.visitorName);
+
+      payload.append("relation", formData.relation);
+
+      payload.append("phone", formData.phone);
+
+      payload.append("timeIn", formData.timeIn);
+
+      payload.append("timeOut", formData.timeOut);
+
+      payload.append("reason", formData.reason);
+
+      payload.append("remark", formData.remark);
+
+      if (photoFile) {
+        payload.append("photo", photoFile);
+      }
+
+      if (modalMode === "add") {
+        await API.post("/student-gatepass/create", payload);
+
+        Swal.fire({
+          icon: "success",
+          title: "Gate Pass Added",
+        });
+      } else {
+        await API.put(
+          `/student-gatepass/update/${selectedVisitor._id}`,
+          payload,
+        );
+
+        Swal.fire({
+          icon: "success",
+          title: "Gate Pass Updated",
+        });
+      }
+
+      fetchGatePasses();
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+
+      Swal.fire({
+        icon: "error",
+        title: error?.response?.data?.message || "Something went wrong",
+      });
+    }
   };
 
+ const handleEditVisitor = (visitor) => {
+  console.log("EDIT VISITOR =", visitor);
+
+  setSelectedVisitor(visitor);
+
+  setFormData({
+    visitorName: visitor.visitorName || "",
+    relation: visitor.relation || "",
+    phone: visitor.phone || "",
+    timeIn: visitor.timeIn || "",
+    timeOut: visitor.timeOut || "",
+    reason: visitor.reason || "",
+    remark: visitor.remark || "",
+    photo: visitor.photo || "",
+  });
+
+  console.log("SETTING VISITOR NAME =", visitor.visitorName);
+
+  setSelectedStudent(visitor.studentId || null);
+
+  setStudentSearch(
+    visitor.studentId
+      ? `${visitor.studentId.admissionNo || ""} - ${
+          visitor.studentId.firstName || ""
+        } ${visitor.studentId.lastName || ""}`
+      : ""
+  );
+
+  setVisitorPhoto(
+    visitor.photo
+      ? `${IMAGE_URL}${visitor.photo}`
+      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  );
+
+  setModalMode("edit");
+  setOpenModal(true);
+};
   const handleCloseModal = () => {
     setIsClosing(true);
 
@@ -175,37 +205,72 @@ const StudentGatepass = () => {
     }, 300);
   };
 
-  const [gatePassData, setGatePassData] = useState(data);
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     Swal.fire({
       title: "Delete Gate Pass?",
       text: "This record will be permanently removed.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#ef4444",
-      cancelButtonColor: "#6b7280",
-      confirmButtonText: "Yes, Delete",
-      cancelButtonText: "Cancel",
-
-      customClass: {
-        popup: "studentGatepass__swalPopup",
-        confirmButton: "studentGatepass__swalConfirm",
-        cancelButton: "studentGatepass__swalCancel",
-      },
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setGatePassData((prev) => prev.filter((item) => item.id !== id));
+        await API.delete(`/student-gatepass/delete/${id}`);
+
+        fetchGatePasses();
 
         Swal.fire({
-          title: "Deleted!",
-          text: "Gate Pass deleted successfully.",
           icon: "success",
-          confirmButtonColor: "#5b5cf6",
+          title: "Deleted Successfully",
         });
       }
     });
   };
 
+  const searchStudentData = async (value) => {
+    try {
+      setStudentSearch(value);
+
+      if (!value.trim()) {
+        setStudentResults([]);
+        return;
+      }
+
+      const res = await API.get(`/students/search/list?q=${value}`);
+
+      setStudentResults(res.data || []);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const filteredData = gatePassData.filter((item) => {
+    const query = tableSearch.trim().toLowerCase();
+
+    if (!query) return true;
+
+    const visitor = item.visitorName?.toLowerCase() || "";
+    const phone = item.phone?.toLowerCase() || "";
+    const relation = item.relation?.toLowerCase() || "";
+    const studentName = `${item.studentId?.admissionNo || ""} ${
+      item.studentId?.firstName || ""
+    } ${item.studentId?.lastName || ""}`.toLowerCase();
+
+    return (
+      visitor.includes(query) ||
+      phone.includes(query) ||
+      relation.includes(query) ||
+      studentName.includes(query)
+    );
+  });
+
+  const totalItems = filteredData.length;
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+  const endIndex = startIndex + itemsPerPage;
+
+  const currentData = filteredData.slice(startIndex, endIndex);
   return (
     <div className="studentGatepass">
       <div className="studentGatepass__card">
@@ -216,7 +281,12 @@ const StudentGatepass = () => {
             <FaSearch />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Search gate passes..."
+              value={tableSearch}
+              onChange={(e) => {
+                setTableSearch(e.target.value);
+                setCurrentPage(1);
+              }}
               className="studentGatepass__searchInput"
             />
           </div>
@@ -227,6 +297,17 @@ const StudentGatepass = () => {
               setModalMode("add");
 
               setSelectedVisitor(null);
+              setSelectedStudent(null);
+
+              setTableSearch("");
+              setStudentSearch("");
+              setStudentResults([]);
+
+              setPhotoFile(null);
+
+              setVisitorPhoto(
+                "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+              );
 
               setFormData({
                 visitorName: "",
@@ -264,31 +345,39 @@ const StudentGatepass = () => {
             </thead>
 
             <tbody>
-              {gatePassData.map((item) => (
+              {currentData.map((item, index) => (
                 <tr
-                  key={item.id}
+                  key={item._id}
                   className="studentGatepass__tableRow"
                   onClick={() => handleEditVisitor(item)}
                 >
-                  <td>{item.id}</td>
+                  <td>{index + 1}</td>
 
                   <td>
                     <img
-                      src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                      alt=""
+                      src={
+                        item.photo
+                          ? `${IMAGE_URL}${item.photo}`
+                          : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                      }
+                      alt="Visitor"
                       className="studentGatepass__avatar"
                     />
                   </td>
 
-                  <td>{item.name}</td>
+                  <td>{item.visitorName}</td>
 
-                  <td>{item.contact}</td>
+                  <td>{item.phone}</td>
 
-                  <td>{item.date}</td>
+                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
 
-                  <td>{item.time}</td>
+                  <td>
+                    {item.timeIn} - {item.timeOut || "--"}
+                  </td>
 
-                  <td>{item.student}</td>
+                  <td>
+                    {item.studentId?.firstName} {item.studentId?.lastName}
+                  </td>
 
                   <td>
                     <div className="studentGatepass__actions">
@@ -296,7 +385,7 @@ const StudentGatepass = () => {
                         className="studentGatepass__deleteBtn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDelete(item.id);
+                          handleDelete(item._id);
                         }}
                       >
                         <FaTrashAlt />
@@ -307,7 +396,7 @@ const StudentGatepass = () => {
                         onClick={(e) => {
                           e.stopPropagation();
 
-                          navigate(`/student-gatepass/print/${item.id}`, {
+                          navigate(`/student-gatepass/print/${item._id}`, {
                             state: item,
                           });
                         }}
@@ -325,35 +414,51 @@ const StudentGatepass = () => {
         {/* Mobile Cards */}
 
         <div className="studentGatepass__mobileCards">
-          {gatePassData.map((item) => (
-            <div key={item.id} className="studentGatepass__mobileCard">
+          {currentData.map((item) => (
+            <div
+              key={item._id}
+              className="studentGatepass__mobileCard"
+              onClick={() => handleEditVisitor(item)}
+            >
               <div className="studentGatepass__mobileTop">
                 <img
-                  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                  alt=""
-                  className="studentGatepass__mobileAvatar"
+                  src={
+                    item.photo
+                      ? `${IMAGE_URL}${item.photo}`
+                      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                  }
+                  alt="Visitor"
+                  className="studentGatepass__avatar"
                 />
 
                 <div>
-                  <h4>{item.name}</h4>
-                  <p>{item.contact}</p>
+                  <h4>{item.visitorName}</h4>
+
+                  <p>{item.phone}</p>
                 </div>
               </div>
 
               <div className="studentGatepass__mobileBody">
                 <div>
                   <span>Date</span>
-                  <p>{item.date}</p>
+
+                  <p>{new Date(item.createdAt).toLocaleDateString()}</p>
                 </div>
 
                 <div>
                   <span>Time</span>
-                  <p>{item.time}</p>
+
+                  <p>
+                    {item.timeIn} - {item.timeOut || "--"}
+                  </p>
                 </div>
 
                 <div>
                   <span>Student</span>
-                  <p>{item.student}</p>
+
+                  <p>
+                    {item.studentId?.firstName} {item.studentId?.lastName}
+                  </p>
                 </div>
               </div>
 
@@ -362,7 +467,7 @@ const StudentGatepass = () => {
                   className="studentGatepass__deleteBtn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDelete(item.id);
+                    handleDelete(item._id);
                   }}
                 >
                   <FaTrashAlt />
@@ -373,7 +478,9 @@ const StudentGatepass = () => {
                   onClick={(e) => {
                     e.stopPropagation();
 
-                    navigate(`/student-gatepass/print/${item.id}`);
+                    navigate(`/student-gatepass/print/${item._id}`, {
+                      state: item,
+                    });
                   }}
                 >
                   <FaPrint />
@@ -389,34 +496,62 @@ const StudentGatepass = () => {
           <div className="studentGatepass__pageSize">
             <span>Items per page:</span>
 
-            <select>
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
             </select>
           </div>
 
-          <div className="studentGatepass__pageInfo">1 – 5 of 5</div>
+          <div className="studentGatepass__pageInfo">
+            {totalItems === 0
+              ? "0 - 0 of 0"
+              : `${startIndex + 1} - ${Math.min(
+                  endIndex,
+                  totalItems,
+                )} of ${totalItems}`}
+          </div>
 
           <div className="studentGatepass__pageBtns">
-            <button>
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+            >
               <FaChevronLeft />
             </button>
 
-            <button>
+            <span
+              style={{
+                padding: "0 10px",
+                fontWeight: 600,
+              }}
+            >
+              {currentPage} / {totalPages || 1}
+            </span>
+
+            <button
+              disabled={currentPage === totalPages || totalPages === 0}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+            >
               <FaChevronRight />
             </button>
           </div>
         </div>
 
         {openModal && (
-         <div
-  className={`studentGatepass__modal ${
-    isClosing
-      ? "studentGatepass__modalClosing"
-      : "studentGatepass__modalOpening"
-  }`}
->
+          <div
+            className={`studentGatepass__modal ${
+              isClosing
+                ? "studentGatepass__modalClosing"
+                : "studentGatepass__modalOpening"
+            }`}
+          >
             <div
               className="studentGatepass__modalOverlay"
               onClick={handleCloseModal}
@@ -431,7 +566,7 @@ const StudentGatepass = () => {
                 </h2>
                 <button
                   className="studentGatepass__modalClose"
-                onClick={handleCloseModal}
+                  onClick={handleCloseModal}
                 >
                   <FaTimes />
                 </button>
@@ -444,8 +579,36 @@ const StudentGatepass = () => {
                   <div className="studentGatepass__modalLeft">
                     <div className="studentGatepass__modalSearch">
                       <FaSearch />
-                      <input type="text" placeholder="Search" />
+                      <input
+                        type="text"
+                        placeholder="Search Student"
+                        value={studentSearch}
+                        onChange={(e) => searchStudentData(e.target.value)}
+                      />
                     </div>
+
+                    {studentResults.length > 0 && (
+                      <div className="studentSearchList">
+                        {studentResults.map((student) => (
+                          <div
+                            key={student._id}
+                            className="studentSearchItem"
+                            onClick={() => {
+                              setSelectedStudent(student);
+
+                              setStudentSearch(
+                                `${student.admissionNo} - ${student.firstName} ${student.lastName || ""}`,
+                              );
+
+                              setStudentResults([]);
+                            }}
+                          >
+                            {student.admissionNo} - {student.firstName}{" "}
+                            {student.lastName}
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     <div className="studentGatepass__formGrid">
                       <div className="studentGatepass__field">
@@ -489,12 +652,30 @@ const StudentGatepass = () => {
 
                       <div className="studentGatepass__field">
                         <label>Time In *</label>
-                        <input defaultValue="22:00" />
+                        <input
+                          type="time"
+                          value={formData.timeIn}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              timeIn: e.target.value,
+                            })
+                          }
+                        />
                       </div>
 
                       <div className="studentGatepass__field">
                         <label>Time Out</label>
-                        <input defaultValue="--:--" />
+                        <input
+                          type="time"
+                          value={formData.timeOut}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              timeOut: e.target.value,
+                            })
+                          }
+                        />
                       </div>
 
                       <div className="studentGatepass__field">
@@ -526,10 +707,23 @@ const StudentGatepass = () => {
                   </div>
 
                   <div className="studentGatepass__photoSection">
-                    {/* <img
-              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-              alt=""
-            /> */}
+                    {/* Student Photo */}
+
+                    <div className="studentGatepass__studentPhotoBox">
+                      <h4>Student</h4>
+
+                      <img
+                        src={
+                          selectedStudent?.studentPhoto
+                            ? `${IMAGE_URL}${selectedStudent.studentPhoto}`
+                            : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                        }
+                        alt="Student"
+                        className="studentGatepass__avatar"
+                      />
+                    </div>
+
+                    {/* Visitor Photo Upload */}
 
                     <div className="studentGatepass__photoUploadWrapper">
                       <img
@@ -592,46 +786,68 @@ const StudentGatepass = () => {
                       {activeTab === "overview" && (
                         <>
                           <div className="studentGatepass__familyGrid">
+                            {/* Student */}
+
                             <div className="studentGatepass__familyBox">
-                              <h4>Student</h4>
+                              <h4>
+                                {selectedStudent?.firstName}{" "}
+                                {selectedStudent?.lastName}
+                              </h4>
 
                               <div className="studentGatepass__familyCard">
                                 <img
-                                  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                  src={
+                                    selectedStudent?.studentPhoto
+                                      ? `${IMAGE_URL}${selectedStudent.studentPhoto}`
+                                      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                  }
                                   alt=""
                                 />
                               </div>
                             </div>
+
+                            {/* Father */}
 
                             <div className="studentGatepass__familyBox">
                               <h4>Father</h4>
 
                               <div className="studentGatepass__familyCard">
                                 <img
-                                  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                  src={
+                                    selectedStudent?.fatherPhoto
+                                      ? `${IMAGE_URL}${selectedStudent.fatherPhoto}`
+                                      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                  }
                                   alt=""
                                 />
 
-                                <p>Mob : 9876543210</p>
+                                <p>Mob : {selectedStudent?.fatherPhone}</p>
                               </div>
                             </div>
+
+                            {/* Mother */}
 
                             <div className="studentGatepass__familyBox">
                               <h4>Mother</h4>
 
                               <div className="studentGatepass__familyCard">
                                 <img
-                                  src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                  src={
+                                    selectedStudent?.motherPhoto
+                                      ? `${IMAGE_URL}${selectedStudent.motherPhoto}`
+                                      : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                  }
                                   alt=""
                                 />
 
-                                <p>Mob : 9876543211</p>
+                                <p>Mob : {selectedStudent?.motherPhone}</p>
                               </div>
                             </div>
                           </div>
 
                           <div className="studentGatepass__address">
-                            <strong>Address :</strong> Bhubaneswar, Odisha
+                            <strong>Address :</strong>{" "}
+                            {selectedStudent?.currentAddress}
                           </div>
                         </>
                       )}
@@ -642,24 +858,25 @@ const StudentGatepass = () => {
                         <div className="studentGatepass__guardianWrapper">
                           <div className="studentGatepass__guardianCard">
                             <div className="studentGatepass__guardianDetails">
-                              <h3>Guardian Name [01] :</h3>
+                              <h3>{selectedStudent?.fatherName}</h3>
 
                               <p>
                                 <strong>Relation :</strong> Father
                               </p>
 
                               <p>
-                                <strong>Mob. No. :</strong> 9876543210
-                              </p>
-
-                              <p>
-                                <strong>Remark :</strong> Primary Guardian
+                                <strong>Mob. No. :</strong>{" "}
+                                {selectedStudent?.fatherPhone}
                               </p>
                             </div>
 
                             <div className="studentGatepass__guardianImage">
                               <img
-                                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                src={
+                                  selectedStudent?.fatherPhoto
+                                    ? `${IMAGE_URL}${selectedStudent.fatherPhoto}`
+                                    : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                }
                                 alt=""
                               />
                             </div>
@@ -667,24 +884,25 @@ const StudentGatepass = () => {
 
                           <div className="studentGatepass__guardianCard">
                             <div className="studentGatepass__guardianDetails">
-                              <h3>Guardian Name [02] :</h3>
+                              <h3>{selectedStudent?.motherName}</h3>
 
                               <p>
                                 <strong>Relation :</strong> Mother
                               </p>
 
                               <p>
-                                <strong>Mob. No. :</strong> 9876543211
-                              </p>
-
-                              <p>
-                                <strong>Remark :</strong> Secondary Guardian
+                                <strong>Mob. No. :</strong>{" "}
+                                {selectedStudent?.motherPhone}
                               </p>
                             </div>
 
                             <div className="studentGatepass__guardianImage">
                               <img
-                                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                src={
+                                  selectedStudent?.motherPhoto
+                                    ? `${IMAGE_URL}${selectedStudent.motherPhoto}`
+                                    : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                }
                                 alt=""
                               />
                             </div>
@@ -710,7 +928,10 @@ const StudentGatepass = () => {
                   Cancel
                 </button>
 
-                <button className="studentGatepass__saveBtn">
+                <button
+                  className="studentGatepass__saveBtn"
+                  onClick={handleSaveGatePass}
+                >
                   {modalMode === "add" ? "Add Visitor" : "Update Visitor"}
                 </button>
               </div>
