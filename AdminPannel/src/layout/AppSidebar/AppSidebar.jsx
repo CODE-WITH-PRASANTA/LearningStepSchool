@@ -353,20 +353,34 @@ const menu = [
      ],
   },
 
-  
-    { type: "divider" },
+  { type: "divider" },
   {
      label: "Transport",
     icon: FiBook,
   children: [
-      { label: "Transport Vehicle", path: "/transport/vehicle" },
-      { label: "Transport Route", path: "/transport/route" },
-       { label: "Transport Destination", path: "/transport/destination" },
-        { label: "Assign Routes", path: "/transport/routesAssigne" },
-         { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
+      { label: "Transport summary", path: "/transport-summary" },
+       { label: "Transport Student", path: "/transport-student" },
+         { label: "Transport vechile Report", path: "/transport-vechile" },
+        
+      
        
      ],
   },
+
+  
+  //   { type: "divider" },
+  // {
+  //    label: "Transport",
+  //   icon: FiBook,
+  // children: [
+  //     { label: "Transport Vehicle", path: "/transport/vehicle" },
+  //     { label: "Transport Route", path: "/transport/route" },
+  //      { label: "Transport Destination", path: "/transport/destination" },
+  //       { label: "Assign Routes", path: "/transport/routesAssigne" },
+  //        { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
+       
+  //    ],
+  // },
 
   // {
   //   label: "Question Paper",
