@@ -1,0 +1,294 @@
+css
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.complain {
+  min-height: 100vh;
+  background: #f3f4f8;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+
+.complain-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.complain-title-section {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.complain-title-section h2 {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.complain-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #74778b;
+  font-size: 15px;
+}
+
+.complain-actions {
+  display: flex;
+  gap: 24px;
+  font-size: 28px;
+}
+
+.complain-excel {
+  color: green;
+  cursor: pointer;
+}
+
+.complain-print {
+  color: #7a00ff;
+  cursor: pointer;
+}
+
+.complain-pdf {
+  color: orangered;
+  cursor: pointer;
+}
+
+/* CARD */
+
+.complain-card {
+  background: #ececf3;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+/* FILTER */
+
+.complain-filter-area {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.complain-dropdown-wrapper {
+  position: relative;
+}
+
+.complain-dropdown {
+  width: 270px;
+  height: 60px;
+  border: 1px solid #999;
+  border-radius: 12px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.complain-dropdown.active {
+  border: 2px solid #7b00ff;
+}
+
+.complain-dropdown label {
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  background: #ececf3;
+  padding: 0 6px;
+  font-size: 13px;
+  color: #7b00ff;
+}
+
+.complain-dropdown span {
+  font-size: 20px;
+}
+
+.complain-dropdown-menu {
+  position: absolute;
+  top: 75px;
+  width: 290px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  z-index: 999;
+}
+
+.complain-option {
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.complain-option:hover {
+  background: #f3f3f3;
+}
+
+.complain-search-btn {
+  height: 60px;
+  min-width: 130px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    #8b00ff,
+    #5a00ff
+  );
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.complain-search-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* TABLE */
+
+.complain-table-wrapper {
+  margin-top: 20px;
+}
+
+.complain-table-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 550px;
+  border: 1px solid #ddd;
+}
+
+.complain-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+.complain-table th {
+  background: #ababab;
+  padding: 16px;
+  border: 1px solid #888;
+}
+
+.complain-table td {
+  padding: 14px;
+  border: 1px solid #b8b8b8;
+  text-align: center;
+}
+
+.complain-table tbody tr {
+  transition: .3s;
+}
+
+.complain-table tbody tr:hover {
+  background: #f5f0ff;
+}
+
+/* PAGINATION */
+
+.complain-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.complain-pagination button {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #7b00ff;
+  color: white;
+  cursor: pointer;
+}
+
+.complain-pagination button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* PRINT */
+
+@media print {
+
+  .complain-actions,
+  .complain-search-btn,
+  .complain-pagination {
+    display: none;
+  }
+
+  .complain {
+    background: white;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .complain {
+    padding: 12px;
+  }
+
+  .complain-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .complain-title-section h2 {
+    font-size: 22px;
+  }
+
+  .complain-breadcrumb {
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .complain-dropdown {
+    width: 100%;
+  }
+
+  .complain-dropdown-wrapper {
+    width: 100%;
+  }
+
+  .complain-dropdown-menu {
+    width: 100%;
+  }
+
+  .complain-search-btn {
+    width: 100%;
+  }
+
+  .complain-filter-area {
+    flex-direction: column;
+  }
+
+  .complain-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .complain-table-scroll {
+    max-height: 400px;
+  }
+}

@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import API from "../../api/axios";
 import Swal from "sweetalert2";
 
 import {
@@ -10,43 +12,6 @@ import {
 } from "react-icons/fa";
 
 import "./AdminComplaint.css";
-
-/* =========================================
-   SAMPLE DATA
-========================================= */
-
-const complaintData = [
-  {
-    id: 1,
-    complaintAgainst: "Tinku Singh",
-    complaintBy: "Admin",
-    complaintType: "Test 1",
-    complaintMsg: "Test",
-    date: "2026-05-18",
-  },
-
-  {
-    id: 2,
-    complaintAgainst: "Kavita",
-    complaintBy: "Admin",
-    complaintType: "Demo",
-    complaintMsg: "Demo",
-    date: "2026-05-19",
-  },
-
-  {
-    id: 3,
-    complaintAgainst: "Uday Sir",
-    complaintBy: "Admin",
-    complaintType: "123",
-    complaintMsg: "Deemmo",
-    date: "2026-05-19",
-  },
-];
-
-/* =========================================
-   COMPLAINT TYPE DATA
-========================================= */
 
 const complaintTypeData = [
   {
@@ -65,97 +30,77 @@ const complaintTypeData = [
 ];
 
 const AdminComplaint = () => {
+  const [complaints, setComplaints] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+
+  const [totalRecords, setTotalRecords] = useState(0);
+
+  const [totalPages, setTotalPages] = useState(1);
   /* =========================================
      MAIN DATA
   ========================================= */
 
-  const [complaints, setComplaints] =
-    useState(complaintData);
-
-  const [complaintTypes, setComplaintTypes] =
-    useState(complaintTypeData);
+  const [complaintTypes, setComplaintTypes] = useState(complaintTypeData);
 
   /* =========================================
      SEARCH
   ========================================= */
 
-  const [searchTerm, setSearchTerm] =
-    useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   /* =========================================
      MODALS
   ========================================= */
 
-  const [openModal, setOpenModal] =
+  const [openModal, setOpenModal] = useState(false);
+
+  const [openComplaintTypeModal, setOpenComplaintTypeModal] = useState(false);
+
+  const [openComplaintTypeAddModal, setOpenComplaintTypeAddModal] =
     useState(false);
-
-  const [
-    openComplaintTypeModal,
-    setOpenComplaintTypeModal,
-  ] = useState(false);
-
-  const [
-    openComplaintTypeAddModal,
-    setOpenComplaintTypeAddModal,
-  ] = useState(false);
 
   /* =========================================
      MODES
   ========================================= */
 
-  const [modalMode, setModalMode] =
-    useState("add");
+  const [modalMode, setModalMode] = useState("add");
 
-  const [
-    complaintTypeMode,
-    setComplaintTypeMode,
-  ] = useState("add");
+  const [complaintTypeMode, setComplaintTypeMode] = useState("add");
 
   /* =========================================
      SELECTED DATA
   ========================================= */
 
-  const [
-    selectedComplaint,
-    setSelectedComplaint,
-  ] = useState(null);
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
 
-  const [
-    selectedComplaintType,
-    setSelectedComplaintType,
-  ] = useState(null);
+  const [selectedComplaintType, setSelectedComplaintType] = useState(null);
 
   /* =========================================
      PAGINATION
   ========================================= */
 
-  const [page, setPage] =
-    useState(1);
+  const [page, setPage] = useState(1);
 
-  const [itemsPerPage, setItemsPerPage] =
-    useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   /* =========================================
      COMPLAINT FORM
   ========================================= */
 
-  const [formData, setFormData] =
-    useState({
-      complaintAgainst: "",
-      complaintBy: "Admin",
-      complaintType: "",
-      complaintMsg: "",
-      date: "",
-    });
+  const [formData, setFormData] = useState({
+    complaintAgainst: "",
+    complaintBy: "Admin",
+    complaintType: "",
+    complaintMsg: "",
+    date: "",
+  });
 
   /* =========================================
      COMPLAINT TYPE FORM
   ========================================= */
 
-  const [
-    complaintTypeForm,
-    setComplaintTypeForm,
-  ] = useState({
+  const [complaintTypeForm, setComplaintTypeForm] = useState({
     complaintName: "",
     remark: "",
     type: "Staff",
@@ -164,6 +109,29 @@ const AdminComplaint = () => {
   /* =========================================
      OPEN ADD COMPLAINT
   ========================================= */
+  useEffect(() => {
+    fetchComplaints();
+  }, [page, itemsPerPage]);
+
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
+
+      const res = await API.get(
+        `/admin-complaint/all?page=${page}&limit=${itemsPerPage}&search=${searchTerm}`,
+      );
+
+      setComplaints(res.data.data || []);
+
+      setTotalPages(res.data.totalPages || 1);
+
+      setTotalRecords(res.data.total || 0);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddComplaint = () => {
     setModalMode("add");
@@ -185,29 +153,21 @@ const AdminComplaint = () => {
      OPEN EDIT COMPLAINT
   ========================================= */
 
-  const handleEditComplaint = (
-    complaint
-  ) => {
-    setSelectedComplaint(
-      complaint
-    );
+  const handleEditComplaint = (complaint) => {
+    setSelectedComplaint(complaint);
 
     setModalMode("edit");
 
     setFormData({
-      complaintAgainst:
-        complaint.complaintAgainst,
+      complaintAgainst: complaint.complaintAgainst,
 
-      complaintBy:
-        complaint.complaintBy,
+      complaintBy: complaint.complaintBy,
 
-      complaintType:
-        complaint.complaintType,
+      complaintType: complaint.complaintType,
 
-      complaintMsg:
-        complaint.complaintMsg,
+      complaintMsg: complaint.complaintMsg,
 
-      date: complaint.date,
+      date: complaint.date ? complaint.date.split("T")[0] : "",
     });
 
     setOpenModal(true);
@@ -225,139 +185,114 @@ const AdminComplaint = () => {
      SAVE COMPLAINT
   ========================================= */
 
-  const handleSaveComplaint = () => {
-    if (
-      !formData.complaintAgainst ||
-      !formData.complaintType ||
-      !formData.complaintMsg
-    ) {
+  const handleSaveComplaint = async () => {
+    try {
+      if (
+        !formData.complaintAgainst ||
+        !formData.complaintType ||
+        !formData.complaintMsg
+      ) {
+        Swal.fire({
+          icon: "warning",
+          title: "Required Fields Missing",
+        });
+
+        return;
+      }
+
+      if (modalMode === "add") {
+        await API.post("/admin-complaint/create", formData);
+
+        Swal.fire({
+          icon: "success",
+          title: "Complaint Added",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } else {
+        await API.put(
+          `/admin-complaint/update/${selectedComplaint._id}`,
+          formData,
+        );
+
+        Swal.fire({
+          icon: "success",
+          title: "Complaint Updated",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      }
+
+      await fetchComplaints();
+
+      setOpenModal(false);
+    } catch (error) {
       Swal.fire({
-        icon: "warning",
-        title: "Required Fields Missing",
-      });
-
-      return;
-    }
-
-    if (modalMode === "add") {
-      const newComplaint = {
-        id: Date.now(),
-        ...formData,
-      };
-
-      setComplaints((prev) => [
-        newComplaint,
-        ...prev,
-      ]);
-
-      Swal.fire({
-        icon: "success",
-        title: "Complaint Added",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-    } else {
-      setComplaints((prev) =>
-        prev.map((item) =>
-          item.id ===
-          selectedComplaint.id
-            ? {
-                ...item,
-                ...formData,
-              }
-            : item
-        )
-      );
-
-      Swal.fire({
-        icon: "success",
-        title:
-          "Complaint Updated",
-        timer: 1500,
-        showConfirmButton: false,
+        icon: "error",
+        title: error.response?.data?.message || "Something went wrong",
       });
     }
-
-    setOpenModal(false);
   };
 
   /* =========================================
      DELETE COMPLAINT
   ========================================= */
 
-  const handleDeleteComplaint = (
-    id
-  ) => {
+  const handleDeleteComplaint = (id) => {
     Swal.fire({
       title: "Delete Complaint?",
       text: "This complaint will be removed.",
       icon: "warning",
-
       showCancelButton: true,
-
-      confirmButtonColor:
-        "#ef4444",
-
-      confirmButtonText:
-        "Delete",
-    }).then((result) => {
+      confirmButtonColor: "#ef4444",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setComplaints((prev) =>
-          prev.filter(
-            (item) =>
-              item.id !== id
-          )
-        );
+        try {
+          await API.delete(`/admin-complaint/delete/${id}`);
 
-        Swal.fire({
-          icon: "success",
-          title: "Deleted",
-          timer: 1500,
-          showConfirmButton: false,
-        });
+          await fetchComplaints();
+
+          Swal.fire({
+            icon: "success",
+            title: "Deleted",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "Delete Failed",
+          });
+        }
       }
     });
   };
 
-    /* =========================================
+  /* =========================================
      SEARCH FILTER
   ========================================= */
 
-  const filteredData =
-    complaints.filter((item) =>
-      (
-        item.complaintAgainst +
-        " " +
-        item.complaintType +
-        " " +
-        item.complaintMsg
-      )
-        .toLowerCase()
-        .includes(
-          searchTerm.toLowerCase()
-        )
-    );
+  const filteredData = complaints;
+
+  useEffect(() => {
+    setPage(1);
+
+    const timer = setTimeout(() => {
+      fetchComplaints();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   /* =========================================
      PAGINATION
   ========================================= */
 
-  const totalPages = Math.ceil(
-    filteredData.length /
-      itemsPerPage
-  );
+  const startIndex = (page - 1) * itemsPerPage;
 
-  const startIndex =
-    (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
-  const endIndex =
-    startIndex + itemsPerPage;
-
-  const currentData =
-    filteredData.slice(
-      startIndex,
-      endIndex
-    );
+  const currentData = filteredData;
 
   /* =========================================
      RETURN
@@ -365,17 +300,13 @@ const AdminComplaint = () => {
 
   return (
     <div className="AdminComplaint">
-
       <div className="AdminComplaint__card">
-
         {/* =========================
             HEADER
         ========================= */}
 
         <div className="AdminComplaint__header">
-
           <div className="AdminComplaint__searchBox">
-
             <FaSearch />
 
             <input
@@ -383,24 +314,16 @@ const AdminComplaint = () => {
               placeholder="Search..."
               className="AdminComplaint__searchInput"
               value={searchTerm}
-              onChange={(e) =>
-                setSearchTerm(
-                  e.target.value
-                )
-              }
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-
           </div>
 
           <button
             className="AdminComplaint__addBtn"
-            onClick={
-              handleAddComplaint
-            }
+            onClick={handleAddComplaint}
           >
             <FaPlus />
           </button>
-
         </div>
 
         {/* =========================
@@ -408,117 +331,60 @@ const AdminComplaint = () => {
         ========================= */}
 
         <div className="AdminComplaint__tableWrapper">
-
           <table className="AdminComplaint__table">
-
             <thead>
-
               <tr>
-
                 <th>S.NO.</th>
 
-                <th>
-                  COMPLAINT AGAINST
-                </th>
+                <th>COMPLAINT AGAINST</th>
 
-                <th>
-                  COMPLAINT BY
-                </th>
+                <th>COMPLAINT BY</th>
 
-                <th>
-                  COMPLAINT TYPE
-                </th>
+                <th>COMPLAINT TYPE</th>
 
-                <th>
-                  COMPLAINT MSG
-                </th>
+                <th>COMPLAINT MSG</th>
 
                 <th>DATE</th>
 
                 <th>ACTION</th>
-
               </tr>
-
             </thead>
 
             <tbody>
+              {currentData.map((item, index) => (
+                <tr
+                  key={item._id}
+                  className="AdminComplaint__tableRow"
+                  onClick={() => handleEditComplaint(item)}
+                >
+                  <td>{(page - 1) * itemsPerPage + index + 1}</td>
 
-              {currentData.map(
-                (
-                  item,
-                  index
-                ) => (
-                  <tr
-                    key={item.id}
-                    className="AdminComplaint__tableRow"
-                    onClick={() =>
-                      handleEditComplaint(
-                        item
-                      )
-                    }
-                  >
+                  <td>{item.complaintAgainst}</td>
 
-                    <td>
-                      {startIndex +
-                        index +
-                        1}
-                    </td>
+                  <td>{item.complaintBy}</td>
 
-                    <td>
-                      {
-                        item.complaintAgainst
-                      }
-                    </td>
+                  <td>{item.complaintType}</td>
 
-                    <td>
-                      {
-                        item.complaintBy
-                      }
-                    </td>
+                  <td>{item.complaintMsg}</td>
 
-                    <td>
-                      {
-                        item.complaintType
-                      }
-                    </td>
+                  <td>{item.date}</td>
 
-                    <td>
-                      {
-                        item.complaintMsg
-                      }
-                    </td>
+                  <td>
+                    <button
+                      className="AdminComplaint__deleteBtn"
+                      onClick={(e) => {
+                        e.stopPropagation();
 
-                    <td>
-                      {item.date}
-                    </td>
-
-                    <td>
-
-                      <button
-                        className="AdminComplaint__deleteBtn"
-                        onClick={(
-                          e
-                        ) => {
-                          e.stopPropagation();
-
-                          handleDeleteComplaint(
-                            item.id
-                          );
-                        }}
-                      >
-                        <FaTrashAlt />
-                      </button>
-
-                    </td>
-
-                  </tr>
-                )
-              )}
-
+                        handleDeleteComplaint(item._id);
+                      }}
+                    >
+                      <FaTrashAlt />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
-
           </table>
-
         </div>
 
         {/* =========================
@@ -526,96 +392,54 @@ const AdminComplaint = () => {
         ========================= */}
 
         <div className="AdminComplaint__mobileCards">
+          {currentData.map((item, index) => (
+            <div
+              key={item._id}
+              className="AdminComplaint__mobileCard"
+              onClick={() => handleEditComplaint(item)}
+            >
+              <div className="AdminComplaint__mobileRow">
+                <span>S.No</span>
 
-          {currentData.map(
-            (item, index) => (
-              <div
-                key={item.id}
-                className="AdminComplaint__mobileCard"
-                onClick={() =>
-                  handleEditComplaint(
-                    item
-                  )
-                }
-              >
-
-                <div className="AdminComplaint__mobileRow">
-                  <span>
-                    S.No
-                  </span>
-
-                  <p>
-                    {startIndex +
-                      index +
-                      1}
-                  </p>
-                </div>
-
-                <div className="AdminComplaint__mobileRow">
-                  <span>
-                    Complaint Against
-                  </span>
-
-                  <p>
-                    {
-                      item.complaintAgainst
-                    }
-                  </p>
-                </div>
-
-                <div className="AdminComplaint__mobileRow">
-                  <span>
-                    Complaint Type
-                  </span>
-
-                  <p>
-                    {
-                      item.complaintType
-                    }
-                  </p>
-                </div>
-
-                <div className="AdminComplaint__mobileRow">
-                  <span>
-                    Message
-                  </span>
-
-                  <p>
-                    {
-                      item.complaintMsg
-                    }
-                  </p>
-                </div>
-
-                <div className="AdminComplaint__mobileRow">
-                  <span>
-                    Date
-                  </span>
-
-                  <p>
-                    {item.date}
-                  </p>
-                </div>
-
-                <button
-                  className="AdminComplaint__deleteBtn"
-                  onClick={(
-                    e
-                  ) => {
-                    e.stopPropagation();
-
-                    handleDeleteComplaint(
-                      item.id
-                    );
-                  }}
-                >
-                  <FaTrashAlt />
-                </button>
-
+                <p>{(page - 1) * itemsPerPage + index + 1}</p>
               </div>
-            )
-          )}
 
+              <div className="AdminComplaint__mobileRow">
+                <span>Complaint Against</span>
+
+                <p>{item.complaintAgainst}</p>
+              </div>
+
+              <div className="AdminComplaint__mobileRow">
+                <span>Complaint Type</span>
+
+                <p>{item.complaintType}</p>
+              </div>
+
+              <div className="AdminComplaint__mobileRow">
+                <span>Message</span>
+
+                <p>{item.complaintMsg}</p>
+              </div>
+
+              <div className="AdminComplaint__mobileRow">
+                <span>Date</span>
+
+                <p>{item.date}</p>
+              </div>
+
+              <button
+                className="AdminComplaint__deleteBtn"
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  handleDeleteComplaint(item._id);
+                }}
+              >
+                <FaTrashAlt />
+              </button>
+            </div>
+          ))}
         </div>
 
         {/* =========================
@@ -623,277 +447,172 @@ const AdminComplaint = () => {
         ========================= */}
 
         <div className="AdminComplaint__pagination">
-
           <div className="AdminComplaint__pageSize">
-
-            <span>
-              Items per page
-            </span>
+            <span>Items per page</span>
 
             <select
-              value={
-                itemsPerPage
-              }
+              value={itemsPerPage}
               onChange={(e) => {
-                setItemsPerPage(
-                  Number(
-                    e.target.value
-                  )
-                );
+                setItemsPerPage(Number(e.target.value));
 
                 setPage(1);
               }}
             >
-              <option value={10}>
-                10
-              </option>
+              <option value={10}>10</option>
 
-              <option value={20}>
-                20
-              </option>
+              <option value={20}>20</option>
 
-              <option value={50}>
-                50
-              </option>
+              <option value={50}>50</option>
             </select>
-
           </div>
 
           <div className="AdminComplaint__pageInfo">
-
-            {filteredData.length ===
-            0
+            {complaints.length === 0
               ? "0 - 0"
-              : `${startIndex + 1} - ${Math.min(
-                  endIndex,
-                  filteredData.length
-                )} of ${
-                  filteredData.length
-                }`}
-
+              : `${(page - 1) * itemsPerPage + 1} - ${Math.min(
+                  page * itemsPerPage,
+                  totalRecords,
+                )} of ${totalRecords}`}
           </div>
 
           <div className="AdminComplaint__pageBtns">
-
             <button
-              disabled={
-                page === 1
-              }
-              onClick={() =>
-                setPage(
-                  (prev) =>
-                    prev - 1
-                )
-              }
+              disabled={page === 1}
+              onClick={() => setPage((prev) => prev - 1)}
             >
               <FaChevronLeft />
             </button>
 
             <button
-              disabled={
-                page ===
-                totalPages
-              }
-              onClick={() =>
-                setPage(
-                  (prev) =>
-                    prev + 1
-                )
-              }
+              disabled={page === totalPages}
+              onClick={() => setPage((prev) => prev + 1)}
             >
               <FaChevronRight />
             </button>
-
           </div>
-
         </div>
 
-                {/* =========================================
+        {/* =========================================
             ADD / MODIFY MODAL
         ========================================= */}
 
         {openModal && (
           <div className="AdminComplaint__modal">
-
             <div
               className="AdminComplaint__overlay"
               onClick={handleCloseModal}
             />
 
             <div className="AdminComplaint__modalContainer">
-
               {/* HEADER */}
 
               <div className="AdminComplaint__modalHeader">
-
                 <h2>
-                  {modalMode === "add"
-                    ? "ADD COMPLAINT"
-                    : "MODIFY COMPLAINT"}
+                  {modalMode === "add" ? "ADD COMPLAINT" : "MODIFY COMPLAINT"}
                 </h2>
 
                 <button
                   className="AdminComplaint__closeBtn"
-                  onClick={
-                    handleCloseModal
-                  }
+                  onClick={handleCloseModal}
                 >
                   ×
                 </button>
-
               </div>
 
               {/* BODY */}
 
               <div className="AdminComplaint__modalBody">
-
                 {/* RADIO */}
 
                 <div className="AdminComplaint__radioGroup">
-
                   <label>
-
                     <input
                       type="radio"
                       name="againstType"
-                      checked={
-                        formData.againstType ===
-                        "Staff"
-                      }
+                      checked={formData.againstType === "Staff"}
                       onChange={() =>
                         setFormData({
                           ...formData,
-                          againstType:
-                            "Staff",
+                          againstType: "Staff",
                         })
                       }
                     />
-
                     Against Staff
-
                   </label>
 
                   <label>
-
                     <input
                       type="radio"
                       name="againstType"
-                      checked={
-                        formData.againstType ===
-                        "Student"
-                      }
+                      checked={formData.againstType === "Student"}
                       onChange={() =>
                         setFormData({
                           ...formData,
-                          againstType:
-                            "Student",
+                          againstType: "Student",
                         })
                       }
                     />
-
                     Against Student
-
                   </label>
-
                 </div>
 
                 {/* FORM GRID */}
 
                 <div className="AdminComplaint__formGrid">
-
                   {/* COMPLAINT AGAINST */}
 
                   <div className="AdminComplaint__field">
-
-                    <label>
-                      Complaint Against *
-                    </label>
+                    <label>Complaint Against *</label>
 
                     <input
                       type="text"
-                      value={
-                        formData.complaintAgainst
-                      }
+                      value={formData.complaintAgainst}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          complaintAgainst:
-                            e.target.value,
+                          complaintAgainst: e.target.value,
                         })
                       }
                       placeholder={
-                        formData.againstType ===
-                        "Staff"
+                        formData.againstType === "Staff"
                           ? "Staff Name"
                           : "Student Name"
                       }
                     />
-
                   </div>
 
                   {/* COMPLAINT TYPE */}
 
                   <div className="AdminComplaint__field">
-
-                    <label>
-                      Complaint Type *
-                    </label>
+                    <label>Complaint Type *</label>
 
                     <div className="AdminComplaint__typeWrapper">
-
                       <select
-                        value={
-                          formData.complaintType
-                        }
+                        value={formData.complaintType}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            complaintType:
-                              e.target
-                                .value,
+                            complaintType: e.target.value,
                           })
                         }
                       >
+                        <option value="">Select Complaint Type</option>
 
-                        <option value="">
-                          Select Complaint Type
-                        </option>
-
-                        {complaintTypes.map(
-                          (
-                            type
-                          ) => (
-                            <option
-                              key={
-                                type.id
-                              }
-                              value={
-                                type.name
-                              }
-                            >
-                              {
-                                type.name
-                              }
-                            </option>
-                          )
-                        )}
-
+                        {complaintTypes.map((type) => (
+                          <option key={type.id} value={type.complaintName}>
+                            {type.complaintName}
+                          </option>
+                        ))}
                       </select>
 
                       <button
                         type="button"
                         className="AdminComplaint__typeAddBtn"
-                        onClick={() =>
-                          setOpenTypeModal(
-                            true
-                          )
-                        }
+                        onClick={() => setOpenComplaintTypeModal(true)}
                       >
                         <FaPlus />
                       </button>
-
                     </div>
-
                   </div>
 
                   {/* MESSAGE */}
@@ -904,97 +623,68 @@ const AdminComplaint = () => {
                     AdminComplaint__fieldFull
                   "
                   >
-
-                    <label>
-                      Complaint Message *
-                    </label>
+                    <label>Complaint Message *</label>
 
                     <textarea
                       rows="6"
-                      value={
-                        formData.complaintMsg
-                      }
+                      value={formData.complaintMsg}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          complaintMsg:
-                            e.target
-                              .value,
+                          complaintMsg: e.target.value,
                         })
                       }
                       placeholder="Enter complaint details..."
                     />
-
                   </div>
-
                 </div>
-
               </div>
 
               {/* FOOTER */}
 
               <div className="AdminComplaint__modalFooter">
-
                 <button
                   className="AdminComplaint__cancelBtn"
-                  onClick={
-                    handleCloseModal
-                  }
+                  onClick={handleCloseModal}
                 >
                   Cancel
                 </button>
 
                 <button
                   className="AdminComplaint__saveBtn"
-                  onClick={
-                    handleSaveComplaint
-                  }
+                  onClick={handleSaveComplaint}
                 >
-                  {modalMode === "add"
-                    ? "Add"
-                    : "Modify"}
+                  {modalMode === "add" ? "Add" : "Modify"}
                 </button>
-
               </div>
-
             </div>
-
           </div>
         )}
 
-                {/* =========================================
+        {/* =========================================
             COMPLAINT TYPE MASTER MODAL
         ========================================= */}
 
         {openComplaintTypeModal && (
           <div className="AdminComplaint__modal">
-
             <div
               className="AdminComplaint__overlay"
-              onClick={() =>
-                setOpenComplaintTypeModal(false)
-              }
+              onClick={() => setOpenComplaintTypeModal(false)}
             />
 
             <div className="AdminComplaint__typeModalContainer">
-
               <div className="AdminComplaint__modalHeader">
-
                 <h2>COMPLAINT TYPE</h2>
 
                 <button
                   className="AdminComplaint__closeBtn"
-                  onClick={() =>
-                    setOpenComplaintTypeModal(false)
-                  }
+                  onClick={() => setOpenComplaintTypeModal(false)}
                 >
                   ×
                 </button>
-
               </div>
 
               <div className="AdminComplaint__typeHeader">
-
                 <button
                   className="AdminComplaint__saveBtn"
                   onClick={() => {
@@ -1006,23 +696,17 @@ const AdminComplaint = () => {
                       type: "Staff",
                     });
 
-                    setOpenComplaintTypeAddModal(
-                      true
-                    );
+                    setOpenComplaintTypeAddModal(true);
                   }}
                 >
                   <FaPlus />
                   Add Complaint Type
                 </button>
-
               </div>
 
               <div className="AdminComplaint__tableWrapper">
-
                 <table className="AdminComplaint__table">
-
                   <thead>
-
                     <tr>
                       <th>S.NO.</th>
                       <th>NAME</th>
@@ -1030,118 +714,65 @@ const AdminComplaint = () => {
                       <th>REMARK</th>
                       <th>ACTION</th>
                     </tr>
-
                   </thead>
 
                   <tbody>
+                    {complaintTypes.map((item, index) => (
+                      <tr
+                        key={item._id}
+                        onClick={() => {
+                          setComplaintTypeMode("edit");
 
-                    {complaintTypes.map(
-                      (item, index) => (
-                        <tr
-                          key={item.id}
-                          onClick={() => {
-                            setComplaintTypeMode(
-                              "edit"
-                            );
+                          setSelectedComplaintType(item);
 
-                            setSelectedComplaintType(
-                              item
-                            );
+                          setComplaintTypeForm({
+                            complaintName: item.complaintName,
 
-                            setComplaintTypeForm({
-                              complaintName:
-                                item.complaintName,
+                            remark: item.remark,
 
-                              remark:
-                                item.remark,
+                            type: item.type,
+                          });
 
-                              type:
-                                item.type,
-                            });
+                          setOpenComplaintTypeAddModal(true);
+                        }}
+                      >
+                        <td>{index + 1}</td>
 
-                            setOpenComplaintTypeAddModal(
-                              true
-                            );
-                          }}
-                        >
-                          <td>
-                            {index + 1}
-                          </td>
+                        <td>{item.complaintName}</td>
 
-                          <td>
-                            {
-                              item.complaintName
-                            }
-                          </td>
+                        <td>{item.type}</td>
 
-                          <td>
-                            {item.type}
-                          </td>
+                        <td>{item.remark}</td>
 
-                          <td>
-                            {
-                              item.remark
-                            }
-                          </td>
+                        <td>
+                          <button
+                            className="AdminComplaint__deleteBtn"
+                            onClick={(e) => {
+                              e.stopPropagation();
 
-                          <td>
-
-                            <button
-                              className="AdminComplaint__deleteBtn"
-                              onClick={(
-                                e
-                              ) => {
-                                e.stopPropagation();
-
-                                Swal.fire({
-                                  title:
-                                    "Delete Complaint Type?",
-                                  icon:
-                                    "warning",
-                                  showCancelButton:
-                                    true,
-                                  confirmButtonColor:
-                                    "#ef4444",
-                                }).then(
-                                  (
-                                    result
-                                  ) => {
-                                    if (
-                                      result.isConfirmed
-                                    ) {
-                                      setComplaintTypes(
-                                        (
-                                          prev
-                                        ) =>
-                                          prev.filter(
-                                            (
-                                              x
-                                            ) =>
-                                              x.id !==
-                                              item.id
-                                          )
-                                      );
-                                    }
-                                  }
-                                );
-                              }}
-                            >
-                              <FaTrashAlt />
-                            </button>
-
-                          </td>
-                        </tr>
-                      )
-                    )}
-
+                              Swal.fire({
+                                title: "Delete Complaint Type?",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#ef4444",
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  setComplaintTypes((prev) =>
+                                    prev.filter((x) => x.id !== item._id),
+                                  );
+                                }
+                              });
+                            }}
+                          >
+                            <FaTrashAlt />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
-
                 </table>
-
               </div>
-
             </div>
-
           </div>
         )}
 
@@ -1151,18 +782,13 @@ const AdminComplaint = () => {
 
         {openComplaintTypeAddModal && (
           <div className="AdminComplaint__modal">
-
             <div
               className="AdminComplaint__overlay"
-              onClick={() =>
-                setOpenComplaintTypeAddModal(false)
-              }
+              onClick={() => setOpenComplaintTypeAddModal(false)}
             />
 
             <div className="AdminComplaint__smallModal">
-
               <div className="AdminComplaint__modalHeader">
-
                 <h2>
                   {complaintTypeMode === "add"
                     ? "ADD COMPLAINT TYPE"
@@ -1171,65 +797,44 @@ const AdminComplaint = () => {
 
                 <button
                   className="AdminComplaint__closeBtn"
-                  onClick={() =>
-                    setOpenComplaintTypeAddModal(false)
-                  }
+                  onClick={() => setOpenComplaintTypeAddModal(false)}
                 >
                   ×
                 </button>
-
               </div>
 
               <div className="AdminComplaint__modalBody">
-
                 <div className="AdminComplaint__formGrid">
-
                   <div className="AdminComplaint__field">
-
-                    <label>
-                      Complaint Name
-                    </label>
+                    <label>Complaint Name</label>
 
                     <input
-                      value={
-                        complaintTypeForm.complaintName
-                      }
+                      value={complaintTypeForm.complaintName}
                       onChange={(e) =>
                         setComplaintTypeForm({
                           ...complaintTypeForm,
-                          complaintName:
-                            e.target.value,
+                          complaintName: e.target.value,
                         })
                       }
                     />
-
                   </div>
 
                   <div className="AdminComplaint__field">
-
                     <label>Type</label>
 
                     <select
-                      value={
-                        complaintTypeForm.type
-                      }
+                      value={complaintTypeForm.type}
                       onChange={(e) =>
                         setComplaintTypeForm({
                           ...complaintTypeForm,
-                          type:
-                            e.target.value,
+                          type: e.target.value,
                         })
                       }
                     >
-                      <option>
-                        Staff
-                      </option>
+                      <option>Staff</option>
 
-                      <option>
-                        Student
-                      </option>
+                      <option>Student</option>
                     </select>
-
                   </div>
 
                   <div
@@ -1238,38 +843,26 @@ const AdminComplaint = () => {
                     AdminComplaint__fieldFull
                   "
                   >
-
-                    <label>
-                      Remark
-                    </label>
+                    <label>Remark</label>
 
                     <textarea
                       rows="4"
-                      value={
-                        complaintTypeForm.remark
-                      }
+                      value={complaintTypeForm.remark}
                       onChange={(e) =>
                         setComplaintTypeForm({
                           ...complaintTypeForm,
-                          remark:
-                            e.target.value,
+                          remark: e.target.value,
                         })
                       }
                     />
-
                   </div>
-
                 </div>
-
               </div>
 
               <div className="AdminComplaint__modalFooter">
-
                 <button
                   className="AdminComplaint__cancelBtn"
-                  onClick={() =>
-                    setOpenComplaintTypeAddModal(false)
-                  }
+                  onClick={() => setOpenComplaintTypeAddModal(false)}
                 >
                   Cancel
                 </button>
@@ -1277,58 +870,37 @@ const AdminComplaint = () => {
                 <button
                   className="AdminComplaint__saveBtn"
                   onClick={() => {
+                    if (complaintTypeMode === "add") {
+                      const newType = {
+                        id: Date.now(),
+                        complaintName: complaintTypeForm.complaintName,
+                        remark: complaintTypeForm.remark,
+                        type: complaintTypeForm.type,
+                      };
 
-                    if (
-                      complaintTypeMode ===
-                      "add"
-                    ) {
-                      setComplaintTypes(
-                        (prev) => [
-                          ...prev,
-                          {
-                            id:
-                              Date.now(),
-
-                            ...complaintTypeForm,
-                          },
-                        ]
-                      );
+                      setComplaintTypes((prev) => [...prev, newType]);
                     } else {
-                      setComplaintTypes(
-                        (prev) =>
-                          prev.map(
-                            (
-                              item
-                            ) =>
-                              item.id ===
-                              selectedComplaintType.id
-                                ? {
-                                    ...item,
-                                    ...complaintTypeForm,
-                                  }
-                                : item
-                          )
+                      setComplaintTypes((prev) =>
+                        prev.map((item) =>
+                          item._id === selectedComplaintType.id
+                            ? {
+                                ...item,
+                                ...complaintTypeForm,
+                              }
+                            : item,
+                        ),
                       );
                     }
 
-                    setOpenComplaintTypeAddModal(
-                      false
-                    );
+                    setOpenComplaintTypeAddModal(false);
                   }}
                 >
-                  {complaintTypeMode ===
-                  "add"
-                    ? "Save"
-                    : "Update"}
+                  {complaintTypeMode === "add" ? "Save" : "Update"}
                 </button>
-
               </div>
-
             </div>
-
           </div>
         )}
-
       </div>
     </div>
   );

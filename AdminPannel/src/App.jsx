@@ -166,6 +166,11 @@ import ShopInformation from "./Pages/ShopInformation/ShopInformation";
 import SupplierMaster from "./Pages/SupplierMaster/SupplierMaster";
 import CatagoryMaster from "./Pages/CatagoryMaster/CatagoryMaster";
 import ItemsMaster from "./Pages/ItemsMaster/ItemsMaster";
+import VisitorReport from "./Pages/VisitorReport/VisitorReport";
+import ComplainReport from "./Component/ComplainReport/ComplainReport";
+import PreAdmissionReport from "./Component/PreAdmissionReport/PreAdmissionReport";
+import Staff from "./Component/Staff/Staff";
+
 
 
 /* ===================== APP ===================== */
@@ -492,6 +497,15 @@ export default function App() {
           <Route path="/school/supplymaster" element={<SupplierMaster/>}/>
           <Route path="catagory/master" element={<CatagoryMaster/>}/>
           <Route path="catagorry/items" element={<ItemsMaster/>}/>
+
+
+          <Route path="/staff-report" element={<Staff />} />
+          <Route path="/visitor-report" element={<VisitorReport />} />
+          <Route path="/complaint-report" element={<ComplainReport />} />
+          <Route path="/preadmission-report" element={<PreAdmissionReport />} />
+         
+
+         
 
         </Route>
 

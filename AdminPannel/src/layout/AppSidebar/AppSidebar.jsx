@@ -308,6 +308,34 @@ const menu = [
         { label: "Staff Complaint", path: "/staff/complaint" },
       { label: "Student Gate Pass", path: "/student/gatepass" },
       { label: "Visitor Enquiry", path: "/visitor/enquiry" },
+       {
+  label: "Staff Complaint Report",
+  path: "/staff-report",
+},
+{
+  label: "Visitor Report",
+  path: "/visitor-report",
+},
+{
+  label: "Complaint Report",
+  path: "/complaint-report",
+},
+{
+  label: "Pre Admission Report",
+  path: "/preadmission-report",
+},
+{
+  label: "Gate Pass Report",
+  path: "/gatepass-report",
+},
+{
+  label: "Calendar Planning Report",
+  path: "/calendar-report",
+},
+{
+  label: "Reminder Report",
+  path: "/reminder-report",
+},
        
      ],
   },
