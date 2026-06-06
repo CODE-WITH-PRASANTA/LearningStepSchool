@@ -72,6 +72,9 @@ const routeRoutes = require("./routes/route.routes");
 const destinationRoutes = require("./routes/destination.routes");
 const assignRouteRoutes = require("./routes/assignRoute.routes");
 const vehicleRouteRoutes = require("./routes/vehicleRoute.routes");
+const otherIncomeRoutes = require("./routes/otherIncome.routes");
+const popupRoutes = require("./routes/popup.routes");
+const staffGatePassRoutes = require("./routes/staffGatePass.routes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -105,6 +108,7 @@ app.use("/api/advertisements", advertisementRoutes);
 // fees
 app.use("/api/feetypes", feeTypes);
 app.use("/api/admission", AdmsonfeeRoutes);
+app.use("/api/other-income", otherIncomeRoutes);
 // classwise subjects
 app.use("/api/classwise-subjects", classWiseSubjectRoutes);
 // exam
@@ -144,6 +148,8 @@ app.use("/api/transport-route", routeRoutes);
 app.use("/api/transport-destination", destinationRoutes);
 app.use("/api/assign-route", assignRouteRoutes);
 app.use("/api/vehicle-route", vehicleRouteRoutes);
+app.use("/api/popup", popupRoutes);
+app.use("/api/staff-gate-pass", staffGatePassRoutes);
 
 /* ================= 404 HANDLER ================= */
 

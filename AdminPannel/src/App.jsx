@@ -376,7 +376,7 @@ export default function App() {
           <Route path="/expense/details" element={<AddExpense />} />
           <Route path="/expense-search" element={<ExpenseSearch />} />
           <Route path="/expense-head" element={<ExpenseHead />} />
-          <Route path="/Other income" element={<CollectMoney />} />
+          <Route path="/other-income" element={<CollectMoney />} />
 
           {/* Student Info */}
 
@@ -393,6 +393,7 @@ export default function App() {
           <Route path="/fee-collect" element={<FeeCollection />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/fee-type" element={<FeeType />} />
+          {/* Exam */}
           <Route path="/exam-result" element={<ExamResult />} />
           <Route path="/exam-result-manager" element={<ExamResultAdmin />} />
           <Route path="/exam-type" element={<ExamTypeAdmin />} />

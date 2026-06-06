@@ -253,6 +253,7 @@
 ===================================================== */
 
 .staffgatepass__staff-search-section {
+  position: relative;
   height: 48px;
   border: 1px solid #dbe2ea;
   border-radius: 12px;
@@ -263,11 +264,67 @@
   margin-bottom: 20px;
 }
 
+.staffgatepass__staff-search-wrap {
+  position: relative;
+}
+
 .staffgatepass__staff-search-input {
   width: 100%;
   border: none;
   outline: none;
   background: transparent;
+}
+
+.staffgatepass__suggestions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54px;
+  z-index: 20;
+  background: #fff;
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+.staffgatepass__suggestion {
+  width: 100%;
+  border: none;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.staffgatepass__suggestion:hover {
+  background: #f8fafc;
+}
+
+.staffgatepass__suggestion img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.staffgatepass__suggestion span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.staffgatepass__suggestion strong {
+  color: #111827;
+  font-size: 14px;
+}
+
+.staffgatepass__suggestion small {
+  color: #64748b;
+  font-size: 12px;
 }
 
 /* =====================================================
@@ -288,6 +345,7 @@
   width: 85px;
   height: 85px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .staffgatepass__staff-information {
@@ -314,6 +372,10 @@
 .staffgatepass__field-group {
   display: flex;
   flex-direction: column;
+}
+
+.staffgatepass__field-group--full {
+  grid-column: 1 / -1;
 }
 
 .staffgatepass__field-label {
