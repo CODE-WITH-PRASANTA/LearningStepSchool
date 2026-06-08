@@ -24,6 +24,23 @@
   display: flex;
   gap: 25px;
   font-size: 24px;
+  align-items: center;
+}
+
+.UabIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.UabIconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .UabGridIcon {
@@ -84,6 +101,16 @@
   cursor: pointer;
 }
 
+.UabError {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
 /* Table */
 
 .UabTableWrapper {
@@ -107,6 +134,11 @@
   padding: 12px;
   border: 1px solid #cfcfcf;
   text-align: center;
+}
+
+.UabEmptyCell {
+  color: #6b7280;
+  font-weight: 600;
 }
 
 /* Modal */
@@ -186,6 +218,11 @@
   background: #2563eb;
   color: white;
   cursor: pointer;
+}
+
+.UabSaveBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .UabCancelBtn {

@@ -1,141 +1,371 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./TransportVehicleReport.css";
 
-const TransportVehicleReport = () => {
-  const [reportType, setReportType] = useState("All");
-  const [showTable, setShowTable] = useState(false);
+import API from "../../api/axios";
 
-  const dummyData = [
-    {
-      id: 1,
-      admNo: "5004",
-      srNo: "5001",
-      name: "Akhilesh Sharma",
-      className: "N.C.-A",
-      father: "Demo",
-      contact: "1234567888",
-      vehicle: "1231",
-      route: "Mohd Nagar",
-      destination: "Abusaidpur",
-      fare: "400",
-    },
-    {
-      id: 2,
-      admNo: "20/5008",
-      srNo: "5025",
-      name: "Ananya Yadav",
-      className: "N.C.-A",
-      father: "Ajay",
-      contact: "3454254554",
-      vehicle: "2525",
-      route: "Ravana",
-      destination: "Chaukoni",
-      fare: "1000",
-    },
-    {
-      id: 3,
-      admNo: "6/5008",
-      srNo: "5011",
-      name: "FF VDFDF",
-      className: "N.C.-A",
-      father: "Bjuv",
-      contact: "2010301020",
-      vehicle: "2525",
-      route: "Chaukoni",
-      destination: "Bisauli",
-      fare: "400",
-    },
-    {
-      id: 4,
-      admNo: "18/5008",
-      srNo: "5023",
-      name: "Harshita",
-      className: "N.C.-A",
-      father: "Harsh",
-      contact: "1231231231",
-      vehicle: "2525",
-      route: "Chaukoni",
-      destination: "Bisauli",
-      fare: "400",
-    },
-  ];
+const allValue = "All";
+
+const unwrapData = (response) =>
+  Array.isArray(response?.data?.data)
+    ? response.data.data
+    : Array.isArray(response?.data)
+    ? response.data
+    : [];
+
+const normalize = (value) =>
+  String(value || "")
+    .trim()
+    .toLowerCase();
+
+const getRouteName = (route) =>
+  route?.routeName || route?.name || route?.title || "";
+
+const getDestinationName = (destination) =>
+  destination?.destination || destination?.name || "";
+
+const getStudentName = (student) =>
+  [student.firstName, student.lastName].filter(Boolean).join(" ") || "-";
+
+const TransportVehicleReport = () => {
+  const [reportType, setReportType] = useState(allValue);
+  const [selectedClass, setSelectedClass] = useState(allValue);
+  const [selectedDivision, setSelectedDivision] = useState(allValue);
+  const [selectedVehicle, setSelectedVehicle] = useState(allValue);
+  const [selectedRoute, setSelectedRoute] = useState(allValue);
+  const [selectedDestination, setSelectedDestination] = useState(allValue);
+  const [showTable, setShowTable] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [students, setStudents] = useState([]);
+  const [vehicleRoutes, setVehicleRoutes] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+
+  useEffect(() => {
+    const fetchReportData = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const [studentsRes, vehicleRoutesRes, destinationsRes] =
+          await Promise.all([
+            API.get("/students"),
+            API.get("/vehicle-route"),
+            API.get("/transport-destination"),
+          ]);
+
+        setStudents(unwrapData(studentsRes));
+        setVehicleRoutes(unwrapData(vehicleRoutesRes));
+        setDestinations(unwrapData(destinationsRes));
+      } catch (err) {
+        setError(
+          err?.response?.data?.message ||
+            "Unable to fetch transport vehicle report data"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReportData();
+  }, []);
+
+  const routeVehicleMap = useMemo(() => {
+    const map = new Map();
+
+    vehicleRoutes.forEach((vehicleRoute) => {
+      const vehicle = vehicleRoute.vehicleId || {};
+      const routes = vehicleRoute.routes || [];
+
+      routes.forEach((routeItem) => {
+        const routeName = getRouteName(routeItem.routeId);
+        if (!routeName) return;
+
+        map.set(normalize(routeName), {
+          vehicle: vehicle.vehicleNo || "-",
+          vehicleType: vehicle.vehicleType || "-",
+          driver: vehicle.driver || "-",
+        });
+      });
+    });
+
+    return map;
+  }, [vehicleRoutes]);
+
+  const destinationFareMap = useMemo(() => {
+    const map = new Map();
+
+    destinations.forEach((destination) => {
+      const routeName =
+        destination.routeId?.routeName || getRouteName(destination.routeId);
+      const destinationName = getDestinationName(destination);
+
+      if (!routeName || !destinationName) return;
+
+      map.set(
+        `${normalize(routeName)}|${normalize(destinationName)}`,
+        destination.fare ?? "-"
+      );
+    });
+
+    return map;
+  }, [destinations]);
+
+  const transportRows = useMemo(
+    () =>
+      students
+        .filter((student) => student.routeList || student.busStop)
+        .map((student, index) => {
+          const route = student.routeList || "-";
+          const destination = student.busStop || "-";
+          const vehicleInfo = routeVehicleMap.get(normalize(route)) || {};
+          const fare =
+            destinationFareMap.get(
+              `${normalize(route)}|${normalize(destination)}`
+            ) || "-";
+
+          return {
+            id: student._id || index,
+            admNo: student.admissionNo || "-",
+            srNo: student.srNo || "-",
+            name: getStudentName(student),
+            className: [student.class, student.section]
+              .filter(Boolean)
+              .join("-") || "-",
+            classOnly: student.class || "-",
+            division: student.section || "-",
+            father: student.fatherName || "-",
+            contact:
+              student.mobile ||
+              student.fatherPhone ||
+              student.guardianPhone ||
+              "-",
+            vehicle: vehicleInfo.vehicle || "-",
+            route,
+            destination,
+            fare,
+          };
+        }),
+    [destinationFareMap, routeVehicleMap, students]
+  );
+
+  const classOptions = useMemo(
+    () => [
+      allValue,
+      ...new Set(
+        transportRows
+          .map((row) => row.classOnly)
+          .filter((className) => className && className !== "-")
+      ),
+    ],
+    [transportRows]
+  );
+
+  const divisionOptions = useMemo(
+    () => [
+      allValue,
+      ...new Set(
+        transportRows
+          .filter(
+            (row) =>
+              selectedClass === allValue || row.classOnly === selectedClass
+          )
+          .map((row) => row.division)
+          .filter((division) => division && division !== "-")
+      ),
+    ],
+    [selectedClass, transportRows]
+  );
+
+  const vehicleOptions = useMemo(
+    () => [
+      allValue,
+      ...new Set(
+        transportRows
+          .map((row) => row.vehicle)
+          .filter((vehicle) => vehicle && vehicle !== "-")
+      ),
+    ],
+    [transportRows]
+  );
+
+  const routeOptions = useMemo(
+    () => [
+      allValue,
+      ...new Set(
+        transportRows
+          .filter(
+            (row) =>
+              selectedVehicle === allValue || row.vehicle === selectedVehicle
+          )
+          .map((row) => row.route)
+          .filter((route) => route && route !== "-")
+      ),
+    ],
+    [selectedVehicle, transportRows]
+  );
+
+  const destinationOptions = useMemo(
+    () => [
+      allValue,
+      ...new Set(
+        transportRows
+          .filter(
+            (row) =>
+              selectedRoute === allValue || row.route === selectedRoute
+          )
+          .map((row) => row.destination)
+          .filter((destination) => destination && destination !== "-")
+      ),
+    ],
+    [selectedRoute, transportRows]
+  );
+
+  const filteredRows = useMemo(
+    () =>
+      transportRows.filter((row) => {
+        if (reportType === "Class Wise") {
+          const classMatch =
+            selectedClass === allValue || row.classOnly === selectedClass;
+          const divisionMatch =
+            selectedDivision === allValue || row.division === selectedDivision;
+
+          return classMatch && divisionMatch;
+        }
+
+        if (reportType === "Transport Wise") {
+          const vehicleMatch =
+            selectedVehicle === allValue || row.vehicle === selectedVehicle;
+          const routeMatch =
+            selectedRoute === allValue || row.route === selectedRoute;
+          const destinationMatch =
+            selectedDestination === allValue ||
+            row.destination === selectedDestination;
+
+          return vehicleMatch && routeMatch && destinationMatch;
+        }
+
+        return true;
+      }),
+    [
+      reportType,
+      selectedClass,
+      selectedDestination,
+      selectedDivision,
+      selectedRoute,
+      selectedVehicle,
+      transportRows,
+    ]
+  );
 
   const handleSearch = () => {
     setShowTable(true);
+  };
+
+  const handleReportTypeChange = (event) => {
+    setReportType(event.target.value);
+    setSelectedClass(allValue);
+    setSelectedDivision(allValue);
+    setSelectedVehicle(allValue);
+    setSelectedRoute(allValue);
+    setSelectedDestination(allValue);
   };
 
   return (
     <div className="transport-vehicle-container">
       <div className="transport-vehicle-card">
         <div className="transport-vehicle-filter-row">
-          {/* Report */}
           <div className="transport-vehicle-field">
             <label>Report</label>
-            <select
-              value={reportType}
-              onChange={(e) => setReportType(e.target.value)}
-            >
-              <option value="All">All</option>
+            <select value={reportType} onChange={handleReportTypeChange}>
+              <option value={allValue}>All</option>
               <option value="Class Wise">Class Wise</option>
               <option value="Transport Wise">Transport Wise</option>
             </select>
           </div>
 
-          {/* Class Wise */}
           {reportType === "Class Wise" && (
             <>
               <div className="transport-vehicle-field">
                 <label>Class</label>
-                <select>
-                  <option>N.C.</option>
-                  <option>I</option>
-                  <option>II</option>
-                  <option>III</option>
-                  <option>IV</option>
+                <select
+                  value={selectedClass}
+                  onChange={(e) => {
+                    setSelectedClass(e.target.value);
+                    setSelectedDivision(allValue);
+                  }}
+                >
+                  {classOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div className="transport-vehicle-field">
                 <label>Division</label>
-                <select>
-                  <option>A</option>
-                  <option>B</option>
-                  <option>C</option>
+                <select
+                  value={selectedDivision}
+                  onChange={(e) => setSelectedDivision(e.target.value)}
+                >
+                  {divisionOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
               </div>
             </>
           )}
 
-          {/* Transport Wise */}
           {reportType === "Transport Wise" && (
             <>
               <div className="transport-vehicle-field">
                 <label>Vehicles</label>
-                <select>
-                  <option>Select Vehicle</option>
-                  <option>1231</option>
-                  <option>2525</option>
-                  <option>3001</option>
+                <select
+                  value={selectedVehicle}
+                  onChange={(e) => {
+                    setSelectedVehicle(e.target.value);
+                    setSelectedRoute(allValue);
+                    setSelectedDestination(allValue);
+                  }}
+                >
+                  {vehicleOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div className="transport-vehicle-field">
                 <label>Routes</label>
-                <select>
-                  <option>Select Route</option>
-                  <option>Mohd Nagar</option>
-                  <option>Ravana</option>
-                  <option>Chaukoni</option>
+                <select
+                  value={selectedRoute}
+                  onChange={(e) => {
+                    setSelectedRoute(e.target.value);
+                    setSelectedDestination(allValue);
+                  }}
+                >
+                  {routeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div className="transport-vehicle-field">
                 <label>Destination</label>
-                <select>
-                  <option>Select Destination</option>
-                  <option>Abusaidpur</option>
-                  <option>Chaukoni</option>
-                  <option>Bisauli</option>
+                <select
+                  value={selectedDestination}
+                  onChange={(e) => setSelectedDestination(e.target.value)}
+                >
+                  {destinationOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
                 </select>
               </div>
             </>
@@ -144,23 +374,27 @@ const TransportVehicleReport = () => {
           <button
             className="transport-vehicle-search-btn"
             onClick={handleSearch}
+            type="button"
+            disabled={loading}
           >
             Search
           </button>
         </div>
 
         <div className="transport-vehicle-notification">
-          Send SMS / Notification
+         Vehicles  Transports Report
         </div>
+
+        {error && <div className="transport-vehicle-error">{error}</div>}
 
         {showTable && (
           <div className="transport-vehicle-table-wrapper">
             <table className="transport-vehicle-table">
               <thead>
                 <tr>
-                  <th>
+                  {/* <th>
                     <input type="checkbox" />
-                  </th>
+                  </th> */}
                   <th>S.NO.</th>
                   <th>ADM.NO.</th>
                   <th>SR.NO.</th>
@@ -176,24 +410,41 @@ const TransportVehicleReport = () => {
               </thead>
 
               <tbody>
-                {dummyData.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <input type="checkbox" />
+                {loading && (
+                  <tr>
+                    <td colSpan="12" className="transport-vehicle-empty">
+                      Loading transport vehicle report...
                     </td>
-                    <td>{item.id}</td>
-                    <td>{item.admNo}</td>
-                    <td>{item.srNo}</td>
-                    <td>{item.name}</td>
-                    <td>{item.className}</td>
-                    <td>{item.father}</td>
-                    <td>{item.contact}</td>
-                    <td>{item.vehicle}</td>
-                    <td>{item.route}</td>
-                    <td>{item.destination}</td>
-                    <td>{item.fare}</td>
                   </tr>
-                ))}
+                )}
+
+                {!loading &&
+                  filteredRows.map((item, index) => (
+                    <tr key={item.id}>
+                      {/* <td>
+                        <input type="checkbox" />
+                      </td> */}
+                      <td>{index + 1}</td>
+                      <td>{item.admNo}</td>
+                      <td>{item.srNo}</td>
+                      <td>{item.name}</td>
+                      <td>{item.className}</td>
+                      <td>{item.father}</td>
+                      <td>{item.contact}</td>
+                      <td>{item.vehicle}</td>
+                      <td>{item.route}</td>
+                      <td>{item.destination}</td>
+                      <td>{item.fare}</td>
+                    </tr>
+                  ))}
+
+                {!loading && filteredRows.length === 0 && (
+                  <tr>
+                    <td colSpan="12" className="transport-vehicle-empty">
+                      No transport vehicle records found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

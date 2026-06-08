@@ -79,6 +79,7 @@ const preAdmissionRoutes = require("./routes/preAdmission.routes");
 const staffVisitMeetingRoutes = require("./routes/staffVisitMeeting.routes");
 const adminComplaintRoutes = require("./routes/adminComplaint.routes");
 const staffComplaintRoutes = require("./routes/staffComplaint.routes");
+const studentGatePassRoutes = require("./routes/studentGatePass.routes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -159,9 +160,8 @@ app.use("/api/staff-gate-pass", staffGatePassRoutes);
 app.use("/api/pre-admission", preAdmissionRoutes);
 app.use("/api/staff-visit-meeting", staffVisitMeetingRoutes);
 app.use("/api/admin-complaint", adminComplaintRoutes);
-app.use(
-  "/api/staff-complaint", staffComplaintRoutes
-);
+app.use("/api/staff-complaint", staffComplaintRoutes);
+app.use("/api/student-gatepass", studentGatePassRoutes);
 
 /* ================= 404 HANDLER ================= */
 

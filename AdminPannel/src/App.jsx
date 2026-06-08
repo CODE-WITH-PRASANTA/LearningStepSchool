@@ -171,6 +171,7 @@ import ComplainReport from "./Component/ComplainReport/ComplainReport";
 import PreAdmissionReport from "./Component/PreAdmissionReport/PreAdmissionReport";
 import Staff from "./Component/Staff/Staff";
 import TransportSummary from "./Component/TransportSummary/TransportSummary";
+import Calender from "./Component/Calender/Calender";
 import TransportVehicleReport from "./Component/TransportVehicleReport/TransportVehicleReport";
 import TransportStudentsReport from "./Component/TransportStudentsReport/TransportStudentsReport";
 
@@ -508,12 +509,9 @@ export default function App() {
           <Route path="/preadmission-report" element={<PreAdmissionReport />} />
 
           <Route path="/transport-summary" element={<TransportSummary />} />
+          <Route path="/calender/planning" element={<Calender/>} />
           <Route path="/transport-vechile" element={<TransportVehicleReport />} />
           <Route path="/transport-student" element={<TransportStudentsReport />} />
-         
-
-         
-
         </Route>
 
         {/* ===== FALLBACK ===== */}

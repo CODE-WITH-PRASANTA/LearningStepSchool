@@ -22,10 +22,10 @@ const routeFolderMap = {
   "/subjects": "uploads/subjects",
   "/teachers": "uploads/teachers",
   "/testimonials": "uploads/testimonials",
-  "/tickets":"uploads/tickets",
+  "/tickets": "uploads/tickets",
   "/popup": "uploads/popup",
   "/pre-admission": "uploads/pre-admission",
-
+  "/student-gatepass": "uploads/student-gatepass",
   // ✅ NEW (your current feature)
   "/student-leave": "uploads/student-leave",
 };
