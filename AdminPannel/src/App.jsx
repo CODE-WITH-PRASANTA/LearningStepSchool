@@ -171,6 +171,7 @@ import ComplainReport from "./Component/ComplainReport/ComplainReport";
 import PreAdmissionReport from "./Component/PreAdmissionReport/PreAdmissionReport";
 import Staff from "./Component/Staff/Staff";
 import TransportSummary from "./Component/TransportSummary/TransportSummary";
+import Calender from "./Component/Calender/Calender";
 
 
 
@@ -511,6 +512,7 @@ export default function App() {
           <Route path="/preadmission-report" element={<PreAdmissionReport />} />
 
           <Route path="/transport-summary" element={<TransportSummary />} />
+          <Route path="/calender/planning" element={<Calender/>} />
          
 
          
