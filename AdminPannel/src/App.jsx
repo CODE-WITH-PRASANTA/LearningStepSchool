@@ -170,6 +170,9 @@ import VisitorReport from "./Pages/VisitorReport/VisitorReport";
 import ComplainReport from "./Component/ComplainReport/ComplainReport";
 import PreAdmissionReport from "./Component/PreAdmissionReport/PreAdmissionReport";
 import Staff from "./Component/Staff/Staff";
+import TransportSummary from "./Component/TransportSummary/TransportSummary";
+import TransportVehicleReport from "./Component/TransportVehicleReport/TransportVehicleReport";
+import TransportStudentsReport from "./Component/TransportStudentsReport/TransportStudentsReport";
 
 
 
@@ -503,6 +506,10 @@ export default function App() {
           <Route path="/visitor-report" element={<VisitorReport />} />
           <Route path="/complaint-report" element={<ComplainReport />} />
           <Route path="/preadmission-report" element={<PreAdmissionReport />} />
+
+          <Route path="/transport-summary" element={<TransportSummary />} />
+          <Route path="/transport-vechile" element={<TransportVehicleReport />} />
+          <Route path="/transport-student" element={<TransportStudentsReport />} />
          
 
          
