@@ -140,11 +140,9 @@
 }
 
 .studentGatepass__swalConfirm {
-  background: linear-gradient(
-    135deg,
-    #ef4444,
-    #dc2626
-  ) !important;
+  background: linear-gradient(135deg,
+      #ef4444,
+      #dc2626) !important;
 
   border-radius: 10px !important;
 
@@ -404,6 +402,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -413,6 +412,7 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -422,15 +422,13 @@
   from {
     opacity: 0;
     transform:
-      translate(-50%, -50%)
-      scale(0.92);
+      translate(-50%, -50%) scale(0.92);
   }
 
   to {
     opacity: 1;
     transform:
-      translate(-50%, -50%)
-      scale(1);
+      translate(-50%, -50%) scale(1);
   }
 }
 
@@ -438,15 +436,13 @@
   from {
     opacity: 1;
     transform:
-      translate(-50%, -50%)
-      scale(1);
+      translate(-50%, -50%) scale(1);
   }
 
   to {
     opacity: 0;
     transform:
-      translate(-50%, -50%)
-      scale(0.92);
+      translate(-50%, -50%) scale(0.92);
   }
 }
 
@@ -491,11 +487,9 @@
 
   padding: 26px 32px;
 
-  background: linear-gradient(
-    135deg,
-    #fafaff 0%,
-    #f4f5ff 100%
-  );
+  background: linear-gradient(135deg,
+      #fafaff 0%,
+      #f4f5ff 100%);
 
   border-bottom: 1px solid #eceeff;
 }
@@ -586,7 +580,7 @@
   border-color: #5b5cf6;
 
   box-shadow:
-    0 0 0 4px rgba(91,92,246,.12);
+    0 0 0 4px rgba(91, 92, 246, .12);
 }
 
 .studentGatepass__field label {
@@ -678,7 +672,7 @@
   border-color: #5b5cf6;
 
   box-shadow:
-    0 0 0 4px rgba(91,92,246,.12);
+    0 0 0 4px rgba(91, 92, 246, .12);
 }
 
 .studentGatepass__field label {
@@ -715,11 +709,9 @@
 .studentGatepass__photoSection button {
   margin-top: 16px;
 
-  background: linear-gradient(
-    135deg,
-    #5b5cf6,
-    #8b4dff
-  );
+  background: linear-gradient(135deg,
+      #5b5cf6,
+      #8b4dff);
 
   color: white;
 
@@ -732,7 +724,7 @@
   font-weight: 600;
 
   box-shadow:
-    0 12px 25px rgba(91,92,246,.25);
+    0 12px 25px rgba(91, 92, 246, .25);
 }
 
 /* =========================
@@ -830,7 +822,7 @@
   transform: translateY(-4px);
 
   box-shadow:
-    0 15px 30px rgba(91,92,246,.08);
+    0 15px 30px rgba(91, 92, 246, .08);
 }
 
 .studentGatepass__familyCard img {
@@ -926,11 +918,9 @@
 }
 
 .studentGatepass__uploadBtn {
-  background: linear-gradient(
-    135deg,
-    #5b5cf6,
-    #8b4dff
-  );
+  background: linear-gradient(135deg,
+      #5b5cf6,
+      #8b4dff);
 
   color: white;
 
@@ -1000,18 +990,38 @@
 
   border-radius: 14px;
 
-  background: linear-gradient(
-    135deg,
-    #5b5cf6,
-    #8b4dff
-  );
+  background: linear-gradient(135deg,
+      #5b5cf6,
+      #8b4dff);
 
   color: white;
 
   font-weight: 600;
 
   box-shadow:
-    0 12px 25px rgba(91,92,246,.25);
+    0 12px 25px rgba(91, 92, 246, .25);
+}
+
+.studentSearchList {
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 999;
+  margin-top: 5px;
+}
+
+.studentSearchItem {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.studentSearchItem:hover {
+  background: #f5f5f5;
 }
 
 /* =========================

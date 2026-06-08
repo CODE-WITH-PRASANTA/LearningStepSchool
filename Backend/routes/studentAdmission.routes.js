@@ -46,7 +46,8 @@ router.post(
   "/",
   uploadFields,
   convertToWebp,
-  createStudent
+  createStudent,
+  
 );
 
 router.get("/", getStudents);
@@ -61,6 +62,7 @@ router.put(
   convertToWebp,
   updateStudent
 );
+
 
 router.delete("/:id", deleteStudent);
 

@@ -59,7 +59,9 @@ const StaffgatePass = () => {
       const res = await API.get("/staff-gate-pass/all");
       setGatePasses(res.data?.data || []);
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to load staff gate passes");
+      alert(
+        error.response?.data?.message || "Failed to load staff gate passes",
+      );
     } finally {
       setLoading(false);
     }
@@ -119,8 +121,13 @@ const StaffgatePass = () => {
 
   const selectTeacher = (teacher) => {
     setSelectedTeacher(teacher);
-    setStaffSearch(teacher.name || "");
-    setFormData((prev) => ({ ...prev, teacherId: teacher._id }));
+
+    setStaffSearch(""); // hide suggestions
+
+    setFormData((prev) => ({
+      ...prev,
+      teacherId: teacher._id,
+    }));
   };
 
   const openAddModal = () => {
@@ -202,7 +209,9 @@ const StaffgatePass = () => {
       closeEditModal();
       fetchGatePasses();
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to update staff gate pass");
+      alert(
+        error.response?.data?.message || "Failed to update staff gate pass",
+      );
     }
   };
 
@@ -214,7 +223,9 @@ const StaffgatePass = () => {
       alert("Staff gate pass deleted successfully");
       fetchGatePasses();
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to delete staff gate pass");
+      alert(
+        error.response?.data?.message || "Failed to delete staff gate pass",
+      );
     }
   };
 
@@ -242,7 +253,8 @@ const StaffgatePass = () => {
           </p>
           <p>
             <strong>Designation :</strong>{" "}
-            {staff.designation || (staff.role === "admin" ? "Admin" : "Teacher")}
+            {staff.designation ||
+              (staff.role === "admin" ? "Admin" : "Teacher")}
           </p>
           <p>
             <strong>Contact :</strong> {staff.contact || "-"}

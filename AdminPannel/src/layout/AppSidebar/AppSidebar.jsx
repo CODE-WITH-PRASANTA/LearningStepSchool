@@ -116,16 +116,15 @@ const menu = [
   { label: "Event Management", icon: FiCalendar, path: "/events" },
   { label: "Faq Posting", icon: FiMessageCircle, path: "/faq" },
 
-  // { 
-  //   label: "Expense", 
-  //   icon: FiCreditCard, 
+  // {
+  //   label: "Expense",
+  //   icon: FiCreditCard,
   //   children: [
   //     { label: "Add Expense", path: "/expense" },
   //     { label: "Expense Search", path: "/expense/search" },
   //     { label: "Expense Head", path: "/expense/head" },
   //   ],
   // },
-
 
   { type: "section", label: "ERP Solution" },
 
@@ -138,8 +137,8 @@ const menu = [
         label: "Student Details",
         path: "/student/admission/details",
       },
-       { label: "Promotion", path: "/student/Promotion" },
-       { label: "Student Portfolio", path: "/student/portfolio" },
+      { label: "Promotion", path: "/student/Promotion" },
+      { label: "Student Portfolio", path: "/student/portfolio" },
 
       // { label: "Online Admission", path: "/online/admission" },
       // { label: "Student Details", path: "/student/details" },
@@ -158,10 +157,10 @@ const menu = [
     icon: FiActivity,
     children: [
       { label: "Fee collect", path: "/fee-collect" },
-      
+
       { label: "Fee Type", path: "/fee-type" },
       { label: "PaymentRecipt", path: "/Paymentrecipt" },
-      { label: "Other income", path: "/other-income"},
+      { label: "Other income", path: "/other-income" },
     ],
   },
   {
@@ -205,7 +204,6 @@ const menu = [
         path: "/admin/leave-management",
       },
 
-
       {
         label: "Payroll Management",
         path: "/admin/payroll-management",
@@ -248,8 +246,6 @@ const menu = [
   //   ],
   // },
 
-  
-
   // {
   //   label: "Primary Evaluation",
   //   icon: FiActivity,
@@ -267,120 +263,97 @@ const menu = [
   //   ],
   // },
 
-   {
-     label: "Library",
+  {
+    label: "Library",
     icon: FiBook,
-  children: [
+    children: [
       { label: "Library Master", path: "/library/master" },
-       { label: "Add Book", path: "/library/issue-book" },
+      { label: "Add Book", path: "/library/issue-book" },
       { label: "Issue Book", path: "/library/return-book" },
-       { label: "Return Book ", path: "/library/student" },
+      { label: "Return Book ", path: "/library/student" },
       { label: "Damaged Book", path: "/library/staff" },
-     ],
-  },
-  
-
-    { type: "divider" },
-  {
-     label: "Support",
-    icon: FiBook,
-  children: [
-      { label: "Ticket Generator", path: "/ticket/generator" },
-       
-     ],
-  },
-
-
-  
-    { type: "divider" },
-  {
-     label: "Front Office",
-    icon: FiBook,
-  children: [
-      { label: "Calender Planning", path: "/calender/planning" },
-       { label: "Student Pop Form", path: "/student/popform" },
-        { label: "Staff Gate Pass", path: "/staff/gatepass" },
-        { label: "Pre Admission", path: "/pre/admission" },
-        { label: "Staff Visit Meeting", path: "/staff/meet" },
-        { label: "Admin Complaint", path: "/admin/complaint" },
-        { label: "Staff Complaint", path: "/staff/complaint" },
-      { label: "Student Gate Pass", path: "/student/gatepass" },
-      { label: "Visitor Enquiry", path: "/visitor/enquiry" },
-       {
-  label: "Staff Complaint Report",
-  path: "/staff-report",
-},
-{
-  label: "Visitor Report",
-  path: "/visitor-report",
-},
-{
-  label: "Complaint Report",
-  path: "/complaint-report",
-},
-{
-  label: "Pre Admission Report",
-  path: "/preadmission-report",
-},
-{
-  label: "Gate Pass Report",
-  path: "/gatepass-report",
-},
-{
-  label: "Calendar Planning Report",
-  path: "/calendar-report",
-},
-{
-  label: "Reminder Report",
-  path: "/reminder-report",
-},
-       
-     ],
-  },
-
-
- { type: "divider" },
-  {
-     label: "Stationery",
-    icon: FiBook,
-  children: [
-      { label: "School Shop Information", path: "/school/information" },
-       { label: "Supplier Shop Master", path: "/school/supplymaster" },
-         { label: "Catagory Master", path: "catagory/master" },
-          { label: "Items Master", path: "catagorry/items" },
-      
-       
-     ],
+    ],
   },
 
   { type: "divider" },
   {
-     label: "Transport",
+    label: "Support",
     icon: FiBook,
-  children: [
-      { label: "Transport summary", path: "/transport-summary" },
-       { label: "Transport Student", path: "/transport-student" },
-         { label: "Transport vechile Report", path: "/transport-vechile" },
-        
-      
-       
-     ],
+    children: [{ label: "Ticket Generator", path: "/ticket/generator" }],
   },
 
-  
-  //   { type: "divider" },
-  // {
-  //    label: "Transport",
-  //   icon: FiBook,
-  // children: [
-  //     { label: "Transport Vehicle", path: "/transport/vehicle" },
-  //     { label: "Transport Route", path: "/transport/route" },
-  //      { label: "Transport Destination", path: "/transport/destination" },
-  //       { label: "Assign Routes", path: "/transport/routesAssigne" },
-  //        { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
-       
-  //    ],
-  // },
+  { type: "divider" },
+  {
+    label: "Front Office",
+    icon: FiBook,
+    children: [
+      { label: "Calender Planning", path: "/calender/planning" },
+      { label: "Student Pop Form", path: "/student/popform" },
+      { label: "Staff Gate Pass", path: "/staff/gatepass" },
+      { label: "Pre Admission", path: "/pre/admission" },
+      { label: "Staff Visit Meeting", path: "/staff/meet" },
+      { label: "Admin Complaint", path: "/admin/complaint" },
+      { label: "Staff Complaint", path: "/staff/complaint" },
+      { label: "Student Gate Pass", path: "/student/gatepass" },
+      { label: "Visitor Enquiry", path: "/visitor/enquiry" },
+      {
+        label: "Staff Complaint Report",
+        path: "/staff-report",
+      },
+      {
+        label: "Visitor Report",
+        path: "/visitor-report",
+      },
+      {
+        label: "Complaint Report",
+        path: "/complaint-report",
+      },
+      {
+        label: "Pre Admission Report",
+        path: "/preadmission-report",
+      },
+      {
+        label: "Gate Pass Report",
+        path: "/gatepass-report",
+      },
+      {
+        label: "Calendar Planning Report",
+        path: "/calendar-report",
+      },
+      {
+        label: "Reminder Report",
+        path: "/reminder-report",
+      },
+    ],
+  },
+
+  { type: "divider" },
+  {
+    label: "Stationery",
+    icon: FiBook,
+    children: [
+      { label: "School Shop Information", path: "/school/information" },
+      { label: "Supplier Shop Master", path: "/school/supplymaster" },
+      { label: "Catagory Master", path: "catagory/master" },
+      { label: "Items Master", path: "catagorry/items" },
+    ],
+  },
+
+  { type: "divider" },
+  {
+    label: "Transport",
+    icon: FiBook,
+    children: [
+      { label: "Transport Vehicle", path: "/transport/vehicle" },
+      { label: "Transport Route", path: "/transport/route" },
+      { label: "Transport Destination", path: "/transport/destination" },
+      { label: "Assign Routes", path: "/transport/routesAssigne" },
+      { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
+      { label: "Transport summary", path: "/transport-summary" },
+      { label: "Transport Student", path: "/transport-student" },
+      { label: "Transport Vehicle Report", path: "/transport-vechile" },
+    ],
+  },
 
   // {
   //   label: "Question Paper",
@@ -420,7 +393,6 @@ const menu = [
       { label: "Add Expense", path: "/expense/details" },
       { label: "Expense Search", path: "/expense-search" },
       { label: "Expense Head", path: "/expense-head" },
-      
     ],
   },
 
@@ -644,7 +616,9 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               <FiLogOut />
             </span>
 
-            {sidebarOpen && <span className="cursor-pointer text-sm font-medium">Logout</span>}
+            {sidebarOpen && (
+              <span className="cursor-pointer text-sm font-medium">Logout</span>
+            )}
           </button>
         </div>
       </aside>
