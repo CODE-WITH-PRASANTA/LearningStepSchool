@@ -41,372 +41,436 @@ import {
 /* ================= UPDATED MENU CONFIG ================= */
 
 const menu = [
-  { label: "Dashboard", icon: FiHome, path: "/dashboard" },
-
-  { type: "section", label: "Enquiry Section" },
   {
-    label: "Cold Leads",
-    icon: FiUserPlus,
+    label: "Executive Dashboard",
+    icon: FiHome,
+    path: "/dashboard",
+  },
+
+  /* ================= LEAD MANAGEMENT ================= */
+  { type: "section", label: "Lead & Marketing Center" },
+
+  {
+    label: "Lead Management",
+    icon: FiTrendingUp,
     path: "/admin/coldleads",
   },
 
   {
-    label: "Advertisements",
+    label: "Marketing Campaigns",
     icon: FiImage,
     path: "/admin/advertisement",
   },
 
-  { type: "section", label: "Contact Enquiry" },
-
   {
-    label: "Contact Enquiries",
+    label: "Contact Inquiry Center",
     icon: FiMessageSquare,
     path: "/admin/contact-enq",
   },
 
-  { type: "section", label: "Main Section" },
+  /* ================= WEBSITE CMS ================= */
+  { type: "section", label: "Website Content Management" },
 
   {
-    label: "Blog Management",
+    label: "Content Hub",
     icon: FiBookOpen,
     children: [
       { label: "Blog Posts", path: "/blogs" },
-      { label: "Blog View", path: "/blogs/view" },
+      { label: "Published Blogs", path: "/blogs/view" },
     ],
   },
 
-  { label: "Teacher Posting", icon: FiUsers, path: "/teachers" },
-  { label: "Award Management", icon: FiAward, path: "/awards" },
-  { label: "School Fee & Info", icon: FiDollarSign, path: "/fees" },
-  { label: "Notice Management", icon: FiClipboard, path: "/notices" },
-  { label: "Notification Management", icon: FiBell, path: "/notification" },
-  { label: "Latest News Management", icon: FiFileText, path: "/latest-news" },
-  { label: "Class Data Registry", icon: FiDatabase, path: "/class-data" },
+  {
+    label: "Faculty Directory",
+    icon: FiUsers,
+    path: "/teachers",
+  },
 
   {
-    label: "Media Management",
+    label: "Achievements & Awards",
+    icon: FiAward,
+    path: "/awards",
+  },
+
+  {
+    label: "Fee Information Center",
+    icon: FiDollarSign,
+    path: "/fees",
+  },
+
+  {
+    label: "Notice Board",
+    icon: FiClipboard,
+    path: "/notices",
+  },
+
+  {
+    label: "Alerts & Notifications",
+    icon: FiBell,
+    path: "/notification",
+  },
+
+  {
+    label: "News & Updates",
+    icon: FiFileText,
+    path: "/latest-news",
+  },
+
+  {
+    label: "Academic Data Registry",
+    icon: FiDatabase,
+    path: "/class-data",
+  },
+
+  {
+    label: "Digital Media Center",
     icon: FiMonitor,
     children: [
-      { label: "Photo Gallery Managements", path: "/media-photo" },
-      { label: "Video Gallery Managements", path: "/media-video" },
+      {
+        label: "Photo Gallery",
+        path: "/media-photo",
+      },
+      {
+        label: "Video Library",
+        path: "/media-video",
+      },
     ],
   },
 
   {
-    label: "Learning Management",
+    label: "E-Learning Portal",
     icon: FiLayers,
     children: [
-      { label: "Pre-Primary", path: "/learning/pre" },
-      { label: "Primary", path: "/learning/primary" },
-      { label: "Secondary", path: "/learning/secondary" },
-    ],
-  },
-
-  { label: "Testimonials", icon: FiStar, path: "/testimonials" },
-
-  {
-    label: "Admission Management",
-    icon: FiUsers,
-    children: [
-      { label: "Admission Survey", path: "/survey" },
-      { label: "Admission Data View", path: "/survey/data" },
-    ],
-  },
-
-  { label: "Event Management", icon: FiCalendar, path: "/events" },
-  { label: "Faq Posting", icon: FiMessageCircle, path: "/faq" },
-
-  // {
-  //   label: "Expense",
-  //   icon: FiCreditCard,
-  //   children: [
-  //     { label: "Add Expense", path: "/expense" },
-  //     { label: "Expense Search", path: "/expense/search" },
-  //     { label: "Expense Head", path: "/expense/head" },
-  //   ],
-  // },
-
-  { type: "section", label: "ERP Solution" },
-
-  {
-    label: "Student Hub",
-    icon: FiUsers,
-    children: [
-      { label: "Student Admission", path: "/student/admission" },
       {
-        label: "Student Details",
+        label: "Pre-Primary Curriculum",
+        path: "/learning/pre",
+      },
+      {
+        label: "Primary Curriculum",
+        path: "/learning/primary",
+      },
+      {
+        label: "Secondary Curriculum",
+        path: "/learning/secondary",
+      },
+    ],
+  },
+
+  {
+    label: "Testimonials & Reviews",
+    icon: FiStar,
+    path: "/testimonials",
+  },
+
+  {
+    label: "Admission Control",
+    icon: FiUsers,
+    children: [
+      {
+        label: "Admission Applications",
+        path: "/survey",
+      },
+      {
+        label: "Application Records",
+        path: "/survey/data",
+      },
+    ],
+  },
+
+  {
+    label: "Events & Activities",
+    icon: FiCalendar,
+    path: "/events",
+  },
+
+  {
+    label: "Knowledge Base & FAQs",
+    icon: FiMessageCircle,
+    path: "/faq",
+  },
+
+  /* ================= ERP ================= */
+  { type: "section", label: "School ERP Suite" },
+
+  {
+    label: "Student Information System",
+    icon: FiUsers,
+    children: [
+      {
+        label: "Student Enrollment",
+        path: "/student/admission",
+      },
+      {
+        label: "Student Records",
         path: "/student/admission/details",
       },
-      { label: "Promotion", path: "/student/Promotion" },
-      { label: "Student Portfolio", path: "/student/portfolio" },
-
-      // { label: "Online Admission", path: "/online/admission" },
-      // { label: "Student Details", path: "/student/details" },
-      // { label: "Student Catagory", path: "/student/catagory" },
-      // { label: "House", path: "/house" },
-      // { label: "Student Referral", path: "/student/referral" },
-      // { label: "Inactive Students", path: "/inactive/student" },
-      // { label: "Link Siblings", path: "/link/siblings" },
-      // { label: "Student Update", path: "/student/update" },
-      // { label: "Student Report", path: "/student/report" },
+      {
+        label: "Class Promotion Manager",
+        path: "/student/Promotion",
+      },
+      {
+        label: "Student Portfolio",
+        path: "/student/portfolio",
+      },
     ],
   },
 
   {
-    label: "Student Paytrack",
-    icon: FiActivity,
+    label: "Finance & Fee Manager",
+    icon: FiCreditCard,
     children: [
-      { label: "Fee collect", path: "/fee-collect" },
-
-      { label: "Fee Type", path: "/fee-type" },
-      { label: "PaymentRecipt", path: "/Paymentrecipt" },
-      { label: "Other income", path: "/other-income" },
+      {
+        label: "Fee Collection",
+        path: "/fee-collect",
+      },
+      {
+        label: "Fee Structure",
+        path: "/fee-type",
+      },
+      {
+        label: "Payment Receipts",
+        path: "/Paymentrecipt",
+      },
+      {
+        label: "Additional Income",
+        path: "/other-income",
+      },
     ],
   },
+
   {
-    label: "Class Post",
+    label: "Class Management",
     icon: FiBookOpen,
     path: "/class-post",
   },
 
   {
-    label: "Subject Post",
+    label: "Subject Management",
     icon: FiEdit,
     path: "/subject-post",
   },
+
   {
-    label: "Classwise Subject",
+    label: "Class Subject Mapping",
     icon: FiLayers,
     path: "/classwise-subject",
   },
+
   { type: "divider" },
 
   {
-    label: " RBAC Management",
+    label: "HR & Access Control",
     icon: FiSettings,
     children: [
       {
-        label: "Create Teacher",
+        label: "Faculty Registration",
         path: "/admin/create-teacher",
       },
       {
-        label: "Create Permission",
+        label: "Roles & Permissions",
         path: "/admin/create-permission",
       },
-
       {
-        label: "Attendance Management",
+        label: "Staff Attendance",
         path: "/admin/attendance-management",
       },
-
       {
-        label: "Leave Management",
+        label: "Leave Administration",
         path: "/admin/leave-management",
       },
-
       {
-        label: "Payroll Management",
+        label: "Payroll Processing",
         path: "/admin/payroll-management",
       },
     ],
   },
 
   {
-    label: "Exam Result Desk",
+    label: "Examination Center",
     icon: FiBriefcase,
     children: [
-      { label: "Exam Result", path: "/exam-result" },
-      { label: "Exam Score Manager", path: "/exam-result-manager" },
-      { label: "Type of Exam Publish", path: "/exam-type" },
-      { label: "Progress Report Card", path: "/exam-report" },
+      {
+        label: "Published Results",
+        path: "/exam-result",
+      },
+      {
+        label: "Marks Management",
+        path: "/exam-result-manager",
+      },
+      {
+        label: "Exam Configuration",
+        path: "/exam-type",
+      },
+      {
+        label: "Academic Report Cards",
+        path: "/exam-report",
+      },
     ],
   },
+
   {
-    label: "Attendance",
+    label: "Attendance Center",
     icon: FiCheckSquare,
     children: [
-      { label: "Student Attendance", path: "/attendance/student-attendance" },
-      { label: "Student Leave", path: "/attendance/student-leave" },
-      { label: "Attendance Report", path: "/attendance/attendance-report" },
+      {
+        label: "Daily Attendance",
+        path: "/attendance/student-attendance",
+      },
+      {
+        label: "Student Leave Requests",
+        path: "/attendance/student-leave",
+      },
+      {
+        label: "Attendance Analytics",
+        path: "/attendance/attendance-report",
+      },
     ],
   },
 
-  // {
-  //   label: "Front Office",
-  //   icon: FiBriefcase,
-  //   children: [
-  //     { label: "Admission Enquiry", path: "/front-office/enquiry" },
-  //     { label: "Visitors Book", path: "/front-office/visitors" },
-  //     { label: "Postal Dispatch", path: "/front-office/postal-dispatch" },
-  //     { label: "Postal Receive", path: "/front-office/postal-receive" },
-  //     { label: "Complain", path: "/front-office/complain" },
-  //     { label: "Setup Front Office", path: "/front-office/setup" },
-  //     { label: "Gate Pass", path: "/front-office/gate-pass" },
-  //     { label: "Entrance Examination Form", path: "/front-office/exam-form" },
-  //   ],
-  // },
-
-  // {
-  //   label: "Primary Evaluation",
-  //   icon: FiActivity,
-  //   children: [
-  //     { label: "Activity", path: "/primary-evaluation/activity" },
-  //     { label: "Assessment", path: "/primary-evaluation/assessment" },
-  //     {
-  //       label: "Evaluation Remark",
-  //       path: "/primary-evaluation/evaluation-remark",
-  //     },
-  //     {
-  //       label: "Primary Class Report",
-  //       path: "/primary-evaluation/class-report",
-  //     },
-  //   ],
-  // },
-
   {
-    label: "Library",
+    label: "Library Management System",
     icon: FiBook,
     children: [
-      { label: "Library Master", path: "/library/master" },
-      { label: "Add Book", path: "/library/issue-book" },
-      { label: "Issue Book", path: "/library/return-book" },
-      { label: "Return Book ", path: "/library/student" },
-      { label: "Damaged Book", path: "/library/staff" },
+      {
+        label: "Library Configuration",
+        path: "/library/master",
+      },
+      {
+        label: "Book Catalog",
+        path: "/library/issue-book",
+      },
+      {
+        label: "Book Issue Desk",
+        path: "/library/return-book",
+      },
+      {
+        label: "Book Return Desk",
+        path: "/library/student",
+      },
+      {
+        label: "Damaged Books Register",
+        path: "/library/staff",
+      },
     ],
   },
 
   { type: "divider" },
+
   {
-    label: "Support",
-    icon: FiBook,
-    children: [{ label: "Ticket Generator", path: "/ticket/generator" }],
+    label: "Helpdesk & Support",
+    icon: FiMessageCircle,
+    children: [
+      {
+        label: "Support Tickets",
+        path: "/ticket/generator",
+      },
+    ],
   },
 
   { type: "divider" },
+
   {
-    label: "Front Office",
-    icon: FiBook,
+    label: "Front Office Operations",
+    icon: FiGrid,
     children: [
-      { label: "Calender Planning", path: "/calender/planning" },
-      { label: "Student Pop Form", path: "/student/popform" },
+      { label: "Calendar Planner", path: "/calender/planning" },
+      { label: "Student POP Register", path: "/student/popform" },
       { label: "Staff Gate Pass", path: "/staff/gatepass" },
-      { label: "Pre Admission", path: "/pre/admission" },
-      { label: "Staff Visit Meeting", path: "/staff/meet" },
-      { label: "Admin Complaint", path: "/admin/complaint" },
-      { label: "Staff Complaint", path: "/staff/complaint" },
+      { label: "Pre-Admission Portal", path: "/pre/admission" },
+      { label: "Visitor Meetings", path: "/staff/meet" },
+      { label: "Admin Complaints", path: "/admin/complaint" },
+      { label: "Staff Complaints", path: "/staff/complaint" },
       { label: "Student Gate Pass", path: "/student/gatepass" },
-      { label: "Visitor Enquiry", path: "/visitor/enquiry" },
-      {
-        label: "Staff Complaint Report",
-        path: "/staff-report",
-      },
-      {
-        label: "Visitor Report",
-        path: "/visitor-report",
-      },
-      {
-        label: "Complaint Report",
-        path: "/complaint-report",
-      },
-      {
-        label: "Pre Admission Report",
-        path: "/preadmission-report",
-      },
-      {
-        label: "Gate Pass Report",
-        path: "/gatepass-report",
-      },
-      {
-        label: "Calendar Planning Report",
-        path: "/calendar-report",
-      },
-      {
-        label: "Reminder Report",
-        path: "/reminder-report",
-      },
+      { label: "Visitor Management", path: "/visitor/enquiry" },
     ],
   },
 
   { type: "divider" },
+
   {
-    label: "Stationery",
-    icon: FiBook,
+    label: "Inventory & Stationery",
+    icon: FiClipboard,
     children: [
-      { label: "School Shop Information", path: "/school/information" },
-      { label: "Supplier Shop Master", path: "/school/supplymaster" },
-      { label: "Catagory Master", path: "catagory/master" },
-      { label: "Items Master", path: "catagorry/items" },
+      {
+        label: "School Store Information",
+        path: "/school/information",
+      },
+      {
+        label: "Supplier Management",
+        path: "/school/supplymaster",
+      },
+      {
+        label: "Product Categories",
+        path: "/catagory/master",
+      },
+      {
+        label: "Inventory Items",
+        path: "/catagorry/items",
+      },
     ],
   },
 
-  { type: "divider" },
   {
-    label: "Transport",
-    icon: FiBook,
+    label: "Transport Management",
+    icon: FiActivity,
     children: [
-      { label: "Transport Vehicle", path: "/transport/vehicle" },
-      { label: "Transport Route", path: "/transport/route" },
-      { label: "Transport Destination", path: "/transport/destination" },
-      { label: "Assign Routes", path: "/transport/routesAssigne" },
-      { label: "Transport Routes Vehicle", path: "/transport/vehicleroute" },
-      { label: "Transport summary", path: "/transport-summary" },
-      { label: "Transport Student", path: "/transport-student" },
-      { label: "Transport Vehicle Report", path: "/transport-vechile" },
+      {
+        label: "Vehicle Registry",
+        path: "/transport/vehicle",
+      },
+      {
+        label: "Route Management",
+        path: "/transport/route",
+      },
+      {
+        label: "Transport Destinations",
+        path: "/transport/destination",
+      },
+      {
+        label: "Route Assignment",
+        path: "/transport/routesAssigne",
+      },
+      {
+        label: "Vehicle Route Mapping",
+        path: "/transport/vehicleroute",
+      },
+      {
+        label: "Transport Dashboard",
+        path: "/transport-summary",
+      },
+      {
+        label: "Student Transport",
+        path: "/transport-student",
+      },
+      {
+        label: "Vehicle Reports",
+        path: "/transport-vechile",
+      },
     ],
   },
 
-  // {
-  //   label: "Question Paper",
-  //   icon: FiGrid,
-  //   children: [
-  //     { label: "Type", path: "/type-question" },
-  //     { label: "Question", path: "/question" },
-  //     { label: "Generate", path: "/paper-generate" },
-  //   ],
-  // },
-
-  // { type: "divider" },
-
-  // {
-  //   label: "Online Exam",
-  //   icon: FiMonitor,
-  //   children: [
-  //     { label: "Online Exam", path: "/online-exam" },
-  //     { label: "Question Bank", path: "/online-exam/question-bank" },
-  //     { label: "Exam Report", path: "/online-exam/exam-report" },
-  //     {
-  //       label: "Students Exam Report",
-  //       path: "/online-exam/students-exam-report",
-  //     },
-  //   ],
-  // },
-
-  // { type: "divider" },
-
-  // { type: "divider" },
-
   {
-    label: "Expense",
+    label: "Accounts & Expenses",
     icon: FiCreditCard,
     children: [
-      { label: "Wallet", path: "/wallet" },
-      { label: "Add Expense", path: "/expense/details" },
-      { label: "Expense Search", path: "/expense-search" },
-      { label: "Expense Head", path: "/expense-head" },
+      {
+        label: "School Wallet",
+        path: "/wallet",
+      },
+      {
+        label: "Expense Entry",
+        path: "/expense/details",
+      },
+      {
+        label: "Expense Explorer",
+        path: "/expense-search",
+      },
+      {
+        label: "Expense Categories",
+        path: "/expense-head",
+      },
     ],
   },
-
-  // { type: "divider" },
-
-  // {
-  //   label: "Income",
-  //   icon: FiTrendingUp,
-  //   children: [
-  //     { label: "Add Income", path: "/income/details" },
-  //     { label: "Search Income", path: "/income-search" },
-  //     { label: "Income Head", path: "/income-head" },
-  //   ],
-  // },
 ];
 
 /* ================= COMPONENT ================= */
@@ -447,9 +511,9 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
       <aside
         className={`fixed top-0 left-0 z-50 h-screen bg-white/80 backdrop-blur-xl border-r border-gray-200
-  transition-all duration-500 ease-in-out flex flex-col
-  ${sidebarOpen ? "w-72" : "w-20"}
-  ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        transition-all duration-500 ease-in-out flex flex-col
+        ${sidebarOpen ? "w-72" : "w-20"}
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* LOGO */}
         <div className="h-16 flex items-center justify-center border-b shrink-0">
