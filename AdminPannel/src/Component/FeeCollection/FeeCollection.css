@@ -1,0 +1,90 @@
+.FeeCollection {
+  width: 100%;
+}
+
+.FeeCollection_Card {
+  background: white;
+  border-radius: 24px;
+
+  border: 1px solid #dbeafe;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 8px 20px rgba(37,99,235,.08);
+
+  height: 45vh;
+  min-height: 420px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.FeeCollection_Header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5efff;
+}
+
+.FeeCollection_Header h2 {
+  font-size: 24px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.FeeCollection_Header p {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.FeeCollection_GraphWrap {
+  flex: 1;
+  padding: 20px;
+  min-height: 0;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+
+  .FeeCollection_Card {
+    height: 50vh;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .FeeCollection_Card {
+    height: 45vh;
+    min-height: 350px;
+  }
+
+  .FeeCollection_Header {
+    padding: 15px;
+  }
+
+  .FeeCollection_Header h2 {
+    font-size: 20px;
+  }
+
+  .FeeCollection_GraphWrap {
+    padding: 10px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .FeeCollection_Card {
+    height: 40vh;
+    min-height: 300px;
+  }
+
+  .FeeCollection_Header h2 {
+    font-size: 18px;
+  }
+
+}
