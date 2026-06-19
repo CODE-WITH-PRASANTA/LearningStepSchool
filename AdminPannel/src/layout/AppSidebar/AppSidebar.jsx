@@ -327,6 +327,8 @@ const menu = [
     ],
   },
 
+  
+
   {
     label: "Library Management System",
     icon: FiBook,
@@ -355,6 +357,33 @@ const menu = [
   },
 
   { type: "divider" },
+
+  {
+  label: "Fee Configuration",
+  icon: FiCreditCard,
+  children: [
+    {
+      label: "Fee Groups",
+      path: "/fee-group",
+    },
+    {
+      label: "Fee Heads",
+      path: "/fee-head",
+    },
+    {
+      label: "Fee Structure",
+      path: "/fee-structure",
+    },
+    {
+      label: "Fee Entries",
+      path: "/fee-entry",
+    },
+    {
+      label: "Cancelled Fees",
+      path: "/cancel-fee",
+    },
+  ],
+},
 
   {
     label: "Helpdesk & Support",

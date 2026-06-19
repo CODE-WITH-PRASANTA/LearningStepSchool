@@ -9,7 +9,7 @@ import Calender from '../../Component/Calender/Calender'
 const Dashboard = () => {
   return (
     <div>
-      Dashboard
+     
       <DashBoardfirstSec/>
       <FeesCollection/>
       <EarningMode/>

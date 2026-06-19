@@ -1,0 +1,833 @@
+/* =========================
+   MAIN SECTION
+========================= */
+
+.WelcomeSection {
+  width: 100%;
+  padding: 20px;
+  background: #f4f8ff;
+}
+
+.WelcomeSection_Main {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.WelcomeSection{
+  width:100%;
+  padding:12px;
+  background:#f4f8ff;
+}
+
+.WelcomeSection_TopRow{
+  display:grid;
+  grid-template-columns:430px 1fr;
+  gap:12px;
+}
+
+.WelcomeSection_BottomRow{
+  display:grid;
+  grid-template-columns:430px 1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+
+.WelcomeSection_CardsGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+/* =========================
+   LEFT SIDE
+========================= */
+
+.WelcomeSection_Left {
+  width: 500px;
+  flex-shrink: 0;
+}
+
+/* =========================
+   WELCOME CARD
+========================= */
+
+.WelcomeSection_WelcomeCard {
+  height:185px;
+  border-radius:18px;
+  padding:18px;
+  background: linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #3b82f6 50%,
+    #60a5fa 100%
+  );
+  position: relative;
+  overflow: hidden;
+ 
+  margin-bottom: 20px;
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.25);
+}
+
+.WelcomeSection_WelcomeCard::before {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  top: -70px;
+  right: -70px;
+}
+
+.WelcomeSection_WelcomeCard::after {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.05);
+  left: -60px;
+  bottom: -60px;
+}
+
+.WelcomeSection_Content {
+  position: relative;
+  z-index: 2;
+}
+
+.WelcomeSection_Content h1 {
+  color: white;
+  font-size: 62px;
+  line-height: 1;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.WelcomeSection_Content p {
+  color: rgba(255,255,255,.95);
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.WelcomeSection_RefreshBtn {
+  margin-top: 28px;
+  height: 48px;
+  width: 220px;
+  border: none;
+  border-radius: 12px;
+  background: white;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+}
+
+.WelcomeSection_RefreshBtn:hover {
+  transform: translateY(-3px);
+}
+
+.WelcomeSection_Content span {
+  display: block;
+  margin-top: 12px;
+  color: white;
+  font-size: 14px;
+}
+
+.WelcomeSection_Clock {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+  text-align: center;
+  z-index: 2;
+}
+
+.WelcomeSection_Clock p {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.WelcomeSection_Illustration {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  z-index: 2;
+}
+
+.WelcomeSection_Illustration img {
+  width: 120px;
+  animation: floatImage 4s ease-in-out infinite;
+}
+
+@keyframes floatImage {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* =========================
+   BIRTHDAY SECTION
+========================= */
+/* =========================
+   BIRTHDAY SECTION
+========================= */
+
+.WelcomeSection_BirthdayCard {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #dbe7ff;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+  height: 100%;
+}
+
+/* HEADER */
+
+.WelcomeSection_BirthdayHeader {
+  height: 48px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(
+    135deg,
+    #f8fbff,
+    #ffffff
+  );
+  border-bottom: 1px solid #edf2ff;
+}
+
+.WelcomeSection_Tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.WelcomeSection_Tabs span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #334155;
+
+  padding: 5px 10px;
+  border-radius: 20px;
+
+  background: #f1f5ff;
+}
+
+.WelcomeSection_Tabs svg {
+  font-size: 12px;
+}
+
+.WelcomeSection_BirthdayHeader button {
+  border: none;
+
+  height: 30px;
+  padding: 0 12px;
+
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.WelcomeSection_BirthdayHeader button:hover {
+  transform: translateY(-2px);
+}
+
+/* BODY */
+
+.WelcomeSection_BirthdayBody {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* PERSON CARD */
+
+.WelcomeSection_PersonCard {
+  background: linear-gradient(
+    135deg,
+    #f8fbff,
+    #ffffff
+  );
+
+  border: 1px solid #e4ecff;
+
+  border-radius: 14px;
+
+  padding: 10px 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  transition: .3s;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.WelcomeSection_PersonCard::after {
+  content: "";
+
+  position: absolute;
+
+  width: 60px;
+  height: 60px;
+
+  border-radius: 50%;
+
+  right: -20px;
+  bottom: -20px;
+
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.WelcomeSection_PersonCard:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 20px rgba(37, 99, 235, 0.12);
+}
+
+.WelcomeSection_PersonCard img {
+  width: 46px;
+  height: 46px;
+
+  border-radius: 50%;
+
+  border: 3px solid #fff;
+
+  box-shadow:
+    0 4px 10px rgba(0,0,0,.12);
+}
+
+.WelcomeSection_PersonCard h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.WelcomeSection_PersonCard p {
+  margin-top: 2px;
+
+  font-size: 11px;
+  color: #64748b;
+}
+
+.WelcomeSection_PersonCard button {
+  margin-left: auto;
+
+  height: 30px;
+
+  padding: 0 10px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.WelcomeSection_PersonCard button:hover {
+  transform: scale(1.05);
+}
+
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.WelcomeSection_Right {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+}
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.WelcomeSection_StatCard {
+   height:86px;
+  min-height:86px;
+  border-radius:16px;
+  padding:10px 12px;
+  gap:10px;
+  
+  background: linear-gradient(
+    135deg,
+    #ffffff,
+    #f8fbff
+  );
+  border: 1px solid #d8e8ff;
+  
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: .35s;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.05),
+    0 2px 8px rgba(0,0,0,.04);
+}
+
+.WelcomeSection_StatCard:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 18px 40px rgba(37,99,235,.15),
+    0 8px 20px rgba(37,99,235,.10);
+}
+
+.WelcomeSection_Badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: #22c55e;
+  color: white;
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ICON */
+
+.WelcomeSection_Icon {
+ 
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  animation: iconFloat 3s infinite ease-in-out;
+   width:48px;
+  height:48px;
+  min-width:48px;
+  font-size:20px;
+}
+
+@keyframes iconFloat {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.WelcomeSection_Info h3 {
+  font-size:18px;
+  margin-bottom:2px;
+  line-height: 1;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.WelcomeSection_Info p {
+ 
+  color: #64748b;
+ font-size:11px;
+  margin-top:3px;
+
+  font-weight: 500;
+}
+
+/* DECORATION */
+
+.WelcomeSection_Circle {
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(37,99,235,.08),
+    transparent 70%
+  );
+}
+
+/* COLORS */
+
+.WelcomeSection_red {
+  color: #ff5a5f;
+  border: 3px solid #ff5a5f;
+  box-shadow: 0 0 0 10px rgba(255,90,95,.10);
+}
+
+.WelcomeSection_purple {
+  color: #b16eff;
+  border: 3px solid #b16eff;
+  box-shadow: 0 0 0 10px rgba(177,110,255,.10);
+}
+
+.WelcomeSection_blue {
+  color: #4f7dff;
+  border: 3px solid #4f7dff;
+  box-shadow: 0 0 0 10px rgba(79,125,255,.10);
+}
+
+.WelcomeSection_cyan {
+  color: #2ac7ff;
+  border: 3px solid #2ac7ff;
+  box-shadow: 0 0 0 10px rgba(42,199,255,.10);
+}
+
+.WelcomeSection_teal {
+  color: #20c7b7;
+  border: 3px solid #20c7b7;
+  box-shadow: 0 0 0 10px rgba(32,199,183,.10);
+}
+
+.WelcomeSection_green {
+  color: #7cc957;
+  border: 3px solid #7cc957;
+  box-shadow: 0 0 0 10px rgba(124,201,87,.10);
+}
+
+.WelcomeSection_orange {
+  color: #f6a623;
+  border: 3px solid #f6a623;
+  box-shadow: 0 0 0 10px rgba(246,166,35,.10);
+}
+
+.WelcomeSection_pink {
+  color: #ff6ea8;
+  border: 3px solid #ff6ea8;
+  box-shadow: 0 0 0 10px rgba(255,110,168,.10);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+/* =========================================
+   LARGE LAPTOPS (1400px)
+========================================= */
+
+@media (max-width: 1400px) {
+
+  .WelcomeSection_TopRow{
+    grid-template-columns:380px 1fr;
+  }
+
+  .WelcomeSection_BottomRow{
+    grid-template-columns:380px 1fr 1fr;
+  }
+
+  .WelcomeSection_Content h1{
+    font-size:48px;
+  }
+
+  .WelcomeSection_Illustration img{
+    width:100px;
+  }
+
+}
+
+/* =========================================
+   LAPTOPS (1200px)
+========================================= */
+
+@media (max-width: 1200px) {
+
+  .WelcomeSection_TopRow{
+    grid-template-columns:1fr;
+  }
+
+  .WelcomeSection_BottomRow{
+    grid-template-columns:1fr;
+  }
+
+  .WelcomeSection_CardsGrid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .WelcomeSection_WelcomeCard{
+    height:220px;
+  }
+
+}
+
+/* =========================================
+   TABLETS (992px)
+========================================= */
+
+@media (max-width: 992px) {
+
+  .WelcomeSection{
+    padding:10px;
+  }
+
+  .WelcomeSection_CardsGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .WelcomeSection_BirthdayBody{
+    grid-template-columns:1fr;
+  }
+
+  .WelcomeSection_WelcomeCard{
+    height:auto;
+    min-height:220px;
+  }
+
+  .WelcomeSection_Content h1{
+    font-size:38px;
+  }
+
+  .WelcomeSection_Content p{
+    font-size:14px;
+  }
+
+  .WelcomeSection_RefreshBtn{
+    width:160px;
+    height:38px;
+    font-size:13px;
+  }
+
+}
+
+/* =========================================
+   MOBILE LANDSCAPE (768px)
+========================================= */
+
+@media (max-width: 768px) {
+
+  .WelcomeSection{
+    padding:8px;
+  }
+
+  .WelcomeSection_CardsGrid{
+    grid-template-columns:1fr;
+  }
+
+  .WelcomeSection_BottomRow{
+    gap:10px;
+  }
+
+  .WelcomeSection_BirthdayHeader{
+    flex-direction:column;
+    align-items:flex-start;
+    height:auto;
+    padding:10px;
+    gap:10px;
+  }
+
+  .WelcomeSection_Tabs{
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .WelcomeSection_Tabs span{
+    font-size:11px;
+    padding:4px 8px;
+  }
+
+  .WelcomeSection_BirthdayHeader button{
+    width:100%;
+    justify-content:center;
+  }
+
+  .WelcomeSection_PersonCard{
+    flex-wrap:wrap;
+  }
+
+  .WelcomeSection_PersonCard button{
+    width:100%;
+    margin-left:0;
+    margin-top:6px;
+  }
+
+  .WelcomeSection_WelcomeCard{
+    min-height:200px;
+    padding:15px;
+  }
+
+  .WelcomeSection_Content h1{
+    font-size:32px;
+  }
+
+  .WelcomeSection_Content p{
+    font-size:13px;
+    max-width:180px;
+  }
+
+  .WelcomeSection_Illustration{
+    right:5px;
+  }
+
+  .WelcomeSection_Illustration img{
+    width:110px;
+  }
+
+  .WelcomeSection_Clock{
+    top:10px;
+    right:10px;
+  }
+
+}
+
+/* =========================================
+   MOBILE (576px)
+========================================= */
+
+@media (max-width: 576px) {
+
+  .WelcomeSection{
+    padding:6px;
+  }
+
+  .WelcomeSection_WelcomeCard{
+    min-height:180px;
+    border-radius:14px;
+  }
+
+  .WelcomeSection_Content h1{
+    font-size:26px;
+  }
+
+  .WelcomeSection_Content p{
+    font-size:12px;
+    max-width:150px;
+  }
+
+  .WelcomeSection_RefreshBtn{
+    width:140px;
+    height:34px;
+    font-size:11px;
+  }
+
+  .WelcomeSection_Content span{
+    font-size:11px;
+  }
+
+  .WelcomeSection_Illustration img{
+    width:90px;
+  }
+
+  .WelcomeSection_StatCard{
+    height:75px;
+    min-height:75px;
+    padding:8px;
+  }
+
+  .WelcomeSection_Icon{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    font-size:16px;
+  }
+
+  .WelcomeSection_Info h3{
+    font-size:15px;
+  }
+
+  .WelcomeSection_Info p{
+    font-size:10px;
+  }
+
+  .WelcomeSection_Badge{
+    font-size:8px;
+    padding:2px 6px;
+  }
+
+  .WelcomeSection_PersonCard img{
+    width:38px;
+    height:38px;
+  }
+
+  .WelcomeSection_PersonCard h4{
+    font-size:11px;
+  }
+
+  .WelcomeSection_PersonCard p{
+    font-size:10px;
+  }
+
+  .WelcomeSection_PersonCard button{
+    height:28px;
+    font-size:10px;
+  }
+
+}
+
+/* =========================================
+   EXTRA SMALL DEVICES (380px)
+========================================= */
+
+@media (max-width: 380px) {
+
+  .WelcomeSection_Content h1{
+    font-size:22px;
+  }
+
+  .WelcomeSection_Illustration{
+    display:none;
+  }
+
+  .WelcomeSection_RefreshBtn{
+    width:120px;
+    font-size:10px;
+  }
+
+  .WelcomeSection_StatCard{
+    height:70px;
+  }
+
+  .WelcomeSection_Icon{
+    width:35px;
+    height:35px;
+    min-width:35px;
+    font-size:14px;
+  }
+
+  .WelcomeSection_Info h3{
+    font-size:13px;
+  }
+
+}
