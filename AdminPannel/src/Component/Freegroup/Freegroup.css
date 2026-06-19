@@ -1,0 +1,399 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.Freegroup {
+  padding: 20px;
+  background: #f4f6fb;
+  min-height: 100vh;
+}
+
+.FreegroupCard {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ================= TOP ================= */
+
+.FreegroupTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #eef2ff;
+}
+
+.FreegroupSearch {
+  flex: 1;
+  max-width: 500px;
+  height: 50px;
+  background: #ffffff;
+  border-radius: 50px;
+  border: 1px solid #dfe3f0;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 10px;
+}
+
+.FreegroupSearch svg {
+  color: #6c63ff;
+  font-size: 18px;
+}
+
+.FreegroupSearch input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  background: transparent;
+}
+
+.FreegroupAddBtn {
+  width: 55px;
+  height: 55px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6c63ff, #4f46e5);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.FreegroupAddBtn:hover {
+  transform: rotate(90deg) scale(1.08);
+}
+
+/* ================= TABLE ================= */
+
+.FreegroupTableWrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 550px;
+}
+
+.FreegroupTableWrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.FreegroupTableWrapper::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 20px;
+}
+
+.FreegroupTable {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+}
+
+.FreegroupTable thead {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 5;
+}
+
+.FreegroupTable th {
+  text-align: left;
+  padding: 18px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #5b5f72;
+  border-bottom: 2px solid #ececec;
+}
+
+.FreegroupTable td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #ececec;
+  color: #444;
+}
+
+.FreegroupTable tbody tr {
+  transition: 0.3s;
+}
+
+.FreegroupTable tbody tr:hover {
+  background: #f6f7ff;
+}
+
+.FreegroupDelete {
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.FreegroupDelete:hover {
+  transform: scale(1.2);
+}
+
+/* ================= PAGINATION ================= */
+
+.FreegroupPagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.FreegroupPageSize {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.FreegroupPageSize select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.FreegroupPaginationRight {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.FreegroupPaginationRight span {
+  font-size: 14px;
+  color: #555;
+}
+
+.FreegroupPaginationRight button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: #eef2ff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.FreegroupPaginationRight button:hover:not(:disabled) {
+  background: #6c63ff;
+  color: #fff;
+}
+
+.FreegroupPaginationRight button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ================= MODAL ================= */
+
+.FreegroupModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.FreegroupModalShow {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+  animation: fadeIn 0.35s ease;
+}
+
+.FreegroupModalHide {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.FreegroupModal {
+  width: 95%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  animation: popupOpen 0.35s ease;
+}
+
+.FreegroupModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.FreegroupModalHeader h2 {
+  font-size: 20px;
+  color: #222;
+}
+
+.FreegroupClose {
+  font-size: 24px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.FreegroupClose:hover {
+  color: red;
+  transform: rotate(90deg);
+}
+
+.FreegroupModalBody {
+  padding: 35px;
+}
+
+.FreegroupInputBox {
+  position: relative;
+}
+
+.FreegroupInputBox label {
+  position: absolute;
+  left: 15px;
+  top: -10px;
+  background: #fff;
+  padding: 0 8px;
+  color: #6c63ff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.FreegroupInputBox input {
+  width: 100%;
+  height: 58px;
+  border: 2px solid #6c63ff;
+  border-radius: 12px;
+  padding: 0 15px;
+  font-size: 15px;
+  outline: none;
+}
+
+.FreegroupInputBox input:focus {
+  box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+}
+
+.FreegroupModalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding: 25px 30px;
+  border-top: 1px solid #eee;
+}
+
+.FreegroupCancelBtn {
+  background: #f3f4f6;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.FreegroupCancelBtn:hover {
+  background: #e5e7eb;
+}
+
+.FreegroupSaveBtn {
+  border: none;
+  background: linear-gradient(135deg, #6c63ff, #4f46e5);
+  color: #fff;
+  padding: 12px 35px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.FreegroupSaveBtn:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popupOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .FreegroupPagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .Freegroup {
+    padding: 12px;
+  }
+
+  .FreegroupTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .FreegroupSearch {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .FreegroupAddBtn {
+    align-self: center;
+  }
+
+  .FreegroupModalBody {
+    padding: 20px;
+  }
+
+  .FreegroupModalFooter {
+    flex-direction: column;
+  }
+
+  .FreegroupCancelBtn,
+  .FreegroupSaveBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .FreegroupModalHeader h2 {
+    font-size: 16px;
+  }
+
+  .FreegroupTable th,
+  .FreegroupTable td {
+    padding: 14px;
+    font-size: 13px;
+  }
+}
