@@ -7,7 +7,8 @@ const Calender = () => {
 
   const [view, setView] = useState("week"); // "month" | "week" | "day"
   const [refDate, setRefDate] = useState(new Date(2026, 1, 22)); // Feb 22, 2026
-
+  const [notes, setNotes] = useState({});
+  
   const dowShort = useMemo(
     () => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     []
@@ -110,6 +111,8 @@ const Calender = () => {
         height: Math.max(30, (e.endH - e.startH) * 40 - 8),
       }));
 
+
+
   return (
     <section className={base}>
       <div className={`${base}__card`}>
@@ -184,6 +187,18 @@ const Calender = () => {
                     >
                       <div className={`${base}__mDate`}>{d.getDate()}</div>
 
+                      <textarea
+                         className="calendar-note"
+                         placeholder= " "
+                         value={notes[d.toDateString()] || ""}
+                         onChange={(e) =>
+                           setNotes({
+                                   ...notes,
+                           [d.toDateString()]: e.target.value,
+                          })
+                        }
+                      />
+
                       <div className={`${base}__mEvents`}>
                         {ev.map((e) => (
                           <div key={e.id} className={`${base}__mEvent ${base}__mEvent--${e.color}`}>
@@ -237,9 +252,27 @@ const Calender = () => {
                       className={`${base}__dayColumn ${isSat ? `${base}__dayColumn--sat` : ""}`}
                     >
                       <div className={`${base}__allDayRow`} />
-                      {times.map((t) => (
-                        <div key={t} className={`${base}__slot`} />
-                      ))}
+
+
+                   {times.map((t, index) => {
+  const key = `${d.toDateString()}-${index}`;
+
+  return (
+    <div key={key} className={`${base}__slot`}>
+      <input
+        type="text"
+        className="slot-input"
+        value={notes[key] || ""}
+        onChange={(e) =>
+          setNotes({
+            ...notes,
+            [key]: e.target.value,
+          })
+        }
+      />
+    </div>
+  );
+})}
 
                       {blocks.map((b) => (
                         <div
@@ -258,6 +291,7 @@ const Calender = () => {
           )}
         </div>
       </div>
+ 
     </section>
   );
 };
