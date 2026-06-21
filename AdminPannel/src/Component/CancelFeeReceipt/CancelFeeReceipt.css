@@ -1,0 +1,221 @@
+
+
+.cancelFeeReceipt {
+  width: 100%;
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 20px;
+}
+
+/* ================= SEARCH ================= */
+
+.cancelFeeReceipt__searchWrapper {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.cancelFeeReceipt__searchBox {
+  width: 100%;
+  max-width: 650px;
+  height: 60px;
+  background: #fff;
+  border: 1px solid #d8dde7;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+.cancelFeeReceipt__searchIcon {
+  font-size: 22px;
+  color: #5f6368;
+  margin-right: 12px;
+}
+
+.cancelFeeReceipt__searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background: transparent;
+  color: #222;
+}
+
+/* ================= DEFAULT CARD ================= */
+
+.cancelFeeReceipt__defaultCard {
+  width: 100%;
+  max-width: 430px;
+  background: #f5efe4;
+  border-radius: 18px;
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.cancelFeeReceipt__leftInfo {
+  flex: 1;
+}
+
+.cancelFeeReceipt__rightInfo {
+  width: 120px;
+  text-align: center;
+}
+
+.cancelFeeReceipt__studentIcon {
+  font-size: 60px;
+  color: #111;
+  margin-bottom: 15px;
+}
+
+.cancelFeeReceipt__field {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #000;
+}
+
+/* ================= RESULT SECTION ================= */
+
+.cancelFeeReceipt__resultWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cancelFeeReceipt__studentCard {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  border: 1px solid #ececec;
+  transition: 0.3s;
+}
+
+.cancelFeeReceipt__studentCard:hover {
+  transform: translateY(-3px);
+}
+
+.cancelFeeReceipt__studentImageSection {
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f4f4f4;
+  border: 1px solid #e5e5e5;
+}
+
+.cancelFeeReceipt__studentImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cancelFeeReceipt__studentContent {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.cancelFeeReceipt__column {
+  flex: 1;
+}
+
+.cancelFeeReceipt__column p {
+  font-size: 20px;
+  color: #111827;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.cancelFeeReceipt__column strong {
+  font-weight: 700;
+}
+
+.cancelFeeReceipt__noData {
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  padding: 50px;
+  border-radius: 16px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ef4444;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 991px) {
+  .cancelFeeReceipt__studentContent {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cancelFeeReceipt__column p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cancelFeeReceipt {
+    padding: 15px;
+  }
+
+  .cancelFeeReceipt__studentCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cancelFeeReceipt__studentImageSection {
+    width: 90px;
+    height: 90px;
+  }
+
+  .cancelFeeReceipt__searchBox {
+    height: 55px;
+  }
+
+  .cancelFeeReceipt__searchInput {
+    font-size: 16px;
+  }
+
+  .cancelFeeReceipt__defaultCard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .cancelFeeReceipt__defaultCard {
+    flex-direction: column;
+  }
+
+  .cancelFeeReceipt__rightInfo {
+    width: 100%;
+  }
+
+  .cancelFeeReceipt__studentContent {
+    width: 100%;
+  }
+
+  .cancelFeeReceipt__column p {
+    font-size: 15px;
+  }
+
+  .cancelFeeReceipt__field {
+    font-size: 15px;
+  }
+
+  .cancelFeeReceipt__studentIcon {
+    font-size: 55px;
+  }
+}
