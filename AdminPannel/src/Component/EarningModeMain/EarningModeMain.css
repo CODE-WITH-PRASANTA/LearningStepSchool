@@ -1,0 +1,259 @@
+/* ==========================================
+   EARNING MODE MAIN
+========================================== */
+
+.EarningModeMain {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* ==========================================
+   CARD
+========================================== */
+
+.EarningModeMain_Card {
+  background: #ffffff;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid #dbeafe;
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.03);
+
+  height: 43vh;
+  min-height: 340px;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: all 0.3s ease;
+}
+
+.EarningModeMain_Card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 18px 35px rgba(37, 99, 235, 0.12),
+    0 6px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.EarningModeMain_Header {
+  padding: 18px 22px;
+  border-bottom: 1px solid #e8f0ff;
+  flex-shrink: 0;
+}
+
+.EarningModeMain_Header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.EarningModeMain_Header p {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* ==========================================
+   DONUT CHART
+========================================== */
+
+.EarningModeMain_DonutWrap {
+  flex: 1;
+  padding: 16px;
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================
+   BAR CHART
+========================================== */
+
+.EarningModeMain_BarCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.EarningModeMain_BarWrap {
+  flex: 1;
+  padding: 16px;
+  min-height: 0;
+}
+
+/* ==========================================
+   LARGE LAPTOP
+========================================== */
+
+@media (max-width: 1400px) {
+
+  .EarningModeMain {
+    grid-template-columns: 360px 1fr;
+  }
+
+  .EarningModeMain_Card {
+    height: 42vh;
+  }
+
+  .EarningModeMain_Header h2 {
+    font-size: 24px;
+  }
+
+}
+
+/* ==========================================
+   LAPTOP
+========================================== */
+
+@media (max-width: 1200px) {
+
+  .EarningModeMain {
+    grid-template-columns: 1fr;
+  }
+
+  .EarningModeMain_Card {
+    height: 45vh;
+  }
+
+  .EarningModeMain_Header h2 {
+    font-size: 22px;
+  }
+
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 992px) {
+
+  .EarningModeMain {
+    gap: 15px;
+  }
+
+  .EarningModeMain_Card {
+    height: 42vh;
+    min-height: 300px;
+  }
+
+  .EarningModeMain_Header {
+    padding: 16px 18px;
+  }
+
+  .EarningModeMain_Header h2 {
+    font-size: 20px;
+  }
+
+  .EarningModeMain_Header p {
+    font-size: 13px;
+  }
+
+  .EarningModeMain_DonutWrap,
+  .EarningModeMain_BarWrap {
+    padding: 12px;
+  }
+
+}
+
+/* ==========================================
+   MOBILE LANDSCAPE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .EarningModeMain {
+    gap: 12px;
+  }
+
+  .EarningModeMain_Card {
+    height: 40vh;
+    min-height: 280px;
+    border-radius: 18px;
+  }
+
+  .EarningModeMain_Header {
+    padding: 14px 16px;
+  }
+
+  .EarningModeMain_Header h2 {
+    font-size: 18px;
+  }
+
+  .EarningModeMain_Header p {
+    font-size: 12px;
+  }
+
+  .EarningModeMain_DonutWrap,
+  .EarningModeMain_BarWrap {
+    padding: 10px;
+  }
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 576px) {
+
+  .EarningModeMain {
+    gap: 10px;
+  }
+
+  .EarningModeMain_Card {
+    height: 38vh;
+    min-height: 250px;
+    border-radius: 16px;
+  }
+
+  .EarningModeMain_Header {
+    padding: 12px 14px;
+  }
+
+  .EarningModeMain_Header h2 {
+    font-size: 16px;
+  }
+
+  .EarningModeMain_Header p {
+    font-size: 11px;
+  }
+
+  .EarningModeMain_DonutWrap,
+  .EarningModeMain_BarWrap {
+    padding: 8px;
+  }
+
+}
+
+/* ==========================================
+   EXTRA SMALL DEVICES
+========================================== */
+
+@media (max-width: 380px) {
+
+  .EarningModeMain_Card {
+    height: 35vh;
+    min-height: 220px;
+  }
+
+  .EarningModeMain_Header h2 {
+    font-size: 15px;
+  }
+
+  .EarningModeMain_Header p {
+    font-size: 10px;
+  }
+
+}
