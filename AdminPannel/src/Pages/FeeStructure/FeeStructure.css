@@ -1,0 +1,899 @@
+/* ==========================================================================
+   PREMIUM DESIGN VARIABLE ENGINE & GLASSMORPHISM BLUEPRINTS
+   ========================================================================== */
+:root {
+  --fs-font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --fs-font-serif: "Playfair Display", "Cinzel", Georgia, serif;
+  
+  /* Color Palette */
+  --fs-bg-main: #f8fafc;
+  --fs-surface-card: #ffffff;
+  --fs-text-primary: #0f172a;
+  --fs-text-secondary: #475569;
+  --fs-text-muted: #94a3b8;
+  
+  --fs-brand-primary: #0284c7;
+  --fs-brand-primary-hover: #0369a1;
+  --fs-brand-light: #f0f9ff;
+  
+  --fs-accent-modify: #7c3aed;
+  --fs-accent-modify-hover: #6d28d9;
+  --fs-accent-modify-light: #f5f3ff;
+  
+  --fs-status-danger: #ef4444;
+  --fs-status-danger-hover: #dc2626;
+  --fs-status-success: #10b981;
+  
+  /* Borders & Shadows */
+  --fs-border-radius-sm: 6px;
+  --fs-border-radius-md: 12px;
+  --fs-border-radius-lg: 16px;
+  --fs-border-color: #e2e8f0;
+  
+  --fs-shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --fs-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --fs-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --fs-shadow-glass: inset 0 1px 1px rgba(255, 255, 255, 0.6), 0 8px 32px 0 rgba(15, 23, 42, 0.06);
+}
+
+/* Base Layout Container Reset */
+.fs-premium-layout {
+  font-family: var(--fs-font-primary);
+  background-color: var(--fs-bg-main);
+  color: var(--fs-text-primary);
+  padding: 1.5rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.fs-premium-layout *, 
+.fs-premium-layout *::before, 
+.fs-premium-layout *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   TOP CONTROL ACTIONS PANEL Layout
+   ========================================================================== */
+.fs-top-control-panel {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fs-search-box-container {
+  position: relative;
+  flex: 1;
+  max-width: 480px;
+}
+
+.fs-search-glass-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fs-text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.fs-global-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid var(--fs-border-color);
+  border-radius: var(--fs-border-radius-md);
+  background-color: var(--fs-surface-card);
+  color: var(--fs-text-primary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-shadow: var(--fs-shadow-sm);
+}
+
+.fs-global-search-input:focus {
+  outline: none;
+  border-color: var(--fs-brand-primary);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.fs-btn-trigger-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--fs-brand-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--fs-border-radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: var(--fs-shadow-sm);
+}
+
+.fs-btn-trigger-add:hover {
+  background-color: var(--fs-brand-primary-hover);
+}
+
+.fs-btn-trigger-add:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   MASTER SPREADSHEET TABLE CARD
+   ========================================================================== */
+.fs-dashboard-card-wrap {
+  background-color: var(--fs-surface-card);
+  border: 1px solid var(--fs-border-color);
+  border-radius: var(--fs-border-radius-lg);
+  box-shadow: var(--fs-shadow-md);
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.fs-dashboard-core-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.fs-dashboard-core-table th {
+  background-color: #f8fafc;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: var(--fs-text-secondary);
+  border-bottom: 1px solid var(--fs-border-color);
+  white-space: nowrap;
+}
+
+.fs-dashboard-core-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--fs-border-color);
+  color: var(--fs-text-primary);
+  vertical-align: middle;
+}
+
+.fs-dashboard-interactive-row:hover {
+  background-color: #fdfdfd;
+}
+
+.fs-text-bold-heavy { font-weight: 700; color: var(--fs-text-secondary); }
+.fs-text-brand-emphasis { font-family: var(--fs-font-primary); font-weight: 600; color: var(--fs-brand-primary); }
+.fs-text-dark-primary { font-weight: 500; }
+
+/* Status Badges */
+.fs-pill-badge {
+  display: inline-flex;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50px;
+}
+.fs-pill-badge.pill-muted { background-color: var(--fs-border-color); color: var(--fs-text-secondary); }
+.fs-pill-badge.pill-vibrant { background-color: #f0fdf4; color: var(--fs-status-success); border: 1px solid #bbf7d0; }
+
+/* Action Buttons Grid Layout Row */
+.fs-row-action-cluster {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-start;
+}
+
+.fs-row-action-cluster button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--fs-border-color);
+  background-color: #ffffff;
+  border-radius: var(--fs-border-radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fs-action-btn-modify:hover {
+  background-color: var(--fs-accent-modify-light);
+  border-color: var(--fs-accent-modify);
+  color: var(--fs-accent-modify);
+}
+
+.fs-action-btn-remove:hover {
+  background-color: #fef2f2;
+  border-color: var(--fs-status-danger);
+  color: var(--fs-status-danger);
+}
+
+.fs-table-empty-fallback {
+  text-align: center !important;
+  padding: 3rem !important;
+  color: var(--fs-text-secondary);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   PAGINATION BLOCK FOOTER
+   ========================================================================== */
+.fs-premium-pagination-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.5rem 0.25rem;
+}
+
+.fs-pagination-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fs-pagination-label-large {
+  font-size: 0.85rem;
+  color: var(--fs-text-secondary);
+}
+
+.fs-custom-select-wrapper select {
+  padding: 0.45rem 1.5rem 0.45rem 0.75rem;
+  border: 1px solid var(--fs-border-color);
+  background-color: var(--fs-surface-card);
+  border-radius: var(--fs-border-radius-sm);
+  font-size: 0.85rem;
+  color: var(--fs-text-primary);
+  cursor: pointer;
+}
+
+.fs-pagination-navigator-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fs-pagination-counter-display {
+  font-size: 0.85rem;
+  color: var(--fs-text-secondary);
+}
+
+.fs-pagination-control-arrows {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.fs-pagination-control-arrows button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--fs-border-color);
+  background-color: var(--fs-surface-card);
+  border-radius: var(--fs-border-radius-sm);
+  cursor: not-allowed;
+  opacity: 0.5;
+  font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE GLASS BACKDROP MODAL SYSTEM (SCREEN OVERLAYS)
+   ========================================================================== */
+.fs-glass-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.fs-modal-surface-container {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: var(--fs-border-radius-lg);
+  box-shadow: var(--fs-shadow-lg), var(--fs-shadow-glass);
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.fs-modal-primary-heading-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--fs-border-color);
+  background-color: #ffffff;
+}
+
+.fs-modal-primary-heading-bar h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fs-text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Modifying State Colors */
+.status-modify-accent h2 {
+  color: var(--fs-accent-modify);
+}
+
+.fs-modal-dismiss-cross {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--fs-text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background-color 0.15s ease;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fs-modal-dismiss-cross:hover {
+  background-color: var(--fs-bg-main);
+  color: var(--fs-text-primary);
+}
+
+/* Scrollable Container Body Payload */
+.fs-modal-scrollable-payload {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  background-color: #fafafa;
+}
+
+/* Interactive Alert Banners */
+.fs-premium-alert-banner-info {
+  background-color: var(--fs-accent-modify-light);
+  border: 1px solid #ddd6fe;
+  color: #5b21b6;
+  padding: 0.75rem 1rem;
+  border-radius: var(--fs-border-radius-md);
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+}
+
+/* Input Fields Grid Framework Row */
+.fs-popform-dropdowns-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.fs-form-group-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.relative-anchor {
+  position: relative;
+}
+
+.fs-input-top-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--fs-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.fs-required-star {
+  color: var(--fs-status-danger);
+}
+
+/* Dropdown Elements Custom Triggers Box UI */
+.fs-multiselect-custom-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid var(--fs-border-color);
+  border-radius: var(--fs-border-radius-md);
+  cursor: pointer;
+  font-size: 0.9rem;
+  min-height: 42px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.fs-multiselect-custom-box:hover {
+  border-color: var(--fs-text-muted);
+}
+
+.fs-box-active {
+  border-color: var(--fs-brand-primary);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.fs-truncated-text-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0.5rem;
+  color: var(--fs-text-muted);
+}
+
+.fs-has-value .fs-truncated-text-value {
+  color: var(--fs-text-primary);
+  font-weight: 500;
+}
+
+.fs-chevron-symbol-indicator {
+  font-size: 0.65rem;
+  color: var(--fs-text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.fs-chevron-symbol-indicator.rotated {
+  transform: rotate(180deg);
+}
+
+/* Custom Overlay Floating Panels */
+.fs-custom-dropdown-popover-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid var(--fs-border-color);
+  border-radius: var(--fs-border-radius-md);
+  box-shadow: var(--fs-shadow-lg);
+  z-index: 1000;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 0.35rem;
+}
+
+.fs-dropdown-option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--fs-border-radius-sm);
+  font-size: 0.9rem;
+  color: var(--fs-text-primary);
+  cursor: pointer;
+}
+
+.fs-dropdown-option-item:hover {
+  background-color: var(--fs-bg-main);
+}
+
+.fs-dropdown-option-item.option-selected {
+  background-color: var(--fs-brand-light);
+  color: var(--fs-brand-primary);
+  font-weight: 600;
+}
+
+.fs-option-checked-mark {
+  font-weight: 700;
+}
+
+/* Multiselect Checkbox Popover Options */
+.fs-multiselect-scroll-area {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.fs-popover-checkbox-row-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--fs-border-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  user-select: none;
+}
+
+.fs-popover-checkbox-row-item:hover {
+  background-color: var(--fs-bg-main);
+}
+
+.fs-checkbox-modern-wrapper {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fs-premium-styled-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  margin: 0;
+  z-index: 2;
+}
+
+.fs-custom-checkbox-facade {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--fs-border-color);
+  border-radius: 4px;
+  background-color: #ffffff;
+  transition: all 0.15s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.fs-premium-styled-checkbox:checked + .fs-custom-checkbox-facade {
+  background-color: var(--fs-brand-primary);
+  border-color: var(--fs-brand-primary);
+}
+
+.fs-premium-styled-checkbox:checked + .fs-custom-checkbox-facade::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.fs-checkbox-label-text {
+  font-size: 0.9rem;
+  color: var(--fs-text-primary);
+}
+
+/* ==========================================================================
+   DYNAMIC CALCULATIONS GRID SPREADSHEET MATRIX LAYOUT
+   ========================================================================== */
+.fs-matrix-spreadsheet-wrapper {
+  background-color: #ffffff;
+  border: 1px solid var(--fs-border-color);
+  border-radius: var(--fs-border-radius-md);
+  box-shadow: var(--fs-shadow-sm);
+  overflow: hidden;
+}
+
+.fs-spreadsheet-horizontal-scroll {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.fs-spreadsheet-matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.fs-spreadsheet-matrix-table th {
+  background-color: #f1f5f9;
+  color: var(--fs-text-secondary);
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--fs-border-color);
+  border-right: 1px solid var(--fs-border-color);
+  white-space: nowrap;
+}
+
+.fs-center-header {
+  text-align: center;
+  min-width: 90px;
+}
+
+.fs-spreadsheet-body-row td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--fs-border-color);
+  border-right: 1px solid var(--fs-border-color);
+  vertical-align: middle;
+}
+
+.fs-matrix-cell-title-primary {
+  font-weight: 600;
+  color: var(--fs-text-primary);
+  min-width: 160px;
+}
+
+.fs-matrix-cell-type-badge {
+  text-align: center;
+  min-width: 110px;
+}
+
+.fs-type-tag-label {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fs-text-secondary);
+  background-color: var(--fs-bg-main);
+  border-radius: 4px;
+  border: 1px solid var(--fs-border-color);
+}
+
+.fs-matrix-input-cell-wrapper {
+  padding: 0.35rem !important;
+  text-align: center;
+}
+
+/* Numeric Calculation Input Boxes */
+.fs-matrix-numeric-field-input {
+  width: 100%;
+  max-width: 90px;
+  padding: 0.45rem;
+  border: 1px solid var(--fs-border-color);
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.85rem;
+  background-color: #fafafa;
+  transition: all 0.15s ease;
+}
+
+.fs-matrix-numeric-field-input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: var(--fs-brand-primary);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Highlight Modify Matrix Field Focus */
+.fs-matrix-numeric-field-input.state-modify-highlight:focus {
+  border-color: var(--fs-accent-modify);
+}
+
+.fs-matrix-cell-row-accumulated-total {
+  text-align: right;
+  font-weight: 700;
+  color: var(--fs-text-primary);
+  padding-right: 1.25rem !important;
+  background-color: #f8fafc;
+  min-width: 110px;
+}
+
+/* Grand Accumulator Summary Columns Row */
+.fs-matrix-grand-summary-footer-row td {
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  border-bottom: none;
+  background-color: #e2e8f0;
+}
+
+.fs-grand-total-title-label {
+  text-align: right;
+  color: var(--fs-text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.fs-column-calculated-sum-cell {
+  text-align: center;
+  color: var(--fs-text-primary);
+}
+
+.fs-grand-final-highlight-badge-cell {
+  text-align: right;
+  padding-right: 1.25rem !important;
+  color: var(--fs-brand-primary);
+  font-size: 0.95rem;
+}
+
+/* Save Modifying Colors */
+.modification-footer-theme td {
+  background-color: #f3e8ff;
+}
+.text-modify-dark { color: #2e1065; }
+.border-accent-tag { border-color: #ddd6fe; background-color: #f5f3ff; color: #6d28d9; }
+.text-modify-heavy-bold { color: #5b21b6; background-color: #fcfaff; }
+.text-modify-sum { color: #4c1d95; }
+.variant-modify-active-total { color: var(--fs-accent-modify); font-size: 0.95rem; }
+
+/* Placeholder Blank Notices */
+.fs-matrix-placeholder-notice {
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background-color: #ffffff;
+  border: 1px dashed var(--fs-border-color);
+  border-radius: var(--fs-border-radius-md);
+  color: var(--fs-text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Modal Bottom Sticky Actions Toolbar Footer */
+.fs-popform-action-footer-panel {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--fs-border-color);
+  background-color: #ffffff;
+}
+
+.fs-popform-action-footer-panel button {
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--fs-border-radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fs-btn-premium-secondary-cancel {
+  background-color: #ffffff;
+  border: 1px solid var(--fs-border-color);
+  color: var(--fs-text-secondary);
+}
+
+.fs-btn-premium-secondary-cancel:hover {
+  background-color: var(--fs-bg-main);
+  color: var(--fs-text-primary);
+}
+
+.fs-btn-premium-primary-submit {
+  background-color: var(--fs-brand-primary);
+  border: none;
+  color: #ffffff;
+}
+
+.fs-btn-premium-primary-submit:hover { background-color: var(--fs-brand-primary-hover); }
+
+.fs-btn-premium-modify-save {
+  background-color: var(--fs-accent-modify);
+  border: none;
+  color: #ffffff;
+}
+
+.fs-btn-premium-modify-save:hover { background-color: var(--fs-accent-modify-hover); }
+
+/* Chrome/Safari input spinner layout fixes */
+.fs-matrix-numeric-field-input::-webkit-outer-spin-button,
+.fs-matrix-numeric-field-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.fs-matrix-numeric-field-input {
+  -moz-appearance: textfield;
+}
+
+/* ==========================================================================
+   ADVANCED MOBILE COMPACT RESPONSIVE BREAKPOINTS ENGINE
+   ========================================================================== */
+
+/* Tablet Optimization Factor */
+@media (max-width: 992px) {
+  .fs-popform-dropdowns-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Smartphone Structural Matrix Compression Framework */
+@media (max-width: 768px) {
+  .fs-premium-layout {
+    padding: 0.75rem;
+  }
+  
+  .fs-top-control-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .fs-search-box-container {
+    max-width: 100%;
+  }
+  
+  .fs-btn-trigger-add {
+    width: 100%;
+    padding: 0.85rem;
+  }
+
+  .fs-premium-pagination-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  /* Structural transformation for the Modal Box container */
+  .fs-modal-surface-container {
+    max-height: 96vh;
+    height: auto;
+  }
+  
+  .fs-modal-primary-heading-bar {
+    padding: 1rem;
+  }
+  
+  .fs-modal-scrollable-payload {
+    padding: 0.85rem;
+  }
+
+  .fs-popform-dropdowns-row {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .fs-popform-action-footer-panel {
+    padding: 0.85rem 1rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fs-popform-action-footer-panel button {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+  }
+
+  /* Critical Mobile Fallback for Calculations Matrix spreadsheet view */
+  .fs-spreadsheet-matrix-table th {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .fs-spreadsheet-body-row td {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .fs-matrix-numeric-field-input {
+    max-width: 75px;
+    padding: 0.4rem 0.25rem;
+    font-size: 0.8rem;
+  }
+
+  .fs-matrix-cell-title-primary {
+    min-width: 120px;
+    font-size: 0.8rem;
+  }
+
+  .fs-matrix-cell-type-badge {
+    min-width: 85px;
+  }
+  
+  .fs-type-tag-label {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Extra Tiny Displays Adjustment (Portrait Smartphones) */
+@media (max-width: 480px) {
+  .fs-inline-btn-text {
+    display: none;
+  }
+  .fs-row-action-cluster button {
+    padding: 0.45rem;
+  }
+}
