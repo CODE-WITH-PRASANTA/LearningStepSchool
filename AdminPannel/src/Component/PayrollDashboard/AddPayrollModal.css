@@ -1,37 +1,54 @@
 /* ==========================================
    ADD PAYROLL MODAL CSS
-   Responsive + Clean UI
+   Fully Responsive
 ========================================== */
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ==========================
+   OVERLAY
+========================== */
 .payroll-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(5px);
   z-index: 9999;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   padding: 20px;
 }
 
+/* ==========================
+   MODAL
+========================== */
 .payroll-modal {
   width: 100%;
-  max-width: 680px;
+  max-width: 700px;
   background: #ffffff;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
-   max-height: 90vh;
+
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
+
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
-  animation: payrollModalShow 0.28s ease;
+
+  animation: modalShow 0.3s ease;
 }
 
-@keyframes payrollModalShow {
+@keyframes modalShow {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.96);
+    transform: translateY(25px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -46,7 +63,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 26px;
+
+  padding: 22px 24px;
+
   border-bottom: 1px solid #edf1f7;
 }
 
@@ -57,18 +76,25 @@
   color: #082b57;
 }
 
+/* ==========================
+   CLOSE BUTTON
+========================== */
 .close-btn {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
+
   border: none;
-  background: #f5f7fc;
-  color: #7b88a8;
-  border-radius: 10px;
+  border-radius: 12px;
+
+  background: #f4f6fb;
+  color: #7c88a7;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
-  transition: 0.25s ease;
+  transition: 0.3s;
 }
 
 .close-btn:hover {
@@ -80,19 +106,29 @@
    BODY
 ========================== */
 .modal-body {
-  padding: 24px 26px 28px;
-   overflow-y: auto;
   flex: 1;
+  overflow-y: auto;
+  padding: 24px;
 }
 
+.payroll-form {
+  width: 100%;
+}
+
+/* ==========================
+   GRID
+========================== */
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
 }
 
+/* ==========================
+   INPUT GROUP
+========================== */
 .input-group {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .input-group.full {
@@ -102,59 +138,68 @@
 .input-group label {
   display: block;
   margin-bottom: 8px;
+
   font-size: 15px;
   font-weight: 600;
   color: #6d7ba0;
 }
 
+/* ==========================
+   INPUTS
+========================== */
 .input-group input,
-.input-group select,
-.input-group textarea {
+.input-group select {
   width: 100%;
-  height: 48px;
+  height: 52px;
+
   border: 1px solid #dfe6f3;
-  border-radius: 12px;
+  border-radius: 14px;
+
   background: #ffffff;
-  padding: 0 15px;
-  outline: none;
+
+  padding: 0 16px;
+
   font-size: 15px;
   color: #082b57;
-  transition: 0.25s ease;
+
+  outline: none;
+  transition: 0.3s;
 }
 
 .input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus {
+.input-group select:focus {
   border-color: #3767ea;
   box-shadow: 0 0 0 4px rgba(55, 103, 234, 0.08);
 }
 
 .input-group input::placeholder {
-  color: #9ba6c3;
+  color: #9ca7c4;
 }
 
 .input-group input[readonly] {
   background: #f7f8fc;
-  font-weight: 700;
   color: #3767ea;
+  font-weight: 700;
 }
 
 /* ==========================
    BUTTON
 ========================== */
 .generate-btn {
-  margin-top: 6px;
-  margin-left: auto;
-  display: block;
+  width: 100%;
   border: none;
+
   background: #3767ea;
-  color: #ffffff;
-  padding: 14px 26px;
-  border-radius: 12px;
-  font-size: 15px;
+  color: #fff;
+
+  height: 54px;
+  border-radius: 14px;
+
+  font-size: 16px;
   font-weight: 700;
+
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
 .generate-btn:hover {
@@ -163,15 +208,47 @@
 }
 
 /* ==========================
+   SCROLLBAR
+========================== */
+.modal-body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #d8dff1;
+  border-radius: 20px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ==========================
+   LARGE TABLET
+========================== */
+@media (max-width: 992px) {
+  .payroll-modal {
+    max-width: 90%;
+  }
+}
+
+/* ==========================
    TABLET
 ========================== */
 @media (max-width: 768px) {
+  .payroll-modal-overlay {
+    padding: 15px;
+    align-items: flex-start;
+  }
+
   .payroll-modal {
     max-width: 100%;
+    max-height: calc(100vh - 30px);
+    margin-top: 15px;
   }
 
   .modal-head {
-    padding: 18px 18px;
+    padding: 18px;
   }
 
   .modal-head h2 {
@@ -188,25 +265,42 @@
   }
 
   .generate-btn {
-    width: 100%;
-    margin-left: 0;
+    height: 50px;
   }
 }
 
 /* ==========================
    MOBILE
 ========================== */
-@media (max-width: 480px) {
+@media (max-width: 576px) {
   .payroll-modal-overlay {
-    padding: 12px;
+    padding: 10px;
   }
 
   .payroll-modal {
     border-radius: 16px;
+    max-height: calc(100vh - 20px);
+  }
+
+  .modal-head {
+    padding: 16px;
   }
 
   .modal-head h2 {
     font-size: 22px;
+  }
+
+  .close-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
   }
 
   .input-group label {
@@ -214,14 +308,57 @@
   }
 
   .input-group input,
-  .input-group select,
-  .input-group textarea {
-    height: 46px;
+  .input-group select {
+    height: 48px;
     font-size: 14px;
+    border-radius: 12px;
+    padding: 0 14px;
   }
 
   .generate-btn {
+    height: 48px;
+    font-size: 15px;
+  }
+}
+
+/* ==========================
+   SMALL MOBILE
+========================== */
+@media (max-width: 380px) {
+  .payroll-modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-head {
+    padding: 14px;
+  }
+
+  .modal-head h2 {
+    font-size: 20px;
+  }
+
+  .close-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .modal-body {
+    padding: 14px;
+  }
+
+  .input-group label {
+    font-size: 13px;
+  }
+
+  .input-group input,
+  .input-group select {
+    height: 44px;
+    font-size: 13px;
+    padding: 0 12px;
+  }
+
+  .generate-btn {
+    height: 45px;
     font-size: 14px;
-    padding: 13px 20px;
   }
 }
