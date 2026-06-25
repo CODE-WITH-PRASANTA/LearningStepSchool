@@ -1,0 +1,568 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* Premium Luxury Design System Tokens */
+:root {
+  --fg-brand-accent: #6366f1;
+  --fg-brand-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --fg-brand-hover: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+  --fg-brand-glow: rgba(99, 102, 241, 0.15);
+  
+  --fg-modify-gradient: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+  --fg-modify-hover: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%);
+  
+  --fg-danger-accent: #f43f5e;
+  --fg-danger-bg: rgba(244, 63, 94, 0.06);
+  --fg-danger-border: rgba(244, 63, 94, 0.15);
+  
+  --fg-canvas: #fafbfe;
+  --fg-surface: #ffffff;
+  --fg-border-light: #f3f4f6;
+  --fg-border-mid: #e5e7eb;
+  
+  --fg-text-main: #1f2937;
+  --fg-text-muted: #6b7280;
+  
+  --fg-shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.03), 0 1px 3px 0 rgba(0, 0, 0, 0.01);
+  --fg-shadow-modal: 0 25px 60px -10px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  --fg-radius: 20px;
+  --fg-radius-inner: 12px;
+}
+
+/* Master Container Isolation */
+.fg-container {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 3.5rem 3rem;
+  background-color: var(--fg-canvas);
+  min-height: 100vh;
+  color: var(--fg-text-main);
+  box-sizing: border-box;
+  letter-spacing: -0.01em;
+}
+
+.fg-container * {
+  box-sizing: border-box;
+}
+
+/* Master Card Frame Configuration */
+.fg-card {
+  background: var(--fg-surface);
+  border-radius: var(--fg-radius);
+  box-shadow: var(--fg-shadow-premium);
+  border: 1px solid var(--fg-border-mid);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Control Row Top-Bar Layout */
+.fg-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.5rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--fg-border-light);
+  gap: 2rem;
+}
+
+/* Search Module Realignment */
+.fg-search-box-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 440px;
+}
+
+.fg-search-inline-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg-text-muted);
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: color 0.2s ease;
+}
+
+.fg-search-input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 3rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid var(--fg-border-mid);
+  border-radius: var(--fg-radius-inner);
+  background-color: #f9fafb;
+  outline: none;
+  font-family: inherit;
+  color: var(--fg-text-main);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fg-search-input:focus {
+  background-color: #ffffff;
+  border-color: var(--fg-brand-accent);
+  box-shadow: 0 0 0 4px var(--fg-brand-glow);
+}
+
+.fg-search-box-wrapper:focus-within .fg-search-inline-icon {
+  color: var(--fg-brand-accent);
+}
+
+/* Premium Gradient Add Button */
+.fg-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--fg-brand-gradient);
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--fg-radius-inner);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.18);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fg-btn-add:hover {
+  background: var(--fg-brand-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(79, 70, 229, 0.28);
+}
+
+.fg-btn-add:active {
+  transform: translateY(0);
+}
+
+.fg-add-icon {
+  font-size: 0.85rem;
+}
+
+/* Premium Structured Data Table Styling */
+.fg-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.fg-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.fg-table th {
+  background-color: #fafbfc;
+  color: var(--fg-text-muted);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1.5rem 2.5rem;
+  border-bottom: 2px solid var(--fg-border-light);
+  user-select: none;
+}
+
+/* Interactive Column Headers */
+.fg-th-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.fg-sortable-th {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.fg-sortable-th:hover {
+  color: var(--fg-brand-accent);
+}
+
+.fg-sort-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.fg-sort-icon {
+  font-size: 1.1rem;
+  color: #d1d5db;
+  transition: all 0.2s ease;
+}
+
+.fg-sort-icon.active {
+  color: var(--fg-brand-accent);
+}
+
+.fg-sort-icon.shift-down {
+  transform: translateY(1px);
+}
+
+/* Data Row Cells Structure */
+.fg-table td {
+  padding: 1.5rem 2.5rem;
+  border-bottom: 1px solid var(--fg-border-light);
+  font-size: 0.98rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Interactive Rows Configuration */
+.fg-row-interactive {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.fg-row-interactive:hover {
+  background-color: #fafaff;
+}
+
+.fg-row-interactive:last-of-type td {
+  border-bottom: none;
+}
+
+/* Row Styling Elements */
+.fg-serial-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4b5563;
+}
+
+.fg-name-cell-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fg-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--fg-brand-accent);
+  opacity: 0.6;
+}
+
+.fg-text-bold {
+  font-weight: 600;
+  color: var(--fg-text-main);
+}
+
+/* High Contrast Status Badges */
+.fg-badge-priority {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.fg-badge-priority.prio-high {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.fg-badge-priority.prio-med {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.fg-badge-priority.prio-low {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+/* Row Row Action Clusters Layout */
+.fg-action-btn-group {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.fg-action-icon-btn {
+  border: 1px solid var(--fg-border-mid);
+  background-color: #ffffff;
+  padding: 0.65rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: var(--fg-text-muted);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fg-action-icon-btn.edit-btn:hover {
+  color: var(--fg-brand-accent);
+  border-color: #c7d2fe;
+  background-color: #f5f3ff;
+  transform: scale(1.05);
+}
+
+.fg-action-icon-btn.delete-btn:hover {
+  color: var(--fg-danger-accent);
+  border-color: var(--fg-danger-border);
+  background-color: var(--fg-danger-bg);
+  transform: scale(1.05);
+}
+
+/* Empty dataset Layout Configuration */
+.fg-table-empty {
+  padding: 6rem 0 !important;
+}
+
+.fg-empty-state-view {
+  text-align: center;
+  color: var(--fg-text-muted);
+}
+
+.fg-empty-illustration {
+  font-size: 2.5rem;
+  color: #cbd5e1;
+  margin-bottom: 0.5rem;
+}
+
+.fg-empty-state-view p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Footer Pagination Layout module styling */
+.fg-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 2.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid var(--fg-border-light);
+}
+
+.fg-pagination-info {
+  font-size: 0.92rem;
+  color: var(--fg-text-muted);
+  font-weight: 500;
+}
+
+.fg-highlight-text {
+  font-weight: 700;
+  color: var(--fg-text-main);
+}
+
+.fg-pagination-btns {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.fg-page-btn {
+  background: #ffffff;
+  border: 1px solid var(--fg-border-mid);
+  padding: 0.6rem 1.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--fg-radius-inner);
+  cursor: pointer;
+  font-family: inherit;
+  color: #4b5563;
+  transition: all 0.2s ease;
+}
+
+.fg-page-btn:hover:not(:disabled) {
+  border-color: #bfa6ff;
+  background-color: #fafaff;
+  color: var(--fg-brand-accent);
+}
+
+.fg-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Backdrop Layer Component with Glassmorphism */
+.fg-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: modalFadeIn 0.25s ease-out forwards;
+}
+
+/* Form Window Structural Design Layout */
+.fg-modal-card {
+  background: #ffffff;
+  border-radius: var(--fg-radius);
+  width: 94%;
+  max-width: 480px;
+  box-shadow: var(--fg-shadow-modal);
+  overflow: hidden;
+  animation: modalSlideUp 0.35rem cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.fg-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 2.25rem;
+  border-bottom: 1px solid var(--fg-border-light);
+}
+
+.fg-modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fg-text-main);
+  letter-spacing: -0.02em;
+}
+
+.fg-modal-close {
+  background: none;
+  border: none;
+  color: var(--fg-text-muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.fg-modal-close:hover {
+  background-color: #f3f4f6;
+  color: var(--fg-text-main);
+}
+
+/* Input Fields Forms Configuration Layout */
+.fg-modal-body {
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.fg-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.fg-form-group label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.fg-required {
+  color: var(--fg-danger-accent);
+}
+
+.fg-form-group input {
+  padding: 0.85rem 1.15rem;
+  font-size: 0.98rem;
+  font-weight: 500;
+  border: 1px solid var(--fg-border-mid);
+  border-radius: var(--fg-radius-inner);
+  outline: none;
+  font-family: inherit;
+  width: 100%;
+  color: var(--fg-text-main);
+  background-color: #f9fafb;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fg-form-group input:focus {
+  background-color: #ffffff;
+  border-color: var(--fg-brand-accent);
+  box-shadow: 0 0 0 4px var(--fg-brand-glow);
+}
+
+/* Footer Control Actions Cluster System Styling */
+.fg-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  padding: 1.5rem 2.25rem;
+  border-top: 1px solid var(--fg-border-light);
+  background-color: #fbfbfc;
+}
+
+.fg-btn-cancel {
+  background: #ffffff;
+  border: 1px solid var(--fg-border-mid);
+  color: #4b5563;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: var(--fg-radius-inner);
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fg-btn-cancel:hover {
+  background-color: #f3f4f6;
+  color: var(--fg-text-main);
+}
+
+.fg-btn-save {
+  background: var(--fg-brand-gradient);
+  border: none;
+  color: #ffffff;
+  padding: 0.8rem 1.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: var(--fg-radius-inner);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.2);
+  transition: all 0.2s ease;
+}
+
+.fg-btn-save:hover {
+  background: var(--fg-brand-hover);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+}
+
+.fg-btn-save.action-modify {
+  background: var(--fg-modify-gradient);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.2);
+}
+
+.fg-btn-save.action-modify:hover {
+  background: var(--fg-modify-hover);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+}
+
+/* Animation Modules Frame Timelines */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Tablet & Mobile Layout Adaptations */
+@media (max-width: 768px) {
+  .fg-container { padding: 2rem 1.5rem; }
+  .fg-top-bar { flex-direction: column; align-items: stretch; padding: 1.75rem; gap: 1.25rem; }
+  .fg-search-box-wrapper { max-width: 100%; }
+  .fg-table th, .fg-table td { padding: 1.25rem 1.5rem; }
+  .fg-pagination { flex-direction: column; gap: 1.5rem; text-align: center; padding: 1.75rem; }
+  .fg-action-btn-group { justify-content: flex-start; }
+}
