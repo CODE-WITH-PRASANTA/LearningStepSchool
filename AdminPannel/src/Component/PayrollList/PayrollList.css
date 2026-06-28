@@ -325,7 +325,7 @@
 .payslip-modal-container {
   background: var(--white);
   width: 850px;
-  max-width: 95%;
+  height: 100vh;
   border-radius: 8px;
   border: 3px solid var(--primary-blue);
   overflow: hidden;
@@ -704,4 +704,23 @@
   .full-width-date, .full-width-textarea {
     grid-column: span 1;
   }
+}
+
+.brand-avatar-box {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  background: #f5f7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.school-logo {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
 }
