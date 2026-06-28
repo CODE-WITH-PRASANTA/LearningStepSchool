@@ -9,17 +9,13 @@ import {
   FaSearch,
   FaEdit,
 } from "react-icons/fa";
+import API from "../../api/axios";
 
 import "./FeeGroup.css";
 
 const FeeGroup = () => {
   // Pure local state for mock dataset management
-  const [feeGroups, setFeeGroups] = useState([
-    { _id: "1", headGroup: "Tuition Fee", priority: 1 },
-    { _id: "2", headGroup: "Admission Fee", priority: 2 },
-    { _id: "3", headGroup: "Library Fee", priority: 5 },
-    { _id: "4", headGroup: "Transport Fee", priority: 9 },
-  ]);
+ const [feeGroups, setFeeGroups] = useState([]);
 
   const [search, setSearch] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
@@ -31,6 +27,22 @@ const FeeGroup = () => {
 
   const rowsPerPage = 7;
 
+
+  const fetchFeeGroups = async () => {
+  try {
+    const res = await API.get("/fee-group/all");
+
+    console.log(res.data);
+
+    setFeeGroups(res.data.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+useEffect(() => {
+  fetchFeeGroups();
+}, []);
   // Search filter
   const filteredData = feeGroups.filter((item) =>
     item?.headGroup
@@ -46,47 +58,51 @@ const FeeGroup = () => {
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
 
   // Add function - Client Side Only
-  const addFeeGroup = () => {
-    if (!newFeeGroup.trim()) return;
+ const addFeeGroup = async () => {
+  if (!newFeeGroup.trim()) return;
 
-    const newRecord = {
-      _id: Date.now().toString(),
+  try {
+    await API.post("/fee-group/create", {
       headGroup: newFeeGroup,
       priority: feeGroups.length + 1,
-    };
+    });
 
-    setFeeGroups([...feeGroups, newRecord]);
+    fetchFeeGroups();
 
     Swal.fire({
       icon: "success",
       title: "Fee Group Added",
-      text: "The new record has been successfully appended to the master entries.",
-      background: "#ffffff",
-      confirmButtonColor: "#4f46e5",
-      timer: 1800,
+      timer: 1500,
       showConfirmButton: false,
     });
 
     setNewFeeGroup("");
     setShowAddModal(false);
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   // Delete function - Client Side Only
-  const deleteFeeGroup = async (id) => {
-    const result = await Swal.fire({
-      title: "Delete Fee Group?",
-      text: "This operation is structural and cannot be undone.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#f43f5e",
-      cancelButtonColor: "#64748b",
-      confirmButtonText: "Yes, delete it",
-      background: "#ffffff",
-    });
+ const deleteFeeGroup = async (id) => {
+  const result = await Swal.fire({
+    title: "Delete Fee Group?",
+    text: "This operation is structural and cannot be undone.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#f43f5e",
+    cancelButtonColor: "#64748b",
+    confirmButtonText: "Yes, delete it",
+    background: "#ffffff",
+  });
 
-    if (!result.isConfirmed) return;
+  if (!result.isConfirmed) return;
 
-    setFeeGroups(feeGroups.filter((item) => item._id !== id));
+  try {
+    await API.delete(`/fee-group/delete/${id}`);
+
+    // Reload latest data
+    fetchFeeGroups();
 
     Swal.fire({
       icon: "success",
@@ -96,7 +112,16 @@ const FeeGroup = () => {
       timer: 1500,
       showConfirmButton: false,
     });
-  };
+  } catch (error) {
+    console.log(error);
+
+    Swal.fire({
+      icon: "error",
+      title: "Delete Failed",
+      text: error.response?.data?.message || "Something went wrong",
+    });
+  }
+};
 
   // Open Edit Modal
   const openEditModal = (item) => {
@@ -105,26 +130,30 @@ const FeeGroup = () => {
   };
 
   // Update function - Client Side Only
-  const updateFeeGroup = () => {
-    setFeeGroups(
-      feeGroups.map((item) =>
-        item._id === selectedFee._id
-          ? { ...item, headGroup: selectedFee.headGroup, priority: Number(selectedFee.priority) }
-          : item
-      )
+  const updateFeeGroup = async () => {
+  try {
+    await API.put(
+      `/fee-group/update/${selectedFee._id}`,
+      {
+        headGroup: selectedFee.headGroup,
+        priority: selectedFee.priority,
+      }
     );
+
+    fetchFeeGroups();
 
     Swal.fire({
       icon: "success",
       title: "Updated Successfully",
-      background: "#ffffff",
-      confirmButtonColor: "#4f46e5",
       timer: 1500,
       showConfirmButton: false,
     });
 
     setShowEditModal(false);
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   // Premium Toggle Sorting (Alphabetical A-Z <-> Z-A handler)
   const sortByHeadGroup = () => {

@@ -1151,6 +1151,65 @@
   flex-shrink: 0;
 }
 
+
+
+
+
+
+
+
+
+.fee-head-detail-cell {
+  text-align: center;
+  padding: 15px;
+}
+
+.fee-head-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.fee-head-type {
+  margin-top: 5px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.fee-head-paid {
+  margin-top: 4px;
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.fee-head-remaining {
+  margin-top: 4px;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.amount-col {
+  text-align: center;
+  font-weight: 700;
+}
+
+.paid-col {
+  text-align: center;
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.due-col {
+  text-align: center;
+  color: #ef4444;
+  font-weight: 700;
+}
+.month-item-box input:disabled + .custom-box {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 /* ============================================= */
 /* RESPONSIVE BREAKPOINTS                         */
 /* ============================================= */

@@ -11,72 +11,22 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import "./FeeHead.css";
+import API from "../../Api/axios";
 import Swal from "sweetalert2";
 
-// Dropdown Options extracted exactly from your reference images
+// Updated Dropdown Options extracted exactly from your reference images
+
 const INSTALLMENT_TYPES = [
-  "None",
   "Monthly",
   "Quarterly",
   "Half-Yearly",
   "Annually",
-  "Only Once",
 ];
 
 const FEE_TYPES = ["Day Scholar", "Hosteller"];
-const ITEMS_PER_PAGE = 5; 
+const ITEMS_PER_PAGE = 5; // Reduced page limit to show functionality clearly with mock data
 
-// Premium Mock Data for independent functional showcase
-const INITIAL_MOCK_GROUPS = [
-  { _id: "g1", headGroup: "Academic Fees" },
-  { _id: "g2", headGroup: "Transport Fees" },
-  { _id: "g3", headGroup: "Hostel Fees" },
-  { _id: "g4", headGroup: "Activity Fees" },
-];
-
-const INITIAL_MOCK_HEADS = [
-  {
-    _id: "fh1",
-    feeGroup: { _id: "g1", headGroup: "Academic Fees" },
-    installmentType: "Quarterly",
-    feeHeadName: "Tuition Fee",
-    feeHeadShortName: "TUIT",
-    feeType: "Day Scholar",
-    applyFor: "Both",
-    gender: "Both",
-    refundable: "No",
-    certificate: "No",
-    priority: 1,
-  },
-  {
-    _id: "fh2",
-    feeGroup: { _id: "g2", headGroup: "Transport Fees" },
-    installmentType: "Monthly",
-    feeHeadName: "Bus Route Allocation Fee",
-    feeHeadShortName: "TRANSP",
-    feeType: "Both",
-    applyFor: "Old",
-    gender: "Both",
-    refundable: "No",
-    certificate: "No",
-    priority: 2,
-  },
-  {
-    _id: "fh3",
-    feeGroup: { _id: "g3", headGroup: "Hostel Fees" },
-    installmentType: "Half-Yearly",
-    feeHeadName: "Premium Boarding Fee",
-    feeHeadShortName: "HOST",
-    feeType: "Hosteller",
-    applyFor: "New",
-    gender: "Male",
-    refundable: "No",
-    certificate: "No",
-    priority: 3,
-  },
-];
-
-// Custom Dropdown Component matching the premium reference UI design
+// Custom Dropdown Component matching the reference UI design
 const CustomSelect = ({ label, options, value, onChange, required }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -135,11 +85,8 @@ const FeeHead = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentId, setCurrentId] = useState(null);
-  
-  // Converted to standalone local state architecture
-  const [feeGroups] = useState(INITIAL_MOCK_GROUPS);
-  const [feeHeads, setFeeHeads] = useState(INITIAL_MOCK_HEADS);
-  
+  const [feeGroups, setFeeGroups] = useState([]);
+  const [feeHeads, setFeeHeads] = useState([]);
   const [columns, setColumns] = useState({
     sno: true,
     feeGroup: true,
@@ -153,6 +100,8 @@ const FeeHead = () => {
     action: true,
   });
 
+  // Rich initial dummy data to demonstrate perfect functional pagination structures
+
   const [formData, setFormData] = useState({
     feeGroup: "",
     installmentType: "",
@@ -165,6 +114,35 @@ const FeeHead = () => {
     certificate: "Yes",
     priority: "",
   });
+
+  const fetchFeeGroups = async () => {
+    try {
+      const res = await API.get("/fee-group/all");
+
+      if (res.data.success) {
+        setFeeGroups(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFeeHeads = async () => {
+    try {
+      const res = await API.get("/fee-head/all");
+
+      if (res.data.success) {
+        setFeeHeads(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFeeGroups();
+    fetchFeeHeads();
+  }, []);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -181,31 +159,31 @@ const FeeHead = () => {
   };
 
   const openAddModal = () => {
-    setEditMode(false);
-    setCurrentId(null);
-    setFormData({
-      feeGroup: "",
-      installmentType: "",
-      feeHeadName: "",
-      feeHeadShortName: "",
-      feeType: "Day Scholar",
-      applyFor: "Both",
-      gender: "Both",
-      refundable: "Yes",
-      certificate: "Yes",
-      priority: "",
-    });
-    setShowModal(true);
-  };
+  setEditMode(false);
+  setCurrentId(null);
 
-  const handleSubmit = (e) => {
+  setFormData({
+    feeGroup: "",
+    installmentType: "",
+    feeHeadName: "",
+    feeHeadShortName: "",
+    feeType: "Day Scholar",
+    applyFor: "Both",
+    gender: "Both",
+    refundable: "Yes",
+    certificate: "Yes",
+    priority: "",
+  });
+
+  setShowModal(true);
+};
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const selectedGroup = feeGroups.find((g) => g._id === formData.feeGroup);
-      
       const payload = {
-        feeGroup: selectedGroup ? { _id: selectedGroup._id, headGroup: selectedGroup.headGroup } : null,
+        feeGroup: formData.feeGroup,
         installmentType: formData.installmentType,
         feeHeadName: formData.feeHeadName,
         feeHeadShortName: formData.feeHeadShortName,
@@ -217,53 +195,52 @@ const FeeHead = () => {
         priority: Number(formData.priority),
       };
 
+      let res;
+
       if (editMode) {
-        // Front-end Local Update Implementation
-        setFeeHeads((prev) =>
-          prev.map((item) => (item._id === currentId ? { ...item, ...payload } : item))
-        );
+        res = await API.put(`/fee-head/update/${currentId}`, payload);
       } else {
-        // Front-end Local Create Implementation
-        const newRecord = {
-          _id: `fh_${Date.now()}`,
-          ...payload,
-        };
-        setFeeHeads((prev) => [newRecord, ...prev]);
+        res = await API.post("/fee-head/create", payload);
       }
 
-      Swal.fire({
-        icon: "success",
-        title: editMode ? "Updated Successfully" : "Created Successfully",
-        timer: 1500,
-        showConfirmButton: false,
-      });
+      if (res.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: editMode ? "Updated Successfully" : "Created Successfully",
+          timer: 1500,
+          showConfirmButton: false,
+        });
 
-      setFormData({
-        feeGroup: "",
-        installmentType: "",
-        feeHeadName: "",
-        feeHeadShortName: "",
-        feeType: "Day Scholar",
-        applyFor: "Both",
-        gender: "Both",
-        refundable: "Yes",
-        certificate: "Yes",
-        priority: "",
-      });
+        fetchFeeHeads();
 
-      setCurrentId(null);
-      setEditMode(false);
-      setShowModal(false);
+        setFormData({
+          feeGroup: "",
+          installmentType: "",
+          feeHeadName: "",
+          feeHeadShortName: "",
+          feeType: "Day Scholar",
+          applyFor: "Both",
+          gender: "Both",
+          refundable: "Yes",
+          certificate: "Yes",
+          priority: "",
+        });
+
+        setCurrentId(null);
+        setEditMode(false);
+        setShowModal(false);
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Something went wrong",
+        title: error.response?.data?.message || "Something went wrong",
       });
     }
   };
 
   const handleEdit = (row) => {
     setCurrentId(row._id);
+
     setFormData({
       feeGroup: row.feeGroup?._id || "",
       installmentType: row.installmentType || "",
@@ -276,6 +253,7 @@ const FeeHead = () => {
       certificate: row.certificate || "Yes",
       priority: row.priority || "",
     });
+
     setEditMode(true);
     setShowModal(true);
   };
@@ -289,42 +267,44 @@ const FeeHead = () => {
 
     if (!result.isConfirmed) return;
 
-    // Front-end Local Delete Implementation
-    setFeeHeads((prev) => prev.filter((item) => item._id !== id));
+    try {
+      const res = await API.delete(`/fee-head/delete/${id}`);
 
-    Swal.fire({
-      icon: "success",
-      title: "Deleted Successfully",
-      timer: 1500,
-      showConfirmButton: false,
-    });
+      if (res.data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "Deleted Successfully",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+
+        fetchFeeHeads();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // Synchronous premium client-side evaluation matching the search framework logic
-  const filteredRows = useMemo(() => {
-    if (!search.trim()) return feeHeads;
-    const lowerSearch = search.toLowerCase();
-    return feeHeads.filter((row) => {
-      return (
-        row.feeHeadName?.toLowerCase().includes(lowerSearch) ||
-        row.feeHeadShortName?.toLowerCase().includes(lowerSearch) ||
-        row.feeGroup?.headGroup?.toLowerCase().includes(lowerSearch) ||
-        row.installmentType?.toLowerCase().includes(lowerSearch) ||
-        row.feeType?.toLowerCase().includes(lowerSearch)
-      );
-    });
-  }, [feeHeads, search]);
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      try {
+        const res = await API.get(`/fee-head/all?search=${search}`);
+
+        setFeeHeads(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  // Logic filters
+  const filteredRows = feeHeads || [];
 
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(filteredRows.length / ITEMS_PER_PAGE));
   }, [filteredRows]);
-
-  // Handle immediate page reset if filtered dataset bounds shrink below current view frame
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [filteredRows, currentPage, totalPages]);
 
   // Sync core paginated view index ranges
   const paginatedRows = useMemo(() => {
@@ -332,14 +312,14 @@ const FeeHead = () => {
     return filteredRows.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [filteredRows, currentPage]);
 
-  const startRecord = filteredRows.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const startRecord =
+    filteredRows.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
   const endRecord = Math.min(currentPage * ITEMS_PER_PAGE, filteredRows.length);
   const activeColumnsCount = Object.values(columns).filter(Boolean).length;
   const installmentOptions = INSTALLMENT_TYPES.map((item) => ({
     label: item,
     value: item,
   }));
-
   return (
     <div className="fh-main-container">
       {/* Top Application Toolbar */}
@@ -408,14 +388,28 @@ const FeeHead = () => {
           <thead>
             <tr className="fh-table-row-head">
               {columns.sno && <th className="fh-table-head-cell">S.No.</th>}
-              {columns.feeGroup && <th className="fh-table-head-cell">Fee Group</th>}
-              {columns.feeHead && <th className="fh-table-head-cell">Fee Head</th>}
-              {columns.shortName && <th className="fh-table-head-cell">Short Name</th>}
-              {columns.priority && <th className="fh-table-head-cell">Priority</th>}
-              {columns.applyFor && <th className="fh-table-head-cell">Apply For</th>}
+              {columns.feeGroup && (
+                <th className="fh-table-head-cell">Fee Group</th>
+              )}
+              {columns.feeHead && (
+                <th className="fh-table-head-cell">Fee Head</th>
+              )}
+              {columns.shortName && (
+                <th className="fh-table-head-cell">Short Name</th>
+              )}
+              {columns.priority && (
+                <th className="fh-table-head-cell">Priority</th>
+              )}
+              {columns.applyFor && (
+                <th className="fh-table-head-cell">Apply For</th>
+              )}
               {columns.gender && <th className="fh-table-head-cell">Gender</th>}
-              {columns.installment && <th className="fh-table-head-cell">Installment</th>}
-              {columns.feeType && <th className="fh-table-head-cell">Fee Type</th>}
+              {columns.installment && (
+                <th className="fh-table-head-cell">Installment</th>
+              )}
+              {columns.feeType && (
+                <th className="fh-table-head-cell">Fee Type</th>
+              )}
               {columns.action && (
                 <th className="fh-table-head-cell fh-table-head-cell-actions">
                   Actions
@@ -455,14 +449,20 @@ const FeeHead = () => {
                       {row.priority || "—"}
                     </td>
                   )}
-                  {columns.applyFor && <td className="fh-table-body-cell">{row.applyFor}</td>}
-                  {columns.gender && <td className="fh-table-body-cell">{row.gender}</td>}
+                  {columns.applyFor && (
+                    <td className="fh-table-body-cell">{row.applyFor}</td>
+                  )}
+                  {columns.gender && (
+                    <td className="fh-table-body-cell">{row.gender}</td>
+                  )}
                   {columns.installment && (
                     <td className="fh-table-body-cell">
                       {row.installmentType || "—"}
                     </td>
                   )}
-                  {columns.feeType && <td className="fh-table-body-cell">{row.feeType}</td>}
+                  {columns.feeType && (
+                    <td className="fh-table-body-cell">{row.feeType}</td>
+                  )}
 
                   {columns.action && (
                     <td className="fh-table-body-cell fh-cell-actions-container">

@@ -81,6 +81,15 @@ const adminComplaintRoutes = require("./routes/adminComplaint.routes");
 const staffComplaintRoutes = require("./routes/staffComplaint.routes");
 const studentGatePassRoutes = require("./routes/studentGatePass.routes");
 
+const feeGroupRoutes = require("./routes/Fee/feeGroup.routes");
+const feeHeadRoutes = require("./routes/Fee/feeHead.routes");
+const feeStructureRoutes = require("./routes/Fee/feeStructure.routes");
+const feeEntryRoutes = require("./routes/Fee/feeEntry.routes");
+
+
+
+
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/notifications", notificationRoutes);
@@ -162,6 +171,17 @@ app.use("/api/staff-visit-meeting", staffVisitMeetingRoutes);
 app.use("/api/admin-complaint", adminComplaintRoutes);
 app.use("/api/staff-complaint", staffComplaintRoutes);
 app.use("/api/student-gatepass", studentGatePassRoutes);
+
+// new fees
+
+app.use("/api/fee-group", feeGroupRoutes);
+app.use("/api/fee-head", feeHeadRoutes);
+app.use("/api/fee-structure", feeStructureRoutes);
+app.use("/api/fee-entry", feeEntryRoutes);
+
+
+
+
 
 /* ================= 404 HANDLER ================= */
 
