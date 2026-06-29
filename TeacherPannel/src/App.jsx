@@ -27,7 +27,7 @@ import NotificationPublish from "./Pages/NotificationPublish/NotificationPublish
 import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
-import TeacherAttendance from "./Components/TeacherAttendance/TeacherAttendance";
+
 // import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
 import BlogView from "./Pages/BlogView/BlogView";
@@ -39,6 +39,8 @@ import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
 import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
+
+import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
 import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
 
 
@@ -75,7 +77,7 @@ function App() {
             <Route path="/notice-management" element={<NoticeManagement/>}/>
             <Route path="/schoolfee-info" element={<FeeManagement/>}/>
             <Route path="/award-management" element={<AwardAdminPage/>}/>
-            <Route path="/teacher-attendance" element={<TeacherAttendance/>}/>
+           
             <Route path="/blog-post" element={<BlogManagerPage/>}/>
             <Route path="/blog-view"  element={<BlogView/>}/>
             <Route path="/teacher-posting" element={<TeacherAdminPage/>}/>
@@ -86,7 +88,8 @@ function App() {
             <Route path="/learning/secondary" element={<Secondary/>}/>
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
-            <Route path="/monthly" element= {<MonthlyAttendance />} />
+            <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
+            <Route path="/monthly" element={<MonthlyAttendance />}/>
             
             
             {/* 🔐 Permission Protected */}

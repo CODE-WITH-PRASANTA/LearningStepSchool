@@ -1,227 +1,226 @@
 /* ==========================================
-   ADD PAYROLL MODAL CSS
-   Responsive + Clean UI
+   ADD PAYROLL MODAL
 ========================================== */
 
-.payroll-modal-overlay {
+.add-payroll-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(4px);
-  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 16px;
+  z-index: 9999;
 }
 
-.payroll-modal {
+.add-payroll-modal {
   width: 100%;
-  max-width: 680px;
-  background: #ffffff;
-  border-radius: 18px;
+  max-width: 620px;
+  max-height: 84vh;
+  background: #fff;
+  border-radius: 16px;
   overflow: hidden;
-   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
-  animation: payrollModalShow 0.28s ease;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  animation: addPayrollFade 0.3s ease;
 }
 
-@keyframes payrollModalShow {
+@keyframes addPayrollFade {
   from {
     opacity: 0;
-    transform: translateY(18px) scale(0.96);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-/* ==========================
-   HEADER
-========================== */
-.modal-head {
+/* Header */
+
+.add-payroll-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 26px;
-  border-bottom: 1px solid #edf1f7;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.modal-head h2 {
-  margin: 0;
-  font-size: 28px;
+.add-payroll-title {
+  font-size: 20px;
   font-weight: 700;
-  color: #082b57;
+  color: #111827;
+  margin: 0;
 }
 
-.close-btn {
-  width: 38px;
-  height: 38px;
+.add-payroll-close-btn {
+  width: 36px;
+  height: 36px;
   border: none;
-  background: #f5f7fc;
-  color: #7b88a8;
-  border-radius: 10px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+}
+
+.add-payroll-close-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Body */
+
+.add-payroll-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 20px;
+}
+
+.add-payroll-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.add-payroll-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.add-payroll-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-payroll-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+
+.add-payroll-input,
+.add-payroll-select {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #fff;
   transition: 0.25s ease;
 }
 
-.close-btn:hover {
-  background: #edf1fb;
-  color: #082b57;
+.add-payroll-input:focus,
+.add-payroll-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-/* ==========================
-   BODY
-========================== */
-.modal-body {
-  padding: 24px 26px 28px;
-   overflow-y: auto;
-  flex: 1;
+.add-payroll-input[readonly] {
+  background: #f9fafb;
 }
 
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+/* Net Pay */
+
+.add-payroll-netpay {
+  font-weight: 700;
+  color: #16a34a;
+  background: #f0fdf4 !important;
+  border-color: #86efac;
 }
 
-.input-group {
-  margin-bottom: 18px;
-}
+/* Button */
 
-.input-group.full {
-  width: 100%;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #6d7ba0;
-}
-
-.input-group input,
-.input-group select,
-.input-group textarea {
+.add-payroll-submit-btn {
   width: 100%;
   height: 48px;
-  border: 1px solid #dfe6f3;
-  border-radius: 12px;
-  background: #ffffff;
-  padding: 0 15px;
-  outline: none;
-  font-size: 15px;
-  color: #082b57;
-  transition: 0.25s ease;
-}
-
-.input-group input:focus,
-.input-group select:focus,
-.input-group textarea:focus {
-  border-color: #3767ea;
-  box-shadow: 0 0 0 4px rgba(55, 103, 234, 0.08);
-}
-
-.input-group input::placeholder {
-  color: #9ba6c3;
-}
-
-.input-group input[readonly] {
-  background: #f7f8fc;
-  font-weight: 700;
-  color: #3767ea;
-}
-
-/* ==========================
-   BUTTON
-========================== */
-.generate-btn {
-  margin-top: 6px;
-  margin-left: auto;
-  display: block;
   border: none;
-  background: #3767ea;
-  color: #ffffff;
-  padding: 14px 26px;
-  border-radius: 12px;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #fff;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease;
+  margin-top: 4px;
+  transition: 0.25s;
 }
 
-.generate-btn:hover {
-  background: #2856d7;
-  transform: translateY(-1px);
+.add-payroll-submit-btn:hover {
+  background: #1d4ed8;
 }
 
-/* ==========================
-   TABLET
-========================== */
+/* Responsive */
+
 @media (max-width: 768px) {
-  .payroll-modal {
+  .add-payroll-modal {
     max-width: 100%;
   }
 
-  .modal-head {
-    padding: 18px 18px;
-  }
-
-  .modal-head h2 {
-    font-size: 24px;
-  }
-
-  .modal-body {
-    padding: 18px;
-  }
-
-  .grid-2 {
+  .add-payroll-grid-2 {
     grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .generate-btn {
-    width: 100%;
-    margin-left: 0;
   }
 }
 
-/* ==========================
-   MOBILE
-========================== */
 @media (max-width: 480px) {
-  .payroll-modal-overlay {
-    padding: 12px;
+  .add-payroll-overlay {
+    padding: 10px;
   }
 
-  .payroll-modal {
-    border-radius: 16px;
+  .add-payroll-header {
+    padding: 14px 16px;
   }
 
-  .modal-head h2 {
-    font-size: 22px;
+  .add-payroll-body {
+    padding: 16px;
   }
 
-  .input-group label {
-    font-size: 14px;
+  .add-payroll-title {
+    font-size: 18px;
   }
 
-  .input-group input,
-  .input-group select,
-  .input-group textarea {
-    height: 46px;
-    font-size: 14px;
+  .add-payroll-input,
+  .add-payroll-select {
+    height: 42px;
+    font-size: 13px;
   }
 
-  .generate-btn {
-    font-size: 14px;
-    padding: 13px 20px;
+  .add-payroll-submit-btn {
+    height: 44px;
   }
+}
+
+.add-payroll-textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 14px;
+  border: 1px solid #d8dce6;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: .3s;
+  background: #fff;
+}
+
+.add-payroll-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+.add-payroll-netpay {
+  background: #eef7ff;
+  color: #0f4c81;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .5px;
 }

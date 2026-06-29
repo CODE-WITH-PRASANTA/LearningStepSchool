@@ -17,6 +17,12 @@ import {
   FaImage,
   FaVideo,
   FaCalendarAlt,
+   FaUserCheck,
+  FaCalendarDay,
+ 
+  FaHistory,
+  FaBusinessTime,
+  FaClock,
 } from "react-icons/fa";
 
 import "./Sidebar.css";
@@ -39,6 +45,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     };
     loadUser();
   }, []);
+
+  // 🔍 Debug Permissions
+useEffect(() => {
+  console.log("Permissions:", permissions);
+}, [permissions]);
 
   // 🔹 Handle screen resize
   useEffect(() => {
@@ -68,10 +79,66 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
   // 📊 MENU
   const menu = [
-    { name: "Dashboard", path: "/", icon: <FaHome /> },
-    { name: "Profile", path: "/admin/profile", icon: <FaUser />,  },
-    { name: "Leave", path: "/admin/leave", icon: <FaUser /> },
-    { name: "Attendance", path: "/teacher-attendance", icon:""},
+  { name: "Dashboard", path: "/", icon: <FaHome /> },
+  { name: "Profile", path: "/admin/profile", icon: <FaUser /> },
+
+  // Leave
+  {
+    name: "Leave",
+    icon: <FaUserCheck />,
+    submenu: [
+      {
+        name: "Apply Leave",
+        path: "/apply/leave",
+        icon: <FaCalendarDay />,
+      },
+      {
+        name: "Leave Request",
+        path: "/leave/request",
+        icon: <FaCalendarAlt />,
+      },
+      {
+        name: "Leave Balance",
+        path: "/leave/balance",
+        icon: <FaHistory />,
+      },
+    ],
+  },
+
+  // Attendance (Separate Menu)
+  {
+    name: "Attendance",
+    icon: <FaUserCheck />,
+    submenu: [
+      {
+        name: "Today's Attendance",
+        path: "/attendance/today",
+        icon: <FaCalendarDay />,
+      },
+      {
+        name: "Monthly Attendance",
+        path: "/attendance/monthly",
+        icon: <FaCalendarAlt />,
+      },
+      {
+        name: "Attendance History",
+        path: "/attendance/history",
+        icon: <FaHistory />,
+      },
+      {
+        name: "Overtime Requests",
+        path: "/attendance/overtime",
+        icon: <FaBusinessTime />,
+      },
+      {
+        name: "Shift Schedule",
+        path: "/attendance/shift-schedule",
+        icon: <FaClock />,
+      },
+    ],
+  },
+
+  // Continue your remaining menus...
 
     { type: "section", label: "ERP Solution" },
 
@@ -121,6 +188,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       ],
     },
 
+    
     {
       name: "Subject Post",
       path: "/subject-post",

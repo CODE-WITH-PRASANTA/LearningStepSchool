@@ -378,10 +378,7 @@ const menu = [
       label: "Fee Entries",
       path: "/fee-entry",
     },
-    {
-      label: "Cancelled Fees",
-      path: "/cancel-fee",
-    },
+   
   ],
 },
 
