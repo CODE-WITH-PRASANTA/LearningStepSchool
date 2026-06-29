@@ -1,0 +1,237 @@
+/* Container Background & Core Theme Styling */
+.attendance-container {
+  min-height: 100vh;
+  background-color: #eef2f6;
+  padding: 24px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #333333;
+  box-sizing: border-box;
+}
+
+/* Page Header and Breadcrumb Styles */
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.attendance-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #364152;
+  margin: 0;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #616161;
+}
+
+.breadcrumbs .home-icon {
+  color: #6571ff;
+  cursor: pointer;
+}
+
+.breadcrumbs .link {
+  cursor: pointer;
+}
+
+.breadcrumbs .link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumbs .separator {
+  color: #9e9e9e;
+}
+
+.breadcrumbs .current-page {
+  color: #9e9e9e;
+  font-weight: 500;
+}
+
+/* Statistics Layout Matrix */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card p {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.95;
+  margin: 0 0 8px 0;
+}
+
+.stat-card .stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* Dynamic Summary Card Variants */
+.card-present { background-color: #4caf50; }
+.card-absent { background-color: #f44336; }
+.card-late { background-color: #ff9800; }
+.card-halfday { background-color: #2196f3; }
+
+/* Dashboard Calendar Sheet */
+.calendar-panel {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.calendar-panel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+}
+
+/* Calendar Matrix Layout (7 Columns Like Reference Images) */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+/* Square Date Box Base Styling & Transitions */
+.date-box {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: 1px solid;
+  cursor: pointer;
+  /* Added transitions for a super smooth interactive hover effect */
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              background-color 0.2s ease, 
+              border-color 0.2s ease, 
+              box-shadow 0.2s ease;
+}
+
+/* --- DYNAMIC STATES & THEIR SPECIFIC HOVER EFFECTS --- */
+
+/* Default / Unmarked State */
+.date-box.status-default {
+  background-color: #f8f9fa;
+  color: #b0b0b0;
+  border-color: #f1f1f1;
+}
+.date-box.status-default:hover {
+  background-color: #f1f3f5;
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Present State (Green) */
+.date-box.status-present {
+  background-color: #edf7ed;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+.date-box.status-present:hover {
+  background-color: #e1f0e1;
+  border-color: #a1d9a4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(46, 125, 50, 0.15);
+}
+
+/* Absent State (Red) */
+.date-box.status-absent {
+  background-color: #fdeded;
+  color: #d32f2f;
+  border-color: #ffcdd2;
+}
+.date-box.status-absent:hover {
+  background-color: #fbe0e0;
+  border-color: #ef9a9a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(211, 47, 47, 0.15);
+}
+
+/* Late State (Orange) */
+.date-box.status-late {
+  background-color: #fff4e5;
+  color: #ed6c02;
+  border-color: #ffe0b2;
+}
+.date-box.status-late:hover {
+  background-color: #ffeace;
+  border-color: #ffcc80;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(237, 108, 2, 0.15);
+}
+
+/* Lower Legend Index Markers */
+.legend-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot-present { background-color: #4caf50; }
+.dot-absent { background-color: #f44336; }
+.dot-late { background-color: #ff9800; }
+.dot-halfday { background-color: #2196f3; }
+
+/* Responsive Media Viewports */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .attendance-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid, .calendar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

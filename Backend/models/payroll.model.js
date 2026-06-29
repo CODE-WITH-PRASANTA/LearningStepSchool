@@ -48,12 +48,37 @@ const payrollSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    payrollWorkingDays: {
+      type: Number,
+      default: 30,
+      min: 1,
+    },
+    deductionAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     overtimeHours: {
       type: Number,
       default: 0,
       min: 0,
     },
+    overtimeRate: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     overtimeAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    allowance: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    otherDeduction: {
       type: Number,
       default: 0,
       min: 0,
@@ -77,6 +102,14 @@ const payrollSchema = new mongoose.Schema(
       type: String,
       enum: ["metro", "non-metro"],
       default: "metro",
+    },
+    payDate: {
+      type: Date,
+    },
+    notes: {
+      type: String,
+      default: "",
+      trim: true,
     },
     salaryBreakdown: {
       earnings: {

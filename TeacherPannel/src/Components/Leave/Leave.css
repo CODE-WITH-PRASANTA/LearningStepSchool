@@ -1,0 +1,234 @@
+/* Component Container Base & Hierarchy Layout */
+.leave-app {
+  background-color: #f3f6f9;
+  min-height: 100vh;
+  padding: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Header Section */
+.leave-app__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.leave-app__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+/* Breadcrumbs tracking */
+.leave-app__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  color: #555555;
+}
+
+.leave-app__breadcrumb-icon {
+  margin-right: 4px;
+}
+
+.leave-app__breadcrumb-separator {
+  color: #888888;
+  font-size: 11px;
+}
+
+.leave-app__breadcrumb-item--active {
+  font-weight: 500;
+  color: #222222;
+}
+
+/* Central Block Card Structure */
+.leave-app__card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 32px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  border: 1px solid #eef1f5;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.leave-app__card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #5a6578;
+  margin-top: 0;
+  margin-bottom: 35px;
+}
+
+/* Form Layout System */
+.leave-app__form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.leave-app__form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* Outlined Floating Field Container */
+.leave-app__input-group {
+  position: relative;
+  width: 100%;
+}
+
+/* Handcrafted Frame Border Labels */
+.leave-app__label {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  background-color: #ffffff;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #7d8b9b;
+  z-index: 2;
+}
+
+.leave-app__required {
+  color: #e53e3e;
+  margin-left: 1px;
+}
+
+/* Field Components */
+.leave-app__input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.leave-app__input,
+.leave-app__select,
+.leave-app__textarea {
+  width: 100%;
+  border: 1px solid #b8c2cc;
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-size: 15px;
+  color: #2d3748;
+  font-weight: 500;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+/* Calendar Date Input Adjustments */
+.leave-app__input[type="date"] {
+  cursor: pointer;
+  position: relative;
+}
+
+.leave-app__input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+.leave-app__select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 40px;
+}
+
+.leave-app__textarea {
+  resize: vertical;
+  min-height: 110px;
+  font-family: inherit;
+}
+
+/* Action Icons inside fields */
+.leave-app__icon {
+  position: absolute;
+  right: 16px;
+  color: #718096;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.leave-app__icon--select {
+  font-size: 10px;
+  color: #4a5568;
+}
+
+/* Bottom Controls Actions */
+.leave-app__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.leave-app__btn {
+  border-radius: 20px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Disabled State Style (Form Incomplete) */
+.leave-app__btn--submit {
+  background-color: #d9dee4;
+  color: #8795a1;
+  cursor: not-allowed;
+}
+
+/* ACTIVE STATE STYLE: Turns blue when inputs match requirements */
+.leave-app__btn--submit-active {
+  background-color: #1e40af; /* Deep Royal Blue variant */
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.leave-app__btn--submit-active:hover {
+  background-color: #1d4ed8; /* Vibrant Blue pop on mouse hover */
+}
+
+.leave-app__btn--cancel {
+  background-color: #f23d31;
+  color: #ffffff;
+}
+
+.leave-app__btn--cancel:hover {
+  background-color: #e02f23;
+}
+
+/* Responsive Media Breakdown */
+@media (min-width: 768px) {
+  .leave-app__form-row--two-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .leave-app__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .leave-app__card {
+    padding: 20px 16px;
+  }
+}

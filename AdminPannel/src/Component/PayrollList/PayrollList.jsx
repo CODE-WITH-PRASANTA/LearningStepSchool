@@ -234,6 +234,8 @@ const PayrollList = ({ refresh, onEdit }) => {
               max-width: 780px;
               margin: 0 auto;
               padding: 0;
+              min-width: 0;
+              overflow-x: hidden;
             }
             .payslip-corporate-branding {
               text-align: center;
@@ -321,21 +323,37 @@ const PayrollList = ({ refresh, onEdit }) => {
             }
             .payslip-financial-table {
               width: 100%;
+              max-width: 100%;
+              min-width: 0;
+              table-layout: fixed;
               border-collapse: collapse;
               margin-bottom: 20px;
+            }
+            .payslip-financial-table col {
+              width: 25%;
             }
             .payslip-financial-table th {
               background: #e2e8f0;
               color: #1e293b;
               border: 1px solid #cbd5e1;
-              padding: 10px;
+              padding: 9px 8px;
+              white-space: normal;
+              overflow-wrap: anywhere;
+              text-align: center;
             }
             .payslip-financial-table td {
               border: 1px solid #cbd5e1;
-              padding: 10px;
+              padding: 9px 8px;
+              white-space: normal;
+              overflow-wrap: anywhere;
+              text-align: center;
             }
             .financial-totals-row {
               background: #f1f5f9;
+            }
+            .estimated-pay-row {
+              background: #eef7ff;
+              color: #0f4c81;
             }
             .payslip-net-footer {
               border: 1px solid #cbd5e1;
@@ -380,6 +398,45 @@ const PayrollList = ({ refresh, onEdit }) => {
       printWindow.close();
     }, 300);
   };
+
+  const payslipAmounts = useMemo(() => {
+    if (!selectedPayroll) {
+      return {
+        basic: 0,
+        allowance: 0,
+        overtime: 0,
+        monthlyDeduction: 0,
+        otherDeduction: 0,
+        totalEarnings: 0,
+        totalDeductions: 0,
+      };
+    }
+
+    const earnings = selectedPayroll.salaryBreakdown?.earnings || {};
+    const deductions = selectedPayroll.salaryBreakdown?.deductions || {};
+    const allowance = Number(selectedPayroll.allowance ?? earnings.allowance ?? 0);
+    const overtime = Number(selectedPayroll.overtimeAmount ?? earnings.overtime ?? 0);
+    const basic = Number(
+      earnings.basic ??
+        Math.max(Number(selectedPayroll.grossSalary || 0) - allowance, 0),
+    );
+    const monthlyDeduction = Number(
+      selectedPayroll.deductionAmount ?? deductions.monthlyDeduction ?? 0,
+    );
+    const otherDeduction = Number(
+      selectedPayroll.otherDeduction ?? deductions.otherDeduction ?? 0,
+    );
+
+    return {
+      basic,
+      allowance,
+      overtime,
+      monthlyDeduction,
+      otherDeduction,
+      totalEarnings: basic + allowance + overtime,
+      totalDeductions: monthlyDeduction + otherDeduction,
+    };
+  }, [selectedPayroll]);
 
   return (
     <div className="payroll-list-wrapper">
@@ -587,6 +644,12 @@ const PayrollList = ({ refresh, onEdit }) => {
               </div>
 
               <table className="payslip-financial-table">
+                <colgroup>
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                </colgroup>
                 <thead>
                   <tr>
                     <th>Earning</th>
@@ -597,24 +660,32 @@ const PayrollList = ({ refresh, onEdit }) => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Basic + Allowances</td>
-                    <td>{formatMoney(selectedPayroll.grossSalary)}</td>
-                    <td>PF / Tax / ESI</td>
-                    <td>{formatMoney(selectedPayroll.totalDeductions)}</td>
+                    <td>Basic Salary</td>
+                    <td>{formatMoney(payslipAmounts.basic)}</td>
+                    <td>Monthly Deduction</td>
+                    <td>{formatMoney(payslipAmounts.monthlyDeduction)}</td>
                   </tr>
-                  {selectedPayroll.overtimeAmount > 0 && (
-                    <tr>
-                      <td>Overtime Allowance</td>
-                      <td>{formatMoney(selectedPayroll.overtimeAmount)}</td>
-                      <td>-</td>
-                      <td>{formatMoney(0)}</td>
-                    </tr>
-                  )}
+                  <tr>
+                    <td>Additional Allowance</td>
+                    <td>{formatMoney(payslipAmounts.allowance)}</td>
+                    <td>Other Deduction</td>
+                    <td>{formatMoney(payslipAmounts.otherDeduction)}</td>
+                  </tr>
+                  <tr>
+                    <td>Overtime Allowance</td>
+                    <td>{formatMoney(payslipAmounts.overtime)}</td>
+                    <td>-</td>
+                    <td>{formatMoney(0)}</td>
+                  </tr>
                   <tr className="financial-totals-row">
                     <td><strong>Total Earning</strong></td>
-                    <td><strong>{formatMoney((selectedPayroll.grossSalary || 0) + (selectedPayroll.overtimeAmount || 0))}</strong></td>
+                    <td><strong>{formatMoney(payslipAmounts.totalEarnings)}</strong></td>
                     <td><strong>Total Deduction</strong></td>
-                    <td><strong>{formatMoney(selectedPayroll.totalDeductions)}</strong></td>
+                    <td><strong>{formatMoney(payslipAmounts.totalDeductions)}</strong></td>
+                  </tr>
+                  <tr className="estimated-pay-row">
+                    <td colSpan="3"><strong>Estimated Pay Amount</strong></td>
+                    <td><strong>{formatMoney(selectedPayroll.totalSalary)}</strong></td>
                   </tr>
                 </tbody>
               </table>

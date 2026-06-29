@@ -1,39 +1,43 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import API from "../../api/axios";
 import "./AddPayrollModal.css";
 
-const currentDate = new Date();
-
-const initialForm = {
-  teacherId: "",
-  month: String(currentDate.getMonth() + 1),
-  year: String(currentDate.getFullYear()),
-  baseSalary: "",
-  overtimeHours: "0",
-  city: "metro",
-  status: "Pending",
-};
-
 const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
+  const initialForm = {
+    employee: "",
+    payDate: "",
+
+    basicSalary: "50000",
+
+    totalWorkingDays: "30",
+
+    deductionAmount: "0",
+
+    overtimeHours: "0",
+
+    overtimeRate: "200",
+
+    allowance: "0",
+
+    otherDeduction: "0",
+
+    notes: "",
+  };
+
   const [formData, setFormData] = useState(initialForm);
   const [teachers, setTeachers] = useState([]);
-  const [loadingTeachers, setLoadingTeachers] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!show) return;
 
     const fetchTeachers = async () => {
       try {
-        setLoadingTeachers(true);
         const res = await API.get("/admin/teachers");
         setTeachers(res.data?.data || []);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load teachers.");
-      } finally {
-        setLoadingTeachers(false);
+        alert(err.response?.data?.message || "Failed to load teachers.");
       }
     };
 
@@ -42,59 +46,61 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
 
   useEffect(() => {
     if (editData) {
+      const payrollDate =
+        editData.month && editData.year
+          ? `${editData.year}-${String(editData.month).padStart(2, "0")}-01`
+          : "";
+
       setFormData({
-        teacherId: editData.teacherId?._id || editData.teacherId || "",
-        month: String(editData.month || currentDate.getMonth() + 1),
-        year: String(editData.year || currentDate.getFullYear()),
-        baseSalary: String(editData.baseSalary || ""),
+        ...initialForm,
+        ...editData,
+        employee: editData.teacherId?._id || editData.teacherId || "",
+        payDate: editData.payDate || payrollDate,
+        basicSalary: String(editData.baseSalary || editData.basicSalary || initialForm.basicSalary),
+        totalWorkingDays: String(editData.payrollWorkingDays || editData.totalDays || editData.totalWorkingDays || initialForm.totalWorkingDays),
+        deductionAmount: String(editData.deductionAmount || 0),
         overtimeHours: String(editData.overtimeHours || 0),
-        city: editData.city || "metro",
-        status: editData.status || "Pending",
+        overtimeRate: String(editData.overtimeRate || 0),
+        allowance: String(editData.allowance || 0),
+        otherDeduction: String(editData.otherDeduction || 0),
+        notes: editData.notes || "",
       });
     } else {
       setFormData(initialForm);
     }
-
-    setError("");
   }, [editData, show]);
 
-  const selectedTeacher = useMemo(
-    () => teachers.find((teacher) => teacher._id === formData.teacherId),
-    [teachers, formData.teacherId],
-  );
-
-  const estimatedNet = useMemo(() => {
-    const base = Number(formData.baseSalary) || 0;
-    const overtimeHours = Number(formData.overtimeHours) || 0;
-    const totalDays = new Date(Number(formData.year), Number(formData.month), 0).getDate();
-    const hourlyRate = base / totalDays / 8;
-    return base + hourlyRate * 2 * overtimeHours;
-  }, [formData.baseSalary, formData.month, formData.overtimeHours, formData.year]);
-
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
-    }));
+    });
   };
 
-  const handleGenerate = async (e) => {
-    e.preventDefault();
-    setError("");
+  const handleGenerate = async () => {
+    if (saving) return;
 
-    if (!formData.teacherId || !formData.month || !formData.year || !formData.baseSalary) {
-      setError("Please select teacher, month, year, and base salary.");
+    if (!formData.employee || !formData.payDate) {
+      alert("Please select teacher and pay date.");
       return;
     }
 
+    const payrollDate = new Date(formData.payDate);
     const payload = {
-      teacherId: formData.teacherId,
-      month: Number(formData.month),
-      year: Number(formData.year),
-      baseSalary: Number(formData.baseSalary),
+      teacherId: formData.employee,
+      month: payrollDate.getMonth() + 1,
+      year: payrollDate.getFullYear(),
+      payDate: formData.payDate,
+      baseSalary: Number(formData.basicSalary) || 0,
+      payrollWorkingDays: Number(formData.totalWorkingDays) || 30,
+      deductionAmount: Number(formData.deductionAmount) || 0,
       overtimeHours: Number(formData.overtimeHours) || 0,
-      city: formData.city,
-      status: formData.status,
+      overtimeRate: Number(formData.overtimeRate) || 0,
+      allowance: Number(formData.allowance) || 0,
+      otherDeduction: Number(formData.otherDeduction) || 0,
+      notes: formData.notes || "",
+      city: editData?.city || "metro",
+      status: editData?.status || "Pending",
     };
 
     try {
@@ -106,11 +112,20 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
         await API.post("/payroll", payload);
       }
 
-      onAdd?.();
+      if (onAdd) {
+        onAdd();
+      }
+
+      alert(
+        editData
+          ? "Payroll Updated Successfully"
+          : "Payroll Generated Successfully",
+      );
+
       setFormData(initialForm);
       onClose();
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save payroll.");
+      alert(err.response?.data?.message || "Failed to save payroll.");
     } finally {
       setSaving(false);
     }
@@ -118,158 +133,248 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
 
   if (!show) return null;
 
+  const basicSalary = Number(formData.basicSalary) || 0;
+  const monthlyDeduction = Number(formData.deductionAmount) || 0;
+  const overtimeHours = Number(formData.overtimeHours) || 0;
+  const overtimeRate = Number(formData.overtimeRate) || 0;
+  const additionalAllowance = Number(formData.allowance) || 0;
+  const otherDeduction = Number(formData.otherDeduction) || 0;
+  const overtimePay = overtimeHours * overtimeRate;
+  const totalEarnings = basicSalary + additionalAllowance + overtimePay;
+  const totalDeductions = monthlyDeduction + otherDeduction;
+  const estimatedNet = Math.max(0, totalEarnings - totalDeductions);
+
+  const formatCurrency = (value) =>
+    `₹${Number(value || 0).toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+
   return (
     <div className="add-payroll-overlay">
       <div className="add-payroll-modal">
+        {/* Header */}
         <div className="add-payroll-header">
           <h2 className="add-payroll-title">
             {editData ? "Edit Payroll" : "Add Payroll"}
           </h2>
 
-          <button className="add-payroll-close-btn" onClick={onClose} type="button">
+          <button className="add-payroll-close-btn" onClick={onClose}>
             <X size={20} />
           </button>
         </div>
 
+        {/* Body */}
         <div className="add-payroll-body">
-          <form className="add-payroll-form" onSubmit={handleGenerate}>
-            {error && <div className="add-payroll-error">{error}</div>}
-
+          <div className="add-payroll-form">
+            {/* Teacher */}
             <div className="add-payroll-group add-payroll-full">
               <label className="add-payroll-label">Select Teacher</label>
+
               <select
                 className="add-payroll-select"
-                name="teacherId"
-                value={formData.teacherId}
+                name="employee"
+                value={formData.employee}
                 onChange={handleChange}
-                disabled={loadingTeachers || saving}
               >
-                <option value="">
-                  {loadingTeachers ? "Loading teachers..." : "Choose Teacher"}
-                </option>
+                <option value="">Choose Teacher</option>
+
                 {teachers.map((teacher) => (
                   <option key={teacher._id} value={teacher._id}>
-                    {teacher.name} {teacher.department ? `- ${teacher.department}` : ""}
+                    {teacher.name}
                   </option>
                 ))}
               </select>
             </div>
 
-            <div className="add-payroll-grid-2">
-              <div className="add-payroll-group">
-                <label className="add-payroll-label">Payroll Month</label>
-                <select
-                  className="add-payroll-select"
-                  name="month"
-                  value={formData.month}
-                  onChange={handleChange}
-                  disabled={saving}
-                >
-                  {Array.from({ length: 12 }, (_, index) => (
-                    <option key={index + 1} value={index + 1}>
-                      {new Date(2026, index, 1).toLocaleString("en-IN", { month: "long" })}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            {/* Pay Date */}
+            <div className="add-payroll-group add-payroll-full">
+              <label className="add-payroll-label">Payroll Date</label>
 
-              <div className="add-payroll-group">
-                <label className="add-payroll-label">Payroll Year</label>
-                <input
-                  className="add-payroll-input"
-                  type="number"
-                  min="2020"
-                  name="year"
-                  value={formData.year}
-                  onChange={handleChange}
-                  disabled={saving}
-                />
-              </div>
+              <input
+                className="add-payroll-input"
+                type="date"
+                name="payDate"
+                value={formData.payDate}
+                onChange={handleChange}
+              />
             </div>
 
-            <div className="add-payroll-grid-2">
-              <div className="add-payroll-group">
-                <label className="add-payroll-label">Base Salary (Rs.)</label>
-                <input
-                  className="add-payroll-input"
-                  type="number"
-                  min="0"
-                  name="baseSalary"
-                  value={formData.baseSalary}
-                  onChange={handleChange}
-                  disabled={saving}
-                />
-              </div>
+            {/* Duty Days */}
+            <div className="add-payroll-group add-payroll-full">
+              <label className="add-payroll-label">Total Working Days</label>
 
-              <div className="add-payroll-group">
-                <label className="add-payroll-label">Overtime Hours</label>
-                <input
-                  className="add-payroll-input"
-                  type="number"
-                  min="0"
-                  name="overtimeHours"
-                  value={formData.overtimeHours}
-                  onChange={handleChange}
-                  disabled={saving}
-                />
-              </div>
+              <input
+                className="add-payroll-input"
+                type="number"
+                name="totalWorkingDays"
+                value={formData.totalWorkingDays}
+                onChange={handleChange}
+                placeholder="30"
+              />
             </div>
 
+            {/* Salary */}
             <div className="add-payroll-grid-2">
               <div className="add-payroll-group">
-                <label className="add-payroll-label">City Type</label>
-                <select
-                  className="add-payroll-select"
-                  name="city"
-                  value={formData.city}
+                <label className="add-payroll-label">Basic Salary (₹)</label>
+
+                <input
+                  className="add-payroll-input"
+                  type="number"
+                  name="basicSalary"
+                  value={formData.basicSalary}
                   onChange={handleChange}
-                  disabled={saving}
-                >
-                  <option value="metro">Metro</option>
-                  <option value="non-metro">Non Metro</option>
-                </select>
+                />
               </div>
 
               <div className="add-payroll-group">
-                <label className="add-payroll-label">Status</label>
-                <select
-                  className="add-payroll-select"
-                  name="status"
-                  value={formData.status}
+                <label className="add-payroll-label">
+                  Monthly Deduction (₹)
+                </label>
+
+                <input
+                  className="add-payroll-input"
+                  type="number"
+                  name="deductionAmount"
+                  value={formData.deductionAmount}
                   onChange={handleChange}
-                  disabled={saving}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Reject">Reject</option>
-                </select>
+                  placeholder="0"
+                />
               </div>
             </div>
 
             <div className="add-payroll-group add-payroll-full">
-              <label className="add-payroll-label">Estimated Pay Before Attendance</label>
+              <label className="add-payroll-label">
+                Overtime Rate (₹ / Hour)
+              </label>
+
+              <input
+                className="add-payroll-input"
+                type="number"
+                name="overtimeRate"
+                value={formData.overtimeRate}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Overtime */}
+            <div className="add-payroll-group add-payroll-full">
+              <label className="add-payroll-label">Overtime Hours</label>
+
+              <input
+                className="add-payroll-input"
+                type="number"
+                name="overtimeHours"
+                value={formData.overtimeHours}
+                onChange={handleChange}
+                placeholder="0"
+              />
+            </div>
+
+            {/* Estimated Salary */}
+            <div className="add-payroll-group add-payroll-full">
+              <label className="add-payroll-label">Estimated Net Pay</label>
+
               <input
                 className="add-payroll-input add-payroll-netpay"
                 type="text"
-                value={`Rs. ${estimatedNet.toLocaleString("en-IN", { maximumFractionDigits: 2 })}`}
+                value={formatCurrency(estimatedNet)}
                 readOnly
               />
             </div>
 
-            {selectedTeacher && (
-              <div className="add-payroll-note">
-                Attendance and approved leave are calculated from backend records for this month.
+            <div className="add-payroll-breakdown">
+              <div className="add-payroll-breakdown-col earnings">
+                <h4>Earnings</h4>
+                <p>
+                  <span>Basic Salary</span>
+                  <b>{formatCurrency(basicSalary)}</b>
+                </p>
+                <p>
+                  <span>Additional Allowance</span>
+                  <b>{formatCurrency(additionalAllowance)}</b>
+                </p>
+                <p>
+                  <span>Overtime ({overtimeHours} × {formatCurrency(overtimeRate)})</span>
+                  <b>{formatCurrency(overtimePay)}</b>
+                </p>
+                <p className="total-row">
+                  <span>Total Earnings</span>
+                  <b>{formatCurrency(totalEarnings)}</b>
+                </p>
               </div>
-            )}
 
-            <button className="add-payroll-submit-btn" type="submit" disabled={saving}>
-              {saving
-                ? "Saving..."
-                : editData
-                  ? "Update Payroll Record"
-                  : "Generate Payroll"}
+              <div className="add-payroll-breakdown-col deductions">
+                <h4>Deductions</h4>
+                <p>
+                  <span>Monthly Deduction</span>
+                  <b>{formatCurrency(monthlyDeduction)}</b>
+                </p>
+                <p>
+                  <span>Other Deduction</span>
+                  <b>{formatCurrency(otherDeduction)}</b>
+                </p>
+                <p className="total-row">
+                  <span>Total Deductions</span>
+                  <b>{formatCurrency(totalDeductions)}</b>
+                </p>
+                <p className="net-row">
+                  <span>Net Pay</span>
+                  <b>{formatCurrency(estimatedNet)}</b>
+                </p>
+              </div>
+            </div>
+
+            <div className="add-payroll-grid-2">
+              <div className="add-payroll-group">
+                <label className="add-payroll-label">
+                  Additional Allowance (₹)
+                </label>
+
+                <input
+                  className="add-payroll-input"
+                  type="number"
+                  name="allowance"
+                  value={formData.allowance}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="add-payroll-group">
+                <label className="add-payroll-label">Other Deduction (₹)</label>
+
+                <input
+                  className="add-payroll-input"
+                  type="number"
+                  name="otherDeduction"
+                  value={formData.otherDeduction}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            {/* Notes */}
+            <div className="add-payroll-group add-payroll-full">
+              <label className="add-payroll-label">Payroll Notes</label>
+
+              <textarea
+                className="add-payroll-textarea"
+                rows="4"
+                name="notes"
+                value={formData.notes}
+                onChange={handleChange}
+                placeholder="Enter remarks, bonus details, leave information or any payroll notes..."
+              />
+            </div>
+
+            {/* Button */}
+            <button
+              className="add-payroll-submit-btn"
+              onClick={handleGenerate}
+            >
+              {editData ? "Update Payroll Record" : "Generate Payroll"}
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
