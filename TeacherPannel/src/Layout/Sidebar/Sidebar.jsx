@@ -71,7 +71,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     { name: "Dashboard", path: "/", icon: <FaHome /> },
     { name: "Profile", path: "/admin/profile", icon: <FaUser />,  },
     { name: "Leave", path: "/admin/leave", icon: <FaUser /> },
-    { name: "Attendance", path: "/teacher-attendance", icon:""},
+    { name: "Attendance", path: "/admin/teacher-attendance", icon:""},
 
     { type: "section", label: "ERP Solution" },
 

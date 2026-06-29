@@ -86,7 +86,7 @@ function App() {
             <Route path="/learning/secondary" element={<Secondary/>}/>
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
-            <Route path="/teacher-attendance" element={<TeacherAttenanced/>}/>
+            <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
             
             
             {/* 🔐 Permission Protected */}
