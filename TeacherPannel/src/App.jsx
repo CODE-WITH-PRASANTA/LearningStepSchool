@@ -90,7 +90,7 @@ function App() {
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
             <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
-            <Route path="/Balance" element={<LeaveBalance />}/>
+            <Route path="/leave/balance" element={<LeaveBalance />}/>
             
             
             {/* 🔐 Permission Protected */}
