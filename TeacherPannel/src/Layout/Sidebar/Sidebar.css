@@ -1,18 +1,26 @@
 /* ================= SIDEBAR ================= */
-.sidebar {
-  width: 275px;
-  height: calc(100vh - 70px);
-  position: fixed;
-  top: 70px;
-  left: 0;
-  background: linear-gradient(180deg, #864d3e, #8b2e14);
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-  z-index: 999;
-  overflow-x: hidden;
+.sidebar{
+
+position:fixed;
+
+top:70px;
+
+left:0;
+
+width:275px;
+
+height:calc(100vh - 70px);
+
+background:linear-gradient(180deg,#864d3e,#8b2e14);
+
+overflow-y:auto;
+
+overflow-x:hidden;
+
+transition:.3s;
+
+z-index:1100;
+
 }
 
 .sidebar.active {
@@ -157,10 +165,75 @@
 }
 
 /* ================= RESPONSIVE ================= */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 240px;
-  }
+
+@media(min-width:1025px){
+
+.sidebar{
+
+transform:none;
+
+}
+
+.sidebar:not(.active){
+
+transform:translateX(-100%);
+
+}
+
+}
+
+/* Tablet & Mobile */
+
+@media(max-width:1024px){
+
+.sidebar{
+
+transform:translateX(-100%);
+
+}
+
+.sidebar.active{
+
+transform:translateX(0);
+
+}
+
+}
+
+/* Overlay */
+
+.sidebar-overlay{
+
+position:fixed;
+
+top:70px;
+
+left:0;
+
+right:0;
+
+bottom:0;
+
+background:rgba(0,0,0,.45);
+
+z-index:1000;
+
+}
+
+/* Scroll */
+
+.sidebar::-webkit-scrollbar{
+
+width:5px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+background:#b98b58;
+
+border-radius:20px;
+
 }
 
 @media (max-width: 768px) {
