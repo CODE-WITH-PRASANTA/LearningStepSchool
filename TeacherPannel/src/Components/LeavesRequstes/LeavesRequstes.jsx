@@ -6,6 +6,11 @@ const INITIAL_LEAVE_DATA = [
   { id: 2, applyDate: '02/17/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'Yes', type: 'Sick Leave', status: 'Rejected', reason: 'Lorem Ipsum is si...' },
   { id: 3, applyDate: '02/17/2019', fromDate: '02/12/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Sick Leave', status: 'Rejected', reason: 'Lorem Ipsum is si...' },
   { id: 4, applyDate: '05/11/2019', fromDate: '03/17/2019', toDate: '03/26/2019', halfDay: 'No', type: 'Casual Leave', status: 'Pending', reason: 'Lorem Ipsum is sim..' },
+  { id: 5, applyDate: '07/15/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Casual Leave', status: 'Approved', reason: 'Lorem Ipsum is si...' },
+  { id: 6, applyDate: '02/17/2019', fromDate: '04/22/2019', toDate: '02/26/2019', halfDay: 'Yes', type: 'Privilege Leave', status: 'Pending', reason: 'Lorem Ipsum is si...' },
+  { id: 7, applyDate: '02/20/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Casual Leave', status: 'Rejected', reason: 'Lorem Ipsum is si...' },
+  { id: 8, applyDate: '03/24/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'Yes', type: 'Marriage Leave', status: 'Approved', reason: 'Lorem Ipsum is si...' },
+  { id: 9, applyDate: '02/13/2019', fromDate: '03/17/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Maternity Leave', status: 'Approved', reason: 'Lorem Ipsum is si...' }
 ];
 
 const LeavesRequstes = () => {
