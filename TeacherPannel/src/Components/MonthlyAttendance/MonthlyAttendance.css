@@ -1,0 +1,285 @@
+.MonthlyAttendance{
+    width:100%;
+    min-height:100vh;
+    background:#eef3f9;
+    padding:30px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Header */
+
+.MonthlyAttendance_header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+    gap:20px;
+}
+
+.MonthlyAttendance_header h2{
+    font-size:20px;
+    color:#243447;
+    font-weight:700;
+}
+
+.MonthlyAttendance_breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#3a4658;
+    font-size:15px;
+}
+
+/* Summary */
+
+.MonthlyAttendance_summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    margin-bottom:35px;
+}
+
+.MonthlyAttendance_card{
+    height:145px;
+    border-radius:16px;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.MonthlyAttendance_card h4{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:18px;
+}
+
+.MonthlyAttendance_card h2{
+    font-size:52px;
+    font-weight:700;
+}
+
+.MonthlyAttendance_card.present{
+    background:#4caf50;
+}
+
+.MonthlyAttendance_card.absent{
+    background:#ff3b30;
+}
+
+.MonthlyAttendance_card.late{
+    background:#ff9800;
+}
+
+.MonthlyAttendance_card.half{
+    background:#2f8edc;
+}
+
+/* Calendar */
+
+.MonthlyAttendance_calendar{
+    background:#fff;
+    border-radius:22px;
+    padding:32px;
+    box-shadow:0 8px 22px rgba(0,0,0,.06);
+}
+
+.MonthlyAttendance_calendar h2{
+    font-size:26px;
+    color:#1e293b;
+    margin-bottom:28px;
+}
+
+/* Grid */
+
+.MonthlyAttendance_grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:18px;
+}
+
+/* Day Box */
+
+.MonthlyAttendance_day{
+    height:225px;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:26px;
+    font-weight:700;
+    color:#d1d5db;
+    transition:.3s;
+}
+
+/* Attendance Colors */
+
+.MonthlyAttendance_day.present{
+    background:#edf8ef;
+    border-color:#b7e3bf;
+    color:#2e7d32;
+}
+
+.MonthlyAttendance_day.absent{
+    background:#ffecef;
+    border-color:#ffb5c1;
+    color:#d32f2f;
+}
+
+.MonthlyAttendance_day.late{
+    background:#fff5e6;
+    border-color:#ffd08a;
+    color:#ef6c00;
+}
+
+.MonthlyAttendance_day.half{
+    background:#eef6ff;
+    border-color:#b8d6ff;
+    color:#1976d2;
+}
+
+/* Legend */
+
+.MonthlyAttendance_legend{
+    display:flex;
+    gap:35px;
+    margin-top:35px;
+    font-size:20px;
+    color:#555;
+    flex-wrap:wrap;
+}
+
+.MonthlyAttendance_legend div{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.green{
+    color:#4caf50;
+}
+
+.red{
+    color:#ff3b30;
+}
+
+.orange{
+    color:#ff9800;
+}
+
+.blue{
+    color:#2f8edc;
+}
+
+/* Laptop */
+
+@media(max-width:1400px){
+
+.MonthlyAttendance_day{
+    height:190px;
+}
+
+}
+
+/* Tablet */
+
+@media(max-width:992px){
+
+.MonthlyAttendance_summary{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.MonthlyAttendance_grid{
+    grid-template-columns:repeat(4,1fr);
+}
+
+.MonthlyAttendance_day{
+    height:170px;
+}
+
+.MonthlyAttendance_header{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.MonthlyAttendance{
+    padding:18px;
+}
+
+.MonthlyAttendance_summary{
+    grid-template-columns:1fr;
+    gap:18px;
+}
+
+.MonthlyAttendance_card{
+    height:125px;
+}
+
+.MonthlyAttendance_card h2{
+    font-size:42px;
+}
+
+.MonthlyAttendance_grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.MonthlyAttendance_day{
+    height:140px;
+    font-size:22px;
+}
+
+.MonthlyAttendance_calendar{
+    padding:18px;
+}
+
+.MonthlyAttendance_calendar h2{
+    font-size:22px;
+}
+
+.MonthlyAttendance_legend{
+    gap:18px;
+    font-size:16px;
+}
+
+.MonthlyAttendance_breadcrumb{
+    flex-wrap:wrap;
+}
+
+}
+
+/* Small Mobile */
+
+@media(max-width:480px){
+
+.MonthlyAttendance_grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.MonthlyAttendance_day{
+    height:120px;
+}
+
+.MonthlyAttendance_card{
+    height:110px;
+}
+
+.MonthlyAttendance_card h4{
+    font-size:16px;
+}
+
+.MonthlyAttendance_card h2{
+    font-size:36px;
+}
+
+}

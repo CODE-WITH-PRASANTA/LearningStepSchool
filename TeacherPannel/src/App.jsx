@@ -39,6 +39,7 @@ import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
 import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
+import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
 
 
 function App() {
@@ -85,6 +86,7 @@ function App() {
             <Route path="/learning/secondary" element={<Secondary/>}/>
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
+            <Route path="/monthly" element= {<MonthlyAttendance />} />
             
             
             {/* 🔐 Permission Protected */}
