@@ -1,285 +1,184 @@
-.MonthlyAttendance{
-    width:100%;
-    min-height:100vh;
-    background:#eef3f9;
-    padding:30px;
-    font-family:Arial, Helvetica, sans-serif;
+/* Base Container & Background Styling */
+.attendance-container {
+  min-height: 100vh;
+  background-color: #eef2f6;
+  padding: 24px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  color: #333333;
+  box-sizing: border-box;
 }
 
-/* Header */
-
-.MonthlyAttendance_header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:35px;
-    gap:20px;
+/* Floating Settings Sidebar Icon */
+.settings-sidebar {
+  position: absolute;
+  right: 0;
+  top: 160px;
+  background-color: #6571ff;
+  color: #ffffff;
+  padding: 8px 10px;
+  border-radius: 6px 0 0 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+.settings-sidebar:hover {
+  background-color: #525fe6;
 }
 
-.MonthlyAttendance_header h2{
-    font-size:20px;
-    color:#243447;
-    font-weight:700;
+/* Top Dashboard Headers */
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.attendance-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #364152;
+  margin: 0;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #616161;
+}
+.breadcrumbs .home-icon {
+  color: #6571ff;
+  cursor: pointer;
 }
 
-.MonthlyAttendance_breadcrumb{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#3a4658;
-    font-size:15px;
+/* Statistical Cards Grid Layout */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.stat-card p:first-child {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-collapse: collapse;
+  margin: 0 0 8px 0;
+}
+.stat-card .stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0;
 }
 
-/* Summary */
+/* Individual Card Colors */
+.card-present { background-color: #4caf50; }
+.card-absent { background-color: #f44336; }
+.card-late { background-color: #ff9800; }
+.card-halfday { background-color: #2196f3; }
 
-.MonthlyAttendance_summary{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:24px;
-    margin-bottom:35px;
+/* Main White Dashboard Body Panel */
+.calendar-panel {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.calendar-panel h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
 }
 
-.MonthlyAttendance_card{
-    height:145px;
-    border-radius:16px;
-    color:#fff;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+/* Calendar Date Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* Forces exact 7 columns layout like the reference images */
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
-.MonthlyAttendance_card h4{
-    font-size:18px;
-    font-weight:600;
-    margin-bottom:18px;
+/* Aspect-Ratio Square Date Boxes */
+.date-box {
+  aspect-ratio: 1 / 1; /* Maintains the same width and height dimensions */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700; /* Matching bold text style */
+  border-radius: 12px;
+  border: 1px solid;
+  transition: all 0.2s ease-in-out;
 }
 
-.MonthlyAttendance_card h2{
-    font-size:52px;
-    font-weight:700;
+/* Dynamic State Status Color Box Variations */
+.date-box.status-default {
+  background-color: #f8f9fa;
+  color: #b0b0b0;
+  border-color: #f1f1f1;
+}
+.date-box.status-present {
+  background-color: #edf7ed;
+  color: #2e7d32;
+  border-color: #c8e6c9;
+}
+.date-box.status-absent {
+  background-color: #fdeded;
+  color: #d32f2f;
+  border-color: #ffcdd2;
+}
+.date-box.status-late {
+  background-color: #fff4e5;
+  color: #ed6c02;
+  border-color: #ffe0b2;
 }
 
-.MonthlyAttendance_card.present{
-    background:#4caf50;
+/* Bottom Footer Legend Indicators */
+.legend-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 
-.MonthlyAttendance_card.absent{
-    background:#ff3b30;
+/* Responsive Adjustments for Mobile Layouts */
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .attendance-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 }
-
-.MonthlyAttendance_card.late{
-    background:#ff9800;
-}
-
-.MonthlyAttendance_card.half{
-    background:#2f8edc;
-}
-
-/* Calendar */
-
-.MonthlyAttendance_calendar{
-    background:#fff;
-    border-radius:22px;
-    padding:32px;
-    box-shadow:0 8px 22px rgba(0,0,0,.06);
-}
-
-.MonthlyAttendance_calendar h2{
-    font-size:26px;
-    color:#1e293b;
-    margin-bottom:28px;
-}
-
-/* Grid */
-
-.MonthlyAttendance_grid{
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:18px;
-}
-
-/* Day Box */
-
-.MonthlyAttendance_day{
-    height:225px;
-    border:1px solid #e5e7eb;
-    border-radius:16px;
-    background:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:26px;
-    font-weight:700;
-    color:#d1d5db;
-    transition:.3s;
-}
-
-/* Attendance Colors */
-
-.MonthlyAttendance_day.present{
-    background:#edf8ef;
-    border-color:#b7e3bf;
-    color:#2e7d32;
-}
-
-.MonthlyAttendance_day.absent{
-    background:#ffecef;
-    border-color:#ffb5c1;
-    color:#d32f2f;
-}
-
-.MonthlyAttendance_day.late{
-    background:#fff5e6;
-    border-color:#ffd08a;
-    color:#ef6c00;
-}
-
-.MonthlyAttendance_day.half{
-    background:#eef6ff;
-    border-color:#b8d6ff;
-    color:#1976d2;
-}
-
-/* Legend */
-
-.MonthlyAttendance_legend{
-    display:flex;
-    gap:35px;
-    margin-top:35px;
-    font-size:20px;
-    color:#555;
-    flex-wrap:wrap;
-}
-
-.MonthlyAttendance_legend div{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.green{
-    color:#4caf50;
-}
-
-.red{
-    color:#ff3b30;
-}
-
-.orange{
-    color:#ff9800;
-}
-
-.blue{
-    color:#2f8edc;
-}
-
-/* Laptop */
-
-@media(max-width:1400px){
-
-.MonthlyAttendance_day{
-    height:190px;
-}
-
-}
-
-/* Tablet */
-
-@media(max-width:992px){
-
-.MonthlyAttendance_summary{
-    grid-template-columns:repeat(2,1fr);
-}
-
-.MonthlyAttendance_grid{
-    grid-template-columns:repeat(4,1fr);
-}
-
-.MonthlyAttendance_day{
-    height:170px;
-}
-
-.MonthlyAttendance_header{
-    flex-direction:column;
-    align-items:flex-start;
-}
-
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.MonthlyAttendance{
-    padding:18px;
-}
-
-.MonthlyAttendance_summary{
-    grid-template-columns:1fr;
-    gap:18px;
-}
-
-.MonthlyAttendance_card{
-    height:125px;
-}
-
-.MonthlyAttendance_card h2{
-    font-size:42px;
-}
-
-.MonthlyAttendance_grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-}
-
-.MonthlyAttendance_day{
-    height:140px;
-    font-size:22px;
-}
-
-.MonthlyAttendance_calendar{
-    padding:18px;
-}
-
-.MonthlyAttendance_calendar h2{
-    font-size:22px;
-}
-
-.MonthlyAttendance_legend{
-    gap:18px;
-    font-size:16px;
-}
-
-.MonthlyAttendance_breadcrumb{
-    flex-wrap:wrap;
-}
-
-}
-
-/* Small Mobile */
-
-@media(max-width:480px){
-
-.MonthlyAttendance_grid{
-    grid-template-columns:repeat(2,1fr);
-}
-
-.MonthlyAttendance_day{
-    height:120px;
-}
-
-.MonthlyAttendance_card{
-    height:110px;
-}
-
-.MonthlyAttendance_card h4{
-    font-size:16px;
-}
-
-.MonthlyAttendance_card h2{
-    font-size:36px;
-}
-
+@media (max-width: 480px) {
+  .calendar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

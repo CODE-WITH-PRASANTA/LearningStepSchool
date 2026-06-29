@@ -175,11 +175,11 @@ import Calender from "./Component/Calender/Calender";
 import TransportVehicleReport from "./Component/TransportVehicleReport/TransportVehicleReport";
 import TransportStudentsReport from "./Component/TransportStudentsReport/TransportStudentsReport";
 import MainDashboard from "./Pages/MainDashboard/MainDashboard";
-import Freegroup from "./Component/Freegroup/Freegroup";
-import Freehead from "./Component/Freehead/Freehead";
-import FeeStructure from "./Component/FeeStructure/FeeStructure";
-import FeeEntry from "./Component/FeeEntry/FeeEntry";
-import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
+// import Freegroup from "./Component/Freegroup/Freegroup";
+// import Freehead from "./Component/Freehead/Freehead";
+// import FeeStructure from "./Component/FeeStructure/FeeStructure";
+// import FeeEntry from "./Component/FeeEntry/FeeEntry";
+// import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
 
 
 
@@ -519,11 +519,11 @@ export default function App() {
           <Route path="/transport-vechile" element={<TransportVehicleReport />} />
           <Route path="/transport-student" element={<TransportStudentsReport />} />
 
-          <Route path="/fee-group" element={<Freegroup />} />
+          {/* <Route path="/fee-group" element={<Freegroup />} />
           <Route path="/fee-head" element={<Freehead />} />
           <Route path="/fee-structure" element={<FeeStructure />} />
           <Route path="/fee-entry" element={<FeeEntry />} />
-        <Route path="//cancel-fee" element={<CancelFeeReceipt />} />  
+        <Route path="//cancel-fee" element={<CancelFeeReceipt />} />   */}
         </Route>
 
         {/* ===== FALLBACK ===== */}
