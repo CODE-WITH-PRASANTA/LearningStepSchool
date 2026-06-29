@@ -1,0 +1,499 @@
+/* Dashboard Context Layout Wrap Frame */
+.metrics-dashboard {
+  background-color: #f3f6f9;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.metrics-dashboard__row {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+}
+
+.metrics-dashboard__row--top {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.metrics-dashboard__row--bottom {
+  grid-template-columns: 1fr;
+}
+
+/* Base Card Style Frameworks */
+.dashboard-card-v3 {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.015);
+  border: 1px solid #eef2f6;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 440px;
+}
+
+.dashboard-card-v3__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.dashboard-card-v3__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.dashboard-card-v3__menu-trigger {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+/* ==========================================================================
+   PANEL A: SKILLS & PROFICIENCY
+   ========================================================================== */
+.panel-skills__list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.skill-item__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.skill-item__badge {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+.skill-item__badge--expert { color: #d97706; }
+.skill-item__badge--inter  { color: #475569; }
+
+.skill-item__track {
+  width: 100%;
+  height: 6px;
+  background-color: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.skill-item__fill {
+  background-color: #0256cc;
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   PANEL B: PERFORMANCE METRICS (CUSTOM VISIBLE SCROLLBAR)
+   ========================================================================== */
+.panel-performance__scroll-area {
+  flex-grow: 1;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Custom Scrollbar configuration profiles */
+.panel-performance__scroll-area::-webkit-scrollbar,
+.panel-certifications__scroll-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel-performance__scroll-area::-webkit-scrollbar-track,
+.panel-certifications__scroll-area::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.panel-performance__scroll-area::-webkit-scrollbar-thumb,
+.panel-certifications__scroll-area::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.panel-performance__scroll-area::-webkit-scrollbar-thumb:hover,
+.panel-certifications__scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.metric-row-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.metric-row-item__icon-wrapper {
+  width: 36px;
+  height: 36px;
+  background-color: #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.metric-row-item__body {
+  flex-grow: 1;
+}
+
+.metric-row-item__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.metric-row-item__ratio {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.metric-row-item__track-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.metric-row-item__bar {
+  flex-grow: 1;
+  height: 6px;
+  background-color: #10b981;
+  border-radius: 3px;
+}
+
+.metric-row-item__val-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1e293b;
+  min-width: 24px;
+  text-align: right;
+}
+
+/* ==========================================================================
+   PANEL C: TRAINING & CERTIFICATIONS (SCROLLBAR ADDED)
+   ========================================================================== */
+.panel-certifications__scroll-area {
+  flex-grow: 1;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.cert-card-block {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.cert-card-block__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.cert-card-block__headline h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.cert-card-block__headline span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.cert-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.cert-badge--completed   { background-color: #e2f5ea; color: #10b981; }
+.cert-badge--in-progress { background-color: #ffedd5; color: #f97316; }
+
+.cert-card-block__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.cert-card-block__pct {
+  font-size: 11px;
+  color: #64748b;
+  text-align: right;
+  font-weight: 500;
+}
+
+.cert-card-block__meta-dates {
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 12px;
+  font-size: 12px;
+  color: #475569;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cert-card-block__meta-dates p { margin: 0; }
+
+.view-cert-link {
+  color: #0256cc;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+/* ==========================================================================
+   ROW 2: ATTENDANCE STACKED BAR CHART & INTERACTIVE DROPDOWN
+   ========================================================================== */
+.panel-attendance {
+  min-height: auto;
+}
+
+/* Custom UI Dropdown Architecture Box Element (`ds5.png`) */
+.custom-dropdown-v3 {
+  position: relative;
+  min-width: 110px;
+}
+
+.custom-dropdown-v3__button {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-dropdown-v3__arrow {
+  font-size: 9px;
+  color: #64748b;
+}
+
+.custom-dropdown-v3__menu {
+  position: absolute;
+  top: 105%;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  width: 100%;
+  overflow: hidden;
+}
+
+.custom-dropdown-v3__item {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  color: #334155;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.custom-dropdown-v3__item:hover {
+  background-color: #f1f5f9;
+}
+
+.custom-dropdown-v3__item--active {
+  background-color: #e2e8f0;
+  font-weight: 600;
+}
+
+/* Chart Canvas Space Layout */
+.attendance-chart {
+  display: flex;
+  height: 280px;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.attendance-chart__axis-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 24px);
+  width: 45px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.attendance-chart__grid-area {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  width: calc(100% - 45px);
+  height: 100%;
+  border-bottom: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.attendance-chart__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14%;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+  cursor: pointer;
+}
+
+.attendance-chart__stacked-pillar {
+  width: 100%;
+  max-width: 70px;
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column-reverse; /* Bottoms up layout stack logic */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pillar-slice {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pillar-slice--present { background-color: #72b063; }
+.pillar-slice--absent  { background-color: #a4ca96; }
+
+.attendance-chart__day-label {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* Day Wise Floating Tooltip Box Display Styles (`ds6.png`) */
+.attendance-tooltip {
+  position: absolute;
+  bottom: calc(100% - 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 200;
+  pointer-events: none;
+  min-width: 110px;
+}
+
+.attendance-tooltip__title {
+  font-weight: 700;
+  border-bottom: 1px solid #3d3d3d;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.attendance-tooltip__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+  white-space: nowrap;
+}
+
+.tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.tooltip-dot--present { background-color: #72b063; }
+.tooltip-dot--absent  { background-color: #a4ca96; }
+
+/* Legend Markers Design */
+.attendance-chart__legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.legend-marker-v3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.legend-marker-v3__box {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+.legend-marker-v3__box--present { background-color: #72b063; }
+.legend-marker-v3__box--absent  { background-color: #a4ca96; }
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT SYSTEMS BREAKDOWNS
+   ========================================================================== */
+@media (max-width: 1150px) {
+  .metrics-dashboard__row--top {
+    grid-template-columns: 1fr 1fr;
+  }
+  .panel-skills {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics-dashboard__row--top {
+    grid-template-columns: 1fr;
+  }
+  .panel-skills {
+    grid-column: span 1;
+  }
+  .attendance-chart__stacked-pillar {
+    max-width: 40px;
+  }
+  .pillar-slice {
+    font-size: 10px;
+  }
+}
