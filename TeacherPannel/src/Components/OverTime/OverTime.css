@@ -45,6 +45,10 @@
   color: var(--ot-text-muted);
 }
 
+.ot-home-icon {
+  font-size: 16px;
+}
+
 .ot-chevron {
   font-size: 12px;
   color: #9ca3af;
@@ -88,6 +92,10 @@
   gap: 6px;
   box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
   transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.ot-plus-icon {
+  font-size: 16px;
 }
 
 .ot-btn-primary:hover {
@@ -162,7 +170,7 @@
 
 .ot-clock-icon {
   color: var(--ot-primary-purple);
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .ot-hours-text {
@@ -282,7 +290,20 @@
 
 .ot-icons-right {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Explicit Form Icon Sizing Fixes */
+.ot-calendar-icon,
+.ot-calendar-icon-alt,
+.ot-stopwatch-icon {
+  font-size: 26px;
+  color: #4b5563;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .ot-calendar-icon.active {
@@ -310,7 +331,7 @@
   color: #94a3b8;
   cursor: pointer;
   user-select: none;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .ot-stepper-arrows span:hover {
@@ -399,14 +420,19 @@
   font-family: inherit;
   font-size: 15px;
   margin-top: 4px;
+  padding-right: 28px;
+  box-sizing: border-box;
 }
 
 .ot-doc-icon {
   position: absolute;
   right: 14px;
   bottom: 14px;
-  color: var(--ot-text-muted);
+  color: #4b5563;
+  font-size: 20px;
   pointer-events: none;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Modal Actions Footer styling */
