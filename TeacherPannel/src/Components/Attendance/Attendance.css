@@ -1,0 +1,351 @@
+/* Base Style Presets to Match Design Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.attendance-container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f3f4f6; /* Subtle off-white layout background */
+  padding: 24px;
+  min-height: 100vh;
+  color: #1f2937;
+  box-sizing: border-box;
+}
+
+/* Header Section styling */
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.attendance-title {
+  font-size: 25px;
+  font-weight: 650;
+  color: #374151;
+  margin: 0;
+}
+
+.attendance-breadcrumb {
+  font-size: 15px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb-separator {
+  color: #d1d5db;
+}
+
+.breadcrumb-active {
+  color: #374151;
+  font-weight: 600;
+}
+
+/* Toolbar (Search & Filter updates) */
+.attendance-toolbar {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.search-box-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  color: #4b5563;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* HOVER: Focus/Hover effect on inputs */
+.search-input:hover, .search-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Dropdown Menu CSS Structure */
+.filter-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-trigger-btn {
+  background-color: #f3f4f6;
+  border: 1px solid transparent;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* HOVER: Trigger Dropdown Elevation */
+.dropdown-trigger-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-arrow {
+  font-size: 9px;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 6px;
+  z-index: 10;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdown-item {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* HOVER: Dropdown selection options styling */
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.dropdown-item.selected {
+  background-color: #e5e7eb;
+  color: #111827;
+  font-weight: 600;
+}
+
+.records-count {
+  font-size: 14px;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+/* Timeline Layout structural CSS */
+.attendance-timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-item {
+  display: flex;
+  position: relative;
+}
+
+.timeline-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.node-circle {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #4f46e5; /* Primary accent matching your layout indicator */
+  border-radius: 50%;
+  background-color: #ffffff;
+  z-index: 2;
+  margin-top: 24px;
+}
+
+.node-line {
+  width: 2px;
+  background-color: #e5e7eb;
+  flex-grow: 1;
+  margin-bottom: -24px; /* Extends past card bottom padding seamlessly */
+}
+
+/* Individual Attendance Entry Card Styles */
+.attendance-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 25px;
+  flex-grow: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+}
+
+/* HOVER: Card Lift and Shadow Effect */
+.attendance-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 20px;
+}
+
+.card-date {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* Exact Status Badges from design pictures */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+/* HOVER: Pop micro-interaction on badge indicators */
+.attendance-card:hover .status-badge {
+  transform: scale(1.03);
+}
+
+.badge-present {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+.badge-late {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.badge-absent {
+  background-color: #fce8e6;
+  color: #c5221f;
+}
+
+/* 4-Column Grid system matching values */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.grid-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.col-label {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 800;
+}
+
+.col-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.card-footer-note {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed #e5e7eb;
+  font-size: 15px;
+  color: #9ca3af;
+}
+
+/* Responsiveness adjustments for smaller touch displays (Mobile View) */
+@media (max-width: 768px) {
+  .attendance-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .search-box-wrapper {
+    max-width: 100%;
+  }
+
+  .toolbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr); /* Becomes 2x2 grid on mobile view */
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .toolbar-right {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

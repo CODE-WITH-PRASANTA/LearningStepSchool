@@ -17,7 +17,7 @@ import PaymentRecipt from "./Components/PaymentRecipt/PaymentRecipt";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
-import LeaveSection from "./Pages/LeaveSection/LeaveSection";
+
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import EventManagement from "./Pages/EventManagement/EventManagement";
 import TestimonialPage from "./Pages/TestimonialPage/TestimonialPage"
@@ -40,6 +40,10 @@ import Secondary from "./Pages/Secondary/Secondary";
 import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
+import Attendance from "./Components/Attendance/Attendance";
+
+import Leave from "./Components/Leave/Leave";
+
 
 
 function App() {
@@ -65,7 +69,7 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
-            <Route path="/admin/leave" element={<LeaveSection/>}/>
+            
             <Route path="/faq" element={<FaqPosting/>}/>
             <Route path="/event-management" element={<EventManagement/>}/>
             <Route path="/testimonials" element={<TestimonialPage/>}/>
@@ -87,6 +91,9 @@ function App() {
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
+            <Route path="/admin/atten" element={<Attendance/>} />
+            <Route path="/admin/leave" element={<Leave/>} />
+            
             
             
             {/* 🔐 Permission Protected */}
