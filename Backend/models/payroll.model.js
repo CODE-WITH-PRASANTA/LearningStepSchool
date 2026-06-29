@@ -28,6 +28,21 @@ const payrollSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    presentDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    leaveDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    absentDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     baseSalary: {
       type: Number,
       required: true,
