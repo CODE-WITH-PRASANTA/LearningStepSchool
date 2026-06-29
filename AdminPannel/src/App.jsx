@@ -176,17 +176,6 @@ import TransportVehicleReport from "./Component/TransportVehicleReport/Transport
 import TransportStudentsReport from "./Component/TransportStudentsReport/TransportStudentsReport";
 import MainDashboard from "./Pages/MainDashboard/MainDashboard";
 
-
-
-
-import CancelFeeReceipt from "./Component/CancelFeeReceipt/CancelFeeReceipt";
-import FeeGroup from "./Pages/FeeGroup/FeeGroup";
-import FeeHead from "./Pages/FeeHead/FeeHead";
-import FeeStructure from "./Pages/FeeStructure/FeeStructure";
-import FeeEntry from "./Pages/FeeEntry/FeeEntry";
-
-
-
 /* ===================== APP ===================== */
 
 export default function App() {
@@ -522,12 +511,6 @@ export default function App() {
           <Route path="/calender/planning" element={<Calender/>} />
           <Route path="/transport-vechile" element={<TransportVehicleReport />} />
           <Route path="/transport-student" element={<TransportStudentsReport />} />
-
-          <Route path="/fee-group" element={<FeeGroup/>}/>
-          <Route path="/fee-head" element={<FeeHead/>}/>
-          <Route path="/fee-structure" element={<FeeStructure/>}/>
-          <Route path="/fee-entry" element={<FeeEntry/>}/>
-        <Route path="//cancel-fee" element={<CancelFeeReceipt />} />  
         </Route>
 
         {/* ===== FALLBACK ===== */}
