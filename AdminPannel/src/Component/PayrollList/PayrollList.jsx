@@ -1,51 +1,82 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { Search, ChevronDown, MoreHorizontal, RotateCcw, X, Printer, DollarSign } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import {
+  Search,
+  ChevronDown,
+  MoreHorizontal,
+  RotateCcw,
+  X,
+  Printer,
+} from "lucide-react";
 import "./PayrollList.css";
-import API, { IMAGE_URL } from "../../api/axios";
- 
+import schoolLogo from "../../assets/Learning-Step-Logo-1.png" // Change the path according to your project
+
 const PayrollList = ({ refresh, onEdit }) => {
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(null);
-  const [payrollData, setPayrollData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [payrollData, setPayrollData] = useState([
+  {
+    _id: "1",
+    teacher: "Sanatan Nayak",
+    department: "Science",
+    month: "June",
+    year: "2026",
+    workingDays: 30,
+    grossSalary: 50000,
+    totalDeductions: 1000,
+    overtimeAmount: 1200,
+    totalSalary: 50200,
+    status: "Completed",
+  },
+  {
+    _id: "2",
+    teacher: "Santosh Ku Nayak",
+    department: "Mathematics",
+    month: "June",
+    year: "2026",
+    workingDays: 30,
+    grossSalary: 45000,
+    totalDeductions: 500,
+    overtimeAmount: 800,
+    totalSalary: 45300,
+    status: "Pending",
+  },
+  {
+    _id: "3",
+    teacher: "Natabar Nayak",
+    department: "English",
+    month: "June",
+    year: "2026",
+    workingDays: 30,
+    grossSalary: 40000,
+    totalDeductions: 0,
+    overtimeAmount: 1000,
+    totalSalary: 41000,
+    status: "Completed",
+  },
+]);
 
   // Modal Control States
   const [selectedPayroll, setSelectedPayroll] = useState(null);
   const [showPayslipModal, setShowPayslipModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
-  // Form Fields State for Payment Modal
-  const [paymentForm, setPaymentForm] = useState({
-    accountType: "",
-    accountName: "",
-    paymentMode: "",
-    note: ""
-  });
-
-  const fetchPayrolls = async () => {
-    try {
-      const res = await API.get("/payroll");
-      setPayrollData(res.data.data || res.data || []); 
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPayrolls();
-  }, [refresh]);
+ const [paymentForm, setPaymentForm] = useState({
+  workingDays: 30,
+  absentDays: 0,
+  month: "",
+  year: "2026",
+  paymentMode: "",
+  paymentDate: "",
+  note: "",
+});
 
   const filtered = useMemo(() => {
-    return payrollData.filter(
-      (item) =>
-        item.teacherId?.name?.toLowerCase().includes(search.toLowerCase()) ||
-        item.teacherId?.department
-          ?.toLowerCase()
-          .includes(search.toLowerCase()),
-    );
-  }, [search, payrollData]);
+  return payrollData.filter(
+    (item) =>
+      item.teacher.toLowerCase().includes(search.toLowerCase()) ||
+      item.department.toLowerCase().includes(search.toLowerCase())
+  );
+}, [search, payrollData]);
 
   const statusClass = (status) => {
     if (status === "Completed") return "completed";
@@ -53,14 +84,11 @@ const PayrollList = ({ refresh, onEdit }) => {
     return "reject";
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await API.delete(`/payroll/${id}`);
-      setPayrollData((prev) => prev.filter((item) => item._id !== id));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+const handleDelete = (id) => {
+  setPayrollData((prev) =>
+    prev.filter((item) => item._id !== id)
+  );
+};
 
   const handleEdit = (item) => {
     onEdit(item);
@@ -97,7 +125,7 @@ const PayrollList = ({ refresh, onEdit }) => {
     e.preventDefault();
     console.log("Submitting Payment Data for processing:", {
       payrollId: selectedPayroll?._id,
-      staffName: selectedPayroll?.teacherId?.name,
+      staffName: selectedPayroll?.item.teacher,
       paidAmount: selectedPayroll?.totalSalary,
       monthYear: `${selectedPayroll?.month}-${selectedPayroll?.year}`,
       ...paymentForm
@@ -115,7 +143,6 @@ const PayrollList = ({ refresh, onEdit }) => {
     return `${dd}-${mm}-${yyyy}`;
   };
 
-  if (loading) return <h3 className="loading-text">Loading payroll...</h3>;
 
   return (
     <div className="payroll-list-wrapper">
@@ -123,15 +150,7 @@ const PayrollList = ({ refresh, onEdit }) => {
         <h2>Payroll List</h2>
 
         <div className="top-actions">
-          <div className="search-box">
-            <Search size={18} />
-            <input
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+
 
           <button className="download-report-btn">Download Report</button>
 
@@ -170,18 +189,13 @@ const PayrollList = ({ refresh, onEdit }) => {
                 <td data-label="Name">
                   <div className="user-info">
                     <img
-                      src={
-                        item.teacherId?.image
-                          ? `${IMAGE_URL}${item.teacherId.image}`
-                          : "https://i.pravatar.cc/40"
-                      }
-                      alt={item.teacherId?.name}
+                     src="https://i.pravatar.cc/100"
                     />
-                    <span>{item.teacherId?.name || "N/A"}</span>
+                    <span>{item.teacher || "N/A"}</span>
                   </div>
                 </td>
 
-                <td data-label="Department">{item.teacherId?.department || "-"}</td>
+                <td data-label="Department">{item.department || "-"}</td>
 
                 <td data-label="Month">{item.month}</td>
                 <td data-label="Year">{item.year}</td>
@@ -262,11 +276,16 @@ const PayrollList = ({ refresh, onEdit }) => {
             <div className="payslip-body-content">
               <div className="payslip-corporate-branding">
                 <div className="brand-logo-section">
-                  <div className="brand-avatar-box">NLET</div>
-                  <div>
-                    <h3>NLET - Institute Management Software</h3>
-                    <p>301, AS Tower, Surya Nagar, Gopalpura bypass, Jaipur</p>
-                    <p>Phone : 8058848888 | Email : Info@Nlet.In</p>
+                      <div className="brand-avatar-box">
+                        <img
+                          src={schoolLogo}
+                          alt="School Logo"
+                          className="school-logo"
+                        />
+                      </div>                  <div>
+                    <h3>The Learning Step International School</h3>
+                    <p>Tehla bypass alwar, road, Rajgarh, Thana, Rajasthan 301408</p>
+                    <p>Phone : +91 714627894 | Email : learningstep19@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -278,13 +297,13 @@ const PayrollList = ({ refresh, onEdit }) => {
 
               <div className="payslip-details-grid">
                 <div className="details-col">
-                  <p><strong>Employee Name :</strong> {selectedPayroll.teacherId?.name || "N/A"}</p>
+                  <p><strong>Employee Name :</strong> {selectedPayroll.teacher || "N/A"}</p>
                   <p><strong>DOB :</strong> 19-06-2007</p>
-                  <p><strong>Department :</strong> {selectedPayroll.teacherId?.department || "-"}</p>
+                  <p><strong>Department :</strong> {selectedPayroll.department || "-"}</p>
                   <p><strong>Mode :</strong> Bank / Online Transfer</p>
                 </div>
                 <div className="details-col">
-                  <p><strong>Employee Id :</strong> {selectedPayroll.teacherId?._id?.substring(0, 6) || "007007"}</p>
+                  <p><strong>Employee Id :</strong> {selectedPayroll.teacherId?.substring(0, 6) || "007007"}</p>
                   <p><strong>PF A/c No. :</strong> —</p>
                   <p><strong>Designation :</strong> Instructor / Teacher</p>
                 </div>
@@ -340,129 +359,195 @@ const PayrollList = ({ refresh, onEdit }) => {
         </div>
       )}
 
-      {/* MODAL 2: PROCEED TO PAY (Image 3 Reference Form Layout) */}
-      {showPaymentModal && selectedPayroll && (
-        <div className="modal-overlay">
-          <div className="payment-modal-container">
-            <div className="payment-modal-header">
-              <h3>Proceed To Pay</h3>
-              <X size={20} className="close-modal-icon" onClick={() => setShowPaymentModal(false)} />
-            </div>
+   {/* ====================== PROCEED TO PAY MODAL ====================== */}
 
-            <form onSubmit={handleSavePayment} className="payment-modal-form">
-              <div className="form-grid-layout">
-                
-                <div className="form-group-item">
-                  <label>Staff Name</label>
-                  <input 
-                    type="text" 
-                    value={`${selectedPayroll.teacherId?.name || "Staff"} (${selectedPayroll.teacherId?._id?.substring(0,6) || "ID"})`} 
-                    disabled 
-                    className="disabled-input"
-                  />
-                </div>
+{showPaymentModal && selectedPayroll && (
+  <div className="modal-overlay">
+    <div className="payment-modal-container">
 
-                <div className="form-group-item">
-                  <label>Paid Amount</label>
-                  <input 
-                    type="text" 
-                    value={selectedPayroll.totalSalary?.toFixed(2) || "0.00"} 
-                    disabled 
-                    className="disabled-input"
-                  />
-                </div>
+      <div className="payment-modal-header">
+        <h3>Proceed To Pay</h3>
 
-                <div className="form-group-item">
-                  <label>Account Type</label>
-                  <select 
-                    name="accountType" 
-                    value={paymentForm.accountType} 
-                    onChange={handlePaymentFormChange}
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="Savings">Savings Account</option>
-                    <option value="Current">Current Account</option>
-                    <option value="Salary">Salary Account</option>
-                  </select>
-                </div>
+        <X
+          size={20}
+          className="close-modal-icon"
+          onClick={() => setShowPaymentModal(false)}
+        />
+      </div>
 
-                <div className="form-group-item">
-                  <label>Account Name</label>
-                  <select 
-                    name="accountName" 
-                    value={paymentForm.accountName} 
-                    onChange={handlePaymentFormChange}
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="Primary Business Account">Primary Corporate Bank</option>
-                    <option value="Secondary Operations Account">Secondary Operations Bank</option>
-                    <option value="Cash Drawer">Petty Cash Reservoir</option>
-                  </select>
-                </div>
+      <form
+        onSubmit={handleSavePayment}
+        className="payment-modal-form"
+      >
 
-                <div className="form-group-item">
-                  <label>Month Year</label>
-                  <input 
-                    type="text" 
-                    value={`${selectedPayroll.month}-${selectedPayroll.year}`} 
-                    disabled 
-                    className="disabled-input"
-                  />
-                </div>
+        <div className="form-grid-layout">
 
-                <div className="form-group-item">
-                  <label>Payment Mode</label>
-                  <select 
-                    name="paymentMode" 
-                    value={paymentForm.paymentMode} 
-                    onChange={handlePaymentFormChange}
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="Bank Transfer">Bank Wire Transfer / NEFT</option>
-                    <option value="Cash">Cash Handout</option>
-                    <option value="Cheque">Corporate Check</option>
-                    <option value="UPI">UPI Digital Wallet</option>
-                  </select>
-                </div>
+          {/* Staff Name */}
 
-                <div className="form-group-item full-width-date">
-                  <label>Payment Date</label>
-                  <input 
-                    type="text" 
-                    value={getCurrentFormattedDate()} 
-                    disabled 
-                    className="disabled-input"
-                  />
-                </div>
+          <div className="form-group-item">
+            <label>Staff Name</label>
 
-                <div className="form-group-item full-width-textarea">
-                  <label>Note</label>
-                  <textarea 
-                    name="note" 
-                    placeholder="Enter transaction reference numbers or internal notes..."
-                    value={paymentForm.note}
-                    onChange={handlePaymentFormChange}
-                    rows={3}
-                  />
-                </div>
-
-              </div>
-
-              <div className="payment-form-footer-actions">
-                <button type="button" className="btn-cancel-payment" onClick={() => setShowPaymentModal(false)}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn-submit-payment">
-                  Save Payment
-                </button>
-              </div>
-            </form>
+            <input
+              type="text"
+              value={selectedPayroll.teacher}
+              disabled
+              className="disabled-input"
+            />
           </div>
+
+          {/* Paid Amount */}
+
+          <div className="form-group-item">
+            <label>Paid Amount (₹)</label>
+
+            <input
+              type="text"
+              value={selectedPayroll.totalSalary}
+              disabled
+              className="disabled-input"
+            />
+          </div>
+
+          {/* Working Days */}
+
+          <div className="form-group-item">
+            <label>Total Working Days</label>
+
+            <input
+              type="number"
+              name="workingDays"
+              value={paymentForm.workingDays || 30}
+              onChange={handlePaymentFormChange}
+            />
+          </div>
+
+          {/* Absent */}
+
+          <div className="form-group-item">
+            <label>Absent Days</label>
+
+            <input
+              type="number"
+              name="absentDays"
+              value={paymentForm.absentDays || 0}
+              onChange={handlePaymentFormChange}
+            />
+          </div>
+
+          {/* Month */}
+
+          <div className="form-group-item">
+            <label>Salary Month</label>
+
+            <select
+              name="month"
+              value={paymentForm.month || selectedPayroll.month}
+              onChange={handlePaymentFormChange}
+            >
+              <option>January</option>
+              <option>February</option>
+              <option>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+          </div>
+
+          {/* Year */}
+
+          <div className="form-group-item">
+            <label>Salary Year</label>
+
+            <select
+              name="year"
+              value={paymentForm.year || selectedPayroll.year}
+              onChange={handlePaymentFormChange}
+            >
+              <option>2024</option>
+              <option>2025</option>
+              <option>2026</option>
+              <option>2027</option>
+            </select>
+          </div>
+
+          {/* Payment Mode */}
+
+          <div className="form-group-item">
+            <label>Payment Mode</label>
+
+            <select
+              name="paymentMode"
+              value={paymentForm.paymentMode}
+              onChange={handlePaymentFormChange}
+            >
+              <option value="">Select Payment Mode</option>
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI</option>
+              <option value="Bank Transfer">
+                Bank Transfer
+              </option>
+            </select>
+          </div>
+
+          {/* Payment Date */}
+
+          <div className="form-group-item">
+            <label>Payment Date</label>
+
+            <input
+              type="date"
+              name="paymentDate"
+              value={paymentForm.paymentDate}
+              onChange={handlePaymentFormChange}
+            />
+          </div>
+
+          {/* Note */}
+
+          <div className="form-group-item full-width-textarea">
+            <label>Note</label>
+
+            <textarea
+              rows="4"
+              name="note"
+              value={paymentForm.note}
+              onChange={handlePaymentFormChange}
+              placeholder="Write payment remarks..."
+            />
+          </div>
+
         </div>
-      )}
+
+        <div className="payment-form-footer-actions">
+
+          <button
+            type="button"
+            className="btn-cancel-payment"
+            onClick={() => setShowPaymentModal(false)}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="btn-submit-payment"
+          >
+            Pay Salary
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+)}
 
     </div>
   );

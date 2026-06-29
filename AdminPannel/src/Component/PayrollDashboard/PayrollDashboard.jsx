@@ -115,16 +115,6 @@ const PayrollDashboard = ({
 
   const currentChartData = range === "Yearly" ? chartData : chartData.slice(0, 6);
 
-  // const handleAddClick = () => {
-  //   setEditData(null); // create mode
-  //   setShowModal(true);
-  // };
-
-  // const handleEditClick = (data) => {
-  //   setEditData(data); // edit mode
-  //   setShowModal(true);
-  // };
-
   const handleDownload = () => {
     setDownloading(true);
 

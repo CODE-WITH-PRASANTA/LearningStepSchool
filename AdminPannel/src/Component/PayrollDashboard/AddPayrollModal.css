@@ -196,3 +196,31 @@
     height: 44px;
   }
 }
+
+.add-payroll-textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 14px;
+  border: 1px solid #d8dce6;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: .3s;
+  background: #fff;
+}
+
+.add-payroll-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+.add-payroll-netpay {
+  background: #eef7ff;
+  color: #0f4c81;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .5px;
+}
