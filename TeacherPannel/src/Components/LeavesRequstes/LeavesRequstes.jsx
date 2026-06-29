@@ -6,11 +6,6 @@ const INITIAL_LEAVE_DATA = [
   { id: 2, applyDate: '02/17/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'Yes', type: 'Sick Leave', status: 'Rejected', reason: 'Lorem Ipsum is si...' },
   { id: 3, applyDate: '02/17/2019', fromDate: '02/12/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Sick Leave', status: 'Rejected', reason: 'Lorem Ipsum is si...' },
   { id: 4, applyDate: '05/11/2019', fromDate: '03/17/2019', toDate: '03/26/2019', halfDay: 'No', type: 'Casual Leave', status: 'Pending', reason: 'Lorem Ipsum is sim..' },
-  { id: 5, applyDate: '07/15/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Casual Leave', status: 'Approved', reason: 'Lorem Ipsum is si...' },
-  { id: 6, applyDate: '02/17/2019', fromDate: '04/22/2019', toDate: '02/26/2019', halfDay: 'Yes', type: 'Privilege Leave', status: 'Pending', reason: 'Lorem Ipsum is si...' },
-  { id: 7, applyDate: '02/20/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Casual Leave', status: 'Rejected', reason: 'Lorem Ipsum is si...' },
-  { id: 8, applyDate: '03/24/2019', fromDate: '02/22/2019', toDate: '02/26/2019', halfDay: 'Yes', type: 'Marriage Leave', status: 'Approved', reason: 'Lorem Ipsum is si...' },
-  { id: 9, applyDate: '02/13/2019', fromDate: '03/17/2019', toDate: '02/26/2019', halfDay: 'No', type: 'Maternity Leave', status: 'Approved', reason: 'Lorem Ipsum is si...' }
 ];
 
 const LeavesRequstes = () => {
@@ -399,142 +394,124 @@ const LeavesRequstes = () => {
               <button className="lv-modal-close-cross" onClick={() => setIsModalOpen(false)}>&times;</button>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="lv-modal-body">
-              <div className="lv-form-grid">
-                <div className="lv-form-field-box" onClick={(e) => { e.stopPropagation(); setActiveFormDropdown(activeFormDropdown === 'applyDate' ? null : 'applyDate'); }}>
-                  <label className="lv-field-label">Apply date*</label>
-                  <div className="lv-field-value-row">
-                    <input 
-                      type="date" 
-                      className="lv-hidden-native-picker" 
-                      value={formData.applyDate}
-                      onChange={(e) => setFormData({ ...formData, applyDate: e.target.value })}
-                    />
-                    <span>{formData.applyDate}</span>
-                    <span className="lv-field-icon-blue">📅</span>
-                  </div>
+           <form onSubmit={handleFormSubmit} className="lv-modal-body">
+  <div className="lv-form-grid">
 
-                  {activeFormDropdown === 'applyDate' && (
-                    <div className="lv-form-custom-calendar" onClick={(e) => e.stopPropagation()}>
-                      <div className="lv-cal-heading-row">
-                        <span className="lv-cal-label">2026 JUN ▾</span>
-                        <div className="lv-cal-nav-arrows"><span>&lt;</span><span>&gt;</span></div>
-                      </div>
-                      <div className="lv-cal-week-days">
-                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-                      </div>
-                      <div className="lv-cal-days-grid-layout">
-                        {Array.from({ length: 5 }).map((_, i) => <span key={`offset-${i}`} className="lv-cal-empty-cell"></span>)}
-                        {Array.from({ length: 30 }).map((_, idx) => (
-                          <span 
-                            key={idx + 1} 
-                            className={`lv-cal-day-cell ${(idx + 1) === 29 ? 'selected' : ''}`}
-                            onClick={() => { setFormData({ ...formData, applyDate: `2026-06-${String(idx + 1).padStart(2, '0')}` }); setActiveFormDropdown(null); }}
-                          >
-                            {idx + 1}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
+    {/* Apply Date */}
+    <div className="lv-form-group">
+      <label>Apply Date *</label>
+      <input
+        type="date"
+        value={formData.applyDate}
+        onChange={(e) =>
+          setFormData({ ...formData, applyDate: e.target.value })
+        }
+        required
+      />
+    </div>
 
-                <div className="lv-form-field-box">
-                  <label className="lv-field-label">From date*</label>
-                  <div className="lv-field-value-row">
-                    <input 
-                      type="date" 
-                      className="lv-modal-native-date"
-                      value={formData.fromDate}
-                      onChange={(e) => setFormData({ ...formData, fromDate: e.target.value })}
-                      required
-                    />
-                  </div>
-                </div>
+    {/* From Date */}
+    <div className="lv-form-group">
+      <label>From Date *</label>
+      <input
+        type="date"
+        value={formData.fromDate}
+        onChange={(e) =>
+          setFormData({ ...formData, fromDate: e.target.value })
+        }
+        required
+      />
+    </div>
 
-                <div className="lv-form-field-box">
-                  <label className="lv-field-label">To date*</label>
-                  <div className="lv-field-value-row">
-                    <input 
-                      type="date" 
-                      className="lv-modal-native-date"
-                      value={formData.toDate}
-                      onChange={(e) => setFormData({ ...formData, toDate: e.target.value })}
-                      required
-                    />
-                  </div>
-                </div>
+    {/* To Date */}
+    <div className="lv-form-group">
+      <label>To Date *</label>
+      <input
+        type="date"
+        value={formData.toDate}
+        onChange={(e) =>
+          setFormData({ ...formData, toDate: e.target.value })
+        }
+        required
+      />
+    </div>
 
-                <div 
-                  className={`lv-form-field-box lv-dropdown-input-type ${activeFormDropdown === 'halfDay' ? 'active-focus-blue' : ''}`}
-                  onClick={(e) => { e.stopPropagation(); setActiveFormDropdown(activeFormDropdown === 'halfDay' ? null : 'halfDay'); }}
-                >
-                  <label className="lv-floating-label-text">Half Day*</label>
-                  <div className="lv-field-value-row">
-                    <span>{formData.halfDay}</span>
-                    <span className="lv-select-arrow-triangle">▼</span>
-                  </div>
-                  {activeFormDropdown === 'halfDay' && (
-                    <div className="lv-floating-select-popup">
-                      <div className={`lv-popup-option ${formData.halfDay === 'Yes' ? 'selected' : ''}`} onClick={() => setFormData({ ...formData, halfDay: 'Yes' })}>Yes</div>
-                      <div className={`lv-popup-option ${formData.halfDay === 'No' ? 'selected' : ''}`} onClick={() => setFormData({ ...formData, halfDay: 'No' })}>No</div>
-                    </div>
-                  )}
-                </div>
+    {/* Half Day */}
+    <div className="lv-form-group">
+      <label>Half Day *</label>
+      <select
+        value={formData.halfDay}
+        onChange={(e) =>
+          setFormData({ ...formData, halfDay: e.target.value })
+        }
+      >
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
 
-                <div 
-                  className={`lv-form-field-box lv-dropdown-input-type ${activeFormDropdown === 'type' ? 'active-focus-blue' : ''}`}
-                  onClick={(e) => { e.stopPropagation(); setActiveFormDropdown(activeFormDropdown === 'type' ? null : 'type'); }}
-                >
-                  <label className="lv-floating-label-text">Type*</label>
-                  <div className="lv-field-value-row">
-                    <span>{formData.type}</span>
-                    <span className="lv-select-arrow-triangle">▼</span>
-                  </div>
-                  {activeFormDropdown === 'type' && (
-                    <div className="lv-floating-select-popup">
-                      {['Casual Leave', 'Sick Leave', 'Privilege Leave', 'Marriage Leave', 'Maternity Leave'].map((t) => (
-                        <div key={t} className={`lv-popup-option ${formData.type === t ? 'selected' : ''}`} onClick={() => setFormData({ ...formData, type: t })}>{t}</div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+    {/* Leave Type */}
+    <div className="lv-form-group">
+      <label>Leave Type *</label>
+      <select
+        value={formData.type}
+        onChange={(e) =>
+          setFormData({ ...formData, type: e.target.value })
+        }
+      >
+        <option>Casual Leave</option>
+        <option>Sick Leave</option>
+        <option>Privilege Leave</option>
+        <option>Marriage Leave</option>
+        <option>Maternity Leave</option>
+      </select>
+    </div>
 
-                <div 
-                  className={`lv-form-field-box lv-dropdown-input-type ${activeFormDropdown === 'status' ? 'active-focus-blue' : ''}`}
-                  onClick={(e) => { e.stopPropagation(); setActiveFormDropdown(activeFormDropdown === 'status' ? null : 'status'); }}
-                >
-                  <label className="lv-floating-label-text">Status*</label>
-                  <div className="lv-field-value-row">
-                    <span>{formData.status}</span>
-                    <span className="lv-select-arrow-triangle">▼</span>
-                  </div>
-                  {activeFormDropdown === 'status' && (
-                    <div className="lv-floating-select-popup">
-                      {['Approved', 'Rejected', 'Pending'].map((s) => (
-                        <div key={s} className={`lv-popup-option ${formData.status === s ? 'selected' : ''}`} onClick={() => setFormData({ ...formData, status: s })}>{s}</div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+    {/* Status */}
+    <div className="lv-form-group">
+      <label>Status *</label>
+      <select
+        value={formData.status}
+        onChange={(e) =>
+          setFormData({ ...formData, status: e.target.value })
+        }
+      >
+        <option>Pending</option>
+        <option>Approved</option>
+        <option>Rejected</option>
+      </select>
+    </div>
 
-              <div className="lv-form-textarea-field">
-                <label className="lv-textarea-inner-title">Reason*</label>
-                <textarea 
-                  rows="3" 
-                  value={formData.reason}
-                  onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                  required
-                ></textarea>
-                <span className="lv-textarea-resizable-lines">▰</span>
-              </div>
+  </div>
 
-              <div className="lv-modal-action-footer">
-                <button type="submit" className="lv-btn-save-purple">Save</button>
-                <button type="button" className="lv-btn-cancel-darkred" onClick={() => setIsModalOpen(false)}>Cancel</button>
-              </div>
-            </form>
+  {/* Reason */}
+  <div className="lv-form-group full-width">
+    <label>Reason *</label>
+    <textarea
+      rows={4}
+      placeholder="Write your reason..."
+      value={formData.reason}
+      onChange={(e) =>
+        setFormData({ ...formData, reason: e.target.value })
+      }
+      required
+    />
+  </div>
+
+  <div className="lv-modal-footer">
+    <button type="submit" className="lv-save-btn">
+      Save
+    </button>
+
+    <button
+      type="button"
+      className="lv-cancel-btn"
+      onClick={() => setIsModalOpen(false)}
+    >
+      Cancel
+    </button>
+  </div>
+</form>
           </div>
         </div>
       )}

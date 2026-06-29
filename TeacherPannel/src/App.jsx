@@ -40,6 +40,7 @@ import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
 import OverTime from "./Components/OverTime/OverTime";
+import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
 
 
 function App() {
@@ -88,7 +89,7 @@ function App() {
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
             <Route path="/attendance/overtime" element={<OverTime />} />
-            <Route path="/admin/leave" element={<LeavesRequstes />} />
+            <Route path="/leave/request" element={<LeavesRequstes />} />
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"
