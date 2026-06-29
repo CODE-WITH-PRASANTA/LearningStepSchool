@@ -42,10 +42,15 @@ import Primery from "./Pages/Primery/Primery";
 import Secondary from "./Pages/Secondary/Secondary";
 import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
+
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import OverTime from "./Components/OverTime/OverTime";
 import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
+=======
+import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
+>>>>>>> fe0a89dab807e7f3be7c9d5db5cecec115f4f50b
 =======
 import Attendance from "./Components/Attendance/Attendance";
 
@@ -104,12 +109,17 @@ function App() {
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <Route path="/attendance/overtime" element={<OverTime />} />
             <Route path="/leave/request" element={<LeavesRequstes />} />
+=======
+            <Route path="/monthly" element={<MonthlyAttendance />}/>
+>>>>>>> fe0a89dab807e7f3be7c9d5db5cecec115f4f50b
 =======
             <Route path="/attendance/monthly" element={<Attendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
             
+>>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
             
             
 >>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
