@@ -40,7 +40,6 @@ import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
 import OverTime from "./Components/OverTime/OverTime";
-import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
 
 
 function App() {

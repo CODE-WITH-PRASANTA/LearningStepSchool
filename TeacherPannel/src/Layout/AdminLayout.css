@@ -1,170 +1,125 @@
-
-/* ================================
-   ADMIN WRAPPER
-================================ */
-.admin-wrapper {
-  width: 100%;
-  min-height: 100vh;
-  background: #f4f7fb;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
+*{
+    box-sizing:border-box;
 }
 
-/* ================================
-   NAVBAR (fixed)
-================================ */
-.admin-wrapper .admin-navbar {
-  width: 100%;
-  height: 80px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0 24px;
-
-  /* background: rgba(255, 255, 255, 0.95); */
-  backdrop-filter: blur(12px);
-
-  border-bottom: 1px solid #e2e8f0;
+html,
+body,
+#root{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
 }
 
-/* ================================
-   BODY
-================================ */
-.admin-body {
-  display: flex;
-  width: 100%;
-  margin-top: 80px;
-  overflow-x: hidden;
+.admin-wrapper{
+    width:100%;
+    min-height:100vh;
+    background:#f5f7fb;
 }
 
-/* ================================
-   SIDEBAR POSITION HANDLING
-================================ */
-.admin-body .admin-sidebar {
-  width: 260px;
-  transition: all 0.3s ease;
+/* NAVBAR */
+
+.admin-navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:70px;
+    z-index:1200;
 }
 
-.admin-body .admin-sidebar.close {
-  width: 90px;
+/* BODY */
+
+.admin-body{
+    display:flex;
 }
 
-/* ================================
-   CONTENT
-================================ */
-/* MAIN CONTENT SCROLL */
-.admin-content {
-  margin-left: 220px;
-  width: calc(100% - 260px);
+/* CONTENT */
 
-  height: calc(100vh - 80px);   /* 🔥 CHANGE from min-height */
-  /* overflow-y: auto;             🔥 ENABLE SCROLL */
+.admin-content{
 
-  padding: 24px;
-  transition: all 0.3s ease;
+    margin-top:70px;
+
+    margin-left:275px;
+
+    width:calc(100% - 275px);
+
+    min-height:calc(100vh - 70px);
+
+    transition:.3s;
+
+    padding:22px;
 }
 
-.admin-content.expanded {
-  margin-left: 20px;
-  width: calc(100% - 90px);
+.admin-content.sidebar-close{
+
+    margin-left:0;
+
+    width:100%;
 }
 
-/* ================================
-   MAIN
-================================ */
-.admin-main {
-  width: 100%;
-  height: 100%;
-  margin-left: 30px;
+.admin-main{
+    width:100%;
 }
 
-/* ================================
-   LAPTOP
-================================ */
-@media (max-width: 1200px) {
-  .admin-wrapper .admin-navbar {
-    height: 75px;
-  }
+/* Desktop */
 
-  .admin-body {
-    margin-top: 75px;
-  }
+@media(min-width:1025px){
 
-  .admin-content {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    padding: 20px;
-  }
+.admin-content.sidebar-open{
 
-  .admin-content.expanded {
-    margin-left: 85px;
-    width: calc(100% - 85px);
-  }
+margin-left:275px;
+
+width:calc(100% - 275px);
+
 }
 
-/* ================================
-   TABLET
-================================ */
-@media (max-width: 1024px) {
-  .admin-body .admin-sidebar {
-    position: fixed;
-    left: -260px;
-    top: 80px;
-    height: calc(100vh - 80px);
-    z-index: 999;
-  }
+.admin-content.sidebar-close{
 
-  .admin-body .admin-sidebar.open {
-    left: 0;
-  }
+margin-left:0;
 
-  .admin-content,
-  .admin-content.expanded {
-    margin-left: 0;
-    width: 100%;
-  }
+width:100%;
+
 }
 
-/* ================================
-   MOBILE
-================================ */
-@media (max-width: 768px) {
-  .admin-wrapper .admin-navbar {
-    height: 70px;
-    padding: 0 16px;
-  }
-
-  .admin-body {
-    margin-top: 70px;
-  }
-
-  .admin-content,
-  .admin-content.expanded {
-    padding: 16px;
-  }
 }
 
-/* ================================
-   SMALL MOBILE
-================================ */
-@media (max-width: 480px) {
-  .admin-wrapper .admin-navbar {
-    height: 65px;
-  }
+/* Tablet */
 
-  .admin-body {
-    margin-top: 65px;
-  }
+@media(max-width:1024px){
 
-  .admin-content,
-  .admin-content.expanded {
-    padding: 12px;
-  }
+.admin-content{
+
+margin-left:0;
+
+width:100%;
+
+padding:18px;
+
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.admin-content{
+
+padding:15px;
+
+}
+
+}
+
+/* Small */
+
+@media(max-width:480px){
+
+.admin-content{
+
+padding:12px;
+
+}
+
 }

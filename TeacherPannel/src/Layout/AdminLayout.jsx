@@ -41,13 +41,11 @@ export default function AdminLayout() {
         />
 
         {/* Content */}
-        <div
-          className={
-            sidebarOpen
-              ? "admin-content"
-              : "admin-content expanded"
-          }
-        >
+       <div
+  className={`admin-content ${
+    sidebarOpen ? "sidebar-open" : "sidebar-close"
+  }`}
+>
           <main className="admin-main">
             <Outlet />
           </main>
