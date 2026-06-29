@@ -40,6 +40,8 @@ import Secondary from "./Pages/Secondary/Secondary";
 import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
+import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule";
+import LeaveBalance from "./Components/LeaveBalance/LeaveBalance";
 
 
 function App() {
@@ -87,6 +89,8 @@ function App() {
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
+            <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
+            <Route path="/Balance" element={<LeaveBalance />}/>
             
             
             {/* 🔐 Permission Protected */}

@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.leave-page {
+  background: #eef3f8;
+  min-height: 100vh;
+  padding: 30px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+
+.leave-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.leave-header h2 {
+  font-size: 25px;
+  font-weight: 500;
+  color: #232323;
+}
+
+.leave-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* Grid */
+
+.leave-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+/* Card */
+
+.leave-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  transition: .35s;
+  cursor: pointer;
+}
+
+.leave-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 35px rgba(0,0,0,.12);
+}
+
+.leave-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.leave-top h3 {
+  font-size: 24px;
+  color: #2c2c2c;
+  font-weight: 700;
+}
+
+.leave-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.leave-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.leave-stats small {
+  display: block;
+  color: #8f95a3;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.leave-stats h4 {
+  font-size: 18px;
+  color: #222;
+  font-weight: 700;
+}
+
+.leave-progress {
+  height: 5px;
+  background: #e5e7ef;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.leave-progress-fill {
+  height: 100%;
+  background: #1565d8;
+  border-radius: 50px;
+}
+
+/* Tablet */
+
+@media (max-width:1100px){
+
+.leave-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.leave-header{
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+}
+
+.leave-grid{
+grid-template-columns:1fr;
+}
+
+.leave-page{
+padding:18px;
+}
+
+.leave-card{
+padding:20px;
+}
+
+.leave-top h3{
+font-size:20px;
+}
+
+.leave-icon{
+width:46px;
+height:46px;
+font-size:20px;
+}
+
+.leave-stats h4{
+font-size:16px;
+}
+
+}
