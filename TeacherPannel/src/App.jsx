@@ -109,7 +109,7 @@ function App() {
             <Route path="/attendance/overtime" element={<OverTime />} />
             <Route path="/leave/request" element={<LeavesRequstes />} />
             <Route path="/monthly" element={<MonthlyAttendance />}/>
-            <Route path="/attendance/monthly" element={<Attendance/>} />
+            <Route path="/attendance/monthly" element={<MonthlyAttendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
             <Route path="/attendance/history" element={<Attendance/>} />
 

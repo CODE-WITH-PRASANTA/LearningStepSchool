@@ -41,7 +41,7 @@
 }
 
 .logo-text h2{
-    font-size:24px;
+    font-size:14px;
     color:#1e293b;
     margin:0;
 }
@@ -344,7 +344,7 @@ width:5px;
 
 .sidebar::-webkit-scrollbar-thumb{
 
-background:#b98b58;
+background:#ffffff;
 
 border-radius:20px;
 
