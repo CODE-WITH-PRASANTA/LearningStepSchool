@@ -91,7 +91,7 @@ function App() {
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
-            <Route path="/attendance/monthly" element={<Attendance/>} />
+            <Route path="/attendance/history" element={<Attendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
             
             
