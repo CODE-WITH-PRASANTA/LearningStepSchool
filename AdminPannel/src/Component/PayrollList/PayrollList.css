@@ -325,10 +325,12 @@
 .payslip-modal-container {
   background: var(--white);
   width: 850px;
-  height: 100vh;
+  max-width: 96vw;
+  max-height: 96vh;
   border-radius: 8px;
   border: 3px solid var(--primary-blue);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: var(--shadow-lg);
 }
 
@@ -368,6 +370,9 @@
 
 .payslip-body-content {
   padding: 24px;
+  width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 .payslip-corporate-branding {
@@ -457,24 +462,42 @@
 
 .payslip-financial-table {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  table-layout: fixed;
   border-collapse: collapse;
   margin-bottom: 20px;
+}
+
+.payslip-financial-table col {
+  width: 25%;
 }
 
 .payslip-financial-table th {
   background: #e2e8f0;
   color: var(--dark-slate);
   border: 1px solid var(--border-color);
-  padding: 10px;
+  padding: 9px 8px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .payslip-financial-table td {
   border: 1px solid var(--border-color);
-  padding: 10px;
+  padding: 9px 8px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .financial-totals-row {
   background: #f1f5f9;
+}
+
+.estimated-pay-row {
+  background: #eef7ff;
+  color: #0f4c81;
 }
 
 .payslip-net-footer {
@@ -618,6 +641,22 @@
   color: var(--primary-blue);
   text-align: center;
   padding: 40px;
+}
+
+.payroll-list-error {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn-submit-payment:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* ==========================================================================
