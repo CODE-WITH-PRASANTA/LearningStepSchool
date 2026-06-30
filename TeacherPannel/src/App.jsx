@@ -6,9 +6,9 @@ import DashBoard from "./Pages/DashBoard/DashBoard";
 import ProFilePicture from "./Pages/ProFilePicture/ProFilePicture";
 
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import PermissionRoute from "./Auth/PermissionRoute"; // ✅ NEW
+import PermissionRoute from "./Auth/PermissionRoute"; 
 import TeacherLogin from "./Pages/TeacherLogin/TeacherLogin";
-import Unauthorized from "./Pages/Unauthorized/Unauthorized"; // ✅ NEW
+import Unauthorized from "./Pages/Unauthorized/Unauthorized"; 
 import StudentAdmsn from "./Pages/StudentAdmsn/StudentAdmsn";
 import StudentAdmsnDetails from "./Components/StudentAdmsnDetails/StudentAdmsnDetails";
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
@@ -17,6 +17,7 @@ import PaymentRecipt from "./Components/PaymentRecipt/PaymentRecipt";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
+
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import EventManagement from "./Pages/EventManagement/EventManagement";
 import TestimonialPage from "./Pages/TestimonialPage/TestimonialPage"
@@ -27,7 +28,6 @@ import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
 
-// import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
 import BlogView from "./Pages/BlogView/BlogView";
 import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
@@ -40,19 +40,14 @@ import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
-<<<<<<< HEAD
-<<<<<<< HEAD
-import OverTime from "./Components/OverTime/OverTime";
-import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
-=======
-import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
->>>>>>> fe0a89dab807e7f3be7c9d5db5cecec115f4f50b
-=======
 import Attendance from "./Components/Attendance/Attendance";
 
+// 🛠️ FIX 1: Use Leave here or update to LeaveSection depending on your component name
 import Leave from "./Components/Leave/Leave";
 
->>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
+// 🛠️ FIX 2 & 3: Added missing imports (Adjust these paths if your folder structure is different)
+import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule"; 
+import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
 
 
 function App() {
@@ -79,6 +74,10 @@ function App() {
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
 
+            
+            {/* 🛠️ FIX 1 applied here (changed LeaveSection to Leave) */}
+            <Route path="/admin/leave" element={<Leave/>}/>
+            
             <Route path="/faq" element={<FaqPosting/>}/>
             <Route path="/event-management" element={<EventManagement/>}/>
             <Route path="/testimonials" element={<TestimonialPage/>}/>
@@ -111,6 +110,14 @@ function App() {
             
             
 
+            <Route path="/attendance/history" element={<Attendance/>} />
+            <Route path="/apply/leave" element={<Leave/>} />
+            
+            {/* 🛠️ FIX 2 & 3 applied below */}
+            <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
+            <Route path="/leave/balance" element={<LeaveBalance />}/>
+            
+            
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"

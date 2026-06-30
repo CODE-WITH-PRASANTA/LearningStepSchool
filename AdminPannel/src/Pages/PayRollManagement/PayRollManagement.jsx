@@ -30,6 +30,7 @@ const PayRollManagement = () => {
         setShowModal={setShowModal}
         editData={editData}
         onSuccess={reload}
+        refresh={refresh}
       />
 
       <PayrollList
