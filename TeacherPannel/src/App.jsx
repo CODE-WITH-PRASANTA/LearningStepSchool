@@ -50,6 +50,9 @@ import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule";
 import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
 import SalaryDetails from "./Components/SalaryDetails/SalaryDetails";
 import CompanyPolicies from "./Components/CompanyPolicies/CompanyPolicies";
+import OverTime from "./Components/OverTime/OverTime";
+import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
+import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
 
 
 function App() {
@@ -75,9 +78,10 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
+
             
             {/* 🛠️ FIX 1 applied here (changed LeaveSection to Leave) */}
-            <Route path="/admin/leave" element={<Leave/>}/>
+            <Route path="/apply/leave" element={<Leave/>}/>
             
             <Route path="/faq" element={<FaqPosting/>}/>
             <Route path="/event-management" element={<EventManagement/>}/>
@@ -99,7 +103,16 @@ function App() {
             <Route path="/learning/secondary" element={<Secondary/>}/>
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
+            <Route path="/attendance/today" element={<TeacherAttenanced/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
+
+            <Route path="/attendance/overtime" element={<OverTime />} />
+            <Route path="/leave/request" element={<LeavesRequstes />} />
+            <Route path="/monthly" element={<MonthlyAttendance />}/>
+            <Route path="/attendance/monthly" element={<Attendance/>} />
+            <Route path="/apply/leave" element={<Leave/>} />
+            <Route path="/attendance/history" element={<Attendance/>} />
+
             
             {/* 🛠️ FIX 2 & 3 applied below */}
             <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
