@@ -1,0 +1,254 @@
+/* Base Layout Wrapper Styling */
+.SalaryDetails-dashboard {
+  width: 100%;
+  background-color: #ebf1f6;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.SalaryDetails-dashboard *, 
+.SalaryDetails-dashboard *::before, 
+.SalaryDetails-dashboard *::after {
+  box-sizing: border-box;
+}
+
+/* Master Responsive Layout Grid System */
+.SalaryDetails-grid-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  width: 100%;
+}
+
+/* Primary Structure Containers */
+.SalaryDetails-main-column {
+  width: 100%;
+}
+
+.SalaryDetails-side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* Card Elements base specifications */
+.SalaryDetails-white-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.SalaryDetails-section-title {
+  font-size:20px;
+  font-weight: 700;
+  color: hsl(215, 100%, 2%);
+  margin: 0 0 1rem 0;
+}
+
+.SalaryDetails-section-title.spacing-top {
+  margin-top: 2rem;
+}
+
+/* Table Design Grid Properties */
+.SalaryDetails-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.SalaryDetails-table th {
+  font-size: 20px;
+  padding: 0.75rem 0.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.SalaryDetails-table td {
+  padding: 0.75rem 0.5rem;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Row Highlights & Alternations */
+.SalaryDetails-table tbody tr.zebra-row {
+  background-color: #f8fafc;
+}
+
+/* Text Alignment Utility Variables */
+.SalaryDetails-table .text-right { text-align: right; }
+.SalaryDetails-table .font-medium { font-weight: 500; }
+.SalaryDetails-table .font-bold { font-weight: 700; }
+
+/* Totals Summary Row Specifications */
+.SalaryDetails-total-row td {
+  border-bottom: none;
+  padding: 0.875rem 0.5rem;
+}
+
+.SalaryDetails-total-row.earnings-total {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.SalaryDetails-total-row.deductions-total {
+  background-color: #ffe4e6;
+  color: #9f1239;
+}
+
+/* Net Pay Lower Layout Banner Block */
+.SalaryDetails-net-pay-banner {
+  background-color: #3498db;
+  color: #ffffff;
+  border-radius: 0.375rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.SalaryDetails-net-pay-banner .net-pay-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.SalaryDetails-net-pay-banner .net-pay-value-container {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.SalaryDetails-net-pay-banner .net-pay-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.SalaryDetails-net-pay-banner .net-pay-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+/* Side Profile Highlight Stat Metric Cards Layout */
+.SalaryDetails-metric-card {
+  position: relative;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.SalaryDetails-metric-card.ctc-card {
+  background: linear-gradient(135deg, #3b1b42 0%, #d60085 100%);
+}
+
+.SalaryDetails-metric-card.tax-card {
+  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+}
+
+.metric-content {
+  position: relative;
+  z-index: 2;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.9;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  margin: 0;
+  font-size: 1.85rem;
+  font-weight: 700;
+}
+
+.metric-bg-icon {
+  position: absolute;
+  right: 1rem;
+  bottom: -0.5rem;
+  font-size: 5.5rem;
+  opacity: 0.08;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Metadata Payment Container Parameters */
+.SalaryDetails-info-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.info-card-title {
+  margin: 0 0 1.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.info-grid-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 0;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.info-grid-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.info-label {
+  color: #64748b;
+}
+
+.info-value {
+  color: #1e293b;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Breakpoint Responsive Media Adaptation Rules */
+@media (max-width: 1024px) {
+  .SalaryDetails-grid-layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .SalaryDetails-dashboard {
+    padding: 1rem;
+  }
+  
+  .SalaryDetails-white-card,
+  .SalaryDetails-info-card,
+  .SalaryDetails-metric-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .SalaryDetails-net-pay-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .SalaryDetails-net-pay-banner .net-pay-value-container {
+    text-align: left;
+  }
+}

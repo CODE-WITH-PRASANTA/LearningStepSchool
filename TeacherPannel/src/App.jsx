@@ -48,6 +48,8 @@ import Leave from "./Components/Leave/Leave";
 // 🛠️ FIX 2 & 3: Added missing imports (Adjust these paths if your folder structure is different)
 import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule"; 
 import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
+import SalaryDetails from "./Components/SalaryDetails/SalaryDetails";
+import CompanyPolicies from "./Components/CompanyPolicies/CompanyPolicies";
 
 
 function App() {
@@ -102,6 +104,9 @@ function App() {
             {/* 🛠️ FIX 2 & 3 applied below */}
             <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
             <Route path="/leave/balance" element={<LeaveBalance />}/>
+
+            <Route path="/salary/details" element={<SalaryDetails />} />
+            <Route path="/pay/slips" element={<CompanyPolicies />} />
             
             
             {/* 🔐 Permission Protected */}

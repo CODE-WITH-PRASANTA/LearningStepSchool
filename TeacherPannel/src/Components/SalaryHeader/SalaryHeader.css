@@ -1,0 +1,89 @@
+/* Container Background Layout */
+.SalaryHeader-container {
+  width: 100%;
+  background-color: #ebf1f6; /* Matching the muted cool/grey-blue background from image */
+  padding: 1.25rem 2rem;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Flex Wrapper setup for single line alignment */
+.SalaryHeader-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+/* Left side header title */
+.SalaryHeader-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #2b3a4a; /* Muted dark slate tone matching image text */
+  letter-spacing: -0.01em;
+}
+
+/* Right side breadcrumb trail navigation */
+.SalaryHeader-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #5c6b73;
+}
+
+/* Standard crumb layout link style spacing */
+.SalaryHeader-breadcrumb-item {
+  color: #4a5568;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.SalaryHeader-breadcrumb-item:hover:not(.active) {
+  color: #1a202c;
+}
+
+/* Active current link matching reference color */
+.SalaryHeader-breadcrumb-item.active {
+  color: #2b3a4a;
+  font-weight: 500;
+  cursor: default;
+}
+
+/* Icons sizing controls */
+.SalaryHeader-icon-home {
+  font-size: 1rem;
+  vertical-align: middle;
+  color: #4a5568;
+}
+
+.SalaryHeader-icon-separator {
+  font-size: 0.65rem;
+  color: #a0aec0;
+  margin: 0 0.125rem;
+}
+
+/* Responsive adjustments for mobile viewports */
+@media (max-width: 640px) {
+  .SalaryHeader-container {
+    padding: 1rem 1.25rem;
+  }
+  
+  .SalaryHeader-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.375rem;
+  }
+  
+  .SalaryHeader-title {
+    font-size: 1.2rem;
+  }
+
+  .SalaryHeader-breadcrumbs {
+    font-size: 0.8rem;
+  }
+}
