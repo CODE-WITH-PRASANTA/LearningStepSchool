@@ -75,7 +75,7 @@ function App() {
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
             
             {/* 🛠️ FIX 1 applied here (changed LeaveSection to Leave) */}
-            <Route path="/admin/leave" element={<Leave/>}/>
+            <Route path="/apply/leave" element={<Leave/>}/>
             
             <Route path="/faq" element={<FaqPosting/>}/>
             <Route path="/event-management" element={<EventManagement/>}/>
@@ -97,9 +97,7 @@ function App() {
             <Route path="/learning/secondary" element={<Secondary/>}/>
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
-            <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
-            
-            {/* 🛠️ FIX 2 & 3 applied below */}
+            <Route path="/attendance/today" element={<TeacherAttenanced/>}/>
             <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
             <Route path="/leave/balance" element={<LeaveBalance />}/>
             
