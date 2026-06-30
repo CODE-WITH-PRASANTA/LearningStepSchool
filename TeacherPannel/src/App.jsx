@@ -48,6 +48,9 @@ import Leave from "./Components/Leave/Leave";
 // 🛠️ FIX 2 & 3: Added missing imports (Adjust these paths if your folder structure is different)
 import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule"; 
 import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
+import OverTime from "./Components/OverTime/OverTime";
+import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
+import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
 
 
 function App() {
@@ -73,6 +76,7 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
+
             
             {/* 🛠️ FIX 1 applied here (changed LeaveSection to Leave) */}
             <Route path="/apply/leave" element={<Leave/>}/>
@@ -99,8 +103,14 @@ function App() {
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/attendance/today" element={<TeacherAttenanced/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
-            <Route path="/attendance/history" element={<Attendance/>} />
+
+            <Route path="/attendance/overtime" element={<OverTime />} />
+            <Route path="/leave/request" element={<LeavesRequstes />} />
+            <Route path="/monthly" element={<MonthlyAttendance />}/>
+            <Route path="/attendance/monthly" element={<Attendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
+            <Route path="/attendance/history" element={<Attendance/>} />
+
             
             {/* 🛠️ FIX 2 & 3 applied below */}
             <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
