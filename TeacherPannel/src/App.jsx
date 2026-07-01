@@ -17,10 +17,7 @@ import PaymentRecipt from "./Components/PaymentRecipt/PaymentRecipt";
 import ClassesAdmin from "./Pages/ClassesAdmin/ClassesAdmin";
 import SubjectAdmin from "./Pages/SubjectAdmin/SubjectAdmin";
 import ClassWiseSubjectAdmin from "./Pages/ClassWiseSubjectAdmin/ClassWiseSubjectAdmin";
-<<<<<<< HEAD
-=======
 
->>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
 import FaqPosting from "./Pages/FaqPosting/FaqPosting";
 import EventManagement from "./Pages/EventManagement/EventManagement";
 import TestimonialPage from "./Pages/TestimonialPage/TestimonialPage"
@@ -44,19 +41,15 @@ import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import OverTime from "./Components/OverTime/OverTime";
 import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
-=======
 import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
->>>>>>> fe0a89dab807e7f3be7c9d5db5cecec115f4f50b
-=======
+
 import Attendance from "./Components/Attendance/Attendance";
 
 import Leave from "./Components/Leave/Leave";
 
->>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
 
 
 function App() {
@@ -82,11 +75,8 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
-<<<<<<< HEAD
            
-=======
             
->>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
             <Route path="/faq" element={<FaqPosting/>}/>
             <Route path="/event-management" element={<EventManagement/>}/>
             <Route path="/testimonials" element={<TestimonialPage/>}/>
@@ -108,21 +98,16 @@ function App() {
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
             <Route path="/attendance/overtime" element={<OverTime />} />
             <Route path="/leave/request" element={<LeavesRequstes />} />
-=======
+
             <Route path="/monthly" element={<MonthlyAttendance />}/>
->>>>>>> fe0a89dab807e7f3be7c9d5db5cecec115f4f50b
-=======
+
             <Route path="/attendance/monthly" element={<Attendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
             
->>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
-            
-            
->>>>>>> 5576d7ee89704cbf981b90937d07bf57168186d0
+
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"
