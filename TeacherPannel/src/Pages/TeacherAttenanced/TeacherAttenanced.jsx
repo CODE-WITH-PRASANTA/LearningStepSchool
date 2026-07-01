@@ -11,7 +11,8 @@ import {
   FaClock,
   FaBusinessTime,
   FaMugHot,
-  FaHistory
+  FaHistory,
+  FaThumbtack,
 } from "react-icons/fa";
 
 const TeacherAttenanced = () => {
@@ -20,7 +21,7 @@ const TeacherAttenanced = () => {
   ====================================================== */
   const SHIFT_START = "09:00 AM";
   const SHIFT_END = "06:00 PM";
-  const SHIFT_WORK_SECONDS = 8 * 60 * 60; 
+  const SHIFT_WORK_SECONDS = 8 * 60 * 60;
 
   /* =====================================================
       STATES
@@ -32,7 +33,7 @@ const TeacherAttenanced = () => {
   const [punchOutTime, setPunchOutTime] = useState(null);
 
   const [workingSeconds, setWorkingSeconds] = useState(0);
-  const [breakSeconds, setBreakSeconds] = useState(0); 
+  const [breakSeconds, setBreakSeconds] = useState(0);
   const [overtimeSeconds, setOvertimeSeconds] = useState(0);
   const [activities, setActivities] = useState([]);
 
@@ -41,23 +42,21 @@ const TeacherAttenanced = () => {
   ====================================================== */
   useEffect(() => {
     const saved = localStorage.getItem("teacherAttendance");
-    if (!saved) {
-      setActivities([
-        { id: 2, title: "Punched Out", time: "12:42 PM" },
-        { id: 1, title: "Punched In", time: "12:41 PM" }
-      ]);
-      return;
-    }
+    if (!saved) return; // start clean — no fabricated sample entries
 
-    const data = JSON.parse(saved);
-    setIsPunchedIn(data.isPunchedIn ?? false);
-    setIsBreak(data.isBreak ?? false);
-    setPunchInTime(data.punchInTime ?? null);
-    setPunchOutTime(data.punchOutTime ?? null);
-    setWorkingSeconds(data.workingSeconds ?? 0);
-    setBreakSeconds(data.breakSeconds ?? 0);
-    setOvertimeSeconds(data.overtimeSeconds ?? 0);
-    if (data.activities) setActivities(data.activities);
+    try {
+      const data = JSON.parse(saved);
+      setIsPunchedIn(data.isPunchedIn ?? false);
+      setIsBreak(data.isBreak ?? false);
+      setPunchInTime(data.punchInTime ?? null);
+      setPunchOutTime(data.punchOutTime ?? null);
+      setWorkingSeconds(data.workingSeconds ?? 0);
+      setBreakSeconds(data.breakSeconds ?? 0);
+      setOvertimeSeconds(data.overtimeSeconds ?? 0);
+      if (data.activities) setActivities(data.activities);
+    } catch {
+      /* ignore corrupt storage */
+    }
   }, []);
 
   useEffect(() => {
@@ -74,7 +73,16 @@ const TeacherAttenanced = () => {
         activities,
       })
     );
-  }, [isPunchedIn, isBreak, punchInTime, punchOutTime, workingSeconds, breakSeconds, overtimeSeconds, activities]);
+  }, [
+    isPunchedIn,
+    isBreak,
+    punchInTime,
+    punchOutTime,
+    workingSeconds,
+    breakSeconds,
+    overtimeSeconds,
+    activities,
+  ]);
 
   /* =====================================================
       DYNAMIC ACTIVE TIMERS ENGINE
@@ -154,14 +162,18 @@ const TeacherAttenanced = () => {
   const handlePunchIn = () => {
     setIsPunchedIn(true);
     setIsBreak(false);
-    setPunchInTime(new Date().toLocaleTimeString());
+    setPunchInTime(
+      new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
+    );
     addActivity("Punched In");
   };
 
   const handlePunchOut = () => {
     setIsPunchedIn(false);
     setIsBreak(false);
-    setPunchOutTime(new Date().toLocaleTimeString());
+    setPunchOutTime(
+      new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
+    );
     addActivity("Punched Out");
   };
 
@@ -185,34 +197,49 @@ const TeacherAttenanced = () => {
     <div className="attendance-page-wrapper">
       {/* Top Header Navigation */}
       <div className="top-navigation-bar">
-        <h2>Today's Attendance</h2>
+        <div>
+          <span className="eyebrow">Register</span>
+          <h2>Today&rsquo;s Attendance</h2>
+        </div>
         <div className="breadcrumbs">
           <FaHome className="home-icon" />
           <FaChevronRight className="arrow-divider" />
           <span>Attendance</span>
           <FaChevronRight className="arrow-divider" />
-          <span className="active-crumb">Today's Attendance</span>
+          <span className="active-crumb">Today</span>
         </div>
       </div>
 
-      {/* Main Grid View */}
+      {/* Top Row: Plaque Clock + Action Controller */}
       <div className="dashboard-grid">
-        
-        {/* Card 1: Giant Premium Live Clock */}
+        {/* Card 1: Chalkboard Plaque Clock */}
         <div className="dashboard-card live-clock-card">
+          <span className="pin pin-tl" aria-hidden="true"><FaThumbtack /></span>
+          <span className="pin pin-tr" aria-hidden="true"><FaThumbtack /></span>
           <div className="clock-glass-overlay">
-            <div className="clock-digits">{rawTime}</div>
-            <div className="clock-ampm">{amPm}</div>
+            <div className="clock-digits">
+              {rawTime}
+              <span className="clock-ampm">{amPm}</span>
+            </div>
             <div className="clock-date">{formattedDate}</div>
+          </div>
+          <div className="shift-plan-strip">
+            <FaClock />
+            <span>Shift {SHIFT_START} &ndash; {SHIFT_END}</span>
           </div>
         </div>
 
         {/* Card 2: Interactive Circle Action Button Controller */}
         <div className="dashboard-card action-controller-card">
+          <div className={`status-badge-pill ${attendanceStatus.toLowerCase().replace(/\s+/g, "-")}`}>
+            <span className="status-indicator-dot"></span>
+            <span>{attendanceStatus}</span>
+          </div>
+
           <div className="circle-button-container">
             {!isPunchedIn ? (
               <button className="action-circle btn-punch-in" onClick={handlePunchIn}>
-                <FaSignInAlt className="circle-icon animate-pulse" />
+                <FaSignInAlt className="circle-icon" />
                 <span>Punch In</span>
               </button>
             ) : isBreak ? (
@@ -232,82 +259,77 @@ const TeacherAttenanced = () => {
               </div>
             )}
           </div>
-          <div className={`status-badge-pill ${attendanceStatus.toLowerCase().replace(/\s+/g, '-')}`}>
-            <span className="status-indicator-dot"></span>
-            Status: <strong>{attendanceStatus}</strong>
-          </div>
+        </div>
+      </div>
+
+      {/* Stats Strip */}
+      <div className="dashboard-card statistics-card">
+        <div className="card-header-block">
+          <h3>Daily Statistics</h3>
+          <span className="live-pulse-badge">
+            <span className="live-dot" /> Live
+          </span>
         </div>
 
-        {/* Card 3: Redesigned Premium Daily Statistics Panel */}
-        <div className="dashboard-card statistics-card">
-          <div className="card-header-block">
-            <h3>Daily Statistics</h3>
-            <span className="live-pulse-badge">Live Updates</span>
+        <div className="sub-stats-grid">
+          <div className="stat-card-premium">
+            <div className="stat-icon-wrapper shift-icon">
+              <FaClock />
+            </div>
+            <div className="stat-content-text">
+              <span className="stat-lbl">Shift Plan</span>
+              <span className="stat-val">{SHIFT_START} &ndash; {SHIFT_END}</span>
+            </div>
           </div>
-          
-          <div className="sub-stats-grid">
-            <div className="stat-card-premium">
-              <div className="stat-icon-wrapper shift-icon">
-                <FaClock />
-              </div>
-              <div className="stat-content-text">
-                <span className="stat-lbl">Shift Plan</span>
-                <span className="stat-val">{SHIFT_START} - {SHIFT_END}</span>
-              </div>
-            </div>
 
-            <div className={`stat-card-premium ${isPunchedIn && !isBreak ? "active-glow-green" : ""}`}>
-              <div className="stat-icon-wrapper work-icon">
-                <FaBusinessTime />
-              </div>
-              <div className="stat-content-text">
-                <span className="stat-lbl">Work Duration</span>
-                <span className="stat-val font-numeric">{formatSecondsToHoursMins(workingSeconds)}</span>
-              </div>
+          <div className={`stat-card-premium ${isPunchedIn && !isBreak ? "active-glow-green" : ""}`}>
+            <div className="stat-icon-wrapper work-icon">
+              <FaBusinessTime />
             </div>
-
-            <div className={`stat-card-premium ${isBreak ? "active-glow-orange" : ""}`}>
-              <div className="stat-icon-wrapper break-icon">
-                <FaMugHot />
-              </div>
-              <div className="stat-content-text">
-                <span className="stat-lbl">Break Taken</span>
-                <span className="stat-val font-numeric">{formatSecondsToHoursMins(breakSeconds)}</span>
-              </div>
+            <div className="stat-content-text">
+              <span className="stat-lbl">Work Duration</span>
+              <span className="stat-val font-numeric">{formatSecondsToHoursMins(workingSeconds)}</span>
             </div>
+          </div>
 
-            <div className={`stat-card-premium ${overtimeSeconds > 0 ? "active-glow-blue" : ""}`}>
-              <div className="stat-icon-wrapper overtime-icon">
-                <FaHistory />
-              </div>
-              <div className="stat-content-text">
-                <span className="stat-lbl">Overtime Accrued</span>
-                <span className="stat-val font-numeric">{formatSecondsToHoursMins(overtimeSeconds)}</span>
-              </div>
+          <div className={`stat-card-premium ${isBreak ? "active-glow-orange" : ""}`}>
+            <div className="stat-icon-wrapper break-icon">
+              <FaMugHot />
+            </div>
+            <div className="stat-content-text">
+              <span className="stat-lbl">Break Taken</span>
+              <span className="stat-val font-numeric">{formatSecondsToHoursMins(breakSeconds)}</span>
+            </div>
+          </div>
+
+          <div className={`stat-card-premium ${overtimeSeconds > 0 ? "active-glow-blue" : ""}`}>
+            <div className="stat-icon-wrapper overtime-icon">
+              <FaHistory />
+            </div>
+            <div className="stat-content-text">
+              <span className="stat-lbl">Overtime Accrued</span>
+              <span className="stat-val font-numeric">{formatSecondsToHoursMins(overtimeSeconds)}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Block: Timeline Activity Record */}
+      {/* Bottom Block: Attendance Register (Ledger) */}
       <div className="bottom-activity-panel">
-        <h3>Today's Activity Log</h3>
+        <h3>Today&rsquo;s Activity Register</h3>
         <div className="timeline-container">
           {activities.length === 0 ? (
-            <div className="empty-timeline-state">No activities recorded yet for today.</div>
+            <div className="empty-timeline-state">
+              Nothing logged yet &mdash; punch in to start today&rsquo;s register.
+            </div>
           ) : (
             activities.map((activity) => (
               <div className="timeline-row" key={activity.id}>
-                <div className="timeline-bullet-wrapper">
-                  <div className="bullet-ring">
-                    <div className="bullet-dot"></div>
-                  </div>
-                  <div className="vertical-connector-line"></div>
-                </div>
-                <div className="timeline-log-details">
-                  <span className="log-timestamp">{activity.time}</span>
-                  <span className="log-title">{activity.title}</span>
-                </div>
+                <span className="log-timestamp">{activity.time}</span>
+                <span className="log-leader" aria-hidden="true"></span>
+                <span className={`log-title tag-${activity.title.toLowerCase().replace(/\s+/g, "-")}`}>
+                  {activity.title}
+                </span>
               </div>
             ))
           )}
