@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Plus, ChevronDown, Download } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -18,27 +18,20 @@ import "./PayrollDashboard.css";
 import AddPayrollModal from "./AddPayrollModal";
 import API from "../../api/axios";
 
-const pieData = [
-  { name: "Salary", value: 15, color: "#ff4b22" },
-  { name: "Bonus", value: 8, color: "#25b26b" },
-  { name: "Commission", value: 20, color: "#11a8f4" },
-  { name: "Overtime", value: 11, color: "#ff8a00" },
-  { name: "Reimbursement", value: 28, color: "#3767ea" },
-  { name: "Benefits", value: 18, color: "#f4b316" },
-];
+const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     const gross = payload.find((p) => p.dataKey === "gross")?.value || 0;
     const net = payload.find((p) => p.dataKey === "net")?.value || 0;
-    const tax = payload.find((p) => p.dataKey === "tax")?.value || 0;
+    const deductions = payload.find((p) => p.dataKey === "deductions")?.value || 0;
 
     return (
       <div className="payroll-tooltip">
         <h4>{label}</h4>
-        <p>Gross Salary: ₹{gross}</p>
-        <p>Net Salary: ₹{net}</p>
-        <p>Tax Deduction: ₹{tax}</p>
+        <p>Gross Salary: Rs. {gross.toLocaleString("en-IN")}</p>
+        <p>Net Salary: Rs. {net.toLocaleString("en-IN")}</p>
+        <p>Deductions: Rs. {deductions.toLocaleString("en-IN")}</p>
       </div>
     );
   }
@@ -52,6 +45,7 @@ const PayrollDashboard = ({
   setShowModal,
   editData,
   onSuccess,
+  refresh,
 }) => {
   const [range, setRange] = useState("Yearly");
   const [year, setYear] = useState(new Date().getFullYear().toString());
@@ -59,13 +53,56 @@ const PayrollDashboard = ({
   const [loading, setLoading] = useState(true);
   const [payrollData, setPayrollData] = useState([]);
   const [chartData, setChartData] = useState([]);
+  const [payTypeData, setPayTypeData] = useState([]);
+
+  const generateChartData = (data, selectedYear) => {
+    const monthlyStats = monthLabels.map((month, index) => {
+      const monthPayrolls = data.filter(
+        (payroll) => payroll.year === Number(selectedYear) && payroll.month === index + 1,
+      );
+
+      return {
+        month,
+        gross: monthPayrolls.reduce((sum, payroll) => sum + (payroll.grossSalary || 0), 0),
+        net: monthPayrolls.reduce((sum, payroll) => sum + (payroll.totalSalary || 0), 0),
+        deductions: monthPayrolls.reduce((sum, payroll) => sum + (payroll.totalDeductions || 0), 0),
+      };
+    });
+
+    setChartData(monthlyStats);
+  };
+
+  const generatePayTypeData = (data) => {
+    const totals = [
+      { name: "Basic", value: 0, color: "#ff4b22" },
+      { name: "HRA", value: 0, color: "#25b26b" },
+      { name: "Conveyance", value: 0, color: "#11a8f4" },
+      { name: "LTA", value: 0, color: "#ff8a00" },
+      { name: "Medical", value: 0, color: "#3767ea" },
+      { name: "Overtime", value: 0, color: "#f4b316" },
+    ];
+
+    data.forEach((payroll) => {
+      const earnings = payroll.salaryBreakdown?.earnings || {};
+      totals[0].value += earnings.basic || 0;
+      totals[1].value += earnings.hra || 0;
+      totals[2].value += earnings.conveyance || 0;
+      totals[3].value += earnings.lta || 0;
+      totals[4].value += earnings.medical || 0;
+      totals[5].value += earnings.overtime || payroll.overtimeAmount || 0;
+    });
+
+    setPayTypeData(totals.filter((item) => item.value > 0));
+  };
 
   const fetchPayrollData = async () => {
     try {
+      setLoading(true);
       const res = await API.get("/payroll");
-      const data = res.data.data || [];
+      const data = res.data?.data || [];
       setPayrollData(data);
       generateChartData(data, year);
+      generatePayTypeData(data);
     } catch (err) {
       console.error("Failed to fetch payroll data:", err);
     } finally {
@@ -73,55 +110,27 @@ const PayrollDashboard = ({
     }
   };
 
-  const generateChartData = (data, selectedYear) => {
-    const months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ];
-
-    const monthlyStats = months.map((month, index) => {
-      const monthPayrolls = data.filter(p =>
-        p.year === parseInt(selectedYear) && p.month === index + 1
-      );
-
-      const totalSalary = monthPayrolls.reduce((sum, p) => sum + (p.totalSalary || 0), 0);
-      const totalBase = monthPayrolls.reduce((sum, p) => sum + (p.baseSalary || 0), 0);
-      const totalOvertime = monthPayrolls.reduce((sum, p) => sum + (p.overtimeAmount || 0), 0);
-
-      return {
-        month,
-        gross: totalBase,
-        net: totalSalary,
-        tax: totalOvertime, // Using overtime as tax for visualization
-      };
-    });
-
-    setChartData(monthlyStats);
-  };
-
   useEffect(() => {
     fetchPayrollData();
-  }, []);
-
-  useEffect(() => {
-    if (onSuccess) {
-      fetchPayrollData();
-    }
-  }, [onSuccess]);
+  }, [refresh]);
 
   useEffect(() => {
     generateChartData(payrollData, year);
+    generatePayTypeData(payrollData);
   }, [year, payrollData]);
 
   const currentChartData = range === "Yearly" ? chartData : chartData.slice(0, 6);
+  const visiblePayTypeData = payTypeData.length
+    ? payTypeData
+    : [{ name: "No Payroll", value: 1, color: "#94a3b8" }];
 
   const handleDownload = () => {
     setDownloading(true);
 
     setTimeout(() => {
       setDownloading(false);
-      alert("Payroll Report Downloaded Successfully");
-    }, 1500);
+      window.print();
+    }, 300);
   };
 
   if (loading) {
@@ -136,7 +145,6 @@ const PayrollDashboard = ({
   return (
     <>
       <div className="payroll-page">
-        {/* Header */}
         <div className="payroll-top">
           <div>
             <h1>Payroll</h1>
@@ -145,15 +153,13 @@ const PayrollDashboard = ({
             </p>
           </div>
 
-          <button className="add-payroll-btn" onClick={onAddClick}>
+          <button className="add-payroll-btn" onClick={onAddClick} type="button">
             <Plus size={18} />
             Add Payroll
           </button>
         </div>
 
-        {/* Main Cards */}
         <div className="payroll-grid">
-          {/* Left Card */}
           <div className="payroll-card animate-up">
             <div className="card-head">
               <h2>Payroll Summary</h2>
@@ -175,69 +181,41 @@ const PayrollDashboard = ({
             <div className="chart-wrap">
               <ResponsiveContainer width="100%" height={390}>
                 <ComposedChart
-                  data={chartData}
+                  data={currentChartData}
                   margin={{ top: 10, right: 10, left: -15, bottom: 45 }}
                 >
-                  <CartesianGrid
-                    vertical={false}
-                    strokeDasharray="4 4"
-                    stroke="#e8edf7"
-                  />
-
+                  <CartesianGrid vertical={false} strokeDasharray="4 4" stroke="#e8edf7" />
                   <XAxis
                     dataKey="month"
                     axisLine={false}
                     tickLine={false}
                     tick={{ fill: "#8c95b6", fontSize: 14 }}
                   />
-
                   <YAxis
                     ticks={[0, 20000, 40000, 60000, 80000, 100000]}
-                    tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}K`}
+                    tickFormatter={(value) => `Rs.${(value / 1000).toFixed(0)}K`}
                     axisLine={false}
                     tickLine={false}
                     tick={{ fill: "#8c95b6", fontSize: 14 }}
                   />
-
                   <Tooltip content={<CustomTooltip />} />
-
-                  <Bar
-                    dataKey="gross"
-                    stackId="a"
-                    barSize={20}
-                    animationDuration={1200}
-                  >
-                    {chartData.map((item, i) => (
-                      <Cell key={i} fill="#ff8300" />
+                  <Bar dataKey="gross" stackId="a" barSize={20} animationDuration={1200}>
+                    {currentChartData.map((item, index) => (
+                      <Cell key={index} fill="#ff8300" />
                     ))}
                   </Bar>
-
-                  <Bar
-                    dataKey="net"
-                    stackId="a"
-                    barSize={20}
-                    animationDuration={1500}
-                  >
-                    {chartData.map((item, i) => (
-                      <Cell key={i} fill="#3767ea" />
+                  <Bar dataKey="net" stackId="a" barSize={20} animationDuration={1500}>
+                    {currentChartData.map((item, index) => (
+                      <Cell key={index} fill="#3767ea" />
                     ))}
                   </Bar>
-
                   <Line
                     type="monotone"
-                    dataKey="tax"
+                    dataKey="deductions"
                     stroke="#08aef3"
                     strokeWidth={3}
-                    dot={{
-                      r: 4,
-                      fill: "#08aef3",
-                      stroke: "#fff",
-                      strokeWidth: 2,
-                    }}
-                    activeDot={{
-                      r: 6,
-                      fill: "#08aef3",
-                    }}
+                    dot={{ r: 4, fill: "#08aef3", stroke: "#fff", strokeWidth: 2 }}
+                    activeDot={{ r: 6, fill: "#08aef3" }}
                     animationDuration={1800}
                   />
                 </ComposedChart>
@@ -245,21 +223,12 @@ const PayrollDashboard = ({
             </div>
 
             <div className="legend-row">
-              <span>
-                <i className="orange"></i>Gross Salary
-              </span>
-
-              <span>
-                <i className="blue"></i>Net Salary
-              </span>
-
-              <span>
-                <i className="cyan"></i>Tax Deduction
-              </span>
+              <span><i className="orange"></i>Gross Salary</span>
+              <span><i className="blue"></i>Net Salary</span>
+              <span><i className="cyan"></i>Deductions</span>
             </div>
           </div>
 
-          {/* Right Card */}
           <div className="payroll-card animate-up delay">
             <div className="card-head">
               <h2>Company Pay</h2>
@@ -280,42 +249,35 @@ const PayrollDashboard = ({
             </div>
 
             <div className="company-body">
-              {/* Donut */}
               <div className="donut-wrap">
                 <ResponsiveContainer width="100%" height={260}>
                   <PieChart>
                     <Pie
-                      data={pieData}
+                      data={visiblePayTypeData}
                       dataKey="value"
                       innerRadius={80}
                       outerRadius={110}
                       paddingAngle={4}
                       animationDuration={1800}
                     >
-                      {pieData.map((item, i) => (
-                        <Cell key={i} fill={item.color} />
+                      {visiblePayTypeData.map((item, index) => (
+                        <Cell key={index} fill={item.color} />
                       ))}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
 
                 <div className="donut-center">
-                  <h3>{payrollData.reduce((sum, p) => sum + (p.totalSalary || 0), 0).toLocaleString()}</h3>
+                  <h3>{payrollData.reduce((sum, payroll) => sum + (payroll.totalSalary || 0), 0).toLocaleString("en-IN")}</h3>
                   <p>Total Payroll</p>
                 </div>
               </div>
 
-              {/* List */}
               <div className="pay-list">
-                {pieData.map((item, index) => (
+                {visiblePayTypeData.map((item, index) => (
                   <div className="pay-item" key={index}>
-                    <span
-                      className="dot"
-                      style={{ background: item.color }}
-                    ></span>
-
-                    <b>{String(item.value).padStart(2, "0")}%</b>
-
+                    <span className="dot" style={{ background: item.color }}></span>
+                    <b>{Math.round(item.value).toLocaleString("en-IN")}</b>
                     <p>{item.name}</p>
                   </div>
                 ))}
@@ -332,6 +294,7 @@ const PayrollDashboard = ({
               <button
                 className={`download-btn ${downloading ? "downloading" : ""}`}
                 onClick={handleDownload}
+                type="button"
               >
                 <Download size={16} />
                 {downloading ? "Downloading..." : "Download Report"}
@@ -341,7 +304,6 @@ const PayrollDashboard = ({
         </div>
       </div>
 
-      {/* Add Payroll Modal */}
       <AddPayrollModal
         show={showModal}
         onClose={() => setShowModal(false)}
