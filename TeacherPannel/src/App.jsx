@@ -6,9 +6,9 @@ import DashBoard from "./Pages/DashBoard/DashBoard";
 import ProFilePicture from "./Pages/ProFilePicture/ProFilePicture";
 
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import PermissionRoute from "./Auth/PermissionRoute"; // ✅ NEW
+import PermissionRoute from "./Auth/PermissionRoute"; 
 import TeacherLogin from "./Pages/TeacherLogin/TeacherLogin";
-import Unauthorized from "./Pages/Unauthorized/Unauthorized"; // ✅ NEW
+import Unauthorized from "./Pages/Unauthorized/Unauthorized"; 
 import StudentAdmsn from "./Pages/StudentAdmsn/StudentAdmsn";
 import StudentAdmsnDetails from "./Components/StudentAdmsnDetails/StudentAdmsnDetails";
 import FeeCollection from "./Pages/FeeCollection/FeeCollection";
@@ -28,7 +28,6 @@ import NoticeManagement from "./Pages/NoticeManagement/NoticeManagement";
 import FeeManagement from "./Pages/FeeManagement/FeeManagement";
 import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage"
 
-// import AwardAdminPage from "./Pages/AwardAdminPage/AwardAdminPage";
 import BlogManagerPage from "./Pages/BlogManagerPage/BlogManagerPage";
 import BlogView from "./Pages/BlogView/BlogView";
 import TeacherAdminPage from "./Pages/TeacherAdminPage/TeacherAdminPage";
@@ -48,8 +47,17 @@ import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance"
 
 import Attendance from "./Components/Attendance/Attendance";
 
+// 🛠️ FIX 1: Use Leave here or update to LeaveSection depending on your component name
 import Leave from "./Components/Leave/Leave";
 
+// 🛠️ FIX 2 & 3: Added missing imports (Adjust these paths if your folder structure is different)
+import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule"; 
+import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
+import SalaryDetails from "./Components/SalaryDetails/SalaryDetails";
+import CompanyPolicies from "./Components/CompanyPolicies/CompanyPolicies";
+// import OverTime from "./Components/OverTime/OverTime";
+// import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
+// import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
 
 
 function App() {
@@ -76,6 +84,10 @@ function App() {
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
            
+
+            
+            {/* 🛠️ FIX 1 applied here (changed LeaveSection to Leave) */}
+            <Route path="/apply/leave" element={<Leave/>}/>
             
             <Route path="/faq" element={<FaqPosting/>}/>
             <Route path="/event-management" element={<EventManagement/>}/>
@@ -97,6 +109,7 @@ function App() {
             <Route path="/learning/secondary" element={<Secondary/>}/>
             <Route path="/survey" element={<AdmissionSurvey/>}/>
             <Route path="/survey/data" element={<AdmissionSurveyView/>}/>
+            <Route path="/attendance/today" element={<TeacherAttenanced/>}/>
             <Route path="/admin/teacher-attendance" element={<TeacherAttenanced/>}/>
 
             <Route path="/attendance/overtime" element={<OverTime />} />
@@ -105,9 +118,21 @@ function App() {
             <Route path="/monthly" element={<MonthlyAttendance />}/>
 
             <Route path="/attendance/monthly" element={<Attendance/>} />
+            <Route path="/monthly" element={<MonthlyAttendance />}/>
+            <Route path="/attendance/monthly" element={<MonthlyAttendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
+            <Route path="/attendance/history" element={<Attendance/>} />
+
             
 
+            {/* 🛠️ FIX 2 & 3 applied below */}
+            <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
+            <Route path="/leave/balance" element={<LeaveBalance />}/>
+
+            <Route path="/salary/details" element={<SalaryDetails />} />
+            <Route path="/pay/slips" element={<CompanyPolicies />} />
+            
+            
             {/* 🔐 Permission Protected */}
             <Route
               path="/admin/profile"

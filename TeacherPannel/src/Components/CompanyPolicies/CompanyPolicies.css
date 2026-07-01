@@ -1,0 +1,368 @@
+/* Base Canvas Theme Styling Configuration */
+.CompanyPolicies-container {
+  width: 100%;
+  background-color: #ebf1f6;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.CompanyPolicies-container *,
+.CompanyPolicies-container *::before,
+.CompanyPolicies-container *::after {
+  box-sizing: border-box;
+}
+
+/* Header Content Path Row */
+.CompanyPolicies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.CompanyPolicies-header-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #2b3a4a;
+}
+
+.CompanyPolicies-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #5c6b73;
+}
+
+.CompanyPolicies-icon-home {
+  font-size: 0.95rem;
+  color: #4a5568;
+}
+
+.CompanyPolicies-icon-chevron {
+  font-size: 0.65rem;
+  color: #a0aec0;
+}
+
+.CompanyPolicies-breadcrumbs span.active {
+  color: #2b3a4a;
+  font-weight: 500;
+}
+
+/* Primary Card Layout Box */
+.CompanyPolicies-card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Toolbar Panel Section Controls */
+.CompanyPolicies-toolbar {
+  background-color: #dbe5f0; /* Subtle lavender-blue hue header bar from screenshot */
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.CompanyPolicies-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.CompanyPolicies-card-title {
+  font-size:20px;
+  font-weight: 600;
+  color: #475569;
+  white-space: nowrap;
+}
+
+/* Custom Inverted Search Input Bar Element */
+.CompanyPolicies-search-box {
+  position: relative;
+  max-width: 240px;
+  width: 100%;
+}
+
+.CompanyPolicies-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.CompanyPolicies-search-box input {
+  width: 100%;
+  padding: 0.45rem 0.75rem 0.45rem 2.2rem;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  font-size: 0.85rem;
+  background-color: #ffffff;
+  color: #334155;
+  outline: none;
+}
+
+/* Right-aligned Toolbar Utility Actions Menu */
+.CompanyPolicies-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.CompanyPolicies-tool-btn {
+  background: none;
+  border: none;
+  color: #475569;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.CompanyPolicies-tool-btn:hover,
+.CompanyPolicies-tool-btn.active-btn {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #1e293b;
+}
+
+.CompanyPolicies-tool-btn.download-main {
+  color: #3b82f6;
+}
+
+/* Filter Dropdown Popover matching Image #3 */
+.CompanyPolicies-filter-wrapper {
+  position: relative;
+}
+
+.CompanyPolicies-filter-dropdown {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background-color: #f1f3f5;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 100;
+  width: 210px;
+  padding: 0.5rem 0;
+}
+
+.CompanyPolicies-dropdown-scroll {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom Scrollbar configuration for structural accuracy */
+.CompanyPolicies-dropdown-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+.CompanyPolicies-dropdown-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.CompanyPolicies-dropdown-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+/* Form Dropdown Checkbox labels format style layout */
+.CompanyPolicies-checkbox-label {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #334155;
+  user-select: none;
+}
+
+.CompanyPolicies-checkbox-label:hover {
+  background-color: #e2e8f0;
+}
+
+.CompanyPolicies-checkbox-label input {
+  margin-right: 0.75rem;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Data Table Presentation Area Layout grid specifications */
+.CompanyPolicies-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.CompanyPolicies-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.CompanyPolicies-table th {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  white-space: nowrap;
+}
+
+.CompanyPolicies-table td {
+    font-size: 15px;
+  padding: 1rem 1.25rem;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+}
+
+.CompanyPolicies-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Cells Layout Data Sub-elements modifiers */
+.font-semibold { font-weight: 600; }
+.text-dark { color: #0f172a !important; }
+.text-center { text-align: center; }
+
+.truncate-cell {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-icon {
+  color: #f97316; /* Muted orange color scheme from screenshot calendar icons */
+  font-size: 0.9rem;
+}
+
+.CompanyPolicies-row-download-btn {
+  background: none;
+  border: none;
+  color: #475569;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.CompanyPolicies-row-download-btn:hover {
+  color: #1e3a8a;
+}
+
+.no-data {
+  padding: 3rem !important;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* Footer Pagination Row Segment Layout specifications */
+.CompanyPolicies-pagination {
+  padding: 0.75rem 1.25rem;
+  background-color: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.CompanyPolicies-pagination-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.pagination-text {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.pagination-select-wrapper {
+  position: relative;
+}
+
+.pagination-select {
+  padding: 0.25rem 1.5rem 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.25rem;
+  outline: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination-count {
+  font-size: 0.8rem;
+  color: #334155;
+}
+
+.pagination-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pagination-arrow-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  padding: 0.35rem;
+  cursor: not-allowed;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Full System Viewport Media Responsiveness controls overrides */
+@media (max-width: 768px) {
+  .CompanyPolicies-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .CompanyPolicies-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .CompanyPolicies-toolbar-left {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .CompanyPolicies-search-box {
+    max-width: 100%;
+  }
+
+  .CompanyPolicies-toolbar-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

@@ -9,6 +9,8 @@ import {
 import API, { IMAGE_URL } from "../../api/axios";
 import "./PayrollList.css";
 import schoolLogo from "../../assets/Learning-Step-Logo-1.png";
+import ExcelJS from "exceljs";
+import { saveAs } from "file-saver";
 
 const monthNames = [
   "January",
@@ -51,7 +53,9 @@ const normalizePayroll = (item) => {
     email: teacher.email || "",
     image: teacher.image || "",
     monthName: monthNames[(Number(item.month) || 1) - 1] || item.month,
-    absentDays: item.absentDays ?? Math.max((item.totalDays || 0) - (item.workingDays || 0), 0),
+    absentDays:
+      item.absentDays ??
+      Math.max((item.totalDays || 0) - (item.workingDays || 0), 0),
     leaveDays: item.leaveDays || 0,
     presentDays: item.presentDays || 0,
   };
@@ -60,6 +64,8 @@ const normalizePayroll = (item) => {
 const PayrollList = ({ refresh, onEdit }) => {
   const [search, setSearch] = useState("");
   const [year, setYear] = useState(String(new Date().getFullYear()));
+
+  const [month, setMonth] = useState("");
   const [menuOpen, setMenuOpen] = useState(null);
   const [payrollData, setPayrollData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,12 +80,19 @@ const PayrollList = ({ refresh, onEdit }) => {
     paymentDate: "",
     note: "",
   });
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [showBulkPaymentModal, setShowBulkPaymentModal] = useState(false);
 
   const fetchPayrolls = async () => {
     try {
       setLoading(true);
       setError("");
-      const res = await API.get("/payroll", { params: { year } });
+      const res = await API.get("/payroll", {
+        params: {
+          year,
+          month,
+        },
+      });
       setPayrollData((res.data?.data || []).map(normalizePayroll));
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load payroll.");
@@ -90,7 +103,7 @@ const PayrollList = ({ refresh, onEdit }) => {
 
   useEffect(() => {
     fetchPayrolls();
-  }, [refresh, year]);
+  }, [refresh, year, month]);
 
   const filtered = useMemo(() => {
     const query = search.toLowerCase().trim();
@@ -104,10 +117,12 @@ const PayrollList = ({ refresh, onEdit }) => {
 
   const years = useMemo(() => {
     const currentYear = new Date().getFullYear();
-    const dataYears = payrollData.map((item) => Number(item.year)).filter(Boolean);
-    return [...new Set([currentYear, currentYear - 1, currentYear - 2, ...dataYears])].sort(
-      (a, b) => b - a,
-    );
+    const dataYears = payrollData
+      .map((item) => Number(item.year))
+      .filter(Boolean);
+    return [
+      ...new Set([currentYear, currentYear - 1, currentYear - 2, ...dataYears]),
+    ].sort((a, b) => b - a);
   }, [payrollData]);
 
   const statusClass = (status) => {
@@ -115,6 +130,72 @@ const PayrollList = ({ refresh, onEdit }) => {
     if (status === "Pending") return "pending";
     return "reject";
   };
+
+  const handleCheckboxChange = (id) => {
+    setSelectedRows((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((item) => item !== id);
+      }
+
+      return [...prev, id];
+    });
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedRows(filtered.map((item) => item._id));
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
+  const handleBulkPay = () => {
+    if (selectedRows.length === 0) {
+      alert("Please select at least one teacher.");
+      return;
+    }
+
+    setPaymentForm({
+      paymentMode: "",
+      paymentDate: new Date().toISOString().slice(0, 10),
+      note: "",
+    });
+
+    setShowBulkPaymentModal(true);
+  };
+
+  const handleSaveBulkPayment = async () => {
+    // if (!paymentForm.paymentMode) {
+    //   alert("Select payment mode");
+    //   return;
+    // }
+
+    try {
+      await API.put("/payroll/bulk-pay", {
+        ids: selectedRows,
+
+        paymentMode: paymentForm.paymentMode,
+
+        paymentDate: paymentForm.paymentDate,
+
+        note: paymentForm.note,
+      });
+
+      setShowBulkPaymentModal(false);
+
+      setSelectedRows([]);
+
+      fetchPayrolls();
+    } catch (err) {
+      alert(err.response?.data?.message || "Payment Failed");
+    }
+  };
+
+  useEffect(() => {
+    setSelectedRows((prev) =>
+      prev.filter((id) => filtered.some((item) => item._id === id)),
+    );
+  }, [filtered]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this payroll record?")) return;
@@ -180,10 +261,14 @@ const PayrollList = ({ refresh, onEdit }) => {
             }
           : res.data?.data?.teacherId,
       });
-      setPayrollData((prev) => prev.map((item) => (item._id === updated._id ? updated : item)));
+      setPayrollData((prev) =>
+        prev.map((item) => (item._id === updated._id ? updated : item)),
+      );
       setShowPaymentModal(false);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to process salary payment.");
+      setError(
+        err.response?.data?.message || "Failed to process salary payment.",
+      );
     } finally {
       setSavingPayment(false);
     }
@@ -414,8 +499,12 @@ const PayrollList = ({ refresh, onEdit }) => {
 
     const earnings = selectedPayroll.salaryBreakdown?.earnings || {};
     const deductions = selectedPayroll.salaryBreakdown?.deductions || {};
-    const allowance = Number(selectedPayroll.allowance ?? earnings.allowance ?? 0);
-    const overtime = Number(selectedPayroll.overtimeAmount ?? earnings.overtime ?? 0);
+    const allowance = Number(
+      selectedPayroll.allowance ?? earnings.allowance ?? 0,
+    );
+    const overtime = Number(
+      selectedPayroll.overtimeAmount ?? earnings.overtime ?? 0,
+    );
     const basic = Number(
       earnings.basic ??
         Math.max(Number(selectedPayroll.grossSalary || 0) - allowance, 0),
@@ -438,6 +527,233 @@ const PayrollList = ({ refresh, onEdit }) => {
     };
   }, [selectedPayroll]);
 
+  const downloadExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+
+    const sheet = workbook.addWorksheet("Payroll Report");
+
+    // School Name
+
+    sheet.mergeCells("A1:M1");
+
+    const school = sheet.getCell("A1");
+
+    school.value = "THE LEARNING STEP INTERNATIONAL SCHOOL";
+
+    school.font = {
+      size: 18,
+      bold: true,
+      color: { argb: "FFFFFFFF" },
+    };
+
+    school.alignment = {
+      horizontal: "center",
+      vertical: "middle",
+    };
+
+    school.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "1E3A8A" },
+    };
+
+    // Title
+
+    sheet.mergeCells("A2:M2");
+
+    const title = sheet.getCell("A2");
+
+    title.value = "Payroll Report";
+
+    title.font = {
+      size: 14,
+      bold: true,
+    };
+
+    title.alignment = {
+      horizontal: "center",
+    };
+
+    sheet.addRow([]);
+
+    sheet.addRow([
+      "Month",
+      month ? monthNames[month - 1] : "All Months",
+      "",
+      "Year",
+      year,
+    ]);
+
+    sheet.addRow(["Generated", new Date().toLocaleDateString()]);
+
+    sheet.addRow([]);
+
+    // Header
+
+    const header = sheet.addRow([
+      "Teacher",
+      "Department",
+      "Month",
+      "Year",
+      "Present",
+      "Leave",
+      "Paid Days",
+      "Absent",
+      "Gross Salary",
+      "Deduction",
+      "Net Salary",
+      "Overtime",
+      "Status",
+    ]);
+
+    header.eachCell((cell) => {
+      cell.font = {
+        bold: true,
+
+        color: {
+          argb: "FFFFFFFF",
+        },
+      };
+
+      cell.fill = {
+        type: "pattern",
+
+        pattern: "solid",
+
+        fgColor: {
+          argb: "2563EB",
+        },
+      };
+
+      cell.alignment = {
+        horizontal: "center",
+
+        vertical: "middle",
+      };
+
+      cell.border = {
+        top: { style: "thin" },
+
+        left: { style: "thin" },
+
+        right: { style: "thin" },
+
+        bottom: { style: "thin" },
+      };
+    });
+
+    // Data
+
+    filtered.forEach((item) => {
+      sheet.addRow([
+        item.teacher,
+
+        item.department,
+
+        item.monthName,
+
+        item.year,
+
+        item.presentDays,
+
+        item.leaveDays,
+
+        `${item.workingDays}/${item.totalDays}`,
+
+        item.absentDays,
+
+        item.grossSalary,
+
+        item.totalDeductions,
+
+        item.totalSalary,
+
+        item.overtimeAmount,
+
+        item.status,
+      ]);
+    });
+
+    // Borders
+
+    sheet.eachRow((row, rowNumber) => {
+      if (rowNumber < 7) return;
+
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: "thin" },
+
+          left: { style: "thin" },
+
+          right: { style: "thin" },
+
+          bottom: { style: "thin" },
+        };
+      });
+    });
+
+    // Currency Format
+
+    ["I", "J", "K", "L"].forEach((col) => {
+      sheet.getColumn(col).numFmt = "₹#,##0.00";
+    });
+
+    // Totals
+
+    sheet.addRow([]);
+
+    const totalTeachers = filtered.length;
+
+    const totalGross = filtered.reduce(
+      (sum, item) => sum + Number(item.grossSalary || 0),
+      0,
+    );
+
+    const totalDeduction = filtered.reduce(
+      (sum, item) => sum + Number(item.totalDeductions || 0),
+      0,
+    );
+
+    const totalNet = filtered.reduce(
+      (sum, item) => sum + Number(item.totalSalary || 0),
+      0,
+    );
+
+    const totals = [
+      ["Total Teachers", totalTeachers],
+
+      ["Total Gross Salary", totalGross],
+
+      ["Total Deduction", totalDeduction],
+
+      ["Total Net Salary", totalNet],
+    ];
+
+    totals.forEach((item) => {
+      const row = sheet.addRow(item);
+
+      row.font = {
+        bold: true,
+      };
+    });
+
+    // Auto Width
+
+    sheet.columns.forEach((column) => {
+      let max = 15;
+
+      column.eachCell({ includeEmpty: true }, (cell) => {
+        max = Math.max(max, cell.value ? cell.value.toString().length : 10);
+      });
+
+      column.width = max + 3;
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    saveAs(new Blob([buffer]), `Payroll_Report_${month || "All"}_${year}.xlsx`);
+  };
+
   return (
     <div className="payroll-list-wrapper">
       <div className="payroll-list-top">
@@ -452,9 +768,33 @@ const PayrollList = ({ refresh, onEdit }) => {
             />
           </div>
 
-          <button className="download-report-btn" onClick={() => window.print()}>
-            Download Report
+          {selectedRows.length > 0 && (
+            <button
+              type="button"
+              className="btn-submit-payment"
+              onClick={handleBulkPay}
+            >
+              Pay Selected ({selectedRows.length})
+            </button>
+          )}
+
+          <button className="download-report-btn" onClick={downloadExcel}>
+            Download Excel
           </button>
+
+          <div className="month-dropdown">
+            <select value={month} onChange={(e) => setMonth(e.target.value)}>
+              <option value="">All Months</option>
+
+              {monthNames.map((m, index) => (
+                <option key={index} value={index + 1}>
+                  {m}
+                </option>
+              ))}
+            </select>
+
+            <ChevronDown size={16} />
+          </div>
 
           <div className="year-dropdown">
             <select value={year} onChange={(e) => setYear(e.target.value)}>
@@ -470,11 +810,25 @@ const PayrollList = ({ refresh, onEdit }) => {
       </div>
 
       {error && <div className="payroll-list-error">{error}</div>}
-
+      {selectedRows.length > 0 && (
+        <div className="selected-info">
+          {selectedRows.length} Teacher(s) Selected
+        </div>
+      )}
       <div className="payroll-table-wrap">
         <table className="payroll-table">
           <thead>
             <tr>
+              <th>
+                <input
+                  type="checkbox"
+                  checked={
+                    filtered.length > 0 &&
+                    selectedRows.length === filtered.length
+                  }
+                  onChange={handleSelectAll}
+                />
+              </th>
               <th>Name</th>
               <th>Department</th>
               <th>Month</th>
@@ -496,22 +850,32 @@ const PayrollList = ({ refresh, onEdit }) => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="15" className="loading-text">
+                <td colSpan="16" className="loading-text">
                   Loading payroll...
                 </td>
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan="15" className="loading-text">
+                <td colSpan="16" className="loading-text">
                   No payroll records found.
                 </td>
               </tr>
             ) : (
               filtered.map((item) => (
                 <tr key={item._id}>
+                  <td data-label="Select">
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.includes(item._id)}
+                      onChange={() => handleCheckboxChange(item._id)}
+                    />
+                  </td>
                   <td data-label="Name">
                     <div className="user-info">
-                      <img src={getTeacherImage(item.image)} alt={item.teacher} />
+                      <img
+                        src={getTeacherImage(item.image)}
+                        alt={item.teacher}
+                      />
                       <span>{item.teacher}</span>
                     </div>
                   </td>
@@ -521,15 +885,27 @@ const PayrollList = ({ refresh, onEdit }) => {
                   <td data-label="Year">{item.year}</td>
                   <td data-label="Present">{item.presentDays}</td>
                   <td data-label="Leave">{item.leaveDays}</td>
-                  <td data-label="Paid Days">{item.workingDays}/{item.totalDays}</td>
+                  <td data-label="Paid Days">
+                    {item.workingDays}/{item.totalDays}
+                  </td>
                   <td data-label="Absent">{item.absentDays}</td>
-                  <td data-label="Gross Salary">{formatMoney(item.grossSalary)}</td>
-                  <td data-label="Deductions">{formatMoney(item.totalDeductions)}</td>
-                  <td data-label="Net Salary">{formatMoney(item.totalSalary)}</td>
-                  <td data-label="Overtime">{formatMoney(item.overtimeAmount)}</td>
+                  <td data-label="Gross Salary">
+                    {formatMoney(item.grossSalary)}
+                  </td>
+                  <td data-label="Deductions">
+                    {formatMoney(item.totalDeductions)}
+                  </td>
+                  <td data-label="Net Salary">
+                    {formatMoney(item.totalSalary)}
+                  </td>
+                  <td data-label="Overtime">
+                    {formatMoney(item.overtimeAmount)}
+                  </td>
 
                   <td data-label="Status">
-                    <span className={`status-badge ${statusClass(item.status)}`}>
+                    <span
+                      className={`status-badge ${statusClass(item.status)}`}
+                    >
                       {item.status}
                     </span>
                   </td>
@@ -537,7 +913,9 @@ const PayrollList = ({ refresh, onEdit }) => {
                   <td className="action-cell" data-label="Action">
                     <button
                       className="action-btn"
-                      onClick={() => setMenuOpen(menuOpen === item._id ? null : item._id)}
+                      onClick={() =>
+                        setMenuOpen(menuOpen === item._id ? null : item._id)
+                      }
                       type="button"
                     >
                       <MoreHorizontal size={18} />
@@ -548,7 +926,10 @@ const PayrollList = ({ refresh, onEdit }) => {
                         <button onClick={() => handleEdit(item)} type="button">
                           Edit
                         </button>
-                        <button onClick={() => handleDelete(item._id)} type="button">
+                        <button
+                          onClick={() => handleDelete(item._id)}
+                          type="button"
+                        >
                           Delete
                         </button>
                       </div>
@@ -590,7 +971,11 @@ const PayrollList = ({ refresh, onEdit }) => {
             <div className="payslip-header-bar">
               <span>View Payslip</span>
               <div className="payslip-header-actions">
-                <button className="print-btn" onClick={handlePrintPayslip} type="button">
+                <button
+                  className="print-btn"
+                  onClick={handlePrintPayslip}
+                  type="button"
+                >
                   <Printer size={16} /> Print
                 </button>
                 <X
@@ -605,42 +990,77 @@ const PayrollList = ({ refresh, onEdit }) => {
               <div className="payslip-corporate-branding">
                 <div className="brand-logo-section">
                   <div className="brand-avatar-box">
-                    <img src={schoolLogo} alt="School Logo" className="school-logo" />
+                    <img
+                      src={schoolLogo}
+                      alt="School Logo"
+                      className="school-logo"
+                    />
                   </div>
                   <div>
                     <h3>The Learning Step International School</h3>
-                    <p>Tehla bypass alwar, road, Rajgarh, Thana, Rajasthan 301408</p>
-                    <p>Phone : +91 714627894 | Email : learningstep19@gmail.com</p>
+                    <p>
+                      Tehla bypass alwar, road, Rajgarh, Thana, Rajasthan 301408
+                    </p>
+                    <p>
+                      Phone : +91 714627894 | Email : learningstep19@gmail.com
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="payslip-period-banner">
                 <span>
-                  Payslip for the period of {selectedPayroll.monthName} {selectedPayroll.year}
+                  Payslip for the period of {selectedPayroll.monthName}{" "}
+                  {selectedPayroll.year}
                 </span>
-                <span className="payslip-date-stamp">Date : {getCurrentFormattedDate()}</span>
+                <span className="payslip-date-stamp">
+                  Date : {getCurrentFormattedDate()}
+                </span>
               </div>
 
               <div className="payslip-details-grid">
                 <div className="details-col">
-                  <p><strong>Employee Name :</strong> {selectedPayroll.teacher}</p>
-                  <p><strong>Email :</strong> {selectedPayroll.email || "-"}</p>
-                  <p><strong>Department :</strong> {selectedPayroll.department}</p>
-                  <p><strong>Mode :</strong> Bank / Online Transfer</p>
+                  <p>
+                    <strong>Employee Name :</strong> {selectedPayroll.teacher}
+                  </p>
+                  <p>
+                    <strong>Email :</strong> {selectedPayroll.email || "-"}
+                  </p>
+                  <p>
+                    <strong>Department :</strong> {selectedPayroll.department}
+                  </p>
+                  <p>
+                    <strong>Mode :</strong> Bank / Online Transfer
+                  </p>
                 </div>
                 <div className="details-col">
-                  <p><strong>Employee Id :</strong> {String(selectedPayroll.teacherObjectId || "").slice(-6) || "-"}</p>
-                  <p><strong>PF A/c No. :</strong> -</p>
-                  <p><strong>Designation :</strong> Instructor / Teacher</p>
+                  <p>
+                    <strong>Employee Id :</strong>{" "}
+                    {String(selectedPayroll.teacherObjectId || "").slice(-6) ||
+                      "-"}
+                  </p>
+                  <p>
+                    <strong>PF A/c No. :</strong> -
+                  </p>
+                  <p>
+                    <strong>Designation :</strong> Instructor / Teacher
+                  </p>
                 </div>
               </div>
 
               <div className="payslip-days-summary">
-                <div className="summary-box"><strong>Total Days :</strong> {selectedPayroll.totalDays || 0}</div>
-                <div className="summary-box"><strong>Present :</strong> {selectedPayroll.presentDays}</div>
-                <div className="summary-box"><strong>Approved Leave :</strong> {selectedPayroll.leaveDays}</div>
-                <div className="summary-box"><strong>Absent :</strong> {selectedPayroll.absentDays}</div>
+                <div className="summary-box">
+                  <strong>Total Days :</strong> {selectedPayroll.totalDays || 0}
+                </div>
+                <div className="summary-box">
+                  <strong>Present :</strong> {selectedPayroll.presentDays}
+                </div>
+                <div className="summary-box">
+                  <strong>Approved Leave :</strong> {selectedPayroll.leaveDays}
+                </div>
+                <div className="summary-box">
+                  <strong>Absent :</strong> {selectedPayroll.absentDays}
+                </div>
               </div>
 
               <table className="payslip-financial-table">
@@ -678,24 +1098,48 @@ const PayrollList = ({ refresh, onEdit }) => {
                     <td>{formatMoney(0)}</td>
                   </tr>
                   <tr className="financial-totals-row">
-                    <td><strong>Total Earning</strong></td>
-                    <td><strong>{formatMoney(payslipAmounts.totalEarnings)}</strong></td>
-                    <td><strong>Total Deduction</strong></td>
-                    <td><strong>{formatMoney(payslipAmounts.totalDeductions)}</strong></td>
+                    <td>
+                      <strong>Total Earning</strong>
+                    </td>
+                    <td>
+                      <strong>
+                        {formatMoney(payslipAmounts.totalEarnings)}
+                      </strong>
+                    </td>
+                    <td>
+                      <strong>Total Deduction</strong>
+                    </td>
+                    <td>
+                      <strong>
+                        {formatMoney(payslipAmounts.totalDeductions)}
+                      </strong>
+                    </td>
                   </tr>
                   <tr className="estimated-pay-row">
-                    <td colSpan="3"><strong>Estimated Pay Amount</strong></td>
-                    <td><strong>{formatMoney(selectedPayroll.totalSalary)}</strong></td>
+                    <td colSpan="3">
+                      <strong>Estimated Pay Amount</strong>
+                    </td>
+                    <td>
+                      <strong>
+                        {formatMoney(selectedPayroll.totalSalary)}
+                      </strong>
+                    </td>
                   </tr>
                 </tbody>
               </table>
 
               <div className="payslip-net-footer">
-                <p><strong>Net Pay :</strong> {formatMoney(selectedPayroll.totalSalary)}</p>
-                <p className="currency-word-representation">
-                  In Words : INR {Number(selectedPayroll.totalSalary || 0).toFixed(2)} Only
+                <p>
+                  <strong>Net Pay :</strong>{" "}
+                  {formatMoney(selectedPayroll.totalSalary)}
                 </p>
-                <span className="computer-generated-tag">Computer Generated Payslip</span>
+                <p className="currency-word-representation">
+                  In Words : INR{" "}
+                  {Number(selectedPayroll.totalSalary || 0).toFixed(2)} Only
+                </p>
+                <span className="computer-generated-tag">
+                  Computer Generated Payslip
+                </span>
               </div>
             </div>
           </div>
@@ -718,7 +1162,12 @@ const PayrollList = ({ refresh, onEdit }) => {
               <div className="form-grid-layout">
                 <div className="form-group-item">
                   <label>Staff Name</label>
-                  <input type="text" value={selectedPayroll.teacher} disabled className="disabled-input" />
+                  <input
+                    type="text"
+                    value={selectedPayroll.teacher}
+                    disabled
+                    className="disabled-input"
+                  />
                 </div>
 
                 <div className="form-group-item">
@@ -773,12 +1222,22 @@ const PayrollList = ({ refresh, onEdit }) => {
 
                 <div className="form-group-item">
                   <label>Salary Month</label>
-                  <input type="text" value={selectedPayroll.monthName} disabled className="disabled-input" />
+                  <input
+                    type="text"
+                    value={selectedPayroll.monthName}
+                    disabled
+                    className="disabled-input"
+                  />
                 </div>
 
                 <div className="form-group-item">
                   <label>Salary Year</label>
-                  <input type="text" value={selectedPayroll.year} disabled className="disabled-input" />
+                  <input
+                    type="text"
+                    value={selectedPayroll.year}
+                    disabled
+                    className="disabled-input"
+                  />
                 </div>
 
                 <div className="form-group-item">
@@ -826,8 +1285,97 @@ const PayrollList = ({ refresh, onEdit }) => {
                   Cancel
                 </button>
 
-                <button type="submit" className="btn-submit-payment" disabled={savingPayment}>
+                <button
+                  type="submit"
+                  className="btn-submit-payment"
+                  disabled={savingPayment}
+                >
                   {savingPayment ? "Paying..." : "Pay Salary"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showBulkPaymentModal && (
+        <div className="modal-overlay">
+          <div className="payment-modal-container">
+            <div className="payment-modal-header">
+              <h3>Bulk Salary Payment</h3>
+
+              <X
+                size={20}
+                className="close-modal-icon"
+                onClick={() => setShowBulkPaymentModal(false)}
+              />
+            </div>
+
+            <form className="payment-modal-form">
+              <div className="form-grid-layout">
+                <div className="form-group-item">
+                  <label>Selected Teachers</label>
+
+                  <input
+                    value={selectedRows.length}
+                    disabled
+                    className="disabled-input"
+                  />
+                </div>
+
+                <div className="form-group-item">
+                  <label>Payment Mode</label>
+
+                  <select
+                    name="paymentMode"
+                    value={paymentForm.paymentMode}
+                    onChange={handlePaymentFormChange}
+                  >
+                    <option value="">Select</option>
+                    <option value="Cash">Cash</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                  </select>
+                </div>
+
+                <div className="form-group-item">
+                  <label>Payment Date</label>
+
+                  <input
+                    type="date"
+                    name="paymentDate"
+                    value={paymentForm.paymentDate}
+                    onChange={handlePaymentFormChange}
+                  />
+                </div>
+
+                <div className="form-group-item full-width-textarea">
+                  <label>Note</label>
+
+                  <textarea
+                    rows="4"
+                    name="note"
+                    value={paymentForm.note}
+                    onChange={handlePaymentFormChange}
+                  />
+                </div>
+              </div>
+
+              <div className="payment-form-footer-actions">
+                <button
+                  type="button"
+                  className="btn-cancel-payment"
+                  onClick={() => setShowBulkPaymentModal(false)}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="btn-submit-payment"
+                  onClick={handleSaveBulkPayment}
+                >
+                  Pay Selected
                 </button>
               </div>
             </form>

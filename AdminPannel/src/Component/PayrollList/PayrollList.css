@@ -68,7 +68,7 @@
   background-color: var(--white);
   color: var(--dark-slate);
   transition: border-color 0.2s, box-shadow 0.2s;
-  
+
   /* SVG inline background ensures the icon remains pinned vertically centered with text */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' /%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -282,7 +282,8 @@
   color: #64748b;
 }
 
-.btn-view-payslip, .btn-proceed-pay {
+.btn-view-payslip,
+.btn-proceed-pay {
   border: none;
   border-radius: 6px;
   padding: 6px 14px;
@@ -301,7 +302,8 @@
   background-color: #9333ea;
 }
 
-.btn-view-payslip:hover, .btn-proceed-pay:hover {
+.btn-view-payslip:hover,
+.btn-proceed-pay:hover {
   opacity: 0.9;
 }
 
@@ -577,7 +579,9 @@
   color: #475569;
 }
 
-.form-group-item input, .form-group-item select, .form-group-item textarea {
+.form-group-item input,
+.form-group-item select,
+.form-group-item textarea {
   padding: 10px 12px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
@@ -587,7 +591,8 @@
   color: var(--dark-slate);
 }
 
-.form-group-item select:focus, .form-group-item textarea:focus {
+.form-group-item select:focus,
+.form-group-item textarea:focus {
   border-color: var(--secondary-blue);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
@@ -599,7 +604,8 @@
   font-weight: 500;
 }
 
-.full-width-date, .full-width-textarea {
+.full-width-date,
+.full-width-textarea {
   grid-column: span 2;
 }
 
@@ -659,6 +665,60 @@
   opacity: 0.7;
 }
 
+.month-dropdown {
+  position: relative;
+}
+
+.month-dropdown select {
+  width: 150px;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0 35px 0 10px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.month-dropdown svg {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  pointer-events: none;
+}
+.payroll-table th:first-child,
+.payroll-table td:first-child {
+  width: 60px;
+  text-align: center;
+}
+
+.payroll-table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.selected-info{
+    margin-bottom:12px;
+    font-weight:600;
+    color:#1d4ed8;
+}
+
+
+.pay-selected-btn{
+    height:40px;
+    padding:0 18px;
+    border:none;
+    border-radius:8px;
+    background:#16a34a;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.pay-selected-btn:hover{
+    background:#15803d;
+}
 /* ==========================================================================
    RESPONSIVE DESIGN BREAKPOINTS
    ========================================================================== */
@@ -710,7 +770,7 @@
     min-width: 100px;
   }
 
-  .payroll-table th, 
+  .payroll-table th,
   .payroll-table td {
     padding: 10px 12px;
   }
@@ -735,12 +795,13 @@
   .payroll-list-top h2 {
     font-size: 18px;
   }
-  
+
   .form-grid-layout {
     grid-template-columns: 1fr;
   }
-  
-  .full-width-date, .full-width-textarea {
+
+  .full-width-date,
+  .full-width-textarea {
     grid-column: span 1;
   }
 }
