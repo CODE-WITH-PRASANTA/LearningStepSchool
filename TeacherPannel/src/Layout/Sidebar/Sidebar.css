@@ -98,15 +98,7 @@
 
 }
 
-.menu-item.active{
 
-    background:linear-gradient(135deg,#2563eb,#3b82f6);
-
-    color:#fff;
-
-    box-shadow:0 12px 25px rgba(37,99,235,.28);
-
-}
 
 /* ================= LEFT CONTENT ================= */
 .menu-left {
@@ -152,12 +144,9 @@
 
 /* 🔥 IMPORTANT FIX */
 .submenu-item{
-
     height:44px;
 
     margin:5px 0;
-
-    margin-left:22px;
 
     width:calc(100% - 22px);
 
@@ -260,15 +249,7 @@
     color:#2563eb;
 
 }
-.submenu-item.active{
 
-    background:#dbeafe;
-
-    color:#1d4ed8;
-
-    font-weight:600;
-
-}
 
 /* ================= OVERLAY ================= */
 .sidebar-overlay {
