@@ -114,7 +114,7 @@ body,
 }
 
 .admin-content::-webkit-scrollbar-thumb {
-  background: #c89b5e;
+  background: #ffffff;
   border-radius: 20px;
 }
 
@@ -126,7 +126,7 @@ body,
 
 .admin-content {
   scrollbar-width: thin;
-  scrollbar-color: #c89b5e transparent;
+  scrollbar-color: #ffffff transparent;
 }
 
 /* ========================================
