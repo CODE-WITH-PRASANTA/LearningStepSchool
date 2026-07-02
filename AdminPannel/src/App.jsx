@@ -175,6 +175,10 @@ import Calender from "./Component/Calender/Calender";
 import TransportVehicleReport from "./Component/TransportVehicleReport/TransportVehicleReport";
 import TransportStudentsReport from "./Component/TransportStudentsReport/TransportStudentsReport";
 import MainDashboard from "./Pages/MainDashboard/MainDashboard";
+import FeeGroup from "./Pages/FeeGroup/FeeGroup";
+import FeeHead from "./Pages/FeeHead/FeeHead";
+import FeeStructure from "./Pages/FeeStructure/FeeStructure";
+import FeeEntry from "./Pages/FeeEntry/FeeEntry";
 
 /* ===================== APP ===================== */
 
@@ -511,6 +515,15 @@ export default function App() {
           <Route path="/calender/planning" element={<Calender/>} />
           <Route path="/transport-vechile" element={<TransportVehicleReport />} />
           <Route path="/transport-student" element={<TransportStudentsReport />} />
+
+
+          <Route path="/fee-group" element={<FeeGroup />} />
+          <Route path="/fee-head" element={<FeeHead />} />
+          <Route path="/fee-entry" element={<FeeEntry />} />
+          <Route path="/fee-structure" element={<FeeStructure />} />
+
+
+
         </Route>
 
         {/* ===== FALLBACK ===== */}
