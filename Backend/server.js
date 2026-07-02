@@ -96,7 +96,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/latest-news", latestNewsRoutes);
 app.use("/api/photo-gallery", photoGalleryRoutes);
 app.use("/api/video-gallery", videoGalleryRoutes);
-app.use("/api/teachers", teacherRoutes);
+// app.use("/api/teachers", teacherRoutes);
 app.use("/api/notices", noticeRoutes);
 app.use("/api/awards", awardRoutes);
 app.use("/api/preprimary", prePrimaryRoutes);

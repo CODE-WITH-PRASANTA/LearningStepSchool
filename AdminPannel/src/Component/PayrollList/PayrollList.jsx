@@ -63,9 +63,8 @@ const normalizePayroll = (item) => {
 
 const PayrollList = ({ refresh, onEdit }) => {
   const [search, setSearch] = useState("");
-  const [year, setYear] = useState(String(new Date().getFullYear()));
-
-  const [month, setMonth] = useState("");
+  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [menuOpen, setMenuOpen] = useState(null);
   const [payrollData, setPayrollData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -87,15 +86,22 @@ const PayrollList = ({ refresh, onEdit }) => {
     try {
       setLoading(true);
       setError("");
+
       const res = await API.get("/payroll", {
         params: {
           year,
           month,
         },
       });
-      setPayrollData((res.data?.data || []).map(normalizePayroll));
+
+      const data = (res.data?.data || []).map(normalizePayroll);
+
+      setPayrollData(data);
+
+      return data;
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load payroll.");
+      return [];
     } finally {
       setLoading(false);
     }
@@ -165,20 +171,22 @@ const PayrollList = ({ refresh, onEdit }) => {
   };
 
   const handleSaveBulkPayment = async () => {
-    // if (!paymentForm.paymentMode) {
-    //   alert("Select payment mode");
-    //   return;
-    // }
+    if (!paymentForm.paymentMode) {
+      alert("Select payment mode");
+      return;
+    }
 
     try {
       await API.put("/payroll/bulk-pay", {
         ids: selectedRows,
 
+        status: "Completed",
+
         paymentMode: paymentForm.paymentMode,
 
-        paymentDate: paymentForm.paymentDate,
+        payDate: paymentForm.paymentDate,
 
-        note: paymentForm.note,
+        notes: paymentForm.note,
       });
 
       setShowBulkPaymentModal(false);
@@ -202,7 +210,9 @@ const PayrollList = ({ refresh, onEdit }) => {
 
     try {
       await API.delete(`/payroll/${id}`);
-      setPayrollData((prev) => prev.filter((item) => item._id !== id));
+      setShowPaymentModal(false);
+
+      await fetchPayrolls();
       setMenuOpen(null);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete payroll.");
@@ -235,45 +245,37 @@ const PayrollList = ({ refresh, onEdit }) => {
   };
 
   const handleSavePayment = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!paymentForm.paymentMode || !paymentForm.paymentDate) {
-      setError("Please select payment mode and payment date.");
-      return;
-    }
+  if (!paymentForm.paymentMode) {
+    setError("Please select payment mode.");
+    return;
+  }
 
-    try {
-      setSavingPayment(true);
-      setError("");
-      const res = await API.put(`/payroll/${selectedPayroll._id}`, {
-        status: "Completed",
-      });
-      const updated = normalizePayroll({
-        ...selectedPayroll,
-        ...(res.data?.data || {}),
-        teacherId: selectedPayroll.teacherObjectId
-          ? {
-              _id: selectedPayroll.teacherObjectId,
-              name: selectedPayroll.teacher,
-              department: selectedPayroll.department,
-              email: selectedPayroll.email,
-              image: selectedPayroll.image,
-            }
-          : res.data?.data?.teacherId,
-      });
-      setPayrollData((prev) =>
-        prev.map((item) => (item._id === updated._id ? updated : item)),
-      );
-      setShowPaymentModal(false);
-    } catch (err) {
-      setError(
-        err.response?.data?.message || "Failed to process salary payment.",
-      );
-    } finally {
-      setSavingPayment(false);
-    }
-  };
+  try {
+    setSavingPayment(true);
+    setError("");
 
+    await API.put(`/payroll/${selectedPayroll._id}`, {
+      status: "Completed",
+      paymentMode: paymentForm.paymentMode,
+      payDate: paymentForm.paymentDate,
+      notes: paymentForm.note,
+    });
+
+    setShowPaymentModal(false);
+    setSelectedPayroll(null);
+
+    await fetchPayrolls();
+
+  } catch (err) {
+    setError(
+      err.response?.data?.message || "Failed to process salary payment."
+    );
+  } finally {
+    setSavingPayment(false);
+  }
+};
   const getCurrentFormattedDate = () => {
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
@@ -783,14 +785,22 @@ const PayrollList = ({ refresh, onEdit }) => {
           </button>
 
           <div className="month-dropdown">
-            <select value={month} onChange={(e) => setMonth(e.target.value)}>
-              <option value="">All Months</option>
-
-              {monthNames.map((m, index) => (
-                <option key={index} value={index + 1}>
-                  {m}
-                </option>
-              ))}
+            <select
+              value={month}
+              onChange={(e) => setMonth(Number(e.target.value))}
+            >
+              <option value={1}>January</option>
+              <option value={2}>February</option>
+              <option value={3}>March</option>
+              <option value={4}>April</option>
+              <option value={5}>May</option>
+              <option value={6}>June</option>
+              <option value={7}>July</option>
+              <option value={8}>August</option>
+              <option value={9}>September</option>
+              <option value={10}>October</option>
+              <option value={11}>November</option>
+              <option value={12}>December</option>
             </select>
 
             <ChevronDown size={16} />
