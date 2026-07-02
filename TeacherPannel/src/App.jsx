@@ -40,6 +40,11 @@ import AdmissionSurvey from "./Pages/AdmissionSurvey"
 import AdmissionSurveyView from "./Components/AdmissionSurveyView/AdmissionSurveyView";
 
 import TeacherAttenanced from "./Pages/TeacherAttenanced/TeacherAttenanced";
+
+import OverTime from "./Components/OverTime/OverTime";
+import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
+import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
+
 import Attendance from "./Components/Attendance/Attendance";
 
 // 🛠️ FIX 1: Use Leave here or update to LeaveSection depending on your component name
@@ -50,9 +55,9 @@ import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule";
 import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
 import SalaryDetails from "./Components/SalaryDetails/SalaryDetails";
 import CompanyPolicies from "./Components/CompanyPolicies/CompanyPolicies";
-import OverTime from "./Components/OverTime/OverTime";
-import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
-import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
+// import OverTime from "./Components/OverTime/OverTime";
+// import LeavesRequstes from "./Components/LeavesRequstes/LeavesRequstes";
+// import MonthlyAttendance from "./Components/MonthlyAttendance/MonthlyAttendance";
 
 
 function App() {
@@ -78,6 +83,7 @@ function App() {
             <Route path="/class-post" element={<ClassesAdmin/>}/>
             <Route path="/subject-post" element={<SubjectAdmin/>}/>
             <Route path="/classwise-subject-post" element={<ClassWiseSubjectAdmin/>}/>
+           
 
             
             {/* 🛠️ FIX 1 applied here (changed LeaveSection to Leave) */}
@@ -108,12 +114,17 @@ function App() {
 
             <Route path="/attendance/overtime" element={<OverTime />} />
             <Route path="/leave/request" element={<LeavesRequstes />} />
+
+            <Route path="/monthly" element={<MonthlyAttendance />}/>
+
+            <Route path="/attendance/monthly" element={<Attendance/>} />
             <Route path="/monthly" element={<MonthlyAttendance />}/>
             <Route path="/attendance/monthly" element={<MonthlyAttendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
             <Route path="/attendance/history" element={<Attendance/>} />
 
             
+
             {/* 🛠️ FIX 2 & 3 applied below */}
             <Route path="/attendance/shift-schedule" element={<ShiftSchedule />}/>
             <Route path="/leave/balance" element={<LeaveBalance />}/>

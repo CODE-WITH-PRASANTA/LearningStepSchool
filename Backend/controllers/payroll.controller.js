@@ -566,6 +566,90 @@ exports.updatePayroll = async (req, res) => {
   }
 };
 
+/* ================= BULK PAY ================= */
+
+exports.bulkPayPayrolls = async (req, res) => {
+  try {
+
+    const {
+      ids,
+      paymentMode,
+      paymentDate,
+      note,
+    } = req.body;
+
+    if (!ids || ids.length === 0) {
+      return res.status(400).json({
+        message: "No payroll selected.",
+      });
+    }
+
+    const payrolls = await Payroll.find({
+      _id: { $in: ids },
+    });
+
+    for (const payroll of payrolls) {
+
+      // Ignore already completed payrolls
+      if (payroll.status === "Completed") {
+        continue;
+      }
+
+      payroll.status = "Completed";
+      payroll.paymentMode = paymentMode;
+      payroll.payDate = paymentDate;
+      payroll.notes = note || "";
+
+      await payroll.save();
+
+      // Wallet Entry
+
+      const wallet = await Wallet.findOne({
+        referenceId: payroll._id,
+        source: "payroll",
+      });
+
+      if (!wallet) {
+
+        await Wallet.create({
+          type: "debit",
+          amount: payroll.totalSalary,
+          source: "payroll",
+          referenceId: payroll._id,
+          description: `Payroll ${payroll.month}/${payroll.year}`,
+          createdBy: req.user?.id || "Admin",
+        });
+
+      } else {
+
+        wallet.amount = payroll.totalSalary;
+        wallet.updatedAt = new Date();
+
+        await wallet.save();
+
+      }
+
+    }
+
+    res.json({
+
+      success: true,
+
+      message: "Bulk payment completed."
+
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+
+      message: err.message,
+
+    });
+
+  }
+};
+
 /* ================= DELETE PAYROLL ================= */
 exports.deletePayroll = async (req, res) => {
   try {
