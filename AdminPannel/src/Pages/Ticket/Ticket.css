@@ -547,14 +547,22 @@
 
 /* CARD IMAGE */
 
-.ticket-card-image {
-  width: calc(100% - 36px);
-  height: 220px;
+  .ticket-card-image {
+  width: 400px;
+  height: 300px;
   margin: 0 auto;
   border-radius: 22px;
   overflow: hidden;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
 }
+
+.ticket-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 
 .ticket-card-image img {
   width: 100%;
@@ -631,6 +639,34 @@
     width: 46px;
     height: 46px;
     font-size: 18px;
+  }
+}
+.ticket-card-image {
+  width: min(400px, 100%);
+  height: 300px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.ticket-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .ticket-card-image {
+    width: 100%;
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticket-card-image {
+    height: 220px;
   }
 }
 /* =========================
