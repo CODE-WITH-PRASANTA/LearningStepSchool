@@ -179,6 +179,7 @@ import FeeGroup from "./Pages/FeeGroup/FeeGroup";
 import FeeHead from "./Pages/FeeHead/FeeHead";
 import FeeStructure from "./Pages/FeeStructure/FeeStructure";
 import FeeEntry from "./Pages/FeeEntry/FeeEntry";
+import StudentIdCard from "./Component/StudentIdCard/StudentIdCard";
 
 /* ===================== APP ===================== */
 
@@ -521,6 +522,8 @@ export default function App() {
           <Route path="/fee-head" element={<FeeHead />} />
           <Route path="/fee-entry" element={<FeeEntry />} />
           <Route path="/fee-structure" element={<FeeStructure />} />
+
+          <Route path="/student/id-card" element={<StudentIdCard />} />
 
 
 
