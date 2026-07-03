@@ -5,7 +5,14 @@ import { useRef } from "react";
 
 const FeeEntry = () => {
   // --- MOCK DATABASE RECORDS ---
-const searchRef = useRef(null);
+
+  const [grossAmount, setGrossAmount] = useState(0);
+  const [currentDue, setCurrentDue] = useState(0);
+  const [payableAmount, setPayableAmount] = useState(0);
+  const [dueAmount, setDueAmount] = useState(0);
+  const [advanceWallet, setAdvanceWallet] = useState(0);
+  const [advanceUsed, setAdvanceUsed] = useState(0);
+  const searchRef = useRef(null);
   const [studentSuggestions, setStudentSuggestions] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
 
@@ -50,10 +57,8 @@ const searchRef = useRef(null);
   // --- CALCULATION SUMMARY TRACKERS ---
   const [advanceBalance, setAdvanceBalance] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
-  const [grandTotal, setGrandTotal] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
-  const [payableAmount, setPayableAmount] = useState(0);
-  const [dueAmount, setDueAmount] = useState(0);
+
   const [academicYear, setAcademicYear] = useState("2026-27");
 
   const [paidMonths, setPaidMonths] = useState([]);
@@ -77,101 +82,100 @@ const searchRef = useRef(null);
     advAmt: true,
   });
   // const [grandTotal, setGrandTotal] = useState(0);
-  const [selectedAmount, setSelectedAmount] = useState(0);
+
+  const loadAdvanceWallet = async (studentId) => {
+    try {
+      const res = await API.get(`/fee-entry/advance/${studentId}`);
+
+      if (res.data.success) {
+        setAdvanceWallet(res.data.advanceBalance);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSelectStudent = async (student) => {
+    setSelectedStudent(student);
+
+    setSearchText(`${student.firstName} ${student.lastName}`);
+
+    setStudentSuggestions([]);
+    setShowSearchResults(false);
+
+    await loadPaymentHistory(student._id);
+    await loadAdvanceWallet(student._id);
+  };
+  const totalPaidAmount = feeHeads
+    .filter((head) => head.checked)
+    .reduce((sum, head) => {
+      const paidMonthsForHead = feeHeadMonths[head.id] || [];
+
+      let paid = 0;
+
+      if (
+        ["Monthly", "Quarterly", "Half-Yearly"].includes(head.structureType)
+      ) {
+        paid = paidMonthsForHead.reduce(
+          (s, month) => s + Number(head.amounts?.[month.toUpperCase()] || 0),
+          0,
+        );
+      } else {
+        paid = Number(feeHeadPayments[head.id] || 0);
+      }
+
+      return sum + paid;
+    }, 0);
+
+  const totalDueAmount = feeHeads
+    .filter((head) => head.checked)
+    .reduce((sum, head) => {
+      const paidMonthsForHead = feeHeadMonths[head.id] || [];
+
+      let paid = 0;
+
+      if (
+        ["Monthly", "Quarterly", "Half-Yearly"].includes(head.structureType)
+      ) {
+        paid = paidMonthsForHead.reduce(
+          (s, month) => s + Number(head.amounts?.[month.toUpperCase()] || 0),
+          0,
+        );
+      } else {
+        paid = Number(feeHeadPayments[head.id] || 0);
+      }
+
+      return sum + Math.max(0, Number(head.amt || 0) - paid);
+    }, 0);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
-     if (!searchText || searchText.length < 2) {
-  setStudentSuggestions([]);
-  setShowSearchResults(false);
-  return;
-}
-try {
-  const response = await API.get(
-    `/students/search/list?q=${encodeURIComponent(searchText)}`
-  );
+      if (!searchText || searchText.length < 2) {
+        setStudentSuggestions([]);
+        setShowSearchResults(false);
+        return;
+      }
+      try {
+        const response = await API.get(
+          `/students/search/list?q=${encodeURIComponent(searchText)}`,
+        );
 
-  console.log("SEARCH RESPONSE =>", response.data);
-console.log("SETTING =>", response.data.data || response.data);
-  setStudentSuggestions(response.data|| []);
-  setShowSearchResults(true);
-} catch (error) {
-  console.log("SEARCH ERROR =>", error);
-}
+        console.log("SEARCH RESPONSE =>", response.data);
+        console.log("SETTING =>", response.data.data || response.data);
+        setStudentSuggestions(response.data || []);
+        setShowSearchResults(true);
+      } catch (error) {
+        console.log("SEARCH ERROR =>", error);
+      }
     }, 500);
 
     return () => clearTimeout(timer);
   }, [searchText]);
 
-  // --- CORE SYSTEM MATH ENGINE ---
+  useEffect(() => {
+    setGrossAmount(totalDueAmount);
+  }, [totalDueAmount]);
 
-  //  useEffect(() => {
-  //   let totalFee = 0;
-  //   let currentSelection = 0;
-
-  //  feeHeads
-  //   .filter((head) => head.checked)
-  //   .forEach((head) => {
-  //     if (
-  //       ["Monthly", "Quarterly", "Half-Yearly"].includes(
-  //         head.structureType
-  //       )
-  //     ) {
-  //       let amount = 0;
-
-  //       if (selectedMonths.length > 0) {
-  //         amount = selectedMonths.reduce(
-  //           (sum, month) =>
-  //             sum +
-  //             Number(
-  //               head.amounts?.[month.toUpperCase()] || 0
-  //             ),
-  //           0
-  //         );
-  //       } else {
-  //         amount = Number(head.amt || 0);
-  //       }
-
-  //       totalFee += amount;
-  //       currentSelection += amount;
-  //     } else {
-  //       totalFee += Number(head.amt || 0);
-  //       currentSelection += Number(head.amt || 0);
-  //     }
-  //   });
-
-  //   setGrandTotal(totalFee);
-  //   setSelectedAmount(currentSelection);
-  // }, [feeHeads, selectedMonths]);
-
- useEffect(() => {
-  let total = 0;
-
-  feeHeads
-    .filter((head) => head.checked)
-    .forEach((head) => {
-      if (
-        ["Monthly", "Quarterly", "Half-Yearly"].includes(
-          head.structureType
-        ) &&
-        selectedMonths.length > 0
-      ) {
-        total += selectedMonths.reduce(
-          (sum, month) =>
-            sum +
-            Number(
-              head.amounts?.[month.toUpperCase()] || 0
-            ),
-          0
-        );
-      } else {
-        total += Number(head.amt || 0);
-      }
-    });
-
-  setGrandTotal(total);
-  setSelectedAmount(total);
-}, [feeHeads, selectedMonths]);
   // --- ACTIONS ---
   const handleSave = async () => {
     if (!selectedStudent) {
@@ -182,14 +186,57 @@ console.log("SETTING =>", response.data.data || response.data);
     setIsSaving(true);
 
     try {
+      let remainingPayment = Number(totalPaid || 0);
+
       const formattedFeeHeads = feeHeads
         .filter((head) => head.checked)
-        .map((head) => ({
-          feeHeadId: head.id,
-          feeHeadName: head.name,
-          amount: Number(head.amt || 0),
-          structureType: head.structureType,
-        }));
+        .map((head) => {
+          let dueAmount = 0;
+
+          // Monthly / Quarterly / Half-Yearly
+          if (
+            ["Monthly", "Quarterly", "Half-Yearly"].includes(head.structureType)
+          ) {
+            dueAmount = selectedMonths.reduce(
+              (sum, month) =>
+                sum +
+                Number(
+                  head.amounts?.[month.toUpperCase()] ||
+                    head.amounts?.[month] ||
+                    0,
+                ),
+              0,
+            );
+          }
+          // Annual
+          else {
+            console.log("HEAD ID =>", head.id);
+            console.log("feeHeadPayments =>", feeHeadPayments);
+
+            const alreadyPaid = Number(feeHeadPayments[String(head.id)] || 0);
+
+            console.log("Already Paid =>", alreadyPaid);
+
+            dueAmount = Math.max(0, Number(head.amt || 0) - alreadyPaid);
+
+            console.log("Due Amount =>", dueAmount);
+          }
+
+          // Amount allocated to this fee head
+          const paidForThisHead = Math.min(remainingPayment, dueAmount);
+
+          remainingPayment -= paidForThisHead;
+
+          return {
+            feeHeadId: head.id,
+            feeHeadName: head.name,
+            structureType: head.structureType,
+
+            originalAmount: Number(head.amt || 0),
+
+            amount: paidForThisHead,
+          };
+        });
 
       const payload = {
         studentId: selectedStudent._id,
@@ -199,9 +246,13 @@ console.log("SETTING =>", response.data.data || response.data);
 
         feeHeads: formattedFeeHeads,
 
-        discountAmount: totalDiscount,
-        advanceAdjustment: advanceBalance,
-        paidAmount: totalPaid,
+        discountAmount: Number(totalDiscount || 0),
+
+        // Advance used from student's wallet
+        advanceUsed: Number(advanceUsed || 0),
+
+        // Total cash received
+        paidAmount: Number(totalPaid || 0),
 
         remark: receiptRemark,
       };
@@ -213,14 +264,16 @@ console.log("SETTING =>", response.data.data || response.data);
       if (response.data.success) {
         await loadPaymentHistory(selectedStudent._id);
 
+        // Reload student's advance wallet
+        await loadAdvanceWallet(selectedStudent._id);
+
         alert("Saved Successfully");
       }
     } catch (error) {
-      console.log("ERROR =>", error);
+      console.log(error);
 
       if (error.response) {
-        console.log("STATUS =>", error.response.status);
-        console.log("DATA =>", error.response.data);
+        alert(error.response.data.message);
       }
     } finally {
       setIsSaving(false);
@@ -236,17 +289,6 @@ console.log("SETTING =>", response.data.data || response.data);
         return head;
       }),
     );
-  };
-
-  const handleSelectStudent = (student) => {
-    setSelectedStudent(student);
-
-    setSearchText(`${student.firstName} ${student.lastName}`);
-
-    setStudentSuggestions([]);
-    setShowSearchResults(false);
-
-    loadPaymentHistory(student._id);
   };
 
   useEffect(() => {
@@ -359,14 +401,6 @@ console.log("SETTING =>", response.data.data || response.data);
     }
   };
 
-  // useEffect(() => {
-  //   const unpaidMonths = monthsList.filter(
-  //     (month) => !paidMonths.includes(month),
-  //   );
-
-  //   setSelectedMonths(unpaidMonths.slice(0, 1)); // auto select next unpaid month
-  // }, [paidMonths]);
-
   const toggleMonth = (month) => {
     setSelectedMonths((prev) =>
       prev.includes(month) ? prev.filter((m) => m !== month) : [...prev, month],
@@ -445,118 +479,37 @@ console.log("SETTING =>", response.data.data || response.data);
     advAmt: "Advance Offset",
   };
 
- useEffect(() => {
-  const payable =
-    grandTotal -
-    Number(totalDiscount || 0) -
-    Number(advanceBalance || 0);
+  useEffect(() => {
+    // Current outstanding fee (already excludes previously paid amounts)
+    const payable =
+      totalDueAmount - Number(totalDiscount || 0) - Number(advanceUsed || 0);
 
-  setPayableAmount(payable);
+    setPayableAmount(Math.max(0, payable));
 
-  const due =
-    payable -
-    Number(totalPaid || 0);
+    const due = payable - Number(totalPaid || 0);
 
-  setDueAmount(Math.max(0, due));
-}, [
-  grandTotal,
-  totalDiscount,
-  advanceBalance,
-  totalPaid,
-]);
-
-  const totalHeadDue = feeHeads.reduce((sum, head) => {
-    let paid = 0;
-
-    if (
-      head.structureType === "Monthly" ||
-      head.structureType === "Quarterly" ||
-      head.structureType === "Half-Yearly"
-    ) {
-      paid = selectedMonths.reduce(
-        (s, month) => s + Number(head.amounts?.[month.toUpperCase()] || 0),
-        0,
-      );
-    }
-
-    return sum + (Number(head.amt || 0) - paid);
-  }, 0);
-
-  const totalPreviouslyPaid = receiptsList.reduce(
-    (sum, receipt) => sum + Number(receipt.paidAmount || 0),
-    0,
-  );
+    setDueAmount(Math.max(0, due));
+  }, [totalDueAmount, totalDiscount, advanceUsed, totalPaid]);
 
   const remainingMonths = monthsList.filter(
     (month) => !paidMonths.includes(month),
   );
 
-  const totalPaidAmount = feeHeads
-    .filter((head) => head.checked)
-    .reduce((sum, head) => {
-      const paidMonthsForHead = feeHeadMonths[head.id] || [];
-
-      let paid = 0;
-
-      if (
-        ["Monthly", "Quarterly", "Half-Yearly"].includes(head.structureType)
-      ) {
-        paid = paidMonthsForHead.reduce(
-          (s, month) => s + Number(head.amounts?.[month.toUpperCase()] || 0),
-          0,
-        );
-      } else {
-        paid = Number(feeHeadPayments[head.id] || 0);
-      }
-
-      return sum + paid;
-    }, 0);
-
-  const totalDueAmount = feeHeads
-    .filter((head) => head.checked)
-    .reduce((sum, head) => {
-      const paidMonthsForHead = feeHeadMonths[head.id] || [];
-
-      let paid = 0;
-
-      if (
-        ["Monthly", "Quarterly", "Half-Yearly"].includes(head.structureType)
-      ) {
-        paid = paidMonthsForHead.reduce(
-          (s, month) => s + Number(head.amounts?.[month.toUpperCase()] || 0),
-          0,
-        );
-      } else {
-        paid = Number(feeHeadPayments[head.id] || 0);
-      }
-
-      return sum + Math.max(0, Number(head.amt || 0) - paid);
-    }, 0);
-
   const remainingBalance = Math.max(0, totalDueAmount);
 
- useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      searchRef.current &&
-      !searchRef.current.contains(event.target)
-    ) {
-      setShowSearchResults(false);
-    }
-  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearchResults(false);
+      }
+    };
 
-  document.addEventListener(
-    "mousedown",
-    handleClickOutside
-  );
+    document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener(
-      "mousedown",
-      handleClickOutside
-    );
-  };
-}, []);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // 👇 Other useEffects
   useEffect(() => {
@@ -566,9 +519,9 @@ console.log("SETTING =>", response.data.data || response.data);
   useEffect(() => {
     // calculations
   }, [feeHeads]);
-const availableMonths = monthsList.filter(
-  (month) => !paidMonths.includes(month)
-);
+  const availableMonths = monthsList.filter(
+    (month) => !paidMonths.includes(month),
+  );
   return (
     <div className="fee-dashboard-container">
       {/* HEADER SECTION WITH RESPONSIVE SEARCH */}
@@ -595,10 +548,10 @@ const availableMonths = monthsList.filter(
             type="text"
             placeholder="Search Student Name / Admission No"
             value={searchText}
-           onChange={(e) => {
-  setSearchText(e.target.value);
-  setShowSearchResults(true);
-}}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+              setShowSearchResults(true);
+            }}
             className="search-input"
           />
 
@@ -710,7 +663,19 @@ const availableMonths = monthsList.filter(
           <div className="status-header">
             <h3>Fee Collection Summary</h3>
           </div>
-
+          <div
+            style={{
+              background: "#dcfce7",
+              color: "#166534",
+              padding: "10px 16px",
+              borderRadius: "8px",
+              marginTop: "12px",
+              fontWeight: 600,
+              display: "inline-block",
+            }}
+          >
+            💰 Advance Wallet : ₹{advanceWallet.toFixed(2)}
+          </div>
           <div className="status-content">
             <div className="status-row">
               <span>Total Processed Payments</span>
@@ -802,10 +767,10 @@ const availableMonths = monthsList.filter(
             <label className="checkbox-container">
               <input
                 type="checkbox"
-               checked={
-  selectedMonths.length === availableMonths.length &&
-  availableMonths.length > 0
-}
+                checked={
+                  selectedMonths.length === availableMonths.length &&
+                  availableMonths.length > 0
+                }
                 onChange={toggleAllMonths}
               />
               <span className="checkmark"></span>
@@ -1107,7 +1072,9 @@ const availableMonths = monthsList.filter(
                         </td>
 
                         <td>
-                          <strong>₹{grandTotal.toFixed(2)}</strong>
+                          <strong>
+                            ₹{(totalPaidAmount + totalDueAmount).toFixed(2)}
+                          </strong>
                         </td>
 
                         <td
@@ -1158,16 +1125,12 @@ const availableMonths = monthsList.filter(
             </div>
             <div className="summary-field-box">
               <label>Grand Total</label>
-              <input type="text" value={grandTotal.toFixed(2)} readOnly />
+              <input type="text" value={grossAmount.toFixed(2)} readOnly />
             </div>
 
             <div className="summary-field-box">
-              <label>Advance Paid</label>
-              <input
-                type="number"
-                value={advanceBalance}
-                onChange={(e) => setAdvanceBalance(Number(e.target.value))}
-              />
+              <label>Advance Wallet</label>
+              <input type="number" value={advanceWallet} readOnly />
             </div>
 
             <div className="summary-field-box">
@@ -1190,6 +1153,22 @@ const availableMonths = monthsList.filter(
                 type="number"
                 value={totalPaid}
                 onChange={(e) => setTotalPaid(Number(e.target.value))}
+              />
+            </div>
+
+            <div className="summary-field-box">
+              <label>Use Advance</label>
+
+              <input
+                type="number"
+                value={advanceUsed}
+                min={0}
+                max={advanceWallet}
+                onChange={(e) =>
+                  setAdvanceUsed(
+                    Math.min(Number(e.target.value), advanceWallet),
+                  )
+                }
               />
             </div>
 
@@ -1387,7 +1366,13 @@ const availableMonths = monthsList.filter(
                         )}
                         {visibleColumns.paidAmt && (
                           <td className="text-paid-blue" data-label="Paid Amt">
-                            <strong>₹{receipt.paidAmount}</strong>
+                            <strong>
+                              ₹{receipt.paidAmount}
+                              <small>Cash : ₹{receipt.cashReceived}</small>
+                              <small>
+                                Advance : ₹{receipt.advanceAdjustment}
+                              </small>
+                            </strong>
                           </td>
                         )}
                         {visibleColumns.dueAmt && (
