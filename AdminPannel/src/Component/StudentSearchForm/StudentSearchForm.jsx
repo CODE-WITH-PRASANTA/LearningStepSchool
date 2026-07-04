@@ -2,11 +2,28 @@ import React from "react";
 import "./StudentSearchForm.css";
 import { FaSearch } from "react-icons/fa";
 
-const StudentSearchForm = ({ filters, setFilters, onSearch }) => {
+const StudentSearchForm = ({ filters, setFilters, classes = [], onSearch }) => {
+  const classOptions = Array.from(
+    new Map(classes.map((item) => [item.className, item])).values(),
+  );
+
+  const sectionOptions = classes
+    .filter((item) => !filters.className || item.className === filters.className)
+    .map((item) => item.sectionName)
+    .filter(Boolean);
+
   const handleChange = (e) => {
-    setFilters({
+    const nextFilters = {
       ...filters,
       [e.target.name]: e.target.value,
+    };
+
+    if (e.target.name === "className") {
+      nextFilters.section = "";
+    }
+
+    setFilters({
+      ...nextFilters,
     });
   };
 
@@ -46,21 +63,12 @@ const StudentSearchForm = ({ filters, setFilters, onSearch }) => {
               onChange={handleChange}
             >
               <option value="">Select Class</option>
-              <option>Nursery</option>
-              <option>LKG</option>
-              <option>UKG</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
+
+              {classOptions.map((item) => (
+                <option key={item._id} value={item.className}>
+                  {item.className}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -73,10 +81,11 @@ const StudentSearchForm = ({ filters, setFilters, onSearch }) => {
               onChange={handleChange}
             >
               <option value="">Select Section</option>
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
-              <option>D</option>
+              {sectionOptions.map((section) => (
+                <option key={section} value={section}>
+                  {section}
+                </option>
+              ))}
             </select>
           </div>
         </div>

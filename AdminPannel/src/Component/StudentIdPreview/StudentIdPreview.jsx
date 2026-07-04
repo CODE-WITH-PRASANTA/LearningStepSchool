@@ -2,8 +2,17 @@ import React from "react";
 import "./StudentIdPreview.css";
 import { FaPrint, FaArrowLeft } from "react-icons/fa";
 import SchoolLogo from "../../Assets/Learning-Step-Logo-1.png";
+import { IMAGE_URL } from "../../api/axios";
 
 const StudentIdPreview = ({ students, onBack, onPrint }) => {
+  const getStudentPhoto = (student) => {
+    const photo = student.photo || student.studentPhoto;
+
+    if (!photo) return "";
+    if (/^https?:\/\//i.test(photo)) return photo;
+    return `${IMAGE_URL}/${photo.replace(/^\/+/, "")}`;
+  };
+
   return (
     <div className="id-preview-container">
       {/* Action Toolbar */}
@@ -26,7 +35,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
       <div className="id-print-area" id="StudentIdPreview-printArea">
         <div className="id-card-grid">
           {students.map((student) => (
-            <div className="id-card" key={student.id}>
+            <div className="id-card" key={student._id || student.id}>
               
               {/* Header Section */}
               <div className="id-card-header">
@@ -43,7 +52,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
               {/* Photo & Primary Bio */}
               <div className="id-photo-section">
                 <div className="id-photo-frame">
-                  <img src={student.photo} alt={student.name} />
+                  <img src={getStudentPhoto(student)} alt={student.name} />
                 </div>
                 <h4 className="id-student-name">{student.name}</h4>
                 <span className="id-student-class">

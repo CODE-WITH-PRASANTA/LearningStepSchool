@@ -342,6 +342,16 @@
    12. HARDWARE PRINT CONSTRAINTS OVERRIDE (A4 Engine)
 ========================================================== */
 @media print {
+  html,
+  body {
+    width: 210mm;
+    min-height: 297mm;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
   body {
     margin: 0;
     padding: 0;
@@ -355,30 +365,174 @@
     background: #ffffff;
   }
 
+  #StudentIdPreview-printArea,
+  #StudentIdPreview-printArea * {
+    visibility: visible !important;
+  }
+
   .id-preview-toolbar {
     display: none !important;
   }
 
   .id-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: auto;
     padding: 0;
     box-shadow: none;
     border: none;
     background: #ffffff;
+    border-radius: 0;
   }
 
   .id-card-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(2, 86mm) !important;
+    grid-auto-rows: 135mm;
     gap: 8mm !important;
-    padding: 4mm;
+    justify-content: start;
+    align-items: start;
+    padding: 0;
   }
 
   .id-card {
+    width: 86mm !important;
+    height: 135mm !important;
+    max-width: none !important;
+    margin: 0 !important;
     break-inside: avoid;
     page-break-inside: avoid;
     box-shadow: none !important;
     border: 1px solid #94a3b8 !important;
-    border-radius: 10px;
+    border-radius: 2mm;
+    animation: none !important;
+  }
+
+  .id-card-header {
+    padding: 4mm 5mm 3mm;
+    gap: 3mm;
+  }
+
+  .id-school-logo {
+    width: 16mm;
+    height: 16mm;
+  }
+
+  .id-school-details {
+    min-width: 0;
+  }
+
+  .id-school-details h3 {
+    font-size: 9pt;
+    line-height: 1.18;
+    overflow-wrap: anywhere;
+  }
+
+  .id-school-details p {
+    font-size: 6.4pt;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .id-title-bar {
+    padding: 2.4mm 0;
+    font-size: 9pt;
+    letter-spacing: 0.5pt;
+  }
+
+  .id-photo-section {
+    height: 44mm;
+    padding: 4mm 4mm 3mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .id-photo-frame {
+    width: 26mm;
+    height: 26mm;
+    flex: 0 0 26mm;
+    margin: 0 auto 3mm;
+    border-width: 0.8mm;
+    box-shadow: none;
+  }
+
+  .id-photo-frame img {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 50%;
+  }
+
+  .id-student-name {
+    width: 100%;
+    max-height: 9mm;
+    margin: 0;
+    padding: 0 3mm;
+    font-size: 10pt;
+    line-height: 1.15;
+    text-align: center;
+    overflow-wrap: anywhere;
+    overflow: hidden;
+  }
+
+  .id-student-class {
+    display: block;
+    flex: 0 0 auto;
+    font-size: 8.2pt;
+    line-height: 1.2;
+    margin-top: 1mm;
+    text-align: center;
+  }
+
+  .id-info-grid {
+    padding: 4mm 6mm;
+    gap: 2mm;
+    min-height: 0;
+  }
+
+  .id-info-row {
+    display: grid;
+    grid-template-columns: 25mm minmax(0, 1fr);
+    column-gap: 2mm;
+    font-size: 8pt;
+    line-height: 1.25;
+    min-height: 4mm;
+    align-items: start;
+  }
+
+  .id-label {
+    width: auto;
+    min-width: 0;
+  }
+
+  .id-value {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .id-card-footer {
+    padding: 4mm 6mm;
+  }
+
+  .id-footer-signature-container {
+    width: 48mm;
+  }
+
+  .id-sign-line {
+    height: 4mm;
+    margin-bottom: 1.5mm;
+  }
+
+  .id-footer-signature-container p {
+    font-size: 7pt;
   }
 }
 

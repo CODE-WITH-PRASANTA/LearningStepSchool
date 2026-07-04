@@ -106,6 +106,7 @@ const FeeEntry = () => {
     await loadPaymentHistory(student._id);
     await loadAdvanceWallet(student._id);
   };
+
   const totalPaidAmount = feeHeads
     .filter((head) => head.checked)
     .reduce((sum, head) => {
@@ -147,6 +148,50 @@ const FeeEntry = () => {
 
       return sum + Math.max(0, Number(head.amt || 0) - paid);
     }, 0);
+
+  const calculateSelectedMonthAmount = () => {
+    let total = 0;
+
+    feeHeads
+      .filter((head) => head.checked)
+      .forEach((head) => {
+        // Monthly
+        if (head.structureType === "Monthly") {
+          const paid = feeHeadMonths[head.id] || [];
+
+          selectedMonths.forEach((month) => {
+            if (paid.includes(month)) return;
+
+            total += Number(head.amounts?.[month.toUpperCase()] || 0);
+          });
+        }
+
+        // Quarterly / Half-Yearly
+        else if (
+          head.structureType === "Quarterly" ||
+          head.structureType === "Half-Yearly"
+        ) {
+          const paid = feeHeadMonths[head.id] || [];
+
+          selectedMonths.forEach((month) => {
+            if (paid.includes(month)) return;
+
+            total += Number(head.amounts?.[month.toUpperCase()] || 0);
+          });
+        }
+
+        // Annual
+        else if (head.structureType === "Annually") {
+          const paid = Number(feeHeadPayments[head.id] || 0);
+
+          const due = Math.max(0, Number(head.amt) - paid);
+
+          total += due;
+        }
+      });
+
+    return total;
+  };
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -480,16 +525,26 @@ const FeeEntry = () => {
   };
 
   useEffect(() => {
-    // Current outstanding fee (already excludes previously paid amounts)
+    const monthAmount = calculateSelectedMonthAmount();
+
     const payable =
-      totalDueAmount - Number(totalDiscount || 0) - Number(advanceUsed || 0);
+      monthAmount - Number(totalDiscount || 0) - Number(advanceUsed || 0);
 
     setPayableAmount(Math.max(0, payable));
+  }, [
+    selectedMonths,
+    feeHeads,
+    feeHeadMonths,
+    feeHeadPayments,
+    totalDiscount,
+    advanceUsed,
+  ]);
 
-    const due = payable - Number(totalPaid || 0);
+  useEffect(() => {
+    const due = payableAmount - Number(totalPaid || 0);
 
     setDueAmount(Math.max(0, due));
-  }, [totalDueAmount, totalDiscount, advanceUsed, totalPaid]);
+  }, [payableAmount, totalPaid]);
 
   const remainingMonths = monthsList.filter(
     (month) => !paidMonths.includes(month),
@@ -757,6 +812,7 @@ const FeeEntry = () => {
             ))}
           </div>
         </div>
+        
       </section>
       {/* LOWER INTERACTIVE SPLIT: MONTHS AND HEAD-WISE CALCULATION MATRIX */}
       <section className="bottom-interactive-split">
