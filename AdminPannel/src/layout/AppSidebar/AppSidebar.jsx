@@ -212,6 +212,10 @@ const menu = [
         label: "Student Portfolio",
         path: "/student/portfolio",
       },
+      {
+        label: "Student ID card",
+        path: "/student/id-card",
+      },
     ],
   },
 

@@ -7,136 +7,164 @@ const payrollSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
+    // Keep month field
     month: {
       type: Number,
       required: true,
       min: 1,
       max: 12,
     },
+
     year: {
       type: Number,
       required: true,
       min: 2020,
     },
+
     totalDays: {
       type: Number,
       required: true,
       min: 0,
     },
+
     workingDays: {
       type: Number,
       required: true,
       min: 0,
     },
+
     presentDays: {
       type: Number,
       default: 0,
       min: 0,
     },
+
     leaveDays: {
       type: Number,
       default: 0,
       min: 0,
     },
+
     absentDays: {
       type: Number,
       default: 0,
       min: 0,
     },
+
     baseSalary: {
       type: Number,
       required: true,
       min: 0,
     },
+
     payrollWorkingDays: {
       type: Number,
       default: 30,
-      min: 1,
     },
+
     deductionAmount: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     overtimeHours: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     overtimeRate: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     overtimeAmount: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     allowance: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     otherDeduction: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     grossSalary: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     totalDeductions: {
       type: Number,
       default: 0,
-      min: 0,
     },
+
     totalSalary: {
       type: Number,
       required: true,
-      min: 0,
     },
+
     city: {
       type: String,
       enum: ["metro", "non-metro"],
       default: "metro",
     },
-    payDate: {
-      type: Date,
+
+    payDate: Date,
+
+    paymentMode: {
+      type: String,
+      default: "",
     },
+
     notes: {
       type: String,
       default: "",
-      trim: true,
     },
+
     salaryBreakdown: {
       earnings: {
-        basic: { type: Number, default: 0 },
-        hra: { type: Number, default: 0 },
-        conveyance: { type: Number, default: 0 },
-        lta: { type: Number, default: 0 },
-        medical: { type: Number, default: 0 },
-        overtime: { type: Number, default: 0 },
+        basic: Number,
+        hra: Number,
+        conveyance: Number,
+        lta: Number,
+        medical: Number,
+        overtime: Number,
       },
+
       deductions: {
-        pf: { type: Number, default: 0 },
-        professionalTax: { type: Number, default: 0 },
-        esi: { type: Number, default: 0 },
-        incomeTax: { type: Number, default: 0 },
+        pf: Number,
+        professionalTax: Number,
+        esi: Number,
+        incomeTax: Number,
       },
     },
+
     status: {
       type: String,
       enum: ["Pending", "Completed", "Reject"],
       default: "Pending",
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-// Compound index to prevent duplicate payroll for same teacher, month, year
-payrollSchema.index({ teacherId: 1, month: 1, year: 1 }, { unique: true });
+// One teacher can have only one payroll for one month in one year
+payrollSchema.index(
+  {
+    teacherId: 1,
+    year: 1,
+    month: 1,
+  },
+  {
+    unique: true,
+  }
+);
 
 module.exports = mongoose.model("Payroll", payrollSchema);

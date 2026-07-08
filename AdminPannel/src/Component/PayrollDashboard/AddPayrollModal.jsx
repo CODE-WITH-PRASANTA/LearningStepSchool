@@ -6,7 +6,10 @@ import "./AddPayrollModal.css";
 const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
   const initialForm = {
     employee: "",
-    payDate: "",
+
+    year: new Date().getFullYear(),
+
+    paymentDate: "",
 
     basicSalary: "50000",
 
@@ -46,23 +49,32 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
 
   useEffect(() => {
     if (editData) {
-      const payrollDate =
-        editData.month && editData.year
-          ? `${editData.year}-${String(editData.month).padStart(2, "0")}-01`
-          : "";
-
       setFormData({
         ...initialForm,
         ...editData,
-        employee: editData.teacherId?._id || editData.teacherId || "",
-        payDate: editData.payDate || payrollDate,
-        basicSalary: String(editData.baseSalary || editData.basicSalary || initialForm.basicSalary),
-        totalWorkingDays: String(editData.payrollWorkingDays || editData.totalDays || editData.totalWorkingDays || initialForm.totalWorkingDays),
+
+        employee: editData.teacherId?._id || editData.teacherId,
+
+        year: editData.year,
+
+        paymentDate: editData.paymentDate
+          ? editData.paymentDate.slice(0, 10)
+          : "",
+
+        basicSalary: String(editData.baseSalary || 0),
+
+        totalWorkingDays: String(editData.payrollWorkingDays || 30),
+
         deductionAmount: String(editData.deductionAmount || 0),
+
         overtimeHours: String(editData.overtimeHours || 0),
+
         overtimeRate: String(editData.overtimeRate || 0),
+
         allowance: String(editData.allowance || 0),
+
         otherDeduction: String(editData.otherDeduction || 0),
+
         notes: editData.notes || "",
       });
     } else {
@@ -80,26 +92,36 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
   const handleGenerate = async () => {
     if (saving) return;
 
-    if (!formData.employee || !formData.payDate) {
-      alert("Please select teacher and pay date.");
-      return;
-    }
+   if (!formData.employee || !formData.paymentDate) {
+  alert("Please select teacher and payment date.");
+  return;
+}
 
-    const payrollDate = new Date(formData.payDate);
     const payload = {
       teacherId: formData.employee,
-      month: payrollDate.getMonth() + 1,
-      year: payrollDate.getFullYear(),
-      payDate: formData.payDate,
-      baseSalary: Number(formData.basicSalary) || 0,
-      payrollWorkingDays: Number(formData.totalWorkingDays) || 30,
-      deductionAmount: Number(formData.deductionAmount) || 0,
-      overtimeHours: Number(formData.overtimeHours) || 0,
-      overtimeRate: Number(formData.overtimeRate) || 0,
-      allowance: Number(formData.allowance) || 0,
-      otherDeduction: Number(formData.otherDeduction) || 0,
-      notes: formData.notes || "",
+
+      year: Number(formData.year),
+
+      paymentDate: formData.paymentDate,
+
+      baseSalary: Number(formData.basicSalary),
+
+      payrollWorkingDays: Number(formData.totalWorkingDays),
+
+      deductionAmount: Number(formData.deductionAmount),
+
+      overtimeHours: Number(formData.overtimeHours),
+
+      overtimeRate: Number(formData.overtimeRate),
+
+      allowance: Number(formData.allowance),
+
+      otherDeduction: Number(formData.otherDeduction),
+
+      notes: formData.notes,
+
       city: editData?.city || "metro",
+
       status: editData?.status || "Pending",
     };
 
@@ -189,13 +211,28 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
 
             {/* Pay Date */}
             <div className="add-payroll-group add-payroll-full">
-              <label className="add-payroll-label">Payroll Date</label>
+              <label>Year</label>
+
+              <select name="year" value={formData.year} onChange={handleChange}>
+                {Array.from({ length: 5 }, (_, i) => {
+                  const y = new Date().getFullYear() + i;
+
+                  return (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
+            <div className="add-payroll-group">
+              <label>First Salary Payment Date</label>
 
               <input
-                className="add-payroll-input"
                 type="date"
-                name="payDate"
-                value={formData.payDate}
+                name="paymentDate"
+                value={formData.paymentDate}
                 onChange={handleChange}
               />
             </div>
@@ -296,7 +333,9 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
                   <b>{formatCurrency(additionalAllowance)}</b>
                 </p>
                 <p>
-                  <span>Overtime ({overtimeHours} × {formatCurrency(overtimeRate)})</span>
+                  <span>
+                    Overtime ({overtimeHours} × {formatCurrency(overtimeRate)})
+                  </span>
                   <b>{formatCurrency(overtimePay)}</b>
                 </p>
                 <p className="total-row">
@@ -368,10 +407,7 @@ const AddPayrollModal = ({ show, onClose, onAdd, editData }) => {
             </div>
 
             {/* Button */}
-            <button
-              className="add-payroll-submit-btn"
-              onClick={handleGenerate}
-            >
+            <button className="add-payroll-submit-btn" onClick={handleGenerate}>
               {editData ? "Update Payroll Record" : "Generate Payroll"}
             </button>
           </div>

@@ -1,0 +1,416 @@
+/* ==========================================================
+   STUDENT TABLE
+========================================================== */
+
+.StudentTable{
+    width:100%;
+    background:#ffffff;
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid #dbeafe;
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.StudentTable-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 25px;
+    background:#f8fbff;
+    border-bottom:1px solid #e5eefc;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.StudentTable-header h3{
+    margin:0;
+    color:#1d4ed8;
+    font-size:24px;
+    font-weight:700;
+}
+
+.StudentTable-header p{
+    margin-top:6px;
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ==========================================================
+   GENERATE BUTTON
+========================================================== */
+
+.StudentTable-generateBtn{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    border:none;
+
+    padding:13px 24px;
+
+    background:linear-gradient(135deg,#2563eb,#0f5fd7);
+
+    color:#fff;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.StudentTable-generateBtn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 12px 25px rgba(37,99,235,.35);
+
+}
+
+.StudentTable-generateBtn:disabled{
+
+background:#cbd5e1;
+
+cursor:not-allowed;
+
+box-shadow:none;
+
+transform:none;
+
+}
+
+/* ==========================================================
+   TABLE
+========================================================== */
+
+.StudentTable-tableWrapper{
+
+overflow-x:auto;
+
+}
+
+.StudentTable-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+min-width:1150px;
+
+}
+
+/* ==========================================================
+   HEAD
+========================================================== */
+
+.StudentTable-table thead{
+
+background:#2563eb;
+
+}
+
+.StudentTable-table th{
+
+padding:16px;
+
+text-align:left;
+
+font-size:14px;
+
+font-weight:600;
+
+color:#ffffff;
+
+white-space:nowrap;
+
+}
+
+/* ==========================================================
+   BODY
+========================================================== */
+
+.StudentTable-table td{
+
+padding:15px;
+
+font-size:14px;
+
+color:#334155;
+
+border-bottom:1px solid #edf2f7;
+
+vertical-align:middle;
+
+}
+
+.StudentTable-table tbody tr{
+
+transition:.3s;
+
+}
+
+.StudentTable-table tbody tr:hover{
+
+background:#f8fbff;
+
+}
+
+/* ==========================================================
+   CHECKBOX
+========================================================== */
+
+.StudentTable-table input[type="checkbox"]{
+
+width:18px;
+
+height:18px;
+
+cursor:pointer;
+
+accent-color:#2563eb;
+
+}
+
+/* ==========================================================
+   STUDENT INFO
+========================================================== */
+
+.StudentTable-studentInfo{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+}
+
+.StudentTable-studentInfo img{
+
+width:45px;
+
+height:45px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:2px solid #dbeafe;
+
+}
+
+.StudentTable-studentInfo span{
+
+font-weight:600;
+
+color:#1e293b;
+
+}
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+.StudentTable-status{
+
+display:inline-flex;
+
+align-items:center;
+
+justify-content:center;
+
+padding:6px 14px;
+
+background:#dcfce7;
+
+color:#15803d;
+
+border-radius:30px;
+
+font-size:13px;
+
+font-weight:600;
+
+}
+
+/* ==========================================================
+   EMPTY
+========================================================== */
+
+.StudentTable-empty{
+
+text-align:center;
+
+padding:50px !important;
+
+font-size:17px;
+
+font-weight:600;
+
+color:#94a3b8;
+
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.StudentTable-footer{
+
+display:flex;
+
+justify-content:flex-end;
+
+align-items:center;
+
+padding:18px 25px;
+
+background:#f8fbff;
+
+border-top:1px solid #e5eefc;
+
+font-size:15px;
+
+color:#475569;
+
+}
+
+.StudentTable-footer strong{
+
+color:#2563eb;
+
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+.StudentTable-tableWrapper::-webkit-scrollbar{
+
+height:8px;
+
+}
+
+.StudentTable-tableWrapper::-webkit-scrollbar-track{
+
+background:#edf2f7;
+
+border-radius:20px;
+
+}
+
+.StudentTable-tableWrapper::-webkit-scrollbar-thumb{
+
+background:#2563eb;
+
+border-radius:20px;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:992px){
+
+.StudentTable-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.StudentTable-generateBtn{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+.StudentTable-footer{
+
+justify-content:center;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.StudentTable-header{
+
+padding:18px;
+
+}
+
+.StudentTable-header h3{
+
+font-size:20px;
+
+}
+
+.StudentTable-table td{
+
+padding:12px;
+
+}
+
+.StudentTable-table th{
+
+padding:13px;
+
+}
+
+.StudentTable-studentInfo img{
+
+width:38px;
+
+height:38px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.StudentTable{
+
+border-radius:12px;
+
+}
+
+.StudentTable-header{
+
+padding:15px;
+
+}
+
+.StudentTable-footer{
+
+padding:15px;
+
+font-size:14px;
+
+}
+
+.StudentTable-generateBtn{
+
+height:46px;
+
+font-size:14px;
+
+}
+
+}

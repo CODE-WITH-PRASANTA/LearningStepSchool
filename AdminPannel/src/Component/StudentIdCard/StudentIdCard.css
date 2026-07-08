@@ -1,0 +1,366 @@
+/* ==========================================================
+   MAIN PAGE
+========================================================== */
+
+.StudentIdCard{
+    width:100%;
+    min-height:100vh;
+    background:#eef5ff;
+    padding:30px;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.StudentIdCard-container{
+
+    width:100%;
+    max-width:1600px;
+    margin:auto;
+
+}
+
+/* ==========================================================
+   PAGE TITLE
+========================================================== */
+
+.StudentIdCard-pageTitle{
+
+    margin:0 0 25px;
+
+    color:#1d4ed8;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+/* ==========================================================
+   CARD WRAPPER
+========================================================== */
+
+.StudentIdCard-card{
+
+    background:#ffffff;
+
+    border-radius:16px;
+
+    border:1px solid #dbeafe;
+
+    box-shadow:0 12px 30px rgba(15,23,42,.08);
+
+    overflow:hidden;
+
+}
+
+/* ==========================================================
+   COMMON BUTTON
+========================================================== */
+
+.StudentIdCard-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    border:none;
+
+    cursor:pointer;
+
+    border-radius:10px;
+
+    transition:.3s;
+
+    font-weight:600;
+
+}
+
+.StudentIdCard-btn:hover{
+
+transform:translateY(-2px);
+
+}
+
+/* ==========================================================
+   SECTION GAP
+========================================================== */
+
+.StudentIdCard-section{
+
+margin-top:30px;
+
+}
+
+/* ==========================================================
+   LOADER
+========================================================== */
+
+.StudentIdCard-loader{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:60px;
+
+font-size:18px;
+
+font-weight:600;
+
+color:#2563eb;
+
+}
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.StudentIdCard-empty{
+
+padding:60px;
+
+text-align:center;
+
+background:#ffffff;
+
+border-radius:16px;
+
+border:1px dashed #bfdbfe;
+
+color:#64748b;
+
+font-size:17px;
+
+font-weight:600;
+
+}
+
+/* ==========================================================
+   INFO BAR
+========================================================== */
+
+.StudentIdCard-infoBar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:18px 22px;
+
+background:#ffffff;
+
+border:1px solid #dbeafe;
+
+border-radius:14px;
+
+margin-bottom:25px;
+
+box-shadow:0 8px 20px rgba(15,23,42,.05);
+
+}
+
+.StudentIdCard-infoBar h4{
+
+margin:0;
+
+font-size:18px;
+
+color:#1d4ed8;
+
+}
+
+.StudentIdCard-infoBar p{
+
+margin:5px 0 0;
+
+font-size:14px;
+
+color:#64748b;
+
+}
+
+/* ==========================================================
+   PAGE ANIMATION
+========================================================== */
+
+@keyframes StudentIdCardFade{
+
+0%{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.StudentIdCard-container{
+
+animation:StudentIdCardFade .4s ease;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media(max-width:1200px){
+
+.StudentIdCard{
+
+padding:25px;
+
+}
+
+.StudentIdCard-pageTitle{
+
+font-size:30px;
+
+}
+
+}
+
+@media(max-width:992px){
+
+.StudentIdCard{
+
+padding:20px;
+
+}
+
+.StudentIdCard-pageTitle{
+
+font-size:28px;
+
+}
+
+.StudentIdCard-infoBar{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:10px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.StudentIdCard{
+
+padding:15px;
+
+}
+
+.StudentIdCard-pageTitle{
+
+font-size:24px;
+
+margin-bottom:20px;
+
+}
+
+.StudentIdCard-section{
+
+margin-top:20px;
+
+}
+
+.StudentIdCard-empty{
+
+padding:40px 20px;
+
+font-size:15px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.StudentIdCard{
+
+padding:12px;
+
+}
+
+.StudentIdCard-pageTitle{
+
+font-size:22px;
+
+text-align:center;
+
+}
+
+.StudentIdCard-infoBar{
+
+padding:15px;
+
+}
+
+.StudentIdCard-infoBar h4{
+
+font-size:16px;
+
+}
+
+.StudentIdCard-infoBar p{
+
+font-size:13px;
+
+}
+
+}
+
+/* ==========================================================
+   PRINT
+========================================================== */
+
+@media print{
+
+.StudentIdCard{
+
+padding:0;
+
+background:#ffffff;
+
+}
+
+.StudentIdCard-pageTitle{
+
+display:none;
+
+}
+
+.StudentIdCard-infoBar{
+
+display:none;
+
+}
+
+}

@@ -23,6 +23,50 @@ const parseStudentBehaviour = (body) => {
   }
 };
 
+const getPublicFileUrl = (req, filePath) => {
+  if (!filePath) return "";
+  if (/^https?:\/\//i.test(filePath)) return filePath;
+
+  const normalizedPath = filePath.replace(/\\/g, "/").replace(/^\/+/, "");
+  return `${req.protocol}://${req.get("host")}/${normalizedPath}`;
+};
+
+const formatStudentForIdCard = (req, student, session) => {
+  const data = student.toJSON();
+  const studentName = [data.firstName, data.lastName].filter(Boolean).join(" ");
+  const address = data.currentAddress || data.permanentAddress || data.guardianAddress || "";
+  const phone = data.mobile || data.fatherPhone || data.motherPhone || data.guardianPhone || "";
+
+  return {
+    _id: data._id,
+    id: data._id,
+    admissionNo: data.admissionNo || "",
+    rollNo: data.rollNumber || "",
+    rollNumber: data.rollNumber || "",
+    studentName,
+    name: studentName,
+    firstName: data.firstName || "",
+    lastName: data.lastName || "",
+    className: data.class || "",
+    class: data.class || "",
+    section: data.section || "",
+    fatherName: data.fatherName || "",
+    motherName: data.motherName || "",
+    phone,
+    mobile: data.mobile || "",
+    dob: data.dob || "",
+    address,
+    session: session || "",
+    studentPhoto: data.studentPhoto || "",
+    photo: getPublicFileUrl(req, data.studentPhoto),
+    gender: data.gender || "",
+    category: data.category || "",
+    house: data.house || "",
+    transport: data.routeList || data.busStop || "",
+    status: "Active",
+  };
+};
+
 /* ================= CREATE STUDENT ================= */
 
 exports.createStudent = async (req, res) => {
@@ -79,6 +123,44 @@ exports.getStudents = async (req, res) => {
       success: true,
       count: students.length,
       data: students,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getStudentIdCards = async (req, res) => {
+  try {
+    const { session, className, section, house, category, gender, transport } = req.query;
+
+    const query = {};
+
+    if (className) query.class = className;
+    if (section) query.section = section;
+    if (house) query.house = house;
+    if (category) query.category = category;
+    if (gender) query.gender = gender;
+    if (transport) {
+      query.$or = [
+        { routeList: transport },
+        { busStop: transport },
+      ];
+    }
+
+    const students = await Student.find(query).sort({
+      class: 1,
+      section: 1,
+      rollNumber: 1,
+      firstName: 1,
+    });
+
+    res.json({
+      success: true,
+      count: students.length,
+      data: students.map((student) => formatStudentForIdCard(req, student, session)),
     });
   } catch (error) {
     res.status(500).json({
