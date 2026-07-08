@@ -1,6 +1,6 @@
 import React from "react";
 import "./StudentIdPreview.css";
-import { FaPrint, FaArrowLeft } from "react-icons/fa";
+import { FaPrint, FaArrowLeft, FaIdBadge } from "react-icons/fa";
 import SchoolLogo from "../../Assets/Learning-Step-Logo-1.png";
 import { IMAGE_URL } from "../../api/axios";
 
@@ -36,10 +36,15 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
         <div className="id-card-grid">
           {students.map((student) => (
             <div className="id-card" key={student._id || student.id}>
-              
+
+              {/* Decorative watermark pattern */}
+              <div className="id-card-pattern" aria-hidden="true"></div>
+
               {/* Header Section */}
               <div className="id-card-header">
-                <img src={SchoolLogo} alt="School Logo" className="id-school-logo" />
+                <div className="id-school-logo-wrap">
+                  <img src={SchoolLogo} alt="School Logo" className="id-school-logo" />
+                </div>
                 <div className="id-school-details">
                   <h3>THE LEARNING STEP INTERNATIONAL SCHOOL</h3>
                   <p>Location: Tehla Bypass Alwar road, Rajgarh, Thana, Rajasthan 301408</p>
@@ -47,12 +52,22 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
               </div>
 
               {/* Identity Title Bar */}
-              <div className="id-title-bar">IDENTITY CARD</div>
+              <div className="id-title-bar">
+                <span className="id-title-bar-icon"><FaIdBadge /></span>
+                <span>IDENTITY CARD</span>
+              </div>
 
               {/* Photo & Primary Bio */}
               <div className="id-photo-section">
-                <div className="id-photo-frame">
-                  <img src={getStudentPhoto(student)} alt={student.name} />
+                <div className="id-photo-outer-ring">
+                  <div className="id-photo-inner-ring">
+                    <div className="id-photo-frame">
+                      <div className="id-photo-clip">
+                        <img src={getStudentPhoto(student)} alt={student.name} />
+                      </div>
+                    </div>
+                  </div>
+                  <span className="id-roll-chip">#{student.rollNo}</span>
                 </div>
                 <h4 className="id-student-name">{student.name}</h4>
                 <span className="id-student-class">
@@ -92,7 +107,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                 </div>
               </div>
 
-              {/* Footer Section (Clean signature display, no barcode/QR) */}
+              {/* Footer Section */}
               <div className="id-card-footer">
                 <div className="id-footer-signature-container">
                   <div className="id-sign-line"></div>

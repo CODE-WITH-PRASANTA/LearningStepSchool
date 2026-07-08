@@ -1,17 +1,25 @@
 /* ==========================================================
-   1. GLOBAL CONTAINER & OVERALL THEME
+   0. THEME TOKENS
 ========================================================== */
 .id-preview-container {
+  --navy-dark: #0a1a3d;
+  --navy: #14275c;
+  --navy-light: #1e3a8a;
+  --gold: #d4af37;
+  --gold-light: #f4d97a;
+  --bg: #eef1f8;
+  --card-radius: 16px;
+
   width: 100%;
   min-height: 100vh;
   padding: 30px;
-  background: #f1f5f9;
+  background: var(--bg);
   box-sizing: border-box;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 /* ==========================================================
-   2. ACTION TOOLBAR SECTION
+   1. ACTION TOOLBAR
 ========================================================== */
 .id-preview-toolbar {
   display: flex;
@@ -24,13 +32,17 @@
   padding: 24px 30px;
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e6e9f2;
 }
 
 .id-preview-title h2 {
   margin: 0;
-  color: #1e3a8a;
+  background: linear-gradient(90deg, var(--navy-dark), var(--navy-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .id-preview-title p {
@@ -54,50 +66,50 @@
   height: 44px;
   padding: 0 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .id-btn-back {
   background: #ffffff;
-  color: #2563eb;
-  border: 1.5px solid #2563eb;
+  color: var(--navy-light);
+  border: 1.5px solid var(--navy-light);
 }
 
 .id-btn-back:hover {
-  background: #f0f6ff;
-  color: #1d4ed8;
+  background: #eef2ff;
+  transform: translateY(-1px);
 }
 
 .id-btn-print {
-  background: #2563eb;
+  background: linear-gradient(135deg, var(--navy-light), var(--navy-dark));
   color: #ffffff;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.3);
 }
 
 .id-btn-print:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
 }
 
 /* ==========================================================
-   3. PRINT REGION BACKGROUND WRAPPER
+   2. PRINT AREA WRAPPER
 ========================================================== */
 .id-print-area {
   width: 100%;
   background: #ffffff;
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
   border: 1px solid #e2e8f0;
   box-sizing: border-box;
 }
 
 /* ==========================================================
-   4. DYNAMIC RESPONSIVE CARD GRID
+   3. RESPONSIVE CARD GRID
 ========================================================== */
 .id-card-grid {
   display: grid;
@@ -107,123 +119,229 @@
 }
 
 /* ==========================================================
-   5. SINGLE IDENTITY CARD CONTAINER
+   4. SINGLE IDENTITY CARD
 ========================================================== */
 .id-card {
+  position: relative;
   width: 100%;
   max-width: 350px;
   margin: 0 auto;
   background: #ffffff;
-  border-radius: 14px;
+  border-radius: var(--card-radius);
   overflow: hidden;
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #dbe2f0;
+  box-shadow: 0 6px 24px rgba(20, 39, 92, 0.08);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  animation: cardFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: cardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+}
+
+.id-card:hover {
+  transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+  box-shadow: 0 20px 40px rgba(20, 39, 92, 0.18);
+}
+
+.id-card-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: radial-gradient(circle, var(--navy-dark) 1px, transparent 1px);
+  background-size: 14px 14px;
+  z-index: 0;
+}
+
+.id-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  z-index: 2;
 }
 
 /* ==========================================================
-   6. HEADER MODULE (SCHOOL META DYNAMICS)
+   5. HEADER — SCHOOL IDENTITY
 ========================================================== */
 .id-card-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  padding: 14px 12px;
-  background: #ffffff;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 16px 14px 12px;
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
   gap: 10px;
 }
 
-.id-school-logo {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
+.id-school-logo-wrap {
   flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 2px var(--gold);
+}
+
+.id-school-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
 }
 
 .id-school-details {
   flex: 1;
+  min-width: 0;
 }
 
 .id-school-details h3 {
   margin: 0;
   font-size: 11px;
   font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   line-height: 1.3;
+  letter-spacing: 0.3px;
 }
 
 .id-school-details p {
   margin: 3px 0 0 0;
   font-size: 8.5px;
-  color: #475569;
+  color: #c7d2e8;
   line-height: 1.3;
   font-weight: 500;
 }
 
 /* ==========================================================
-   7. INTERMEDIATE BRAND TITLE BAR
+   6. TITLE BAR
 ========================================================== */
 .id-title-bar {
-  background: #2563eb;
-  color: #ffffff;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  color: var(--navy-dark);
   text-align: center;
   padding: 6px 0;
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.id-title-bar-icon {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
 }
 
 /* ==========================================================
-   8. AVATAR PROFILE BLOCK
+   7. PHOTO SECTION
 ========================================================== */
 .id-photo-section {
-  padding: 16px 0 10px 0;
+  position: relative;
+  z-index: 1;
+  padding: 20px 0 14px 0;
   text-align: center;
-  background: linear-gradient(to bottom, #f8fafc, #ffffff);
+  background: linear-gradient(to bottom, #f4f7fd, #ffffff);
+}
+
+.id-photo-outer-ring {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(from 180deg, var(--gold), var(--navy-light), var(--gold-light), var(--gold));
+  box-shadow: 0 6px 16px rgba(20, 39, 92, 0.2);
+  box-sizing: border-box;
+}
+
+.id-photo-inner-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 3px;
+  box-sizing: border-box;
 }
 
 .id-photo-frame {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 8px auto;
+  position: relative;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #2563eb;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+  background: #eef1f8;
+  box-sizing: border-box;
 }
 
-.id-photo-frame img {
+.id-photo-clip {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.id-photo-clip img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
+  border-radius: 50%;
+}
+
+.id-roll-chip {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy-dark);
+  color: var(--gold-light);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1.5px solid var(--gold);
+  white-space: nowrap;
+  z-index: 3;
 }
 
 .id-student-name {
-  margin: 0;
+  margin: 8px 0 0 0;
   font-size: 16px;
-  color: #0f172a;
-  font-weight: 700;
+  color: var(--navy-dark);
+  font-weight: 800;
 }
 
 .id-student-class {
   display: inline-block;
-  color: #2563eb;
+  color: var(--navy-light);
   font-size: 12px;
   font-weight: 600;
   margin-top: 2px;
 }
 
 /* ==========================================================
-   9. DATA FIELD METADATA GRID
+   8. INFO FIELD GRID
 ========================================================== */
 .id-info-grid {
+  position: relative;
+  z-index: 1;
   padding: 12px 18px;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 2px;
   flex-grow: 1;
 }
 
@@ -232,12 +350,18 @@
   font-size: 12px;
   line-height: 1.4;
   align-items: flex-start;
+  padding: 5px 8px;
+  border-radius: 6px;
+}
+
+.id-info-row:nth-child(odd) {
+  background: #f6f8fd;
 }
 
 .id-label {
   width: 80px;
-  font-weight: 600;
-  color: #64748b;
+  font-weight: 700;
+  color: var(--navy-light);
   flex-shrink: 0;
 }
 
@@ -248,12 +372,14 @@
 }
 
 /* ==========================================================
-   10. BOTTOM SIGNATURE BLOCK (Centered)
+   9. SIGNATURE FOOTER
 ========================================================== */
 .id-card-footer {
-  background: #f8fafc;
+  position: relative;
+  z-index: 1;
+  background: #f6f8fd;
   padding: 16px 18px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px dashed #cbd5e1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -278,13 +404,13 @@
 .id-footer-signature-container p {
   margin: 0;
   font-size: 10px;
-  color: #64748b;
-  font-weight: 600;
+  color: var(--navy-light);
+  font-weight: 700;
   white-space: nowrap;
 }
 
 /* ==========================================================
-   11. MEDIA CONTROLS & DEVICE BREAKPOINTS
+   10. RESPONSIVE BREAKPOINTS
 ========================================================== */
 @media (max-width: 1200px) {
   .id-card-grid {
@@ -324,6 +450,9 @@
   .id-card {
     max-width: 340px;
   }
+  .id-card:hover {
+    transform: translateY(-4px);
+  }
 }
 
 @media (max-width: 480px) {
@@ -336,16 +465,22 @@
   .id-print-area {
     padding: 12px;
   }
+  .id-card {
+    max-width: 100%;
+  }
 }
 
 /* ==========================================================
-   12. HARDWARE PRINT CONSTRAINTS OVERRIDE (A4 Engine)
+   11. PRINT LAYOUT (A4 Portrait Execution)
 ========================================================== */
 @media print {
   html,
   body {
     width: 210mm;
-    min-height: 297mm;
+    height: 297mm;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
   }
 
   body * {
@@ -353,8 +488,6 @@
   }
 
   body {
-    margin: 0;
-    padding: 0;
     background: #ffffff !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -362,6 +495,8 @@
 
   .id-preview-container {
     padding: 0;
+    margin: 0;
+    min-height: auto;
     background: #ffffff;
   }
 
@@ -378,7 +513,7 @@
     position: absolute;
     left: 0;
     top: 0;
-    width: auto;
+    width: 100%;
     padding: 0;
     box-shadow: none;
     border: none;
@@ -393,7 +528,7 @@
     gap: 8mm !important;
     justify-content: start;
     align-items: start;
-    padding: 0;
+    padding: 4mm 0 0 4mm;
   }
 
   .id-card {
@@ -409,18 +544,28 @@
     animation: none !important;
   }
 
+  .id-card:hover {
+    transform: none;
+  }
+
+  .id-card-pattern {
+    opacity: 0.02;
+  }
+
   .id-card-header {
     padding: 4mm 5mm 3mm;
     gap: 3mm;
   }
 
-  .id-school-logo {
+  .id-school-logo-wrap {
     width: 16mm;
     height: 16mm;
+    box-shadow: 0 0 0 1.5px #d4af37 !important;
   }
 
-  .id-school-details {
-    min-width: 0;
+  .id-school-logo {
+    width: 11mm;
+    height: 11mm;
   }
 
   .id-school-details h3 {
@@ -441,9 +586,14 @@
     letter-spacing: 0.5pt;
   }
 
+  .id-title-bar-icon {
+    font-size: 9pt;
+  }
+
+  /* Core alignment fix for print engine rendering */
   .id-photo-section {
-    height: 44mm;
-    padding: 4mm 4mm 3mm;
+    height: 48mm;
+    padding: 5mm 4mm 3mm;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -452,22 +602,49 @@
     overflow: hidden;
   }
 
-  .id-photo-frame {
-    width: 26mm;
-    height: 26mm;
-    flex: 0 0 26mm;
-    margin: 0 auto 3mm;
-    border-width: 0.8mm;
+  .id-photo-outer-ring {
+    width: 28mm;
+    height: 28mm;
+    padding: 0.8mm;
+    margin: 0 auto 4mm;
     box-shadow: none;
+    background: #d4af37 !important; /* Standard gold solid border for strict print consistency */
+    border-radius: 50% !important;
   }
 
-  .id-photo-frame img {
-    display: block;
+  .id-photo-inner-ring {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 50%;
+    padding: 0.6mm;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+  }
+
+  .id-photo-frame {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+  }
+
+  .id-photo-clip {
+    position: absolute;
+    inset: 0;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+  }
+
+  .id-photo-clip img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+    border-radius: 50% !important; /* Double forced layer ensures round photo matching */
+  }
+
+  .id-roll-chip {
+    font-size: 6.4pt;
+    padding: 0.6mm 2.2mm;
+    bottom: -1mm;
   }
 
   .id-student-name {
@@ -493,7 +670,7 @@
 
   .id-info-grid {
     padding: 4mm 6mm;
-    gap: 2mm;
+    gap: 0;
     min-height: 0;
   }
 
@@ -505,6 +682,7 @@
     line-height: 1.25;
     min-height: 4mm;
     align-items: start;
+    padding: 0.8mm 1.5mm;
   }
 
   .id-label {
@@ -538,11 +716,11 @@
 
 @page {
   size: A4 portrait;
-  margin: 6mm;
+  margin: 0mm; /* Managed cleanly by grid container layout padding */
 }
 
 /* ==========================================================
-   13. STYLIZED ANIMATIONS
+   12. ANIMATIONS
 ========================================================== */
 @keyframes cardFadeIn {
   0% {
