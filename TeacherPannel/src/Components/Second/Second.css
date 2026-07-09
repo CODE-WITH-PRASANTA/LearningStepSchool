@@ -1,0 +1,483 @@
+/* Dashboard Context Layout Wrap Frame */
+.dashboard-extended {
+  background-color: #f4f6f9;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.dashboard-extended__row {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+}
+
+.dashboard-extended__row--top {
+  grid-template-columns: 1fr 2fr;
+}
+
+.dashboard-extended__row--bottom {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Generalized Dashboard Panel Definitions */
+.dashboard-panel {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid #eef1f5;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.dashboard-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-panel__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.dashboard-panel__view-all {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   PANEL 1: MY TEAM (WITH INVISIBLE SCROLLBAR)
+   ========================================================================== */
+.panel-team__table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px 12px 8px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.panel-team__scrollable-list {
+  max-height: 340px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* Invisible Scrollbar implementation for cross browser environments */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.panel-team__scrollable-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.team-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s ease;
+}
+
+.team-item:hover {
+  background-color: #f8fafc;
+}
+
+.team-item__profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.team-item__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.team-item__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+  margin: 0 0 2px 0;
+}
+
+.team-item__role {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+.status-badge--available { background-color: #e2f5ea; color: #10b981; }
+.status-badge--absent    { background-color: #fee2e2; color: #ef4444; }
+
+/* ==========================================================================
+   PANEL 2: MY TASKS TABLE
+   ========================================================================== */
+.panel-tasks__table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tasks-table th {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tasks-table td {
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: #334155;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.tasks-table__bold {
+  font-weight: 500;
+}
+
+.task-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.task-badge--not-started { background-color: #ffedd5; color: #f97316; }
+.task-badge--completed   { background-color: #e2f5ea; color: #10b981; }
+.task-badge--in-progress { background-color: #f3e8ff; color: #a855f7; }
+.task-badge--pending     { background-color: #dbeafe; color: #3b82f6; }
+
+.tasks-table__progress-container {
+  width: 80px;
+  background-color: #e2e8f0;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tasks-table__progress-bar {
+  background-color: #0284c7;
+  height: 100%;
+}
+
+.tasks-table__icon-cell {
+  font-size: 16px;
+  color: #6366f1;
+  cursor: pointer;
+}
+
+.tasks-table__link-cell {
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   PANEL 3: TODO LIST (WITH INVISIBLE SCROLLBAR & WORKING INTERACTION)
+   ========================================================================== */
+.panel-todo__scrollable-container {
+  max-height: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.panel-todo__scrollable-container::-webkit-scrollbar {
+  display: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 12px;
+}
+
+.todo-item__drag-handle {
+  color: #cbd5e1;
+  cursor: grab;
+  user-select: none;
+}
+
+.todo-item__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.todo-item__native-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.todo-item__custom-box {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.todo-item__native-checkbox:checked ~ .todo-item__custom-box {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.todo-item__native-checkbox:checked ~ .todo-item__custom-box:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.todo-item__text {
+  font-size: 14px;
+  color: #334155;
+  transition: all 0.2s ease;
+}
+
+.todo-item--completed .todo-item__text {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.todo-item__priority {
+  font-size: 12px;
+  font-weight: 500;
+}
+.todo-item__priority--high   { color: #ef4444; }
+.todo-item__priority--normal { color: #64748b; }
+.todo-item__priority--low    { color: #10b981; }
+
+/* ==========================================================================
+   PANEL 4: TICKET STATUS GAUGE ARCH
+   ========================================================================== */
+.ticket-gauge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.ticket-gauge__container {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.ticket-gauge__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-220deg); /* Angles it into an open-bottom half-circle gauge shape */
+}
+
+.ticket-gauge__bg {
+  fill: none;
+  stroke: #f1f5f9;
+  stroke-width: 8;
+}
+
+.ticket-gauge__fill {
+  fill: none;
+  stroke: #0091ff;
+  stroke-width: 8;
+  stroke-dasharray: 180 251; /* Segments the ring line display elements */
+  stroke-dashoffset: 0;
+  stroke-dasharray: 4, 2; /* Creates the dynamic ticks effect */
+}
+
+.ticket-gauge__center {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.ticket-gauge__percentage {
+  font-size: 24px;
+  font-weight: 700;
+  color: #64748b;
+  display: block;
+}
+
+.ticket-gauge__label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4f46e5;
+  white-space: nowrap;
+}
+
+.ticket-gauge__summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #f1f5f9;
+  padding-top: 16px;
+  text-align: center;
+}
+
+.ticket-gauge__summary h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.ticket-gauge__summary p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ==========================================================================
+   PANEL 5: TICKET RESOLVED (STACKED MULTI-BARS)
+   ========================================================================== */
+.resolved-chart {
+  display: flex;
+  height: 180px;
+  margin-bottom: 20px;
+  position: relative;
+  padding-top: 10px;
+}
+
+.resolved-chart__axis-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100% - 20px);
+  width: 30px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.resolved-chart__bars-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 30px);
+  height: 100%;
+  align-items: flex-end;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.resolved-chart__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14%;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.resolved-chart__stacked-bar {
+  width: 12px;
+  height: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.segment {
+  width: 100%;
+}
+.segment--grey   { background-color: #94a3b8; }
+.segment--yellow { background-color: #eab308; }
+.segment--purple { background-color: #7c3aed; }
+.segment--pink   { background-color: #ec4899; }
+
+.resolved-chart__day {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.resolved-chart__footer {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 14px;
+  text-align: center;
+}
+
+.footer-metric h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 2px 0;
+}
+
+.footer-metric p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT SYSTEMS BREAKDOWNS
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .dashboard-extended__row--bottom {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-extended__row--top {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-extended__row--bottom {
+    grid-template-columns: 1fr;
+  }
+}

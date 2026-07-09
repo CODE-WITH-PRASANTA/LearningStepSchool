@@ -1,0 +1,126 @@
+.StaffPayrollMain {
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* CARD */
+
+.StaffPayrollMain_Card {
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  border: 1px solid #dbeafe;
+
+  box-shadow:
+    0 8px 25px rgba(37,99,235,.08);
+
+  height: 48vh;
+  min-height: 420px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+.StaffPayrollMain_Header {
+  padding: 20px 24px;
+
+  border-bottom: 1px solid #e5efff;
+}
+
+.StaffPayrollMain_Header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* GRAPH */
+
+.StaffPayrollMain_GraphWrap {
+  flex: 1;
+
+  padding: 20px;
+
+  min-height: 0;
+}
+
+/* LARGE LAPTOP */
+
+@media (max-width: 1400px) {
+
+  .StaffPayrollMain_Card {
+    height: 50vh;
+  }
+
+  .StaffPayrollMain_Header h2 {
+    font-size: 24px;
+  }
+
+}
+
+/* TABLET */
+
+@media (max-width: 992px) {
+
+  .StaffPayrollMain_Card {
+    height: 48vh;
+    min-height: 350px;
+  }
+
+  .StaffPayrollMain_Header {
+    padding: 16px;
+  }
+
+  .StaffPayrollMain_Header h2 {
+    font-size: 22px;
+  }
+
+  .StaffPayrollMain_GraphWrap {
+    padding: 12px;
+  }
+
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+  .StaffPayrollMain_Card {
+    height: 45vh;
+    min-height: 320px;
+    border-radius: 18px;
+  }
+
+  .StaffPayrollMain_Header h2 {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 480px) {
+
+  .StaffPayrollMain_Card {
+    height: 42vh;
+    min-height: 280px;
+  }
+
+  .StaffPayrollMain_Header {
+    padding: 14px;
+  }
+
+  .StaffPayrollMain_Header h2 {
+    font-size: 16px;
+  }
+
+  .StaffPayrollMain_GraphWrap {
+    padding: 8px;
+  }
+
+}

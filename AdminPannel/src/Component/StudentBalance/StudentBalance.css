@@ -1,0 +1,141 @@
+.StudentBalance {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
+  gap: 20px;
+}
+
+/* CARD */
+
+.StudentBalance_Card {
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  border: 1px solid #dbeafe;
+
+  overflow: hidden;
+
+  height: 45vh;
+  min-height: 380px;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow:
+    0 8px 24px rgba(37,99,235,.08);
+}
+
+/* HEADER */
+
+.StudentBalance_Header {
+  padding: 18px 24px;
+
+  border-bottom: 1px solid #e5efff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.StudentBalance_Header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.StudentBalance_Header p {
+  margin-top: 3px;
+
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* BADGE */
+
+.StudentBalance_Badge {
+  background: #22c55e;
+
+  color: white;
+
+  padding: 6px 14px;
+
+  border-radius: 30px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* BAR */
+
+.StudentBalance_BarWrap {
+  flex: 1;
+  padding: 20px;
+  min-height: 0;
+}
+
+/* DONUT */
+
+.StudentBalance_DonutWrap {
+  flex: 1;
+  padding: 20px;
+  min-height: 0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1200px) {
+
+  .StudentBalance {
+    grid-template-columns: 1fr;
+  }
+
+  .StudentBalance_Card {
+    height: 48vh;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .StudentBalance_Card {
+    height: 42vh;
+    min-height: 320px;
+  }
+
+  .StudentBalance_Header {
+    padding: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .StudentBalance_Header h2 {
+    font-size: 20px;
+  }
+
+  .StudentBalance_BarWrap,
+  .StudentBalance_DonutWrap {
+    padding: 10px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .StudentBalance_Card {
+    height: 40vh;
+    min-height: 280px;
+  }
+
+  .StudentBalance_Header h2 {
+    font-size: 18px;
+  }
+
+  .StudentBalance_Badge {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+
+}

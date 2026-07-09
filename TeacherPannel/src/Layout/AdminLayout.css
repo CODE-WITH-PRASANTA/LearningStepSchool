@@ -1,170 +1,225 @@
-
-/* ================================
-   ADMIN WRAPPER
-================================ */
-.admin-wrapper {
-  width: 100%;
-  min-height: 100vh;
-  background: #f4f7fb;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
+/* ========================================
+   GLOBAL
+======================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* ================================
-   NAVBAR (fixed)
-================================ */
-.admin-wrapper .admin-navbar {
+html,
+body,
+#root {
   width: 100%;
-  height: 80px;
+  height: 100%;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+/* ========================================
+   ADMIN WRAPPER
+======================================== */
+.admin-wrapper {
+  width: 100%;
+  height: 100vh;
+  background: #f5f7fb;
+  overflow: hidden;
+}
+
+/* ========================================
+   NAVBAR
+======================================== */
+.admin-navbar {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  width: 100%;
+  height: 70px;
+  z-index: 1200;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 24px;
+  padding: 0 22px;
 
-  /* background: rgba(255, 255, 255, 0.95); */
-  backdrop-filter: blur(12px);
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
 
-  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* ================================
+/* ========================================
    BODY
-================================ */
+======================================== */
 .admin-body {
   display: flex;
   width: 100%;
-  margin-top: 80px;
-  overflow-x: hidden;
+  height: 100%;
 }
 
-/* ================================
-   SIDEBAR POSITION HANDLING
-================================ */
-.admin-body .admin-sidebar {
-  width: 260px;
-  transition: all 0.3s ease;
-}
-
-.admin-body .admin-sidebar.close {
-  width: 90px;
-}
-
-/* ================================
+/* ========================================
    CONTENT
-================================ */
-/* MAIN CONTENT SCROLL */
+======================================== */
+
 .admin-content {
-  margin-left: 220px;
-  width: calc(100% - 260px);
+  margin-top: 70px;
+  margin-left: 275px;
 
-  height: calc(100vh - 80px);   /* 🔥 CHANGE from min-height */
-  /* overflow-y: auto;             🔥 ENABLE SCROLL */
+  width: calc(100% - 275px);
+  height: calc(100vh - 70px);
 
-  padding: 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 22px;
+
   transition: all 0.3s ease;
+  scroll-behavior: smooth;
 }
 
-.admin-content.expanded {
-  margin-left: 20px;
-  width: calc(100% - 90px);
+/* Sidebar Closed */
+.admin-content.sidebar-close {
+  margin-left: 0;
+  width: 100%;
 }
 
-/* ================================
+/* Sidebar Open */
+.admin-content.sidebar-open {
+  margin-left: 275px;
+  width: calc(100% - 275px);
+}
+
+/* ========================================
    MAIN
-================================ */
+======================================== */
+
 .admin-main {
   width: 100%;
-  height: 100%;
-  margin-left: 30px;
+  min-height: 100%;
 }
 
-/* ================================
-   LAPTOP
-================================ */
-@media (max-width: 1200px) {
-  .admin-wrapper .admin-navbar {
-    height: 75px;
-  }
+/* ========================================
+   CUSTOM SCROLLBAR
+======================================== */
 
-  .admin-body {
-    margin-top: 75px;
-  }
+.admin-content::-webkit-scrollbar {
+  width: 8px;
+}
 
+.admin-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-content::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.admin-content::-webkit-scrollbar-thumb:hover {
+  background: #b47e41;
+}
+
+/* Firefox */
+
+.admin-content {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff transparent;
+}
+
+/* ========================================
+   LARGE DESKTOP
+======================================== */
+
+@media (min-width: 1400px) {
   .admin-content {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    padding: 20px;
-  }
-
-  .admin-content.expanded {
-    margin-left: 85px;
-    width: calc(100% - 85px);
+    padding: 26px;
   }
 }
 
-/* ================================
-   TABLET
-================================ */
-@media (max-width: 1024px) {
-  .admin-body .admin-sidebar {
-    position: fixed;
-    left: -260px;
-    top: 80px;
-    height: calc(100vh - 80px);
-    z-index: 999;
+/* ========================================
+   DESKTOP
+======================================== */
+
+@media (min-width: 1025px) {
+  .admin-content.sidebar-open {
+    margin-left: 275px;
+    width: calc(100% - 275px);
   }
 
-  .admin-body .admin-sidebar.open {
-    left: 0;
-  }
-
-  .admin-content,
-  .admin-content.expanded {
+  .admin-content.sidebar-close {
     margin-left: 0;
     width: 100%;
   }
 }
 
-/* ================================
-   MOBILE
-================================ */
-@media (max-width: 768px) {
-  .admin-wrapper .admin-navbar {
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1024px) {
+  .admin-navbar {
     height: 70px;
-    padding: 0 16px;
+    padding: 0 18px;
   }
 
-  .admin-body {
+  .admin-content {
     margin-top: 70px;
+    margin-left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    padding: 18px;
   }
 
-  .admin-content,
-  .admin-content.expanded {
-    padding: 16px;
+  .admin-content.sidebar-open,
+  .admin-content.sidebar-close {
+    margin-left: 0;
+    width: 100%;
   }
 }
 
-/* ================================
-   SMALL MOBILE
-================================ */
-@media (max-width: 480px) {
-  .admin-wrapper .admin-navbar {
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+  .admin-navbar {
     height: 65px;
+    padding: 0 15px;
   }
 
-  .admin-body {
+  .admin-content {
     margin-top: 65px;
+    height: calc(100vh - 65px);
+    padding: 15px;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+  .admin-navbar {
+    height: 60px;
+    padding: 0 12px;
   }
 
-  .admin-content,
-  .admin-content.expanded {
+  .admin-content {
+    margin-top: 60px;
+    height: calc(100vh - 60px);
     padding: 12px;
+  }
+}
+
+/* ========================================
+   EXTRA SMALL
+======================================== */
+
+@media (max-width: 360px) {
+  .admin-content {
+    padding: 10px;
   }
 }

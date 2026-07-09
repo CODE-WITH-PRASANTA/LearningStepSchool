@@ -5,7 +5,7 @@ import AppLayout from "./layout/AppLayout/AppLayout";
 /* ===================== PAGES ===================== */
 
 // Dashboard & Core
-import Dashboard from "./Pages/Dashboard/Dashboard";
+// import Dashboard from "./Pages/Dashboard/Dashboard";
 import Fees from "./Pages/FeeManagement";
 import Notices from "./Pages/NoticeManagement";
 import ProfilePage from "./Pages/ProfilePage";
@@ -174,8 +174,11 @@ import TransportSummary from "./Component/TransportSummary/TransportSummary";
 import Calender from "./Component/Calender/Calender";
 import TransportVehicleReport from "./Component/TransportVehicleReport/TransportVehicleReport";
 import TransportStudentsReport from "./Component/TransportStudentsReport/TransportStudentsReport";
-
-
+import MainDashboard from "./Pages/MainDashboard/MainDashboard";
+import FeeGroup from "./Pages/FeeGroup/FeeGroup";
+import FeeHead from "./Pages/FeeHead/FeeHead";
+import FeeStructure from "./Pages/FeeStructure/FeeStructure";
+import FeeEntry from "./Pages/FeeEntry/FeeEntry";
 
 /* ===================== APP ===================== */
 
@@ -198,7 +201,7 @@ export default function App() {
           <Route index element={<Navigate to="dashboard" replace />} />
 
           {/* Dashboard */}
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<MainDashboard/>} />
 
           {/* Finance */}
           <Route path="fees" element={<Fees />} />
@@ -478,14 +481,9 @@ export default function App() {
           />
 
 
-
-
-          
-          <Route path="/student/Promotion" element={<Promotion/>}/>
-          <Route path="/student/portfolio" element={<StudentPortfolio/>}/>
+          <Route path="/student/gatepass" element={<StudentGatepass/>}/>
+          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
         
-         
-          
           <Route path="/school/information"element={<ShopInformation/>}/>
           <Route path="/student/Promotion" element={<Promotion />} />
           <Route path="/student/portfolio" element={<StudentPortfolio />} />
@@ -517,6 +515,15 @@ export default function App() {
           <Route path="/calender/planning" element={<Calender/>} />
           <Route path="/transport-vechile" element={<TransportVehicleReport />} />
           <Route path="/transport-student" element={<TransportStudentsReport />} />
+
+
+          <Route path="/fee-group" element={<FeeGroup />} />
+          <Route path="/fee-head" element={<FeeHead />} />
+          <Route path="/fee-entry" element={<FeeEntry />} />
+          <Route path="/fee-structure" element={<FeeStructure />} />
+
+
+
         </Route>
 
         {/* ===== FALLBACK ===== */}

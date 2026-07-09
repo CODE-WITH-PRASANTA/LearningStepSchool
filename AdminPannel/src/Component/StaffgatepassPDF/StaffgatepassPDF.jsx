@@ -15,7 +15,7 @@ import jsPDF from "jspdf";
 import logo from "../../Assets/Learning-Step-Logo-1.png";
 import { IMAGE_URL } from "../../api/axios";
 
-import "./StaffGatePassPDF.css";
+import "./StaffgatepassPDF.css";
 
 const fallbackPhoto = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
