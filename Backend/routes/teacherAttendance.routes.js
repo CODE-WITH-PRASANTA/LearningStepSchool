@@ -2,32 +2,51 @@ const express = require("express");
 const router = express.Router();
 
 const {
+  punchIn,
+  breakStart,
+  breakEnd,
+  punchOut,
   markAttendance,
+  getTodayAttendance,
   getMonthlyAttendance,
   getAttendanceSummary,
   getAllAttendance,
   deleteAttendance,
   markAttendanceByAdmin,
+  getAttendanceHistory,
 } = require("../controllers/teacherAttendance.controller");
 
 const auth = require("../middleware/authMiddleware");
 
-// mark
+// New API
+router.post("/punch-in", auth, punchIn);
+
+
+router.post("/break-start", auth, breakStart);
+
+router.post("/break-end", auth, breakEnd);
+
+router.post("/punch-out", auth, punchOut);
+
+// Existing API
 router.post("/", auth, markAttendance);
 
-// monthly
+
+router.get("/today", auth, getTodayAttendance);
+
+// Monthly
 router.get("/monthly", auth, getMonthlyAttendance);
 
-// summary
+// Summary
 router.get("/summary", auth, getAttendanceSummary);
-
-// admin
+router.get("/history", auth, getAttendanceHistory);
+// Admin
 router.get("/", auth, getAllAttendance);
 
-// admin mark
+// Admin Mark
 router.post("/admin", auth, markAttendanceByAdmin);
 
-// delete
+// Delete
 router.delete("/:id", auth, deleteAttendance);
 
 module.exports = router;

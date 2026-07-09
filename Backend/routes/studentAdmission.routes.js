@@ -12,7 +12,8 @@ const {
   getStudentById,
   updateStudent,
   deleteStudent,
-  searchStudents
+  searchStudents,
+  getStudentIdCards
 } = require("../controllers/studentAdmission.controller");
 
 
@@ -53,6 +54,8 @@ router.post(
 router.get("/", getStudents);
 
 router.get("/search/list", searchStudents);
+
+router.get("/id-cards", getStudentIdCards);
 
 router.get("/:id", getStudentById);
 

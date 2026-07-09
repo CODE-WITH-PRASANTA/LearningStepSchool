@@ -179,6 +179,22 @@ import FeeGroup from "./Pages/FeeGroup/FeeGroup";
 import FeeHead from "./Pages/FeeHead/FeeHead";
 import FeeStructure from "./Pages/FeeStructure/FeeStructure";
 import FeeEntry from "./Pages/FeeEntry/FeeEntry";
+import StudentIdCard from "./Component/StudentIdCard/StudentIdCard";
+import AllLeaveRequest from "./Component/AllLeaveRequest/AllLeaveRequest";
+import LeaveBalance from "./Component/LeaveBalance/LeaveBalance";
+import LeaveTypes from "./Component/LeaveTypes/LeaveTypes";
+import LeaveSettings from "./Component/LeaveSettings/LeaveSettings";
+import TodayAttendance from "./Pages/TodayAttendance/TodayAttendance";
+import EmployeeAttendance from "./Component/EmployeeAttendance/EmployeeAttendance";
+import AttendanceSheet from "./Component/AttendanceSheet/AttendanceSheet";
+import Timesheets from "./Component/Timesheets/Timesheets";
+import Overtime from "./Component/Overtime/Overtime";
+import ShiftPlanning from "./Component/ShiftPlanning/ShiftPlanning";
+import Remote from "./Component/Remote/Remote";
+
+
+
+
 
 /* ===================== APP ===================== */
 
@@ -440,7 +456,9 @@ export default function App() {
             path="/admin/attendance-management"
             element={<AttendanceManagement />}
           />
-          <Route path="/admin/leave-management" element={<LeaveManagement />} />
+          <Route path="/admin/leave-management" 
+          element={<LeaveManagement />} />
+
           <Route
             path="/admin/payroll-management"
             element={<PayRollManagement />}
@@ -521,6 +539,23 @@ export default function App() {
           <Route path="/fee-head" element={<FeeHead />} />
           <Route path="/fee-entry" element={<FeeEntry />} />
           <Route path="/fee-structure" element={<FeeStructure />} />
+
+          <Route path="/student/id-card" element={<StudentIdCard />} />
+          
+           <Route path="/all-requests" element={<AllLeaveRequest />} /> 
+           <Route path="/leave/balance" element={<LeaveBalance />} />
+           <Route path="/leave/types" element={<LeaveTypes />} />
+          <Route path="/leave/settings" element={<LeaveSettings />} />
+          <Route path="/today" element={<TodayAttendance/>}/>
+          <Route path="/employee" element={<EmployeeAttendance/>}/>
+          <Route path="/sheet" element={<AttendanceSheet/>}/>
+          <Route path="/timesheets" element={<Timesheets/>}/>
+          <Route path="/overtime" element={<Overtime/>}/>
+          <Route path="/shift-planning" element={<ShiftPlanning/>}/>
+          <Route path="/remote-wfh" element={<Remote/>}/>
+         
+       
+           
 
 
 

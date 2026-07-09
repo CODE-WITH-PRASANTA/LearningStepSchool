@@ -12,7 +12,10 @@ const studentSchema = new mongoose.Schema(
     lastName: String,
     gender: String,
     dob: Date,
-
+    advanceWallet: {
+      type: Number,
+      default: 0,
+    },
     category: String,
     religion: String,
     caste: String,

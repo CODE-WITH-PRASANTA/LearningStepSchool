@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TeacherAttenanced.css";
+import API from "../../api/axios";
 
 import {
   FaSignInAlt,
@@ -29,60 +30,54 @@ const TeacherAttenanced = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
-  const [punchInTime, setPunchInTime] = useState(null);
-  const [punchOutTime, setPunchOutTime] = useState(null);
 
   const [workingSeconds, setWorkingSeconds] = useState(0);
   const [breakSeconds, setBreakSeconds] = useState(0);
   const [overtimeSeconds, setOvertimeSeconds] = useState(0);
   const [activities, setActivities] = useState([]);
 
-  /* =====================================================
-      LOCAL STORAGE SYSTEM
-  ====================================================== */
-  useEffect(() => {
-    const saved = localStorage.getItem("teacherAttendance");
-    if (!saved) return; // start clean — no fabricated sample entries
+  const [attendance, setAttendance] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  const loadTodayAttendance = async () => {
     try {
-      const data = JSON.parse(saved);
-      setIsPunchedIn(data.isPunchedIn ?? false);
-      setIsBreak(data.isBreak ?? false);
-      setPunchInTime(data.punchInTime ?? null);
-      setPunchOutTime(data.punchOutTime ?? null);
-      setWorkingSeconds(data.workingSeconds ?? 0);
-      setBreakSeconds(data.breakSeconds ?? 0);
-      setOvertimeSeconds(data.overtimeSeconds ?? 0);
-      if (data.activities) setActivities(data.activities);
-    } catch {
-      /* ignore corrupt storage */
+      const res = await API.get("/teacher-attendance/today");
+
+      const data = res.data;
+
+      setAttendance(data.attendance);
+
+      setIsPunchedIn(data.isPunchedIn);
+
+      setIsBreak(data.isOnBreak);
+
+      if (data.attendance) {
+        setWorkingSeconds(data.attendance.workSeconds);
+
+        setBreakSeconds(data.attendance.breakSeconds);
+
+        setOvertimeSeconds(data.attendance.overtimeSeconds);
+
+        setActivities(data.attendance.activities || []);
+      } else {
+        setActivities([]);
+
+        setWorkingSeconds(0);
+
+        setBreakSeconds(0);
+
+        setOvertimeSeconds(0);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    localStorage.setItem(
-      "teacherAttendance",
-      JSON.stringify({
-        isPunchedIn,
-        isBreak,
-        punchInTime,
-        punchOutTime,
-        workingSeconds,
-        breakSeconds,
-        overtimeSeconds,
-        activities,
-      })
-    );
-  }, [
-    isPunchedIn,
-    isBreak,
-    punchInTime,
-    punchOutTime,
-    workingSeconds,
-    breakSeconds,
-    overtimeSeconds,
-    activities,
-  ]);
+    loadTodayAttendance();
+  }, []);
 
   /* =====================================================
       DYNAMIC ACTIVE TIMERS ENGINE
@@ -93,31 +88,28 @@ const TeacherAttenanced = () => {
   }, []);
 
   useEffect(() => {
-    let timer;
-    if (isPunchedIn && !isBreak) {
-      timer = setInterval(() => {
-        setWorkingSeconds((prev) => {
-          const updatedWork = prev + 1;
-          if (updatedWork > SHIFT_WORK_SECONDS) {
-            setOvertimeSeconds(updatedWork - SHIFT_WORK_SECONDS);
-          }
-          return updatedWork;
-        });
-      }, 1000);
-    }
+    if (!isBreak || !attendance?.breaks?.length) return;
+
+    const timer = setInterval(() => {
+      const lastBreak = attendance?.breaks?.at(-1);
+
+      if (!lastBreak?.start || lastBreak.end) return;
+
+      const total = Math.floor((new Date() - new Date(lastBreak.start)) / 1000);
+
+      setBreakSeconds(attendance.breakSeconds + total);
+    }, 1000);
+
     return () => clearInterval(timer);
-  }, [isPunchedIn, isBreak]);
+  }, [attendance, isBreak]);
 
   useEffect(() => {
-    let timer;
-    if (isBreak) {
-      timer = setInterval(() => {
-        setBreakSeconds((prev) => prev + 1);
-      }, 1000);
+    if (workingSeconds > SHIFT_WORK_SECONDS) {
+      setOvertimeSeconds(workingSeconds - SHIFT_WORK_SECONDS);
+    } else {
+      setOvertimeSeconds(0);
     }
-    return () => clearInterval(timer);
-  }, [isBreak]);
-
+  }, [workingSeconds]);
   /* =====================================================
       STRING & MATH FORMATTERS
   ====================================================== */
@@ -143,47 +135,59 @@ const TeacherAttenanced = () => {
   });
   const [rawTime, amPm] = timeString.split(" ");
 
-  const addActivity = (title) => {
-    const item = {
-      id: Date.now(),
-      title,
-      time: new Date().toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      }),
-    };
-    setActivities((prev) => [item, ...prev]);
-  };
-
   /* =====================================================
       EVENT HANDLERS
   ====================================================== */
-  const handlePunchIn = () => {
-    setIsPunchedIn(true);
-    setIsBreak(false);
-    setPunchInTime(
-      new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
-    );
-    addActivity("Punched In");
+  const handlePunchIn = async () => {
+    try {
+      await API.post("/teacher-attendance/punch-in");
+
+      await loadTodayAttendance();
+    } catch (err) {
+      alert(err.response?.data?.message);
+    }
   };
 
-  const handlePunchOut = () => {
-    setIsPunchedIn(false);
-    setIsBreak(false);
-    setPunchOutTime(
-      new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })
-    );
-    addActivity("Punched Out");
+  useEffect(() => {
+    if (!attendance?.punchIn || !isPunchedIn) return;
+
+    const timer = setInterval(() => {
+      const worked = Math.max(
+        Math.floor((new Date() - new Date(attendance.punchIn)) / 1000) -
+          breakSeconds,
+        0,
+      );
+
+      setWorkingSeconds(worked);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [attendance, breakSeconds, isPunchedIn]);
+  const handlePunchOut = async () => {
+    try {
+      await API.post("/teacher-attendance/punch-out");
+
+      await loadTodayAttendance();
+    } catch (err) {
+      alert(err.response?.data?.message);
+    }
   };
 
-  const toggleBreak = () => {
-    if (!isBreak) {
-      setIsBreak(true);
-      addActivity("Break Started");
-    } else {
-      setIsBreak(false);
-      addActivity("Break Ended");
+  const toggleBreak = async () => {
+    try {
+      if (!isBreak) {
+        const reason = prompt("Enter Break Reason") || "General Break";
+
+        await API.post("/teacher-attendance/break-start", {
+          reason,
+        });
+      } else {
+        await API.post("/teacher-attendance/break-end");
+      }
+
+      await loadTodayAttendance();
+    } catch (err) {
+      alert(err.response?.data?.message);
     }
   };
 
@@ -192,6 +196,10 @@ const TeacherAttenanced = () => {
       ? "On Break"
       : "Working"
     : "Not Punched In";
+
+  if (loading) {
+    return <div>Loading attendance...</div>;
+  }
 
   return (
     <div className="attendance-page-wrapper">
@@ -214,8 +222,12 @@ const TeacherAttenanced = () => {
       <div className="dashboard-grid">
         {/* Card 1: Chalkboard Plaque Clock */}
         <div className="dashboard-card live-clock-card">
-          <span className="pin pin-tl" aria-hidden="true"><FaThumbtack /></span>
-          <span className="pin pin-tr" aria-hidden="true"><FaThumbtack /></span>
+          <span className="pin pin-tl" aria-hidden="true">
+            <FaThumbtack />
+          </span>
+          <span className="pin pin-tr" aria-hidden="true">
+            <FaThumbtack />
+          </span>
           <div className="clock-glass-overlay">
             <div className="clock-digits">
               {rawTime}
@@ -225,31 +237,44 @@ const TeacherAttenanced = () => {
           </div>
           <div className="shift-plan-strip">
             <FaClock />
-            <span>Shift {SHIFT_START} &ndash; {SHIFT_END}</span>
+            <span>
+              Shift {SHIFT_START} &ndash; {SHIFT_END}
+            </span>
           </div>
         </div>
 
         {/* Card 2: Interactive Circle Action Button Controller */}
         <div className="dashboard-card action-controller-card">
-          <div className={`status-badge-pill ${attendanceStatus.toLowerCase().replace(/\s+/g, "-")}`}>
+          <div
+            className={`status-badge-pill ${attendanceStatus.toLowerCase().replace(/\s+/g, "-")}`}
+          >
             <span className="status-indicator-dot"></span>
             <span>{attendanceStatus}</span>
           </div>
 
           <div className="circle-button-container">
             {!isPunchedIn ? (
-              <button className="action-circle btn-punch-in" onClick={handlePunchIn}>
+              <button
+                className="action-circle btn-punch-in"
+                onClick={handlePunchIn}
+              >
                 <FaSignInAlt className="circle-icon" />
                 <span>Punch In</span>
               </button>
             ) : isBreak ? (
-              <button className="action-circle btn-end-break" onClick={toggleBreak}>
+              <button
+                className="action-circle btn-end-break"
+                onClick={toggleBreak}
+              >
                 <FaPlayCircle className="circle-icon" />
                 <span>End Break</span>
               </button>
             ) : (
               <div className="dual-action-wrapper">
-                <button className="action-circle btn-punch-out" onClick={handlePunchOut}>
+                <button
+                  className="action-circle btn-punch-out"
+                  onClick={handlePunchOut}
+                >
                   <FaSignOutAlt className="circle-icon" />
                   <span>Punch Out</span>
                 </button>
@@ -278,37 +303,51 @@ const TeacherAttenanced = () => {
             </div>
             <div className="stat-content-text">
               <span className="stat-lbl">Shift Plan</span>
-              <span className="stat-val">{SHIFT_START} &ndash; {SHIFT_END}</span>
+              <span className="stat-val">
+                {SHIFT_START} &ndash; {SHIFT_END}
+              </span>
             </div>
           </div>
 
-          <div className={`stat-card-premium ${isPunchedIn && !isBreak ? "active-glow-green" : ""}`}>
+          <div
+            className={`stat-card-premium ${isPunchedIn && !isBreak ? "active-glow-green" : ""}`}
+          >
             <div className="stat-icon-wrapper work-icon">
               <FaBusinessTime />
             </div>
             <div className="stat-content-text">
               <span className="stat-lbl">Work Duration</span>
-              <span className="stat-val font-numeric">{formatSecondsToHoursMins(workingSeconds)}</span>
+              <span className="stat-val font-numeric">
+                {formatSecondsToHoursMins(workingSeconds)}
+              </span>
             </div>
           </div>
 
-          <div className={`stat-card-premium ${isBreak ? "active-glow-orange" : ""}`}>
+          <div
+            className={`stat-card-premium ${isBreak ? "active-glow-orange" : ""}`}
+          >
             <div className="stat-icon-wrapper break-icon">
               <FaMugHot />
             </div>
             <div className="stat-content-text">
               <span className="stat-lbl">Break Taken</span>
-              <span className="stat-val font-numeric">{formatSecondsToHoursMins(breakSeconds)}</span>
+              <span className="stat-val font-numeric">
+                {formatSecondsToHoursMins(breakSeconds)}
+              </span>
             </div>
           </div>
 
-          <div className={`stat-card-premium ${overtimeSeconds > 0 ? "active-glow-blue" : ""}`}>
+          <div
+            className={`stat-card-premium ${overtimeSeconds > 0 ? "active-glow-blue" : ""}`}
+          >
             <div className="stat-icon-wrapper overtime-icon">
               <FaHistory />
             </div>
             <div className="stat-content-text">
               <span className="stat-lbl">Overtime Accrued</span>
-              <span className="stat-val font-numeric">{formatSecondsToHoursMins(overtimeSeconds)}</span>
+              <span className="stat-val font-numeric">
+                {formatSecondsToHoursMins(overtimeSeconds)}
+              </span>
             </div>
           </div>
         </div>
@@ -317,21 +356,56 @@ const TeacherAttenanced = () => {
       {/* Bottom Block: Attendance Register (Ledger) */}
       <div className="bottom-activity-panel">
         <h3>Today&rsquo;s Activity Register</h3>
+
         <div className="timeline-container">
           {activities.length === 0 ? (
             <div className="empty-timeline-state">
-              Nothing logged yet &mdash; punch in to start today&rsquo;s register.
+              Nothing logged yet &mdash; punch in to start today&rsquo;s
+              register.
             </div>
           ) : (
-            activities.map((activity) => (
-              <div className="timeline-row" key={activity.id}>
-                <span className="log-timestamp">{activity.time}</span>
-                <span className="log-leader" aria-hidden="true"></span>
-                <span className={`log-title tag-${activity.title.toLowerCase().replace(/\s+/g, "-")}`}>
-                  {activity.title}
+            activities.map((activity, index) => (
+              <div className="timeline-row" key={index}>
+                <span className="log-timestamp">
+                  {new Date(activity.time).toLocaleTimeString()}
+                </span>
+
+                <span className="log-leader"></span>
+
+                <span
+                  className={`log-title tag-${activity.type
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")}`}
+                >
+                  {activity.type}
                 </span>
               </div>
             ))
+          )}
+        </div>
+
+        {/* ===== Break History ===== */}
+
+        <div className="break-history">
+          <h3>Today's Breaks</h3>
+
+          {attendance?.breaks?.length ? (
+            attendance.breaks.map((item, index) => (
+              <div className="break-item" key={index}>
+                <strong>{item.reason}</strong>
+
+                <p>
+                  {new Date(item.start).toLocaleTimeString()} -{" "}
+                  {item.end
+                    ? new Date(item.end).toLocaleTimeString()
+                    : "Running"}
+                </p>
+
+                <span>{formatSecondsToHoursMins(item.durationSeconds)}</span>
+              </div>
+            ))
+          ) : (
+            <p>No breaks taken today.</p>
           )}
         </div>
       </div>

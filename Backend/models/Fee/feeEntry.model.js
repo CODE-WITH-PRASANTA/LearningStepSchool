@@ -70,6 +70,10 @@ const feeEntrySchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    advanceCreated: {
+      type: Number,
+      default: 0,
+    },
     totalPayable: {
       type: Number,
       default: 0,
@@ -79,6 +83,10 @@ const feeEntrySchema = new mongoose.Schema(
       default: 0,
     },
     dueAmount: {
+      type: Number,
+      default: 0,
+    },
+    cashReceived: {
       type: Number,
       default: 0,
     },
