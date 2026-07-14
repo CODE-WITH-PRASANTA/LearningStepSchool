@@ -191,6 +191,9 @@ import Timesheets from "./Component/Timesheets/Timesheets";
 import Overtime from "./Component/Overtime/Overtime";
 import ShiftPlanning from "./Component/ShiftPlanning/ShiftPlanning";
 import Remote from "./Component/Remote/Remote";
+import VechicleDash from "./Pages/VechicleDash/VechicleDash";
+import VehcleKm from "./Pages/VehcleKm/VehcleKm";
+import SystemSetting from "./Pages/SystemSetting/SystemSetting";
 
 
 
@@ -553,6 +556,9 @@ export default function App() {
           <Route path="/overtime" element={<Overtime/>}/>
           <Route path="/shift-planning" element={<ShiftPlanning/>}/>
           <Route path="/remote-wfh" element={<Remote/>}/>
+          <Route path="/vehicle/dashboard" element={<VechicleDash/>}/>
+          <Route path="/vehicle/km" element={<VehcleKm/>}/>
+          <Route path="/vehicle/setting"element={<SystemSetting/>}/>
          
        
            
