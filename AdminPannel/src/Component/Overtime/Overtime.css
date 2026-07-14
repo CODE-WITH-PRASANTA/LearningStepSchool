@@ -967,6 +967,37 @@
   gap: 6px;
 }
 
+
+.overtime-status-select {
+  border: none;
+  outline: none;
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.overtime-status-select--pending {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.overtime-status-select--approved {
+  background: #ecfdf5;
+  color: #16a34a;
+}
+
+.overtime-status-select--rejected {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.overtime-status-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* ==========================================================================
    Responsive breakpoints
    ========================================================================== */
