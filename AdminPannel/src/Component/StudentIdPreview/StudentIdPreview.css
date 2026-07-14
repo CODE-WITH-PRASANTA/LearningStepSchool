@@ -2,13 +2,13 @@
    0. THEME TOKENS
 ========================================================== */
 .id-preview-container {
-  --navy-dark: #0a1a3d;
-  --navy: #14275c;
+  --red: #e11d48;
+  --red-dark: #9f1239;
+  --red-light: #fb7185;
   --navy-light: #1e3a8a;
   --gold: #d4af37;
-  --gold-light: #f4d97a;
-  --bg: #eef1f8;
-  --card-radius: 16px;
+  --bg: #f7eef1;
+  --card-radius: 12px;
 
   width: 100%;
   min-height: 100vh;
@@ -29,26 +29,26 @@
   gap: 20px;
   margin-bottom: 30px;
   background: #ffffff;
-  padding: 24px 30px;
+  padding: 20px 28px;
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e6e9f2;
+  border: 1px solid #f1dde2;
 }
 
 .id-preview-title h2 {
   margin: 0;
-  background: linear-gradient(90deg, var(--navy-dark), var(--navy-light));
+  background: linear-gradient(90deg, var(--red-dark), var(--red));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
 }
 
 .id-preview-title p {
-  margin: 6px 0 0 0;
+  margin: 4px 0 0 0;
   color: #64748b;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .id-preview-actions {
@@ -63,36 +63,36 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 44px;
+  height: 42px;
   padding: 0 20px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   transition: all 0.25s ease;
 }
 
 .id-btn-back {
   background: #ffffff;
-  color: var(--navy-light);
-  border: 1.5px solid var(--navy-light);
+  color: var(--red);
+  border: 1.5px solid var(--red);
 }
 
 .id-btn-back:hover {
-  background: #eef2ff;
+  background: #fef2f4;
   transform: translateY(-1px);
 }
 
 .id-btn-print {
-  background: linear-gradient(135deg, var(--navy-light), var(--navy-dark));
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.3);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
 }
 
 .id-btn-print:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(30, 58, 138, 0.4);
+  box-shadow: 0 8px 20px rgba(225, 29, 72, 0.4);
 }
 
 /* ==========================================================
@@ -101,99 +101,84 @@
 .id-print-area {
   width: 100%;
   background: #ffffff;
-  padding: 40px;
+  padding: 30px;
   border-radius: 16px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e2e8f0;
+  border: 1px solid #f1dde2;
   box-sizing: border-box;
 }
 
 /* ==========================================================
-   3. RESPONSIVE CARD GRID
+   3. CARD GRID - TIGHT SPACING
 ========================================================== */
 .id-card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  justify-items: center;
+  align-items: start;
 }
 
 /* ==========================================================
-   4. SINGLE IDENTITY CARD
+   4. SINGLE IDENTITY CARD - COMPACT & EYE-CATCHING
 ========================================================== */
 .id-card {
   position: relative;
   width: 100%;
-  max-width: 350px;
+  max-width: 300px;
+  min-height: 400px;
   margin: 0 auto;
   background: #ffffff;
   border-radius: var(--card-radius);
   overflow: hidden;
-  border: 1px solid #dbe2f0;
-  box-shadow: 0 6px 24px rgba(20, 39, 92, 0.08);
+  border: 2px solid #f4d3da;
+  box-shadow: 0 8px 20px rgba(159, 18, 57, 0.12);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   animation: cardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .id-card:hover {
-  transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
-  box-shadow: 0 20px 40px rgba(20, 39, 92, 0.18);
-}
-
-.id-card-pattern {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: radial-gradient(circle, var(--navy-dark) 1px, transparent 1px);
-  background-size: 14px 14px;
-  z-index: 0;
-}
-
-.id-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-  z-index: 2;
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 16px 36px rgba(159, 18, 57, 0.2);
 }
 
 /* ==========================================================
-   5. HEADER — SCHOOL IDENTITY
+   5. HEADER — SCHOOL IDENTITY (COMPACT)
 ========================================================== */
 .id-card-header {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
-  padding: 16px 14px 12px;
-  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
-  gap: 10px;
+  gap: 8px;
+  padding: 10px 12px 8px;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  flex-shrink: 0;
 }
 
-.id-school-logo-wrap {
-  flex-shrink: 0;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 0 2px var(--gold);
+.id-card-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), #f4d97a, var(--gold));
 }
 
 .id-school-logo {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px var(--gold);
+  padding: 2px;
+  box-sizing: border-box;
 }
 
 .id-school-details {
@@ -203,210 +188,160 @@
 
 .id-school-details h3 {
   margin: 0;
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 800;
   color: #ffffff;
-  line-height: 1.3;
-  letter-spacing: 0.3px;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
 
 .id-school-details p {
-  margin: 3px 0 0 0;
-  font-size: 8.5px;
-  color: #c7d2e8;
-  line-height: 1.3;
+  margin: 1px 0 0 0;
+  font-size: 6.5px;
+  color: #ffe4e9;
+  line-height: 1.15;
   font-weight: 500;
 }
 
 /* ==========================================================
-   6. TITLE BAR
+   6. PHOTO SECTION - PERFECT SQUARE (COMPACT)
 ========================================================== */
-.id-title-bar {
+.id-photo-container {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-  color: var(--navy-dark);
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-}
-
-.id-title-bar-icon {
-  display: flex;
   align-items: center;
-  font-size: 12px;
-}
-
-/* ==========================================================
-   7. PHOTO SECTION
-========================================================== */
-.id-photo-section {
-  position: relative;
-  z-index: 1;
-  padding: 20px 0 14px 0;
-  text-align: center;
-  background: linear-gradient(to bottom, #f4f7fd, #ffffff);
-}
-
-.id-photo-outer-ring {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 10px auto;
-  border-radius: 50%;
-  padding: 3px;
-  background: conic-gradient(from 180deg, var(--gold), var(--navy-light), var(--gold-light), var(--gold));
-  box-shadow: 0 6px 16px rgba(20, 39, 92, 0.2);
-  box-sizing: border-box;
-}
-
-.id-photo-inner-ring {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  padding: 12px 0 10px;
   background: #ffffff;
-  padding: 3px;
-  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .id-photo-frame {
   position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: #eef1f8;
+  width: 120px;
+  height: 120px;
+  flex: 0 0 120px;
+  border: 3px solid var(--red);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f0f0f0;
+  box-shadow: 0 4px 10px rgba(159, 18, 57, 0.12);
   box-sizing: border-box;
 }
 
-.id-photo-clip {
+.id-photo-frame img {
   position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.id-photo-clip img {
-  position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  border-radius: 50%;
-}
-
-.id-roll-chip {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--navy-dark);
-  color: var(--gold-light);
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 9px;
-  border-radius: 999px;
-  border: 1.5px solid var(--gold);
-  white-space: nowrap;
-  z-index: 3;
-}
-
-.id-student-name {
-  margin: 8px 0 0 0;
-  font-size: 16px;
-  color: var(--navy-dark);
-  font-weight: 800;
-}
-
-.id-student-class {
-  display: inline-block;
-  color: var(--navy-light);
-  font-size: 12px;
-  font-weight: 600;
-  margin-top: 2px;
 }
 
 /* ==========================================================
-   8. INFO FIELD GRID
+   7. BIO SECTION - COMPACT
 ========================================================== */
-.id-info-grid {
+.id-bio-section {
   position: relative;
   z-index: 1;
-  padding: 12px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex-grow: 1;
+  text-align: center;
+  margin-bottom: 6px;
+  padding: 0 10px;
+  flex-shrink: 0;
+}
+
+.id-student-name {
+  font-size: 14px;
+  color: var(--red);
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.15;
+}
+
+.id-student-meta {
+  font-size: 10px;
+  color: var(--navy-light);
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* ==========================================================
+   8. INFO TABLE - COMPACT & CLEAN
+========================================================== */
+.id-info-table {
+  position: relative;
+  z-index: 1;
+  padding: 0 14px 4px;
+  font-size: 10px;
+  flex: 1;
 }
 
 .id-info-row {
   display: flex;
-  font-size: 12px;
-  line-height: 1.4;
-  align-items: flex-start;
-  padding: 5px 8px;
-  border-radius: 6px;
+  margin-bottom: 3px;
+  line-height: 1.25;
+  padding: 1px 0;
+  border-bottom: 1px dashed #fbe4e9;
 }
 
-.id-info-row:nth-child(odd) {
-  background: #f6f8fd;
+.id-info-row:last-child {
+  border-bottom: none;
 }
 
-.id-label {
-  width: 80px;
-  font-weight: 700;
-  color: var(--navy-light);
+.id-info-row span:first-child {
+  width: 70px;
   flex-shrink: 0;
+  color: var(--navy-light);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.2px;
 }
 
-.id-value {
-  color: #1e293b;
-  font-weight: 500;
+.id-colon {
+  width: 8px;
+  flex-shrink: 0;
+  color: var(--navy-light);
+  font-weight: 600;
+}
+
+.id-info-row strong {
+  color: var(--red-dark);
+  font-weight: 700;
   word-break: break-word;
+  font-size: 9.5px;
 }
 
 /* ==========================================================
-   9. SIGNATURE FOOTER
+   9. SIGNATURE FOOTER - COMPACT
 ========================================================== */
 .id-card-footer {
   position: relative;
   z-index: 1;
-  background: #f6f8fd;
-  padding: 16px 18px;
-  border-top: 1px dashed #cbd5e1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin-top: auto;
-}
-
-.id-footer-signature-container {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 160px;
-}
-
-.id-sign-line {
-  width: 100%;
-  border-bottom: 1px dashed #94a3b8;
-  margin-bottom: 6px;
-  height: 14px;
-}
-
-.id-footer-signature-container p {
-  margin: 0;
-  font-size: 10px;
-  color: var(--navy-light);
+  padding: 8px 14px;
+  font-size: 9px;
   font-weight: 700;
-  white-space: nowrap;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  flex-shrink: 0;
+  letter-spacing: 1px;
+}
+
+.id-card-footer::before {
+  content: "✦ ";
+  opacity: 0.6;
+}
+
+.id-card-footer::after {
+  content: " ✦";
+  opacity: 0.6;
 }
 
 /* ==========================================================
@@ -414,11 +349,10 @@
 ========================================================== */
 @media (max-width: 1200px) {
   .id-card-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 16px;
   }
   .id-print-area {
-    padding: 24px;
+    padding: 20px;
   }
 }
 
@@ -429,7 +363,7 @@
   .id-preview-toolbar {
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px;
+    padding: 18px;
   }
   .id-preview-actions {
     width: 100%;
@@ -439,19 +373,25 @@
   }
 }
 
+@media (min-width: 481px) and (max-width: 991px) {
+  .id-card {
+    max-width: 320px;
+  }
+}
+
 @media (max-width: 768px) {
   .id-card-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 14px;
   }
   .id-preview-title h2 {
-    font-size: 24px;
+    font-size: 22px;
   }
   .id-card {
-    max-width: 340px;
+    max-width: 320px;
   }
   .id-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
   }
 }
 
@@ -463,260 +403,297 @@
     width: 100%;
   }
   .id-print-area {
-    padding: 12px;
+    padding: 10px;
   }
   .id-card {
     max-width: 100%;
+    min-height: 360px;
+  }
+  .id-photo-frame {
+    width: 100px;
+    height: 100px;
+    flex: 0 0 100px;
+  }
+  .id-school-details h3 {
+    font-size: 8px;
+  }
+  .id-school-details p {
+    font-size: 5.5px;
+  }
+  .id-student-name {
+    font-size: 12px;
+  }
+  .id-info-table {
+    padding: 0 10px 4px;
+  }
+  .id-info-row span:first-child {
+    width: 60px;
+    font-size: 8px;
+  }
+  .id-info-row strong {
+    font-size: 8.5px;
+  }
+  .id-card-footer {
+    font-size: 8px;
+    padding: 6px 10px;
   }
 }
 
 /* ==========================================================
-   11. PRINT LAYOUT (A4 Portrait Execution)
+   11. PRINT LAYOUT - PERFECT COVERAGE
 ========================================================== */
 @media print {
-  html,
-  body {
-    width: 210mm;
-    height: 297mm;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden;
+  /* Reset everything for print */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
+  html, body {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  /* Hide all non-print elements */
   body * {
     visibility: hidden !important;
   }
 
-  body {
-    background: #ffffff !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  .id-preview-container {
-    padding: 0;
-    margin: 0;
-    min-height: auto;
-    background: #ffffff;
-  }
-
+  /* Show only print area */
   #StudentIdPreview-printArea,
   #StudentIdPreview-printArea * {
     visibility: visible !important;
   }
 
+  /* Print container */
+  .id-preview-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    background: #ffffff !important;
+    width: 210mm !important;
+  }
+
+  /* Hide toolbar */
   .id-preview-toolbar {
     display: none !important;
   }
 
+  /* Print area - full coverage */
   .id-print-area {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    padding: 0;
-    box-shadow: none;
-    border: none;
-    background: #ffffff;
-    border-radius: 0;
+    position: relative !important;
+    width: 210mm !important;
+    padding: 5mm 5mm 0 5mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    border-radius: 0 !important;
+    min-height: 297mm !important;
   }
 
+  /* Card grid - 2 columns with proper spacing */
   .id-card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 86mm) !important;
-    grid-auto-rows: 135mm;
-    gap: 8mm !important;
-    justify-content: start;
-    align-items: start;
-    padding: 4mm 0 0 4mm;
+    display: grid !important;
+    grid-template-columns: repeat(2, 92mm) !important;
+    grid-auto-rows: 135mm !important;
+    gap: 4mm 5mm !important;
+    justify-content: center !important;
+    align-items: start !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
   }
 
+  /* Individual card */
   .id-card {
-    width: 86mm !important;
+    width: 92mm !important;
     height: 135mm !important;
+    min-height: 0 !important;
     max-width: none !important;
     margin: 0 !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
     box-shadow: none !important;
-    border: 1px solid #94a3b8 !important;
-    border-radius: 2mm;
+    border: 1px solid #e0c4c9 !important;
+    border-radius: 2mm !important;
     animation: none !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .id-card:hover {
-    transform: none;
+    transform: none !important;
   }
 
-  .id-card-pattern {
-    opacity: 0.02;
-  }
-
+  /* Header */
   .id-card-header {
-    padding: 4mm 5mm 3mm;
-    gap: 3mm;
+    padding: 3mm 4mm 2.5mm !important;
+    gap: 2.5mm !important;
+    flex-shrink: 0 !important;
+    background: linear-gradient(135deg, #e11d48, #9f1239) !important;
   }
 
-  .id-school-logo-wrap {
-    width: 16mm;
-    height: 16mm;
-    box-shadow: 0 0 0 1.5px #d4af37 !important;
+  .id-card-header::after {
+    height: 1.5px !important;
   }
 
   .id-school-logo {
-    width: 11mm;
-    height: 11mm;
+    width: 9mm !important;
+    height: 9mm !important;
+    box-shadow: 0 0 0 1.5px #d4af37 !important;
+    padding: 1.5px !important;
   }
 
   .id-school-details h3 {
-    font-size: 9pt;
-    line-height: 1.18;
-    overflow-wrap: anywhere;
+    font-size: 7.5pt !important;
+    line-height: 1.1 !important;
+    overflow-wrap: anywhere !important;
+    color: #ffffff !important;
   }
 
   .id-school-details p {
-    font-size: 6.4pt;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
+    font-size: 5.5pt !important;
+    line-height: 1.1 !important;
+    overflow-wrap: anywhere !important;
+    color: #ffe4e9 !important;
   }
 
-  .id-title-bar {
-    padding: 2.4mm 0;
-    font-size: 9pt;
-    letter-spacing: 0.5pt;
-  }
-
-  .id-title-bar-icon {
-    font-size: 9pt;
-  }
-
-  /* Core alignment fix for print engine rendering */
-  .id-photo-section {
-    height: 48mm;
-    padding: 5mm 4mm 3mm;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .id-photo-outer-ring {
-    width: 28mm;
-    height: 28mm;
-    padding: 0.8mm;
-    margin: 0 auto 4mm;
-    box-shadow: none;
-    background: #d4af37 !important; /* Standard gold solid border for strict print consistency */
-    border-radius: 50% !important;
-  }
-
-  .id-photo-inner-ring {
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0.6mm;
-    border-radius: 50% !important;
+  /* Photo container */
+  .id-photo-container {
+    padding: 2.5mm 0 2mm !important;
+    flex-shrink: 0 !important;
     background: #ffffff !important;
   }
 
   .id-photo-frame {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 50% !important;
-  }
-
-  .id-photo-clip {
-    position: absolute;
-    inset: 0;
-    border-radius: 50% !important;
+    position: relative !important;
+    width: 22mm !important;
+    height: 22mm !important;
+    flex: 0 0 22mm !important;
+    border: 0.8mm solid #e11d48 !important;
+    border-radius: 2.5mm !important;
+    box-shadow: none !important;
     overflow: hidden !important;
+    background: #f0f0f0 !important;
   }
 
-  .id-photo-clip img {
+  .id-photo-frame img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
     object-position: center center !important;
-    border-radius: 50% !important; /* Double forced layer ensures round photo matching */
   }
 
-  .id-roll-chip {
-    font-size: 6.4pt;
-    padding: 0.6mm 2.2mm;
-    bottom: -1mm;
+  /* Bio section */
+  .id-bio-section {
+    margin-bottom: 1.5mm !important;
+    padding: 0 3mm !important;
+    flex-shrink: 0 !important;
   }
 
   .id-student-name {
-    width: 100%;
-    max-height: 9mm;
-    margin: 0;
-    padding: 0 3mm;
-    font-size: 10pt;
-    line-height: 1.15;
-    text-align: center;
-    overflow-wrap: anywhere;
-    overflow: hidden;
+    font-size: 9.5pt !important;
+    line-height: 1.1 !important;
+    overflow-wrap: anywhere !important;
+    color: #e11d48 !important;
   }
 
-  .id-student-class {
-    display: block;
-    flex: 0 0 auto;
-    font-size: 8.2pt;
-    line-height: 1.2;
-    margin-top: 1mm;
-    text-align: center;
+  .id-student-meta {
+    font-size: 6.5pt !important;
+    margin-top: 0.5mm !important;
+    color: #1e3a8a !important;
   }
 
-  .id-info-grid {
-    padding: 4mm 6mm;
-    gap: 0;
-    min-height: 0;
+  /* Info table */
+  .id-info-table {
+    padding: 0 4mm 1.5mm !important;
+    flex: 1 !important;
+    font-size: 7pt !important;
   }
 
   .id-info-row {
-    display: grid;
-    grid-template-columns: 25mm minmax(0, 1fr);
-    column-gap: 2mm;
-    font-size: 8pt;
-    line-height: 1.25;
-    min-height: 4mm;
-    align-items: start;
-    padding: 0.8mm 1.5mm;
+    display: flex !important;
+    margin-bottom: 0.8mm !important;
+    padding: 0.5px 0 !important;
+    line-height: 1.2 !important;
+    border-bottom: 0.5px dashed #fbe4e9 !important;
   }
 
-  .id-label {
-    width: auto;
-    min-width: 0;
+  .id-info-row:last-child {
+    border-bottom: none !important;
   }
 
-  .id-value {
-    min-width: 0;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+  .id-info-row span:first-child {
+    width: 18mm !important;
+    flex-shrink: 0 !important;
+    font-size: 6.5pt !important;
+    color: #1e3a8a !important;
+    font-weight: 600 !important;
   }
 
+  .id-colon {
+    width: 5px !important;
+    flex-shrink: 0 !important;
+    color: #1e3a8a !important;
+    font-weight: 600 !important;
+  }
+
+  .id-info-row strong {
+    font-size: 6.5pt !important;
+    color: #9f1239 !important;
+    font-weight: 700 !important;
+    word-break: break-word !important;
+  }
+
+  /* Footer */
   .id-card-footer {
-    padding: 4mm 6mm;
+    padding: 2mm 4mm !important;
+    font-size: 6pt !important;
+    flex-shrink: 0 !important;
+    letter-spacing: 0.5px !important;
+    background: linear-gradient(135deg, #e11d48, #9f1239) !important;
+    color: #ffffff !important;
+    margin-top: auto !important;
   }
 
-  .id-footer-signature-container {
-    width: 48mm;
+  .id-card-footer::before,
+  .id-card-footer::after {
+    content: "" !important;
   }
 
-  .id-sign-line {
-    height: 4mm;
-    margin-bottom: 1.5mm;
+  /* Page break handling */
+  .id-card-grid .id-card:nth-child(2n) {
+    margin-right: 0 !important;
   }
 
-  .id-footer-signature-container p {
-    font-size: 7pt;
+  /* Ensure cards don't break across pages */
+  .id-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Force color printing */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 }
 
+/* Page setup */
 @page {
   size: A4 portrait;
-  margin: 0mm; /* Managed cleanly by grid container layout padding */
+  margin: 0mm;
 }
 
 /* ==========================================================
@@ -725,10 +702,10 @@
 @keyframes cardFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px) scale(0.98);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
