@@ -14,6 +14,7 @@ const {
   deleteAttendance,
   markAttendanceByAdmin,
   getAttendanceHistory,
+  getAllTodayAttendance
 } = require("../controllers/teacherAttendance.controller");
 
 const auth = require("../middleware/authMiddleware");
@@ -33,6 +34,8 @@ router.post("/", auth, markAttendance);
 
 
 router.get("/today", auth, getTodayAttendance);
+
+router.get("/admin/today", auth, getAllTodayAttendance);
 
 // Monthly
 router.get("/monthly", auth, getMonthlyAttendance);

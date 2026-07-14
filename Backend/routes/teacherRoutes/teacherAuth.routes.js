@@ -11,12 +11,15 @@ const {
 const {
   getMeTeacher,
   updateMyTeacherImage,
+  getTeachers,
 } = require("../../controllers/teacherController/createteacher.controller");
 
 // AUTH
 router.post("/login", loginTeacher);
 router.post("/logout", logoutTeacher);
 
+
+router.get("/all", auth, getTeachers);
 // CURRENT USER
 router.get("/me", auth, getMeTeacher);
 
