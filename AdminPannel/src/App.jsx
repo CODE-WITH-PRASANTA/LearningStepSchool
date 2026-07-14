@@ -542,7 +542,7 @@ export default function App() {
 
           <Route path="/student/id-card" element={<StudentIdCard />} />
           
-           <Route path="/all-requests" element={<AllLeaveRequest />} /> 
+           <Route path="/leave/requests" element={<AllLeaveRequest />} /> 
            <Route path="/leave/balance" element={<LeaveBalance />} />
            <Route path="/leave/types" element={<LeaveTypes />} />
           <Route path="/leave/settings" element={<LeaveSettings />} />
