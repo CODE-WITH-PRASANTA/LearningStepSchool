@@ -132,7 +132,6 @@ app.use("/api/exam-results", examResult);
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/student-leave", studentLeaveRoutes);
-app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 
 // expenses
 app.use("/api/expense-heads", expenseHeadRoutes);
@@ -141,6 +140,7 @@ app.use("/api/expenses", expenseRoutes);
 app.use("/api/admin", teacherCreateRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
 app.use("/api", permissionRoutes);
+app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 app.use("/api", leaveRoutes);
 // salary and payroll
 app.use("/api/wallet", walletRoutes);

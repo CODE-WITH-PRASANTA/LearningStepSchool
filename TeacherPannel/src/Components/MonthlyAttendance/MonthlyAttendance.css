@@ -83,10 +83,21 @@
 }
 
 /* Dynamic Summary Card Variants */
-.card-present { background-color: #4caf50; }
-.card-absent { background-color: #f44336; }
-.card-late { background-color: #ff9800; }
-.card-halfday { background-color: #2196f3; }
+.card-present {
+  background-color: #4caf50;
+}
+
+.card-absent {
+  background-color: #f44336;
+}
+
+.card-late {
+  background-color: #ff9800;
+}
+
+.card-halfday {
+  background-color: #2196f3;
+}
 
 /* Dashboard Calendar Sheet */
 .calendar-panel {
@@ -123,10 +134,10 @@
   border: 1px solid;
   cursor: pointer;
   /* Added transitions for a super smooth interactive hover effect */
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-              background-color 0.2s ease, 
-              border-color 0.2s ease, 
-              box-shadow 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* --- DYNAMIC STATES & THEIR SPECIFIC HOVER EFFECTS --- */
@@ -137,6 +148,7 @@
   color: #b0b0b0;
   border-color: #f1f1f1;
 }
+
 .date-box.status-default:hover {
   background-color: #f1f3f5;
   border-color: #cbd5e1;
@@ -150,6 +162,7 @@
   color: #2e7d32;
   border-color: #c8e6c9;
 }
+
 .date-box.status-present:hover {
   background-color: #e1f0e1;
   border-color: #a1d9a4;
@@ -163,6 +176,7 @@
   color: #d32f2f;
   border-color: #ffcdd2;
 }
+
 .date-box.status-absent:hover {
   background-color: #fbe0e0;
   border-color: #ef9a9a;
@@ -176,11 +190,41 @@
   color: #ed6c02;
   border-color: #ffe0b2;
 }
+
 .date-box.status-late:hover {
   background-color: #ffeace;
   border-color: #ffcc80;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px -2px rgba(237, 108, 2, 0.15);
+}
+
+
+/* Half Day (Blue) */
+.date-box.status-halfday {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border-color: #90caf9;
+}
+
+.date-box.status-halfday:hover {
+  background-color: #bbdefb;
+  border-color: #64b5f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(33, 150, 243, 0.2);
+}
+
+/* Leave (Purple) */
+.date-box.status-leave {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+  border-color: #ce93d8;
+}
+
+.date-box.status-leave:hover {
+  background-color: #e1bee7;
+  border-color: #ba68c8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(123, 31, 162, 0.2);
 }
 
 /* Lower Legend Index Markers */
@@ -207,10 +251,302 @@
   border-radius: 50%;
 }
 
-.dot-present { background-color: #4caf50; }
-.dot-absent { background-color: #f44336; }
-.dot-late { background-color: #ff9800; }
-.dot-halfday { background-color: #2196f3; }
+.dot-present {
+  background-color: #4caf50;
+}
+
+.dot-absent {
+  background-color: #f44336;
+}
+
+.dot-late {
+  background-color: #ff9800;
+}
+
+.dot-halfday {
+  background-color: #2196f3;
+}
+
+.calendar-week-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 12px;
+}
+
+.calendar-week-header div {
+  text-align: center;
+  font-weight: 700;
+  color: #64748b;
+  padding: 12px 0;
+}
+
+.empty-box {
+  aspect-ratio: 1;
+}
+
+.calendar-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.month-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.month-btn:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+.calendar-week-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 15px;
+}
+
+.calendar-week-header div {
+  text-align: center;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.empty-box {
+  aspect-ratio: 1;
+}
+
+.today-box {
+  outline: 4px solid #2563eb;
+}
+
+.date-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-future {
+  background: #f8fafc;
+  color: #cbd5e1;
+  border-color: #e2e8f0;
+}
+
+.date-box small {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+.attendance-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, .55);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.attendance-modal {
+  width: 850px;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, .2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.modal-header p {
+  margin-top: 6px;
+  color: #64748b;
+}
+
+.close-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f5f9;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.close-btn:hover {
+  background: #e2e8f0;
+}
+
+.status-pill {
+  display: inline-flex;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.status-pill.present {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pill.absent {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-pill.late {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill.half-day {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-pill.leave {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.attendance-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.summary-card h4 {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.summary-card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.section h3 {
+  margin-bottom: 18px;
+}
+
+.break-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2563eb;
+  margin-top: 8px;
+}
+
+@media(max-width:768px) {
+
+  .attendance-summary {
+
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+  .break-card {
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+  }
+
+  .modal-header {
+
+    flex-direction: column;
+
+    gap: 15px;
+
+  }
+
+}
+
+@media(max-width:480px) {
+
+  .attendance-summary {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .attendance-modal {
+
+    padding: 18px;
+
+  }
+
+  .modal-header h2 {
+
+    font-size: 22px;
+
+  }
+
+}
 
 /* Responsive Media Viewports */
 @media (max-width: 1024px) {
@@ -223,6 +559,7 @@
   .calendar-grid {
     grid-template-columns: repeat(4, 1fr);
   }
+
   .attendance-header {
     flex-direction: column;
     align-items: flex-start;
@@ -231,7 +568,9 @@
 }
 
 @media (max-width: 480px) {
-  .stats-grid, .calendar-grid {
+
+  .stats-grid,
+  .calendar-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
