@@ -1,0 +1,755 @@
+/* ==========================================
+   LEAVE SETTINGS
+========================================== */
+
+.leaveSettings{
+    width:100%;
+    min-height:100vh;
+    padding:20px;
+    background:#eef2f6;
+    font-family:"Poppins",sans-serif;
+    box-sizing:border-box;
+}
+
+.leaveSettings *{
+    box-sizing:border-box;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.leaveSettings__top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.leaveSettings__top h2{
+    margin:0;
+    font-size:24px;
+    font-weight:100;
+    color:#24364d;
+}
+
+.leaveSettings__breadcrumb{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#68758b;
+    font-size:10px;
+}
+
+.leaveSettings__breadcrumb svg{
+    font-size:8px;
+}
+
+.leaveSettings__breadcrumb .active{
+    color:#24364d;
+    font-weight:100;
+}
+
+/* ==========================================
+   CARD
+========================================== */
+
+.leaveSettings__card{
+    width:100%;
+    background:#ffffff;
+    border-radius:14px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    padding:26px;
+}
+
+.leaveSettings__heading{
+    margin:0 0 28px;
+    font-size:20px;
+    font-weight:100;
+    color:#1d2b42;
+}
+
+/* ==========================================
+   FORM
+========================================== */
+
+.leaveSettings__form{
+    width:100%;
+}
+
+.leaveSettings__grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+}
+
+/* ==========================================
+   FIELD
+========================================== */
+
+.leaveSettings__field{
+    display:flex;
+    flex-direction:column;
+}
+
+.leaveSettings__field--full{
+    grid-column:1/-1;
+}
+
+.leaveSettings__field--empty{
+    visibility:hidden;
+}
+
+/* ==========================================
+   LABEL
+========================================== */
+
+.leaveSettings__field label{
+    font-size:14px;
+    font-weight:200;
+    color:#4c5567;
+    margin-bottom:8px;
+}
+
+/* ==========================================
+   INPUT
+========================================== */
+
+.leaveSettings__field input{
+    width:100%;
+    height:54px;
+    padding:0 18px;
+    border:1px solid #bfc7d5;
+    border-radius:6px;
+    outline:none;
+    font-size:17px;
+    color:#24364d;
+    background:#fff;
+    transition:.25s;
+}
+
+.leaveSettings__field input::placeholder{
+    color:#8b95a6;
+}
+
+.leaveSettings__field input:focus{
+    border-color:#5569e9;
+    box-shadow:0 0 0 3px rgba(85,105,233,.12);
+}
+
+/* ==========================================
+   SELECT
+========================================== */
+
+.leaveSettings__field select{
+    width:100%;
+    height:44px;
+    padding:0 18px;
+    border:1px solid #bfc7d5;
+    border-radius:6px;
+    outline:none;
+    font-size:16px;
+    color:#24364d;
+    cursor:pointer;
+    background:#fff;
+    transition:.25s;
+
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5l6.5 6 6.5-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 18px center;
+    background-size:18px;
+}
+
+.leaveSettings__field select:focus{
+    border-color:#5569e9;
+    box-shadow:0 0 0 3px rgba(85,105,233,.12);
+}
+
+/* ==========================================
+   TEXTAREA
+========================================== */
+
+.leaveSettings__field textarea{
+    width:100%;
+    min-height:140px;
+    padding:18px;
+    border:1px solid #bfc7d5;
+    border-radius:6px;
+    resize:vertical;
+    outline:none;
+    font-size:16px;
+    color:#24364d;
+    transition:.25s;
+}
+
+.leaveSettings__field textarea::placeholder{
+    color:#8b95a6;
+}
+
+.leaveSettings__field textarea:focus{
+    border-color:#5569e9;
+    box-shadow:0 0 0 3px rgba(85,105,233,.12);
+}
+/* ==========================================
+   CHECKBOX SECTION
+========================================== */
+
+.leaveSettings__checkboxSection{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    margin-top:25px;
+}
+
+.leaveSettings__checkbox{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    cursor:pointer;
+    font-size:16px;
+    color:#24364d;
+    user-select:none;
+    font-weight:400;
+}
+
+.leaveSettings__checkbox input{
+    position:absolute;
+    opacity:0;
+    cursor:pointer;
+}
+
+/* ==========================================
+   CUSTOM CHECKBOX
+========================================== */
+
+.leaveSettings__checkmark{
+    width:20px;
+    height:20px;
+    border:2px solid #bfc7d5;
+    border-radius:5px;
+    background:#fff;
+    transition:.25s;
+    position:relative;
+    flex-shrink:0;
+}
+
+.leaveSettings__checkbox:hover .leaveSettings__checkmark{
+    border-color:#5569e9;
+}
+
+.leaveSettings__checkbox input:checked
+~ .leaveSettings__checkmark{
+    background:#5569e9;
+    border-color:#5569e9;
+}
+
+.leaveSettings__checkbox input:checked
+~ .leaveSettings__checkmark::after{
+
+    content:"✓";
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-55%);
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.leaveSettings__footer{
+    margin-top:45px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+/* ==========================================
+   SAVE BUTTON
+========================================== */
+
+.leaveSettings__saveBtn{
+
+    min-width:180px;
+    height:50px;
+    border:none;
+    outline:none;
+    border-radius:10px;
+
+    background:#5569e9;
+    color:#fff;
+
+    font-size:18px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:0 10px 25px rgba(85,105,233,.25);
+
+}
+
+.leaveSettings__saveBtn:hover:not(:disabled){
+
+    background:#4257dc;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 14px 28px rgba(85,105,233,.35);
+
+}
+
+.leaveSettings__saveBtn:active{
+
+    transform:scale(.98);
+
+}
+
+.leaveSettings__saveBtn:disabled{
+
+    background:#d5d8e2;
+
+    color:#8a8f99;
+
+    cursor:not-allowed;
+
+    box-shadow:none;
+
+}
+
+/* ==========================================
+   SUCCESS ALERT
+========================================== */
+
+.leaveSettings__success{
+
+    min-width:420px;
+    max-width:500px;
+
+    background:#f2fff4;
+
+    border:2px solid #67d779;
+
+    border-radius:12px;
+
+    padding:22px;
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    animation:successPopup .35s ease;
+
+    position:relative;
+
+}
+
+/* Success Icon */
+
+.leaveSettings__successIcon{
+
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    background:#36b24a;
+
+    color:#fff;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:24px;
+    font-weight:bold;
+
+    flex-shrink:0;
+
+}
+
+/* Success Text */
+
+.leaveSettings__success h4{
+
+    margin:0 0 6px;
+
+    color:#17853a;
+
+    font-size:22px;
+
+}
+
+.leaveSettings__success p{
+
+    margin:0;
+
+    color:#555;
+
+    font-size:16px;
+
+    line-height:1.5;
+
+}
+
+/* Close */
+
+.leaveSettings__successClose{
+
+    position:absolute;
+
+    right:15px;
+
+    top:12px;
+
+    width:34px;
+    height:34px;
+
+    border:none;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    color:#777;
+
+    font-size:26px;
+
+    transition:.25s;
+
+}
+
+.leaveSettings__successClose:hover{
+
+    color:#111;
+
+    transform:rotate(90deg);
+
+}
+
+/* ==========================================
+   HOVER EFFECTS
+========================================== */
+
+.leaveSettings__field input:hover,
+.leaveSettings__field textarea:hover,
+.leaveSettings__field select:hover{
+
+    border-color:#8a97f0;
+
+}
+
+.leaveSettings__card{
+
+    transition:.3s;
+
+}
+
+.leaveSettings__card:hover{
+
+    box-shadow:0 10px 35px rgba(0,0,0,.12);
+
+}
+
+/* ==========================================
+   SUCCESS ANIMATION
+========================================== */
+
+@keyframes successPopup{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+/* ==========================================
+   RESPONSIVE - LARGE TABLETS
+========================================== */
+
+@media (max-width: 1200px) {
+
+  .leaveSettings {
+    padding: 18px;
+  }
+
+  .leaveSettings__card {
+    padding: 22px;
+  }
+
+  .leaveSettings__grid {
+    gap: 22px;
+  }
+
+  .leaveSettings__top h2 {
+    font-size: 30px;
+  }
+
+  .leaveSettings__heading {
+    font-size: 26px;
+  }
+
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+========================================== */
+
+@media (max-width: 992px) {
+
+  .leaveSettings {
+    padding: 16px;
+  }
+
+  .leaveSettings__top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .leaveSettings__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .leaveSettings__field--full,
+  .leaveSettings__field--empty {
+    grid-column: auto;
+    visibility: visible;
+  }
+
+  .leaveSettings__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .leaveSettings__saveBtn {
+    width: 100%;
+  }
+
+  .leaveSettings__success {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .leaveSettings {
+    padding: 14px;
+  }
+
+  .leaveSettings__card {
+    padding: 18px;
+    border-radius: 10px;
+  }
+
+  .leaveSettings__top h2 {
+    font-size: 26px;
+  }
+
+  .leaveSettings__heading {
+    font-size: 22px;
+    margin-bottom: 22px;
+  }
+
+  .leaveSettings__breadcrumb {
+    flex-wrap: wrap;
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  .leaveSettings__field label {
+    font-size: 14px;
+  }
+
+  .leaveSettings__field input,
+  .leaveSettings__field select {
+    height: 52px;
+    font-size: 15px;
+    padding: 0 14px;
+  }
+
+  .leaveSettings__field textarea {
+    min-height: 120px;
+    font-size: 15px;
+    padding: 14px;
+  }
+
+  .leaveSettings__checkbox {
+    font-size: 15px;
+  }
+
+  .leaveSettings__checkmark {
+    width: 22px;
+    height: 22px;
+  }
+
+  .leaveSettings__saveBtn {
+    height: 52px;
+    font-size: 16px;
+  }
+
+  .leaveSettings__success {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .leaveSettings__successIcon {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .leaveSettings__success h4 {
+    font-size: 18px;
+  }
+
+  .leaveSettings__success p {
+    font-size: 14px;
+  }
+
+  .leaveSettings__successClose {
+    top: 10px;
+    right: 10px;
+  }
+
+}
+
+/* ==========================================
+   RESPONSIVE - SMALL MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+
+  .leaveSettings {
+    padding: 10px;
+  }
+
+  .leaveSettings__card {
+    padding: 14px;
+  }
+
+  .leaveSettings__top h2 {
+    font-size: 22px;
+  }
+
+  .leaveSettings__heading {
+    font-size: 20px;
+  }
+
+  .leaveSettings__breadcrumb {
+    font-size: 12px;
+  }
+
+  .leaveSettings__field label {
+    font-size: 13px;
+  }
+
+  .leaveSettings__field input,
+  .leaveSettings__field select {
+    height: 48px;
+    font-size: 14px;
+  }
+
+  .leaveSettings__field textarea {
+    min-height: 100px;
+    font-size: 14px;
+  }
+
+  .leaveSettings__checkbox {
+    font-size: 14px;
+    gap: 12px;
+  }
+
+  .leaveSettings__checkmark {
+    width: 20px;
+    height: 20px;
+  }
+
+  .leaveSettings__saveBtn {
+    height: 48px;
+    font-size: 15px;
+  }
+
+  .leaveSettings__success {
+    padding: 15px;
+  }
+
+  .leaveSettings__success h4 {
+    font-size: 17px;
+  }
+
+  .leaveSettings__success p {
+    font-size: 13px;
+  }
+
+}
+
+/* ==========================================
+   SMOOTH TRANSITIONS
+========================================== */
+
+.leaveSettings__field input,
+.leaveSettings__field select,
+.leaveSettings__field textarea,
+.leaveSettings__saveBtn,
+.leaveSettings__checkbox,
+.leaveSettings__card,
+.leaveSettings__success {
+  transition: all .3s ease;
+}
+
+/* ==========================================
+   CUSTOM SCROLLBAR
+========================================== */
+
+.leaveSettings ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.leaveSettings ::-webkit-scrollbar-thumb {
+  background: #b9c3d6;
+  border-radius: 20px;
+}
+
+.leaveSettings ::-webkit-scrollbar-thumb:hover {
+  background: #8d9cc2;
+}
+
+.leaveSettings ::-webkit-scrollbar-track {
+  background: #eef2f6;
+}

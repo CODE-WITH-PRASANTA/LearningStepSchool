@@ -263,6 +263,64 @@ const menu = [
   { type: "divider" },
 
   {
+    label: "Attendance",
+    icon: FiCheckSquare,
+    children: [
+      {
+        label: "Today Attendance",
+        path: "/today",
+      },
+      {
+        label: "Employee Attendance",
+        path: "/employee",
+      },
+      {
+        label: "Attendance Sheet",
+        path: "/sheet",
+      },
+      {
+        label: "Timesheets",
+        path: "/timesheets",
+      },
+      {
+        label: "Overtime Requests",
+        path: "/overtime",
+      },
+      {
+        label: "Shift Planning",
+        path: "/shift-planning",
+      },
+      {
+        label: "Remote/WFH Request",
+        path: "/remote-wfh",
+      },
+    ],
+  },
+
+  {
+    label: "Leave Management",
+    icon: FiCalendar,
+    children: [
+      {
+        label: "All Leave Request",
+        path: "/leave/requests",
+      },
+      {
+        label: "Leave Balance",
+        path: "/leave/balance",
+      },
+      {
+        label: "Leave Types",
+        path: "/leave/types",
+      },
+      {
+        label: "Leave Setting",
+        path: "/leave/settings",
+      },
+    ],
+  },
+
+  {
     label: "HR & Access Control",
     icon: FiSettings,
     children: [
