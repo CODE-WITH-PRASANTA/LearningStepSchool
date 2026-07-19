@@ -1,0 +1,445 @@
+/* VehcleKm.css */
+
+/* ===== GLOBAL RESET / BASE ===== */
+.vk-page-wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
+  background: #f4f7fc;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ===== HEADER ===== */
+.vk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #ffffff;
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 20, 50, 0.06);
+  margin-bottom: 2rem;
+}
+
+.vk-header__title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #0b2b4a;
+  letter-spacing: -0.5px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vk-header__title::before {
+  content: "📋";
+  font-size: 2rem;
+}
+
+.vk-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f0f4fe;
+  padding: 0.4rem 1.2rem 0.4rem 0.8rem;
+  border-radius: 40px;
+}
+
+.vk-profile__image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.vk-profile__name {
+  font-weight: 600;
+  color: #1a3a5c;
+  font-size: 0.95rem;
+}
+
+/* ===== GRID (FORM + INFO CARD) ===== */
+.vk-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ===== FORM CARD ===== */
+.vk-card-form {
+  background: #ffffff;
+  padding: 2rem 2rem 2.2rem;
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(0, 20, 50, 0.07);
+  transition: box-shadow 0.2s;
+}
+
+.vk-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.vk-form-group__label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1f3b5c;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.3px;
+}
+
+.vk-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vk-input-field,
+.vk-select-field {
+  width: 100%;
+  padding: 0.9rem 1rem 0.9rem 1rem;
+  border: 1.5px solid #e2eaf2;
+  border-radius: 14px;
+  font-size: 1rem;
+  background: #fafcff;
+  transition: 0.2s;
+  color: #1f2f44;
+  outline: none;
+  font-weight: 500;
+}
+
+.vk-input-field:focus,
+.vk-select-field:focus {
+  border-color: #2a6b9c;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(42, 107, 156, 0.08);
+}
+
+.vk-input-field {
+  padding-right: 3.2rem;
+}
+
+.vk-input-icon {
+  position: absolute;
+  right: 14px;
+  color: #6a84a0;
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+.vk-km-badge {
+  position: absolute;
+  right: 12px;
+  background: #e3ecf5;
+  color: #1e4970;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 30px;
+  letter-spacing: 0.5px;
+}
+
+.vk-select-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235c7a9a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* ===== SUMMARY BOX ===== */
+.vk-summary-box {
+  background: #edf4fa;
+  padding: 1.2rem 1.5rem;
+  border-radius: 18px;
+  margin: 1.8rem 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  border-left: 6px solid #1f6390;
+}
+
+.vk-summary-box p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #1a3450;
+  font-weight: 500;
+}
+
+.vk-summary-box strong {
+  color: #0b2b4a;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.vk-btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #1a5a82 0%, #0e3f60 100%);
+  border: none;
+  border-radius: 60px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 0 8px 18px rgba(20, 70, 120, 0.25);
+}
+
+.vk-btn-submit:hover {
+  transform: scale(1.01);
+  background: linear-gradient(135deg, #1f6a96 0%, #124b70 100%);
+  box-shadow: 0 12px 24px rgba(20, 70, 120, 0.35);
+}
+
+.vk-btn-submit:active {
+  transform: scale(0.97);
+}
+
+/* ===== RIGHT INFO CARD ===== */
+.vk-info-card {
+  background: linear-gradient(145deg, #ffffff, #f6faff);
+  border-radius: 28px;
+  padding: 2.2rem 2rem;
+  box-shadow: 0 12px 30px rgba(0, 20, 50, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #eaf1fa;
+}
+
+.vk-info-card__icon-truck {
+  font-size: 3.4rem;
+  color: #2a6b9c;
+  opacity: 0.25;
+  position: absolute;
+  top: 10px;
+  left: 16px;
+}
+
+.vk-info-card__icon-map {
+  font-size: 3rem;
+  color: #3d7eae;
+  opacity: 0.18;
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+}
+
+.vk-info-card__icon-shield {
+  font-size: 2.6rem;
+  color: #2780b0;
+  opacity: 0.2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+}
+
+.vk-info-card__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #143450;
+  margin: 0 0 0.6rem;
+  z-index: 2;
+}
+
+.vk-info-card__text {
+  font-size: 1rem;
+  color: #31587a;
+  line-height: 1.6;
+  max-width: 220px;
+  z-index: 2;
+  margin: 0;
+}
+
+/* ===== TABLE CARD ===== */
+.vk-table-card {
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(0, 20, 50, 0.06);
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.vk-table-card__header {
+  padding: 1.5rem 2rem;
+  background: #f8fbfe;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #143450;
+  border-bottom: 1px solid #e5edf6;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.vk-table-card__header::before {
+  content: "📊";
+}
+
+.vk-table-wrapper {
+  overflow-x: auto;
+  padding: 0.5rem 0.2rem 1rem 0.2rem;
+}
+
+/* ===== TABLE ===== */
+.vk-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-width: 660px;
+}
+
+.vk-data-table thead tr {
+  background: #eef4fa;
+  border-radius: 16px 16px 0 0;
+}
+
+.vk-data-table th {
+  text-align: left;
+  padding: 1rem 1.2rem;
+  font-weight: 700;
+  color: #1a3d5e;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.vk-data-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #eaf0f7;
+  color: #1f3f5e;
+  font-weight: 500;
+}
+
+.vk-data-table tbody tr:hover {
+  background: #f7faff;
+}
+
+.vk-data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.vk-action-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.vk-btn-edit,
+.vk-btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.vk-btn-edit {
+  background: #e0edfa;
+  color: #1a5a82;
+}
+.vk-btn-edit:hover {
+  background: #c7def5;
+  transform: scale(1.04);
+}
+
+.vk-btn-delete {
+  background: #fce9ea;
+  color: #b13e44;
+}
+.vk-btn-delete:hover {
+  background: #fad3d5;
+  transform: scale(1.04);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .vk-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vk-header__title {
+    font-size: 1.5rem;
+  }
+
+  .vk-info-card {
+    min-height: 180px;
+  }
+
+  .vk-info-card__text {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .vk-page-wrapper {
+    padding: 1rem;
+  }
+
+  .vk-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.2rem 1.2rem;
+  }
+
+  .vk-profile {
+    align-self: flex-start;
+  }
+
+  .vk-card-form {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .vk-summary-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .vk-btn-submit {
+    font-size: 1rem;
+    padding: 0.9rem;
+  }
+
+  .vk-data-table th,
+  .vk-data-table td {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .vk-table-card__header {
+    font-size: 1.1rem;
+    padding: 1rem 1.2rem;
+  }
+
+  .vk-action-group {
+    flex-direction: column;
+  }
+
+  .vk-btn-edit,
+  .vk-btn-delete {
+    justify-content: center;
+  }
+}

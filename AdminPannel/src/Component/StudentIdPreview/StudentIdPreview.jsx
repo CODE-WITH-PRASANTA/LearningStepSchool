@@ -1,13 +1,12 @@
 import React from "react";
 import "./StudentIdPreview.css";
-import { FaPrint, FaArrowLeft, FaIdBadge } from "react-icons/fa";
+import { FaPrint, FaArrowLeft } from "react-icons/fa";
 import SchoolLogo from "../../Assets/Learning-Step-Logo-1.png";
 import { IMAGE_URL } from "../../api/axios";
 
 const StudentIdPreview = ({ students, onBack, onPrint }) => {
   const getStudentPhoto = (student) => {
     const photo = student.photo || student.studentPhoto;
-
     if (!photo) return "";
     if (/^https?:\/\//i.test(photo)) return photo;
     return `${IMAGE_URL}/${photo.replace(/^\/+/, "")}`;
@@ -15,7 +14,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
 
   return (
     <div className="id-preview-container">
-      {/* Action Toolbar */}
       <div className="id-preview-toolbar">
         <div className="id-preview-title">
           <h2>Student ID Card Preview</h2>
@@ -31,90 +29,67 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
         </div>
       </div>
 
-      {/* Printable Area Grid */}
       <div className="id-print-area" id="StudentIdPreview-printArea">
         <div className="id-card-grid">
           {students.map((student) => (
             <div className="id-card" key={student._id || student.id}>
-
-              {/* Decorative watermark pattern */}
-              <div className="id-card-pattern" aria-hidden="true"></div>
-
-              {/* Header Section */}
+              {/* Header */}
               <div className="id-card-header">
-                <div className="id-school-logo-wrap">
-                  <img src={SchoolLogo} alt="School Logo" className="id-school-logo" />
-                </div>
+                <img src={SchoolLogo} alt="Logo" className="id-school-logo" />
                 <div className="id-school-details">
                   <h3>THE LEARNING STEP INTERNATIONAL SCHOOL</h3>
-                  <p>Location: Tehla Bypass Alwar road, Rajgarh, Thana, Rajasthan 301408</p>
+                  <p>Tehla Bypass Alwar road, Rajgarh, Rajasthan</p>
                 </div>
               </div>
 
-              {/* Identity Title Bar */}
-              <div className="id-title-bar">
-                <span className="id-title-bar-icon"><FaIdBadge /></span>
-                <span>IDENTITY CARD</span>
+              {/* Photo Section — locked square frame, image always fills it via object-fit: cover */}
+              <div className="id-photo-container">
+                <div className="id-photo-frame">
+                  <img src={getStudentPhoto(student)} alt={student.name} />
+                </div>
               </div>
 
-              {/* Photo & Primary Bio */}
-              <div className="id-photo-section">
-                <div className="id-photo-outer-ring">
-                  <div className="id-photo-inner-ring">
-                    <div className="id-photo-frame">
-                      <div className="id-photo-clip">
-                        <img src={getStudentPhoto(student)} alt={student.name} />
-                      </div>
-                    </div>
-                  </div>
-                  <span className="id-roll-chip">#{student.rollNo}</span>
-                </div>
+              {/* Identity Info */}
+              <div className="id-bio-section">
                 <h4 className="id-student-name">{student.name}</h4>
-                <span className="id-student-class">
-                  Class: {student.class} - {student.section}
-                </span>
-              </div>
-
-              {/* Dynamic Info Field Grid */}
-              <div className="id-info-grid">
-                <div className="id-info-row">
-                  <span className="id-label">Roll No:</span>
-                  <span className="id-value">{student.rollNo}</span>
-                </div>
-                <div className="id-info-row">
-                  <span className="id-label">F. Name:</span>
-                  <span className="id-value">{student.fatherName}</span>
-                </div>
-                <div className="id-info-row">
-                  <span className="id-label">M. Name:</span>
-                  <span className="id-value">{student.motherName}</span>
-                </div>
-                <div className="id-info-row">
-                  <span className="id-label">Ph. No:</span>
-                  <span className="id-value">{student.phone}</span>
-                </div>
-                <div className="id-info-row">
-                  <span className="id-label">D.O.B:</span>
-                  <span className="id-value">{student.dob}</span>
-                </div>
-                <div className="id-info-row">
-                  <span className="id-label">Session:</span>
-                  <span className="id-value">{student.session}</span>
-                </div>
-                <div className="id-info-row id-full-width">
-                  <span className="id-label">Address:</span>
-                  <span className="id-value">{student.address}</span>
+                <div className="id-student-meta">
+                  Class: {student.class} | Roll: {student.rollNo}
                 </div>
               </div>
 
-              {/* Footer Section */}
+              {/* Table Data */}
+              <div className="id-info-table">
+                <div className="id-info-row">
+                  <span>Father Name</span>
+                  <span className="id-colon">:</span>
+                  <strong>{student.fatherName}</strong>
+                </div>
+                <div className="id-info-row">
+                  <span>Mother Name</span>
+                  <span className="id-colon">:</span>
+                  <strong>{student.motherName}</strong>
+                </div>
+                <div className="id-info-row">
+                  <span>Date of Birth</span>
+                  <span className="id-colon">:</span>
+                  <strong>{student.dob}</strong>
+                </div>
+                <div className="id-info-row">
+                  <span>Contact No</span>
+                  <span className="id-colon">:</span>
+                  <strong>{student.phone}</strong>
+                </div>
+                <div className="id-info-row">
+                  <span>Address</span>
+                  <span className="id-colon">:</span>
+                  <strong>{student.address}</strong>
+                </div>
+              </div>
+
+              {/* Signature Footer */}
               <div className="id-card-footer">
-                <div className="id-footer-signature-container">
-                  <div className="id-sign-line"></div>
-                  <p>Authorized Signature</p>
-                </div>
+                <p>Authorized Signatory</p>
               </div>
-
             </div>
           ))}
         </div>

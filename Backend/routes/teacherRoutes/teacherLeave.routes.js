@@ -5,6 +5,8 @@ const {
   applyLeave,
   getMyLeaves,
   getAllLeaves,
+  getLeaveById,
+  updateLeave,
   createLeaveByAdmin,
   updateLeaveStatus,
   deleteLeave,
@@ -15,7 +17,10 @@ const auth = require("../../middleware/authMiddleware");
 // 👨‍🏫 Teacher
 router.post("/teacher/leaves", auth, applyLeave);
 router.get("/teacher/leaves", auth, getMyLeaves);
+router.get("/teacher/leaves/:id", auth, getLeaveById);
+router.put("/teacher/leaves/:id", auth, updateLeave);
 router.delete("/teacher/leaves/:id", auth, deleteLeave);
+
 
 // 👨‍💼 Admin
 router.get("/admin/leaves", auth, getAllLeaves);

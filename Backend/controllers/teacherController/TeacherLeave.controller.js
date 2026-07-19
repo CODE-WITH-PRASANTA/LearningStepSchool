@@ -60,6 +60,35 @@ exports.getMyLeaves = async (req, res) => {
   }
 };
 
+exports.getLeaveById = async (req, res) => {
+  try {
+    const leave = await Leave.findOne({
+      _id: req.params.id,
+      teacher: req.user.id,
+    }).populate(
+      "teacher",
+      "name email department image"
+    );
+
+    if (!leave) {
+      return res.status(404).json({
+        success: false,
+        message: "Leave not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: leave,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 /* ================= GET ALL LEAVES (ADMIN) ================= */
 exports.getAllLeaves = async (req, res) => {
   try {
@@ -75,6 +104,62 @@ exports.getAllLeaves = async (req, res) => {
     res.json(leaves);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+
+exports.updateLeave = async (req, res) => {
+  try {
+    const {
+      leaveType,
+      fromDate,
+      toDate,
+      reason,
+    } = req.body;
+
+    const leave = await Leave.findOne({
+      _id: req.params.id,
+      teacher: req.user.id,
+    });
+
+    if (!leave) {
+      return res.status(404).json({
+        success: false,
+        message: "Leave not found",
+      });
+    }
+
+    if (leave.status !== "pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Only pending leave can be edited",
+      });
+    }
+
+    if (new Date(toDate) < new Date(fromDate)) {
+      return res.status(400).json({
+        success: false,
+        message: "'To Date' cannot be before 'From Date'",
+      });
+    }
+
+    leave.leaveType = leaveType;
+    leave.fromDate = fromDate;
+    leave.toDate = toDate;
+    leave.reason = reason;
+
+    await leave.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Leave updated successfully",
+      data: leave,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
   }
 };
 

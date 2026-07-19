@@ -39,6 +39,9 @@ const TeacherAttenanced = () => {
   const [attendance, setAttendance] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(null);
+
   const loadTodayAttendance = async () => {
     try {
       const res = await API.get("/teacher-attendance/today");
@@ -79,6 +82,57 @@ const TeacherAttenanced = () => {
     loadTodayAttendance();
   }, []);
 
+  const getCurrentLocation = () => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocation is not supported by your browser."));
+
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+
+          console.log("CURRENT LOCATION:", location);
+
+          setCurrentLocation(location);
+
+          resolve(location);
+        },
+
+        (error) => {
+          console.error("LOCATION ERROR:", error);
+
+          let message = "Unable to get current location.";
+
+          if (error.code === 1) {
+            message =
+              "Location permission denied. Please allow location access.";
+          }
+
+          if (error.code === 2) {
+            message = "Current location is unavailable.";
+          }
+
+          if (error.code === 3) {
+            message = "Location request timed out.";
+          }
+
+          reject(new Error(message));
+        },
+
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0,
+        },
+      );
+    });
+  };
   /* =====================================================
       DYNAMIC ACTIVE TIMERS ENGINE
   ====================================================== */
@@ -140,11 +194,28 @@ const TeacherAttenanced = () => {
   ====================================================== */
   const handlePunchIn = async () => {
     try {
-      await API.post("/teacher-attendance/punch-in");
+      setLocationLoading(true);
+
+      const location = await getCurrentLocation();
+
+      console.log("PUNCH IN LOCATION:", location);
+
+      const response = await API.post("/teacher-attendance/punch-in", {
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+
+      console.log("PUNCH IN RESPONSE:", response.data);
+
+      alert(response.data?.message);
 
       await loadTodayAttendance();
     } catch (err) {
-      alert(err.response?.data?.message);
+      console.error("PUNCH IN ERROR:", err.response?.data || err.message);
+
+      alert(err.response?.data?.message || err.message || "Unable to Punch In");
+    } finally {
+      setLocationLoading(false);
     }
   };
 
@@ -163,13 +234,33 @@ const TeacherAttenanced = () => {
 
     return () => clearInterval(timer);
   }, [attendance, breakSeconds, isPunchedIn]);
+
   const handlePunchOut = async () => {
     try {
-      await API.post("/teacher-attendance/punch-out");
+      setLocationLoading(true);
+
+      const location = await getCurrentLocation();
+
+      console.log("PUNCH OUT LOCATION:", location);
+
+      const response = await API.post("/teacher-attendance/punch-out", {
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+
+      console.log("PUNCH OUT RESPONSE:", response.data);
+
+      alert(response.data?.message);
 
       await loadTodayAttendance();
     } catch (err) {
-      alert(err.response?.data?.message);
+      console.error("PUNCH OUT ERROR:", err.response?.data || err.message);
+
+      alert(
+        err.response?.data?.message || err.message || "Unable to Punch Out",
+      );
+    } finally {
+      setLocationLoading(false);
     }
   };
 
@@ -257,9 +348,13 @@ const TeacherAttenanced = () => {
               <button
                 className="action-circle btn-punch-in"
                 onClick={handlePunchIn}
+                disabled={locationLoading}
               >
                 <FaSignInAlt className="circle-icon" />
-                <span>Punch In</span>
+
+                <span>
+                  {locationLoading ? "Getting Location..." : "Punch In"}
+                </span>
               </button>
             ) : isBreak ? (
               <button
@@ -274,9 +369,13 @@ const TeacherAttenanced = () => {
                 <button
                   className="action-circle btn-punch-out"
                   onClick={handlePunchOut}
+                  disabled={locationLoading}
                 >
                   <FaSignOutAlt className="circle-icon" />
-                  <span>Punch Out</span>
+
+                  <span>
+                    {locationLoading ? "Getting Location..." : "Punch Out"}
+                  </span>
                 </button>
                 <button className="secondary-break-btn" onClick={toggleBreak}>
                   <FaCoffee /> Go on Break

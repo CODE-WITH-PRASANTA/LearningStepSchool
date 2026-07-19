@@ -116,6 +116,8 @@ function App() {
 
             <Route path="/attendance/monthly" element={<MonthlyAttendance/>} />
             <Route path="/apply/leave" element={<Leave/>} />
+            <Route path="/apply/leave/:id" element={<Leave />} />
+
             <Route path="/attendance/history" element={<Attendance/>} />
 
             

@@ -56,6 +56,7 @@ const teacherCreateRoutes = require("./routes/teacherRoutes/createteacher.routes
 const permissionRoutes = require("./routes/teacherRoutes/permission.routes");
 const teacherAuthRoutes = require("./routes/teacherRoutes/teacherAuth.routes");
 const leaveRoutes = require("./routes/teacherRoutes/teacherLeave.routes");
+const teacherOvertimeRoutes = require("./routes/teacherRoutes/teacherOvertime.routes");
 
 const walletRoutes = require("./routes/wallet.routes");
 const payrollRoutes = require("./routes/payroll.routes");
@@ -85,10 +86,7 @@ const feeGroupRoutes = require("./routes/Fee/feeGroup.routes");
 const feeHeadRoutes = require("./routes/Fee/feeHead.routes");
 const feeStructureRoutes = require("./routes/Fee/feeStructure.routes");
 const feeEntryRoutes = require("./routes/Fee/feeEntry.routes");
-
-
-
-
+const shiftPlanningRoutes = require("./routes/shiftPlanning.routes");
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -142,6 +140,9 @@ app.use("/api/teacher", teacherAuthRoutes);
 app.use("/api", permissionRoutes);
 app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 app.use("/api", leaveRoutes);
+app.use("/api", teacherOvertimeRoutes);
+app.use("/api/shift-planning", shiftPlanningRoutes);
+
 // salary and payroll
 app.use("/api/wallet", walletRoutes);
 app.use("/api/payroll", payrollRoutes);
@@ -178,10 +179,6 @@ app.use("/api/fee-group", feeGroupRoutes);
 app.use("/api/fee-head", feeHeadRoutes);
 app.use("/api/fee-structure", feeStructureRoutes);
 app.use("/api/fee-entry", feeEntryRoutes);
-
-
-
-
 
 /* ================= 404 HANDLER ================= */
 

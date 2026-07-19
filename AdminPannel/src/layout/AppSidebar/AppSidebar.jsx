@@ -536,6 +536,29 @@ const menu = [
       },
     ],
   },
+  { type: "divider" },
+  {
+    label: "Vechile Controler",
+    icon: FiClipboard,
+    children: [
+      {
+        label: "Vehicle DashBoard",
+        path: "/vehicle/dashboard",
+      },
+       {
+        label: "Daily km log entry",
+        path: "/vehicle/km",
+      },
+        {
+        label: "System Setting",
+        path: "/vehicle/setting",
+      },
+      
+    ],
+  },
+
+  
+
 
   {
     label: "Accounts & Expenses",

@@ -1,59 +1,128 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./LeaveBalance.css";
+import API from "../../api/axios";
+
 import {
   FiHome,
   FiChevronRight,
   FiCalendar,
 } from "react-icons/fi";
+
 import {
   FaBriefcaseMedical,
   FaLeaf,
   FaRegSadTear,
 } from "react-icons/fa";
 
-const leaveData = [
+const LEAVE_CONFIG = [
   {
-    title: "Annual Leave",
+    title: "Earned Leave",
+    type: "earned",
     total: 15,
-    used: 5,
-    available: 10,
     color: "#11d9e8",
     icon: <FiCalendar />,
   },
   {
-    title: "Medical Leave",
+    title: "Maternity Leave",
+    type: "maternity",
     total: 10,
-    used: 2,
-    available: 8,
     color: "#FFA000",
     icon: <FaBriefcaseMedical />,
   },
   {
     title: "Casual Leave",
+    type: "casual",
     total: 12,
-    used: 3,
-    available: 9,
     color: "#0A8F08",
     icon: <FaLeaf />,
   },
   {
     title: "Sick Leave",
+    type: "sick",
     total: 7,
-    used: 1,
-    available: 6,
     color: "#ff1717",
     icon: <FaRegSadTear />,
   },
 ];
 
 const LeaveBalance = () => {
+  const [leaves, setLeaves] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchLeaves = async () => {
+    try {
+      setLoading(true);
+
+      const res = await API.get("/teacher/leaves");
+
+      console.log("Leave Balance Data:", res.data);
+
+      setLeaves(res.data);
+    } catch (err) {
+      console.error(
+        "Leave Balance Error:",
+        err.response?.data || err
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLeaves();
+  }, []);
+
+  const calculateLeaveDays = (fromDate, toDate) => {
+    const start = new Date(fromDate);
+    const end = new Date(toDate);
+
+    const difference = end - start;
+
+    return Math.floor(
+      difference / (1000 * 60 * 60 * 24)
+    ) + 1;
+  };
+
+  const leaveData = useMemo(() => {
+    return LEAVE_CONFIG.map((config) => {
+      const approvedLeaves = leaves.filter(
+        (leave) =>
+          leave.leaveType === config.type &&
+          leave.status === "approved"
+      );
+
+      const used = approvedLeaves.reduce(
+        (total, leave) => {
+          return (
+            total +
+            calculateLeaveDays(
+              leave.fromDate,
+              leave.toDate
+            )
+          );
+        },
+        0
+      );
+
+      return {
+        ...config,
+        used,
+        available: Math.max(config.total - used, 0),
+      };
+    });
+  }, [leaves]);
+
+  if (loading) {
+    return (
+      <div className="leave-page">
+        <h3>Loading leave balance...</h3>
+      </div>
+    );
+  }
+
   return (
     <div className="leave-page">
-
-      {/* Header */}
-
       <div className="leave-header">
-
         <h2>Leave Balance</h2>
 
         <div className="leave-breadcrumb">
@@ -63,19 +132,12 @@ const LeaveBalance = () => {
           <FiChevronRight />
           <span>Balance</span>
         </div>
-
       </div>
 
-      {/* Cards */}
-
       <div className="leave-grid">
-
-        {leaveData.map((item, index) => (
-
-          <div className="leave-card" key={index}>
-
+        {leaveData.map((item) => (
+          <div className="leave-card" key={item.type}>
             <div className="leave-top">
-
               <h3>{item.title}</h3>
 
               <div
@@ -84,11 +146,9 @@ const LeaveBalance = () => {
               >
                 {item.icon}
               </div>
-
             </div>
 
             <div className="leave-stats">
-
               <div>
                 <small>Total</small>
                 <h4>{item.total}</h4>
@@ -101,34 +161,27 @@ const LeaveBalance = () => {
 
               <div>
                 <small>Available</small>
-                <h4
-                  style={{
-                    color: "#5d74f3",
-                  }}
-                >
+
+                <h4 style={{ color: "#5d74f3" }}>
                   {item.available}
                 </h4>
               </div>
-
             </div>
 
             <div className="leave-progress">
-
               <div
                 className="leave-progress-fill"
                 style={{
-                  width: `${(item.used / item.total) * 100}%`,
+                  width: `${Math.min(
+                    (item.used / item.total) * 100,
+                    100
+                  )}%`,
                 }}
-              ></div>
-
+              />
             </div>
-
           </div>
-
         ))}
-
       </div>
-
     </div>
   );
 };

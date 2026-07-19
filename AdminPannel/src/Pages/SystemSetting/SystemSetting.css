@@ -1,0 +1,594 @@
+/* =============================================
+   SECTION 1: ROOT / PAGE WRAPPER
+   ============================================= */
+.ss-page-wrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  background: #f4f7fc;
+  min-height: 100vh;
+}
+
+/* =============================================
+   SECTION 2: FORM SECTION
+   ============================================= */
+.ss-form-section {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 36px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  margin-bottom: 28px;
+  border: 1px solid rgba(37, 99, 235, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.ss-form-section:hover {
+  box-shadow: 0 12px 48px rgba(37, 99, 235, 0.08);
+}
+
+/* =============================================
+   SECTION 3: FORM HEADER
+   ============================================= */
+.ss-form-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f4fe;
+}
+
+.ss-form-header-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #2563eb0c, #1d4ed80a);
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+.ss-form-header-icon {
+  font-size: 26px;
+  color: #2563eb;
+}
+
+.ss-form-header-text-group {
+  flex: 1;
+}
+
+.ss-form-header-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0b1e3a;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+
+.ss-form-header-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* =============================================
+   SECTION 4: FORM GRID
+   ============================================= */
+.ss-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 28px;
+}
+
+/* =============================================
+   SECTION 5: FORM FIELD
+   ============================================= */
+.ss-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ss-form-field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ss-form-field-icon {
+  color: #2563eb;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* =============================================
+   SECTION 6: FORM INPUT
+   ============================================= */
+.ss-form-input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f9fcff;
+  border-radius: 16px;
+  border: 1.5px solid #e2eaf6;
+  transition: all 0.25s ease;
+}
+
+.ss-form-input-box:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  background: #ffffff;
+}
+
+.ss-form-input {
+  width: 100%;
+  height: 54px;
+  border: none;
+  background: transparent;
+  padding: 0 70px 0 18px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0b1e3a;
+  outline: none;
+  letter-spacing: 0.01em;
+}
+
+.ss-form-input::placeholder {
+  color: #b0c4db;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.ss-form-input-unit {
+  position: absolute;
+  right: 14px;
+  background: #eef4ff;
+  padding: 6px 14px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e4e8a;
+  letter-spacing: 0.03em;
+}
+
+/* =============================================
+   SECTION 7: FORM FIELD NOTE
+   ============================================= */
+.ss-form-field-note {
+  font-size: 12px;
+  color: #6b7f9a;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 4px;
+}
+
+.ss-form-note-icon {
+  color: #2563eb;
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* =============================================
+   SECTION 8: FORM ACTIONS
+   ============================================= */
+.ss-form-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ss-form-save-btn {
+  height: 58px;
+  padding: 0 44px;
+  border: none;
+  border-radius: 40px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px -8px rgba(37, 99, 235, 0.4);
+  letter-spacing: 0.02em;
+  flex: 1 1 auto;
+}
+
+.ss-form-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -10px rgba(37, 99, 235, 0.5);
+  background: linear-gradient(135deg, #1d4ed8, #1a42b3);
+}
+
+.ss-form-save-btn:active {
+  transform: scale(0.97);
+}
+
+.ss-form-reset-btn {
+  height: 58px;
+  padding: 0 28px;
+  border: 1.5px solid #e2eaf6;
+  border-radius: 40px;
+  background: transparent;
+  color: #475569;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ss-form-reset-btn:hover {
+  background: #f8faff;
+  border-color: #cbd9eb;
+  color: #1e293b;
+}
+
+.ss-form-btn-icon {
+  font-size: 16px;
+}
+
+/* =============================================
+   SECTION 9: TABLE SECTION
+   ============================================= */
+.ss-table-section {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  border: 1px solid rgba(37, 99, 235, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.ss-table-section:hover {
+  box-shadow: 0 12px 48px rgba(37, 99, 235, 0.08);
+}
+
+/* =============================================
+   SECTION 10: TABLE HEADER
+   ============================================= */
+.ss-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 32px;
+  border-bottom: 1.5px solid #f0f4fe;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ss-table-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ss-table-title-icon {
+  color: #2563eb;
+  font-size: 20px;
+  opacity: 0.8;
+}
+
+.ss-table-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0b1e3a;
+  margin: 0;
+}
+
+.ss-table-count {
+  background: #eef4ff;
+  color: #1e4e8a;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ss-table-count-icon {
+  font-size: 13px;
+}
+
+/* =============================================
+   SECTION 11: TABLE WRAPPER
+   ============================================= */
+.ss-table-wrapper {
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+/* =============================================
+   SECTION 12: TABLE
+   ============================================= */
+.ss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.ss-table thead {
+  background: #f8fcff;
+  border-bottom: 2px solid #e8eff9;
+}
+
+.ss-table-head {
+  padding: 18px 24px;
+  text-align: left;
+  font-weight: 700;
+  color: #1f3a5f;
+  letter-spacing: 0.03em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.ss-table-head-actions {
+  text-align: center;
+}
+
+/* =============================================
+   SECTION 13: TABLE ROW
+   ============================================= */
+.ss-table-row {
+  transition: background 0.15s ease;
+}
+
+.ss-table-row:hover {
+  background: #fafdff;
+}
+
+/* =============================================
+   SECTION 14: TABLE CELL
+   ============================================= */
+.ss-table-cell {
+  padding: 18px 24px;
+  border-bottom: 1px solid #edf2f9;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.ss-table-cell-actions {
+  text-align: center;
+}
+
+.ss-table-cell-value {
+  font-weight: 600;
+  color: #0b1e3a;
+}
+
+.ss-table-cell-unit {
+  font-weight: 400;
+  color: #64748b;
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* =============================================
+   SECTION 15: TABLE ACTION BUTTONS
+   ============================================= */
+.ss-table-action-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ss-table-edit-btn,
+.ss-table-delete-btn {
+  border: none;
+  padding: 8px 18px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.ss-table-edit-btn {
+  background: #fef7e6;
+  color: #b45309;
+}
+
+.ss-table-edit-btn:hover {
+  background: #fdecc8;
+  transform: translateY(-1px);
+}
+
+.ss-table-delete-btn {
+  background: #fef0f0;
+  color: #b91c1c;
+}
+
+.ss-table-delete-btn:hover {
+  background: #fde2e2;
+  transform: translateY(-1px);
+}
+
+.ss-table-action-icon {
+  font-size: 13px;
+}
+
+/* =============================================
+   SECTION 16: TABLE EMPTY STATE
+   ============================================= */
+.ss-table-empty {
+  padding: 56px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ss-table-empty-icon {
+  font-size: 40px;
+  color: #cbd5e1;
+}
+
+.ss-table-empty-text {
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+/* =============================================
+   SECTION 17: RESPONSIVE - TABLET (992px)
+   ============================================= */
+@media (max-width: 992px) {
+  .ss-page-wrapper {
+    padding: 20px 24px;
+  }
+
+  .ss-form-section {
+    padding: 24px 28px;
+  }
+
+  .ss-form-grid {
+    gap: 20px;
+  }
+}
+
+/* =============================================
+   SECTION 18: RESPONSIVE - MOBILE (768px)
+   ============================================= */
+@media (max-width: 768px) {
+  .ss-page-wrapper {
+    padding: 16px;
+  }
+
+  .ss-form-section {
+    padding: 20px;
+  }
+
+  .ss-form-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .ss-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ss-form-header-icon-box {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ss-form-header-icon {
+    font-size: 20px;
+  }
+
+  .ss-form-header-title {
+    font-size: 22px;
+  }
+
+  .ss-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ss-form-save-btn,
+  .ss-form-reset-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ss-table-header {
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ss-table-head,
+  .ss-table-cell {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+
+  .ss-table-action-group {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ss-table-edit-btn,
+  .ss-table-delete-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 8px 16px;
+  }
+}
+
+/* =============================================
+   SECTION 19: RESPONSIVE - SMALL MOBILE (480px)
+   ============================================= */
+@media (max-width: 480px) {
+  .ss-page-wrapper {
+    padding: 12px;
+  }
+
+  .ss-form-section {
+    padding: 16px;
+  }
+
+  .ss-form-header-title {
+    font-size: 20px;
+  }
+
+  .ss-form-header-subtitle {
+    font-size: 13px;
+  }
+
+  .ss-form-input {
+    font-size: 14px;
+    height: 48px;
+    padding-right: 60px;
+  }
+
+  .ss-form-input-unit {
+    padding: 4px 12px;
+    font-size: 11px;
+  }
+
+  .ss-form-save-btn {
+    font-size: 14px;
+    height: 50px;
+  }
+
+  .ss-table-head,
+  .ss-table-cell {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .ss-table-title {
+    font-size: 16px;
+  }
+
+  .ss-table-empty-icon {
+    font-size: 32px;
+  }
+
+  .ss-table-empty-text {
+    font-size: 13px;
+  }
+}
