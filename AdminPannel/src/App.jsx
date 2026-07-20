@@ -191,10 +191,9 @@ import Timesheets from "./Component/Timesheets/Timesheets";
 import Overtime from "./Component/Overtime/Overtime";
 import ShiftPlanning from "./Component/ShiftPlanning/ShiftPlanning";
 import Remote from "./Component/Remote/Remote";
-
-
-
-
+import VechicleDash from "./Pages/VechicleDash/VechicleDash";
+import VehcleKm from "./Pages/VehcleKm/VehcleKm";
+import SystemSetting from "./Pages/SystemSetting/SystemSetting";
 
 /* ===================== APP ===================== */
 
@@ -217,7 +216,7 @@ export default function App() {
           <Route index element={<Navigate to="dashboard" replace />} />
 
           {/* Dashboard */}
-          <Route path="dashboard" element={<MainDashboard/>} />
+          <Route path="dashboard" element={<MainDashboard />} />
 
           {/* Finance */}
           <Route path="fees" element={<Fees />} />
@@ -456,8 +455,7 @@ export default function App() {
             path="/admin/attendance-management"
             element={<AttendanceManagement />}
           />
-          <Route path="/admin/leave-management" 
-          element={<LeaveManagement />} />
+          <Route path="/admin/leave-management" element={<LeaveManagement />} />
 
           <Route
             path="/admin/payroll-management"
@@ -479,7 +477,7 @@ export default function App() {
           />
           <Route path="/student/Promotion" element={<Promotion />} />
           <Route path="/student/portfolio" element={<StudentPortfolio />} />
-        
+
           <Route path="/student/popform" element={<StudentPopForm />} />
           <Route path="/staff/gatepass" element={<StaffgatePass />} />
           <Route path="/staff-gate-pass/pdf" element={<StaffGatePassPDF />} />
@@ -498,31 +496,41 @@ export default function App() {
             element={<TransportVehicleRoute />}
           />
 
+          <Route path="/student/gatepass" element={<StudentGatepass />} />
+          <Route
+            path="/student-gatepass/print/:id"
+            element={<StudentGatepassPrint />}
+          />
 
-          <Route path="/student/gatepass" element={<StudentGatepass/>}/>
-          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint/>}/>
-        
-          <Route path="/school/information"element={<ShopInformation/>}/>
+          <Route path="/school/information" element={<ShopInformation />} />
           <Route path="/student/Promotion" element={<Promotion />} />
           <Route path="/student/portfolio" element={<StudentPortfolio />} />
           {/* <Route path="/app/user" element={<Appuser />} /> */}
           <Route path="/student/gatepass" element={<StudentGatepass />} />
-          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint />} />
-         
-          <Route path="/pre/admission" element={<PreAdmission/>}/>
-          <Route path="/preadmission-pdf/:id" element={<PreAdmissionPDF/>}/>
-          <Route path="/staff/meet" element={<StaffVisitMeeting/>}/>
-          <Route path="/admin/complaint" element={<AdminComplaint/>} />
-          <Route path="/staff/complaint" element={<StaffComplaint/>} />
-          
-          <Route path="/student/gatepass" element={<StudentGatepass />} />
-          <Route path="/student-gatepass/print/:id" element={<StudentGatepassPrint />} />
-          <Route path="/visitor/enquiry" element={<VisitorEnquiry />} />
-          <Route path="/visitor-enquiry/print/:id" element={<VisitorEnquiryPDF />}/>
-          <Route path="/school/supplymaster" element={<SupplierMaster/>}/>
-          <Route path="catagory/master" element={<CatagoryMaster/>}/>
-          <Route path="catagorry/items" element={<ItemsMaster/>}/>
+          <Route
+            path="/student-gatepass/print/:id"
+            element={<StudentGatepassPrint />}
+          />
 
+          <Route path="/pre/admission" element={<PreAdmission />} />
+          <Route path="/preadmission-pdf/:id" element={<PreAdmissionPDF />} />
+          <Route path="/staff/meet" element={<StaffVisitMeeting />} />
+          <Route path="/admin/complaint" element={<AdminComplaint />} />
+          <Route path="/staff/complaint" element={<StaffComplaint />} />
+
+          <Route path="/student/gatepass" element={<StudentGatepass />} />
+          <Route
+            path="/student-gatepass/print/:id"
+            element={<StudentGatepassPrint />}
+          />
+          <Route path="/visitor/enquiry" element={<VisitorEnquiry />} />
+          <Route
+            path="/visitor-enquiry/print/:id"
+            element={<VisitorEnquiryPDF />}
+          />
+          <Route path="/school/supplymaster" element={<SupplierMaster />} />
+          <Route path="catagory/master" element={<CatagoryMaster />} />
+          <Route path="catagorry/items" element={<ItemsMaster />} />
 
           <Route path="/staff-report" element={<Staff />} />
           <Route path="/visitor-report" element={<VisitorReport />} />
@@ -530,10 +538,15 @@ export default function App() {
           <Route path="/preadmission-report" element={<PreAdmissionReport />} />
 
           <Route path="/transport-summary" element={<TransportSummary />} />
-          <Route path="/calender/planning" element={<Calender/>} />
-          <Route path="/transport-vechile" element={<TransportVehicleReport />} />
-          <Route path="/transport-student" element={<TransportStudentsReport />} />
-
+          <Route path="/calender/planning" element={<Calender />} />
+          <Route
+            path="/transport-vechile"
+            element={<TransportVehicleReport />}
+          />
+          <Route
+            path="/transport-student"
+            element={<TransportStudentsReport />}
+          />
 
           <Route path="/fee-group" element={<FeeGroup />} />
           <Route path="/fee-head" element={<FeeHead />} />
@@ -541,24 +554,21 @@ export default function App() {
           <Route path="/fee-structure" element={<FeeStructure />} />
 
           <Route path="/student/id-card" element={<StudentIdCard />} />
-          
-           <Route path="/leave/requests" element={<AllLeaveRequest />} /> 
-           <Route path="/leave/balance" element={<LeaveBalance />} />
-           <Route path="/leave/types" element={<LeaveTypes />} />
+
+          <Route path="/leave/requests" element={<AllLeaveRequest />} />
+          <Route path="/leave/balance" element={<LeaveBalance />} />
+          <Route path="/leave/types" element={<LeaveTypes />} />
           <Route path="/leave/settings" element={<LeaveSettings />} />
-          <Route path="/today" element={<TodayAttendance/>}/>
-          <Route path="/employee" element={<EmployeeAttendance/>}/>
-          <Route path="/sheet" element={<AttendanceSheet/>}/>
-          <Route path="/timesheets" element={<Timesheets/>}/>
-          <Route path="/overtime" element={<Overtime/>}/>
-          <Route path="/shift-planning" element={<ShiftPlanning/>}/>
-          <Route path="/remote-wfh" element={<Remote/>}/>
-         
-       
-           
-
-
-
+          <Route path="/today" element={<TodayAttendance />} />
+          <Route path="/employee" element={<EmployeeAttendance />} />
+          <Route path="/sheet" element={<AttendanceSheet />} />
+          <Route path="/timesheets" element={<Timesheets />} />
+          <Route path="/overtime" element={<Overtime />} />
+          <Route path="/shift-planning" element={<ShiftPlanning />} />
+          <Route path="/remote-wfh" element={<Remote />} />
+          <Route path="/vehicle/dashboard" element={<VechicleDash />} />
+          <Route path="/vehicle/km" element={<VehcleKm />} />
+          <Route path="/vehicle/setting" element={<SystemSetting />} />
         </Route>
 
         {/* ===== FALLBACK ===== */}

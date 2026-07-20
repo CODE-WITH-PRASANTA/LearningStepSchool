@@ -1,44 +1,39 @@
+/* Page Layout */
 .promotion-page-container {
-  width: 100%;
-  min-height: 100vh;
   padding: 24px;
-  background: #f3f6fb;
+  background-color: #f8fafc;
+  min-height: 100vh;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 
 .promotion-main-card {
-  width: 100%;
   background: #ffffff;
-  border: 1px solid #e4e8f2;
-  border-radius: 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 24px;
-  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.06);
-  box-sizing: border-box;
 }
 
+/* Topbar Header */
 .promotion-topbar-section {
-  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 22px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .promotion-page-title {
-  margin: 0;
-  color: #111827;
-  font-size: 26px;
-  font-weight: 750;
-  letter-spacing: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
 }
 
-.promotion-page-subtitle,
-.promotion-modal-subtitle {
-  margin: 6px 0 0;
+.promotion-page-subtitle {
+  font-size: 0.875rem;
   color: #64748b;
-  font-size: 14px;
+  margin: 0;
 }
 
 .promotion-topbar-actions {
@@ -47,330 +42,353 @@
   gap: 12px;
 }
 
+/* Search Input Box */
 .promotion-search-box {
-  width: 320px;
-  height: 48px;
-  background: #f8fafc;
-  border: 1px solid #dbe2ef;
-  border-radius: 12px;
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 0 14px;
-  gap: 10px;
-  transition: 0.25s;
-}
-
-.promotion-search-box:focus-within {
-  border-color: #4f46e5;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
 .promotion-search-icon {
-  color: #64748b;
-  font-size: 14px;
-  flex: 0 0 auto;
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  font-size: 0.875rem;
 }
 
 .promotion-search-input {
-  width: 100%;
-  min-width: 0;
-  border: none;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
   outline: none;
-  background: transparent;
-  font-size: 14px;
-  color: #111827;
-  font-family: "Poppins", sans-serif;
+  transition: border-color 0.2s;
+  width: 220px;
 }
 
-.promotion-search-input::placeholder {
-  color: #94a3b8;
+.promotion-search-input:focus {
+  border-color: #2563eb;
 }
 
+/* Add Button */
 .promotion-add-button {
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 12px;
-  background: #4f46e5;
+  background-color: #2563eb;
   color: #ffffff;
-  font-size: 17px;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.25s;
-  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.22);
+  transition: background-color 0.2s;
 }
 
 .promotion-add-button:hover {
-  background: #4338ca;
+  background-color: #1d4ed8;
 }
 
-.promotion-table-wrapper,
-.promotion-student-table-wrapper {
+/* Summary Table Styling */
+.promotion-table-wrapper {
   width: 100%;
   overflow-x: auto;
 }
 
-.promotion-table-wrapper {
-  border: 1px solid #e4e8f2;
-  border-radius: 14px;
-}
-
-.promotion-table,
-.promotion-student-table {
+.promotion-table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.promotion-table {
-  min-width: 620px;
-}
-
-.promotion-table-head,
-.promotion-student-table-head {
-  background: #f8fafc;
-}
-
-.promotion-table-heading,
-.promotion-student-table-heading {
-  color: #475569;
-  font-size: 12px;
-  font-weight: 700;
   text-align: left;
-  padding: 15px 16px;
-  white-space: nowrap;
-  letter-spacing: 0;
-  border-bottom: 1px solid #e4e8f2;
 }
 
-.promotion-table-data,
-.promotion-student-table-data {
-  padding: 15px 16px;
+.promotion-table-head {
+  background-color: #f1f5f9;
+}
+
+.promotion-table-heading {
+  padding: 12px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.promotion-table-body-row {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s;
+}
+
+.promotion-table-body-row:hover {
+  background-color: #f8fafc;
+}
+
+.promotion-table-data {
+  padding: 14px 16px;
+  font-size: 0.875rem;
   color: #334155;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  border-bottom: 1px solid #edf1f7;
-}
-
-.promotion-table-body-row:hover,
-.promotion-student-table-body-row:hover {
-  background: #f8fafc;
 }
 
 .promotion-empty-state {
-  padding: 28px 16px;
-  color: #64748b;
-  font-size: 14px;
   text-align: center;
-  border-bottom: 1px solid #edf1f7;
+  padding: 24px;
+  color: #94a3b8;
+  font-size: 0.875rem;
 }
 
+/* Pagination Bar */
+.promotion-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.mini-pagination {
+  padding: 8px 12px;
+  margin-top: 0;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  border-radius: 4px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.pagination-btn.active {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Modal Overlay & Outer Layout */
 .promotion-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.56);
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 22px;
-  z-index: 999;
-  box-sizing: border-box;
-  backdrop-filter: blur(5px);
+  z-index: 1000;
+  padding: 16px;
 }
 
 .promotion-modal-container {
-  width: 100%;
-  max-width: 1320px;
-  max-height: 92vh;
   background: #ffffff;
-  border-radius: 18px;
-  overflow: hidden;
-  box-sizing: border-box;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  animation: promotionModalAnimation 0.25s ease;
-  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.28);
-}
-
-@keyframes promotionModalAnimation {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .promotion-modal-header {
-  width: 100%;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 22px 26px;
-  border-bottom: 1px solid #e7ebf3;
-  box-sizing: border-box;
-  flex: 0 0 auto;
+  align-items: flex-start;
 }
 
 .promotion-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.promotion-modal-subtitle {
+  font-size: 0.8125rem;
+  color: #64748b;
   margin: 0;
-  color: #111827;
-  font-size: 24px;
-  font-weight: 750;
-  letter-spacing: 0;
 }
 
 .promotion-close-button {
-  width: 40px;
-  height: 40px;
+  background: none;
   border: none;
-  background: #f1f5f9;
-  color: #475569;
-  border-radius: 10px;
+  color: #94a3b8;
+  font-size: 1.25rem;
   cursor: pointer;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s;
-  flex: 0 0 auto;
 }
 
 .promotion-close-button:hover {
-  background: #e2e8f0;
-  color: #111827;
+  color: #475569;
 }
 
-.promotion-form-section,
-.promotion-student-search-row,
-.promotion-transfer-main-section {
-  padding-left: 26px;
-  padding-right: 26px;
-}
-
+/* Modal Form Controls Section */
 .promotion-form-section {
-  padding-top: 22px;
-  padding-bottom: 16px;
-  background: #fbfcff;
+  padding: 16px 24px;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .promotion-form-row {
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
 }
 
 .promotion-form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-width: 0;
+  gap: 6px;
 }
 
 .promotion-form-label {
+  font-size: 0.75rem;
+  font-weight: 600;
   color: #475569;
-  font-size: 13px;
-  font-weight: 650;
 }
 
 .promotion-form-select {
-  width: 100%;
-  height: 46px;
-  border-radius: 10px;
-  border: 1px solid #dbe2ef;
-  background: #ffffff;
-  padding: 0 12px;
-  color: #111827;
-  font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background-color: #ffffff;
   outline: none;
-  cursor: pointer;
-  transition: 0.25s;
-  font-family: "Poppins", sans-serif;
 }
 
 .promotion-form-select:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  border-color: #2563eb;
 }
 
+/* Student Search Bar Inside Modal */
 .promotion-student-search-row {
-  padding-top: 0;
-  padding-bottom: 16px;
-  background: #fbfcff;
+  padding: 16px 24px 8px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  align-items: center;
 }
 
 .promotion-student-search-box {
-  width: min(420px, 100%);
+  flex-grow: 1;
+  max-width: 320px;
 }
 
 .promotion-selected-count {
-  min-height: 38px;
-  padding: 0 14px;
-  border-radius: 999px;
-  background: #eef2ff;
-  color: #4f46e5;
-  font-size: 13px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2563eb;
+  background-color: #eff6ff;
+  padding: 4px 12px;
+  border-radius: 12px;
 }
 
+/* Dual Transfer Tables Container */
 .promotion-transfer-main-section {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 18px;
-  padding-top: 0;
-  padding-bottom: 22px;
+  padding: 12px 24px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
   overflow-y: auto;
-  background: #fbfcff;
-  flex: 1 1 auto;
+  flex: 1;
 }
 
 .promotion-student-table-box {
-  min-width: 0;
-  background: #ffffff;
-  border: 1px solid #e4e8f2;
-  border-radius: 14px;
+  flex: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  min-width: 0;
 }
 
 .promotion-student-table-header {
-  width: 100%;
-  padding: 15px 16px;
-  background: #ffffff;
-  border-bottom: 1px solid #e4e8f2;
-  color: #111827;
-  font-size: 15px;
-  font-weight: 750;
-  box-sizing: border-box;
+  background-color: #f1f5f9;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.promotion-student-table-wrapper {
+  flex: 1;
+  overflow-x: auto;
 }
 
 .promotion-student-table {
-  min-width: 660px;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.promotion-student-table-head {
+  background-color: #ffffff;
+}
+
+.promotion-student-table-heading {
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.promotion-student-table-body-row {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.promotion-student-table-body-row:hover {
+  background-color: #f8fafc;
+}
+
+.promotion-student-table-data {
+  padding: 10px 12px;
+  font-size: 0.8125rem;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.center-align {
+  text-align: center;
 }
 
 .promotion-checkbox {
-  width: 16px;
-  height: 16px;
   cursor: pointer;
-  accent-color: #4f46e5;
+  accent-color: #2563eb;
 }
 
+.promotion-status-success {
+  background-color: #dcfce7;
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Center Transfer Controls */
 .promotion-transfer-button-section {
   display: flex;
   flex-direction: column;
@@ -379,177 +397,80 @@
 }
 
 .promotion-transfer-button {
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 12px;
-  background: #4f46e5;
-  color: #ffffff;
-  font-size: 17px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 10px 12px;
   cursor: pointer;
+  color: #475569;
+  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.25s;
 }
 
 .promotion-transfer-button:hover:not(:disabled) {
-  background: #4338ca;
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
 }
 
-.promotion-transfer-button:disabled,
-.promotion-cancel-button:disabled,
-.promotion-save-button:disabled {
-  opacity: 0.55;
+.promotion-transfer-button:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-.promotion-status-success {
-  padding: 6px 12px;
-  background: #dcfce7;
-  color: #15803d;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
+/* Footer Section */
 .promotion-modal-footer {
-  width: 100%;
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   gap: 12px;
-  padding: 18px 26px;
-  background: #ffffff;
-  border-top: 1px solid #e7ebf3;
-  box-sizing: border-box;
-  flex: 0 0 auto;
-}
-
-.promotion-cancel-button,
-.promotion-save-button {
-  min-width: 122px;
-  height: 44px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.25s;
 }
 
 .promotion-cancel-button {
-  background: #f1f5f9;
-  color: #334155;
+  padding: 8px 16px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 
-.promotion-cancel-button:hover:not(:disabled) {
-  background: #e2e8f0;
+.promotion-cancel-button:hover {
+  background-color: #f1f5f9;
 }
 
 .promotion-save-button {
-  background: #4f46e5;
+  padding: 8px 16px;
+  background-color: #2563eb;
   color: #ffffff;
-  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.2);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .promotion-save-button:hover:not(:disabled) {
-  background: #4338ca;
+  background-color: #1d4ed8;
 }
 
-.promotion-modal-container::-webkit-scrollbar,
-.promotion-transfer-main-section::-webkit-scrollbar,
-.promotion-table-wrapper::-webkit-scrollbar,
-.promotion-student-table-wrapper::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
+.promotion-save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.promotion-modal-container::-webkit-scrollbar-thumb,
-.promotion-transfer-main-section::-webkit-scrollbar-thumb,
-.promotion-table-wrapper::-webkit-scrollbar-thumb,
-.promotion-student-table-wrapper::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 20px;
-}
-
-@media (max-width: 1200px) {
-  .promotion-form-row {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
+/* Responsiveness */
+@media (max-width: 768px) {
   .promotion-transfer-main-section {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 
   .promotion-transfer-button-section {
     flex-direction: row;
     justify-content: center;
-  }
-}
-
-@media (max-width: 768px) {
-  .promotion-page-container {
-    padding: 14px;
-  }
-
-  .promotion-main-card {
-    padding: 18px;
-    border-radius: 16px;
-  }
-
-  .promotion-topbar-section,
-  .promotion-topbar-actions,
-  .promotion-student-search-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .promotion-search-box,
-  .promotion-student-search-box,
-  .promotion-add-button {
-    width: 100%;
-  }
-
-  .promotion-page-title {
-    font-size: 22px;
-  }
-
-  .promotion-modal-overlay {
-    padding: 10px;
-  }
-
-  .promotion-modal-container {
-    max-height: 96vh;
-    border-radius: 14px;
-  }
-
-  .promotion-modal-header,
-  .promotion-form-section,
-  .promotion-student-search-row,
-  .promotion-transfer-main-section,
-  .promotion-modal-footer {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .promotion-form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .promotion-modal-title {
-    font-size: 21px;
-  }
-
-  .promotion-modal-footer {
-    flex-direction: column;
-  }
-
-  .promotion-cancel-button,
-  .promotion-save-button {
-    width: 100%;
   }
 }
