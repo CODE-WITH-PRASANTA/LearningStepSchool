@@ -109,18 +109,18 @@
 }
 
 /* ==========================================================
-   3. CARD GRID - TIGHT SPACING
+   3. CARD GRID
 ========================================================== */
 .id-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 18px;
   justify-items: center;
-  align-items: start;
+  align-items: stretch;
 }
 
 /* ==========================================================
-   4. SINGLE IDENTITY CARD - COMPACT & EYE-CATCHING
+   4. SINGLE IDENTITY CARD
 ========================================================== */
 .id-card {
   position: relative;
@@ -146,7 +146,7 @@
 }
 
 /* ==========================================================
-   5. HEADER — SCHOOL IDENTITY (COMPACT)
+   5. HEADER
 ========================================================== */
 .id-card-header {
   position: relative;
@@ -205,7 +205,7 @@
 }
 
 /* ==========================================================
-   6. PHOTO SECTION - PERFECT SQUARE (COMPACT)
+   6. PHOTO SECTION
 ========================================================== */
 .id-photo-container {
   position: relative;
@@ -213,16 +213,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px 0 10px;
+  padding: 10px 0 8px;
   background: #ffffff;
   flex-shrink: 0;
 }
 
 .id-photo-frame {
   position: relative;
-  width: 120px;
-  height: 120px;
-  flex: 0 0 120px;
+  width: 110px;
+  height: 110px;
+  flex: 0 0 110px;
   border: 3px solid var(--red);
   border-radius: 10px;
   overflow: hidden;
@@ -243,19 +243,19 @@
 }
 
 /* ==========================================================
-   7. BIO SECTION - COMPACT
+   7. BIO SECTION
 ========================================================== */
 .id-bio-section {
   position: relative;
   z-index: 1;
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   padding: 0 10px;
   flex-shrink: 0;
 }
 
 .id-student-name {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--red);
   margin: 0;
   text-transform: uppercase;
@@ -265,41 +265,45 @@
 }
 
 .id-student-meta {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--navy-light);
-  margin-top: 2px;
+  margin-top: 1px;
   font-weight: 600;
 }
 
 /* ==========================================================
-   8. INFO TABLE - COMPACT & CLEAN
+   8. INFO TABLE
 ========================================================== */
 .id-info-table {
   position: relative;
   z-index: 1;
-  padding: 0 14px 4px;
+  padding: 0 12px 2px;
   font-size: 10px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .id-info-row {
   display: flex;
-  margin-bottom: 3px;
-  line-height: 1.25;
-  padding: 1px 0;
+  margin-bottom: 2px;
+  line-height: 1.2;
+  padding: 2px 0;
   border-bottom: 1px dashed #fbe4e9;
 }
 
 .id-info-row:last-child {
   border-bottom: none;
+  margin-bottom: 0;
 }
 
 .id-info-row span:first-child {
-  width: 70px;
+  width: 65px;
   flex-shrink: 0;
   color: var(--navy-light);
   font-weight: 600;
-  font-size: 9px;
+  font-size: 8.5px;
   letter-spacing: 0.2px;
 }
 
@@ -314,19 +318,20 @@
   color: var(--red-dark);
   font-weight: 700;
   word-break: break-word;
-  font-size: 9.5px;
+  font-size: 9px;
+  flex: 1;
 }
 
 /* ==========================================================
-   9. SIGNATURE FOOTER - COMPACT
+   9. FOOTER
 ========================================================== */
 .id-card-footer {
   position: relative;
   z-index: 1;
   margin-top: auto;
   text-align: center;
-  padding: 8px 14px;
-  font-size: 9px;
+  padding: 6px 12px;
+  font-size: 8px;
   font-weight: 700;
   color: #ffffff;
   background: linear-gradient(135deg, var(--red), var(--red-dark));
@@ -424,23 +429,25 @@
     font-size: 12px;
   }
   .id-info-table {
-    padding: 0 10px 4px;
+    padding: 0 10px 2px;
   }
   .id-info-row span:first-child {
-    width: 60px;
-    font-size: 8px;
+    width: 55px;
+    font-size: 7.5px;
   }
   .id-info-row strong {
-    font-size: 8.5px;
+    font-size: 8px;
   }
   .id-card-footer {
-    font-size: 8px;
-    padding: 6px 10px;
+    font-size: 7px;
+    padding: 5px 8px;
   }
 }
 
 /* ==========================================================
-   11. PRINT LAYOUT - PERFECT COVERAGE
+   11. PRINT LAYOUT — 3-COLUMN, CONTENT-SIZED CARDS
+   (matches the on-screen card proportions instead of
+    stretching cards to a fixed min-height)
 ========================================================== */
 @media print {
   /* Reset everything for print */
@@ -476,6 +483,9 @@
     min-height: auto !important;
     background: #ffffff !important;
     width: 210mm !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
   }
 
   /* Hide toolbar */
@@ -483,43 +493,43 @@
     display: none !important;
   }
 
-  /* Print area - full coverage */
+  /* Print area */
   .id-print-area {
     position: relative !important;
     width: 210mm !important;
-    padding: 5mm 5mm 0 5mm !important;
+    padding: 6mm !important;
     margin: 0 !important;
     box-shadow: none !important;
     border: none !important;
     background: #ffffff !important;
     border-radius: 0 !important;
-    min-height: 297mm !important;
+    min-height: auto !important;
   }
 
-  /* Card grid - 2 columns with proper spacing */
+  /* Card grid — 3 columns, matches screen layout, no forced row height */
   .id-card-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 92mm) !important;
-    grid-auto-rows: 135mm !important;
-    gap: 4mm 5mm !important;
-    justify-content: center !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-auto-rows: min-content !important;
+    gap: 4mm !important;
+    justify-content: stretch !important;
     align-items: start !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
   }
 
-  /* Individual card */
+  /* Individual card — sized to content, no giant blank space */
   .id-card {
-    width: 92mm !important;
-    height: 135mm !important;
+    width: 100% !important;
+    height: auto !important;
     min-height: 0 !important;
     max-width: none !important;
     margin: 0 !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
     box-shadow: none !important;
-    border: 1px solid #e0c4c9 !important;
+    border: 0.75px solid #d4c5c8 !important;
     border-radius: 2mm !important;
     animation: none !important;
     overflow: hidden !important;
@@ -534,35 +544,38 @@
 
   /* Header */
   .id-card-header {
-    padding: 3mm 4mm 2.5mm !important;
-    gap: 2.5mm !important;
+    padding: 2mm 2.5mm !important;
+    gap: 1.5mm !important;
     flex-shrink: 0 !important;
     background: linear-gradient(135deg, #e11d48, #9f1239) !important;
   }
 
   .id-card-header::after {
-    height: 1.5px !important;
+    height: 0.6mm !important;
   }
 
   .id-school-logo {
-    width: 9mm !important;
-    height: 9mm !important;
-    box-shadow: 0 0 0 1.5px #d4af37 !important;
-    padding: 1.5px !important;
+    width: 7mm !important;
+    height: 7mm !important;
+    box-shadow: 0 0 0 0.4mm #d4af37 !important;
+    padding: 0.5mm !important;
   }
 
   .id-school-details h3 {
-    font-size: 7.5pt !important;
-    line-height: 1.1 !important;
-    overflow-wrap: anywhere !important;
+    font-size: 6.5pt !important;
+    line-height: 1.15 !important;
     color: #ffffff !important;
+    margin: 0 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.3px !important;
   }
 
   .id-school-details p {
-    font-size: 5.5pt !important;
-    line-height: 1.1 !important;
-    overflow-wrap: anywhere !important;
+    font-size: 4.8pt !important;
+    line-height: 1.2 !important;
     color: #ffe4e9 !important;
+    margin: 0.5mm 0 0 0 !important;
+    font-weight: 400 !important;
   }
 
   /* Photo container */
@@ -573,15 +586,14 @@
   }
 
   .id-photo-frame {
-    position: relative !important;
-    width: 22mm !important;
-    height: 22mm !important;
-    flex: 0 0 22mm !important;
-    border: 0.8mm solid #e11d48 !important;
-    border-radius: 2.5mm !important;
+    width: 20mm !important;
+    height: 20mm !important;
+    flex: 0 0 20mm !important;
+    border: 0.6mm solid #e11d48 !important;
+    border-radius: 1.5mm !important;
     box-shadow: none !important;
     overflow: hidden !important;
-    background: #f0f0f0 !important;
+    background: #f5f5f5 !important;
   }
 
   .id-photo-frame img {
@@ -597,89 +609,97 @@
   /* Bio section */
   .id-bio-section {
     margin-bottom: 1.5mm !important;
-    padding: 0 3mm !important;
+    padding: 0 2mm !important;
     flex-shrink: 0 !important;
   }
 
   .id-student-name {
-    font-size: 9.5pt !important;
-    line-height: 1.1 !important;
-    overflow-wrap: anywhere !important;
+    font-size: 8.5pt !important;
+    line-height: 1.15 !important;
     color: #e11d48 !important;
+    margin: 0 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.4px !important;
   }
 
   .id-student-meta {
-    font-size: 6.5pt !important;
+    font-size: 6pt !important;
     margin-top: 0.5mm !important;
     color: #1e3a8a !important;
+    font-weight: 600 !important;
   }
 
-  /* Info table */
+  /* Info table — even, semantic spacing between rows */
   .id-info-table {
-    padding: 0 4mm 1.5mm !important;
+    padding: 0 3mm 2.5mm !important;
     flex: 1 !important;
-    font-size: 7pt !important;
+    font-size: 6pt !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
   }
 
   .id-info-row {
     display: flex !important;
-    margin-bottom: 0.8mm !important;
-    padding: 0.5px 0 !important;
-    line-height: 1.2 !important;
-    border-bottom: 0.5px dashed #fbe4e9 !important;
+    margin-bottom: 1mm !important;
+    padding: 0.8mm 0 !important;
+    line-height: 1.3 !important;
+    border-bottom: 0.4px dashed #f0d5da !important;
+    align-items: baseline !important;
   }
 
   .id-info-row:last-child {
     border-bottom: none !important;
+    margin-bottom: 0 !important;
   }
 
   .id-info-row span:first-child {
-    width: 18mm !important;
+    width: 16mm !important;
     flex-shrink: 0 !important;
-    font-size: 6.5pt !important;
+    font-size: 5.5pt !important;
     color: #1e3a8a !important;
     font-weight: 600 !important;
+    letter-spacing: 0.2px !important;
   }
 
   .id-colon {
-    width: 5px !important;
+    width: 4px !important;
     flex-shrink: 0 !important;
     color: #1e3a8a !important;
     font-weight: 600 !important;
+    margin: 0 1px !important;
   }
 
   .id-info-row strong {
-    font-size: 6.5pt !important;
+    font-size: 5.8pt !important;
     color: #9f1239 !important;
     font-weight: 700 !important;
     word-break: break-word !important;
+    flex: 1 !important;
+    padding-left: 1px !important;
   }
 
   /* Footer */
   .id-card-footer {
-    padding: 2mm 4mm !important;
-    font-size: 6pt !important;
+    padding: 1.5mm 2.5mm !important;
+    font-size: 5.5pt !important;
     flex-shrink: 0 !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 1px !important;
     background: linear-gradient(135deg, #e11d48, #9f1239) !important;
     color: #ffffff !important;
     margin-top: auto !important;
+    font-weight: 600 !important;
   }
 
   .id-card-footer::before,
   .id-card-footer::after {
-    content: "" !important;
+    content: "✦ " !important;
+    opacity: 0.7 !important;
   }
 
-  /* Page break handling */
-  .id-card-grid .id-card:nth-child(2n) {
-    margin-right: 0 !important;
-  }
-
-  /* Ensure cards don't break across pages */
-  .id-card {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+  .id-card-footer::after {
+    content: " ✦" !important;
   }
 
   /* Force color printing */

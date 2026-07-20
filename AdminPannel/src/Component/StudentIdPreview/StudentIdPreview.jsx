@@ -42,7 +42,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                 </div>
               </div>
 
-              {/* Photo Section — locked square frame, image always fills it via object-fit: cover */}
+              {/* Photo Section */}
               <div className="id-photo-container">
                 <div className="id-photo-frame">
                   <img src={getStudentPhoto(student)} alt={student.name} />

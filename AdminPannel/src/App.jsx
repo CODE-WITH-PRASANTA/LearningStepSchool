@@ -560,11 +560,6 @@ export default function App() {
           <Route path="/vehicle/km" element={<VehcleKm/>}/>
           <Route path="/vehicle/setting"element={<SystemSetting/>}/>
          
-       
-           
-
-
-
         </Route>
 
         {/* ===== FALLBACK ===== */}
