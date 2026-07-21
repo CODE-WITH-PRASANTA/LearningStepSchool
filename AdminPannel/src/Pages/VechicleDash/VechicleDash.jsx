@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaTruck,
   FaRoad,
@@ -14,10 +14,71 @@ import {
   FaEye,
   FaWrench,
   FaChartLine,
-  FaTimes
+  FaTimes,
+  FaSpinner
 } from "react-icons/fa";
 
 import "./VechicleDash.css";
+
+// Initial Mock Data (Fallback if API is unavailable)
+const MOCK_VEHICLE_DATA = [
+  {
+    id: 1,
+    date: "09/07/2026",
+    vehicle: "MH-12-AB-1234",
+    km: 150,
+    mileage: "12.1 KM/L",
+    status: "Normal",
+    remark: "--",
+    driver: "Rajesh Kumar",
+    fuelType: "Diesel",
+    totalKM: "45,230 KM",
+    lastService: "15/06/2026",
+    fuelCost: 4500
+  },
+  {
+    id: 2,
+    date: "09/07/2026",
+    vehicle: "GJ-01-XY-9875",
+    km: 25,
+    mileage: "10.5 KM/L",
+    status: "Low Mileage",
+    remark: "Will try to increase usage tomorrow.",
+    driver: "Amit Patel",
+    fuelType: "Petrol",
+    totalKM: "23,450 KM",
+    lastService: "20/05/2026",
+    fuelCost: 1200
+  },
+  {
+    id: 3,
+    date: "09/07/2026",
+    vehicle: "DL-01-AA-5555",
+    km: 420,
+    mileage: "11.2 KM/L",
+    status: "Over Running",
+    remark: "Had to take extra delivery.",
+    driver: "Suresh Singh",
+    fuelType: "Diesel",
+    totalKM: "67,890 KM",
+    lastService: "01/07/2026",
+    fuelCost: 12800
+  },
+  {
+    id: 4,
+    date: "09/07/2026",
+    vehicle: "RJ-14-CC-7890",
+    km: 0,
+    mileage: "--",
+    status: "No Entry",
+    remark: "No log submitted",
+    driver: "Vikram Reddy",
+    fuelType: "CNG",
+    totalKM: "12,340 KM",
+    lastService: "10/06/2026",
+    fuelCost: 0
+  }
+];
 
 const VechicleDash = () => {
   const [filterDate, setFilterDate] = useState("2026-07-09");
@@ -25,69 +86,54 @@ const VechicleDash = () => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const vehicleData = [
-    {
-      id: 1,
-      date: "09/07/2026",
-      vehicle: "MH-12-AB-1234",
-      km: "150 KM",
-      mileage: "12.1 KM/L",
-      status: "Normal",
-      remark: "--",
-      driver: "Rajesh Kumar",
-      fuelType: "Diesel",
-      totalKM: "45,230 KM",
-      lastService: "15/06/2026"
-    },
-    {
-      id: 2,
-      date: "09/07/2026",
-      vehicle: "GJ-01-XY-9875",
-      km: "25 KM",
-      mileage: "10.5 KM/L",
-      status: "Low Mileage",
-      remark: "Will try to increase usage tomorrow.",
-      driver: "Amit Patel",
-      fuelType: "Petrol",
-      totalKM: "23,450 KM",
-      lastService: "20/05/2026"
-    },
-    {
-      id: 3,
-      date: "09/07/2026",
-      vehicle: "DL-01-AA-5555",
-      km: "420 KM",
-      mileage: "11.2 KM/L",
-      status: "Over Running",
-      remark: "Had to take extra delivery.",
-      driver: "Suresh Singh",
-      fuelType: "Diesel",
-      totalKM: "67,890 KM",
-      lastService: "01/07/2026"
-    },
-    {
-      id: 4,
-      date: "09/07/2026",
-      vehicle: "RJ-14-CC-7890",
-      km: "--",
-      mileage: "--",
-      status: "No Entry",
-      remark: "No log submitted",
-      driver: "Vikram Reddy",
-      fuelType: "CNG",
-      totalKM: "12,340 KM",
-      lastService: "10/06/2026"
-    }
-  ];
+  // Backend Integration States
+  const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Utility to convert string dates DD/MM/YYYY to ISO standard YYYY-MM-DD
   const toISODate = (str) => {
+    if (!str || !str.includes("/")) return str;
     const [d, m, y] = str.split("/");
     return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
   };
 
-  const filteredData = vehicleData.filter(
+  // Back-end fetch routine
+  const fetchVehicleLogs = async (date) => {
+    setLoading(true);
+    setError(null);
+    try {
+      /* UNCOMMENT AND ADD YOUR BACKEND API ENDPOINT:
+      const response = await fetch(`/api/vehicles/logs?date=${date}`);
+      if (!response.ok) throw new Error("Failed to fetch vehicle logs.");
+      const data = await response.json();
+      setVehicles(data);
+      */
+
+      // Simulated network request delay with mock data
+      await new Promise((res) => setTimeout(res, 300));
+      setVehicles(MOCK_VEHICLE_DATA);
+    } catch (err) {
+      setError(err.message || "Failed to load dashboard data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVehicleLogs(appliedDate);
+  }, [appliedDate]);
+
+  // Filter local dataset by selected ISO date
+  const filteredData = vehicles.filter(
     (item) => toISODate(item.date) === appliedDate
   );
+
+  // Aggregated KPI Stats calculated dynamically from filtered metrics
+  const totalVehiclesCount = vehicles.length;
+  const totalDistance = filteredData.reduce((acc, curr) => acc + (Number(curr.km) || 0), 0);
+  const totalAlerts = filteredData.filter((i) => i.status === "Low Mileage" || i.status === "Over Running").length;
+  const totalFuelCost = filteredData.reduce((acc, curr) => acc + (Number(curr.fuelCost) || 0), 0);
 
   const handleFilter = () => {
     setAppliedDate(filterDate);
@@ -95,24 +141,39 @@ const VechicleDash = () => {
 
   const getStatusClass = (status) => {
     switch (status) {
-      case "Normal": return "vechicledash_status_normal";
-      case "Low Mileage": return "vechicledash_status_low";
-      case "Over Running": return "vechicledash_status_over";
-      default: return "vechicledash_status_empty";
+      case "Normal":
+        return "vechicledash_status_normal";
+      case "Low Mileage":
+        return "vechicledash_status_low";
+      case "Over Running":
+        return "vechicledash_status_over";
+      default:
+        return "vechicledash_status_empty";
     }
   };
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "Normal": return <FaCheckCircle />;
-      case "Low Mileage": return <FaExclamationTriangle />;
-      case "Over Running": return <FaTimesCircle />;
-      default: return <FaClipboard />;
+      case "Normal":
+        return <FaCheckCircle />;
+      case "Low Mileage":
+        return <FaExclamationTriangle />;
+      case "Over Running":
+        return <FaTimesCircle />;
+      default:
+        return <FaClipboard />;
     }
   };
 
   return (
     <div className="vechicledash_container">
+      {/* ===== HEADER SECTION ===== */}
+      <div className="vechicledash_header">
+        <div>
+          <h1 className="vechicledash_title">Vehicle Monitoring Dashboard</h1>
+          <p className="vechicledash_subtitle">Real-time daily fleet metrics and status logs</p>
+        </div>
+      </div>
 
       {/* ===== FILTER SECTION ===== */}
       <div className="vechicledash_filter_wrapper">
@@ -127,23 +188,23 @@ const VechicleDash = () => {
             onChange={(e) => setFilterDate(e.target.value)}
             className="vechicledash_date_input"
           />
-          <button className="vechicledash_filter_btn" onClick={handleFilter}>
-            <FaFilter className="vechicledash_filter_btn_icon" />
+          <button className="vechicledash_filter_btn" onClick={handleFilter} disabled={loading}>
+            {loading ? <FaSpinner className="vechicledash_spin" /> : <FaFilter className="vechicledash_filter_btn_icon" />}
             Apply Filter
           </button>
         </div>
       </div>
 
-      {/* ===== STATISTICS ===== */}
+      {/* ===== STATISTICS CARDS ===== */}
       <div className="vechicledash_stats_grid">
         <div className="vechicledash_stat_card vechicledash_stat_blue">
           <div className="vechicledash_stat_icon_wrapper">
             <FaTruck className="vechicledash_card_icon" />
           </div>
           <div className="vechicledash_stat_content">
-            <h3 className="vechicledash_stat_number">32</h3>
+            <h3 className="vechicledash_stat_number">{totalVehiclesCount}</h3>
             <p className="vechicledash_stat_label">Total Vehicles</p>
-            <span className="vechicledash_stat_sub">All Registered Vehicles</span>
+            <span className="vechicledash_stat_sub">All Registered Fleet</span>
           </div>
         </div>
 
@@ -152,7 +213,7 @@ const VechicleDash = () => {
             <FaRoad className="vechicledash_card_icon" />
           </div>
           <div className="vechicledash_stat_content">
-            <h3 className="vechicledash_stat_number">18,420 KM</h3>
+            <h3 className="vechicledash_stat_number">{totalDistance.toLocaleString()} KM</h3>
             <p className="vechicledash_stat_label">Total Distance</p>
             <span className="vechicledash_stat_sub">Total Running Today</span>
           </div>
@@ -163,7 +224,7 @@ const VechicleDash = () => {
             <FaGasPump className="vechicledash_card_icon" />
           </div>
           <div className="vechicledash_stat_content">
-            <h3 className="vechicledash_stat_number">₹1,45,200</h3>
+            <h3 className="vechicledash_stat_number">₹{totalFuelCost.toLocaleString("en-IN")}</h3>
             <p className="vechicledash_stat_label">Total Fuel Cost</p>
             <span className="vechicledash_stat_sub">Estimated Today</span>
           </div>
@@ -174,9 +235,9 @@ const VechicleDash = () => {
             <FaExclamationCircle className="vechicledash_card_icon" />
           </div>
           <div className="vechicledash_stat_content">
-            <h3 className="vechicledash_stat_number">2</h3>
-            <p className="vechicledash_stat_label">Vehicle in Alert</p>
-            <span className="vechicledash_stat_sub">Need Attention</span>
+            <h3 className="vechicledash_stat_number">{totalAlerts}</h3>
+            <p className="vechicledash_stat_label">Vehicles in Alert</p>
+            <span className="vechicledash_stat_sub">Action Required</span>
           </div>
         </div>
 
@@ -185,20 +246,20 @@ const VechicleDash = () => {
             <FaTachometerAlt className="vechicledash_card_icon" />
           </div>
           <div className="vechicledash_stat_content">
-            <h3 className="vechicledash_stat_number">12.1 KM/L</h3>
+            <h3 className="vechicledash_stat_number">11.3 KM/L</h3>
             <p className="vechicledash_stat_label">Average Mileage</p>
-            <span className="vechicledash_stat_sub">Overall Average</span>
+            <span className="vechicledash_stat_sub">Overall Fleet Efficiency</span>
           </div>
         </div>
       </div>
 
-      {/* ===== TABLE ===== */}
+      {/* ===== TABLE CONTAINER ===== */}
       <div className="vechicledash_table_wrapper">
         <div className="vechicledash_table_header">
           <div className="vechicledash_table_header_left">
             <h2 className="vechicledash_table_title">Vehicle Daily Summary</h2>
             <span className="vechicledash_table_count">
-              {filteredData.length} vehicles found
+              {filteredData.length} {filteredData.length === 1 ? "vehicle" : "vehicles"} found
             </span>
           </div>
           <div className="vechicledash_table_header_right">
@@ -208,12 +269,14 @@ const VechicleDash = () => {
           </div>
         </div>
 
+        {error && <div className="vechicledash_error_banner">{error}</div>}
+
         <div className="vechicledash_table_scroll">
           <table className="vechicledash_table">
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Vehicle Number</th>
+                <th>Vehicle & Driver</th>
                 <th>Today's KM</th>
                 <th>Mileage</th>
                 <th>Status</th>
@@ -222,7 +285,14 @@ const VechicleDash = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.length > 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={7} className="vechicledash_empty_row">
+                    <FaSpinner className="vechicledash_spin vechicledash_empty_icon" />
+                    Loading fleet records...
+                  </td>
+                </tr>
+              ) : filteredData.length > 0 ? (
                 filteredData.map((item) => (
                   <tr key={item.id} className="vechicledash_table_row">
                     <td>
@@ -235,7 +305,9 @@ const VechicleDash = () => {
                       </div>
                     </td>
                     <td>
-                      <span className="vechicledash_cell_km">{item.km}</span>
+                      <span className="vechicledash_cell_km">
+                        {item.km !== "--" && typeof item.km === "number" ? `${item.km} KM` : item.km}
+                      </span>
                     </td>
                     <td>
                       <span className="vechicledash_cell_mileage">{item.mileage}</span>
@@ -250,7 +322,7 @@ const VechicleDash = () => {
                       <span className="vechicledash_cell_remark">{item.remark}</span>
                     </td>
                     <td>
-                      <button 
+                      <button
                         className="vechicledash_view_btn"
                         onClick={() => {
                           setSelectedVehicle(item);
@@ -266,7 +338,7 @@ const VechicleDash = () => {
                 <tr>
                   <td colSpan={7} className="vechicledash_empty_row">
                     <FaClipboard className="vechicledash_empty_icon" />
-                    No records found for the selected date.
+                    No vehicle records found for the selected date.
                   </td>
                 </tr>
               )}
@@ -274,7 +346,7 @@ const VechicleDash = () => {
           </table>
         </div>
 
-        {/* ===== LEGEND ===== */}
+        {/* ===== STATUS LEGEND ===== */}
         <div className="vechicledash_legend">
           <span className="vechicledash_legend_title">Legend:</span>
           <div className="vechicledash_legend_items">
@@ -294,14 +366,18 @@ const VechicleDash = () => {
         </div>
       </div>
 
-      {/* ===== MODAL ===== */}
+      {/* ===== VEHICLE DETAILS MODAL ===== */}
       {showModal && selectedVehicle && (
         <div className="vechicledash_modal_overlay" onClick={() => setShowModal(false)}>
           <div className="vechicledash_modal" onClick={(e) => e.stopPropagation()}>
-            <button className="vechicledash_modal_close" onClick={() => setShowModal(false)}>
+            <button
+              className="vechicledash_modal_close"
+              onClick={() => setShowModal(false)}
+              aria-label="Close Modal"
+            >
               <FaTimes />
             </button>
-            
+
             <div className="vechicledash_modal_header">
               <h2>Vehicle Details</h2>
               <span className="vechicledash_modal_vehicle">{selectedVehicle.vehicle}</span>
@@ -319,7 +395,7 @@ const VechicleDash = () => {
                 </div>
                 <div className="vechicledash_modal_item">
                   <label>Today's KM</label>
-                  <p>{selectedVehicle.km}</p>
+                  <p>{selectedVehicle.km !== "--" && typeof selectedVehicle.km === "number" ? `${selectedVehicle.km} KM` : selectedVehicle.km}</p>
                 </div>
                 <div className="vechicledash_modal_item">
                   <label>Mileage</label>
@@ -327,19 +403,19 @@ const VechicleDash = () => {
                 </div>
                 <div className="vechicledash_modal_item">
                   <label>Status</label>
-                  <p>
+                  <div>
                     <span className={`vechicledash_status_badge ${getStatusClass(selectedVehicle.status)}`}>
                       {getStatusIcon(selectedVehicle.status)}
                       {selectedVehicle.status}
                     </span>
-                  </p>
+                  </div>
                 </div>
                 <div className="vechicledash_modal_item">
                   <label>Fuel Type</label>
                   <p>{selectedVehicle.fuelType}</p>
                 </div>
                 <div className="vechicledash_modal_item">
-                  <label>Total KM</label>
+                  <label>Total Odometer</label>
                   <p>{selectedVehicle.totalKM}</p>
                 </div>
                 <div className="vechicledash_modal_item">
@@ -357,7 +433,7 @@ const VechicleDash = () => {
               <button className="vechicledash_modal_btn vechicledash_modal_btn_primary">
                 <FaWrench /> Schedule Service
               </button>
-              <button 
+              <button
                 className="vechicledash_modal_btn vechicledash_modal_btn_secondary"
                 onClick={() => setShowModal(false)}
               >

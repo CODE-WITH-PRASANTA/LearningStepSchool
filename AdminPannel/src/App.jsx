@@ -556,7 +556,7 @@ export default function App() {
           <Route path="/overtime" element={<Overtime/>}/>
           <Route path="/shift-planning" element={<ShiftPlanning/>}/>
           <Route path="/remote-wfh" element={<Remote/>}/>
-          <Route path="/vehicle/dashboard" element={<VechicleDash/>}/>
+          <Route path="/vehicle/dashboard" element={<VechicleDash />}/>
           <Route path="/vehicle/km" element={<VehcleKm/>}/>
           <Route path="/vehicle/setting"element={<SystemSetting/>}/>
          
