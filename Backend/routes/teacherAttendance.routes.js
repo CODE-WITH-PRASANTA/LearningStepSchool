@@ -14,7 +14,8 @@ const {
   deleteAttendance,
   markAttendanceByAdmin,
   getAttendanceHistory,
-  getAllTodayAttendance
+  getAllTodayAttendance,getTeacherMonthlyAttendanceByAdmin,
+  updateAttendanceByAdmin,
 } = require("../controllers/teacherAttendance.controller");
 
 const auth = require("../middleware/authMiddleware");
@@ -48,6 +49,19 @@ router.get("/", auth, getAllAttendance);
 
 // Admin Mark
 router.post("/admin", auth, markAttendanceByAdmin);
+
+router.get(
+  "/admin/teacher/:teacherId",
+  auth,
+  getTeacherMonthlyAttendanceByAdmin
+);
+
+router.put(
+  "/admin/:id",
+  auth,
+  updateAttendanceByAdmin
+);
+
 
 // Delete
 router.delete("/:id", auth, deleteAttendance);

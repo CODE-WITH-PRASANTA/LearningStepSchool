@@ -134,6 +134,7 @@ const payrollSchema = new mongoose.Schema(
         lta: Number,
         medical: Number,
         overtime: Number,
+        allowance: Number,
       },
 
       deductions: {
@@ -141,9 +142,10 @@ const payrollSchema = new mongoose.Schema(
         professionalTax: Number,
         esi: Number,
         incomeTax: Number,
+        monthlyDeduction: Number,
+        otherDeduction: Number,
       },
     },
-
     status: {
       type: String,
       enum: ["Pending", "Completed", "Reject"],
@@ -152,7 +154,7 @@ const payrollSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // One teacher can have only one payroll for one month in one year
@@ -164,7 +166,7 @@ payrollSchema.index(
   },
   {
     unique: true,
-  }
+  },
 );
 
 module.exports = mongoose.model("Payroll", payrollSchema);

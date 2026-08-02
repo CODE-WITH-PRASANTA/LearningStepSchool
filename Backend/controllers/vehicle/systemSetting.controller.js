@@ -3,12 +3,14 @@ const SystemSetting = require("../../models/Vehicle/systemSetting.model");
 // ================= CREATE =================
 exports.createSystemSetting = async (req, res) => {
   try {
-    const exists = await SystemSetting.findOne();
+    const exists = await SystemSetting.findOne({
+      vehicle: req.body.vehicle,
+    });
 
     if (exists) {
       return res.status(400).json({
         success: false,
-        message: "System Setting already exists.",
+        message: "Setting already exists for this vehicle.",
       });
     }
 
@@ -30,12 +32,17 @@ exports.createSystemSetting = async (req, res) => {
 // ================= GET =================
 exports.getSystemSetting = async (req, res) => {
   try {
-    const setting = await SystemSetting.findOne();
+    const settings = await SystemSetting.find().populate(
+      "vehicle",
+      "vehicleNo",
+    );
 
     res.status(200).json({
       success: true,
-      data: setting,
+      data: settings,
     });
+
+    
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -53,8 +60,8 @@ exports.updateSystemSetting = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
-    );
+      },
+    ).populate("vehicle", "vehicleNo");
 
     if (!setting) {
       return res.status(404).json({

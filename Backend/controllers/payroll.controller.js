@@ -28,17 +28,17 @@ const getAttendanceMonth = (payrollMonth, payrollYear) => {
     year: attendanceYear,
   };
 };
+
 const getAttendanceSummary = async (teacherId, month, year) => {
   const start = new Date(Date.UTC(year, month - 1, 1));
   const end = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
   const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
- 
+
   const records = await TeacherAttendance.find({
     teacherId,
     date: { $gte: start, $lte: end },
   }).sort({ date: 1, updatedAt: 1 });
 
- 
   const approvedLeaves = await Leave.find({
     teacher: teacherId,
     status: "approved",
@@ -75,9 +75,13 @@ const getAttendanceSummary = async (teacherId, month, year) => {
   let explicitAbsent = 0;
 
   attendanceByDate.forEach((status, key) => {
-    if (status === "Present") present++;
-    if (status === "Absent") explicitAbsent++;
-    if (status === "Leave") {
+    if (status === "Present" || status === "Late") {
+      present++;
+    } else if (status === "Half Day") {
+      present += 0.5;
+    } else if (status === "Absent") {
+      explicitAbsent++;
+    } else if (status === "Leave") {
       leave++;
       leaveDates.delete(key);
     }
@@ -89,6 +93,13 @@ const getAttendanceSummary = async (teacherId, month, year) => {
   const workingDays = present + leave;
   const absent = Math.max(0, totalDays - workingDays);
 
+  const overtimeSeconds = records.reduce(
+    (sum, record) => sum + (record.overtimeSeconds || 0),
+    0,
+  );
+
+  const overtimeHours = overtimeSeconds / 3600;
+
   return {
     totalDays,
     present,
@@ -96,6 +107,7 @@ const getAttendanceSummary = async (teacherId, month, year) => {
     explicitAbsent,
     workingDays,
     absent,
+    overtimeHours,
   };
 };
 
@@ -278,7 +290,7 @@ exports.createPayroll = async (req, res) => {
       baseSalary,
       payrollWorkingDays,
       deductionAmount,
-      overtimeHours,
+      // overtimeHours,
       overtimeRate,
       allowance,
       otherDeduction,
@@ -322,7 +334,7 @@ exports.createPayroll = async (req, res) => {
     baseSalary = Number(baseSalary) || 0;
     payrollWorkingDays = Number(payrollWorkingDays) || 30;
     deductionAmount = Number(deductionAmount) || 0;
-    overtimeHours = Number(overtimeHours) || 0;
+    // overtimeHours = Number(overtimeHours) || 0;
     overtimeRate = Number(overtimeRate) || 0;
     allowance = Number(allowance) || 0;
     otherDeduction = Number(otherDeduction) || 0;
@@ -354,7 +366,7 @@ exports.createPayroll = async (req, res) => {
 
         deductionAmount,
 
-        overtimeHours,
+        // overtimeHours,
 
         overtimeRate,
 
@@ -465,7 +477,7 @@ exports.getPayrolls = async (req, res) => {
         {
           payrollWorkingDays: payroll.payrollWorkingDays,
           deductionAmount: payroll.deductionAmount,
-          overtimeHours: payroll.overtimeHours,
+          overtimeHours: summary.overtimeHours,
           overtimeRate: payroll.overtimeRate,
           allowance: payroll.allowance,
           otherDeduction: payroll.otherDeduction,
@@ -483,6 +495,7 @@ exports.getPayrolls = async (req, res) => {
       item.absentDays = salaryCalculation.absentDays;
 
       item.overtimeAmount = salaryCalculation.overtimePay;
+      item.overtimeHours = summary.overtimeHours;
 
       item.grossSalary = salaryCalculation.grossSalary;
 
@@ -517,7 +530,6 @@ exports.updatePayroll = async (req, res) => {
       baseSalary,
       payrollWorkingDays,
       deductionAmount,
-      overtimeHours,
       overtimeRate,
       allowance,
       otherDeduction,
@@ -532,7 +544,7 @@ exports.updatePayroll = async (req, res) => {
       });
     }
 
-    // update editable fields
+    // Update editable fields
 
     if (baseSalary !== undefined) payroll.baseSalary = Number(baseSalary);
 
@@ -541,9 +553,6 @@ exports.updatePayroll = async (req, res) => {
 
     if (deductionAmount !== undefined)
       payroll.deductionAmount = Number(deductionAmount);
-
-    if (overtimeHours !== undefined)
-      payroll.overtimeHours = Number(overtimeHours);
 
     if (overtimeRate !== undefined) payroll.overtimeRate = Number(overtimeRate);
 
@@ -554,7 +563,7 @@ exports.updatePayroll = async (req, res) => {
 
     if (city !== undefined) payroll.city = city;
 
-    // ALWAYS calculate attendance
+    // Calculate attendance automatically
 
     const attendance = getAttendanceMonth(payroll.month, payroll.year);
 
@@ -570,7 +579,7 @@ exports.updatePayroll = async (req, res) => {
       {
         payrollWorkingDays: payroll.payrollWorkingDays,
         deductionAmount: payroll.deductionAmount,
-        overtimeHours: payroll.overtimeHours,
+        overtimeHours: summary.overtimeHours,
         overtimeRate: payroll.overtimeRate,
         allowance: payroll.allowance,
         otherDeduction: payroll.otherDeduction,
@@ -582,26 +591,23 @@ exports.updatePayroll = async (req, res) => {
     payroll.presentDays = summary.present;
     payroll.leaveDays = summary.leave;
     payroll.absentDays = salaryCalculation.absentDays;
-
+    payroll.overtimeHours = summary.overtimeHours;
     payroll.overtimeAmount = salaryCalculation.overtimePay;
     payroll.grossSalary = salaryCalculation.grossSalary;
     payroll.totalDeductions = salaryCalculation.deductions.total;
     payroll.totalSalary = salaryCalculation.netSalary;
     payroll.salaryBreakdown = salaryCalculation.breakdown;
 
-    // now update payment information
+    // Payment information
 
     if (status) payroll.status = status;
-
     if (paymentMode !== undefined) payroll.paymentMode = paymentMode;
-
     if (payDate !== undefined) payroll.payDate = payDate;
-
     if (notes !== undefined) payroll.notes = notes;
 
     await payroll.save();
 
-    // Wallet
+    // Wallet Entry
 
     if (payroll.status === "Completed") {
       const wallet = await Wallet.findOne({
@@ -638,7 +644,7 @@ exports.updatePayroll = async (req, res) => {
 
 exports.bulkPayPayrolls = async (req, res) => {
   try {
-    const { ids, paymentMode, paymentDate, note } = req.body;
+    const { ids, paymentMode, payDate, notes } = req.body;
 
     if (!ids || ids.length === 0) {
       return res.status(400).json({
@@ -658,8 +664,8 @@ exports.bulkPayPayrolls = async (req, res) => {
 
       payroll.status = "Completed";
       payroll.paymentMode = paymentMode;
-      payroll.payDate = paymentDate;
-      payroll.notes = note || "";
+      payroll.payDate = payDate;
+      payroll.notes = notes || "";
 
       await payroll.save();
 
@@ -691,6 +697,57 @@ exports.bulkPayPayrolls = async (req, res) => {
       success: true,
 
       message: "Bulk payment completed.",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+exports.refreshAttendancePayroll = async (req, res) => {
+  try {
+    const payrolls = await Payroll.find({
+      status: "Pending",
+    });
+
+    for (const payroll of payrolls) {
+      const attendance = getAttendanceMonth(payroll.month, payroll.year);
+
+      const summary = await getAttendanceSummary(
+        payroll.teacherId,
+        attendance.month,
+        attendance.year,
+      );
+
+      const salary = calculateModalSalary(payroll.baseSalary, summary, {
+        payrollWorkingDays: payroll.payrollWorkingDays,
+        deductionAmount: payroll.deductionAmount,
+        overtimeHours: summary.overtimeHours,
+        overtimeRate: payroll.overtimeRate,
+        allowance: payroll.allowance,
+        otherDeduction: payroll.otherDeduction,
+      });
+
+      payroll.totalDays = salary.payrollWorkingDays;
+      payroll.workingDays = salary.paidDays;
+      payroll.presentDays = summary.present;
+      payroll.leaveDays = summary.leave;
+      payroll.absentDays = salary.absentDays;
+      payroll.overtimeHours = summary.overtimeHours;
+
+      payroll.overtimeAmount = salary.overtimePay;
+      payroll.grossSalary = salary.grossSalary;
+      payroll.totalDeductions = salary.deductions.total;
+      payroll.totalSalary = salary.netSalary;
+      payroll.salaryBreakdown = salary.breakdown;
+
+      await payroll.save();
+    }
+
+    res.json({
+      success: true,
+      message: "Attendance refreshed successfully.",
     });
   } catch (err) {
     res.status(500).json({

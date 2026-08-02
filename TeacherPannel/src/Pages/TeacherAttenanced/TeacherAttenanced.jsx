@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./TeacherAttenanced.css";
 import API from "../../api/axios";
+import Swal from "sweetalert2";
 
 import {
   FaSignInAlt,
@@ -207,13 +208,28 @@ const TeacherAttenanced = () => {
 
       console.log("PUNCH IN RESPONSE:", response.data);
 
-      alert(response.data?.message);
+      Swal.fire({
+        icon: "success",
+        title: "Punch In Successful",
+        text: response.data?.message,
+        timer: 2000,
+        showConfirmButton: false,
+      });
 
       await loadTodayAttendance();
     } catch (err) {
       console.error("PUNCH IN ERROR:", err.response?.data || err.message);
 
-      alert(err.response?.data?.message || err.message || "Unable to Punch In");
+      Swal.fire({
+        icon: "warning",
+        title: "Outside Attendance Area",
+        html: `
+      <b>${err.response?.data?.message || err.message}</b><br><br>
+      Please move within the school campus and try again.
+    `,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#3085d6",
+      });
     } finally {
       setLocationLoading(false);
     }
@@ -250,15 +266,28 @@ const TeacherAttenanced = () => {
 
       console.log("PUNCH OUT RESPONSE:", response.data);
 
-      alert(response.data?.message);
+      Swal.fire({
+        icon: "success",
+        title: "Punch Out Successful",
+        text: response.data?.message,
+        timer: 2000,
+        showConfirmButton: false,
+      });
 
       await loadTodayAttendance();
     } catch (err) {
       console.error("PUNCH OUT ERROR:", err.response?.data || err.message);
 
-      alert(
-        err.response?.data?.message || err.message || "Unable to Punch Out",
-      );
+      Swal.fire({
+        icon: "warning",
+        title: "Outside Attendance Area",
+        html: `
+      <b>${err.response?.data?.message || err.message}</b><br><br>
+      Please move within the school campus and try again.
+    `,
+        confirmButtonText: "OK",
+        confirmButtonColor: "#3085d6",
+      });
     } finally {
       setLocationLoading(false);
     }
@@ -278,7 +307,11 @@ const TeacherAttenanced = () => {
 
       await loadTodayAttendance();
     } catch (err) {
-      alert(err.response?.data?.message);
+      Swal.fire({
+        icon: "error",
+        title: "Break Error",
+        text: err.response?.data?.message,
+      });
     }
   };
 

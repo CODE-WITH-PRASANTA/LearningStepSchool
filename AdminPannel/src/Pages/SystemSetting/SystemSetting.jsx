@@ -19,14 +19,36 @@ const SystemSetting = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const [vehicles, setVehicles] = useState([]);
+
   const [formData, setFormData] = useState({
-    minMileage: "",
-    dieselRate: "",
+    vehicle: "",
+    mileage: "",
     minDailyKm: "",
     maxDailyKm: "",
+    dieselRate: "",
   });
 
   const [editId, setEditId] = useState(null);
+
+  const fetchVehicles = async () => {
+    try {
+      const { data } = await API.get("/vehicle");
+
+      console.log("Vehicle API Response:", data);
+
+      if (data.success) {
+        setVehicles(data.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+    // fetchMileage();
+  }, []);
 
   const fetchSettings = async () => {
     try {
@@ -34,41 +56,15 @@ const SystemSetting = () => {
 
       const { data } = await API.get("/system-setting");
 
-      if (data.success && data.data) {
-        const setting = data.data;
-
-        setSettings([setting]);
-
-        setFormData({
-          minMileage: setting.minMileage ?? "",
-          dieselRate: setting.dieselRate ?? "",
-          minDailyKm: setting.minDailyKm ?? "",
-          maxDailyKm: setting.maxDailyKm ?? "",
-        });
-
-        // Don't set editId here.
-        // editId should only be set when the user clicks Edit.
+      if (data.success) {
+        // Backend should return an array
+        setSettings(data.data || []);
       } else {
         setSettings([]);
-
-        setFormData({
-          minMileage: "",
-          dieselRate: "",
-          minDailyKm: "",
-          maxDailyKm: "",
-        });
       }
     } catch (error) {
       console.error("Error fetching system settings:", error);
-
       setSettings([]);
-
-      setFormData({
-        minMileage: "",
-        dieselRate: "",
-        minDailyKm: "",
-        maxDailyKm: "",
-      });
     } finally {
       setLoading(false);
     }
@@ -79,7 +75,12 @@ const SystemSetting = () => {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -89,6 +90,7 @@ const SystemSetting = () => {
       setSaving(true);
 
       const payload = {
+        vehicle: formData.vehicle,
         minMileage: Number(formData.minMileage),
         dieselRate: Number(formData.dieselRate),
         minDailyKm: Number(formData.minDailyKm),
@@ -119,10 +121,11 @@ const SystemSetting = () => {
     setEditId(item._id);
 
     setFormData({
-      minMileage: item.minMileage,
-      dieselRate: item.dieselRate,
-      minDailyKm: item.minDailyKm,
-      maxDailyKm: item.maxDailyKm,
+      vehicle: item.vehicle?._id || "",
+      minMileage: item.minMileage || "",
+      dieselRate: item.dieselRate || "",
+      minDailyKm: item.minDailyKm || "",
+      maxDailyKm: item.maxDailyKm || "",
     });
   };
 
@@ -154,11 +157,13 @@ const SystemSetting = () => {
 
   const handleReset = () => {
     setFormData({
+      vehicle: "",
       minMileage: "",
       dieselRate: "",
       minDailyKm: "",
       maxDailyKm: "",
     });
+
     setEditId(null);
   };
 
@@ -180,6 +185,25 @@ const SystemSetting = () => {
 
         <form className="ss-form" onSubmit={handleSubmit}>
           <div className="ss-form-grid">
+            <div className="ss-form-field">
+              <label>Vehicle Number</label>
+
+              <select
+                name="vehicle"
+                value={formData.vehicle}
+                onChange={handleChange}
+                className="ss-form-input"
+                required
+              >
+                <option value="">Select Vehicle</option>
+
+                {vehicles.map((vehicle) => (
+                  <option key={vehicle._id} value={vehicle._id}>
+                    {vehicle.vehicleNo}
+                  </option>
+                ))}
+              </select>
+            </div>
             {/* Field 1: Minimum Mileage */}
             <div className="ss-form-field">
               <label className="ss-form-field-label">
@@ -319,6 +343,7 @@ const SystemSetting = () => {
           <table className="ss-table">
             <thead>
               <tr>
+                <th className="ss-table-head">Vehicle No</th>
                 <th className="ss-table-head">Min Mileage</th>
                 <th className="ss-table-head">Diesel Rate</th>
                 <th className="ss-table-head">Min Daily KM</th>
@@ -326,16 +351,17 @@ const SystemSetting = () => {
                 <th className="ss-table-head ss-table-head-actions">Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="5" style={{ textAlign: "center" }}>
+                  <td colSpan="6" style={{ textAlign: "center" }}>
                     Loading...
                   </td>
                 </tr>
               ) : settings.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="ss-table-empty">
+                  <td colSpan="6" className="ss-table-empty">
                     <FaDatabase className="ss-table-empty-icon" />
                     <span className="ss-table-empty-text">
                       No settings configured yet. Add your first setting above.
@@ -345,30 +371,46 @@ const SystemSetting = () => {
               ) : (
                 settings.map((item) => (
                   <tr key={item._id} className="ss-table-row">
+                    {/* Vehicle Number */}
+                    <td className="ss-table-cell">
+                      <span className="ss-table-cell-value">
+                        {item.vehicle?.vehicleNo || "-"}
+                      </span>
+                    </td>
+
+                    {/* Mileage */}
                     <td className="ss-table-cell">
                       <span className="ss-table-cell-value">
                         {item.minMileage}
                       </span>
                       <span className="ss-table-cell-unit">KM/L</span>
                     </td>
+
+                    {/* Diesel Rate */}
                     <td className="ss-table-cell">
                       <span className="ss-table-cell-value">
                         ₹ {item.dieselRate}
                       </span>
                       <span className="ss-table-cell-unit">/L</span>
                     </td>
+
+                    {/* Min Daily KM */}
                     <td className="ss-table-cell">
                       <span className="ss-table-cell-value">
                         {item.minDailyKm}
                       </span>
                       <span className="ss-table-cell-unit">KM</span>
                     </td>
+
+                    {/* Max Daily KM */}
                     <td className="ss-table-cell">
                       <span className="ss-table-cell-value">
                         {item.maxDailyKm}
                       </span>
                       <span className="ss-table-cell-unit">KM</span>
                     </td>
+
+                    {/* Actions */}
                     <td className="ss-table-cell ss-table-cell-actions">
                       <div className="ss-table-action-group">
                         <button
@@ -378,6 +420,7 @@ const SystemSetting = () => {
                           <FaEdit className="ss-table-action-icon" />
                           Edit
                         </button>
+
                         <button
                           className="ss-table-delete-btn"
                           onClick={() => handleDelete(item._id)}

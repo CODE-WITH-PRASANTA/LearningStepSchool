@@ -1,29 +1,65 @@
 const express = require("express");
 const router = express.Router();
+
 const auth = require("../../middleware/authMiddleware");
-const { upload, convertToWebp } = require("../../middleware/upload");
+
+const {
+  upload,
+  convertToWebp,
+} = require("../../middleware/upload");
+
+// ==============================
+// AUTH CONTROLLER
+// ==============================
 
 const {
   loginTeacher,
   logoutTeacher,
 } = require("../../controllers/teacherController/auth.controller");
 
+// ==============================
+// TEACHER CONTROLLER
+// ==============================
+
 const {
   getMeTeacher,
   updateMyTeacherImage,
   getTeachers,
-} = require("../../controllers/teacherController/createteacher.controller");
+  searchTeachers,
+} = require(
+  "../../controllers/teacherController/createteacher.controller"
+);
 
+// ==============================
 // AUTH
+// ==============================
+
 router.post("/login", loginTeacher);
+
 router.post("/logout", logoutTeacher);
 
+// ==============================
+// GET ALL TEACHERS
+// ==============================
 
 router.get("/all", auth, getTeachers);
-// CURRENT USER
+
+// ==============================
+// SEARCH TEACHERS
+// ==============================
+
+router.get("/search", auth, searchTeachers);
+
+// ==============================
+// CURRENT TEACHER
+// ==============================
+
 router.get("/me", auth, getMeTeacher);
 
-// CURRENT USER (PROFILE IMAGE ONLY)
+// ==============================
+// UPDATE PROFILE IMAGE
+// ==============================
+
 router.put(
   "/me/image",
   auth,
