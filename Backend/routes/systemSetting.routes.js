@@ -6,7 +6,7 @@ const {
   getSystemSetting,
   updateSystemSetting,
   deleteSystemSetting,
-} = require("../controllers/Vehicle/systemSetting.controller");
+ } = require("../controllers/vehicle/systemSetting.controller");
 
 router.post("/", createSystemSetting);
 
