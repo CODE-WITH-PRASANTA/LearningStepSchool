@@ -222,7 +222,7 @@ const VehcleKm = () => {
           </thead>
           <tbody>
             {vehicleLogs.map((item) => (
-              <tr key={item.id}>
+              <tr key={item._id}>
                 <td>{item.date}</td>
                 <td>{item.vehicle?.vehicleNo}</td>
                 <td>{item.openingKm}</td>
@@ -232,7 +232,7 @@ const VehcleKm = () => {
                   <button onClick={() => handleEdit(item)}>
                     <FaEdit />
                   </button>
-                  <button onClick={() => handleDelete(item.id)}>
+                  <button onClick={() => handleDelete(item._id)}>
                     <FaTrash />
                   </button>
                 </td>

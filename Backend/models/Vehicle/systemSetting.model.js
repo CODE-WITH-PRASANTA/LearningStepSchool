@@ -1,33 +1,17 @@
 const mongoose = require("mongoose");
 
-const systemSettingSchema = new mongoose.Schema(
-  {
-    minMileage: {
-      type: Number,
-      required: true,
-    },
-
-    dieselRate: {
-      type: Number,
-      required: true,
-    },
-
-    minDailyKm: {
-      type: Number,
-      required: true,
-    },
-
-    maxDailyKm: {
-      type: Number,
-      required: true,
-    },
+const systemSettingSchema = new mongoose.Schema({
+  vehicle: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Vehicle",
+    required: true,
+    unique: true,
   },
-  {
-    timestamps: true,
-  }
-);
 
-module.exports = mongoose.model(
-  "SystemSetting",
-  systemSettingSchema
-);
+  minMileage: Number,
+  dieselRate: Number,
+  minDailyKm: Number,
+  maxDailyKm: Number,
+});
+
+module.exports = mongoose.model("SystemSetting", systemSettingSchema);

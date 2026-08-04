@@ -57,6 +57,75 @@ exports.getTeachers = async (req, res) => {
   }
 };
 
+/* =========================================================
+   SEARCH TEACHERS
+========================================================= */
+
+exports.searchTeachers = async (req, res) => {
+  try {
+    const { search = "" } = req.query;
+
+    const searchText = search.trim();
+
+    // Don't return all teachers for an empty search
+    if (!searchText) {
+      return res.status(200).json({
+        success: true,
+        count: 0,
+        data: [],
+      });
+    }
+
+    const teachers = await User.find({
+      role: "teacher",
+
+      $or: [
+        {
+          name: {
+            $regex: searchText,
+            $options: "i",
+          },
+        },
+        {
+          email: {
+            $regex: searchText,
+            $options: "i",
+          },
+        },
+        {
+          contact: {
+            $regex: searchText,
+            $options: "i",
+          },
+        },
+        {
+          department: {
+            $regex: searchText,
+            $options: "i",
+          },
+        },
+      ],
+    })
+      .select(
+        "_id name email contact department image role"
+      )
+      .limit(10);
+
+    return res.status(200).json({
+      success: true,
+      count: teachers.length,
+      data: teachers,
+    });
+  } catch (err) {
+    console.error("SEARCH TEACHERS ERROR:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
 exports.getTeacherById = async (req, res) => {
   try {
     const teacher = await User.findById(req.params.id).select("-password");

@@ -6,7 +6,8 @@ const {
   getPayrolls,
   updatePayroll,
   deletePayroll,
-  bulkPayPayrolls
+  bulkPayPayrolls,
+    refreshAttendancePayroll,
 } = require("../controllers/payroll.controller");
 
 // Create
@@ -16,6 +17,8 @@ router.post("/", createPayroll);
 router.get("/", getPayrolls);
 
 router.put("/bulk-pay", bulkPayPayrolls);
+
+router.put("/refresh-attendance", refreshAttendancePayroll);
 // Update
 router.put("/:id", updatePayroll);
 
