@@ -15,7 +15,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import "./TodayAttendance.css";
-import API from "../../api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 
 const GENERATED_TIME_OPTIONS = Array.from({ length: 48 }, (_, i) => {
   const hour = Math.floor(i / 2);
@@ -55,6 +55,32 @@ const getBreakTime = (breaks = []) => {
   const firstBreak = breaks[0];
 
   return formatTime(firstBreak?.start);
+};
+
+const getTeacherImage = (image, name) => {
+  if (!image) {
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      name || "Teacher",
+    )}`;
+  }
+
+  let cleanImage = String(image).replace(/\\/g, "/");
+
+  // Already complete URL
+  if (
+    cleanImage.startsWith("http://") ||
+    cleanImage.startsWith("https://") ||
+    cleanImage.startsWith("blob:")
+  ) {
+    return cleanImage;
+  }
+
+  // Remove leading /
+  cleanImage = cleanImage.replace(/^\/+/, "");
+
+  const baseUrl = IMAGE_URL.replace(/\/+$/, "");
+
+  return `${baseUrl}/${cleanImage}`;
 };
 
 const TodayAttendance = () => {
@@ -115,9 +141,7 @@ const TodayAttendance = () => {
 
         name: item.teacherId?.name || "Unknown Teacher",
 
-        avatar: item.teacherId?.image
-          ? `http://localhost:5000/${item.teacherId.image.replace(/\\/g, "/")}`
-          : "/default-user.png",
+        avatar: getTeacherImage(item.teacherId?.image, item.teacherId?.name),
 
         firstIn: formatTime(item.punchIn),
 
@@ -433,6 +457,15 @@ const TodayAttendance = () => {
                             src={emp.avatar}
                             alt={emp.name}
                             className="attendance-avatar"
+                            onError={(e) => {
+                              console.log("IMAGE FAILED:", emp.avatar);
+
+                              e.currentTarget.onerror = null;
+
+                              e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                emp.name || "Teacher",
+                              )}`;
+                            }}
                           />
 
                           <span>{emp.name}</span>
