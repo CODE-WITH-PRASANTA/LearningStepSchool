@@ -6,7 +6,7 @@ const ATTENDANCE_LOCATION = {
 
   longitude: 76.59755211193236,
 
-  radiusMeters: 400,
+  radiusMeters: 500,
 };
 
 module.exports = ATTENDANCE_LOCATION;
