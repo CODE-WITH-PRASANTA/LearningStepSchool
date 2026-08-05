@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./VehcleKm.css";
 import {
   FaCalendarAlt,
@@ -9,13 +9,52 @@ import {
   FaMapMarkerAlt,
   FaShieldAlt,
 } from "react-icons/fa";
+import API from "../../api/axios";
 
 const VehcleKm = () => {
-  const [vehicleLogs, setVehicleLogs] = useState([
-    { id: 1, date: "2026-07-09", vehicle: "GJ-01-YZ-9876", openingKm: 12475, closingKm: 12500, runningKm: 25 },
-  ]);
+  const [vehicleLogs, setVehicleLogs] = useState([]);
+  const [editId, setEditId] = useState(null);
 
-  const [kmData, setKmData] = useState({ date: "", vehicle: "", closingKm: "" });
+  const [vehicles, setVehicles] = useState([]);
+  const [loadingVehicles, setLoadingVehicles] = useState(false);
+  const [kmData, setKmData] = useState({
+    date: "",
+    vehicle: "",
+    closingKm: "",
+  });
+
+  const fetchVehicles = async () => {
+    try {
+      setLoadingVehicles(true);
+
+      const { data } = await API.get("/vehicle");
+
+      if (data.success) {
+        setVehicles(data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+    } finally {
+      setLoadingVehicles(false);
+    }
+  };
+
+  const fetchVehicleLogs = async () => {
+    try {
+      const { data } = await API.get("/vehicle-km");
+
+      if (data.success) {
+        setVehicleLogs(data.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+    fetchVehicleLogs();
+  }, []);
 
   // Get the latest closing KM for the SPECIFIC vehicle selected
   const getLastClosingKm = () => {
@@ -23,7 +62,7 @@ const VehcleKm = () => {
     const vehicleEntries = vehicleLogs
       .filter((log) => log.vehicle === kmData.vehicle)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-    
+
     return vehicleEntries.length > 0 ? vehicleEntries[0].closingKm : 0;
   };
 
@@ -33,42 +72,56 @@ const VehcleKm = () => {
     setKmData({ ...kmData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!kmData.date || !kmData.vehicle || !kmData.closingKm) {
-      alert("Please fill all fields");
-      return;
+
+    try {
+      const payload = {
+        vehicle: kmData.vehicle,
+        date: kmData.date,
+        closingKm: Number(kmData.closingKm),
+      };
+
+      if (editId) {
+        await API.put(`/vehicle-km/${editId}`, payload);
+      } else {
+        await API.post("/vehicle-km", payload);
+      }
+
+      fetchVehicleLogs();
+
+      setEditId(null);
+
+      setKmData({
+        date: "",
+        vehicle: "",
+        closingKm: "",
+      });
+    } catch (err) {
+      alert(err.response?.data?.message || "Save failed");
     }
-
-    const openingKm = lastClosingKm;
-    const closingKmNum = Number(kmData.closingKm);
-    const runningKm = closingKmNum - openingKm;
-
-    if (runningKm < 0) {
-      alert(`Closing KM cannot be less than the last record for this vehicle (${openingKm} KM)`);
-      return;
-    }
-
-    const newLog = {
-      id: Date.now(),
-      date: kmData.date,
-      vehicle: kmData.vehicle,
-      openingKm: openingKm,
-      closingKm: closingKmNum,
-      runningKm: runningKm,
-    };
-
-    setVehicleLogs([newLog, ...vehicleLogs].sort((a, b) => new Date(b.date) - new Date(a.date)));
-    setKmData({ date: "", vehicle: "", closingKm: "" });
   };
 
-  const handleDelete = (id) => {
-    setVehicleLogs(vehicleLogs.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this log?")) return;
+
+    try {
+      await API.delete(`/vehicle-km/${id}`);
+
+      fetchVehicleLogs();
+    } catch (err) {
+      alert(err.response?.data?.message || "Delete failed");
+    }
   };
 
   const handleEdit = (item) => {
-    setKmData({ date: item.date, vehicle: item.vehicle, closingKm: item.closingKm });
-    setVehicleLogs(vehicleLogs.filter((log) => log.id !== item.id));
+    setEditId(item._id);
+
+    setKmData({
+      date: item.date.split("T")[0],
+      vehicle: item.vehicle._id,
+      closingKm: item.closingKm,
+    });
   };
 
   return (
@@ -82,39 +135,76 @@ const VehcleKm = () => {
           <form onSubmit={handleSubmit}>
             <div className="vk-form-group">
               <label>Date</label>
-              <input type="date" name="date" value={kmData.date} onChange={handleChange} className="vk-input-field" required />
+              <input
+                type="date"
+                name="date"
+                value={kmData.date}
+                onChange={handleChange}
+                className="vk-input-field"
+                required
+              />
             </div>
 
             <div className="vk-form-group">
               <label>Vehicle Number</label>
-              <select name="vehicle" value={kmData.vehicle} onChange={handleChange} className="vk-select-field" required>
-                <option value="">Select Vehicle</option>
-                <option value="GJ-01-YZ-9876">GJ-01-YZ-9876</option>
-                <option value="OD-02-AB-4587">OD-02-AB-4587</option>
-                <option value="MH-11-XY-2587">MH-11-XY-2587</option>
+              <select
+                name="vehicle"
+                value={kmData.vehicle}
+                onChange={handleChange}
+                className="vk-select-field"
+                required
+              >
+                <option value="">
+                  {loadingVehicles ? "Loading Vehicles..." : "Select Vehicle"}
+                </option>
+
+                {vehicles.map((vehicle) => (
+                  <option key={vehicle._id} value={vehicle._id}>
+                    {vehicle.vehicleNo}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="vk-form-group">
               <label>Closing KM Reading</label>
-              <input type="number" name="closingKm" placeholder="Enter closing KM" value={kmData.closingKm} onChange={handleChange} className="vk-input-field" required />
+              <input
+                type="number"
+                name="closingKm"
+                placeholder="Enter closing KM"
+                value={kmData.closingKm}
+                onChange={handleChange}
+                className="vk-input-field"
+                required
+              />
             </div>
 
             {kmData.vehicle && (
               <div className="vk-summary-box">
-                <p><strong>Last Reading ({kmData.vehicle}):</strong> {lastClosingKm} KM</p>
-                <p><strong>Calculated Running:</strong> {Math.max(0, kmData.closingKm - lastClosingKm)} KM</p>
+                <p>
+                  <strong>Last Reading ({kmData.vehicle}):</strong>{" "}
+                  {lastClosingKm} KM
+                </p>
+                <p>
+                  <strong>Calculated Running:</strong>{" "}
+                  {Math.max(0, kmData.closingKm - lastClosingKm)} KM
+                </p>
               </div>
             )}
 
-            <button type="submit" className="vk-btn-submit"><FaSave /> SAVE LOG</button>
+            <button type="submit" className="vk-btn-submit">
+              <FaSave /> SAVE LOG
+            </button>
           </form>
         </div>
 
         <div className="vk-info-card">
           <FaTruck size={40} />
           <h3 className="vk-info-card__title">Log Management</h3>
-          <p>Select a vehicle to see its specific history and calculate running KM based on the last entry for that vehicle.</p>
+          <p>
+            Select a vehicle to see its specific history and calculate running
+            KM based on the last entry for that vehicle.
+          </p>
         </div>
       </div>
 
@@ -122,20 +212,29 @@ const VehcleKm = () => {
         <table className="vk-data-table">
           <thead>
             <tr>
-              <th>Date</th><th>Vehicle</th><th>Opening</th><th>Closing</th><th>Running</th><th>Action</th>
+              <th>Date</th>
+              <th>Vehicle</th>
+              <th>Opening</th>
+              <th>Closing</th>
+              <th>Running</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {vehicleLogs.map((item) => (
-              <tr key={item.id}>
+              <tr key={item._id}>
                 <td>{item.date}</td>
-                <td>{item.vehicle}</td>
+                <td>{item.vehicle?.vehicleNo}</td>
                 <td>{item.openingKm}</td>
                 <td>{item.closingKm}</td>
                 <td>{item.runningKm} KM</td>
                 <td>
-                  <button onClick={() => handleEdit(item)}><FaEdit /></button>
-                  <button onClick={() => handleDelete(item.id)}><FaTrash /></button>
+                  <button onClick={() => handleEdit(item)}>
+                    <FaEdit />
+                  </button>
+                  <button onClick={() => handleDelete(item._id)}>
+                    <FaTrash />
+                  </button>
                 </td>
               </tr>
             ))}

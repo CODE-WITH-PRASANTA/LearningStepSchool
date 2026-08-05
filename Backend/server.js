@@ -73,6 +73,13 @@ const routeRoutes = require("./routes/route.routes");
 const destinationRoutes = require("./routes/destination.routes");
 const assignRouteRoutes = require("./routes/assignRoute.routes");
 const vehicleRouteRoutes = require("./routes/vehicleRoute.routes");
+const systemSettingRoutes = require("./routes/systemSetting.routes");
+const vehicleKmRoutes = require("./routes/vehicleKm.routes");
+
+
+
+
+
 const otherIncomeRoutes = require("./routes/otherIncome.routes");
 const popupRoutes = require("./routes/popup.routes");
 const staffGatePassRoutes = require("./routes/staffGatePass.routes");
@@ -163,6 +170,8 @@ app.use("/api/transport-route", routeRoutes);
 app.use("/api/transport-destination", destinationRoutes);
 app.use("/api/assign-route", assignRouteRoutes);
 app.use("/api/vehicle-route", vehicleRouteRoutes);
+app.use("/api/system-setting", systemSettingRoutes);
+app.use("/api/vehicle-km", vehicleKmRoutes);
 
 // Font office
 app.use("/api/popup", popupRoutes);

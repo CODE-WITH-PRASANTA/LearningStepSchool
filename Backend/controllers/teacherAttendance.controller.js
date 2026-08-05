@@ -753,14 +753,16 @@ exports.getMonthlyAttendance = async (req, res) => {
    ATTENDANCE SUMMARY
 ========================================================= */
 
+/* =========================================================
+   ATTENDANCE SUMMARY
+========================================================= */
+
 exports.getAttendanceSummary = async (req, res) => {
   try {
     const { month, year } = req.query;
-
     const teacherId = req.user.id;
 
     const monthNumber = Number(month);
-
     const yearNumber = Number(year);
 
     if (!monthNumber || !yearNumber || monthNumber < 1 || monthNumber > 12) {
@@ -776,7 +778,6 @@ exports.getAttendanceSummary = async (req, res) => {
 
     const records = await Attendance.find({
       teacherId,
-
       date: {
         $gte: start,
         $lt: end,
@@ -792,26 +793,44 @@ exports.getAttendanceSummary = async (req, res) => {
     };
 
     records.forEach((record) => {
-      if (record.status === "Present") {
-        summary.present += 1;
-      }
+      switch (record.status) {
+        case "Present":
+          summary.present += 1;
+          break;
 
-      if (record.status === "Leave") {
-        summary.leave += 1;
-      }
+        case "Late":
+          summary.late += 1;
+          break;
 
-      if (record.status === "Absent") {
-        summary.absent += 1;
-      }
+        case "Half Day":
+          summary.halfDay += 1;
+          break;
 
-      if (record.status === "Late") {
-        summary.late += 1;
-      }
+        case "Leave":
+          summary.leave += 1;
+          break;
 
-      if (record.status === "Half Day") {
-        summary.halfDay += 1;
+        case "Absent":
+          summary.absent += 1;
+          break;
       }
     });
+
+    // ==========================================
+    // ATTENDANCE DAY CALCULATION
+    // ==========================================
+
+    // Present = 1
+    // Late = 1
+    // Half Day = 0.5
+    // Leave = 1
+    // Absent = 0
+
+    const paidAttendanceDays =
+      summary.present + summary.late + summary.leave + summary.halfDay * 0.5;
+
+    // Example:
+    // 2 Half Days = 2 * 0.5 = 1 day
 
     const totalDays = new Date(yearNumber, monthNumber, 0).getDate();
 
@@ -821,12 +840,22 @@ exports.getAttendanceSummary = async (req, res) => {
       summary: {
         totalDays,
 
-        ...summary,
+        present: summary.present,
+        late: summary.late,
+        halfDay: summary.halfDay,
+        leave: summary.leave,
+        absent: summary.absent,
 
-        workingDays: records.length,
+        // Actual number of attendance records
+        attendanceRecords: records.length,
+
+        // Used for salary
+        paidAttendanceDays,
       },
     });
   } catch (err) {
+    console.error("ATTENDANCE SUMMARY ERROR:", err);
+
     return res.status(500).json({
       success: false,
       message: err.message,
@@ -1041,6 +1070,224 @@ exports.markAttendanceByAdmin = async (req, res) => {
       data: attendance,
     });
   } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+
+
+/* =========================================================
+   ADMIN - GET SELECTED TEACHER MONTHLY ATTENDANCE
+========================================================= */
+
+exports.getTeacherMonthlyAttendanceByAdmin = async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+    const { month, year } = req.query;
+
+    if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid teacher ID",
+      });
+    }
+
+    const monthNumber = Number(month);
+    const yearNumber = Number(year);
+
+    if (
+      !monthNumber ||
+      !yearNumber ||
+      monthNumber < 1 ||
+      monthNumber > 12
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Valid month and year required",
+      });
+    }
+
+    const start = new Date(
+      Date.UTC(yearNumber, monthNumber - 1, 1)
+    );
+
+    const end = new Date(
+      Date.UTC(yearNumber, monthNumber, 1)
+    );
+
+    const records = await Attendance.find({
+      teacherId,
+      date: {
+        $gte: start,
+        $lt: end,
+      },
+    })
+      .populate(
+        "teacherId",
+        "name email image contact department role"
+      )
+      .sort({ date: 1 });
+
+    return res.status(200).json({
+      success: true,
+      count: records.length,
+      data: records,
+    });
+  } catch (err) {
+    console.error(
+      "ADMIN GET TEACHER ATTENDANCE ERROR:",
+      err
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
+
+
+/* =========================================================
+   ADMIN - UPDATE ATTENDANCE
+========================================================= */
+
+exports.updateAttendanceByAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      status,
+      punchIn,
+      punchOut,
+    } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid attendance ID",
+      });
+    }
+
+    const attendance = await Attendance.findById(id);
+
+    if (!attendance) {
+      return res.status(404).json({
+        success: false,
+        message: "Attendance not found",
+      });
+    }
+
+    /* ================= STATUS ================= */
+
+    if (status) {
+      const allowedStatuses = [
+        "Present",
+        "Absent",
+        "Leave",
+        "Late",
+        "Half Day",
+      ];
+
+      if (!allowedStatuses.includes(status)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid attendance status",
+        });
+      }
+
+      attendance.status = status;
+    }
+
+    /* ================= PUNCH IN ================= */
+
+    if (punchIn !== undefined) {
+      attendance.punchIn = punchIn
+        ? new Date(punchIn)
+        : null;
+    }
+
+    /* ================= PUNCH OUT ================= */
+
+    if (punchOut !== undefined) {
+      attendance.punchOut = punchOut
+        ? new Date(punchOut)
+        : null;
+    }
+
+    /* ================= VALIDATE TIMES ================= */
+
+    if (
+      attendance.punchIn &&
+      attendance.punchOut &&
+      attendance.punchOut < attendance.punchIn
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Punch Out cannot be earlier than Punch In",
+      });
+    }
+
+    /* ================= BREAK TOTAL ================= */
+
+    attendance.breakSeconds = (
+      attendance.breaks || []
+    ).reduce(
+      (total, item) =>
+        total + Number(item.durationSeconds || 0),
+      0
+    );
+
+    /* ================= WORKING HOURS ================= */
+
+    if (
+      attendance.punchIn &&
+      attendance.punchOut
+    ) {
+      const totalSeconds = Math.max(
+        Math.floor(
+          (attendance.punchOut -
+            attendance.punchIn) /
+            1000
+        ),
+        0
+      );
+
+      attendance.workSeconds = Math.max(
+        totalSeconds - attendance.breakSeconds,
+        0
+      );
+
+      const requiredSeconds =
+        Number(WORKING_HOURS) * 60 * 60;
+
+      attendance.overtimeSeconds = Math.max(
+        attendance.workSeconds -
+          requiredSeconds,
+        0
+      );
+    } else {
+      attendance.workSeconds = 0;
+      attendance.overtimeSeconds = 0;
+    }
+
+    await attendance.save();
+
+    return res.status(200).json({
+      success: true,
+      message:
+        "Attendance updated successfully",
+      data: attendance,
+    });
+  } catch (err) {
+    console.error(
+      "ADMIN UPDATE ATTENDANCE ERROR:",
+      err
+    );
+
     return res.status(500).json({
       success: false,
       message: err.message,
