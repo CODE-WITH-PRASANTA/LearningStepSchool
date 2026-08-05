@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+/* ================= MAIN HEADER CONTAINER ================= */
+.app-header {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: linear-gradient(135deg, rgba(8, 27, 69, 0.95) 0%, rgba(16, 45, 109, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 25px rgba(8, 27, 69, 0.35);
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+/* Left Section */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.system-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* ================= ICON BUBBLE BUTTONS ================= */
+.header-icon-bubble {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.header-icon-bubble:hover,
+.header-icon-bubble:focus {
+  background: #7C3AED;
+  border-color: #a855f7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.45);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background-color: #f43f5e;
+  border: 2px solid #081B45;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+/* ================= SEARCH BAR ================= */
+.header-search-wrap {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 8px 16px;
+  width: 360px;
+  transition: all 0.3s ease;
+}
+
+.header-search-wrap:focus-within {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #a855f7;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+  width: 380px;
+}
+
+.search-icon {
+  color: #c084fc;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  margin-left: 10px;
+  font-size: 13.5px;
+  color: #ffffff;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.search-input::placeholder {
+  color: rgba(233, 213, 255, 0.6);
+}
+
+/* ================= RIGHT SECTION & ADMIN PROFILE ================= */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-dropdown-wrapper {
+  position: relative;
+}
+
+.profile-trigger-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 30px;
+  padding: 4px 12px 4px 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.profile-trigger-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(192, 132, 252, 0.5);
+}
+
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #c084fc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-name-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ================= PROFILE DROPDOWN MENU ================= */
+.header-dropdown-card {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  width: 220px;
+  background: linear-gradient(180deg, #102D6D 0%, #081B45 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.dropdown-user-header {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.user-email {
+  font-size: 11px;
+  color: rgba(233, 213, 255, 0.7);
+  margin: 2px 0 0 0;
+}
+
+.dropdown-menu-list {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(243, 232, 255, 0.9);
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.header-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+.header-dropdown-item.logout-danger {
+  color: #fca5a5;
+}
+
+.header-dropdown-item.logout-danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ffffff;
+}
+
+/* ================= RESPONSIVE MEDIA QUERIES ================= */
+@media (max-width: 1023px) {
+  .header-search-wrap {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    padding: 0 16px;
+    height: 64px;
+  }
+
+  .system-title {
+    display: none;
+  }
+
+  .admin-name-text {
+    display: none;
+  }
+
+  .profile-trigger-btn {
+    padding: 3px;
+    border-radius: 50%;
+  }
+
+  .header-avatar {
+    width: 34px;
+    height: 34px;
+  }
+}
