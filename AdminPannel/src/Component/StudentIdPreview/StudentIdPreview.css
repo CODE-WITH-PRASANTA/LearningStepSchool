@@ -1,731 +1,322 @@
-/* ==========================================================
-   0. THEME TOKENS
-========================================================== */
+/* Container & Toolbar Styling */
 .id-preview-container {
-  --red: #e11d48;
-  --red-dark: #9f1239;
-  --red-light: #fb7185;
-  --navy-light: #1e3a8a;
-  --gold: #d4af37;
-  --bg: #f7eef1;
-  --card-radius: 12px;
-
-  width: 100%;
+  padding: 20px;
+  background-color: #f4f7f6;
   min-height: 100vh;
-  padding: 30px;
-  background: var(--bg);
-  box-sizing: border-box;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* ==========================================================
-   1. ACTION TOOLBAR
-========================================================== */
 .id-preview-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 30px;
-  background: #ffffff;
-  padding: 20px 28px;
-  border-radius: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f1dde2;
+  background: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .id-preview-title h2 {
   margin: 0;
-  background: linear-gradient(90deg, var(--red-dark), var(--red));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-size: 26px;
-  font-weight: 800;
+  color: #333;
+  font-size: 1.5rem;
 }
 
 .id-preview-title p {
-  margin: 4px 0 0 0;
-  color: #64748b;
-  font-size: 13px;
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 0.9rem;
 }
 
 .id-preview-actions {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .id-btn-back,
 .id-btn-print {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  height: 42px;
-  padding: 0 20px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 10px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 13px;
   font-weight: 600;
-  transition: all 0.25s ease;
+  font-size: 0.9rem;
 }
 
 .id-btn-back {
-  background: #ffffff;
-  color: var(--red);
-  border: 1.5px solid var(--red);
-}
-
-.id-btn-back:hover {
-  background: #fef2f4;
-  transform: translateY(-1px);
+  background-color: #e0e0e0;
+  color: #333;
 }
 
 .id-btn-print {
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+  background-color: #b21f35;
+  color: white;
 }
 
-.id-btn-print:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(225, 29, 72, 0.4);
-}
-
-/* ==========================================================
-   2. PRINT AREA WRAPPER
-========================================================== */
-.id-print-area {
-  width: 100%;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06);
-  border: 1px solid #f1dde2;
-  box-sizing: border-box;
-}
-
-/* ==========================================================
-   3. CARD GRID
-========================================================== */
 .id-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
   justify-items: center;
-  align-items: stretch;
 }
 
-/* ==========================================================
-   4. SINGLE IDENTITY CARD
-========================================================== */
-.id-card {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-  min-height: 400px;
-  margin: 0 auto;
-  background: #ffffff;
-  border-radius: var(--card-radius);
+/* =========================================
+   Exact Reference Design Structure & Colors
+========================================= */
+
+.exact-ref-card {
+  width: 310px;
+  height: 520px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  border: 2px solid #f4d3da;
-  box-shadow: 0 8px 20px rgba(159, 18, 57, 0.12);
+  position: relative;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  animation: cardFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid #e2e2e2;
 }
 
-.id-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 16px 36px rgba(159, 18, 57, 0.2);
-}
-
-/* ==========================================================
-   5. HEADER
-========================================================== */
-.id-card-header {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px 8px;
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  flex-shrink: 0;
-}
-
-.id-card-header::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), #f4d97a, var(--gold));
-}
-
-.id-school-logo {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  flex-shrink: 0;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1.5px var(--gold);
-  padding: 2px;
-  box-sizing: border-box;
-}
-
-.id-school-details {
-  flex: 1;
-  min-width: 0;
-}
-
-.id-school-details h3 {
-  margin: 0;
-  font-size: 9.5px;
-  font-weight: 800;
+/* Header Top Section */
+.ref-card-header {
+  background-color: #b21f35;
   color: #ffffff;
-  line-height: 1.15;
-  letter-spacing: 0.2px;
+  padding: 12px 14px 6px 14px;
+  text-align: center;
+}
+
+.ref-header-text {
+  width: 100%;
+}
+
+.ref-school-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.2;
   text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 0.3px;
 }
 
-.id-school-details p {
-  margin: 1px 0 0 0;
-  font-size: 6.5px;
-  color: #ffe4e9;
-  line-height: 1.15;
+.ref-school-address {
+  margin: 4px 0 3px 0;
+  font-size: 0.55rem;
   font-weight: 500;
+  color: #fce4e6;
+  line-height: 1.2;
 }
 
-/* ==========================================================
-   6. PHOTO SECTION
-========================================================== */
-.id-photo-container {
-  position: relative;
-  z-index: 1;
+.ref-school-website {
+  margin: 2px 0 0 0;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: #ffffff;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 10px 0 8px;
-  background: #ffffff;
-  flex-shrink: 0;
+  justify-content: center;
+  gap: 4px;
 }
 
-.id-photo-frame {
+.ref-web-icon {
+  font-size: 0.6rem;
+}
+
+/* Shape Area for Center Banner & Wings */
+.ref-shape-wrapper {
   position: relative;
-  width: 110px;
-  height: 110px;
-  flex: 0 0 110px;
-  border: 3px solid var(--red);
-  border-radius: 10px;
-  overflow: hidden;
-  background: #f0f0f0;
-  box-shadow: 0 4px 10px rgba(159, 18, 57, 0.12);
-  box-sizing: border-box;
+  width: 100%;
+  height: 95px;
+  background-color: #ffffff;
 }
 
-.id-photo-frame img {
+.ref-v-banner {
   position: absolute;
   top: 0;
   left: 0;
-  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-
-/* ==========================================================
-   7. BIO SECTION
-========================================================== */
-.id-bio-section {
-  position: relative;
+  height: 60px;
+  background-color: #b21f35;
+  clip-path: polygon(0 0, 100% 0, 100% 40%, 50% 100%, 0 40%);
   z-index: 1;
-  text-align: center;
-  margin-bottom: 4px;
-  padding: 0 10px;
-  flex-shrink: 0;
 }
 
-.id-student-name {
-  font-size: 13px;
-  color: var(--red);
-  margin: 0;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  line-height: 1.15;
-}
-
-.id-student-meta {
-  font-size: 9px;
-  color: var(--navy-light);
-  margin-top: 1px;
-  font-weight: 600;
-}
-
-/* ==========================================================
-   8. INFO TABLE
-========================================================== */
-.id-info-table {
-  position: relative;
+.ref-side-wing {
+  position: absolute;
+  top: 15px;
+  width: 35px;
+  height: 70px;
+  background-color: #b21f35;
   z-index: 1;
-  padding: 0 12px 2px;
-  font-size: 10px;
-  flex: 1;
+}
+
+.ref-side-wing.left {
+  left: 0;
+  clip-path: polygon(0 0, 100% 35%, 100% 70%, 0 100%);
+}
+
+.ref-side-wing.right {
+  right: 0;
+  clip-path: polygon(0 35%, 100% 0, 100% 100%, 0 70%);
+}
+
+/* Enlarged Photo Section */
+.ref-photo-wrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.ref-photo-frame {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 4px solid #b21f35;
+  padding: 2px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.id-info-row {
+.ref-photo-frame img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ref-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #e2e2e2;
+}
+
+/* Student Name Pill */
+.ref-name-pill-wrapper {
   display: flex;
-  margin-bottom: 2px;
-  line-height: 1.2;
-  padding: 2px 0;
-  border-bottom: 1px dashed #fbe4e9;
+  justify-content: center;
+  margin-top: 38px;
+  margin-bottom: 8px;
 }
 
-.id-info-row:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-.id-info-row span:first-child {
-  width: 65px;
-  flex-shrink: 0;
-  color: var(--navy-light);
-  font-weight: 600;
-  font-size: 8.5px;
-  letter-spacing: 0.2px;
-}
-
-.id-colon {
-  width: 8px;
-  flex-shrink: 0;
-  color: var(--navy-light);
-  font-weight: 600;
-}
-
-.id-info-row strong {
-  color: var(--red-dark);
-  font-weight: 700;
-  word-break: break-word;
-  font-size: 9px;
-  flex: 1;
-}
-
-/* ==========================================================
-   9. FOOTER
-========================================================== */
-.id-card-footer {
-  position: relative;
-  z-index: 1;
-  margin-top: auto;
-  text-align: center;
-  padding: 6px 12px;
-  font-size: 8px;
-  font-weight: 700;
+.ref-name-pill {
+  background-color: #b21f35;
   color: #ffffff;
-  background: linear-gradient(135deg, var(--red), var(--red-dark));
-  flex-shrink: 0;
-  letter-spacing: 1px;
+  padding: 5px 22px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+  min-width: 130px;
+  box-shadow: 0 2px 4px rgba(178, 31, 53, 0.25);
+  text-transform: capitalize;
 }
 
-.id-card-footer::before {
-  content: "✦ ";
-  opacity: 0.6;
+/* Details Section */
+.ref-details-grid {
+  padding: 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+  flex-grow: 1;
 }
 
-.id-card-footer::after {
-  content: " ✦";
-  opacity: 0.6;
+.ref-data-row {
+  display: flex;
+  align-items: flex-start;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
-/* ==========================================================
-   10. RESPONSIVE BREAKPOINTS
-========================================================== */
-@media (max-width: 1200px) {
-  .id-card-grid {
-    gap: 16px;
-  }
-  .id-print-area {
-    padding: 20px;
-  }
+.ref-data-label {
+  width: 105px;
+  color: #333333;
+  font-weight: 700;
 }
 
-@media (max-width: 992px) {
-  .id-preview-container {
-    padding: 20px;
-  }
-  .id-preview-toolbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 18px;
-  }
-  .id-preview-actions {
-    width: 100%;
-  }
-  .id-btn-back, .id-btn-print {
-    flex: 1;
-  }
+.ref-data-colon {
+  width: 14px;
+  font-weight: 700;
+  color: #333333;
 }
 
-@media (min-width: 481px) and (max-width: 991px) {
-  .id-card {
-    max-width: 320px;
-  }
+.ref-data-value {
+  flex: 1;
+  color: #111111;
+  font-weight: 800;
+  word-break: break-word;
 }
 
-@media (max-width: 768px) {
-  .id-card-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .id-preview-title h2 {
-    font-size: 22px;
-  }
-  .id-card {
-    max-width: 320px;
-  }
-  .id-card:hover {
-    transform: translateY(-3px);
-  }
+/* Principal Signature Text Area */
+.ref-principal-signature {
+  text-align: right;
+  padding: 4px 18px 2px 18px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #333333;
 }
 
-@media (max-width: 480px) {
-  .id-preview-actions {
-    flex-direction: column;
-  }
-  .id-btn-back, .id-btn-print {
-    width: 100%;
-  }
-  .id-print-area {
-    padding: 10px;
-  }
-  .id-card {
-    max-width: 100%;
-    min-height: 360px;
-  }
-  .id-photo-frame {
-    width: 100px;
-    height: 100px;
-    flex: 0 0 100px;
-  }
-  .id-school-details h3 {
-    font-size: 8px;
-  }
-  .id-school-details p {
-    font-size: 5.5px;
-  }
-  .id-student-name {
-    font-size: 12px;
-  }
-  .id-info-table {
-    padding: 0 10px 2px;
-  }
-  .id-info-row span:first-child {
-    width: 55px;
-    font-size: 7.5px;
-  }
-  .id-info-row strong {
-    font-size: 8px;
-  }
-  .id-card-footer {
-    font-size: 7px;
-    padding: 5px 8px;
-  }
+/* Red Footer Bar */
+.ref-card-footer {
+  background-color: #b21f35;
+  color: #ffffff;
+  text-align: center;
+  padding: 7px 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-top: auto;
 }
 
-/* ==========================================================
-   11. PRINT LAYOUT — 3-COLUMN, CONTENT-SIZED CARDS
-   (matches the on-screen card proportions instead of
-    stretching cards to a fixed min-height)
-========================================================== */
+/* Print Formatting */
 @media print {
-  /* Reset everything for print */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html, body {
-    width: 210mm;
-    min-height: 297mm;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-  }
-
-  /* Hide all non-print elements */
   body * {
-    visibility: hidden !important;
+    visibility: hidden;
   }
 
-  /* Show only print area */
-  #StudentIdPreview-printArea,
-  #StudentIdPreview-printArea * {
-    visibility: visible !important;
-  }
-
-  /* Print container */
-  .id-preview-container {
-    padding: 0 !important;
-    margin: 0 !important;
-    min-height: auto !important;
-    background: #ffffff !important;
-    width: 210mm !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-  }
-
-  /* Hide toolbar */
-  .id-preview-toolbar {
+  .no-print {
     display: none !important;
   }
 
-  /* Print area */
-  .id-print-area {
-    position: relative !important;
-    width: 210mm !important;
-    padding: 6mm !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    background: #ffffff !important;
-    border-radius: 0 !important;
-    min-height: auto !important;
+  .id-print-area,
+  .id-print-area * {
+    visibility: visible;
   }
 
-  /* Card grid — 3 columns, matches screen layout, no forced row height */
+  .id-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
   .id-card-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    grid-auto-rows: min-content !important;
-    gap: 4mm !important;
-    justify-content: stretch !important;
-    align-items: start !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
+    gap: 15px !important;
+    justify-items: center;
   }
 
-  /* Individual card — sized to content, no giant blank space */
-  .id-card {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-width: none !important;
-    margin: 0 !important;
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
+  .exact-ref-card {
+    page-break-inside: avoid;
     box-shadow: none !important;
-    border: 0.75px solid #d4c5c8 !important;
-    border-radius: 2mm !important;
-    animation: none !important;
-    overflow: hidden !important;
-    background: #ffffff !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  .id-card:hover {
-    transform: none !important;
-  }
-
-  /* Header */
-  .id-card-header {
-    padding: 2mm 2.5mm !important;
-    gap: 1.5mm !important;
-    flex-shrink: 0 !important;
-    background: linear-gradient(135deg, #e11d48, #9f1239) !important;
-  }
-
-  .id-card-header::after {
-    height: 0.6mm !important;
-  }
-
-  .id-school-logo {
-    width: 7mm !important;
-    height: 7mm !important;
-    box-shadow: 0 0 0 0.4mm #d4af37 !important;
-    padding: 0.5mm !important;
-  }
-
-  .id-school-details h3 {
-    font-size: 6.5pt !important;
-    line-height: 1.15 !important;
-    color: #ffffff !important;
-    margin: 0 !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.3px !important;
-  }
-
-  .id-school-details p {
-    font-size: 4.8pt !important;
-    line-height: 1.2 !important;
-    color: #ffe4e9 !important;
-    margin: 0.5mm 0 0 0 !important;
-    font-weight: 400 !important;
-  }
-
-  /* Photo container */
-  .id-photo-container {
-    padding: 2.5mm 0 2mm !important;
-    flex-shrink: 0 !important;
-    background: #ffffff !important;
-  }
-
-  .id-photo-frame {
-    width: 20mm !important;
-    height: 20mm !important;
-    flex: 0 0 20mm !important;
-    border: 0.6mm solid #e11d48 !important;
-    border-radius: 1.5mm !important;
-    box-shadow: none !important;
-    overflow: hidden !important;
-    background: #f5f5f5 !important;
-  }
-
-  .id-photo-frame img {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-  }
-
-  /* Bio section */
-  .id-bio-section {
-    margin-bottom: 1.5mm !important;
-    padding: 0 2mm !important;
-    flex-shrink: 0 !important;
-  }
-
-  .id-student-name {
-    font-size: 8.5pt !important;
-    line-height: 1.15 !important;
-    color: #e11d48 !important;
-    margin: 0 !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.4px !important;
-  }
-
-  .id-student-meta {
-    font-size: 6pt !important;
-    margin-top: 0.5mm !important;
-    color: #1e3a8a !important;
-    font-weight: 600 !important;
-  }
-
-  /* Info table — even, semantic spacing between rows */
-  .id-info-table {
-    padding: 0 3mm 2.5mm !important;
-    flex: 1 !important;
-    font-size: 6pt !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    gap: 0 !important;
-  }
-
-  .id-info-row {
-    display: flex !important;
-    margin-bottom: 1mm !important;
-    padding: 0.8mm 0 !important;
-    line-height: 1.3 !important;
-    border-bottom: 0.4px dashed #f0d5da !important;
-    align-items: baseline !important;
-  }
-
-  .id-info-row:last-child {
-    border-bottom: none !important;
-    margin-bottom: 0 !important;
-  }
-
-  .id-info-row span:first-child {
-    width: 16mm !important;
-    flex-shrink: 0 !important;
-    font-size: 5.5pt !important;
-    color: #1e3a8a !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.2px !important;
-  }
-
-  .id-colon {
-    width: 4px !important;
-    flex-shrink: 0 !important;
-    color: #1e3a8a !important;
-    font-weight: 600 !important;
-    margin: 0 1px !important;
-  }
-
-  .id-info-row strong {
-    font-size: 5.8pt !important;
-    color: #9f1239 !important;
-    font-weight: 700 !important;
-    word-break: break-word !important;
-    flex: 1 !important;
-    padding-left: 1px !important;
-  }
-
-  /* Footer */
-  .id-card-footer {
-    padding: 1.5mm 2.5mm !important;
-    font-size: 5.5pt !important;
-    flex-shrink: 0 !important;
-    letter-spacing: 1px !important;
-    background: linear-gradient(135deg, #e11d48, #9f1239) !important;
-    color: #ffffff !important;
-    margin-top: auto !important;
-    font-weight: 600 !important;
-  }
-
-  .id-card-footer::before,
-  .id-card-footer::after {
-    content: "✦ " !important;
-    opacity: 0.7 !important;
-  }
-
-  .id-card-footer::after {
-    content: " ✦" !important;
-  }
-
-  /* Force color printing */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-}
-
-/* Page setup */
-@page {
-  size: A4 portrait;
-  margin: 0mm;
-}
-
-/* ==========================================================
-   12. ANIMATIONS
-========================================================== */
-@keyframes cardFadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px) scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    border: 1px solid #ccc !important;
   }
 }

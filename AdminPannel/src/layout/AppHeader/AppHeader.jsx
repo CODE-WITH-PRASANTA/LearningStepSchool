@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../api/axios";
 import Swal from "sweetalert2";
@@ -10,6 +10,7 @@ import {
   FiSettings,
   FiLogOut,
 } from "react-icons/fi";
+import "./AppHeader.css";
 
 export default function AppHeader({
   sidebarOpen,
@@ -37,9 +38,11 @@ export default function AppHeader({
       text: "You want to logout?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#6366f1",
+      confirmButtonColor: "#7C3AED",
       cancelButtonColor: "#ef4444",
       confirmButtonText: "Yes, logout",
+      background: "#081B45",
+      color: "#ffffff",
     });
 
     if (!result.isConfirmed) return;
@@ -50,169 +53,123 @@ export default function AppHeader({
       console.log("Logout API error:", error);
     }
 
-    // ✅ CLEAR STORAGE
+    // CLEAR LOCAL STORAGE
     localStorage.removeItem("token");
     localStorage.removeItem("isAdmin");
     localStorage.removeItem("admin");
 
     setOpen(false);
 
-    // ✅ SUCCESS ALERT
+    // SUCCESS ALERT
     Swal.fire({
       title: "Logged out 👋",
       text: "You have been logged out successfully",
       icon: "success",
       timer: 1500,
       showConfirmButton: false,
+      background: "#081B45",
+      color: "#ffffff",
     });
 
     navigate("/login");
   };
 
   return (
-    <header
-      className="h-16 flex items-center justify-between px-6
-      bg-gradient-to-r from-indigo-50 via-white to-violet-50
-      border-b border-indigo-100"
-    >
-      {/* LEFT */}
-      <div className="flex items-center gap-4">
+    <header className="app-header">
+      {/* LEFT SECTION */}
+      <div className="header-left">
         <button
           onClick={() =>
             window.innerWidth >= 1024
               ? setSidebarOpen(!sidebarOpen)
               : setMobileOpen(true)
           }
-          className="icon-bubble bg-indigo-200 text-indigo-700 hover:bg-indigo-300"
+          className="header-icon-bubble"
+          aria-label="Toggle Navigation Sidebar"
         >
           <FiMenu />
         </button>
 
-        <span className="hidden sm:block text-sm font-medium text-indigo-700">
-          School Management System
+        <span className="system-title">
+          Bright Future School ERP
         </span>
       </div>
 
-      {/* SEARCH */}
-      <div
-        className="hidden lg:flex items-center
-        bg-gradient-to-r from-sky-100 to-indigo-100
-        rounded-full px-4 py-2 w-96
-        border border-indigo-200"
-      >
-        <FiSearch className="text-indigo-500" />
+      {/* CENTER SEARCH BAR */}
+      <div className="header-search-wrap">
+        <FiSearch className="search-icon" />
         <input
-          placeholder="Search..."
-          className="bg-transparent outline-none ml-2 text-sm w-full
-          placeholder:text-indigo-400"
+          placeholder="Search menu, students, fees..."
+          className="search-input"
         />
       </div>
 
-      {/* RIGHT */}
-      <div className="flex items-center gap-5">
-        {/* Notification */}
-        <button className="relative icon-bubble bg-emerald-200 text-emerald-700">
+      {/* RIGHT SECTION */}
+      <div className="header-right">
+        {/* NOTIFICATION BUTTON */}
+        <button className="header-icon-bubble" aria-label="Notifications">
           <FiBell />
-          <span
-            className="absolute -top-1 -right-1 w-2.5 h-2.5
-            bg-rose-400 rounded-full animate-pulse"
-          />
+          <span className="notification-badge" />
         </button>
 
         {/* ADMIN PROFILE */}
-        <div className="relative" ref={profileRef}>
+        <div className="profile-dropdown-wrapper" ref={profileRef}>
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-2 rounded-full
-            px-2 py-1 hover:bg-indigo-100 transition"
+            className="profile-trigger-btn"
           >
             <img
-              src="https://i.pravatar.cc/40"
-              className="w-9 h-9 rounded-full border-2 border-indigo-200"
-              alt="Admin"
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+              className="header-avatar"
+              alt="Admin Profile"
             />
-            <span className="hidden sm:block text-sm font-medium text-slate-700">
+            <span className="admin-name-text">
               Admin
             </span>
           </button>
 
-          {/* DROPDOWN */}
+          {/* DROPDOWN CARD */}
           {open && (
-            <div
-              className="absolute right-0 mt-3 w-52 rounded-xl
-              bg-white shadow-xl border border-indigo-100
-              overflow-hidden z-50"
-            >
-              <div className="px-4 py-3 bg-indigo-50">
-                <p className="text-sm font-semibold text-indigo-700">
+            <div className="header-dropdown-card">
+              <div className="dropdown-user-header">
+                <p className="user-title">
                   Admin User
                 </p>
-                <p className="text-xs text-slate-500">admin@school.com</p>
+                <p className="user-email">admin@brightfuture.com</p>
               </div>
 
-              <button
-                className="dropdown-item"
-                onClick={() => {
-                  navigate("/profile");
-                  setOpen(false);
-                }}
-              >
-                <FiUser /> Profile
-              </button>
+              <div className="dropdown-menu-list">
+                <button
+                  className="header-dropdown-item"
+                  onClick={() => {
+                    navigate("/profile");
+                    setOpen(false);
+                  }}
+                >
+                  <FiUser /> Profile
+                </button>
 
-              <button
-                className="dropdown-item"
-                onClick={() => {
-                  navigate("/settings");
-                  setOpen(false);
-                }}
-              >
-                <FiSettings /> Settings
-              </button>
+                <button
+                  className="header-dropdown-item"
+                  onClick={() => {
+                    navigate("/settings");
+                    setOpen(false);
+                  }}
+                >
+                  <FiSettings /> Settings
+                </button>
 
-              <button
-                className="dropdown-item text-rose-600"
-                onClick={handleLogout}
-              >
-                <FiLogOut /> Logout
-              </button>
+                <button
+                  className="header-dropdown-item logout-danger"
+                  onClick={handleLogout}
+                >
+                  <FiLogOut /> Logout
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
-
-      {/* STYLES */}
-      <style>
-        {`
-          .icon-bubble {
-            width: 36px;
-            height: 36px;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: background-color 0.2s ease, transform 0.15s ease;
-          }
-          .icon-bubble:hover {
-            transform: scale(1.05);
-          }
-
-          .dropdown-item {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 16px;
-            font-size: 14px;
-            color: #334155;
-            transition: background-color 0.2s ease;
-          }
-          .dropdown-item:hover {
-            background-color: #eef2ff;
-          }
-        `}
-      </style>
     </header>
   );
 }

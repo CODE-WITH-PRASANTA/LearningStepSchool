@@ -779,6 +779,7 @@ exports.deletePayroll = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+<<<<<<< HEAD
 // const mongoose = require("mongoose");
 // const Payroll = require("../models/payroll.model");
 // const Teacher = require("../models/techerModel/createteacher.model");
@@ -1311,3 +1312,5 @@ exports.deletePayroll = async (req, res) => {
 //     res.status(500).json({ message: err.message });
 //   }
 // };
+=======
+>>>>>>> 136875a74669a17effb07d7391da4103137f3e5d

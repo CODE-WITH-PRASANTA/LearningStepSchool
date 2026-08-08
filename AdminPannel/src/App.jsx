@@ -194,6 +194,8 @@ import Remote from "./Component/Remote/Remote";
 import VechicleDash from "./Pages/VechicleDash/VechicleDash";
 import VehcleKm from "./Pages/VehcleKm/VehcleKm";
 import SystemSetting from "./Pages/SystemSetting/SystemSetting";
+import ExpenseManagement from "./Component/ExpenseManagement/ExpenseManagement";
+import FuelManagement from "./Component/FuelManagement/FuelManagement";
 
 /* ===================== APP ===================== */
 
@@ -569,6 +571,11 @@ export default function App() {
           <Route path="/vehicle/dashboard" element={<VechicleDash />} />
           <Route path="/vehicle/km" element={<VehcleKm />} />
           <Route path="/vehicle/setting" element={<SystemSetting />} />
+
+          <Route path="/expense-management" element={<ExpenseManagement />} />
+          <Route path="/fuel-management" element={<FuelManagement />} />
+
+
         </Route>
 
         {/* ===== FALLBACK ===== */}

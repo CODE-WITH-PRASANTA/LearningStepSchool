@@ -1,10 +1,8 @@
-// Sidebar.jsx
-
-import { NavLink, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiLogOut } from "react-icons/fi";
+import React, { useState, useEffect } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
+  FiLogOut,
   FiHome,
   FiBookOpen,
   FiBook,
@@ -20,13 +18,7 @@ import {
   FiLayers,
   FiMonitor,
   FiStar,
-  FiUserPlus,
-  FiImage,
-  // FiBookOpen,
   FiEdit,
-  // FiLayers,
-
-  // NEW ADDED ICONS
   FiFileText,
   FiDatabase,
   FiMessageCircle,
@@ -36,41 +28,47 @@ import {
   FiTrendingUp,
   FiMessageSquare,
   FiSettings,
+  FiX,
+  FiFolder,
+  FiCpu,
 } from "react-icons/fi";
+import "./AppSidebar.css";
 
-/* ================= UPDATED MENU CONFIG ================= */
+/* Helper component for FiImage icon */
+function FiImage(props) {
+  return (
+    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" height="1em" width="1em" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+      <polyline points="21 15 16 10 5 21"></polyline>
+    </svg>
+  );
+}
 
+/* ================= UNTOUCHED ORIGINAL MENU CONFIG ================= */
 const menu = [
   {
     label: "Executive Dashboard",
     icon: FiHome,
     path: "/dashboard",
   },
-
-  /* ================= LEAD MANAGEMENT ================= */
   { type: "section", label: "Lead & Marketing Center" },
-
   {
     label: "Lead Management",
     icon: FiTrendingUp,
     path: "/admin/coldleads",
   },
-
   {
     label: "Marketing Campaigns",
     icon: FiImage,
     path: "/admin/advertisement",
   },
-
   {
     label: "Contact Inquiry Center",
     icon: FiMessageSquare,
     path: "/admin/contact-enq",
   },
-
-  /* ================= WEBSITE CMS ================= */
   { type: "section", label: "Website Content Management" },
-
   {
     label: "Content Hub",
     icon: FiBookOpen,
@@ -79,49 +77,41 @@ const menu = [
       { label: "Published Blogs", path: "/blogs/view" },
     ],
   },
-
   {
     label: "Faculty Directory",
     icon: FiUsers,
     path: "/teachers",
   },
-
   {
     label: "Achievements & Awards",
     icon: FiAward,
     path: "/awards",
   },
-
   {
     label: "Fee Information Center",
     icon: FiDollarSign,
     path: "/fees",
   },
-
   {
     label: "Notice Board",
     icon: FiClipboard,
     path: "/notices",
   },
-
   {
     label: "Alerts & Notifications",
     icon: FiBell,
     path: "/notification",
   },
-
   {
     label: "News & Updates",
     icon: FiFileText,
     path: "/latest-news",
   },
-
   {
     label: "Academic Data Registry",
     icon: FiDatabase,
     path: "/class-data",
   },
-
   {
     label: "Digital Media Center",
     icon: FiMonitor,
@@ -136,7 +126,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "E-Learning Portal",
     icon: FiLayers,
@@ -155,13 +144,11 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Testimonials & Reviews",
     icon: FiStar,
     path: "/testimonials",
   },
-
   {
     label: "Admission Control",
     icon: FiUsers,
@@ -176,22 +163,17 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Events & Activities",
     icon: FiCalendar,
     path: "/events",
   },
-
   {
     label: "Knowledge Base & FAQs",
     icon: FiMessageCircle,
     path: "/faq",
   },
-
-  /* ================= ERP ================= */
   { type: "section", label: "School ERP Suite" },
-
   {
     label: "Student Information System",
     icon: FiUsers,
@@ -218,7 +200,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Finance & Fee Manager",
     icon: FiCreditCard,
@@ -241,27 +222,22 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Class Management",
     icon: FiBookOpen,
     path: "/class-post",
   },
-
   {
     label: "Subject Management",
     icon: FiEdit,
     path: "/subject-post",
   },
-
   {
     label: "Class Subject Mapping",
     icon: FiLayers,
     path: "/classwise-subject",
   },
-
   { type: "divider" },
-
   {
     label: "Attendance",
     icon: FiCheckSquare,
@@ -296,7 +272,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Leave Management",
     icon: FiCalendar,
@@ -319,7 +294,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "HR & Access Control",
     icon: FiSettings,
@@ -346,7 +320,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Examination Center",
     icon: FiBriefcase,
@@ -369,7 +342,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Attendance Center",
     icon: FiCheckSquare,
@@ -388,9 +360,6 @@ const menu = [
       },
     ],
   },
-
-  
-
   {
     label: "Library Management System",
     icon: FiBook,
@@ -417,33 +386,29 @@ const menu = [
       },
     ],
   },
-
   { type: "divider" },
-
   {
-  label: "Fee Configuration",
-  icon: FiCreditCard,
-  children: [
-    {
-      label: "Fee Groups",
-      path: "/fee-group",
-    },
-    {
-      label: "Fee Heads",
-      path: "/fee-head",
-    },
-    {
-      label: "Fee Structure",
-      path: "/fee-structure",
-    },
-    {
-      label: "Fee Entries",
-      path: "/fee-entry",
-    },
-   
-  ],
-},
-
+    label: "Fee Configuration",
+    icon: FiCreditCard,
+    children: [
+      {
+        label: "Fee Groups",
+        path: "/fee-group",
+      },
+      {
+        label: "Fee Heads",
+        path: "/fee-head",
+      },
+      {
+        label: "Fee Structure",
+        path: "/fee-structure",
+      },
+      {
+        label: "Fee Entries",
+        path: "/fee-entry",
+      },
+    ],
+  },
   {
     label: "Helpdesk & Support",
     icon: FiMessageCircle,
@@ -454,9 +419,7 @@ const menu = [
       },
     ],
   },
-
   { type: "divider" },
-
   {
     label: "Front Office Operations",
     icon: FiGrid,
@@ -472,9 +435,7 @@ const menu = [
       { label: "Visitor Management", path: "/visitor/enquiry" },
     ],
   },
-
   { type: "divider" },
-
   {
     label: "Inventory & Stationery",
     icon: FiClipboard,
@@ -497,7 +458,6 @@ const menu = [
       },
     ],
   },
-
   {
     label: "Transport Management",
     icon: FiActivity,
@@ -545,21 +505,22 @@ const menu = [
         label: "Vehicle DashBoard",
         path: "/vehicle/dashboard",
       },
-       {
+      {
         label: "Daily km log entry",
         path: "/vehicle/km",
       },
-        {
+      {
         label: "System Setting",
         path: "/vehicle/setting",
       },
-      
+
+       {
+        label: "Fuel Management",
+        path: "/fuel-management",
+      },
+
     ],
   },
-
-  
-
-
   {
     label: "Accounts & Expenses",
     icon: FiCreditCard,
@@ -580,221 +541,395 @@ const menu = [
         label: "Expense Categories",
         path: "/expense-head",
       },
+
+       {
+        label: "Expense Management",
+        path: "/expense-management",
+      },
+
     ],
   },
 ];
 
+/* SPLIT MENU AT "School ERP Suite" SECTION */
+const erpSectionIndex = menu.findIndex(
+  (item) => item.type === "section" && item.label === "School ERP Suite"
+);
+
+const schoolManagementItems = menu.slice(0, erpSectionIndex);
+const schoolERPItems = menu.slice(erpSectionIndex + 1);
+
 /* ================= COMPONENT ================= */
 export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
   const location = useLocation();
-  const [openGroup, setOpenGroup] = useState(null);
-
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("admin");
+  const [openGroup, setOpenGroup] = useState(null);
+  const [profileExpanded, setProfileExpanded] = useState(false);
+  
+  /* Main Root Dropdown Accordion States */
+  const [mgmtOpen, setMgmtOpen] = useState(true);
+  const [erpOpen, setErpOpen] = useState(true);
 
-    navigate("/login");
+  // Auto-close sidebar drawer when navigating on mobile devices
+  const handleNavClick = () => {
+    if (window.innerWidth < 1024) {
+      setMobileOpen(false);
+    }
   };
 
-  /* AUTO OPEN ACTIVE GROUP (ONLY ON FIRST LOAD) */
   useEffect(() => {
     const activeGroup = menu.find(
       (item) =>
         item.children &&
-        item.children.some((c) => location.pathname.startsWith(c.path)),
+        item.children.some((c) => location.pathname.startsWith(c.path))
     );
-
     if (activeGroup) {
       setOpenGroup(activeGroup.label);
     }
   }, [location.pathname]);
 
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("admin");
+      navigate("/login");
+    }
+  };
+
+  /* Helper renderer for list items */
+  const renderMenuItems = (itemsList) => {
+    return itemsList.map((item, i) => {
+      if (item.type === "section") {
+        return (
+          (sidebarOpen || mobileOpen) && (
+            <div key={i} className="menu-section-header">
+              {item.label}
+            </div>
+          )
+        );
+      }
+
+      if (item.type === "divider") {
+        return <div key={i} className="menu-divider" />;
+      }
+
+      const Icon = item.icon || null;
+      const isChildActive =
+        item.children &&
+        item.children.some((c) => location.pathname.startsWith(c.path));
+      const isOpen = openGroup === item.label;
+
+      /* Grouped Submenu Items */
+      if (item.children) {
+        return (
+          <div key={i}>
+            <button
+              onClick={() =>
+                (sidebarOpen || mobileOpen) &&
+                setOpenGroup(isOpen ? null : item.label)
+              }
+              className={`menu-item-button ${
+                isChildActive ? "is-active" : ""
+              }`}
+            >
+              {isChildActive && <span className="active-glow-pill" />}
+
+              {Icon && (
+                <span className="icon-bubble">
+                  <Icon />
+                </span>
+              )}
+
+              {(sidebarOpen || mobileOpen) && (
+                <div className="menu-item-content">
+                  <span className="menu-item-label">{item.label}</span>
+                  <FiChevronDown
+                    className={`chevron-icon ${isOpen ? "rotated" : ""}`}
+                  />
+                </div>
+              )}
+            </button>
+
+            <AnimatePresence>
+              {isOpen && (sidebarOpen || mobileOpen) && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <div className="submenu-container">
+                    {item.children.map((sub, j) => (
+                      <NavLink
+                        key={j}
+                        to={sub.path}
+                        onClick={handleNavClick}
+                        className={({ isActive }) =>
+                          `submenu-link ${isActive ? "is-sub-active" : ""}`
+                        }
+                      >
+                        {sub.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      }
+
+      /* Single Route Items */
+      return (
+        <NavLink
+          key={i}
+          to={item.path}
+          onClick={handleNavClick}
+          style={{ textDecoration: "none" }}
+        >
+          {({ isActive }) => (
+            <div
+              className={`menu-item-link ${isActive ? "is-active" : ""}`}
+            >
+              {isActive && <span className="active-glow-pill" />}
+
+              {Icon && (
+                <span className="icon-bubble">
+                  <Icon />
+                </span>
+              )}
+
+              {(sidebarOpen || mobileOpen) && (
+                <div className="menu-item-content">
+                  <span className="menu-item-label">{item.label}</span>
+                </div>
+              )}
+            </div>
+          )}
+        </NavLink>
+      );
+    });
+  };
+
   return (
     <>
+      {/* Mobile Backdrop Overlay */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+          className="sidebar-backdrop"
         />
       )}
 
+      {/* Main Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen bg-white/80 backdrop-blur-xl border-r border-gray-200
-        transition-all duration-500 ease-in-out flex flex-col
-        ${sidebarOpen ? "w-72" : "w-20"}
-        ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        className={`admin-sidebar ${
+          sidebarOpen ? "desktop-open" : "desktop-closed"
+        } ${mobileOpen ? "mobile-open" : "mobile-closed"}`}
       >
-        {/* LOGO */}
-        <div className="h-16 flex items-center justify-center border-b shrink-0">
-          <span className="text-xl font-bold text-indigo-600 transition-all duration-300">
-            {sidebarOpen ? "School Admin" : "SA"}
-          </span>
+        {/* Floating particles background */}
+        <span className="bg-shape star-1">✨</span>
+        <span className="bg-shape star-2">✦</span>
+        <span className="bg-shape circle-1">●</span>
+        <span className="bg-shape circle-2">◆</span>
+
+        {/* 1. LOGO SECTION */}
+        <div className="sidebar-logo-section">
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="mobile-close-btn"
+            aria-label="Close Mobile Sidebar"
+          >
+            <FiX />
+          </button>
+
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+          >
+            <div className="logo-badge">
+              <span className="logo-icon">🏫</span>
+              <span className="logo-sparkle">✨</span>
+            </div>
+
+            {(sidebarOpen || mobileOpen) && (
+              <div className="logo-title-wrap">
+                <h1 className="logo-title">THE LEARNING STEP</h1>
+                <p className="logo-subtitle">International School</p>
+              </div>
+            )}
+          </motion.div>
         </div>
 
-        {/* NAVIGATION */}
-        <nav className="flex-1 overflow-y-auto p-4 space-y-2">
-          {menu.map((item, i) => {
-            if (item.type === "section") {
-              return (
-                sidebarOpen && (
-                  <div
-                    key={i}
-                    className="px-3 mt-6 mb-2 text-xs font-semibold uppercase text-gray-400"
-                  >
-                    {item.label}
+        {/* 2. PROFILE CARD */}
+        <div className="sidebar-profile-wrapper">
+          <div className="glass-card">
+            <div
+              onClick={() =>
+                (sidebarOpen || mobileOpen) && setProfileExpanded(!profileExpanded)
+              }
+              className="profile-main-row"
+            >
+              <div className="avatar-container">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                  alt="Admin"
+                  className="profile-avatar"
+                />
+                <span className="online-dot"></span>
+              </div>
+
+              {(sidebarOpen || mobileOpen) && (
+                <div className="profile-info">
+                  <div>
+                    <h4 className="profile-name">Admin</h4>
+                    <p className="profile-role">Super Admin</p>
                   </div>
-                )
-              );
-            }
-
-            if (item.type === "divider") {
-              return <div key={i} className="my-4 border-t border-gray-200" />;
-            }
-
-            const Icon = item.icon || null;
-
-            const isChildActive =
-              item.children &&
-              item.children.some((c) => location.pathname.startsWith(c.path));
-
-            const isOpen = openGroup === item.label;
-
-            /* ================= GROUP MENU ================= */
-            if (item.children) {
-              return (
-                <div key={i}>
-                  <button
-                    onClick={() =>
-                      sidebarOpen && setOpenGroup(isOpen ? null : item.label)
-                    }
-                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-300
-              ${
-                isChildActive
-                  ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
-                  : isOpen
-                    ? "bg-indigo-100 text-indigo-700"
-                    : "hover:bg-gray-100"
-              }`}
-                  >
-                    {Icon && (
-                      <span
-                        className={`icon-bubble ${
-                          isChildActive
-                            ? "text-indigo-600 bg-white shadow-sm"
-                            : "text-indigo-600"
-                        }`}
-                      >
-                        <Icon />
-                      </span>
-                    )}
-
-                    {sidebarOpen && (
-                      <>
-                        <span className="flex-1 text-left text-sm font-medium">
-                          {item.label}
-                        </span>
-
-                        <FiChevronDown
-                          className={`transition-all duration-300 ${
-                            isOpen
-                              ? isChildActive
-                                ? "rotate-180 text-white"
-                                : "rotate-180 text-indigo-600"
-                              : "text-gray-400"
-                          }`}
-                        />
-                      </>
-                    )}
-                  </button>
-
-                  <div
-                    className={`grid transition-all duration-500 ${
-                      isOpen && sidebarOpen
-                        ? "grid-rows-[1fr] opacity-100"
-                        : "grid-rows-[0fr] opacity-0"
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="ml-10 mt-2 space-y-1 pb-2">
-                        {item.children.map((sub, j) => (
-                          <NavLink
-                            key={j}
-                            to={sub.path}
-                            className={({ isActive }) =>
-                              `block px-4 py-2 text-sm rounded-xl transition-all duration-300 ${
-                                isActive
-                                  ? "bg-indigo-500 text-white shadow-md"
-                                  : "text-gray-600 hover:bg-indigo-50"
-                              }`
-                            }
-                          >
-                            {sub.label}
-                          </NavLink>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <FiChevronDown
+                    className={`chevron-icon ${profileExpanded ? "rotated" : ""}`}
+                  />
                 </div>
-              );
-            }
+              )}
+            </div>
 
-            /* ================= SINGLE LINK ================= */
-            return (
-              <NavLink key={i} to={item.path}>
-                {({ isActive }) => (
-                  <div
-                    className={`flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-300
-              ${
-                isActive
-                  ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg"
-                  : "hover:bg-indigo-50"
-              }`}
+            <AnimatePresence>
+              {(sidebarOpen || mobileOpen) && profileExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="profile-dropdown-menu"
+                >
+                  <button className="profile-dropdown-item">👤 My Profile</button>
+                  <button className="profile-dropdown-item">🔔 Notifications</button>
+                  <button
+                    onClick={handleLogout}
+                    className="profile-dropdown-item logout-text"
                   >
-                    {Icon && (
-                      <span
-                        className={`icon-bubble ${
-                          isActive
-                            ? "text-indigo-600 bg-white/20"
-                            : "text-indigo-600"
-                        }`}
-                      >
-                        <Icon />
-                      </span>
-                    )}
+                    🚪 Logout
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
 
-                    {sidebarOpen && (
-                      <span className="text-sm font-medium">{item.label}</span>
-                    )}
+        {/* 3. NAVIGATION MENU (SPLIT INTO 2 MAIN DROPDOWNS) */}
+        <nav className="sidebar-navigation sidebar-scroll">
+          {/* MAIN DROPDOWN 1: SCHOOL MANAGEMENT */}
+          <div className="main-category-block">
+            {(sidebarOpen || mobileOpen) ? (
+              <button
+                onClick={() => setMgmtOpen(!mgmtOpen)}
+                className={`main-category-btn ${mgmtOpen ? "is-open" : ""}`}
+              >
+                <div className="main-category-title-wrap">
+                  <div className="main-category-icon-box">
+                    <FiFolder />
                   </div>
-                )}
-              </NavLink>
-            );
-          })}
+                  <span className="main-category-text">School Management</span>
+                </div>
+                <FiChevronDown
+                  className={`chevron-icon ${mgmtOpen ? "rotated" : ""}`}
+                />
+              </button>
+            ) : (
+              <div className="menu-section-header">MGMT</div>
+            )}
+
+            <AnimatePresence>
+              {(mgmtOpen || (!sidebarOpen && !mobileOpen)) && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="main-category-content-body"
+                >
+                  {renderMenuItems(schoolManagementItems)}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="menu-divider" />
+
+          {/* MAIN DROPDOWN 2: SCHOOL ERP */}
+          <div className="main-category-block">
+            {(sidebarOpen || mobileOpen) ? (
+              <button
+                onClick={() => setErpOpen(!erpOpen)}
+                className={`main-category-btn ${erpOpen ? "is-open" : ""}`}
+              >
+                <div className="main-category-title-wrap">
+                  <div className="main-category-icon-box">
+                    <FiCpu />
+                  </div>
+                  <span className="main-category-text">School ERP</span>
+                </div>
+                <FiChevronDown
+                  className={`chevron-icon ${erpOpen ? "rotated" : ""}`}
+                />
+              </button>
+            ) : (
+              <div className="menu-section-header">ERP</div>
+            )}
+
+            <AnimatePresence>
+              {(erpOpen || (!sidebarOpen && !mobileOpen)) && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="main-category-content-body"
+                >
+                  {renderMenuItems(schoolERPItems)}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
-        {/* LOGOUT BUTTON */}
-        <div className="p-4 border-t border-gray-200 shrink-0 bg-white/60 backdrop-blur">
-          <button
-            onClick={() => {
-              if (window.confirm("Are you sure you want to logout?")) {
-                localStorage.removeItem("isAdmin");
-                localStorage.removeItem("admin");
-                navigate("/login");
-              }
-            }}
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl 
-      text-red-600 hover:bg-red-50 transition-all duration-300"
-          >
-            <span className=" cursor-pointer icon-bubble text-red-600">
-              <FiLogOut />
-            </span>
+        {/* 4. ACHIEVEMENT CARD */}
+        {(sidebarOpen || mobileOpen) && (
+          <div className="achievement-wrapper">
+            <div className="achievement-card">
+              <span className="trophy-icon">🏆</span>
+              <div className="achievement-info">
+                <h5 className="achievement-title">Great Progress! 🎉</h5>
+                <p className="achievement-subtitle">Keep up the amazing work!</p>
+              </div>
+              <button className="achievement-btn">→</button>
+            </div>
+          </div>
+        )}
 
-            {sidebarOpen && (
-              <span className="cursor-pointer text-sm font-medium">Logout</span>
-            )}
-          </button>
+        {/* 5. FOOTER & LOGOUT */}
+        <div className="sidebar-footer">
+          {(sidebarOpen || mobileOpen) && (
+            <div className="footer-illustration">
+              <span className="cloud-drift">☁️</span>
+              <span className="bus-moving">🚌</span>
+              <span>🌳</span>
+              <span className="cloud-drift">☁️</span>
+            </div>
+          )}
+
+          <div className="logout-wrapper">
+            <button onClick={handleLogout} className="logout-button">
+              <span className="icon-bubble">
+                <FiLogOut />
+              </span>
+              {(sidebarOpen || mobileOpen) && (
+                <span className="logout-label">Logout</span>
+              )}
+            </button>
+          </div>
         </div>
       </aside>
     </>
