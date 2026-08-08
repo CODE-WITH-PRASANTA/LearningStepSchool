@@ -1,11 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  FiPlus,
+  FiSearch,
+  FiMoreVertical,
+  FiEdit2,
+  FiTrash2,
+  FiMail,
+  FiPhone,
+  FiBookOpen,
+  FiShield,
+  FiX,
+  FiCheck,
+  FiChevronDown,
+  FiUser,
+  FiCamera,
+  FiUsers,
+  FiCalendar,
+  FiBriefcase,
+} from "react-icons/fi";
+
 import API from "../../api/axios";
 import { IMAGE_URL } from "../../api/axios";
 import "./CreateTeacher.css";
 
 const CreateTeacher = () => {
   const navigate = useNavigate();
+
+  const dropdownRef = useRef(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -21,24 +43,21 @@ const CreateTeacher = () => {
   const [loading, setLoading] = useState(false);
   const [teachers, setTeachers] = useState([]);
   const [teacherLeaves, setTeacherLeaves] = useState([]);
-  const [editId, setEditId] = useState(null);
   const [permissionsList, setPermissionsList] = useState([]);
-  const [query, setQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [openMenuId, setOpenMenuId] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const getImageSrc = (imagePath) => {
-    if (!imagePath) return "";
-    if (typeof imagePath !== "string") return "";
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-      return imagePath;
-    }
-    if (imagePath.startsWith("/")) return `${IMAGE_URL}${imagePath}`;
-    return `${IMAGE_URL}/${imagePath}`;
-  };
+  const [editId, setEditId] = useState(null);
+
+  const [query, setQuery] = useState("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [openMenuId, setOpenMenuId] = useState(null);
+
+  const [imagePreview, setImagePreview] = useState("");
+
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   const departments = [
     "CSE",
@@ -53,31 +72,80 @@ const CreateTeacher = () => {
     "PHD",
   ];
 
-  // ================= FETCH =================
+  /* =====================================================
+     IMAGE
+  ===================================================== */
+
+  const getImageSrc = (imagePath) => {
+    if (!imagePath) return "";
+
+    if (typeof imagePath !== "string") {
+      return "";
+    }
+
+    if (
+      imagePath.startsWith("http://") ||
+      imagePath.startsWith("https://")
+    ) {
+      return imagePath;
+    }
+
+    if (imagePath.startsWith("/")) {
+      return `${IMAGE_URL}${imagePath}`;
+    }
+
+    return `${IMAGE_URL}/${imagePath}`;
+  };
+
+  /* =====================================================
+     FETCH TEACHERS
+  ===================================================== */
+
   const fetchTeachers = async () => {
     try {
       const res = await API.get("/admin/teachers");
+
       setTeachers(res?.data?.data || []);
-    } catch {
+    } catch (error) {
+      console.error("FETCH TEACHERS:", error);
       alert("Failed to load teachers");
     }
   };
 
+  /* =====================================================
+     FETCH PERMISSIONS
+  ===================================================== */
+
   const fetchPermissions = async () => {
     try {
       const res = await API.get("/permissions");
-      setPermissionsList(res.data || []);
-    } catch (err) {
-      console.log(err);
+
+      const data = Array.isArray(res.data)
+        ? res.data
+        : res.data?.data || [];
+
+      setPermissionsList(data);
+    } catch (error) {
+      console.error("FETCH PERMISSIONS:", error);
     }
   };
+
+  /* =====================================================
+     FETCH LEAVES
+  ===================================================== */
 
   const fetchTeacherLeaves = async () => {
     try {
       const res = await API.get("/admin/leaves");
-      setTeacherLeaves(res.data.data || res.data || []);
-    } catch (err) {
-      console.log("Failed to load teacher leaves:", err);
+
+      setTeacherLeaves(
+        res.data?.data || res.data || []
+      );
+    } catch (error) {
+      console.error(
+        "FETCH TEACHER LEAVES:",
+        error
+      );
     }
   };
 
@@ -87,11 +155,63 @@ const CreateTeacher = () => {
     fetchTeacherLeaves();
   }, []);
 
+  /* =====================================================
+     OUTSIDE CLICK
+  ===================================================== */
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+
+      if (
+        !event.target.closest(".teacher-menu-wrap")
+      ) {
+        setOpenMenuId(null);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleOutsideClick
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleOutsideClick
+      );
+    };
+  }, []);
+
+  /* =====================================================
+     FORM CHANGE
+  ===================================================== */
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  /* =====================================================
+     SELECT ALL
+  ===================================================== */
+
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       setForm((prev) => ({
         ...prev,
-        permissions: permissionsList.map((p) => p.name),
+        permissions: permissionsList.map(
+          (permission) => permission.name
+        ),
       }));
     } else {
       setForm((prev) => ({
@@ -101,6 +221,10 @@ const CreateTeacher = () => {
     }
   };
 
+  /* =====================================================
+     CLEAR ALL
+  ===================================================== */
+
   const handleClearAll = () => {
     setForm((prev) => ({
       ...prev,
@@ -108,41 +232,50 @@ const CreateTeacher = () => {
     }));
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest(".dropdown")) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
-  // ================= HANDLERS =================
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  /* =====================================================
+     PERMISSION CHECKBOX
+  ===================================================== */
 
   const handleCheckboxPermissions = (e) => {
     const { value, checked } = e.target;
 
-    if (checked) {
-      setForm((prev) => ({
+    setForm((prev) => {
+      if (checked) {
+        if (prev.permissions.includes(value)) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          permissions: [
+            ...prev.permissions,
+            value,
+          ],
+        };
+      }
+
+      return {
         ...prev,
-        permissions: [...prev.permissions, value],
-      }));
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        permissions: prev.permissions.filter((p) => p !== value),
-      }));
-    }
+        permissions: prev.permissions.filter(
+          (permission) =>
+            permission !== value
+        ),
+      };
+    });
   };
 
+  /* =====================================================
+     IMAGE
+  ===================================================== */
+
   const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
     setForm((prev) => ({
       ...prev,
-      image: e.target.files[0],
+      image: file,
     }));
   };
 
@@ -152,73 +285,163 @@ const CreateTeacher = () => {
       return;
     }
 
-    const url = URL.createObjectURL(form.image);
+    const url = URL.createObjectURL(
+      form.image
+    );
+
     setImagePreview(url);
-    return () => URL.revokeObjectURL(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+    };
   }, [form.image]);
+
+  /* =====================================================
+     SUBMIT
+  ===================================================== */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("password", form.password);
-    formData.append("contact", form.contact);
-    formData.append("department", form.department);
-    formData.append("permissions", JSON.stringify(form.permissions));
+    if (!form.name.trim()) {
+      alert("Please enter teacher name");
+      return false;
+    }
 
-    if (form.image) {
-      formData.append("image", form.image);
+    if (!form.email.trim()) {
+      alert("Please enter email");
+      return false;
+    }
+
+    if (!editId && !form.password.trim()) {
+      alert("Please enter password");
+      return false;
     }
 
     try {
       setLoading(true);
 
-      if (editId) {
-        await API.put(`/admin/teachers/${editId}`, formData);
-      } else {
-        await API.post("/admin/teachers", formData);
+      const formData = new FormData();
+
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      formData.append(
+        "password",
+        form.password
+      );
+      formData.append(
+        "contact",
+        form.contact
+      );
+      formData.append(
+        "department",
+        form.department
+      );
+
+      formData.append(
+        "permissions",
+        JSON.stringify(form.permissions)
+      );
+
+      if (form.image) {
+        formData.append(
+          "image",
+          form.image
+        );
       }
 
-      fetchTeachers();
+      if (editId) {
+        await API.put(
+          `/admin/teachers/${editId}`,
+          formData
+        );
+      } else {
+        await API.post(
+          "/admin/teachers",
+          formData
+        );
+      }
+
+      await fetchTeachers();
+
       closeModal();
-    } catch (err) {
-      alert(err.response?.data?.message || "Error");
+
+      return true;
+    } catch (error) {
+      console.error(
+        "SAVE TEACHER:",
+        error
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Unable to save teacher"
+      );
+
+      return false;
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
-    const confirm = window.confirm("Delete this teacher?");
-    if (!confirm) return;
+  /* =====================================================
+     DELETE
+  ===================================================== */
 
-    await API.delete(`/admin/teachers/${id}`);
-    fetchTeachers();
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this teacher?"
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await API.delete(
+        `/admin/teachers/${id}`
+      );
+
+      await fetchTeachers();
+    } catch (error) {
+      console.error(
+        "DELETE TEACHER:",
+        error
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Unable to delete teacher"
+      );
+    }
   };
+
+  /* =====================================================
+     EDIT
+  ===================================================== */
 
   const handleEdit = (teacher) => {
     setForm({
-      name: teacher.name,
-      email: teacher.email,
+      name: teacher.name || "",
+      email: teacher.email || "",
       password: "",
       contact: teacher.contact || "",
-      department: teacher.department || "",
-      image: null, // keep null (file can't preload)
+      department:
+        teacher.department || "",
+      image: null,
       imageUrl: teacher.image || "",
-      permissions: teacher.permissions || [],
+      permissions:
+        teacher.permissions || [],
     });
 
     setEditId(teacher._id);
+
+    setIsModalOpen(true);
+
+    setOpenMenuId(null);
   };
 
-  const getPermissionLabels = (permArray) => {
-    return permArray?.map((p) => {
-      const found = permissionsList.find((x) => x.name === p);
-      return found ? found.label : p;
-    });
-  };
+  /* =====================================================
+     RESET
+  ===================================================== */
 
   const resetForm = () => {
     setForm({
@@ -231,13 +454,25 @@ const CreateTeacher = () => {
       imageUrl: "",
       permissions: [],
     });
+
+    setImagePreview("");
+    setSearchTerm("");
+    setShowDropdown(false);
   };
+
+  /* =====================================================
+     OPEN
+  ===================================================== */
 
   const openCreateModal = () => {
     setEditId(null);
     resetForm();
     setIsModalOpen(true);
   };
+
+  /* =====================================================
+     CLOSE
+  ===================================================== */
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -246,522 +481,1414 @@ const CreateTeacher = () => {
     resetForm();
   };
 
-  const filteredTeachers = teachers.filter((t) => {
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      (t?.name || "").toLowerCase().includes(q) ||
-      (t?.email || "").toLowerCase().includes(q)
-    );
-  });
+  /* =====================================================
+     PERMISSION LABELS
+  ===================================================== */
 
-  const getActiveLeave = (teacherId) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  const getPermissionLabels = (
+    permissionArray
+  ) => {
+    return permissionArray?.map(
+      (permission) => {
+        const found =
+          permissionsList.find(
+            (item) =>
+              item.name === permission
+          );
 
-    return teacherLeaves.find((leave) => {
-      const leaveTeacherId =
-        typeof leave.teacher === "object" ? leave.teacher?._id : leave.teacher;
-
-      if (leaveTeacherId !== teacherId || leave.status !== "approved") {
-        return false;
+        return found
+          ? found.label
+          : permission;
       }
-
-      const fromDate = new Date(leave.fromDate);
-      const toDate = new Date(leave.toDate);
-      fromDate.setHours(0, 0, 0, 0);
-      toDate.setHours(0, 0, 0, 0);
-
-      return today >= fromDate && today <= toDate;
-    });
+    );
   };
 
-  return (
-    <div className="teacher-shell" onClick={() => setOpenMenuId(null)}>
-      <div className="teacher-pageTop">
-        <div className="teacher-topLeft">
-          <h1 className="teacher-title">Teachers</h1>
-          <p className="teacher-subtitle">
-            Dashboard / Administration / Teachers
-          </p>
-        </div>
-        <button type="button" className="topAddBtn" onClick={openCreateModal}>
-          <span className="topAddBtnPlus">+</span> Add Teacher
-        </button>
-      </div>
+  /* =====================================================
+     GROUP PERMISSIONS
+  ===================================================== */
 
-      <div className="teacher-panel">
-        <div className="teacher-panelTop">
-          <div className="teacher-tabs">
-            <button type="button" className="tab tab--active">
+  const groupedPermissions = useMemo(() => {
+    const search =
+      searchTerm.trim().toLowerCase();
+
+    const filtered =
+      permissionsList.filter((permission) => {
+        if (!search) return true;
+
+        return (
+          permission.label
+            ?.toLowerCase()
+            .includes(search) ||
+          permission.name
+            ?.toLowerCase()
+            .includes(search) ||
+          permission.group
+            ?.toLowerCase()
+            .includes(search)
+        );
+      });
+
+    return filtered.reduce(
+      (groups, permission) => {
+        const group =
+          permission.group ||
+          "General";
+
+        if (!groups[group]) {
+          groups[group] = [];
+        }
+
+        groups[group].push(permission);
+
+        return groups;
+      },
+      {}
+    );
+  }, [
+    permissionsList,
+    searchTerm,
+  ]);
+
+  /* =====================================================
+     FILTER TEACHERS
+  ===================================================== */
+
+  const filteredTeachers = useMemo(() => {
+    const search =
+      query.trim().toLowerCase();
+
+    if (!search) {
+      return teachers;
+    }
+
+    return teachers.filter(
+      (teacher) =>
+        teacher?.name
+          ?.toLowerCase()
+          .includes(search) ||
+        teacher?.email
+          ?.toLowerCase()
+          .includes(search) ||
+        teacher?.department
+          ?.toLowerCase()
+          .includes(search)
+    );
+  }, [teachers, query]);
+
+  /* =====================================================
+     ACTIVE LEAVE
+  ===================================================== */
+
+  const getActiveLeave = (
+    teacherId
+  ) => {
+    const today = new Date();
+
+    today.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
+    return teacherLeaves.find(
+      (leave) => {
+        const leaveTeacherId =
+          typeof leave.teacher ===
+          "object"
+            ? leave.teacher?._id
+            : leave.teacher;
+
+        if (
+          String(leaveTeacherId) !==
+            String(teacherId) ||
+          leave.status !==
+            "approved"
+        ) {
+          return false;
+        }
+
+        const fromDate = new Date(
+          leave.fromDate
+        );
+
+        const toDate = new Date(
+          leave.toDate
+        );
+
+        fromDate.setHours(
+          0,
+          0,
+          0,
+          0
+        );
+
+        toDate.setHours(
+          0,
+          0,
+          0,
+          0
+        );
+
+        return (
+          today >= fromDate &&
+          today <= toDate
+        );
+      }
+    );
+  };
+
+  /* =====================================================
+     COUNTS
+  ===================================================== */
+
+  const activeTeachers = teachers.filter(
+    (teacher) =>
+      !getActiveLeave(teacher._id)
+  ).length;
+
+  const leaveTeachers =
+    teachers.length -
+    activeTeachers;
+
+  /* =====================================================
+     RENDER
+  ===================================================== */
+
+  return (
+    <div
+      className="teacher-shell"
+      onClick={() =>
+        setOpenMenuId(null)
+      }
+    >
+      {/* ===============================================
+          HEADER
+      =============================================== */}
+
+      <header className="teacher-page-header">
+
+        <div className="teacher-header-left">
+
+          <div className="teacher-header-icon">
+            <FiUsers />
+          </div>
+
+          <div>
+            <div className="teacher-breadcrumb">
+              Administration
+              <span>/</span>
               Teachers
-            </button>
+            </div>
+
+            <h1 className="teacher-title">
+              Teachers
+            </h1>
+
+            <p className="teacher-subtitle">
+              Manage teachers, departments
+              and access permissions.
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          className="topAddBtn"
+          onClick={openCreateModal}
+        >
+          <FiPlus />
+          <span>Add Teacher</span>
+        </button>
+
+      </header>
+
+      {/* ===============================================
+          STATS
+      =============================================== */}
+
+      <section className="teacher-stats">
+
+        <div className="teacher-stat-card">
+
+          <div className="teacher-stat-icon purple">
+            <FiUsers />
+          </div>
+
+          <div>
+            <span>Total Teachers</span>
+            <strong>
+              {teachers.length}
+            </strong>
+          </div>
+
+        </div>
+
+        <div className="teacher-stat-card">
+
+          <div className="teacher-stat-icon green">
+            <FiCheck />
+          </div>
+
+          <div>
+            <span>Active</span>
+            <strong>
+              {activeTeachers}
+            </strong>
+          </div>
+
+        </div>
+
+        <div className="teacher-stat-card">
+
+          <div className="teacher-stat-icon orange">
+            <FiCalendar />
+          </div>
+
+          <div>
+            <span>On Leave</span>
+            <strong>
+              {leaveTeachers}
+            </strong>
+          </div>
+
+        </div>
+
+        <div className="teacher-stat-card">
+
+          <div className="teacher-stat-icon blue">
+            <FiShield />
+          </div>
+
+          <div>
+            <span>Permissions</span>
+            <strong>
+              {permissionsList.length}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* ===============================================
+          MAIN PANEL
+      =============================================== */}
+
+      <main className="teacher-panel">
+
+        <div className="teacher-panel-header">
+
+          <div className="teacher-panel-title">
+
+            <div>
+              <h2>
+                Teacher Directory
+              </h2>
+
+              <p>
+                {filteredTeachers.length}{" "}
+                teachers available
+              </p>
+            </div>
+
+          </div>
+
+          <button
+            type="button"
+            className="mobile-add-btn"
+            onClick={
+              openCreateModal
+            }
+          >
+            <FiPlus />
+          </button>
+
+        </div>
+
+        {/* =============================================
+            TOOLBAR
+        ============================================= */}
+
+        <div className="teacher-toolbar">
+
+          <div className="teacher-tabs">
+
             <button
               type="button"
-              className="tab"
-              onClick={() => navigate("/admin/leave-management")}
+              className="teacher-tab active"
             >
-              Leave Request
+              <FiUsers />
+              Teachers
             </button>
+
+            <button
+              type="button"
+              className="teacher-tab"
+              onClick={() =>
+                navigate(
+                  "/admin/leave-management"
+                )
+              }
+            >
+              <FiCalendar />
+              Leave Requests
+            </button>
+
           </div>
 
-          <div className="teacher-toolbar">
-            <div className="viewPills" aria-hidden="true">
-              <button
-                type="button"
-                className="viewPill viewPill--active"
-                title="Grid view"
-              >
-                ▦
-              </button>
-              <button
-                type="button"
-                className="viewPill"
-                title="List view"
-                disabled
-              >
-                ≡
-              </button>
-            </div>
+          <div className="teacher-search-box">
 
-            <div className="searchWrap">
-              <span className="searchIcon" aria-hidden="true">
-                🔍
-              </span>
-              <input
-                className="searchInput"
-                placeholder="Search Teacher"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </div>
+            <FiSearch />
+
+            <input
+              type="text"
+              placeholder="Search teacher, email or department..."
+              value={query}
+              onChange={(e) =>
+                setQuery(
+                  e.target.value
+                )
+              }
+            />
+
+            {query && (
+              <button
+                type="button"
+                onClick={() =>
+                  setQuery("")
+                }
+              >
+                <FiX />
+              </button>
+            )}
+
           </div>
+
         </div>
 
-        {filteredTeachers.length === 0 ? (
-          <div className="emptyState">
-            <p className="emptyTitle">
-              {teachers.length === 0 ? "No teachers found" : "No results"}
-            </p>
-            <p className="emptySubtitle">
+        {/* =============================================
+            TEACHER GRID
+        ============================================= */}
+
+        {filteredTeachers.length ===
+        0 ? (
+
+          <div className="teacher-empty">
+
+            <div className="teacher-empty-icon">
+              <FiUsers />
+            </div>
+
+            <h3>
               {teachers.length === 0
-                ? "Click “Add Teacher” to create your first teacher."
-                : "Try searching by name or email."}
+                ? "No teachers yet"
+                : "No teachers found"}
+            </h3>
+
+            <p>
+              {teachers.length === 0
+                ? "Add your first teacher to get started."
+                : "Try searching with a different name or email."}
             </p>
+
+            {teachers.length === 0 && (
+              <button
+                type="button"
+                onClick={
+                  openCreateModal
+                }
+              >
+                <FiPlus />
+                Add Teacher
+              </button>
+            )}
+
           </div>
+
         ) : (
-          <div className="teacher-gridCards">
-            {filteredTeachers.map((t) => {
-              const perms = getPermissionLabels(t.permissions) || [];
-              const activeLeave = getActiveLeave(t._id);
 
-              return (
-                <div key={t._id} className="teacher-card">
-                  <div className="teacher-cardTop">
-                    <span
-                      className={`statusPill ${
-                        activeLeave
-                          ? "statusPill--leave"
-                          : "statusPill--active"
-                      }`}
-                      title={
-                        activeLeave
-                          ? `${activeLeave.leaveType} leave: ${activeLeave.fromDate?.slice(0, 10)} to ${activeLeave.toDate?.slice(0, 10)}`
-                          : "Teacher is active"
-                      }
-                    >
-                      {activeLeave ? "On Leave" : "Active"}
-                    </span>
+          <div className="teacher-grid">
 
-                    <div
-                      className="menuWrap"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenMenuId((prev) =>
-                          prev === t._id ? null : t._id,
-                        );
-                      }}
-                    >
-                      <button
-                        type="button"
-                        className="kebabBtn"
-                        aria-label="More actions"
+            {filteredTeachers.map(
+              (teacher) => {
+
+                const perms =
+                  getPermissionLabels(
+                    teacher.permissions
+                  ) || [];
+
+                const activeLeave =
+                  getActiveLeave(
+                    teacher._id
+                  );
+
+                const initials =
+                  String(
+                    teacher.name ||
+                      "Teacher"
+                  )
+                    .split(" ")
+                    .map(
+                      (word) =>
+                        word[0]
+                    )
+                    .slice(0, 2)
+                    .join("")
+                    .toUpperCase();
+
+                return (
+                  <article
+                    key={teacher._id}
+                    className="teacher-card"
+                  >
+
+                    {/* CARD TOP */}
+
+                    <div className="teacher-card-top">
+
+                      <div
+                        className={`teacher-status ${
+                          activeLeave
+                            ? "leave"
+                            : "active"
+                        }`}
                       >
-                        ⋯
-                      </button>
-                      {openMenuId === t._id && (
-                        <div className="menu">
-                          <button
-                            type="button"
-                            className="menuItem"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEdit(t);
-                              setIsModalOpen(true);
-                              setOpenMenuId(null);
+                        <span />
+                        {activeLeave
+                          ? "On Leave"
+                          : "Active"}
+                      </div>
+
+                      <div className="teacher-menu-wrap">
+
+                        <button
+                          type="button"
+                          className="teacher-menu-btn"
+                          onClick={(
+                            e
+                          ) => {
+                            e.stopPropagation();
+
+                            setOpenMenuId(
+                              (prev) =>
+                                prev ===
+                                teacher._id
+                                  ? null
+                                  : teacher._id
+                            );
+                          }}
+                        >
+                          <FiMoreVertical />
+                        </button>
+
+                        {openMenuId ===
+                          teacher._id && (
+                          <div className="teacher-action-menu">
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleEdit(
+                                  teacher
+                                )
+                              }
+                            >
+                              <FiEdit2 />
+                              Edit Teacher
+                            </button>
+
+                            <button
+                              type="button"
+                              className="danger"
+                              onClick={() =>
+                                handleDelete(
+                                  teacher._id
+                                )
+                              }
+                            >
+                              <FiTrash2 />
+                              Delete Teacher
+                            </button>
+
+                          </div>
+                        )}
+
+                      </div>
+
+                    </div>
+
+                    {/* AVATAR */}
+
+                    <div className="teacher-profile">
+
+                      <div className="teacher-avatar">
+
+                        {teacher.image ? (
+                          <img
+                            src={getImageSrc(
+                              teacher.image
+                            )}
+                            alt={
+                              teacher.name
+                            }
+                            loading="lazy"
+                            onError={(
+                              e
+                            ) => {
+                              e.currentTarget.style.display =
+                                "none";
+
+                              const parent =
+                                e.currentTarget
+                                  .parentElement;
+
+                              if (
+                                parent &&
+                                !parent.querySelector(
+                                  ".avatar-fallback"
+                                )
+                              ) {
+                                const span =
+                                  document.createElement(
+                                    "span"
+                                  );
+
+                                span.className =
+                                  "avatar-fallback";
+
+                                span.textContent =
+                                  initials;
+
+                                parent.appendChild(
+                                  span
+                                );
+                              }
                             }}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            className="menuItem menuItem--danger"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setOpenMenuId(null);
-                              handleDelete(t._id);
-                            }}
-                          >
-                            Delete
-                          </button>
+                          />
+                        ) : (
+                          <span className="avatar-fallback">
+                            {initials}
+                          </span>
+                        )}
+
+                        <div className="avatar-camera">
+                          <FiCamera />
                         </div>
-                      )}
-                    </div>
-                  </div>
 
-                  <div className="teacher-avatar">
-                    {t.image ? (
-                      <img
-                        src={getImageSrc(t.image)}
-                        alt={t.name}
-                        loading="lazy"
-                        onError={(e) => {
-                          // fallback to letter avatar if image fails
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                    ) : (
-                      String(t?.name || "T")
-                        .slice(0, 1)
-                        .toUpperCase()
-                    )}
-                  </div>
+                      </div>
 
-                  <div className="teacher-name">{t.name}</div>
-                  <div className="teacher-role">Teacher</div>
+                      <h3 className="teacher-name">
+                        {teacher.name}
+                      </h3>
 
-                  <div className="teacher-cardDivider" />
-
-                  <div className="teacher-info">
-                    <div className="infoRow">
-                      <span className="infoIcon" aria-hidden="true">
-                        ✉
+                      <span className="teacher-role">
+                        <FiBriefcase />
+                        Teacher
                       </span>
-                      <span className="infoText">{t.email}</span>
-                    </div>
-                    <div className="infoRow">
-                      <span className="infoIcon">📞</span>
-                      <span className="infoText">{t.contact || "N/A"}</span>
+
                     </div>
 
-                    <div className="infoRow">
-                      <span className="infoIcon">🏫</span>
-                      <span className="infoText">{t.department || "N/A"}</span>
+                    {/* INFO */}
+
+                    <div className="teacher-info">
+
+                      <div className="teacher-info-row">
+                        <div className="teacher-info-icon">
+                          <FiMail />
+                        </div>
+
+                        <div>
+                          <span>Email</span>
+                          <strong>
+                            {teacher.email}
+                          </strong>
+                        </div>
+                      </div>
+
+                      <div className="teacher-info-row">
+                        <div className="teacher-info-icon">
+                          <FiPhone />
+                        </div>
+
+                        <div>
+                          <span>Contact</span>
+                          <strong>
+                            {teacher.contact ||
+                              "Not available"}
+                          </strong>
+                        </div>
+                      </div>
+
+                      <div className="teacher-info-row">
+                        <div className="teacher-info-icon">
+                          <FiBookOpen />
+                        </div>
+
+                        <div>
+                          <span>Department</span>
+                          <strong>
+                            {teacher.department ||
+                              "Not assigned"}
+                          </strong>
+                        </div>
+                      </div>
+
                     </div>
 
-                    <div className="infoRow">
-                      <span className="infoIcon" aria-hidden="true">
-                        🔐
-                      </span>
-                      <span className="infoText">
-                        {perms.length} permissions
-                      </span>
-                    </div>
-                  </div>
+                    {/* PERMISSIONS */}
 
-                  {perms.length > 0 && (
-                    <div className="badge-container">
-                      {perms.slice(0, 6).map((label, i) => (
-                        <span key={i} className="badge badge--sm">
-                          {label}
+                    <div className="teacher-permission-section">
+
+                      <div className="permission-heading">
+
+                        <span>
+                          <FiShield />
+                          Permissions
                         </span>
-                      ))}
-                      {perms.length > 6 && (
-                        <span className="badge badge--sm badge--muted">
-                          +{perms.length - 6} more
+
+                        <strong>
+                          {perms.length}
+                        </strong>
+
+                      </div>
+
+                      {perms.length >
+                      0 ? (
+                        <div className="teacher-permissions">
+
+                          {perms
+                            .slice(0, 4)
+                            .map(
+                              (
+                                label,
+                                index
+                              ) => (
+                                <span
+                                  key={
+                                    index
+                                  }
+                                  className="permission-chip"
+                                >
+                                  {
+                                    label
+                                  }
+                                </span>
+                              )
+                            )}
+
+                          {perms.length >
+                            4 && (
+                            <span className="permission-chip more">
+                              +
+                              {perms.length -
+                                4}{" "}
+                              more
+                            </span>
+                          )}
+
+                        </div>
+                      ) : (
+                        <span className="no-permission">
+                          No permissions assigned
                         </span>
                       )}
+
                     </div>
-                  )}
-                </div>
-              );
-            })}
+
+                  </article>
+                );
+              }
+            )}
+
           </div>
+
         )}
-      </div>
+
+      </main>
+
+      {/* ===============================================
+          MODAL
+      =============================================== */}
 
       {isModalOpen && (
         <div
-          className="modalOverlay"
-          role="dialog"
-          aria-modal="true"
+          className="teacher-modal-overlay"
           onMouseDown={(e) => {
-            if (e.target === e.currentTarget) closeModal();
+            if (
+              e.target ===
+              e.currentTarget
+            ) {
+              closeModal();
+            }
           }}
         >
-          <div className="modalCard">
-            <div className="modalHead">
-              <h2 className="modalTitle">
-                {editId ? "Edit Teacher" : "Add Teacher"}
-              </h2>
+
+          <div className="teacher-modal">
+
+            {/* MODAL HEADER */}
+
+            <div className="teacher-modal-header">
+
+              <div className="modal-heading">
+
+                <div className="modal-heading-icon">
+                  {editId ? (
+                    <FiEdit2 />
+                  ) : (
+                    <FiPlus />
+                  )}
+                </div>
+
+                <div>
+                  <h2>
+                    {editId
+                      ? "Edit Teacher"
+                      : "Add New Teacher"}
+                  </h2>
+
+                  <p>
+                    {editId
+                      ? "Update teacher information and access."
+                      : "Create a teacher profile and assign permissions."}
+                  </p>
+                </div>
+
+              </div>
+
               <button
                 type="button"
-                className="modalClose"
-                onClick={closeModal}
-                aria-label="Close"
+                className="modal-close"
+                onClick={
+                  closeModal
+                }
               >
-                ×
+                <FiX />
               </button>
+
             </div>
 
-            <div className="modalBody">
+            {/* MODAL BODY */}
+
+            <div className="teacher-modal-body">
+
               <form
-                onSubmit={async (e) => {
-                  const ok = await handleSubmit(e);
-                  if (ok) closeModal();
-                }}
-                className="modalForm"
+                className="teacher-form"
+                onSubmit={
+                  handleSubmit
+                }
               >
-                <div className="modalGrid">
-                  <div className="field field--full">
-                    <label className="label" htmlFor="m-name">
-                      Full Name
-                    </label>
-                    <input
-                      id="m-name"
-                      name="name"
-                      className="input"
-                      placeholder="Enter full name"
-                      value={form.name}
-                      onChange={handleChange}
-                      autoComplete="name"
-                    />
+
+                {/* BASIC INFORMATION */}
+
+                <div className="form-section">
+
+                  <div className="form-section-title">
+
+                    <div>
+                      <h3>
+                        Basic Information
+                      </h3>
+
+                      <p>
+                        Enter teacher profile details.
+                      </p>
+                    </div>
+
                   </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="m-email">
-                      Email Address
-                    </label>
-                    <input
-                      id="m-email"
-                      name="email"
-                      className="input"
-                      placeholder="example@email.com"
-                      value={form.email}
-                      onChange={handleChange}
-                      disabled={editId}
-                      autoComplete="email"
-                    />
-                  </div>
+                  <div className="teacher-form-grid">
 
-                  <div className="field">
-                    <label className="label" htmlFor="m-contact">
-                      Phone Number
-                    </label>
-                    <input
-                      id="m-contact"
-                      name="contact"
-                      className="input"
-                      placeholder="Enter contact number"
-                      value={form.contact}
-                      onChange={handleChange}
-                      inputMode="tel"
-                      autoComplete="tel"
-                    />
-                  </div>
+                    <div className="teacher-field full">
 
-                  <div className="field">
-                    <label className="label" htmlFor="m-department">
-                      Department
-                    </label>
-                    <select
-                      id="m-department"
-                      name="department"
-                      className="input"
-                      value={form.department}
-                      onChange={handleChange}
-                    >
-                      <option value="">Select Department</option>
-                      {departments.map((dept) => (
-                        <option key={dept} value={dept}>
-                          {dept}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      <label>
+                        Full Name
+                        <span>*</span>
+                      </label>
 
-                  <div className="field">
-                    <label className="label" htmlFor="m-password">
-                      Password
-                    </label>
-                    <input
-                      id="m-password"
-                      name="password"
-                      className="input"
-                      placeholder={
-                        editId ? "Locked in edit mode" : "Enter password"
-                      }
-                      value={form.password}
-                      onChange={handleChange}
-                      disabled={editId}
-                      autoComplete={editId ? "off" : "new-password"}
-                    />
-                  </div>
+                      <div className="field-input">
 
-                  <div className="field field--full">
-                    <label className="label" htmlFor="m-image">
-                      Profile Photo
-                    </label>
-                    <input
-                      id="m-image"
-                      type="file"
-                      name="image"
-                      className="input input--file"
-                      onChange={handleImageChange}
-                      accept="image/*"
-                    />
-                    {(imagePreview || form.imageUrl) && (
-                      <div className="imagePreview">
-                        <img
-                          src={imagePreview || getImageSrc(form.imageUrl)}
-                          alt="Teacher preview"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
+                        <FiUser />
+
+                        <input
+                          name="name"
+                          value={
+                            form.name
+                          }
+                          onChange={
+                            handleChange
+                          }
+                          placeholder="Enter full name"
                         />
+
                       </div>
-                    )}
+
+                    </div>
+
+                    <div className="teacher-field">
+
+                      <label>
+                        Email Address
+                        <span>*</span>
+                      </label>
+
+                      <div className="field-input">
+
+                        <FiMail />
+
+                        <input
+                          type="email"
+                          name="email"
+                          value={
+                            form.email
+                          }
+                          onChange={
+                            handleChange
+                          }
+                          disabled={
+                            !!editId
+                          }
+                          placeholder="teacher@example.com"
+                        />
+
+                      </div>
+
+                    </div>
+
+                    <div className="teacher-field">
+
+                      <label>
+                        Contact Number
+                      </label>
+
+                      <div className="field-input">
+
+                        <FiPhone />
+
+                        <input
+                          name="contact"
+                          value={
+                            form.contact
+                          }
+                          onChange={
+                            handleChange
+                          }
+                          placeholder="+91 XXXXX XXXXX"
+                        />
+
+                      </div>
+
+                    </div>
+
+                    <div className="teacher-field">
+
+                      <label>
+                        Department
+                      </label>
+
+                      <div className="field-input">
+
+                        <FiBookOpen />
+
+                        <select
+                          name="department"
+                          value={
+                            form.department
+                          }
+                          onChange={
+                            handleChange
+                          }
+                        >
+                          <option value="">
+                            Select Department
+                          </option>
+
+                          {departments.map(
+                            (
+                              department
+                            ) => (
+                              <option
+                                key={
+                                  department
+                                }
+                                value={
+                                  department
+                                }
+                              >
+                                {
+                                  department
+                                }
+                              </option>
+                            )
+                          )}
+                        </select>
+
+                        <FiChevronDown className="select-arrow" />
+
+                      </div>
+
+                    </div>
+
+                    <div className="teacher-field">
+
+                      <label>
+                        Password
+                        {!editId && (
+                          <span>*</span>
+                        )}
+                      </label>
+
+                      <div className="field-input">
+
+                        <FiShield />
+
+                        <input
+                          type="password"
+                          name="password"
+                          value={
+                            form.password
+                          }
+                          onChange={
+                            handleChange
+                          }
+                          disabled={
+                            !!editId
+                          }
+                          placeholder={
+                            editId
+                              ? "Password locked"
+                              : "Enter password"
+                          }
+                        />
+
+                      </div>
+
+                    </div>
+
                   </div>
 
-                  <div className="field field--full">
-                    <label className="label">Permissions</label>
+                </div>
 
-                    <div className={`dropdown ${showDropdown ? "open" : ""}`}>
-                      {/* Toggle */}
-                      <div
-                        className="dropdown-toggle"
-                        onClick={() => setShowDropdown((prev) => !prev)}
+                {/* PROFILE IMAGE */}
+
+                <div className="form-section">
+
+                  <div className="form-section-title">
+
+                    <div>
+                      <h3>
+                        Profile Photo
+                      </h3>
+
+                      <p>
+                        Upload a professional teacher image.
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div className="profile-upload">
+
+                    <div className="upload-preview">
+
+                      {imagePreview ||
+                      form.imageUrl ? (
+                        <img
+                          src={
+                            imagePreview ||
+                            getImageSrc(
+                              form.imageUrl
+                            )
+                          }
+                          alt="Preview"
+                        />
+                      ) : (
+                        <FiUser />
+                      )}
+
+                    </div>
+
+                    <div className="upload-content">
+
+                      <label
+                        htmlFor="teacher-image"
+                        className="upload-button"
                       >
-                        {form.permissions.length > 0
-                          ? `${form.permissions.length} selected`
-                          : "Select Permissions"}
+                        <FiCamera />
+                        Choose Photo
+                      </label>
+
+                      <input
+                        id="teacher-image"
+                        type="file"
+                        accept="image/*"
+                        onChange={
+                          handleImageChange
+                        }
+                      />
+
+                      <span>
+                        JPG, PNG or WEBP
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                {/* PERMISSIONS */}
+
+                <div className="form-section">
+
+                  <div className="form-section-title">
+
+                    <div>
+                      <h3>
+                        Access Permissions
+                      </h3>
+
+                      <p>
+                        Control which modules this teacher can access.
+                      </p>
+                    </div>
+
+                    <div className="permission-selected-counter">
+                      <FiShield />
+                      {form.permissions.length} selected
+                    </div>
+
+                  </div>
+
+                  <div
+                    className={`premium-permission-dropdown ${
+                      showDropdown
+                        ? "is-open"
+                        : ""
+                    }`}
+                    ref={dropdownRef}
+                  >
+
+                    <button
+                      type="button"
+                      className="permission-dropdown-trigger"
+                      onClick={() =>
+                        setShowDropdown(
+                          (prev) =>
+                            !prev
+                        )
+                      }
+                    >
+
+                      <div className="permission-trigger-left">
+
+                        <div className="permission-trigger-icon">
+                          <FiShield />
+                        </div>
+
+                        <div>
+
+                          <strong>
+                            {form.permissions.length >
+                            0
+                              ? `${form.permissions.length} permissions selected`
+                              : "Select Permissions"}
+                          </strong>
+
+                          <span>
+                            Choose module access
+                          </span>
+
+                        </div>
+
                       </div>
 
-                      {/* Menu */}
-                      {showDropdown && (
-                        <div className="dropdown-menu premium-dropdown">
-                          {/* HEADER */}
-                          <div className="dropdown-header">
+                      <FiChevronDown />
+
+                    </button>
+
+                    {showDropdown && (
+                      <div className="permission-dropdown-menu">
+
+                        <div className="permission-search-row">
+
+                          <div className="permission-search">
+
+                            <FiSearch />
+
                             <input
-                              type="text"
+                              value={
+                                searchTerm
+                              }
+                              onChange={(
+                                e
+                              ) =>
+                                setSearchTerm(
+                                  e.target
+                                    .value
+                                )
+                              }
                               placeholder="Search permissions..."
-                              className="dropdown-search"
-                              value={searchTerm}
-                              onChange={(e) => setSearchTerm(e.target.value)}
                             />
 
-                            <span className="selected-count">
-                              {form.permissions.length} selected
-                            </span>
-                          </div>
-
-                          {/* SELECT ALL */}
-                          <div className="dropdown-section">
-                            <label className="dropdown-item modern">
-                              <input
-                                type="checkbox"
-                                checked={
-                                  permissionsList.length > 0 &&
-                                  form.permissions.length ===
-                                    permissionsList.length
+                            {searchTerm && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setSearchTerm(
+                                    ""
+                                  )
                                 }
-                                onChange={handleSelectAll}
-                              />
-                              <span className="checkmark"></span>
-                              <span className="label">
-                                Select All Permissions
-                              </span>
-                            </label>
+                              >
+                                <FiX />
+                              </button>
+                            )}
+
                           </div>
 
-                          {/* GROUPED LIST */}
-                          <div className="dropdown-body">
-                            {Object.entries(
-                              permissionsList
-                                .filter((perm) =>
-                                  perm.label
-                                    .toLowerCase()
-                                    .includes(searchTerm.toLowerCase()),
-                                )
-                                .reduce((acc, perm) => {
-                                  const group = perm.group || "General";
-                                  if (!acc[group]) acc[group] = [];
-                                  acc[group].push(perm);
-                                  return acc;
-                                }, {}),
-                            ).map(([group, items]) => (
-                              <div key={group} className="dropdown-group">
-                                <div className="group-title">{group}</div>
-
-                                {items.map((perm) => (
-                                  <label
-                                    key={perm._id}
-                                    className="dropdown-item modern"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      value={perm.name}
-                                      checked={form.permissions.includes(
-                                        perm.name,
-                                      )}
-                                      onChange={handleCheckboxPermissions}
-                                    />
-                                    <span className="checkmark"></span>
-                                    <span className="label">{perm.label}</span>
-                                  </label>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* CLEAR */}
-                          {form.permissions.length > 0 && (
-                            <div
-                              className="dropdown-footer"
-                              onClick={handleClearAll}
-                            >
-                              Clear all selections
-                            </div>
-                          )}
                         </div>
-                      )}
-                    </div>
 
-                    {/* Badges */}
-                    <div className="badge-container">
-                      {getPermissionLabels(form.permissions)?.map(
-                        (label, i) => (
-                          <span key={i} className="badge">
+                        <div className="permission-actions">
+
+                          <label>
+
+                            <input
+                              type="checkbox"
+                              checked={
+                                permissionsList.length >
+                                  0 &&
+                                form.permissions.length ===
+                                  permissionsList.length
+                              }
+                              onChange={
+                                handleSelectAll
+                              }
+                            />
+
+                            <span className="custom-check">
+                              <FiCheck />
+                            </span>
+
+                            Select All
+                          </label>
+
+                          {form.permissions.length >
+                            0 && (
+                            <button
+                              type="button"
+                              onClick={
+                                handleClearAll
+                              }
+                            >
+                              Clear All
+                            </button>
+                          )}
+
+                        </div>
+
+                        <div className="permission-dropdown-content">
+
+                          {Object.keys(
+                            groupedPermissions
+                          ).length ===
+                          0 ? (
+
+                            <div className="permission-empty">
+                              <FiSearch />
+                              <span>
+                                No permissions found
+                              </span>
+                            </div>
+
+                          ) : (
+
+                            Object.entries(
+                              groupedPermissions
+                            ).map(
+                              ([
+                                group,
+                                items,
+                              ]) => (
+                                <div
+                                  key={
+                                    group
+                                  }
+                                  className="permission-group"
+                                >
+
+                                  <div className="permission-group-title">
+
+                                    <span>
+                                      {
+                                        group
+                                      }
+                                    </span>
+
+                                    <small>
+                                      {
+                                        items.length
+                                      }
+                                    </small>
+
+                                  </div>
+
+                                  <div className="permission-group-grid">
+
+                                    {items.map(
+                                      (
+                                        permission
+                                      ) => {
+
+                                        const selected =
+                                          form.permissions.includes(
+                                            permission.name
+                                          );
+
+                                        return (
+                                          <label
+                                            key={
+                                              permission._id ||
+                                              permission.name
+                                            }
+                                            className={`permission-item ${
+                                              selected
+                                                ? "selected"
+                                                : ""
+                                            }`}
+                                          >
+
+                                            <input
+                                              type="checkbox"
+                                              value={
+                                                permission.name
+                                              }
+                                              checked={
+                                                selected
+                                              }
+                                              onChange={
+                                                handleCheckboxPermissions
+                                              }
+                                            />
+
+                                            <span className="custom-check">
+                                              <FiCheck />
+                                            </span>
+
+                                            <span className="permission-item-content">
+
+                                              <strong>
+                                                {
+                                                  permission.label
+                                                }
+                                              </strong>
+
+                                              <small>
+                                                {
+                                                  permission.name
+                                                }
+                                              </small>
+
+                                            </span>
+
+                                          </label>
+                                        );
+                                      }
+                                    )}
+
+                                  </div>
+
+                                </div>
+                              )
+                            )
+
+                          )}
+
+                        </div>
+
+                      </div>
+                    )}
+
+                  </div>
+
+                  {form.permissions.length >
+                    0 && (
+                    <div className="selected-permissions">
+
+                      {getPermissionLabels(
+                        form.permissions
+                      ).map(
+                        (
+                          label,
+                          index
+                        ) => (
+                          <span
+                            key={
+                              index
+                            }
+                            className="selected-permission-chip"
+                          >
+                            <FiCheck />
                             {label}
                           </span>
-                        ),
+                        )
                       )}
+
                     </div>
-                  </div>
+                  )}
+
                 </div>
 
-                <div className="modalActions">
-                  <button className="modalSubmit" disabled={loading}>
-                    {loading
-                      ? "Saving..."
-                      : editId
-                        ? "Update Teacher"
-                        : "Add Teacher"}
+                {/* ACTIONS */}
+
+                <div className="teacher-modal-actions">
+
+                  <button
+                    type="button"
+                    className="modal-cancel-btn"
+                    onClick={
+                      closeModal
+                    }
+                    disabled={
+                      loading
+                    }
+                  >
+                    Cancel
                   </button>
+
+                  <button
+                    type="submit"
+                    className="modal-save-btn"
+                    disabled={
+                      loading
+                    }
+                  >
+
+                    {loading ? (
+                      <>
+                        <span className="save-spinner" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <FiCheck />
+
+                        {editId
+                          ? "Update Teacher"
+                          : "Create Teacher"}
+                      </>
+                    )}
+
+                  </button>
+
                 </div>
+
               </form>
+
             </div>
+
           </div>
+
         </div>
       )}
     </div>

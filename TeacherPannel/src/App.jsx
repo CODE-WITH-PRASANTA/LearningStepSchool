@@ -55,6 +55,12 @@ import ShiftSchedule from "./Components/ShiftSchedule/ShiftSchedule";
 import LeaveBalance from "./Components/LeaveBalance/LeaveBalance"; 
 import SalaryDetails from "./Components/SalaryDetails/SalaryDetails";
 import CompanyPolicies from "./Components/CompanyPolicies/CompanyPolicies";
+import ExpenseManagement from "./Components/ExpenseManagement/ExpenseManagement";
+import Wallet from "./Components/Wallet/Wallet";
+import AddExpense from "./Components/AddExpense/AddExpense";
+import ExpenseSearch from "./Components/ExpenseSearch/ExpenseSearch";
+import ExpenseHead from "./Components/ExpenseHead/ExpenseHead";
+import FuelManagement from "./Components/FuelManagement/FuelManagement";
 
 
 
@@ -128,6 +134,17 @@ function App() {
 
             <Route path="/salary/details" element={<SalaryDetails />} />
             <Route path="/pay/slips" element={<CompanyPolicies />} />
+
+
+            <Route path="/expense-management" element={<ExpenseManagement />} />
+            <Route path="/wallet" element={<Wallet />} />
+            <Route path="/expense/details" element={<AddExpense />} />
+            <Route path="/expense-search" element={<ExpenseSearch />} />
+            <Route path="/expense-head" element={<ExpenseHead />} />
+            <Route path="/fuel-management" element={<FuelManagement />} />
+
+
+
             
             
             {/* 🔐 Permission Protected */}

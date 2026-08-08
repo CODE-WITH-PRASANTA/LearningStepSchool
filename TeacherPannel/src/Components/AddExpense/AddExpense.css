@@ -1,0 +1,280 @@
+/* ===== PAGE ===== */
+.ae-page {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  padding: 30px;
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.ae-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ae-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ae-icon {
+  font-size: 22px;
+  color: #4f46e5;
+}
+
+.ae-header h2 {
+  font-size: 26px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.ae-breadcrumb {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* ===== LAYOUT ===== */
+.ae-layout {
+  display: flex;
+  gap: 25px;
+  margin-top: 20px;
+}
+
+/* ===== CARD ===== */
+.ae-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+/* ===== CARD HEADER ===== */
+.ae-card-top {
+  padding: 16px 20px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #fff;
+  border-radius: 18px 18px 0 0;
+}
+
+/* ===== FORM ===== */
+.ae-form {
+  padding: 20px;
+}
+
+.ae-scroll {
+  max-height: 550px;
+  overflow-y: auto;
+}
+
+.ae-scroll::-webkit-scrollbar {
+  width: 0;
+}
+
+/* ===== FIELD ===== */
+.ae-field {
+  margin-bottom: 15px;
+}
+
+.ae-field label {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.ae-field input,
+.ae-field select,
+.ae-field textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f9fafb;
+}
+
+.ae-field input:focus,
+.ae-field select:focus,
+.ae-field textarea:focus {
+  border-color: #6366f1;
+  background: #fff;
+  outline: none;
+}
+
+/* ===== BUTTON ===== */
+.ae-btn {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===== TABLE TOP ===== */
+.ae-table-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+/* ===== TABLE WRAP ===== */
+.ae-table-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+/* ===== TABLE (SCOPED ✅) ===== */
+.ae-table {
+  width: max-content;
+  min-width: 1400px;
+  border-collapse: collapse;
+}
+
+/* HEADER */
+.ae-table thead {
+  background: #f1f5f9;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* HEADER CELLS */
+.ae-table th {
+  padding: 14px;
+  font-size: 12px;
+  color: #334155;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+/* BODY CELLS */
+.ae-table td {
+  padding: 14px;
+  font-size: 13px;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+}
+
+/* STRIPES */
+.ae-table tbody tr:nth-child(even) {
+  background: #fafbff;
+}
+
+/* HOVER */
+.ae-table tbody tr:hover {
+  background: #f1f5ff;
+}
+
+/* ===== ACTION ===== */
+.ae-action {
+  position: relative;
+}
+
+.ae-action-btn {
+  background: #4f46e5;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* DROPDOWN */
+.ae-dropdown {
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background: #fff;
+  border-radius: 10px;
+  width: 140px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+
+.ae-dropdown div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.ae-dropdown .del:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ===== PAGINATION ===== */
+
+
+
+
+.ae-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-top: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 0 0 18px 18px;
+  flex-wrap: wrap;
+}
+
+.ae-pagination span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.ae-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ae-pagination-controls button {
+  min-width: 38px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #334155;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ae-pagination-controls button:hover:not(:disabled) {
+  background: #eef2ff;
+  color: #4f46e5;
+  border-color: #c7d2fe;
+}
+
+.ae-pagination-controls button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ae-pagination-controls .active {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4f46e5;
+}
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .ae-layout {
+    flex-direction: column;
+  }
+
+  .ae-card {
+    width: 100%;
+  }
+}

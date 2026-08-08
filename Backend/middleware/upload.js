@@ -28,6 +28,7 @@ const routeFolderMap = {
   "/student-gatepass": "uploads/student-gatepass",
   // ✅ NEW (your current feature)
   "/student-leave": "uploads/student-leave",
+   "/expense-management": "uploads/expense-management",
 };
 
 /* ================= GET UPLOAD PATH ================= */

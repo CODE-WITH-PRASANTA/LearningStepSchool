@@ -76,10 +76,6 @@ const vehicleRouteRoutes = require("./routes/vehicleRoute.routes");
 const systemSettingRoutes = require("./routes/systemSetting.routes");
 const vehicleKmRoutes = require("./routes/vehicleKm.routes");
 
-
-
-
-
 const otherIncomeRoutes = require("./routes/otherIncome.routes");
 const popupRoutes = require("./routes/popup.routes");
 const staffGatePassRoutes = require("./routes/staffGatePass.routes");
@@ -94,6 +90,10 @@ const feeHeadRoutes = require("./routes/Fee/feeHead.routes");
 const feeStructureRoutes = require("./routes/Fee/feeStructure.routes");
 const feeEntryRoutes = require("./routes/Fee/feeEntry.routes");
 const shiftPlanningRoutes = require("./routes/shiftPlanning.routes");
+
+const expenceMngRoutes = require("./routes/expenseMng.routes");
+const fuleRoutes = require('./routes/fuelRoutes')
+
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -141,6 +141,8 @@ app.use("/api/student-leave", studentLeaveRoutes);
 // expenses
 app.use("/api/expense-heads", expenseHeadRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/expense-management", expenceMngRoutes);
+
 // teacher routes
 app.use("/api/admin", teacherCreateRoutes);
 app.use("/api/teacher", teacherAuthRoutes);
@@ -172,6 +174,7 @@ app.use("/api/assign-route", assignRouteRoutes);
 app.use("/api/vehicle-route", vehicleRouteRoutes);
 app.use("/api/system-setting", systemSettingRoutes);
 app.use("/api/vehicle-km", vehicleKmRoutes);
+app.use("/api/fuel", require("./routes/fuelRoutes"));
 
 // Font office
 app.use("/api/popup", popupRoutes);
