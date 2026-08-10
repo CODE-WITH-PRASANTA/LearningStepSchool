@@ -5,42 +5,33 @@ const {
   deleteImageFile,
 } = require("../middleware/upload");
 
+
 /* =========================================================
-   WALLET HELPER
-   ========================================================= */
-
-/*
-  Creates wallet debit only once for an expense.
-
-  referenceId = Expense _id
-
-  This prevents duplicate wallet transactions.
-*/
+   CREATE WALLET DEBIT FOR APPROVED EXPENSE
+========================================================= */
 
 const createExpenseWalletDebit = async (expense) => {
   try {
     if (!expense) {
-      return;
+      return null;
     }
 
     /*
-      Wallet should be affected only when:
+      IMPORTANT:
 
-      1. Expense is approved
-      2. Payment status is Paid
+      Wallet is updated when the expense is APPROVED.
+
+      We do NOT check paymentStatus here because
+      your Expense model does not support "Paid".
     */
 
-    if (
-      expense.approval !== "Approved" ||
-      expense.paymentStatus !== "Paid"
-    ) {
-      return;
+    if (expense.approval !== "Approved") {
+      return null;
     }
 
-    /*
-      Check whether this expense already
-      created a wallet transaction.
-    */
+    /* -----------------------------------------------------
+       CHECK EXISTING WALLET TRANSACTION
+    ----------------------------------------------------- */
 
     const existingTransaction =
       await Wallet.findOne({
@@ -50,36 +41,43 @@ const createExpenseWalletDebit = async (expense) => {
       });
 
     /*
-      Already added to wallet
+      Prevent duplicate wallet debit.
     */
 
     if (existingTransaction) {
       return existingTransaction;
     }
 
-    /*
-      Create wallet debit
-    */
+    /* -----------------------------------------------------
+       CREATE WALLET DEBIT
+    ----------------------------------------------------- */
 
-    const transaction = await Wallet.create({
-      type: "debit",
+    const transaction =
+      await Wallet.create({
+        type: "debit",
 
-      amount: Number(expense.amount),
+        amount: Number(
+          expense.amount
+        ),
 
-      source: "expense",
+        source: "expense",
 
-      referenceId: expense._id,
+        referenceId:
+          expense._id,
 
-      description:
-        `Expense: ${
-          expense.expenseFor || "Expense"
-        } - ${
-          expense.employeeName || ""
-        }`,
+        description:
+          `Expense: ${
+            expense.expenseFor ||
+            "Expense"
+          } - ${
+            expense.employeeName ||
+            ""
+          }`,
 
-      createdBy:
-        expense.createdBy || null,
-    });
+        createdBy:
+          expense.createdBy ||
+          "Admin",
+      });
 
     return transaction;
 
@@ -96,37 +94,41 @@ const createExpenseWalletDebit = async (expense) => {
 
 /* =========================================================
    UPDATE EXISTING WALLET DEBIT
-   ========================================================= */
+========================================================= */
 
 const updateExpenseWalletDebit = async (
   expense
 ) => {
   try {
     if (!expense) {
-      return;
+      return null;
     }
 
-    /*
-      Find wallet transaction for
-      this particular expense.
-    */
+    /* -----------------------------------------------------
+       FIND WALLET TRANSACTION
+    ----------------------------------------------------- */
 
     const transaction =
       await Wallet.findOne({
-        referenceId: expense._id,
-        source: "expense",
-        type: "debit",
+        referenceId:
+          expense._id,
+
+        source:
+          "expense",
+
+        type:
+          "debit",
       });
 
-    /*
-      Expense is no longer paid/approved.
+    /* -----------------------------------------------------
+       IF EXPENSE IS NOT APPROVED
 
-      Remove wallet debit.
-    */
+       Remove wallet transaction if one exists.
+    ----------------------------------------------------- */
 
     if (
-      expense.approval !== "Approved" ||
-      expense.paymentStatus !== "Paid"
+      expense.approval !==
+      "Approved"
     ) {
       if (transaction) {
         await Wallet.findByIdAndDelete(
@@ -134,15 +136,13 @@ const updateExpenseWalletDebit = async (
         );
       }
 
-      return;
+      return null;
     }
 
-    /*
-      Expense is approved + paid.
-
-      If transaction doesn't exist,
-      create it.
-    */
+    /* -----------------------------------------------------
+       APPROVED BUT WALLET TRANSACTION
+       DOES NOT EXIST
+    ----------------------------------------------------- */
 
     if (!transaction) {
       return createExpenseWalletDebit(
@@ -150,19 +150,23 @@ const updateExpenseWalletDebit = async (
       );
     }
 
-    /*
-      Update wallet amount if
-      expense amount changed.
-    */
+    /* -----------------------------------------------------
+       UPDATE EXISTING WALLET TRANSACTION
+
+       This is useful if Admin modifies
+       the expense amount after approval.
+    ----------------------------------------------------- */
 
     transaction.amount =
       Number(expense.amount);
 
     transaction.description =
       `Expense: ${
-        expense.expenseFor || "Expense"
+        expense.expenseFor ||
+        "Expense"
       } - ${
-        expense.employeeName || ""
+        expense.employeeName ||
+        ""
       }`;
 
     await transaction.save();
@@ -182,7 +186,7 @@ const updateExpenseWalletDebit = async (
 
 /* =========================================================
    CREATE EXPENSE
-   ========================================================= */
+========================================================= */
 
 const createExpense = async (
   req,
@@ -201,9 +205,10 @@ const createExpense = async (
       createdBy,
     } = req.body;
 
-    /* =====================================================
+
+    /* -----------------------------------------------------
        REQUIRED VALIDATION
-    ===================================================== */
+    ----------------------------------------------------- */
 
     if (
       !employeeName ||
@@ -221,9 +226,10 @@ const createExpense = async (
       });
     }
 
-    /* =====================================================
+
+    /* -----------------------------------------------------
        AMOUNT VALIDATION
-    ===================================================== */
+    ----------------------------------------------------- */
 
     if (
       isNaN(Number(amount)) ||
@@ -237,9 +243,10 @@ const createExpense = async (
       });
     }
 
-    /* =====================================================
+
+    /* -----------------------------------------------------
        UPI VALIDATION
-    ===================================================== */
+    ----------------------------------------------------- */
 
     if (
       paymentStatus === "UPI" &&
@@ -253,18 +260,14 @@ const createExpense = async (
       });
     }
 
-    /* =====================================================
+
+    /* -----------------------------------------------------
        CREATE EXPENSE
        
-       Because you want:
-       
-       Save Expense
-            ↓
-       Wallet Debit
-       
-       the expense must be treated as
-       Approved + Paid.
-    ===================================================== */
+       New expense starts as Pending.
+
+       Wallet is NOT affected yet.
+    ----------------------------------------------------- */
 
     const expense =
       await Expense.create({
@@ -282,69 +285,48 @@ const createExpense = async (
 
         paymentApproval,
 
-        /*
-          Keep the selected payment method
-          if your frontend sends it.
-        */
         paymentStatus:
-          paymentStatus || "Paid",
+          paymentStatus ||
+          "Pending",
 
         upiNumber:
           paymentStatus === "UPI"
             ? upiNumber
             : "",
 
-        /*
-          IMPORTANT:
-          Expense is immediately approved.
-        */
-        approval: "Approved",
+        approval:
+          "Pending",
 
         bill:
-          req.file?.path || "",
+          req.file?.path ||
+          "",
 
         billOriginalName:
-          req.file?.originalname || "",
+          req.file?.originalname ||
+          "",
 
         billMimeType:
-          req.file?.mimetype || "",
+          req.file?.mimetype ||
+          "",
 
         createdBy:
-          createdBy || null,
+          createdBy ||
+          null,
       });
 
-    /* =====================================================
-       CREATE WALLET DEBIT
-       
-       Expense:
-         ₹5000
-       
-       Wallet:
-         debit ₹5000
-       
-       referenceId:
-         expense._id
-    ===================================================== */
 
-    const walletTransaction =
-      await createExpenseWalletDebit(
-        expense
-      );
-
-    /* =====================================================
+    /* -----------------------------------------------------
        RESPONSE
-    ===================================================== */
+    ----------------------------------------------------- */
 
     return res.status(201).json({
       success: true,
 
       message:
-        "Expense created and wallet updated successfully",
+        "Expense created successfully",
 
-      data: expense,
-
-      walletTransaction:
-        walletTransaction || null,
+      data:
+        expense,
     });
 
   } catch (error) {
@@ -354,15 +336,17 @@ const createExpense = async (
       error
     );
 
-    /* =====================================================
+
+    /* -----------------------------------------------------
        DELETE UPLOADED FILE IF DATABASE FAILED
-    ===================================================== */
+    ----------------------------------------------------- */
 
     if (req.file?.path) {
       deleteImageFile(
         req.file.path
       );
     }
+
 
     return res.status(500).json({
       success: false,
@@ -376,7 +360,7 @@ const createExpense = async (
 
 /* =========================================================
    GET ALL EXPENSES
-   ========================================================= */
+========================================================= */
 
 const getExpenses = async (
   req,
@@ -399,16 +383,24 @@ const getExpenses = async (
     const query = {};
 
 
-    /* SEARCH */
+    /* -----------------------------------------------------
+       SEARCH
+    ----------------------------------------------------- */
 
-    if (search.trim()) {
+    if (
+      search &&
+      search.trim()
+    ) {
+
+      const searchText =
+        search.trim();
 
       query.$or = [
 
         {
           employeeName: {
             $regex:
-              search.trim(),
+              searchText,
             $options: "i",
           },
         },
@@ -416,7 +408,7 @@ const getExpenses = async (
         {
           expenseFor: {
             $regex:
-              search.trim(),
+              searchText,
             $options: "i",
           },
         },
@@ -424,7 +416,7 @@ const getExpenses = async (
         {
           paymentStatus: {
             $regex:
-              search.trim(),
+              searchText,
             $options: "i",
           },
         },
@@ -433,7 +425,9 @@ const getExpenses = async (
     }
 
 
-    /* PAYMENT STATUS */
+    /* -----------------------------------------------------
+       PAYMENT STATUS FILTER
+    ----------------------------------------------------- */
 
     if (paymentStatus) {
       query.paymentStatus =
@@ -441,7 +435,9 @@ const getExpenses = async (
     }
 
 
-    /* APPROVAL */
+    /* -----------------------------------------------------
+       APPROVAL FILTER
+    ----------------------------------------------------- */
 
     if (approval) {
       query.approval =
@@ -449,7 +445,9 @@ const getExpenses = async (
     }
 
 
-    /* EMPLOYEE */
+    /* -----------------------------------------------------
+       EMPLOYEE FILTER
+    ----------------------------------------------------- */
 
     if (employeeName) {
       query.employeeName =
@@ -457,7 +455,9 @@ const getExpenses = async (
     }
 
 
-    /* DATE */
+    /* -----------------------------------------------------
+       DATE FILTER
+    ----------------------------------------------------- */
 
     if (
       fromDate ||
@@ -469,35 +469,55 @@ const getExpenses = async (
 
       if (fromDate) {
 
-        query.expenseDate.$gte =
+        const startDate =
           new Date(
             `${fromDate}T00:00:00.000Z`
           );
+
+        if (
+          !isNaN(
+            startDate.getTime()
+          )
+        ) {
+          query.expenseDate.$gte =
+            startDate;
+        }
       }
 
 
       if (toDate) {
 
-        query.expenseDate.$lte =
+        const endDate =
           new Date(
             `${toDate}T23:59:59.999Z`
           );
+
+        if (
+          !isNaN(
+            endDate.getTime()
+          )
+        ) {
+          query.expenseDate.$lte =
+            endDate;
+        }
       }
     }
 
 
-    /* PAGINATION */
+    /* -----------------------------------------------------
+       PAGINATION
+    ----------------------------------------------------- */
 
     const currentPage =
       Math.max(
-        parseInt(page) || 1,
+        Number(page) || 1,
         1
       );
 
 
     const itemsPerPage =
       Math.max(
-        parseInt(limit) || 10,
+        Number(limit) || 10,
         1
       );
 
@@ -507,7 +527,9 @@ const getExpenses = async (
       itemsPerPage;
 
 
-    /* DATABASE */
+    /* -----------------------------------------------------
+       FETCH DATA
+    ----------------------------------------------------- */
 
     const [
       expenses,
@@ -532,7 +554,8 @@ const getExpenses = async (
 
       success: true,
 
-      data: expenses,
+      data:
+        expenses,
 
       pagination: {
 
@@ -571,7 +594,7 @@ const getExpenses = async (
 
 /* =========================================================
    GET SINGLE EXPENSE
-   ========================================================= */
+========================================================= */
 
 const getExpenseById = async (
   req,
@@ -586,6 +609,7 @@ const getExpenseById = async (
 
 
     if (!expense) {
+
       return res.status(404).json({
 
         success: false,
@@ -600,13 +624,14 @@ const getExpenseById = async (
 
       success: true,
 
-      data: expense,
+      data:
+        expense,
     });
 
   } catch (error) {
 
     console.error(
-      "GET SINGLE EXPENSE ERROR:",
+      "GET EXPENSE ERROR:",
       error
     );
 
@@ -624,7 +649,7 @@ const getExpenseById = async (
 
 /* =========================================================
    UPDATE EXPENSE
-   ========================================================= */
+========================================================= */
 
 const updateExpense = async (
   req,
@@ -645,7 +670,6 @@ const updateExpense = async (
           req.file.path
         );
       }
-
 
       return res.status(404).json({
 
@@ -671,7 +695,9 @@ const updateExpense = async (
     } = req.body;
 
 
-    /* AMOUNT */
+    /* -----------------------------------------------------
+       AMOUNT VALIDATION
+    ----------------------------------------------------- */
 
     if (
       amount !== undefined &&
@@ -687,23 +713,29 @@ const updateExpense = async (
         );
       }
 
-
       return res.status(400).json({
 
         success: false,
 
         message:
-          "Invalid amount",
+          "Amount must be a valid positive number",
       });
     }
 
 
-    /* PAYMENT STATUS */
+    /* -----------------------------------------------------
+       PAYMENT STATUS
+    ----------------------------------------------------- */
 
     const finalPaymentStatus =
-      paymentStatus ||
-      expense.paymentStatus;
+      paymentStatus !== undefined
+        ? paymentStatus
+        : expense.paymentStatus;
 
+
+    /* -----------------------------------------------------
+       UPI
+    ----------------------------------------------------- */
 
     const finalUpiNumber =
       upiNumber !== undefined
@@ -711,10 +743,9 @@ const updateExpense = async (
         : expense.upiNumber;
 
 
-    /* UPI */
-
     if (
-      finalPaymentStatus === "UPI" &&
+      finalPaymentStatus ===
+        "UPI" &&
       !finalUpiNumber
     ) {
 
@@ -723,7 +754,6 @@ const updateExpense = async (
           req.file.path
         );
       }
-
 
       return res.status(400).json({
 
@@ -735,67 +765,102 @@ const updateExpense = async (
     }
 
 
-    /* SAVE OLD BILL */
+    /* -----------------------------------------------------
+       KEEP OLD BILL
+    ----------------------------------------------------- */
 
     const oldBill =
       expense.bill;
 
 
-    /* UPDATE */
+    /* -----------------------------------------------------
+       UPDATE FIELDS
+    ----------------------------------------------------- */
 
-    expense.employeeName =
-      employeeName ??
-      expense.employeeName;
-
-
-    expense.expenseDate =
-      expenseDate ??
-      expense.expenseDate;
-
-
-    expense.expenseFor =
-      expenseFor ??
-      expense.expenseFor;
+    if (
+      employeeName !== undefined
+    ) {
+      expense.employeeName =
+        employeeName;
+    }
 
 
-    expense.amount =
+    if (
+      expenseDate !== undefined
+    ) {
+      expense.expenseDate =
+        expenseDate;
+    }
+
+
+    if (
+      expenseFor !== undefined
+    ) {
+      expense.expenseFor =
+        expenseFor;
+    }
+
+
+    if (
       amount !== undefined
-        ? Number(amount)
-        : expense.amount;
+    ) {
+      expense.amount =
+        Number(amount);
+    }
 
 
-    expense.description =
-      description ??
-      expense.description;
+    if (
+      description !== undefined
+    ) {
+      expense.description =
+        description;
+    }
 
 
-    expense.paymentApproval =
-      paymentApproval ??
-      expense.paymentApproval;
+    if (
+      paymentApproval !==
+      undefined
+    ) {
+      expense.paymentApproval =
+        paymentApproval;
+    }
 
 
-    expense.paymentStatus =
-      finalPaymentStatus;
+    if (
+      paymentStatus !==
+      undefined
+    ) {
+      expense.paymentStatus =
+        paymentStatus;
+    }
 
 
     expense.upiNumber =
-      finalPaymentStatus === "UPI"
+      finalPaymentStatus ===
+        "UPI"
         ? finalUpiNumber
         : "";
 
 
-    expense.approval =
-      approval ??
-      expense.approval;
+    if (
+      approval !== undefined
+    ) {
+      expense.approval =
+        approval;
+    }
 
 
-    if (createdBy !== undefined) {
+    if (
+      createdBy !== undefined
+    ) {
       expense.createdBy =
         createdBy;
     }
 
 
-    /* NEW BILL */
+    /* -----------------------------------------------------
+       NEW BILL
+    ----------------------------------------------------- */
 
     if (req.file) {
 
@@ -810,30 +875,36 @@ const updateExpense = async (
     }
 
 
-    /* SAVE */
+    /* -----------------------------------------------------
+       SAVE EXPENSE
+    ----------------------------------------------------- */
 
     await expense.save();
 
 
-    /*
-      VERY IMPORTANT:
+    /* -----------------------------------------------------
+       UPDATE WALLET
 
-      If amount/payment/approval changes,
-      update the wallet transaction.
-    */
+       If approved:
+         create/update wallet debit.
+
+       If not approved:
+         remove wallet debit.
+    ----------------------------------------------------- */
 
     await updateExpenseWalletDebit(
       expense
     );
 
 
-    /* DELETE OLD BILL */
+    /* -----------------------------------------------------
+       DELETE OLD BILL
+    ----------------------------------------------------- */
 
     if (
       req.file &&
       oldBill
     ) {
-
       deleteImageFile(
         oldBill
       );
@@ -847,7 +918,8 @@ const updateExpense = async (
       message:
         "Expense updated successfully",
 
-      data: expense,
+      data:
+        expense,
     });
 
   } catch (error) {
@@ -859,7 +931,6 @@ const updateExpense = async (
 
 
     if (req.file?.path) {
-
       deleteImageFile(
         req.file.path
       );
@@ -879,7 +950,7 @@ const updateExpense = async (
 
 /* =========================================================
    DELETE EXPENSE
-   ========================================================= */
+========================================================= */
 
 const deleteExpense = async (
   req,
@@ -905,21 +976,26 @@ const deleteExpense = async (
     }
 
 
-    /*
-      Delete wallet transaction
-      before deleting expense.
-    */
+    /* -----------------------------------------------------
+       REMOVE WALLET TRANSACTION
+    ----------------------------------------------------- */
 
     await Wallet.deleteMany({
+
       referenceId:
         expense._id,
 
       source:
         "expense",
+
+      type:
+        "debit",
     });
 
 
-    /* DELETE BILL */
+    /* -----------------------------------------------------
+       DELETE BILL
+    ----------------------------------------------------- */
 
     if (expense.bill) {
 
@@ -929,7 +1005,9 @@ const deleteExpense = async (
     }
 
 
-    /* DELETE EXPENSE */
+    /* -----------------------------------------------------
+       DELETE EXPENSE
+    ----------------------------------------------------- */
 
     await Expense.findByIdAndDelete(
       req.params.id
@@ -965,7 +1043,7 @@ const deleteExpense = async (
 
 /* =========================================================
    APPROVE EXPENSE
-   ========================================================= */
+========================================================= */
 
 const approveExpense = async (
   req,
@@ -991,9 +1069,37 @@ const approveExpense = async (
     }
 
 
-    /*
-      Approve expense
-    */
+    /* -----------------------------------------------------
+       ALREADY APPROVED
+    ----------------------------------------------------- */
+
+    if (
+      expense.approval ===
+      "Approved"
+    ) {
+
+      return res.status(400).json({
+
+        success: false,
+
+        message:
+          "Expense is already approved",
+      });
+    }
+
+
+    /* -----------------------------------------------------
+       APPROVE
+
+       IMPORTANT:
+
+       DO NOT SET:
+
+       expense.paymentStatus = "Paid";
+
+       Your Expense model does not accept
+       "Paid" as a paymentStatus enum value.
+    ----------------------------------------------------- */
 
     expense.approval =
       "Approved";
@@ -1002,30 +1108,32 @@ const approveExpense = async (
     await expense.save();
 
 
-    /*
-      Wallet will only be affected
-      when paymentStatus is Paid.
+    /* -----------------------------------------------------
+       CREATE WALLET DEBIT
+    ----------------------------------------------------- */
 
-      If already Paid:
-      create wallet debit.
+    const walletTransaction =
+      await createExpenseWalletDebit(
+        expense
+      );
 
-      If Pending:
-      no wallet change yet.
-    */
 
-    await updateExpenseWalletDebit(
-      expense
-    );
-
+    /* -----------------------------------------------------
+       RESPONSE
+    ----------------------------------------------------- */
 
     return res.status(200).json({
 
       success: true,
 
       message:
-        "Expense approved successfully",
+        "Expense approved and wallet updated successfully",
 
-      data: expense,
+      data:
+        expense,
+
+      walletTransaction:
+        walletTransaction || null,
     });
 
   } catch (error) {
@@ -1048,108 +1156,8 @@ const approveExpense = async (
 
 
 /* =========================================================
-   MARK EXPENSE AS PAID
-   ========================================================= */
-
-const markExpensePaid = async (
-  req,
-  res
-) => {
-  try {
-
-    const expense =
-      await Expense.findById(
-        req.params.id
-      );
-
-
-    if (!expense) {
-
-      return res.status(404).json({
-
-        success: false,
-
-        message:
-          "Expense not found",
-      });
-    }
-
-
-    /*
-      Payment must be approved first.
-    */
-
-    if (
-      expense.approval !==
-      "Approved"
-    ) {
-
-      return res.status(400).json({
-
-        success: false,
-
-        message:
-          "Expense must be approved before payment",
-      });
-    }
-
-
-    /*
-      Mark paid
-    */
-
-    expense.paymentStatus =
-      "Paid";
-
-
-    await expense.save();
-
-
-    /*
-      NOW wallet gets debited.
-    */
-
-    const walletTransaction =
-      await createExpenseWalletDebit(
-        expense
-      );
-
-
-    return res.status(200).json({
-
-      success: true,
-
-      message:
-        "Expense marked as paid and wallet updated",
-
-      data: expense,
-
-      walletTransaction:
-        walletTransaction || null,
-    });
-
-  } catch (error) {
-
-    console.error(
-      "MARK EXPENSE PAID ERROR:",
-      error
-    );
-
-
-    return res.status(500).json({
-
-      success: false,
-
-      message:
-        error.message,
-    });
-  }
-};
-
-
-/* =========================================================
-   EXPORT
-   ========================================================= */
+   EXPORTS
+========================================================= */
 
 module.exports = {
 
@@ -1164,6 +1172,4 @@ module.exports = {
   deleteExpense,
 
   approveExpense,
-
-  markExpensePaid,
 };
