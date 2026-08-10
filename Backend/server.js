@@ -93,6 +93,7 @@ const shiftPlanningRoutes = require("./routes/shiftPlanning.routes");
 
 const expenceMngRoutes = require("./routes/expenseMng.routes");
 const fuleRoutes = require('./routes/fuelRoutes')
+const holidayRoutes = require("./routes/holidayRoutes");
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -151,6 +152,11 @@ app.use("/api/teacher-attendance", teacherAttendanceRoutes);
 app.use("/api", leaveRoutes);
 app.use("/api", teacherOvertimeRoutes);
 app.use("/api/shift-planning", shiftPlanningRoutes);
+
+app.use(
+  "/api/holidays",
+  holidayRoutes
+);
 
 // salary and payroll
 app.use("/api/wallet", walletRoutes);

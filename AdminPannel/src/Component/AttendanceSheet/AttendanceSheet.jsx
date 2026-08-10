@@ -1,38 +1,57 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import "./AttendanceSheet.css";
 
 import API, { IMAGE_URL } from "../../api/axios";
 
+/* =========================================================
+   STATUS ICONS
+========================================================= */
+
 const STATUS_ICONS = {
   present: {
-    char: "✓",
+    char: "P",
     className: "status-present",
   },
-  leave: {
-    char: "✕",
-    className: "status-leave",
-  },
+
   absent: {
-    char: "✕",
+    char: "A",
+    className: "status-absent",
+  },
+
+  leave: {
+    char: "L",
     className: "status-leave",
   },
+
   late: {
-    char: "✓",
+    char: "P",
     className: "status-present",
   },
+
   "half day": {
-    char: "½",
-    className: "status-holiday",
+    char: "H",
+    className: "status-halfday",
   },
+
   weekend: {
-    char: "⊖",
+    char: "S",
     className: "status-weekend",
   },
+
   holiday: {
     char: "★",
     className: "status-holiday",
   },
 };
+
+/* =========================================================
+   MONTHS
+========================================================= */
 
 const MONTHS = [
   "January",
@@ -49,15 +68,23 @@ const MONTHS = [
   "December",
 ];
 
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 const AttendanceSheet = () => {
   const currentDate = new Date();
 
+  /* =======================================================
+     YEAR / MONTH
+  ======================================================= */
+
   const [selectedYear, setSelectedYear] = useState(
-    String(currentDate.getFullYear()),
+    String(currentDate.getFullYear())
   );
 
   const [selectedMonth, setSelectedMonth] = useState(
-    MONTHS[currentDate.getMonth()],
+    MONTHS[currentDate.getMonth()]
   );
 
   const [searchFilter, setSearchFilter] = useState({
@@ -65,43 +92,80 @@ const AttendanceSheet = () => {
     month: MONTHS[currentDate.getMonth()],
   });
 
+  /* =======================================================
+     ATTENDANCE
+  ======================================================= */
+
   const [attendanceData, setAttendanceData] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
-  const [isAdjustmentOpen, setIsAdjustmentOpen] = useState(false);
+  /* =======================================================
+     HOLIDAYS
+  ======================================================= */
 
-  const [selectedAttendance, setSelectedAttendance] = useState(null);
+  const [holidays, setHolidays] = useState([]);
+
+  const [holidayLoading, setHolidayLoading] = useState(false);
+
+  /* =======================================================
+     MANUAL ADJUSTMENT
+  ======================================================= */
+
+  const [isAdjustmentOpen, setIsAdjustmentOpen] =
+    useState(false);
+
+  const [selectedAttendance, setSelectedAttendance] =
+    useState(null);
 
   const [adjustmentForm, setAdjustmentForm] = useState({
     status: "Present",
     punchIn: "",
     punchOut: "",
+
+    holidayName: "",
+    holidayDescription: "",
+    holidayType: "Public Holiday",
+    holidayIsPaid: true,
   });
 
-  const [savingAdjustment, setSavingAdjustment] = useState(false);
+  const [savingAdjustment, setSavingAdjustment] =
+    useState(false);
 
-  /* ================= FETCH ATTENDANCE ================= */
+  /* =======================================================
+     FETCH ATTENDANCE
+  ======================================================= */
 
   const fetchAttendance = async () => {
     try {
       setLoading(true);
 
-      const monthNumber = MONTHS.indexOf(searchFilter.month) + 1;
+      const monthNumber =
+        MONTHS.indexOf(searchFilter.month) + 1;
 
-      const response = await API.get("/teacher-attendance", {
-        params: {
-          year: searchFilter.year,
-          month: monthNumber,
-        },
-      });
+      const response = await API.get(
+        "/teacher-attendance",
+        {
+          params: {
+            year: searchFilter.year,
+            month: monthNumber,
+          },
+        }
+      );
 
-      console.log("Attendance Response:", response.data.data);
+      console.log(
+        "Attendance Response:",
+        response.data?.data
+      );
 
-      setAttendanceData(response.data.data || []);
+      setAttendanceData(
+        response.data?.data || []
+      );
     } catch (error) {
       console.error(
         "Attendance Fetch Error:",
-        error.response?.data || error.message,
+        error.response?.data ||
+          error.message
       );
 
       setAttendanceData([]);
@@ -110,28 +174,116 @@ const AttendanceSheet = () => {
     }
   };
 
+  /* =======================================================
+     FETCH HOLIDAYS
+  ======================================================= */
+
+  const fetchHolidays = async () => {
+    try {
+      setHolidayLoading(true);
+
+      const monthNumber =
+        MONTHS.indexOf(searchFilter.month) + 1;
+
+      const response = await API.get(
+        "/holidays",
+        {
+          params: {
+            year: searchFilter.year,
+            month: monthNumber,
+          },
+        }
+      );
+
+      console.log(
+        "Holiday Response:",
+        response.data?.data
+      );
+
+      setHolidays(
+        response.data?.data || []
+      );
+    } catch (error) {
+      console.error(
+        "Holiday Fetch Error:",
+        error.response?.data ||
+          error.message
+      );
+
+      setHolidays([]);
+    } finally {
+      setHolidayLoading(false);
+    }
+  };
+
+  /* =======================================================
+     FETCH ATTENDANCE + HOLIDAYS
+  ======================================================= */
+
   useEffect(() => {
     fetchAttendance();
+    fetchHolidays();
   }, [searchFilter]);
 
-  /* ================= TOTAL DAYS ================= */
+  /* =======================================================
+     TOTAL DAYS
+  ======================================================= */
 
-  const monthIndex = MONTHS.indexOf(searchFilter.month);
+  const monthIndex =
+    MONTHS.indexOf(searchFilter.month);
 
   const totalDays = new Date(
     Number(searchFilter.year),
     monthIndex + 1,
-    0,
+    0
   ).getDate();
 
   const daysArray = Array.from(
     {
       length: totalDays,
     },
-    (_, i) => i + 1,
+    (_, i) => i + 1
   );
 
-  /* ================= GROUP ATTENDANCE ================= */
+  /* =======================================================
+     SUNDAY CHECK
+  ======================================================= */
+
+  const isSunday = (day) => {
+    const date = new Date(
+      Number(searchFilter.year),
+      monthIndex,
+      day
+    );
+
+    return date.getDay() === 0;
+  };
+
+  /* =======================================================
+     HOLIDAY MAP
+  ======================================================= */
+
+  const holidayMap = useMemo(() => {
+    const map = {};
+
+    holidays.forEach((holiday) => {
+      if (!holiday?.date) {
+        return;
+      }
+
+      const date = new Date(holiday.date);
+
+      const day = date.getUTCDate();
+
+      map[day] = holiday;
+    });
+
+    return map;
+  }, [holidays]);
+
+  /* =======================================================
+     GROUP ATTENDANCE
+  ======================================================= */
 
   const employees = useMemo(() => {
     const teacherMap = {};
@@ -143,7 +295,10 @@ const AttendanceSheet = () => {
         return;
       }
 
-      const teacherId = typeof teacher === "object" ? teacher._id : teacher;
+      const teacherId =
+        typeof teacher === "object"
+          ? teacher._id
+          : teacher;
 
       if (!teacherMap[teacherId]) {
         teacherMap[teacherId] = {
@@ -154,25 +309,38 @@ const AttendanceSheet = () => {
               ? teacher.name || "Unknown Teacher"
               : "Unknown Teacher",
 
-          avatar: typeof teacher === "object" ? teacher.image || "" : "",
+          avatar:
+            typeof teacher === "object"
+              ? teacher.image || ""
+              : "",
 
           attendance: {},
         };
       }
 
-      const attendanceDate = new Date(attendance.date);
+      const attendanceDate =
+        new Date(attendance.date);
 
-      const day = attendanceDate.getUTCDate();
-      teacherMap[teacherId].attendance[day] = {
+      const day =
+        attendanceDate.getUTCDate();
+
+      teacherMap[
+        teacherId
+      ].attendance[day] = {
         ...attendance,
-        status: attendance.status?.toLowerCase() || "",
+
+        status:
+          attendance.status?.toLowerCase() ||
+          "",
       };
     });
 
     return Object.values(teacherMap);
   }, [attendanceData]);
 
-  /* ================= HANDLE SEARCH ================= */
+  /* =======================================================
+     HANDLE SEARCH
+  ======================================================= */
 
   const handleSearch = () => {
     setSearchFilter({
@@ -181,20 +349,25 @@ const AttendanceSheet = () => {
     });
   };
 
-  /* ================= TEACHER IMAGE ================= */
+  /* =======================================================
+     TEACHER IMAGE
+  ======================================================= */
 
-  const getTeacherImage = (image, name) => {
-    // No image -> fallback avatar
+  const getTeacherImage = (
+    image,
+    name
+  ) => {
     if (!image) {
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(
-        name || "Teacher",
+        name || "Teacher"
       )}&background=random`;
     }
 
-    // Fix Windows path
-    let cleanImage = image.replace(/\\/g, "/");
+    let cleanImage = String(image).replace(
+      /\\/g,
+      "/"
+    );
 
-    // Already full URL
     if (
       cleanImage.startsWith("http://") ||
       cleanImage.startsWith("https://") ||
@@ -203,84 +376,215 @@ const AttendanceSheet = () => {
       return cleanImage;
     }
 
-    // Remove starting slash
-    cleanImage = cleanImage.replace(/^\/+/, "");
+    cleanImage = cleanImage.replace(
+      /^\/+/,
+      ""
+    );
 
-    // Remove ending slash from IMAGE_URL
-    const baseUrl = IMAGE_URL.replace(/\/+$/, "");
+    const baseUrl = IMAGE_URL.replace(
+      /\/+$/,
+      ""
+    );
 
     return `${baseUrl}/${cleanImage}`;
   };
 
-  /* ================= MANUAL ADJUSTMENT ================= */
+  /* =======================================================
+     DATE FORMAT
+  ======================================================= */
 
   const formatDateForDisplay = (date) => {
-    if (!date) return "";
+    if (!date) {
+      return "";
+    }
 
     const d = new Date(date);
 
-    const year = d.getUTCFullYear();
+    const year =
+      d.getUTCFullYear();
 
-    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const month = String(
+      d.getUTCMonth() + 1
+    ).padStart(2, "0");
 
-    const day = String(d.getUTCDate()).padStart(2, "0");
+    const day = String(
+      d.getUTCDate()
+    ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
   };
 
-  /* ================= TIME INPUT ================= */
+  /* =======================================================
+     TIME INPUT
+  ======================================================= */
 
   const getIndiaTimeInput = (date) => {
-    if (!date) return "";
+    if (!date) {
+      return "";
+    }
 
-    return new Date(date).toLocaleTimeString("en-GB", {
-      timeZone: "Asia/Kolkata",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+    return new Date(date).toLocaleTimeString(
+      "en-GB",
+      {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }
+    );
   };
 
-  /* ================= OPEN POPUP ================= */
+  /* =======================================================
+     OPEN MANUAL ADJUSTMENT
+  ======================================================= */
 
-  const handleAttendanceClick = (employee, day) => {
-    const record = employee.attendance[day];
+  const handleAttendanceClick = (
+    employee,
+    day
+  ) => {
+    const record =
+      employee.attendance[day];
 
-    const monthNumber = MONTHS.indexOf(searchFilter.month) + 1;
+    const holiday =
+      holidayMap[day];
 
-    const date = `${searchFilter.year}-${String(monthNumber).padStart(
+    const sunday =
+      isSunday(day);
+
+    const monthNumber =
+      MONTHS.indexOf(
+        searchFilter.month
+      ) + 1;
+
+    const date = `${searchFilter.year}-${String(
+      monthNumber
+    ).padStart(2, "0")}-${String(day).padStart(
       2,
-      "0",
-    )}-${String(day).padStart(2, "0")}`;
+      "0"
+    )}`;
+
+    /* =====================================================
+       HOLIDAY
+    ===================================================== */
+
+    if (holiday && !record) {
+      setSelectedAttendance({
+        employeeId:
+          employee.id,
+
+        employeeName:
+          employee.name,
+
+        day,
+
+        date,
+
+        record: null,
+
+        holiday,
+
+        sunday,
+      });
+
+      setAdjustmentForm({
+        status: "Holiday",
+
+        punchIn: "",
+
+        punchOut: "",
+
+        holidayName:
+          holiday.name || "",
+
+        holidayDescription:
+          holiday.description || "",
+
+        holidayType:
+          holiday.type ||
+          "Public Holiday",
+
+        holidayIsPaid:
+          holiday.isPaid !== false,
+      });
+
+      setIsAdjustmentOpen(true);
+
+      return;
+    }
+
+    /* =====================================================
+       NORMAL ATTENDANCE
+    ===================================================== */
 
     setSelectedAttendance({
-      employeeId: employee.id,
-      employeeName: employee.name,
+      employeeId:
+        employee.id,
+
+      employeeName:
+        employee.name,
+
       day,
+
       date,
-      record: record || null,
+
+      record:
+        record || null,
+
+      holiday:
+        holiday || null,
+
+      sunday,
     });
 
     setAdjustmentForm({
       status: record?.status
         ? record.status
             .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .map(
+              (word) =>
+                word
+                  .charAt(0)
+                  .toUpperCase() +
+                word.slice(1)
+            )
             .join(" ")
         : "Present",
 
-      punchIn: getIndiaTimeInput(record?.punchIn),
+      punchIn:
+        getIndiaTimeInput(
+          record?.punchIn
+        ),
 
-      punchOut: getIndiaTimeInput(record?.punchOut),
+      punchOut:
+        getIndiaTimeInput(
+          record?.punchOut
+        ),
+
+      holidayName:
+        holiday?.name || "",
+
+      holidayDescription:
+        holiday?.description || "",
+
+      holidayType:
+        holiday?.type ||
+        "Public Holiday",
+
+      holidayIsPaid:
+        holiday?.isPaid !== false,
     });
 
     setIsAdjustmentOpen(true);
   };
 
-  /* ================= CLOSE ================= */
+  /* =======================================================
+     CLOSE
+  ======================================================= */
 
   const closeAdjustmentModal = () => {
-    if (savingAdjustment) return;
+    if (savingAdjustment) {
+      return;
+    }
 
     setIsAdjustmentOpen(false);
 
@@ -290,10 +594,16 @@ const AttendanceSheet = () => {
       status: "Present",
       punchIn: "",
       punchOut: "",
+      holidayName: "",
+      holidayDescription: "",
+      holidayType: "Public Holiday",
+      holidayIsPaid: true,
     });
   };
 
-  /* ================= STATUS SELECT ================= */
+  /* =======================================================
+     STATUS SELECT
+  ======================================================= */
 
   const handleStatusSelect = (status) => {
     setAdjustmentForm((prev) => ({
@@ -302,132 +612,414 @@ const AttendanceSheet = () => {
     }));
   };
 
-  /* ================= BUILD INDIA DATE TIME ================= */
+  /* =======================================================
+     BUILD INDIA DATE TIME
+  ======================================================= */
 
-  const buildIndiaDateTime = (date, time) => {
-    if (!date || !time) return null;
+  const buildIndiaDateTime = (
+    date,
+    time
+  ) => {
+    if (!date || !time) {
+      return null;
+    }
 
-    return new Date(`${date}T${time}:00+05:30`).toISOString();
+    return new Date(
+      `${date}T${time}:00+05:30`
+    ).toISOString();
   };
 
-  /* ================= SAVE ================= */
+  /* =======================================================
+     DELETE HOLIDAY
+  ======================================================= */
 
-  const handleSaveAdjustment = async () => {
-    if (!selectedAttendance) return;
+  const deleteHoliday = async (
+    holidayId
+  ) => {
+    if (!holidayId) {
+      return;
+    }
 
-    try {
-      setSavingAdjustment(true);
+    await API.delete(
+      `/holidays/${holidayId}`
+    );
+  };
 
-      const record = selectedAttendance.record;
+  /* =======================================================
+     SAVE HOLIDAY
+  ======================================================= */
 
-      /*
-      Existing attendance
-    */
-      if (record?._id) {
-        const payload = {
-          status: adjustmentForm.status,
+  const saveHoliday = async () => {
+    const holiday =
+      selectedAttendance?.holiday;
 
-          punchIn: adjustmentForm.punchIn
+    if (
+      !adjustmentForm.holidayName.trim()
+    ) {
+      alert(
+        "Please enter holiday name"
+      );
+
+      return false;
+    }
+
+    const payload = {
+      name:
+        adjustmentForm.holidayName.trim(),
+
+      date:
+        selectedAttendance.date,
+
+      description:
+        adjustmentForm.holidayDescription ||
+        "",
+
+      type:
+        adjustmentForm.holidayType ||
+        "Public Holiday",
+
+      isPaid:
+        adjustmentForm.holidayIsPaid,
+    };
+
+    /* =====================================================
+       UPDATE EXISTING HOLIDAY
+    ===================================================== */
+
+    if (holiday?._id) {
+      await API.put(
+        `/holidays/${holiday._id}`,
+        payload
+      );
+    }
+
+    /* =====================================================
+       CREATE NEW HOLIDAY
+    ===================================================== */
+
+    else {
+      await API.post(
+        "/holidays",
+        payload
+      );
+    }
+
+    return true;
+  };
+
+  /* =======================================================
+     SAVE ATTENDANCE
+  ======================================================= */
+
+  const saveAttendance = async () => {
+    const record =
+      selectedAttendance.record;
+
+    /* =====================================================
+       EXISTING ATTENDANCE
+    ===================================================== */
+
+    if (record?._id) {
+      const payload = {
+        status:
+          adjustmentForm.status,
+
+        punchIn:
+          adjustmentForm.punchIn
             ? buildIndiaDateTime(
                 selectedAttendance.date,
-                adjustmentForm.punchIn,
+                adjustmentForm.punchIn
               )
             : null,
 
-          punchOut: adjustmentForm.punchOut
+        punchOut:
+          adjustmentForm.punchOut
             ? buildIndiaDateTime(
                 selectedAttendance.date,
-                adjustmentForm.punchOut,
+                adjustmentForm.punchOut
               )
             : null,
-        };
+      };
 
-        await API.put(`/teacher-attendance/admin/${record._id}`, payload);
-      } else {
-        /*
-      No attendance exists for that date.
-      Admin creates it.
-    */
-        await API.post("/teacher-attendance/admin", {
-          teacherId: selectedAttendance.employeeId,
+      await API.put(
+        `/teacher-attendance/admin/${record._id}`,
+        payload
+      );
 
-          date: selectedAttendance.date,
+      return;
+    }
 
-          status: adjustmentForm.status,
-        });
+    /* =====================================================
+       NEW ATTENDANCE
+    ===================================================== */
+
+    await API.post(
+      "/teacher-attendance/admin",
+      {
+        teacherId:
+          selectedAttendance.employeeId,
+
+        date:
+          selectedAttendance.date,
+
+        status:
+          adjustmentForm.status,
+
+        punchIn:
+          adjustmentForm.punchIn
+            ? buildIndiaDateTime(
+                selectedAttendance.date,
+                adjustmentForm.punchIn
+              )
+            : null,
+
+        punchOut:
+          adjustmentForm.punchOut
+            ? buildIndiaDateTime(
+                selectedAttendance.date,
+                adjustmentForm.punchOut
+              )
+            : null,
+      }
+    );
+  };
+
+  /* =======================================================
+     SAVE MANUAL ADJUSTMENT
+  ======================================================= */
+
+  const handleSaveAdjustment =
+    async () => {
+      if (!selectedAttendance) {
+        return;
       }
 
-      closeAdjustmentModal();
+      try {
+        setSavingAdjustment(true);
 
-      await fetchAttendance();
-    } catch (error) {
-      console.error("MANUAL ATTENDANCE ERROR:", error.response?.data || error);
+        const selectedStatus =
+          adjustmentForm.status;
 
-      alert(error.response?.data?.message || "Failed to update attendance");
-    } finally {
-      setSavingAdjustment(false);
-    }
-  };
+        const holiday =
+          selectedAttendance.holiday;
+
+        /* =================================================
+           CASE 1
+           ADMIN SELECTED HOLIDAY
+        ================================================= */
+
+        if (
+          selectedStatus === "Holiday"
+        ) {
+          await saveHoliday();
+
+          /*
+            If there was an attendance
+            record on this date and admin
+            changes it to Holiday,
+            delete attendance first.
+          */
+
+          if (
+            selectedAttendance.record?._id
+          ) {
+            await API.delete(
+              `/teacher-attendance/${selectedAttendance.record._id}`
+            );
+          }
+
+          alert(
+            "Holiday saved successfully"
+          );
+        }
+
+        /* =================================================
+           CASE 2
+           ADMIN SELECTED ATTENDANCE
+        ================================================= */
+
+        else {
+          /*
+            If this date was previously
+            a holiday, remove holiday
+            because it is now attendance.
+          */
+
+          if (holiday?._id) {
+            await deleteHoliday(
+              holiday._id
+            );
+          }
+
+          await saveAttendance();
+
+          alert(
+            "Attendance updated successfully"
+          );
+        }
+
+        /* =================================================
+           CLOSE
+        ================================================= */
+
+        setIsAdjustmentOpen(false);
+
+        setSelectedAttendance(null);
+
+        setAdjustmentForm({
+          status: "Present",
+          punchIn: "",
+          punchOut: "",
+          holidayName: "",
+          holidayDescription: "",
+          holidayType:
+            "Public Holiday",
+          holidayIsPaid: true,
+        });
+
+        /* =================================================
+           REFRESH
+        ================================================= */
+
+        await fetchAttendance();
+
+        await fetchHolidays();
+      } catch (error) {
+        console.error(
+          "MANUAL ADJUSTMENT ERROR:",
+          error.response?.data ||
+            error
+        );
+
+        alert(
+          error.response?.data
+            ?.message ||
+            "Failed to save manual adjustment"
+        );
+      } finally {
+        setSavingAdjustment(false);
+      }
+    };
+
+  /* =======================================================
+     RETURN
+  ======================================================= */
 
   return (
     <div className="attendance-page-container">
+
       {/* ================= PAGE HEADER ================= */}
 
       <div className="page-header-row">
-        <h1 className="main-title">Attendance Sheet</h1>
+
+        <h1 className="main-title">
+          Attendance Sheet
+        </h1>
 
         <div className="breadcrumbs">
-          <span className="home-icon">🏠</span>
-          <span className="separator">&gt;</span>
+
+          <span className="home-icon">
+            🏠
+          </span>
+
+          <span className="separator">
+            &gt;
+          </span>
+
           Attendance
-          <span className="separator">&gt;</span>
+
+          <span className="separator">
+            &gt;
+          </span>
+
           Sheet
+
         </div>
+
       </div>
 
       {/* ================= ATTENDANCE CARD ================= */}
 
       <div className="attendance-card">
-        <h2 className="card-inner-title">Attendance Sheet</h2>
+
+        <h2 className="card-inner-title">
+          Attendance Sheet
+        </h2>
 
         {/* ================= FILTER ================= */}
 
         <div className="controls-row">
+
           <div className="fieldset-input-group">
-            <label className="fieldset-label">Select Year*</label>
+
+            <label className="fieldset-label">
+              Select Year*
+            </label>
 
             <select
               value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
+              onChange={(e) =>
+                setSelectedYear(
+                  e.target.value
+                )
+              }
               className="custom-select"
             >
-              <option value="2024">2024</option>
 
-              <option value="2025">2025</option>
+              <option value="2024">
+                2024
+              </option>
 
-              <option value="2026">2026</option>
+              <option value="2025">
+                2025
+              </option>
+
+              <option value="2026">
+                2026
+              </option>
+
             </select>
+
           </div>
 
           <div className="fieldset-input-group">
-            <label className="fieldset-label">Select Month*</label>
+
+            <label className="fieldset-label">
+              Select Month*
+            </label>
 
             <select
               value={selectedMonth}
-              onChange={(e) => setSelectedMonth(e.target.value)}
+              onChange={(e) =>
+                setSelectedMonth(
+                  e.target.value
+                )
+              }
               className="custom-select"
             >
-              {MONTHS.map((month) => (
-                <option key={month} value={month}>
-                  {month}
-                </option>
-              ))}
+
+              {MONTHS.map(
+                (month) => (
+                  <option
+                    key={month}
+                    value={month}
+                  >
+                    {month}
+                  </option>
+                )
+              )}
+
             </select>
+
           </div>
 
-          <button className="search-btn" onClick={handleSearch}>
+          <button
+            className="search-btn"
+            onClick={handleSearch}
+          >
             Search
           </button>
+
         </div>
 
         <hr className="divider-line" />
@@ -435,297 +1027,802 @@ const AttendanceSheet = () => {
         {/* ================= FILTER INFO + LEGENDS ================= */}
 
         <div className="meta-legend-row">
+
           <div className="filter-badge-text">
-            Filtered by: Year: {searchFilter.year} | Month: {searchFilter.month}
+            Filtered by: Year:{" "}
+            {searchFilter.year} |
+            Month:{" "}
+            {searchFilter.month}
           </div>
 
           <div className="legends-wrapper">
+
             <div className="legend-item">
-              <span className="legend-icon status-weekend">⊖</span>
-              Weekend
+
+              <span className="legend-icon status-weekend">
+                S
+              </span>
+
+              Sunday
+
             </div>
 
             <div className="legend-item">
-              <span className="legend-icon status-present">✓</span>
+
+              <span className="legend-icon status-present">
+                P
+              </span>
+
               Present
+
             </div>
 
             <div className="legend-item">
-              <span className="legend-icon status-leave">✕</span>
+
+              <span className="legend-icon status-absent">
+                A
+              </span>
+
+              Absent
+
+            </div>
+
+            <div className="legend-item">
+
+              <span className="legend-icon status-halfday">
+                H
+              </span>
+
+              Half-day
+
+            </div>
+
+            <div className="legend-item">
+
+              <span className="legend-icon status-leave">
+                L
+              </span>
+
               Leave
+
             </div>
 
             <div className="legend-item">
-              <span className="legend-icon status-holiday">★</span>
+
+              <span className="legend-icon status-holiday">
+                ★
+              </span>
+
               Holiday
+
             </div>
+
           </div>
+
         </div>
 
         {/* ================= ATTENDANCE TABLE ================= */}
 
         <div className="table-scroll-axis-container">
+
           <div className="table-vertical-wrapper">
+
             <table className="attendance-grid-table">
+
               <thead>
+
                 <tr>
+
                   <th className="sticky-employee-col header-cell">
                     Employee Name
                   </th>
 
-                  {daysArray.map((day) => (
-                    <th key={day} className="day-header-cell">
-                      {day}
-                    </th>
-                  ))}
+                  {daysArray.map(
+                    (day) => (
+                      <th
+                        key={day}
+                        className="day-header-cell"
+                        title={
+                          isSunday(day)
+                            ? "Sunday"
+                            : holidayMap[day]
+                            ? `Holiday: ${
+                                holidayMap[day]
+                                  .name || "Holiday"
+                              }`
+                            : ""
+                        }
+                      >
+                        {day}
+                      </th>
+                    )
+                  )}
+
                 </tr>
+
               </thead>
 
               <tbody>
-                {loading ? (
+
+                {loading ||
+                holidayLoading ? (
+
                   <tr>
-                    <td colSpan={totalDays + 1} className="body-cell">
+
+                    <td
+                      colSpan={
+                        totalDays + 1
+                      }
+                      className="body-cell"
+                    >
                       Loading attendance...
                     </td>
+
                   </tr>
-                ) : employees.length === 0 ? (
+
+                ) : employees.length ===
+                  0 ? (
+
                   <tr>
-                    <td colSpan={totalDays + 1} className="body-cell">
+
+                    <td
+                      colSpan={
+                        totalDays + 1
+                      }
+                      className="body-cell"
+                    >
                       No attendance records found
                     </td>
+
                   </tr>
+
                 ) : (
-                  employees.map((employee) => (
-                    <tr key={employee.id}>
-                      {/* ================= EMPLOYEE ================= */}
 
-                      <td className="sticky-employee-col body-cell">
-                        <div className="employee-info-box">
-                          <img
-                            src={getTeacherImage(
-                              employee.avatar,
-                              employee.name,
-                            )}
-                            alt={employee.name}
-                            className="employee-avatar"
-                          />
+                  employees.map(
+                    (employee) => (
 
-                          <span className="employee-name-txt">
-                            {employee.name}
-                          </span>
-                        </div>
-                      </td>
+                      <tr
+                        key={
+                          employee.id
+                        }
+                      >
 
-                      {/* ================= DAYS ================= */}
+                        {/* ================= EMPLOYEE ================= */}
 
-                      {daysArray.map((day) => {
-                        const record = employee.attendance[day];
+                        <td className="sticky-employee-col body-cell">
 
-                        const status = record?.status || "";
+                          <div className="employee-info-box">
 
-                        const iconConfig = STATUS_ICONS[status] || {
-                          char: "",
-                          className: "",
-                        };
+                            <img
+                              src={getTeacherImage(
+                                employee.avatar,
+                                employee.name
+                              )}
+                              alt={
+                                employee.name
+                              }
+                              className="employee-avatar"
+                              onError={(
+                                e
+                              ) => {
+                                e.currentTarget.onerror =
+                                  null;
 
-                        return (
-                          <td
-                            key={day}
-                            className="status-data-cell"
-                            /* ===============================
-                                 CLICK ATTENDANCE
-                              =============================== */
+                                e.currentTarget.src =
+                                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                    employee.name ||
+                                      "Teacher"
+                                  )}&background=random`;
+                              }}
+                            />
 
-                            onClick={() => handleAttendanceClick(employee, day)}
-                            title={
-                              status
-                                ? `Click to modify ${status}`
-                                : "Click to add attendance"
-                            }
-                            style={{
-                              cursor: "pointer",
-                            }}
-                          >
-                            <span
-                              className={`status-indicator-icon ${iconConfig.className}`}
-                            >
-                              {iconConfig.char}
+                            <span className="employee-name-txt">
+                              {
+                                employee.name
+                              }
                             </span>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))
+
+                          </div>
+
+                        </td>
+
+                        {/* ================= DAYS ================= */}
+
+                        {daysArray.map(
+                          (day) => {
+
+                            const record =
+                              employee
+                                .attendance[
+                                day
+                              ];
+
+                            const holiday =
+                              holidayMap[
+                                day
+                              ];
+
+                            const sunday =
+                              isSunday(day);
+
+                            let status =
+                              record?.status ||
+                              "";
+
+                            let iconConfig =
+                              STATUS_ICONS[
+                                status
+                              ] || {
+                                char: "",
+                                className:
+                                  "",
+                              };
+
+                            /* ===================================
+                               HOLIDAY DISPLAY
+                            =================================== */
+
+                            if (
+                              holiday &&
+                              !record
+                            ) {
+                              status =
+                                "holiday";
+
+                              iconConfig =
+                                STATUS_ICONS.holiday;
+                            }
+
+                            /* ===================================
+                               SUNDAY DISPLAY
+                               Holiday has priority over Sunday.
+                               Attendance record has priority too.
+                            =================================== */
+
+                            else if (
+                              sunday &&
+                              !record &&
+                              !holiday
+                            ) {
+                              status =
+                                "weekend";
+
+                              iconConfig =
+                                STATUS_ICONS.weekend;
+                            }
+
+                            /* ===================================
+                               CELL
+                            =================================== */
+
+                            return (
+                              <td
+                                key={day}
+                                className="status-data-cell"
+                                onClick={() =>
+                                  handleAttendanceClick(
+                                    employee,
+                                    day
+                                  )
+                                }
+                                title={
+                                  holiday &&
+                                  !record
+                                    ? `Holiday: ${
+                                        holiday.name ||
+                                        "Holiday"
+                                      } - Click to modify`
+                                    : sunday &&
+                                      !record
+                                    ? "Sunday - Click to modify"
+                                    : status
+                                    ? `Click to modify ${status}`
+                                    : "Click to add attendance"
+                                }
+                                style={{
+                                  cursor:
+                                    "pointer",
+                                }}
+                              >
+
+                                <span
+                                  className={`status-indicator-icon ${iconConfig.className}`}
+                                >
+                                  {
+                                    iconConfig.char
+                                  }
+                                </span>
+
+                              </td>
+                            );
+                          }
+                        )}
+
+                      </tr>
+
+                    )
+                  )
+
                 )}
+
               </tbody>
+
             </table>
+
           </div>
+
         </div>
+
       </div>
 
       {/* =========================================================
-        MANUAL ADJUSTMENT POPUP
-    ========================================================= */}
+          MANUAL ADJUSTMENT POPUP
+      ========================================================= */}
 
-      {isAdjustmentOpen && selectedAttendance && (
-        <div
-          className="manual-adjustment-overlay"
-          onMouseDown={closeAdjustmentModal}
-        >
+      {isAdjustmentOpen &&
+        selectedAttendance && (
+
           <div
-            className="manual-adjustment-modal"
-            onMouseDown={(e) => e.stopPropagation()}
+            className="manual-adjustment-overlay"
+            onMouseDown={
+              closeAdjustmentModal
+            }
           >
-            {/* ================= HEADER ================= */}
 
-            <div className="manual-adjustment-header">
-              <h2>Manual Adjustment</h2>
+            <div
+              className="manual-adjustment-modal"
+              onMouseDown={(e) =>
+                e.stopPropagation()
+              }
+            >
 
-              <button
-                type="button"
-                className="manual-close-btn"
-                onClick={closeAdjustmentModal}
-              >
-                ×
-              </button>
-            </div>
+              {/* ================= HEADER ================= */}
 
-            {/* ================= EMPLOYEE INFO ================= */}
+              <div className="manual-adjustment-header">
 
-            <div className="manual-employee-info">
-              <div>
-                <strong>Employee:</strong> {selectedAttendance.employeeName}
-              </div>
+                <h2>
+                  Manual Adjustment
+                </h2>
 
-              <div>
-                <strong>Date:</strong> {selectedAttendance.date}
-              </div>
-            </div>
-
-            {/* ================= STATUS ================= */}
-
-            <div className="manual-status-grid">
-              {/* PRESENT */}
-
-              <button
-                type="button"
-                className={`manual-status-option status-present-option ${
-                  adjustmentForm.status === "Present" ? "selected" : ""
-                }`}
-                onClick={() => handleStatusSelect("Present")}
-              >
-                <span>✓</span>
-                Present
-              </button>
-
-              {/* ABSENT */}
-
-              <button
-                type="button"
-                className={`manual-status-option status-absent-option ${
-                  adjustmentForm.status === "Absent" ? "selected" : ""
-                }`}
-                onClick={() => handleStatusSelect("Absent")}
-              >
-                <span>×</span>
-                Absent
-              </button>
-
-              {/* HALF DAY */}
-
-              <button
-                type="button"
-                className={`manual-status-option status-half-option ${
-                  adjustmentForm.status === "Half Day" ? "selected" : ""
-                }`}
-                onClick={() => handleStatusSelect("Half Day")}
-              >
-                <span>⊖</span>
-                Half Day
-              </button>
-
-              {/* LATE */}
-
-              <button
-                type="button"
-                className={`manual-status-option status-late-option ${
-                  adjustmentForm.status === "Late" ? "selected" : ""
-                }`}
-                onClick={() => handleStatusSelect("Late")}
-              >
-                <span>!</span>
-                Late
-              </button>
-
-              {/* LEAVE */}
-
-              <button
-                type="button"
-                className={`manual-status-option status-leave-option ${
-                  adjustmentForm.status === "Leave" ? "selected" : ""
-                }`}
-                onClick={() => handleStatusSelect("Leave")}
-              >
-                <span>L</span>
-                Leave
-              </button>
-            </div>
-
-            {/* ================= PUNCH TIMES ================= */}
-
-            <div className="manual-time-row">
-              {/* PUNCH IN */}
-
-              <div className="manual-time-group">
-                <label>Punch In</label>
-
-                <input
-                  type="time"
-                  value={adjustmentForm.punchIn}
-                  onChange={(e) =>
-                    setAdjustmentForm((prev) => ({
-                      ...prev,
-
-                      punchIn: e.target.value,
-                    }))
+                <button
+                  type="button"
+                  className="manual-close-btn"
+                  onClick={
+                    closeAdjustmentModal
                   }
-                />
+                >
+                  ×
+                </button>
+
               </div>
 
-              {/* PUNCH OUT */}
+              {/* ================= EMPLOYEE INFO ================= */}
 
-              <div className="manual-time-group">
-                <label>Punch Out</label>
+              <div className="manual-employee-info">
 
-                <input
-                  type="time"
-                  value={adjustmentForm.punchOut}
-                  onChange={(e) =>
-                    setAdjustmentForm((prev) => ({
-                      ...prev,
+                <div>
 
-                      punchOut: e.target.value,
-                    }))
+                  <strong>
+                    Employee:
+                  </strong>{" "}
+
+                  {
+                    selectedAttendance.employeeName
                   }
-                />
+
+                </div>
+
+                <div>
+
+                  <strong>
+                    Date:
+                  </strong>{" "}
+
+                  {
+                    selectedAttendance.date
+                  }
+
+                </div>
+
               </div>
+
+              {/* ================= STATUS ================= */}
+
+              <div className="manual-status-grid">
+
+                {/* PRESENT */}
+
+                <button
+                  type="button"
+                  className={`manual-status-option status-present-option ${
+                    adjustmentForm.status ===
+                    "Present"
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusSelect(
+                      "Present"
+                    )
+                  }
+                >
+
+                  <span>
+                    P
+                  </span>
+
+                  Present
+
+                </button>
+
+                {/* ABSENT */}
+
+                <button
+                  type="button"
+                  className={`manual-status-option status-absent-option ${
+                    adjustmentForm.status ===
+                    "Absent"
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusSelect(
+                      "Absent"
+                    )
+                  }
+                >
+
+                  <span>
+                    A
+                  </span>
+
+                  Absent
+
+                </button>
+
+                {/* HALF DAY */}
+
+                <button
+                  type="button"
+                  className={`manual-status-option status-half-option ${
+                    adjustmentForm.status ===
+                    "Half Day"
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusSelect(
+                      "Half Day"
+                    )
+                  }
+                >
+
+                  <span>
+                    H
+                  </span>
+
+                  Half Day
+
+                </button>
+
+                {/* LATE */}
+
+                <button
+                  type="button"
+                  className={`manual-status-option status-late-option ${
+                    adjustmentForm.status ===
+                    "Late"
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusSelect(
+                      "Late"
+                    )
+                  }
+                >
+
+                  <span>
+                    P
+                  </span>
+
+                  Late
+
+                </button>
+
+                {/* LEAVE */}
+
+                <button
+                  type="button"
+                  className={`manual-status-option status-leave-option ${
+                    adjustmentForm.status ===
+                    "Leave"
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusSelect(
+                      "Leave"
+                    )
+                  }
+                >
+
+                  <span>
+                    L
+                  </span>
+
+                  Leave
+
+                </button>
+
+                {/* HOLIDAY */}
+
+                <button
+                  type="button"
+                  className={`manual-status-option status-half-option ${
+                    adjustmentForm.status ===
+                    "Holiday"
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handleStatusSelect(
+                      "Holiday"
+                    )
+                  }
+                >
+
+                  <span>
+                    ★
+                  </span>
+
+                  Holiday
+
+                </button>
+
+              </div>
+
+              {/* =================================================
+                  HOLIDAY FIELDS
+              ================================================= */}
+
+              {adjustmentForm.status ===
+                "Holiday" && (
+
+                <>
+
+                  <div className="manual-time-row">
+
+                    <div className="manual-time-group">
+
+                      <label>
+                        Holiday Name
+                      </label>
+
+                      <input
+                        type="text"
+                        value={
+                          adjustmentForm.holidayName
+                        }
+                        onChange={(e) =>
+                          setAdjustmentForm(
+                            (prev) => ({
+                              ...prev,
+
+                              holidayName:
+                                e.target
+                                  .value,
+                            })
+                          )
+                        }
+                        placeholder="Enter holiday name"
+                      />
+
+                    </div>
+
+                    <div className="manual-time-group">
+
+                      <label>
+                        Holiday Type
+                      </label>
+
+                      <select
+                        value={
+                          adjustmentForm.holidayType
+                        }
+                        onChange={(e) =>
+                          setAdjustmentForm(
+                            (prev) => ({
+                              ...prev,
+
+                              holidayType:
+                                e.target
+                                  .value,
+                            })
+                          )
+                        }
+                      >
+
+                        <option value="Public Holiday">
+                          Public Holiday
+                        </option>
+
+                        <option value="School Holiday">
+                          School Holiday
+                        </option>
+
+                        <option value="Festival">
+                          Festival
+                        </option>
+
+                        <option value="Other">
+                          Other
+                        </option>
+
+                      </select>
+
+                    </div>
+
+                  </div>
+
+                  <div className="manual-time-row">
+
+                    <div className="manual-time-group">
+
+                      <label>
+                        Description
+                      </label>
+
+                      <input
+                        type="text"
+                        value={
+                          adjustmentForm.holidayDescription
+                        }
+                        onChange={(e) =>
+                          setAdjustmentForm(
+                            (prev) => ({
+                              ...prev,
+
+                              holidayDescription:
+                                e.target
+                                  .value,
+                            })
+                          )
+                        }
+                        placeholder="Holiday description"
+                      />
+
+                    </div>
+
+                    <div className="manual-time-group">
+
+                      <label>
+                        Paid Holiday
+                      </label>
+
+                      <input
+                        type="checkbox"
+                        checked={
+                          adjustmentForm.holidayIsPaid
+                        }
+                        onChange={(e) =>
+                          setAdjustmentForm(
+                            (prev) => ({
+                              ...prev,
+
+                              holidayIsPaid:
+                                e.target
+                                  .checked,
+                            })
+                          )
+                        }
+                      />
+
+                    </div>
+
+                  </div>
+
+                </>
+              )}
+
+              {/* =================================================
+                  PUNCH TIMES
+              ================================================= */}
+
+              {adjustmentForm.status !==
+                "Holiday" && (
+
+                <div className="manual-time-row">
+
+                  {/* PUNCH IN */}
+
+                  <div className="manual-time-group">
+
+                    <label>
+                      Punch In
+                    </label>
+
+                    <input
+                      type="time"
+                      value={
+                        adjustmentForm.punchIn
+                      }
+                      onChange={(e) =>
+                        setAdjustmentForm(
+                          (prev) => ({
+                            ...prev,
+
+                            punchIn:
+                              e.target
+                                .value,
+                          })
+                        )
+                      }
+                    />
+
+                  </div>
+
+                  {/* PUNCH OUT */}
+
+                  <div className="manual-time-group">
+
+                    <label>
+                      Punch Out
+                    </label>
+
+                    <input
+                      type="time"
+                      value={
+                        adjustmentForm.punchOut
+                      }
+                      onChange={(e) =>
+                        setAdjustmentForm(
+                          (prev) => ({
+                            ...prev,
+
+                            punchOut:
+                              e.target
+                                .value,
+                          })
+                        )
+                      }
+                    />
+
+                  </div>
+
+                </div>
+
+              )}
+
+              {/* ================= SAVE ================= */}
+
+              <div className="manual-save-wrapper">
+
+                <button
+                  type="button"
+                  className="manual-save-btn"
+                  disabled={
+                    savingAdjustment
+                  }
+                  onClick={
+                    handleSaveAdjustment
+                  }
+                >
+
+                  {savingAdjustment
+                    ? "Saving..."
+                    : "Save Changes"}
+
+                </button>
+
+              </div>
+
             </div>
 
-            {/* ================= SAVE ================= */}
-
-            <div className="manual-save-wrapper">
-              <button
-                type="button"
-                className="manual-save-btn"
-                disabled={savingAdjustment}
-                onClick={handleSaveAdjustment}
-              >
-                {savingAdjustment ? "Saving..." : "Save Changes"}
-              </button>
-            </div>
           </div>
-        </div>
-      )}
+
+        )}
+
     </div>
   );
 };
