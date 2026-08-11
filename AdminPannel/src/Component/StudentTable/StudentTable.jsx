@@ -18,47 +18,39 @@ const StudentTable = ({
     return `${IMAGE_URL}/${studentPhoto.replace(/^\/+/, "")}`;
   };
 
-  /* ============================================= */
-
+  /* =============================================
+     SINGLE SELECTION (No Limit)
+  ============================================= */
   const handleSelect = (student) => {
     if (isSelected(student._id)) {
       setSelectedStudents(
-        selectedStudents.filter((item) => item._id !== student._id),
+        selectedStudents.filter((item) => item._id !== student._id)
       );
-
       return;
     }
 
-    if (selectedStudents.length >= 9) {
-      alert("You can generate only 9 ID Cards at one time.");
-
-      return;
-    }
-
+    // Unlimited selection
     setSelectedStudents([...selectedStudents, student]);
   };
 
-  /* ============================================= */
+  /* =============================================
+     SELECT ALL (Selects every student in table)
+  ============================================= */
+  const handleSelectAll = () => {
+    if (selectedStudents.length === students.length) {
+      setSelectedStudents([]);
+      return;
+    }
 
- const handleSelectAll = () => {
-  if (selectedStudents.length === students.length) {
-    setSelectedStudents([]);
-    return;
-  }
-
-  if (students.length > 9) {
-    alert("Only first 9 students will be selected.");
-  }
-
-  setSelectedStudents(students.slice(0, 9));
-};
+    // Select all fetched students without 9-card cap
+    setSelectedStudents([...students]);
+  };
 
   return (
     <div className="StudentTable">
       <div className="StudentTable-header">
         <div>
           <h3>Student ID Card List</h3>
-
           <p>Total Students : {students.length}</p>
         </div>
 
@@ -68,7 +60,7 @@ const StudentTable = ({
           disabled={selectedStudents.length === 0}
         >
           <FaIdCard />
-          Generate ID Card
+          Generate ID Card ({selectedStudents.length})
         </button>
       </div>
 
@@ -86,23 +78,14 @@ const StudentTable = ({
                   onChange={handleSelectAll}
                 />
               </th>
-
               <th>Admission No</th>
-
               <th>Roll No</th>
-
               <th>Student Name</th>
-
               <th>Class</th>
-
               <th>Section</th>
-
               <th>Father Name</th>
-
               <th>Mother Name</th>
-
               <th>Phone</th>
-
               <th>Status</th>
             </tr>
           </thead>
@@ -120,7 +103,6 @@ const StudentTable = ({
                   </td>
 
                   <td>{student.admissionNo}</td>
-
                   <td>{student.rollNo}</td>
 
                   <td>
@@ -129,25 +111,22 @@ const StudentTable = ({
                         src={getStudentPhoto(student.studentPhoto)}
                         alt={student.studentName}
                       />
-
                       <span>{student.studentName}</span>
                     </div>
                   </td>
 
                   <td>{student.className}</td>
-
                   <td>{student.section}</td>
-
                   <td>{student.fatherName}</td>
-
                   <td>{student.motherName}</td>
-
                   <td>{student.phone}</td>
 
                   <td>
-                   <span className={`StudentTable-status ${student.status}`}>
-    {student.status}
-</span>
+                    <span
+                      className={`StudentTable-status ${student.status}`}
+                    >
+                      {student.status}
+                    </span>
                   </td>
                 </tr>
               ))
@@ -164,7 +143,8 @@ const StudentTable = ({
 
       <div className="StudentTable-footer">
         <div>
-          Selected Students :<strong> {selectedStudents.length}</strong> / 9
+          Selected Students :<strong> {selectedStudents.length}</strong> /{" "}
+          {students.length}
         </div>
       </div>
     </div>

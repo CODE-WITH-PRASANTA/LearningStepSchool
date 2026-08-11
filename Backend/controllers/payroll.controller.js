@@ -31,23 +31,9 @@ const getAttendanceMonth = (payrollMonth, payrollYear) => {
 };
 
 const getAttendanceSummary = async (teacherId, month, year) => {
-  const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
-
-  // Guard clause if teacherId is missing or invalid
-  if (!teacherId || !mongoose.Types.ObjectId.isValid(teacherId)) {
-    return {
-      totalDays,
-      present: 0,
-      leave: 0,
-      explicitAbsent: 0,
-      workingDays: 0,
-      absent: totalDays,
-      overtimeHours: 0,
-    };
-  }
-
   const start = new Date(Date.UTC(year, month - 1, 1));
   const end = new Date(Date.UTC(year, month, 0, 23, 59, 59, 999));
+  const totalDays = new Date(Date.UTC(year, month, 0)).getUTCDate();
 
   const records = await TeacherAttendance.find({
     teacherId,
@@ -63,29 +49,25 @@ const getAttendanceSummary = async (teacherId, month, year) => {
 
   const attendanceByDate = new Map();
   records.forEach((record) => {
-    if (record.date) {
-      attendanceByDate.set(getDateKey(record.date), record.status);
-    }
+    attendanceByDate.set(getDateKey(record.date), record.status);
   });
 
   const leaveDates = new Set();
   approvedLeaves.forEach((leaveRecord) => {
-    if (leaveRecord.fromDate && leaveRecord.toDate) {
-      let cursor = toUtcDay(leaveRecord.fromDate);
-      const leaveEnd = toUtcDay(leaveRecord.toDate);
+    let cursor = toUtcDay(leaveRecord.fromDate);
+    const leaveEnd = toUtcDay(leaveRecord.toDate);
 
-      if (cursor < start) cursor = new Date(start);
+    if (cursor < start) cursor = new Date(start);
 
-      while (cursor <= leaveEnd && cursor <= end) {
-        const key = getDateKey(cursor);
-        const attendanceStatus = attendanceByDate.get(key);
+    while (cursor <= leaveEnd && cursor <= end) {
+      const key = getDateKey(cursor);
+      const attendanceStatus = attendanceByDate.get(key);
 
-        if (!attendanceStatus || attendanceStatus === "Leave") {
-          leaveDates.add(key);
-        }
-
-        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      if (!attendanceStatus || attendanceStatus === "Leave") {
+        leaveDates.add(key);
       }
+
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
     }
   });
 
@@ -232,9 +214,10 @@ exports.createPayroll = async (req, res) => {
       });
     }
 
+    // Check duplicate yearly payroll
     const exists = await Payroll.findOne({
       teacherId,
-      year: Number(year),
+      year,
     });
 
     if (exists) {
@@ -257,7 +240,7 @@ exports.createPayroll = async (req, res) => {
       const payroll = await Payroll.create({
         teacherId,
         month,
-        year: Number(year),
+        year,
         totalDays: payrollWorkingDays,
         workingDays: 0,
         presentDays: 0,
@@ -378,18 +361,25 @@ exports.getPayrolls = async (req, res) => {
         },
       );
 
-      const item = payroll.toObject ? payroll.toObject() : { ...payroll };
+      // Convert mongoose document to object
+      const item = payroll.toObject();
 
       item.totalDays = salaryCalculation.payrollWorkingDays;
       item.workingDays = salaryCalculation.paidDays;
+
       item.presentDays = summary.present;
       item.leaveDays = summary.leave;
       item.absentDays = salaryCalculation.absentDays;
+
       item.overtimeAmount = salaryCalculation.overtimePay;
       item.overtimeHours = summary.overtimeHours;
+
       item.grossSalary = salaryCalculation.grossSalary;
+
       item.totalDeductions = salaryCalculation.deductions.total;
+
       item.totalSalary = salaryCalculation.netSalary;
+
       item.salaryBreakdown = salaryCalculation.breakdown;
 
       payrollData.push(item);
@@ -401,10 +391,8 @@ exports.getPayrolls = async (req, res) => {
       data: payrollData,
     });
   } catch (err) {
-    console.error("Error in getPayrolls:", err);
     res.status(500).json({
-      success: false,
-      message: err.message || "Internal server error fetching payrolls.",
+      message: err.message,
     });
   }
 };
@@ -434,17 +422,25 @@ exports.updatePayroll = async (req, res) => {
       });
     }
 
+    // Update editable fields
     if (baseSalary !== undefined) payroll.baseSalary = Number(baseSalary);
+
     if (payrollWorkingDays !== undefined)
       payroll.payrollWorkingDays = Number(payrollWorkingDays);
+
     if (deductionAmount !== undefined)
       payroll.deductionAmount = Number(deductionAmount);
+
     if (overtimeRate !== undefined) payroll.overtimeRate = Number(overtimeRate);
+
     if (allowance !== undefined) payroll.allowance = Number(allowance);
+
     if (otherDeduction !== undefined)
       payroll.otherDeduction = Number(otherDeduction);
+
     if (city !== undefined) payroll.city = city;
 
+    // Calculate attendance automatically
     const attendance = getAttendanceMonth(payroll.month, payroll.year);
 
     const summary = await getAttendanceSummary(
@@ -478,6 +474,7 @@ exports.updatePayroll = async (req, res) => {
     payroll.totalSalary = salaryCalculation.netSalary;
     payroll.salaryBreakdown = salaryCalculation.breakdown;
 
+    // Payment information
     if (status) payroll.status = status;
     if (paymentMode !== undefined) payroll.paymentMode = paymentMode;
     if (payDate !== undefined) payroll.payDate = payDate;
@@ -485,6 +482,7 @@ exports.updatePayroll = async (req, res) => {
 
     await payroll.save();
 
+    // Wallet Entry
     if (payroll.status === "Completed") {
       const wallet = await Wallet.findOne({
         referenceId: payroll._id,
@@ -533,7 +531,10 @@ exports.bulkPayPayrolls = async (req, res) => {
     });
 
     for (const payroll of payrolls) {
-      if (payroll.status === "Completed") continue;
+      // Ignore already completed payrolls
+      if (payroll.status === "Completed") {
+        continue;
+      }
 
       payroll.status = "Completed";
       payroll.paymentMode = paymentMode;
@@ -542,6 +543,7 @@ exports.bulkPayPayrolls = async (req, res) => {
 
       await payroll.save();
 
+      // Wallet Entry
       const wallet = await Wallet.findOne({
         referenceId: payroll._id,
         source: "payroll",
@@ -574,7 +576,7 @@ exports.bulkPayPayrolls = async (req, res) => {
   }
 };
 
-/* ================= REFRESH ATTENDANCE ================= */
+/* ================= REFRESH ATTENDANCE PAYROLL ================= */
 exports.refreshAttendancePayroll = async (req, res) => {
   try {
     const payrolls = await Payroll.find({

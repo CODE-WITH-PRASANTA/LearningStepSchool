@@ -23,7 +23,6 @@
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: linear-gradient(145deg, #eef2ff, #e0e7ff);
   transition: all 0.3s ease;
 }
 

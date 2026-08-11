@@ -317,6 +317,52 @@ border-radius:20px;
 
 }
 
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm; /* Controls standard page margins */
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .id-print-area,
+  .id-print-area * {
+    visibility: visible;
+  }
+
+  .id-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 3x3 Grid (9 Cards Per Page) */
+  .id-card-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* 3 cards horizontally */
+    gap: 8mm 6mm !important; /* Spacing between cards */
+    justify-items: center;
+    align-items: start;
+  }
+
+  /* Prevent individual cards from breaking in half across pages */
+  .exact-ref-card {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+}
+
 /* ==========================================================
    RESPONSIVE
 ========================================================== */
@@ -414,3 +460,4 @@ font-size:14px;
 }
 
 }
+
