@@ -1,5 +1,5 @@
 const Fuel = require("../models/Fuel");
-
+const Wallet = require("../models/walletTransaction.model");
 
 // =====================================================
 // CREATE FUEL ENTRY
@@ -16,6 +16,10 @@ const createFuel = async (req, res) => {
       rate,
       volume,
     } = req.body;
+
+    // =================================================
+    // VALIDATION
+    // =================================================
 
     if (!employeeName) {
       return res.status(400).json({
@@ -45,43 +49,146 @@ const createFuel = async (req, res) => {
       });
     }
 
-    const existingInvoice = await Fuel.findOne({
-      invoiceNo: invoiceNo.trim().toUpperCase(),
-    });
+    // =================================================
+    // DUPLICATE INVOICE
+    // =================================================
+
+    const normalizedInvoice =
+      invoiceNo.trim().toUpperCase();
+
+    const existingInvoice =
+      await Fuel.findOne({
+        invoiceNo: normalizedInvoice,
+      });
 
     if (existingInvoice) {
       return res.status(409).json({
         success: false,
-        message: "Invoice number already exists",
+        message:
+          "Invoice number already exists",
       });
     }
+
+    // =================================================
+    // CALCULATE VALUES
+    // =================================================
+
+    const numericKm =
+      Number(km) || 0;
+
+    const numericRate =
+      Number(rate) || 0;
+
+    const numericVolume =
+      Number(volume) || 0;
+
+    const amount = Number(
+      (
+        numericRate *
+        numericVolume
+      ).toFixed(2)
+    );
+
+    // =================================================
+    // CREATE FUEL
+    // =================================================
 
     const fuel = await Fuel.create({
       employeeName,
       pumpName,
       date,
-      invoiceNo,
-      km: Number(km) || 0,
-      rate: Number(rate) || 0,
-      volume: Number(volume) || 0,
+      invoiceNo:
+        normalizedInvoice,
+
+      km: numericKm,
+
+      rate: numericRate,
+
+      volume: numericVolume,
+
+      amount,
     });
 
-    res.status(201).json({
+    // =================================================
+    // CREATE WALLET DEBIT
+    // =================================================
+
+    let walletTransaction = null;
+
+    try {
+      walletTransaction =
+        await Wallet.create({
+          type: "debit",
+
+          amount,
+
+          source: "fuel",
+
+          referenceId:
+            fuel._id,
+
+          description:
+            `Fuel expense - Invoice ${normalizedInvoice}`,
+
+          createdBy:
+            req.user?.name ||
+            req.body.createdBy ||
+            "Admin",
+        });
+    } catch (walletError) {
+      console.error(
+        "Wallet transaction error:",
+        walletError
+      );
+
+      // -----------------------------------------------
+      // IMPORTANT
+      // If wallet creation fails, remove fuel entry
+      // -----------------------------------------------
+
+      await Fuel.findByIdAndDelete(
+        fuel._id
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Fuel created but wallet transaction failed. Operation rolled back.",
+        error:
+          walletError.message,
+      });
+    }
+
+    // =================================================
+    // RESPONSE
+    // =================================================
+
+    return res.status(201).json({
       success: true,
-      message: "Fuel entry created successfully",
-      data: fuel,
-    });
-  } catch (error) {
-    console.error("Create fuel error:", error);
 
-    res.status(500).json({
+      message:
+        "Fuel entry created and wallet debited successfully",
+
+      data: fuel,
+
+      walletTransaction,
+    });
+
+  } catch (error) {
+    console.error(
+      "Create fuel error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "Failed to create fuel entry",
-      error: error.message,
+      message:
+        "Failed to create fuel entry",
+      error:
+        error.message,
     });
   }
 };
-
 
 // =====================================================
 // GET ALL FUEL ENTRIES
@@ -95,31 +202,45 @@ const getAllFuel = async (req, res) => {
       limit = 10,
     } = req.query;
 
-    const pageNumber = Math.max(Number(page), 1);
-    const limitNumber = Math.max(Number(limit), 1);
+    const pageNumber =
+      Math.max(Number(page), 1);
 
-    const skip = (pageNumber - 1) * limitNumber;
+    const limitNumber =
+      Math.max(Number(limit), 1);
+
+    const skip =
+      (pageNumber - 1) *
+      limitNumber;
 
     let query = {};
+
+    // =================================================
+    // SEARCH
+    // =================================================
 
     if (search.trim()) {
       query = {
         $or: [
           {
             employeeName: {
-              $regex: search.trim(),
+              $regex:
+                search.trim(),
               $options: "i",
             },
           },
+
           {
             pumpName: {
-              $regex: search.trim(),
+              $regex:
+                search.trim(),
               $options: "i",
             },
           },
+
           {
             invoiceNo: {
-              $regex: search.trim(),
+              $regex:
+                search.trim(),
               $options: "i",
             },
           },
@@ -127,73 +248,118 @@ const getAllFuel = async (req, res) => {
       };
     }
 
-    const total = await Fuel.countDocuments(query);
+    // =================================================
+    // TOTAL
+    // =================================================
 
-    const fuels = await Fuel.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limitNumber);
+    const total =
+      await Fuel.countDocuments(
+        query
+      );
 
-    res.status(200).json({
+    // =================================================
+    // DATA
+    // =================================================
+
+    const fuels =
+      await Fuel.find(query)
+        .sort({
+          createdAt: -1,
+        })
+        .skip(skip)
+        .limit(limitNumber);
+
+    // =================================================
+    // RESPONSE
+    // =================================================
+
+    return res.status(200).json({
       success: true,
 
       data: fuels,
 
       pagination: {
         total,
+
         page: pageNumber,
+
         limit: limitNumber,
-        totalPages: Math.ceil(total / limitNumber),
+
+        totalPages:
+          Math.ceil(
+            total /
+              limitNumber
+          ),
       },
     });
-  } catch (error) {
-    console.error("Get fuel error:", error);
 
-    res.status(500).json({
+  } catch (error) {
+    console.error(
+      "Get fuel error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "Failed to fetch fuel entries",
-      error: error.message,
+      message:
+        "Failed to fetch fuel entries",
+      error:
+        error.message,
     });
   }
 };
 
-
 // =====================================================
-// GET SINGLE FUEL ENTRY
+// GET SINGLE FUEL
 // =====================================================
 
-const getFuelById = async (req, res) => {
+const getFuelById = async (
+  req,
+  res
+) => {
   try {
-    const fuel = await Fuel.findById(req.params.id);
+    const fuel =
+      await Fuel.findById(
+        req.params.id
+      );
 
     if (!fuel) {
       return res.status(404).json({
         success: false,
-        message: "Fuel entry not found",
+        message:
+          "Fuel entry not found",
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: fuel,
     });
-  } catch (error) {
-    console.error("Get fuel by ID error:", error);
 
-    res.status(500).json({
+  } catch (error) {
+    console.error(
+      "Get fuel by ID error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "Failed to fetch fuel entry",
-      error: error.message,
+      message:
+        "Failed to fetch fuel entry",
+      error:
+        error.message,
     });
   }
 };
-
 
 // =====================================================
 // UPDATE FUEL ENTRY
 // =====================================================
 
-const updateFuel = async (req, res) => {
+const updateFuel = async (
+  req,
+  res
+) => {
   try {
     const {
       employeeName,
@@ -205,187 +371,354 @@ const updateFuel = async (req, res) => {
       volume,
     } = req.body;
 
-    const fuel = await Fuel.findById(req.params.id);
+    const fuel =
+      await Fuel.findById(
+        req.params.id
+      );
 
     if (!fuel) {
       return res.status(404).json({
         success: false,
-        message: "Fuel entry not found",
+        message:
+          "Fuel entry not found",
       });
     }
 
+    // =================================================
+    // NORMALIZE INVOICE
+    // =================================================
 
-    // Check duplicate invoice
+    const normalizedInvoice =
+      invoiceNo
+        ? invoiceNo
+            .trim()
+            .toUpperCase()
+        : fuel.invoiceNo;
+
+    // =================================================
+    // DUPLICATE INVOICE
+    // =================================================
+
     if (
-      invoiceNo &&
-      invoiceNo.trim().toUpperCase() !== fuel.invoiceNo
+      normalizedInvoice !==
+      fuel.invoiceNo
     ) {
-      const duplicate = await Fuel.findOne({
-        invoiceNo: invoiceNo.trim().toUpperCase(),
-        _id: {
-          $ne: req.params.id,
-        },
-      });
+      const duplicate =
+        await Fuel.findOne({
+          invoiceNo:
+            normalizedInvoice,
+
+          _id: {
+            $ne:
+              req.params.id,
+          },
+        });
 
       if (duplicate) {
         return res.status(409).json({
           success: false,
-          message: "Invoice number already exists",
+          message:
+            "Invoice number already exists",
         });
       }
     }
 
+    // =================================================
+    // OLD AMOUNT
+    // =================================================
+
+    const oldAmount =
+      Number(
+        fuel.amount || 0
+      );
+
+    // =================================================
+    // UPDATE VALUES
+    // =================================================
 
     fuel.employeeName =
-      employeeName ?? fuel.employeeName;
+      employeeName ??
+      fuel.employeeName;
 
     fuel.pumpName =
-      pumpName ?? fuel.pumpName;
+      pumpName ??
+      fuel.pumpName;
 
     fuel.date =
-      date ?? fuel.date;
+      date ??
+      fuel.date;
 
     fuel.invoiceNo =
-      invoiceNo ?? fuel.invoiceNo;
+      normalizedInvoice;
 
     fuel.km =
-      km !== undefined ? Number(km) : fuel.km;
+      km !== undefined
+        ? Number(km) || 0
+        : fuel.km;
 
     fuel.rate =
-      rate !== undefined ? Number(rate) : fuel.rate;
+      rate !== undefined
+        ? Number(rate) || 0
+        : fuel.rate;
 
     fuel.volume =
-      volume !== undefined ? Number(volume) : fuel.volume;
+      volume !== undefined
+        ? Number(volume) || 0
+        : fuel.volume;
 
+    // =================================================
+    // NEW AMOUNT
+    // =================================================
 
-    // amount automatically calculated
-    fuel.amount = Number(
-      (
-        Number(fuel.rate || 0) *
-        Number(fuel.volume || 0)
-      ).toFixed(2)
-    );
+    const newAmount =
+      Number(
+        (
+          Number(
+            fuel.rate || 0
+          ) *
+          Number(
+            fuel.volume || 0
+          )
+        ).toFixed(2)
+      );
 
+    fuel.amount =
+      newAmount;
+
+    // =================================================
+    // SAVE FUEL
+    // =================================================
 
     await fuel.save();
 
+    // =================================================
+    // UPDATE WALLET
+    // =================================================
 
-    res.status(200).json({
+    const walletTransaction =
+      await Wallet.findOne({
+        source: "fuel",
+
+        referenceId:
+          fuel._id,
+      });
+
+    if (walletTransaction) {
+      walletTransaction.amount =
+        newAmount;
+
+      walletTransaction.description =
+        `Fuel expense - Invoice ${normalizedInvoice}`;
+
+      await walletTransaction.save();
+    } else {
+      // -----------------------------------------------
+      // If old fuel has no wallet transaction,
+      // create one
+      // -----------------------------------------------
+
+      await Wallet.create({
+        type: "debit",
+
+        amount: newAmount,
+
+        source: "fuel",
+
+        referenceId:
+          fuel._id,
+
+        description:
+          `Fuel expense - Invoice ${normalizedInvoice}`,
+
+        createdBy:
+          req.user?.name ||
+          req.body.createdBy ||
+          "Admin",
+      });
+    }
+
+    // =================================================
+    // RESPONSE
+    // =================================================
+
+    return res.status(200).json({
       success: true,
-      message: "Fuel entry updated successfully",
-      data: fuel,
-    });
-  } catch (error) {
-    console.error("Update fuel error:", error);
 
-    res.status(500).json({
+      message:
+        "Fuel entry and wallet transaction updated successfully",
+
+      data: fuel,
+
+      oldAmount,
+
+      newAmount,
+    });
+
+  } catch (error) {
+    console.error(
+      "Update fuel error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "Failed to update fuel entry",
-      error: error.message,
+      message:
+        "Failed to update fuel entry",
+      error:
+        error.message,
     });
   }
 };
 
-
 // =====================================================
-// DELETE FUEL ENTRY
+// DELETE FUEL
 // =====================================================
 
-const deleteFuel = async (req, res) => {
+const deleteFuel = async (
+  req,
+  res
+) => {
   try {
-    const fuel = await Fuel.findById(req.params.id);
+    const fuel =
+      await Fuel.findById(
+        req.params.id
+      );
 
     if (!fuel) {
       return res.status(404).json({
         success: false,
-        message: "Fuel entry not found",
+        message:
+          "Fuel entry not found",
       });
     }
 
-    await Fuel.findByIdAndDelete(req.params.id);
+    // =================================================
+    // DELETE WALLET TRANSACTION
+    // =================================================
 
-    res.status(200).json({
-      success: true,
-      message: "Fuel entry deleted successfully",
+    await Wallet.deleteOne({
+      source: "fuel",
+
+      referenceId:
+        fuel._id,
     });
-  } catch (error) {
-    console.error("Delete fuel error:", error);
 
-    res.status(500).json({
+    // =================================================
+    // DELETE FUEL
+    // =================================================
+
+    await Fuel.findByIdAndDelete(
+      req.params.id
+    );
+
+    return res.status(200).json({
+      success: true,
+
+      message:
+        "Fuel entry and wallet transaction deleted successfully",
+    });
+
+  } catch (error) {
+    console.error(
+      "Delete fuel error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "Failed to delete fuel entry",
-      error: error.message,
+      message:
+        "Failed to delete fuel entry",
+      error:
+        error.message,
     });
   }
 };
-
 
 // =====================================================
 // FUEL SUMMARY
 // =====================================================
 
-const getFuelSummary = async (req, res) => {
+const getFuelSummary = async (
+  req,
+  res
+) => {
   try {
-    const summary = await Fuel.aggregate([
-      {
-        $group: {
-          _id: null,
+    const summary =
+      await Fuel.aggregate([
+        {
+          $group: {
+            _id: null,
 
-          totalEntries: {
-            $sum: 1,
-          },
+            totalEntries: {
+              $sum: 1,
+            },
 
-          totalVolume: {
-            $sum: "$volume",
-          },
+            totalVolume: {
+              $sum: "$volume",
+            },
 
-          totalAmount: {
-            $sum: "$amount",
-          },
+            totalAmount: {
+              $sum: "$amount",
+            },
 
-          totalKM: {
-            $sum: "$km",
+            totalKM: {
+              $sum: "$km",
+            },
           },
         },
-      },
-    ]);
+      ]);
 
+    const data =
+      summary[0] || {
+        totalEntries: 0,
+        totalVolume: 0,
+        totalAmount: 0,
+        totalKM: 0,
+      };
 
-    const data = summary[0] || {
-      totalEntries: 0,
-      totalVolume: 0,
-      totalAmount: 0,
-      totalKM: 0,
-    };
-
-
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
 
       data: {
-        totalEntries: data.totalEntries,
+        totalEntries:
+          data.totalEntries,
 
         totalVolume:
-          Number(data.totalVolume || 0).toFixed(2),
+          Number(
+            data.totalVolume || 0
+          ).toFixed(2),
 
         totalAmount:
-          Number(data.totalAmount || 0).toFixed(2),
+          Number(
+            data.totalAmount || 0
+          ).toFixed(2),
 
         totalKM:
-          Number(data.totalKM || 0).toFixed(2),
+          Number(
+            data.totalKM || 0
+          ).toFixed(2),
       },
     });
-  } catch (error) {
-    console.error("Fuel summary error:", error);
 
-    res.status(500).json({
+  } catch (error) {
+    console.error(
+      "Fuel summary error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "Failed to get fuel summary",
-      error: error.message,
+      message:
+        "Failed to get fuel summary",
+      error:
+        error.message,
     });
   }
 };
 
+// =====================================================
+// EXPORTS
+// =====================================================
 
 module.exports = {
   createFuel,

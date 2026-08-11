@@ -15,10 +15,7 @@ const walletTransactionSchema = new mongoose.Schema(
     type: {
       type: String,
 
-      enum: [
-        "credit",
-        "debit",
-      ],
+      enum: ["credit", "debit"],
 
       required: true,
 
@@ -44,18 +41,10 @@ const walletTransactionSchema = new mongoose.Schema(
     source: {
       type: String,
 
-      enum: [
-        "fee",
-        "expense",
-        "payroll",
-        "otherIncome",
-      ],
+      enum: ["fee", "expense", "payroll", "fuel", "otherIncome"],
 
       required: true,
-
-      index: true,
     },
-
     /* =====================================================
        REFERENCE ID
 
@@ -102,9 +91,8 @@ const walletTransactionSchema = new mongoose.Schema(
 
   {
     timestamps: true,
-  }
+  },
 );
-
 
 /* =========================================================
    INDEXES
@@ -118,7 +106,6 @@ walletTransactionSchema.index({
   createdAt: -1,
 });
 
-
 /*
   Useful for filtering:
   credit + fee
@@ -130,7 +117,6 @@ walletTransactionSchema.index({
   type: 1,
   source: 1,
 });
-
 
 /*
   Useful for finding the wallet transaction
@@ -146,7 +132,6 @@ walletTransactionSchema.index({
   source: 1,
   referenceId: 1,
 });
-
 
 /*
   IMPORTANT
@@ -172,9 +157,8 @@ walletTransactionSchema.index(
   },
   {
     unique: true,
-  }
+  },
 );
-
 
 /* =========================================================
    MODEL
@@ -182,7 +166,4 @@ walletTransactionSchema.index(
 
 module.exports =
   mongoose.models.WalletTransaction ||
-  mongoose.model(
-    "WalletTransaction",
-    walletTransactionSchema
-  );
+  mongoose.model("WalletTransaction", walletTransactionSchema);
