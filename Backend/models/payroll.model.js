@@ -8,7 +8,10 @@ const payrollSchema = new mongoose.Schema(
       required: true,
     },
 
-    // Keep month field
+    // ==========================================
+    // PAYROLL MONTH / YEAR
+    // ==========================================
+
     month: {
       type: Number,
       required: true,
@@ -22,19 +25,50 @@ const payrollSchema = new mongoose.Schema(
       min: 2020,
     },
 
+    // ==========================================
+    // DAYS
+    // ==========================================
+
     totalDays: {
       type: Number,
       required: true,
       min: 0,
     },
 
+    /*
+      Final paid/working days.
+
+      Example:
+
+      Present       = 1
+      Late          = 1
+      Half Day      = 0.5
+      Leave         = 1
+      Paid Holiday  = 1
+      Absent        = 0
+    */
     workingDays: {
       type: Number,
       required: true,
       min: 0,
     },
 
+    // ==========================================
+    // ATTENDANCE
+    // ==========================================
+
     presentDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    /*
+      Number of Half Day attendance records.
+
+      2 Half Days = 1 Working Day
+    */
+    halfDayCount: {
       type: Number,
       default: 0,
       min: 0,
@@ -46,11 +80,52 @@ const payrollSchema = new mongoose.Schema(
       min: 0,
     },
 
+    // ==========================================
+    // HOLIDAYS
+    // ==========================================
+
+    /*
+      Total holidays in the attendance month.
+    */
+    holidayDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    /*
+      Paid holidays are included
+      in workingDays / salary calculation.
+    */
+    paidHolidayDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    /*
+      Unpaid holidays are NOT included
+      in paid working days.
+    */
+    unpaidHolidayDays: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    // ==========================================
+    // ABSENT
+    // ==========================================
+
     absentDays: {
       type: Number,
       default: 0,
       min: 0,
     },
+
+    // ==========================================
+    // SALARY
+    // ==========================================
 
     baseSalary: {
       type: Number,
@@ -58,55 +133,98 @@ const payrollSchema = new mongoose.Schema(
       min: 0,
     },
 
+    /*
+      Number of days used for salary calculation.
+
+      Usually:
+      30
+
+      Example:
+
+      Base Salary = ₹30,000
+      Payroll Working Days = 30
+
+      Per Day = 30,000 / 30
+    */
     payrollWorkingDays: {
       type: Number,
       default: 30,
+      min: 1,
     },
+
+    // ==========================================
+    // DEDUCTIONS
+    // ==========================================
 
     deductionAmount: {
       type: Number,
       default: 0,
+      min: 0,
     },
+
+    // ==========================================
+    // OVERTIME
+    // ==========================================
 
     overtimeHours: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     overtimeRate: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     overtimeAmount: {
       type: Number,
       default: 0,
+      min: 0,
     },
+
+    // ==========================================
+    // ALLOWANCE
+    // ==========================================
 
     allowance: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     otherDeduction: {
       type: Number,
       default: 0,
+      min: 0,
     },
+
+    // ==========================================
+    // SALARY TOTALS
+    // ==========================================
 
     grossSalary: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     totalDeductions: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     totalSalary: {
       type: Number,
       required: true,
+      min: 0,
     },
+
+    // ==========================================
+    // CITY
+    // ==========================================
 
     city: {
       type: String,
@@ -114,7 +232,13 @@ const payrollSchema = new mongoose.Schema(
       default: "metro",
     },
 
-    payDate: Date,
+    // ==========================================
+    // PAYMENT
+    // ==========================================
+
+    payDate: {
+      type: Date,
+    },
 
     paymentMode: {
       type: String,
@@ -126,38 +250,107 @@ const payrollSchema = new mongoose.Schema(
       default: "",
     },
 
+    // ==========================================
+    // SALARY BREAKDOWN
+    // ==========================================
+
     salaryBreakdown: {
       earnings: {
-        basic: Number,
-        hra: Number,
-        conveyance: Number,
-        lta: Number,
-        medical: Number,
-        overtime: Number,
-        allowance: Number,
+        basic: {
+          type: Number,
+          default: 0,
+        },
+
+        hra: {
+          type: Number,
+          default: 0,
+        },
+
+        conveyance: {
+          type: Number,
+          default: 0,
+        },
+
+        lta: {
+          type: Number,
+          default: 0,
+        },
+
+        medical: {
+          type: Number,
+          default: 0,
+        },
+
+        overtime: {
+          type: Number,
+          default: 0,
+        },
+
+        allowance: {
+          type: Number,
+          default: 0,
+        },
       },
 
       deductions: {
-        pf: Number,
-        professionalTax: Number,
-        esi: Number,
-        incomeTax: Number,
-        monthlyDeduction: Number,
-        otherDeduction: Number,
+        pf: {
+          type: Number,
+          default: 0,
+        },
+
+        professionalTax: {
+          type: Number,
+          default: 0,
+        },
+
+        esi: {
+          type: Number,
+          default: 0,
+        },
+
+        incomeTax: {
+          type: Number,
+          default: 0,
+        },
+
+        monthlyDeduction: {
+          type: Number,
+          default: 0,
+        },
+
+        otherDeduction: {
+          type: Number,
+          default: 0,
+        },
       },
     },
+
+    // ==========================================
+    // STATUS
+    // ==========================================
+
     status: {
       type: String,
-      enum: ["Pending", "Completed", "Reject"],
+      enum: [
+        "Pending",
+        "Completed",
+        "Reject",
+      ],
       default: "Pending",
     },
   },
   {
     timestamps: true,
-  },
+  }
 );
 
-// One teacher can have only one payroll for one month in one year
+// ==========================================
+// UNIQUE PAYROLL
+// ==========================================
+
+// One teacher can have only one payroll
+// for one month in one year.
+
 payrollSchema.index(
   {
     teacherId: 1,
@@ -166,7 +359,12 @@ payrollSchema.index(
   },
   {
     unique: true,
-  },
+  }
 );
 
-module.exports = mongoose.model("Payroll", payrollSchema);
+module.exports =
+  mongoose.models.Payroll ||
+  mongoose.model(
+    "Payroll",
+    payrollSchema
+  );

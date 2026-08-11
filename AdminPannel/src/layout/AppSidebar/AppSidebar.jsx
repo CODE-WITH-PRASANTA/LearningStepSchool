@@ -513,6 +513,12 @@ const menu = [
         label: "System Setting",
         path: "/vehicle/setting",
       },
+
+       {
+        label: "Fuel Management",
+        path: "/fuel-management",
+      },
+
     ],
   },
   {
@@ -535,6 +541,12 @@ const menu = [
         label: "Expense Categories",
         path: "/expense-head",
       },
+
+       {
+        label: "Expense Management",
+        path: "/expense-management",
+      },
+
     ],
   },
 ];

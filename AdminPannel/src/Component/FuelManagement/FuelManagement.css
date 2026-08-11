@@ -1,0 +1,487 @@
+/* ==========================================================================
+   Base & Typography Setup
+   ========================================================================== */
+.fuel-management {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #F8F9FD;
+  min-height: 100vh;
+  padding: 24px;
+  color: #1E293B;
+  box-sizing: border-box;
+}
+
+.fuel-management * {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Top Header & Navigation
+   ========================================================================== */
+.fuel-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.fuel-management-title-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.fuel-management-header-icon {
+  width: 44px;
+  height: 44px;
+  background-color: #ECE8FF;
+  color: #6C38FF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fuel-management-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.fuel-management-header-subtitle {
+  font-size: 13px;
+  color: #64748B;
+  margin: 2px 0 0 0;
+}
+
+.fuel-management-breadcrumbs {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.fuel-management-breadcrumbs span {
+  color: #6C38FF;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Card Component Container
+   ========================================================================== */
+.fuel-management-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.fuel-management-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.fuel-management-card-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 3px;
+  background-color: #6C38FF;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   Form Grid & Input Elements
+   ========================================================================== */
+.fuel-management-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 20px;
+}
+
+.fuel-management-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fuel-management-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.fuel-management-required {
+  color: #EF4444;
+  margin-left: 2px;
+}
+
+.fuel-management-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fuel-management-input-wrapper:focus-within {
+  border-color: #6C38FF;
+  box-shadow: 0 0 0 3px rgba(108, 56, 255, 0.1);
+}
+
+.fuel-management-input-icon {
+  position: absolute;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.fuel-management-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px 0 38px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1E293B;
+  outline: none;
+  background: transparent;
+}
+
+.fuel-management-input-suffix {
+  padding-right: 12px;
+  font-size: 13px;
+  color: #94A3B8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.fuel-management-select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.fuel-management-select-arrow {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Informational Banner */
+.fuel-management-info-banner {
+  margin-top: 18px;
+  background-color: #F5F3FF;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #5B21B6;
+  grid-column: 1 / -1;
+}
+
+/* Form Action Buttons */
+.fuel-management-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.fuel-management-btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  border: none;
+  white-space: nowrap;
+}
+
+.fuel-management-btn-reset {
+  background-color: #F1F5F9;
+  color: #475569;
+}
+
+.fuel-management-btn-reset:hover {
+  background-color: #E2E8F0;
+}
+
+.fuel-management-btn-save {
+  background-color: #6C38FF;
+  color: #FFFFFF;
+}
+
+.fuel-management-btn-save:hover {
+  background-color: #582AD6;
+}
+
+/* ==========================================================================
+   Table Toolbar & Actions
+   ========================================================================== */
+.fuel-management-list-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.fuel-management-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fuel-management-search-wrapper {
+  position: relative;
+  min-width: 240px;
+}
+
+.fuel-management-search-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px 0 36px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+  background-color: #FFFFFF;
+  transition: border-color 0.2s ease;
+}
+
+.fuel-management-search-input:focus {
+  border-color: #6C38FF;
+}
+
+.fuel-management-btn-filter {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.fuel-management-btn-filter:hover {
+  background-color: #F8FAFC;
+}
+
+/* ==========================================================================
+   Data Table Layout
+   ========================================================================== */
+.fuel-management-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #F1F5F9;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fuel-management-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+
+.fuel-management-table th {
+  background-color: #F8FAFC;
+  color: #475569;
+  font-weight: 600;
+  padding: 12px 14px;
+  border-bottom: 1px solid #E2E8F0;
+  white-space: nowrap;
+}
+
+.fuel-management-table td {
+  padding: 14px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.fuel-management-table tbody tr:hover {
+  background-color: #FAFAFE;
+}
+
+.fuel-management-table-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.fuel-management-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fuel-management-action-btn.edit:hover {
+  border-color: #6C38FF;
+  background-color: #F5F3FF;
+}
+
+.fuel-management-action-btn.delete {
+  border-color: #FEE2E2;
+  background-color: #FEF2F2;
+}
+
+.fuel-management-action-btn.delete:hover {
+  background-color: #FEE2E2;
+}
+
+/* ==========================================================================
+   Table Footer & Pagination
+   ========================================================================== */
+.fuel-management-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: #64748B;
+}
+
+.fuel-management-pagination {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fuel-management-page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+  background-color: #FFFFFF;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.fuel-management-page-btn.active {
+  background-color: #6C38FF;
+  color: #FFFFFF;
+  border-color: #6C38FF;
+}
+
+.fuel-management-page-btn:hover:not(.active) {
+  background-color: #F8FAFC;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* Medium Devices (Tablets & Small Laptops - up to 1024px) */
+@media (max-width: 1024px) {
+  .fuel-management-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Devices (Tablets/Phones - up to 768px) */
+@media (max-width: 768px) {
+  .fuel-management {
+    padding: 16px;
+  }
+
+  .fuel-management-card {
+    padding: 16px;
+  }
+
+  .fuel-management-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fuel-management-list-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fuel-management-list-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fuel-management-search-wrapper {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .fuel-management-btn-filter,
+  .fuel-management-list-actions .fuel-management-btn-save {
+    width: 100%;
+  }
+
+  .fuel-management-footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Small Mobile Screens (Phones - up to 576px) */
+@media (max-width: 576px) {
+  .fuel-management-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-management-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .fuel-management-btn {
+    width: 100%;
+  }
+
+  .fuel-management-title-group {
+    align-items: flex-start;
+  }
+
+  .fuel-management-header-title {
+    font-size: 18px;
+  }
+}

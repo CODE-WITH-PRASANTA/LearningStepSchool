@@ -1,17 +1,10 @@
-
 const User = require("../../models/techerModel/createteacher.model");
 const hashPassword = require("../../utils/hash");
 
 exports.createTeacher = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      password,
-      permissions,
-      contact,
-      department,
-    } = req.body;
+    const { name, email, password, permissions, contact, department } =
+      req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -106,9 +99,7 @@ exports.searchTeachers = async (req, res) => {
         },
       ],
     })
-      .select(
-        "_id name email contact department image role"
-      )
+      .select("_id name email contact department image role")
       .limit(10);
 
     return res.status(200).json({
@@ -140,7 +131,6 @@ exports.getTeacherById = async (req, res) => {
   }
 };
 
-
 exports.getMeTeacher = async (req, res) => {
   try {
     const teacher = await User.findById(req.user.id).select("-password");
@@ -159,7 +149,6 @@ exports.getMeTeacher = async (req, res) => {
       image: teacher.image || "",
       permissions: teacher.permissions || [],
     });
-
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -167,14 +156,8 @@ exports.getMeTeacher = async (req, res) => {
 
 exports.updateTeacher = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      password,
-      permissions,
-      contact,
-      department,
-    } = req.body;
+    const { name, email, password, permissions, contact, department } =
+      req.body;
 
     const teacher = await User.findById(req.params.id);
     if (!teacher) {
@@ -213,6 +196,61 @@ exports.updateTeacher = async (req, res) => {
   }
 };
 
+/* =====================================================
+   TOGGLE / UPDATE APPROVAL
+===================================================== */
+/* =====================================================
+   TOGGLE APPROVAL STATUS
+===================================================== */
+
+exports.approveExpense = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    console.log("APPROVAL REQUEST ID:", id);
+
+    const expense = await Expense.findById(id);
+
+    if (!expense) {
+      return res.status(404).json({
+        success: false,
+        message: "Expense not found",
+      });
+    }
+
+    /*
+      Pending -> Approved
+      Approved -> Pending
+    */
+
+    if (expense.approval === "Approved") {
+      expense.approval = "Pending";
+    } else {
+      expense.approval = "Approved";
+    }
+
+    await expense.save();
+
+    console.log("NEW APPROVAL STATUS:", expense.approval);
+
+    return res.status(200).json({
+      success: true,
+      message:
+        expense.approval === "Approved"
+          ? "Expense approved successfully"
+          : "Expense approval changed to pending",
+      data: expense,
+    });
+  } catch (error) {
+    console.error("APPROVE EXPENSE ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update approval status",
+      error: error.message,
+    });
+  }
+};
 // Teacher self-service: update only profile image
 exports.updateMyTeacherImage = async (req, res) => {
   try {
@@ -250,4 +288,3 @@ exports.deleteTeacher = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-

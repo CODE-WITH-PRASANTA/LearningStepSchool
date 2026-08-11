@@ -24,33 +24,24 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-wrapper">
-      
       {/* Navbar */}
-      <Navbar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-      />
+      <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Body */}
       <div className="admin-body">
-
         {/* Sidebar */}
-        <Sidebar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-        />
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         {/* Content */}
-       <div
-  className={`admin-content ${
-    sidebarOpen ? "sidebar-open" : "sidebar-close"
-  }`}
->
+        <div
+          className={`admin-content ${
+            sidebarOpen ? "sidebar-open" : "sidebar-close"
+          }`}
+        >
           <main className="admin-main">
             <Outlet />
           </main>
         </div>
-
       </div>
     </div>
   );

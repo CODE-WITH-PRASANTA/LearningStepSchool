@@ -29,6 +29,23 @@ import {
   FaQuoteLeft,
   FaImage,
   FaVideo,
+
+  // FaWallet,
+  FaSearch,
+  FaList,
+  // FaMoneyBillWave
+
+   FaBus,
+  FaRoute,
+  FaMapMarkerAlt,
+  FaExchangeAlt,
+  FaRoad,
+  FaChartPie,
+  FaFileAlt,
+  // FaUserGraduate,
+  FaTachometerAlt,
+  FaCog,
+  FaGasPump,
 } from "react-icons/fa";
 
 import "./Sidebar.css";
@@ -377,6 +394,140 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       path: "/faq",
       icon: <FaCommentDots />,
       permission: "FAQ_POSTING",
+    },
+    {
+      name: "Account & Expenses",
+      icon: <FaMoneyBillWave />,
+      permission: "EXPENSE_MANAGEMENT",
+
+      submenu: [
+        {
+          name: "School Wallet",
+          path: "/wallet",
+          icon: <FaWallet />,
+          permission: "WALLET",
+        },
+
+        {
+          name: "Expense Entry",
+          path: "/expense/details",
+          icon: <FaMoneyBillWave />,
+          permission: "ADD_EXPENSE",
+        },
+
+        {
+          name: "Expense Explorer",
+          path: "/expense-search",
+          icon: <FaSearch />,
+          permission: "EXPENSE_SEARCH",
+        },
+
+        {
+          name: "Expense Categories",
+          path: "/expense-head",
+          icon: <FaList />,
+          permission: "EXPENSE_HEAD",
+        },
+
+        {
+          name: "Expense Management",
+          path: "/expense-management",
+          icon: <FaMoneyBillWave />,
+          permission: "EXPENSE_MANAGEMENT",
+        },
+      ],
+    },
+
+    {
+      name: "Transport",
+      icon: <FaBus />,
+      permission: "TRANSPORT_MANAGEMENT",
+
+      submenu: [
+        {
+          name: "Transport Vehicle",
+          path: "/vehicle",
+          icon: <FaBus />,
+          permission: "TRANSPORT_VEHICLE",
+        },
+
+        {
+          name: "Transport Route",
+          path: "/transport-route",
+          icon: <FaRoute />,
+          permission: "TRANSPORT_ROUTE",
+        },
+
+        {
+          name: "Transport Destination",
+          path: "/transport-destination",
+          icon: <FaMapMarkerAlt />,
+          permission: "TRANSPORT_DESTINATION",
+        },
+
+        {
+          name: "Assign Routes",
+          path: "/assign-route",
+          icon: <FaExchangeAlt />,
+          permission: "ASSIGN_ROUTES",
+        },
+
+        {
+          name: "Vehicle Route",
+          path: "/vehicle-route",
+          icon: <FaRoad />,
+          permission: "VEHICLE_ROUTE",
+        },
+
+        {
+          name: "Transport Summary",
+          path: "/transport-summary",
+          icon: <FaChartPie />,
+          permission: "TRANSPORT_SUMMARY",
+        },
+
+        {
+          name: "Transport Vehicle Report",
+          path: "/transport-vehicle-report",
+          icon: <FaFileAlt />,
+          permission: "TRANSPORT_VEHICLE_REPORT",
+        },
+
+        {
+          name: "Transport Student Report",
+          path: "/transport-student-report",
+          icon: <FaUserGraduate />,
+          permission: "TRANSPORT_STUDENT_REPORT",
+        },
+
+        {
+          name: "Vehicle Dashboard",
+          path: "/vehicle-dashboard",
+          icon: <FaTachometerAlt />,
+          permission: "VEHICLE_DASHBOARD",
+        },
+
+        {
+          name: "Vehicle KM",
+          path: "/vehicle-km",
+          icon: <FaRoad />,
+          permission: "VEHICLE_KM",
+        },
+
+        {
+          name: "Vehicle Settings",
+          path: "/vehicle-settings",
+          icon: <FaCog />,
+          permission: "VEHICLE_SETTINGS",
+        },
+
+        {
+          name: "Fuel Management",
+          path: "/fuel-management",
+          icon: <FaGasPump />,
+          permission: "FUEL_MANAGEMENT",
+        },
+      ],
     },
   ];
 
