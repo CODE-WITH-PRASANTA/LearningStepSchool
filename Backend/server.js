@@ -94,6 +94,7 @@ const shiftPlanningRoutes = require("./routes/shiftPlanning.routes");
 const expenceMngRoutes = require("./routes/expenseMng.routes");
 const fuleRoutes = require('./routes/fuelRoutes')
 const holidayRoutes = require("./routes/holidayRoutes");
+// const fuleRoutes = require('./routes/fuelRoutes')
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -180,7 +181,7 @@ app.use("/api/assign-route", assignRouteRoutes);
 app.use("/api/vehicle-route", vehicleRouteRoutes);
 app.use("/api/system-setting", systemSettingRoutes);
 app.use("/api/vehicle-km", vehicleKmRoutes);
-app.use("/api/fuel", require("./routes/fuelRoutes"));
+app.use("/api/fuel", fuleRoutes);
 
 // Font office
 app.use("/api/popup", popupRoutes);

@@ -52,19 +52,47 @@
   border-right: 1px solid #e5e7eb;
 
   box-shadow:
-    12px 0 40px rgba(30, 41, 59, 0.08);
+    12px 0 40px
+    rgba(30, 41, 59, 0.08);
 
   overflow: hidden;
 
   z-index: 1100;
 
   transition:
-    transform 0.35s cubic-bezier(.4, 0, .2, 1);
+    transform 0.35s
+    cubic-bezier(.4, 0, .2, 1);
+
+  transform:
+    translate3d(0, 0, 0);
+
+  will-change:
+    transform;
 }
 
 
 /* =========================================================
-   COLORFUL BACKGROUND BLOBS
+   ACTIVE
+========================================================= */
+
+.sidebar.active {
+  transform:
+    translate3d(0, 0, 0);
+}
+
+
+/* =========================================================
+   CLOSED
+========================================================= */
+
+.sidebar.closed {
+  transform:
+    translate3d(-110%, 0, 0);
+}
+
+
+/* =========================================================
+   BACKGROUND BLOBS
 ========================================================= */
 
 .sidebar::before {
@@ -116,20 +144,10 @@
 
 
 /* =========================================================
-   ACTIVE SIDEBAR
-========================================================= */
-
-.sidebar.active {
-  transform: translateX(0);
-}
-
-
-/* =========================================================
-   TOP BRAND AREA
+   TOP
 ========================================================= */
 
 .sidebar-top {
-
   min-height: 100px;
 
   padding: 18px;
@@ -156,10 +174,7 @@
 }
 
 
-/* colorful header line */
-
 .sidebar-top::after {
-
   content: "";
 
   position: absolute;
@@ -189,7 +204,6 @@
 ========================================================= */
 
 .logo-box {
-
   width: 58px;
   height: 58px;
 
@@ -227,10 +241,7 @@
 }
 
 
-/* logo shine */
-
 .logo-box::before {
-
   content: "";
 
   position: absolute;
@@ -254,7 +265,6 @@
 ========================================================= */
 
 .logo-text h2 {
-
   margin: 0;
 
   font-size: 16px;
@@ -268,7 +278,6 @@
 
 
 .logo-text p {
-
   margin: 5px 0 0;
 
   font-size: 11px;
@@ -284,7 +293,6 @@
 ========================================================= */
 
 .sidebar-menu {
-
   flex: 1;
 
   min-height: 0;
@@ -294,6 +302,12 @@
   overflow-y: auto;
 
   overflow-x: hidden;
+
+  overscroll-behavior:
+    contain;
+
+  -webkit-overflow-scrolling:
+    touch;
 }
 
 
@@ -302,17 +316,14 @@
 ========================================================= */
 
 .sidebar-menu::-webkit-scrollbar {
-
   width: 5px;
 }
 
 .sidebar-menu::-webkit-scrollbar-track {
-
   background: transparent;
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb {
-
   border-radius: 20px;
 
   background:
@@ -325,11 +336,10 @@
 
 
 /* =========================================================
-   SECTION TITLE
+   SECTION
 ========================================================= */
 
 .sidebar-section {
-
   margin:
     22px 10px 10px;
 
@@ -365,7 +375,6 @@
 ========================================================= */
 
 .menu-item {
-
   width: 100%;
 
   min-height: 52px;
@@ -406,6 +415,9 @@
   position: relative;
 
   box-sizing: border-box;
+
+  -webkit-tap-highlight-color:
+    transparent;
 }
 
 
@@ -414,7 +426,6 @@
 ========================================================= */
 
 .menu-left {
-
   display: flex;
 
   align-items: center;
@@ -432,7 +443,6 @@
 ========================================================= */
 
 .menu-icon {
-
   width: 36px;
   height: 36px;
 
@@ -458,10 +468,7 @@
 }
 
 
-/* direct SVG */
-
 .menu-left > svg {
-
   width: 36px;
   height: 36px;
 
@@ -484,41 +491,30 @@
 
 
 /* =========================================================
-   COLORFUL ICON VARIATION
+   ICON COLORS
 ========================================================= */
 
 .menu-item:nth-child(1) .menu-icon,
 .menu-item:nth-child(1) .menu-left > svg {
-
   color: #4f46e5;
-
   background: #eef2ff;
 }
 
-
 .menu-item:nth-child(2) .menu-icon,
 .menu-item:nth-child(2) .menu-left > svg {
-
   color: #0891b2;
-
   background: #ecfeff;
 }
 
-
 .menu-item:nth-child(3) .menu-icon,
 .menu-item:nth-child(3) .menu-left > svg {
-
   color: #ec4899;
-
   background: #fdf2f8;
 }
 
-
 .menu-item:nth-child(4) .menu-icon,
 .menu-item:nth-child(4) .menu-left > svg {
-
   color: #f59e0b;
-
   background: #fffbeb;
 }
 
@@ -528,7 +524,6 @@
 ========================================================= */
 
 .menu-item:hover {
-
   color: #4f46e5;
 
   transform:
@@ -551,7 +546,6 @@
 
 
 .menu-item:hover .menu-icon {
-
   color: #4f46e5;
 
   background:
@@ -567,7 +561,6 @@
 
 
 .menu-item:hover .menu-left > svg {
-
   color: #4f46e5;
 
   background:
@@ -583,11 +576,10 @@
 
 
 /* =========================================================
-   ACTIVE MENU
+   ACTIVE
 ========================================================= */
 
 .menu-item.active {
-
   color: #ffffff;
 
   background:
@@ -607,10 +599,7 @@
 }
 
 
-/* active left glow */
-
 .menu-item.active::before {
-
   content: "";
 
   position: absolute;
@@ -635,10 +624,7 @@
 }
 
 
-/* active icon */
-
 .menu-item.active .menu-icon {
-
   color: #ffffff;
 
   background:
@@ -647,7 +633,6 @@
 
 
 .menu-item.active .menu-left > svg {
-
   color: #ffffff;
 
   background:
@@ -660,7 +645,6 @@
 ========================================================= */
 
 .arrow {
-
   width: 15px;
 
   height: 15px;
@@ -676,7 +660,6 @@
 
 
 .arrow.open {
-
   transform:
     rotate(180deg);
 
@@ -685,17 +668,15 @@
 
 
 .menu-item:hover .arrow {
-
   color: #6366f1;
 }
 
 
 /* =========================================================
-   SUBMENU CONTAINER
+   SUBMENU
 ========================================================= */
 
 .submenu {
-
   max-height: 0;
 
   margin-left: 16px;
@@ -716,7 +697,6 @@
 
 
 .submenu.show {
-
   max-height: 1500px;
 
   opacity: 1;
@@ -730,7 +710,6 @@
 ========================================================= */
 
 .submenu-item {
-
   min-height: 44px;
 
   width:
@@ -757,18 +736,12 @@
 }
 
 
-/* remove old margin */
-
 .submenu-item .menu-left {
-
   margin-left: 0;
 }
 
 
-/* submenu icon */
-
 .submenu-item .menu-icon {
-
   width: 29px;
   height: 29px;
 
@@ -781,7 +754,6 @@
 
 
 .submenu-item .menu-left > svg {
-
   width: 29px;
   height: 29px;
 
@@ -798,7 +770,6 @@
 ========================================================= */
 
 .submenu-item:hover {
-
   color: #4f46e5;
 
   background:
@@ -821,7 +792,6 @@
 
 
 .submenu-item:hover .menu-icon {
-
   color: #4f46e5;
 
   background:
@@ -830,7 +800,6 @@
 
 
 .submenu-item:hover .menu-left > svg {
-
   color: #4f46e5;
 
   background:
@@ -843,7 +812,6 @@
 ========================================================= */
 
 .submenu-item.active {
-
   color: #4f46e5;
 
   background:
@@ -863,7 +831,6 @@
 
 
 .submenu-item.active::before {
-
   content: "";
 
   position: absolute;
@@ -890,7 +857,6 @@
 ========================================================= */
 
 .sidebar-footer {
-
   padding: 13px;
 
   flex-shrink: 0;
@@ -911,7 +877,6 @@
 ========================================================= */
 
 .logout-btn {
-
   width: 100%;
 
   height: 48px;
@@ -942,7 +907,6 @@
 
 
 .logout-btn:hover {
-
   color: #ffffff;
 
   border-color:
@@ -969,14 +933,16 @@
 ========================================================= */
 
 .sidebar-overlay {
-
   position: fixed;
 
-  top: 70px;
+  top: 60px;
 
   left: 0;
   right: 0;
   bottom: 0;
+
+  width: 100%;
+  height: calc(100vh - 60px);
 
   background:
     rgba(15,23,42,0.50);
@@ -991,11 +957,12 @@
 
   animation:
     overlayIn 0.25s ease;
+
+  touch-action: none;
 }
 
 
 @keyframes overlayIn {
-
   from {
     opacity: 0;
   }
@@ -1013,13 +980,26 @@
 @media (min-width: 1025px) {
 
   .sidebar {
+    top: 70px;
+
+    height:
+      calc(100vh - 70px);
 
     transform:
-      translateX(0);
+      translate3d(0, 0, 0);
+  }
+
+  .sidebar.active {
+    transform:
+      translate3d(0, 0, 0);
+  }
+
+  .sidebar.closed {
+    transform:
+      translate3d(-110%, 0, 0);
   }
 
   .sidebar-overlay {
-
     display: none;
   }
 }
@@ -1033,17 +1013,32 @@
 and (max-width: 1024px) {
 
   .sidebar {
+    top: 70px;
 
     width: 280px;
 
+    height:
+      calc(100vh - 70px);
+
     transform:
-      translateX(-105%);
+      translate3d(-110%, 0, 0);
   }
 
   .sidebar.active {
-
     transform:
-      translateX(0);
+      translate3d(0, 0, 0);
+  }
+
+  .sidebar.closed {
+    transform:
+      translate3d(-110%, 0, 0);
+  }
+
+  .sidebar-overlay {
+    top: 70px;
+
+    height:
+      calc(100vh - 70px);
   }
 }
 
@@ -1055,44 +1050,62 @@ and (max-width: 1024px) {
 @media (max-width: 768px) {
 
   .sidebar {
+    position: fixed;
 
     top: 60px;
+    left: 0;
 
     width:
       min(300px, 88vw);
 
     height:
-      calc(100vh - 60px);
+      calc(100dvh - 60px);
+
+    max-height:
+      calc(100dvh - 60px);
 
     transform:
-      translateX(-105%);
+      translate3d(-110%, 0, 0);
 
     box-shadow:
       18px 0 45px
       rgba(15,23,42,0.18);
+
+    z-index: 1100;
   }
+
 
   .sidebar.active {
-
     transform:
-      translateX(0);
+      translate3d(0, 0, 0);
   }
+
+
+  .sidebar.closed {
+    transform:
+      translate3d(-110%, 0, 0);
+  }
+
 
   .sidebar-overlay {
-
     top: 60px;
+
+    height:
+      calc(100dvh - 60px);
+
+    z-index: 1000;
   }
 
-  .sidebar-top {
 
+  .sidebar-top {
     min-height: 84px;
 
     padding:
       14px 15px;
   }
 
-  .logo-box {
 
+  .logo-box {
     width: 48px;
     height: 48px;
 
@@ -1103,27 +1116,43 @@ and (max-width: 1024px) {
     font-size: 22px;
   }
 
-  .logo-text h2 {
 
+  .logo-text h2 {
     font-size: 14px;
   }
 
-  .logo-text p {
 
+  .logo-text p {
     font-size: 10px;
   }
 
-  .sidebar-menu {
 
+  .sidebar-menu {
     padding:
       13px 9px 18px;
+
+    overflow-y: auto;
+
+    overscroll-behavior:
+      contain;
+
+    -webkit-overflow-scrolling:
+      touch;
   }
 
-  .menu-item {
 
+  .menu-item {
     min-height: 49px;
 
     font-size: 12.5px;
+
+    touch-action: manipulation;
+  }
+
+
+  .submenu-item {
+    touch-action:
+      manipulation;
   }
 }
 
@@ -1135,19 +1164,18 @@ and (max-width: 1024px) {
 @media (max-width: 420px) {
 
   .sidebar {
-
     width: 90vw;
   }
 
-  .sidebar-top {
 
+  .sidebar-top {
     min-height: 78px;
 
     padding: 12px;
   }
 
-  .logo-box {
 
+  .logo-box {
     width: 44px;
     height: 44px;
 
@@ -1158,18 +1186,18 @@ and (max-width: 1024px) {
     font-size: 20px;
   }
 
-  .logo-text h2 {
 
+  .logo-text h2 {
     font-size: 13px;
   }
 
-  .logo-text p {
 
+  .logo-text p {
     font-size: 9px;
   }
 
-  .menu-item {
 
+  .menu-item {
     min-height: 47px;
 
     padding:
@@ -1178,29 +1206,29 @@ and (max-width: 1024px) {
     font-size: 12px;
   }
 
-  .menu-left {
 
+  .menu-left {
     gap: 9px;
   }
 
-  .menu-icon {
 
+  .menu-icon {
     width: 31px;
     height: 31px;
 
     min-width: 31px;
   }
+
 
   .menu-left > svg {
-
     width: 31px;
     height: 31px;
 
     min-width: 31px;
   }
 
-  .submenu-item {
 
+  .submenu-item {
     min-height: 40px;
 
     font-size: 11px;
@@ -1215,22 +1243,21 @@ and (max-width: 1024px) {
 @media (max-width: 320px) {
 
   .sidebar {
-
     width: 93vw;
   }
 
-  .logo-text p {
 
+  .logo-text p {
     display: none;
   }
 
-  .menu-item {
 
+  .menu-item {
     font-size: 11px;
   }
 
-  .submenu-item {
 
+  .submenu-item {
     font-size: 10px;
   }
 }
@@ -1241,7 +1268,6 @@ and (max-width: 1024px) {
 ========================================================= */
 
 .menu-left > span:last-child {
-
   min-width: 0;
 
   overflow: hidden;
@@ -1258,7 +1284,6 @@ and (max-width: 1024px) {
 
 .menu-item:focus-visible,
 .logout-btn:focus-visible {
-
   outline:
     3px solid
     rgba(99,102,241,0.30);
@@ -1274,12 +1299,10 @@ and (max-width: 1024px) {
 @media (hover: none) {
 
   .menu-item:hover {
-
     transform: none;
   }
 
   .logout-btn:hover {
-
     transform: none;
   }
 }
@@ -1296,12 +1319,10 @@ and (max-width: 1024px) {
   .submenu,
   .arrow,
   .logout-btn {
-
     transition: none !important;
   }
 
   .sidebar-overlay {
-
     animation: none !important;
   }
 }

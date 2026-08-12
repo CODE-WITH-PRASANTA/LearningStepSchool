@@ -2,365 +2,463 @@
    MAIN PAGE
 ========================================================== */
 
-.StudentIdCard{
-    width:100%;
-    min-height:100vh;
-    background:#eef5ff;
-    padding:30px;
-    box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+.StudentIdCard {
+  width: 100%;
+  min-height: 100vh;
+  background: #eef5ff;
+  padding: 30px;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
 }
+
 
 /* ==========================================================
    CONTAINER
 ========================================================== */
 
-.StudentIdCard-container{
-
-    width:100%;
-    max-width:1600px;
-    margin:auto;
-
+.StudentIdCard-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: auto;
 }
+
 
 /* ==========================================================
    PAGE TITLE
 ========================================================== */
 
-.StudentIdCard-pageTitle{
-
-    margin:0 0 25px;
-
-    color:#1d4ed8;
-
-    font-size:34px;
-
-    font-weight:700;
-
-    letter-spacing:.5px;
-
+.StudentIdCard-pageTitle {
+  margin: 0 0 25px;
+  color: #1d4ed8;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
+
 
 /* ==========================================================
    CARD WRAPPER
 ========================================================== */
 
-.StudentIdCard-card{
-
-    background:#ffffff;
-
-    border-radius:16px;
-
-    border:1px solid #dbeafe;
-
-    box-shadow:0 12px 30px rgba(15,23,42,.08);
-
-    overflow:hidden;
-
+.StudentIdCard-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
 }
+
 
 /* ==========================================================
    COMMON BUTTON
 ========================================================== */
 
-.StudentIdCard-btn{
+.StudentIdCard-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
-    display:inline-flex;
+  border: none;
+  cursor: pointer;
 
-    align-items:center;
+  border-radius: 10px;
+  transition: 0.3s;
 
-    justify-content:center;
-
-    gap:10px;
-
-    border:none;
-
-    cursor:pointer;
-
-    border-radius:10px;
-
-    transition:.3s;
-
-    font-weight:600;
-
+  font-weight: 600;
 }
 
-.StudentIdCard-btn:hover{
-
-transform:translateY(-2px);
-
+.StudentIdCard-btn:hover {
+  transform: translateY(-2px);
 }
+
 
 /* ==========================================================
    SECTION GAP
 ========================================================== */
 
-.StudentIdCard-section{
-
-margin-top:30px;
-
+.StudentIdCard-section {
+  margin-top: 30px;
 }
+
 
 /* ==========================================================
    LOADER
 ========================================================== */
 
-.StudentIdCard-loader{
+.StudentIdCard-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-display:flex;
+  padding: 60px;
 
-justify-content:center;
+  font-size: 18px;
+  font-weight: 600;
 
-align-items:center;
-
-padding:60px;
-
-font-size:18px;
-
-font-weight:600;
-
-color:#2563eb;
-
+  color: #2563eb;
 }
+
 
 /* ==========================================================
    EMPTY STATE
 ========================================================== */
 
-.StudentIdCard-empty{
+.StudentIdCard-empty {
+  padding: 60px;
 
-padding:60px;
+  text-align: center;
 
-text-align:center;
+  background: #ffffff;
 
-background:#ffffff;
+  border-radius: 16px;
 
-border-radius:16px;
+  border: 1px dashed #bfdbfe;
 
-border:1px dashed #bfdbfe;
+  color: #64748b;
 
-color:#64748b;
-
-font-size:17px;
-
-font-weight:600;
-
+  font-size: 17px;
+  font-weight: 600;
 }
+
 
 /* ==========================================================
    INFO BAR
 ========================================================== */
 
-.StudentIdCard-infoBar{
+.StudentIdCard-infoBar {
+  display: flex;
 
-display:flex;
+  justify-content: space-between;
+  align-items: center;
 
-justify-content:space-between;
+  padding: 18px 22px;
 
-align-items:center;
+  background: #ffffff;
 
-padding:18px 22px;
+  border: 1px solid #dbeafe;
 
-background:#ffffff;
+  border-radius: 14px;
 
-border:1px solid #dbeafe;
+  margin-bottom: 25px;
 
-border-radius:14px;
-
-margin-bottom:25px;
-
-box-shadow:0 8px 20px rgba(15,23,42,.05);
-
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
 }
 
-.StudentIdCard-infoBar h4{
+.StudentIdCard-infoBar h4 {
+  margin: 0;
 
-margin:0;
+  font-size: 18px;
 
-font-size:18px;
-
-color:#1d4ed8;
-
+  color: #1d4ed8;
 }
 
-.StudentIdCard-infoBar p{
+.StudentIdCard-infoBar p {
+  margin: 5px 0 0;
 
-margin:5px 0 0;
+  font-size: 14px;
 
-font-size:14px;
-
-color:#64748b;
-
+  color: #64748b;
 }
+
 
 /* ==========================================================
    PAGE ANIMATION
 ========================================================== */
 
-@keyframes StudentIdCardFade{
+@keyframes StudentIdCardFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 
-0%{
-
-opacity:0;
-
-transform:translateY(20px);
-
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-100%{
-
-opacity:1;
-
-transform:translateY(0);
-
+.StudentIdCard-container {
+  animation: StudentIdCardFade 0.4s ease;
 }
 
-}
-
-.StudentIdCard-container{
-
-animation:StudentIdCardFade .4s ease;
-
-}
 
 /* ==========================================================
    RESPONSIVE
 ========================================================== */
 
-@media(max-width:1200px){
+@media (max-width: 1200px) {
+  .StudentIdCard {
+    padding: 25px;
+  }
 
-.StudentIdCard{
-
-padding:25px;
-
+  .StudentIdCard-pageTitle {
+    font-size: 30px;
+  }
 }
 
-.StudentIdCard-pageTitle{
 
-font-size:30px;
+@media (max-width: 992px) {
+  .StudentIdCard {
+    padding: 20px;
+  }
 
+  .StudentIdCard-pageTitle {
+    font-size: 28px;
+  }
+
+  .StudentIdCard-infoBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }
 
+
+@media (max-width: 768px) {
+  .StudentIdCard {
+    padding: 15px;
+  }
+
+  .StudentIdCard-pageTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .StudentIdCard-section {
+    margin-top: 20px;
+  }
+
+  .StudentIdCard-empty {
+    padding: 40px 20px;
+    font-size: 15px;
+  }
 }
 
-@media(max-width:992px){
 
-.StudentIdCard{
+@media (max-width: 480px) {
+  .StudentIdCard {
+    padding: 12px;
+  }
 
-padding:20px;
+  .StudentIdCard-pageTitle {
+    font-size: 22px;
+    text-align: center;
+  }
 
+  .StudentIdCard-infoBar {
+    padding: 15px;
+  }
+
+  .StudentIdCard-infoBar h4 {
+    font-size: 16px;
+  }
+
+  .StudentIdCard-infoBar p {
+    font-size: 13px;
+  }
 }
 
-.StudentIdCard-pageTitle{
-
-font-size:28px;
-
-}
-
-.StudentIdCard-infoBar{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-gap:10px;
-
-}
-
-}
-
-@media(max-width:768px){
-
-.StudentIdCard{
-
-padding:15px;
-
-}
-
-.StudentIdCard-pageTitle{
-
-font-size:24px;
-
-margin-bottom:20px;
-
-}
-
-.StudentIdCard-section{
-
-margin-top:20px;
-
-}
-
-.StudentIdCard-empty{
-
-padding:40px 20px;
-
-font-size:15px;
-
-}
-
-}
-
-@media(max-width:480px){
-
-.StudentIdCard{
-
-padding:12px;
-
-}
-
-.StudentIdCard-pageTitle{
-
-font-size:22px;
-
-text-align:center;
-
-}
-
-.StudentIdCard-infoBar{
-
-padding:15px;
-
-}
-
-.StudentIdCard-infoBar h4{
-
-font-size:16px;
-
-}
-
-.StudentIdCard-infoBar p{
-
-font-size:13px;
-
-}
-
-}
 
 /* ==========================================================
    PRINT
 ========================================================== */
 
-@media print{
+@media print {
 
-.StudentIdCard{
+  /* --------------------------------------------------------
+     PAGE
+  -------------------------------------------------------- */
 
-padding:0;
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
 
-background:#ffffff;
+    width: 100% !important;
 
-}
+    background: #ffffff !important;
+  }
 
-.StudentIdCard-pageTitle{
 
-display:none;
+  /* --------------------------------------------------------
+     MAIN CONTAINER
+  -------------------------------------------------------- */
 
-}
+  .StudentIdCard {
+    width: 100% !important;
 
-.StudentIdCard-infoBar{
+    min-height: auto !important;
 
-display:none;
+    padding: 0 !important;
+    margin: 0 !important;
 
-}
+    background: #ffffff !important;
+  }
 
+  .StudentIdCard-container {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    animation: none !important;
+  }
+
+
+  /* --------------------------------------------------------
+     HIDE PAGE TITLE
+  -------------------------------------------------------- */
+
+  .StudentIdCard-pageTitle {
+    display: none !important;
+  }
+
+
+  /* --------------------------------------------------------
+     HIDE INFO BAR
+  -------------------------------------------------------- */
+
+  .StudentIdCard-infoBar {
+    display: none !important;
+  }
+
+
+  /* --------------------------------------------------------
+     IMPORTANT:
+     PREVENT PRINTED CONTENT FROM BEING TRANSFORMED
+  -------------------------------------------------------- */
+
+  .StudentIdCard-container,
+  #StudentIdPreview-printArea {
+    transform: none !important;
+  }
+
+
+  /* ========================================================
+     STUDENT PHOTO
+     ======================================================== */
+
+  /*
+     This selector works with your existing
+     StudentIdPreview-photoWrapper class.
+  */
+
+  .StudentIdPreview-photoWrapper {
+    width: 120px !important;
+    height: 120px !important;
+
+    min-width: 120px !important;
+    min-height: 120px !important;
+
+    max-width: 120px !important;
+    max-height: 120px !important;
+
+    position: relative !important;
+
+    display: block !important;
+
+    border-radius: 50% !important;
+
+    overflow: hidden !important;
+
+    box-sizing: border-box !important;
+
+    background: #ffffff !important;
+
+    flex-shrink: 0 !important;
+
+    isolation: isolate !important;
+
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+
+  /* --------------------------------------------------------
+     PHOTO INSIDE CIRCLE
+  -------------------------------------------------------- */
+
+  .StudentIdPreview-photoWrapper img {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    min-width: 100% !important;
+    min-height: 100% !important;
+
+    max-width: none !important;
+    max-height: none !important;
+
+    display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    border-radius: 50% !important;
+
+    object-fit: cover !important;
+
+    object-position: center center !important;
+
+    transform: none !important;
+
+    /*
+      Extra clipping.
+      This makes the image itself circular even
+      if Chrome's print renderer ignores overflow.
+    */
+    clip-path: circle(50% at 50% 50%) !important;
+
+    -webkit-clip-path: circle(50% at 50% 50%) !important;
+  }
+
+
+  /* ========================================================
+     FALLBACK:
+     ANY IMAGE INSIDE PRINT AREA
+     ======================================================== */
+
+  #StudentIdPreview-printArea img {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+
+  /* ========================================================
+     PREVENT CARD BREAKING
+  ======================================================== */
+
+  #StudentIdPreview-printArea > * {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+
+  /* ========================================================
+     IMAGE BREAK PREVENTION
+  ======================================================== */
+
+  img {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+
+  /* ========================================================
+     PRINT COLORS
+  ======================================================== */
+
+  #StudentIdPreview-printArea {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }

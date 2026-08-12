@@ -10,7 +10,7 @@ import StudentIdPreview from "../../Component/StudentIdPreview/StudentIdPreview"
 
 const StudentIdCard = () => {
   /* ==========================================
-      FILTER STATE
+     FILTER STATE
   =========================================== */
 
   const [filters, setFilters] = useState({
@@ -26,7 +26,7 @@ const StudentIdCard = () => {
   });
 
   /* ==========================================
-      PAGE STATE
+     PAGE STATE
   =========================================== */
 
   const [searched, setSearched] = useState(false);
@@ -39,7 +39,7 @@ const StudentIdCard = () => {
   const [students, setStudents] = useState([]);
 
   /* ==========================================
-      SEARCH FILTER
+     SEARCH FILTER
   =========================================== */
 
   const handleSearch = async () => {
@@ -68,6 +68,11 @@ const StudentIdCard = () => {
       console.log(err);
     }
   };
+
+  /* ==========================================
+     FETCH CLASSES
+  =========================================== */
+
   useEffect(() => {
     fetchClasses();
   }, []);
@@ -75,6 +80,7 @@ const StudentIdCard = () => {
   const fetchClasses = async () => {
     try {
       const res = await API.get("/classes");
+
       setClasses(res.data?.data || []);
     } catch (err) {
       console.log(err);
@@ -82,13 +88,12 @@ const StudentIdCard = () => {
   };
 
   /* ==========================================
-      GENERATE
+     GENERATE
   =========================================== */
 
   const handleGenerate = () => {
     if (selectedStudents.length === 0) {
       alert("Please select at least one student.");
-
       return;
     }
 
@@ -101,7 +106,7 @@ const StudentIdCard = () => {
   };
 
   /* ==========================================
-      BACK
+     BACK
   =========================================== */
 
   const handleBack = () => {
@@ -109,35 +114,60 @@ const StudentIdCard = () => {
   };
 
   /* ==========================================
-      PRINT
+     PRINT
   =========================================== */
 
   const handlePrint = async () => {
-    const printArea = document.getElementById("StudentIdPreview-printArea");
-    const images = Array.from(printArea?.querySelectorAll("img") || []);
+    const printArea = document.getElementById(
+      "StudentIdPreview-printArea"
+    );
 
+    if (!printArea) {
+      console.log("Print area not found");
+      return;
+    }
+
+    const images = Array.from(
+      printArea.querySelectorAll("img")
+    );
+
+    /*
+      Wait for every image to finish loading
+      before opening the browser print dialog.
+    */
     await Promise.all(
       images.map((image) => {
-        if (image.complete) return Promise.resolve();
+        if (image.complete && image.naturalWidth > 0) {
+          return Promise.resolve();
+        }
 
         return new Promise((resolve) => {
           image.onload = resolve;
           image.onerror = resolve;
         });
-      }),
+      })
     );
 
-    window.print();
+    /*
+      Small delay allows the browser to finish
+      calculating image/layout dimensions.
+    */
+    setTimeout(() => {
+      window.print();
+    }, 100);
   };
 
   /* ==========================================
-      UI
+     UI
   =========================================== */
 
   return (
     <div className="StudentIdCard">
       <div className="StudentIdCard-container">
-        <h2 className="StudentIdCard-pageTitle">Student ID Card</h2>
+
+        <h2 className="StudentIdCard-pageTitle">
+          Student ID Card
+        </h2>
 
         {!showPreview && (
           <>
@@ -166,6 +196,7 @@ const StudentIdCard = () => {
             onPrint={handlePrint}
           />
         )}
+
       </div>
     </div>
   );

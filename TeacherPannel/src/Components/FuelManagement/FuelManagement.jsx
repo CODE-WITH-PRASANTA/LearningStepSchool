@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./FuelManagement.css";
 import API from "../../api/axios";
 
-/* =========================================================
-   SVG ICONS
-========================================================= */
+// =========================================================
+// SVG ICONS
+// =========================================================
 
 const Icons = {
   FuelPump: () => (
@@ -250,37 +250,102 @@ const Icons = {
   ),
 };
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
+// =========================================================
+// HELPERS
+// =========================================================
 
 const getToday = () => {
   const today = new Date();
 
   const year = today.getFullYear();
 
-  const month = String(
-    today.getMonth() + 1
-  ).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
 
-  const day = String(
-    today.getDate()
-  ).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
 };
 
+// =========================================================
+// GET LOGGED-IN TEACHER
+// =========================================================
 
-/* =========================================================
-   COMPONENT
-========================================================= */
+const getLoggedInTeacher = () => {
+  try {
+    /*
+      Your login backend returns:
+
+      {
+        token: "...",
+        teacher: {
+          id: "...",
+          name: "Debashish mallick",
+          email: "...",
+          role: "teacher"
+        }
+      }
+
+      Save response.data.teacher as "user".
+    */
+
+    const possibleKeys = [
+      "user",
+      "teacher",
+      "loggedInTeacher",
+      "currentUser",
+    ];
+
+    for (const key of possibleKeys) {
+      const storedData = localStorage.getItem(key);
+
+      if (!storedData) {
+        continue;
+      }
+
+      try {
+        const parsedData = JSON.parse(storedData);
+
+        if (
+          parsedData &&
+          (parsedData.id || parsedData._id) &&
+          parsedData.name
+        ) {
+          return {
+            ...parsedData,
+            id: parsedData.id || parsedData._id,
+          };
+        }
+      } catch (error) {
+        console.error(
+          `Invalid ${key} data in localStorage`,
+          error
+        );
+      }
+    }
+
+    console.error(
+      "Logged-in teacher was not found in localStorage."
+    );
+
+    return null;
+  } catch (error) {
+    console.error(
+      "GET LOGGED-IN TEACHER ERROR:",
+      error
+    );
+
+    return null;
+  }
+};
+
+// =========================================================
+// COMPONENT
+// =========================================================
 
 const FuelManagement = () => {
-
-  /* =====================================================
-     FUEL RECORDS
-  ===================================================== */
+  // =====================================================
+  // FUEL RECORDS
+  // =====================================================
 
   const [records, setRecords] = useState([]);
 
@@ -308,21 +373,19 @@ const FuelManagement = () => {
   const [deletingId, setDeletingId] =
     useState(null);
 
-
-  /* =====================================================
-     TEACHERS
-  ===================================================== */
+  // =====================================================
+  // LOGGED-IN TEACHER
+  // =====================================================
 
   const [teachers, setTeachers] =
     useState([]);
 
   const [teachersLoading, setTeachersLoading] =
-    useState(false);
+    useState(true);
 
-
-  /* =====================================================
-     FORM
-  ===================================================== */
+  // =====================================================
+  // FORM
+  // =====================================================
 
   const [formData, setFormData] =
     useState({
@@ -336,67 +399,101 @@ const FuelManagement = () => {
       amount: "",
     });
 
-
-  /* =====================================================
-     FETCH TEACHERS
-  ===================================================== */
+  // =====================================================
+  // FETCH LOGGED-IN TEACHER
+  // =====================================================
 
   const fetchTeachers = async () => {
-
     try {
-
       setTeachersLoading(true);
 
-      const response =
-        await API.get("/teacher/all");
+      const loggedInTeacher =
+        getLoggedInTeacher();
 
       console.log(
-        "TEACHERS RESPONSE:",
-        response.data
+        "LOGGED-IN TEACHER:",
+        loggedInTeacher
       );
 
+      if (!loggedInTeacher) {
+        setTeachers([]);
 
-      const teacherData =
-        response.data?.data || [];
+        alert(
+          "Logged-in teacher not found. Please login again."
+        );
 
+        return;
+      }
 
-      setTeachers(teacherData);
+      /*
+        IMPORTANT:
 
+        We are NOT calling:
+
+        API.get("/teacher/all")
+
+        because this teacher panel should only
+        show the logged-in teacher.
+      */
+
+      const teacher = {
+        _id:
+          loggedInTeacher.id ||
+          loggedInTeacher._id,
+
+        id:
+          loggedInTeacher.id ||
+          loggedInTeacher._id,
+
+        name:
+          loggedInTeacher.name,
+
+        email:
+          loggedInTeacher.email || "",
+
+        role:
+          loggedInTeacher.role || "teacher",
+
+        department:
+          loggedInTeacher.department || "",
+      };
+
+      setTeachers([teacher]);
+
+      /*
+        Automatically select the logged-in teacher.
+      */
+
+      setFormData((prev) => ({
+        ...prev,
+        employeeName: teacher.name,
+      }));
     } catch (error) {
-
       console.error(
-        "FETCH TEACHERS ERROR:",
+        "FETCH LOGGED-IN TEACHER ERROR:",
         error
       );
 
+      setTeachers([]);
 
       alert(
-        error.response?.data?.message ||
-        "Failed to fetch teachers"
+        "Failed to load logged-in teacher"
       );
-
     } finally {
-
       setTeachersLoading(false);
-
     }
-
   };
 
-
-  /* =====================================================
-     FETCH FUEL
-  ===================================================== */
+  // =====================================================
+  // FETCH FUEL
+  // =====================================================
 
   const fetchFuelRecords = async (
     page = currentPage,
     search = searchTerm
   ) => {
-
     try {
-
       setLoading(true);
-
 
       const response =
         await API.get("/fuel", {
@@ -407,99 +504,72 @@ const FuelManagement = () => {
           },
         });
 
-
       console.log(
         "FUEL RESPONSE:",
         response.data
       );
 
-
       const fuelData =
         response.data?.data || [];
 
-
       setRecords(fuelData);
-
 
       setTotalRecords(
         response.data?.pagination?.total || 0
       );
 
-
       setTotalPages(
         response.data?.pagination?.totalPages || 1
       );
-
-
     } catch (error) {
-
       console.error(
         "FETCH FUEL ERROR:",
         error
       );
 
-
       alert(
         error.response?.data?.message ||
-        "Failed to fetch fuel entries"
+          "Failed to fetch fuel entries"
       );
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
-
-  /* =====================================================
-     INITIAL FETCH
-  ===================================================== */
+  // =====================================================
+  // INITIAL FETCH
+  // =====================================================
 
   useEffect(() => {
-
     fetchTeachers();
 
-    fetchFuelRecords(
-      1,
-      ""
-    );
-
+    fetchFuelRecords(1, "");
   }, []);
 
-
-  /* =====================================================
-     SEARCH
-  ===================================================== */
+  // =====================================================
+  // SEARCH
+  // =====================================================
 
   useEffect(() => {
-
     const timer =
       setTimeout(() => {
-
         setCurrentPage(1);
 
         fetchFuelRecords(
           1,
           searchTerm
         );
-
       }, 400);
-
 
     return () =>
       clearTimeout(timer);
-
   }, [searchTerm]);
 
-
-  /* =====================================================
-     AMOUNT CALCULATION
-  ===================================================== */
+  // =====================================================
+  // AMOUNT CALCULATION
+  // =====================================================
 
   useEffect(() => {
-
     const rate =
       parseFloat(
         formData.rate
@@ -510,12 +580,10 @@ const FuelManagement = () => {
         formData.volume
       ) || 0;
 
-
     if (
       rate > 0 &&
       volume > 0
     ) {
-
       setFormData(
         (prev) => ({
           ...prev,
@@ -526,35 +594,28 @@ const FuelManagement = () => {
             ).toFixed(2),
         })
       );
-
     } else {
-
       setFormData(
         (prev) => ({
           ...prev,
           amount: "",
         })
       );
-
     }
-
   }, [
     formData.rate,
     formData.volume,
   ]);
 
-
-  /* =====================================================
-     INPUT CHANGE
-  ===================================================== */
+  // =====================================================
+  // INPUT CHANGE
+  // =====================================================
 
   const handleInputChange = (e) => {
-
     const {
       name,
       value,
     } = e.target;
-
 
     setFormData(
       (prev) => ({
@@ -562,41 +623,44 @@ const FuelManagement = () => {
         [name]: value,
       })
     );
-
   };
 
-
-  /* =====================================================
-     RESET
-  ===================================================== */
+  // =====================================================
+  // RESET
+  // =====================================================
 
   const handleReset = () => {
+    const loggedInTeacher =
+      getLoggedInTeacher();
 
     setFormData({
-      employeeName: "",
+      employeeName:
+        loggedInTeacher?.name || "",
+
       pumpName: "",
+
       date: getToday(),
+
       invoiceNo: "",
+
       km: "",
+
       rate: "",
+
       volume: "",
+
       amount: "",
     });
 
-
     setEditingId(null);
-
   };
 
-
-  /* =====================================================
-     SUBMIT
-  ===================================================== */
+  // =====================================================
+  // SUBMIT
+  // =====================================================
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-
 
     if (
       !formData.employeeName ||
@@ -604,23 +668,17 @@ const FuelManagement = () => {
       !formData.date ||
       !formData.invoiceNo
     ) {
-
       alert(
         "Please fill in all required fields marked with *"
       );
 
       return;
-
     }
 
-
     try {
-
       setSaving(true);
 
-
       const payload = {
-
         employeeName:
           formData.employeeName,
 
@@ -641,47 +699,37 @@ const FuelManagement = () => {
 
         volume:
           Number(formData.volume) || 0,
-
       };
 
-
-      /* ===============================================
-         UPDATE
-      =============================================== */
+      // =================================================
+      // UPDATE
+      // =================================================
 
       if (editingId) {
-
         await API.put(
           `/fuel/${editingId}`,
           payload
         );
 
-
         alert(
           "Fuel entry updated successfully"
         );
-
       }
 
-
-      /* ===============================================
-         CREATE
-      =============================================== */
+      // =================================================
+      // CREATE
+      // =================================================
 
       else {
-
         await API.post(
           "/fuel",
           payload
         );
 
-
         alert(
           "Fuel entry saved successfully"
         );
-
       }
-
 
       await fetchFuelRecords(
         editingId
@@ -690,58 +738,42 @@ const FuelManagement = () => {
         searchTerm
       );
 
-
       handleReset();
-
-
     } catch (error) {
-
       console.error(
         "SAVE FUEL ERROR:",
         error
       );
 
-
       alert(
         error.response?.data?.message ||
-        "Failed to save fuel entry"
+          "Failed to save fuel entry"
       );
-
     } finally {
-
       setSaving(false);
-
     }
-
   };
 
-
-  /* =====================================================
-     EDIT
-  ===================================================== */
+  // =====================================================
+  // EDIT
+  // =====================================================
 
   const handleEdit = (record) => {
-
     setEditingId(
       record._id
     );
 
-
     let formattedDate = "";
 
-
     if (record.date) {
-
       const date =
         new Date(record.date);
-
 
       if (
         !Number.isNaN(
           date.getTime()
         )
       ) {
-
         const year =
           date.getFullYear();
 
@@ -761,17 +793,12 @@ const FuelManagement = () => {
             "0"
           );
 
-
         formattedDate =
           `${year}-${month}-${day}`;
-
       }
-
     }
 
-
     setFormData({
-
       employeeName:
         record.employeeName || "",
 
@@ -795,191 +822,142 @@ const FuelManagement = () => {
 
       amount:
         record.amount ?? "",
-
     });
-
 
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
   };
 
-
-  /* =====================================================
-     DELETE
-  ===================================================== */
+  // =====================================================
+  // DELETE
+  // =====================================================
 
   const handleDelete = async (id) => {
-
     if (
       !window.confirm(
         "Are you sure you want to delete this fuel record?"
       )
     ) {
-
       return;
-
     }
 
-
     try {
-
       setDeletingId(id);
-
 
       await API.delete(
         `/fuel/${id}`
       );
 
-
       alert(
         "Fuel record deleted successfully"
       );
-
 
       if (
         records.length === 1 &&
         currentPage > 1
       ) {
-
         const newPage =
           currentPage - 1;
-
 
         setCurrentPage(
           newPage
         );
 
-
         await fetchFuelRecords(
           newPage,
           searchTerm
         );
-
       } else {
-
         await fetchFuelRecords(
           currentPage,
           searchTerm
         );
-
       }
-
-
     } catch (error) {
-
       console.error(
         "DELETE FUEL ERROR:",
         error
       );
 
-
       alert(
         error.response?.data?.message ||
-        "Failed to delete fuel record"
+          "Failed to delete fuel record"
       );
-
     } finally {
-
       setDeletingId(null);
-
     }
-
   };
 
-
-  /* =====================================================
-     PAGE CHANGE
-  ===================================================== */
+  // =====================================================
+  // PAGE CHANGE
+  // =====================================================
 
   const handlePageChange = (
     page
   ) => {
-
     if (
       page < 1 ||
       page > totalPages
     ) {
-
       return;
-
     }
 
-
     setCurrentPage(page);
-
 
     fetchFuelRecords(
       page,
       searchTerm
     );
-
   };
 
-
-  /* =====================================================
-     FORMAT NUMBER
-  ===================================================== */
+  // =====================================================
+  // FORMAT NUMBER
+  // =====================================================
 
   const formatNum = (
     value
   ) => {
-
     if (
       value === null ||
       value === undefined ||
       value === ""
     ) {
-
       return "0";
-
     }
-
 
     const number =
       parseFloat(value);
-
 
     return Number.isNaN(number)
       ? value
       : number.toLocaleString(
           "en-IN"
         );
-
   };
 
-
-  /* =====================================================
-     FORMAT DATE
-  ===================================================== */
+  // =====================================================
+  // FORMAT DATE
+  // =====================================================
 
   const formatDateDisplay = (
     value
   ) => {
-
     if (!value) {
-
       return "";
-
     }
-
 
     const date =
       new Date(value);
-
 
     if (
       Number.isNaN(
         date.getTime()
       )
     ) {
-
       return value;
-
     }
-
 
     const day =
       String(
@@ -1000,44 +978,33 @@ const FuelManagement = () => {
     const year =
       date.getFullYear();
 
-
     return `${day}/${month}/${year}`;
-
   };
 
-
-  /* =====================================================
-     PAGINATION
-  ===================================================== */
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
   const getPaginationPages =
     () => {
-
       const pages = [];
-
 
       for (
         let i = 1;
         i <= totalPages;
         i++
       ) {
-
         pages.push(i);
-
       }
 
-
       return pages;
-
     };
 
-
-  /* =====================================================
-     RETURN
-  ===================================================== */
+  // =====================================================
+  // RETURN
+  // =====================================================
 
   return (
-
     <div className="fuel-management">
 
       {/* =================================================
@@ -1049,40 +1016,29 @@ const FuelManagement = () => {
         <div className="fuel-management-title-group">
 
           <div className="fuel-management-header-icon">
-
             <Icons.FuelPump />
-
           </div>
 
-
           <div>
-
             <h1 className="fuel-management-header-title">
               Fuel Entry
             </h1>
 
-
             <p className="fuel-management-header-subtitle">
               Manage fuel records for organization vehicles.
             </p>
-
           </div>
 
         </div>
 
-
         <div className="fuel-management-breadcrumbs">
-
           Accounts & Expenses &gt; Vehicle Controller &gt;{" "}
-
           <span>
             Fuel Entry
           </span>
-
         </div>
 
       </div>
-
 
       {/* =================================================
           FORM CARD
@@ -1091,44 +1047,33 @@ const FuelManagement = () => {
       <div className="fuel-management-card">
 
         <div className="fuel-management-card-title">
-
           {editingId
             ? "Edit Fuel Entry"
             : "Add Fuel Entry"}
-
         </div>
-
 
         <form onSubmit={handleSubmit}>
 
           <div className="fuel-management-form-grid">
 
-
             {/* =================================================
-                EMPLOYEE NAME - TEACHER DROPDOWN
+                EMPLOYEE NAME
             ================================================= */}
 
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Employee Name{" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.User />
-
                 </div>
-
 
                 <select
                   className="fuel-management-input fuel-management-select"
@@ -1136,52 +1081,49 @@ const FuelManagement = () => {
                   value={formData.employeeName}
                   onChange={handleInputChange}
                   required
-                  disabled={teachersLoading}
+                  disabled={
+                    teachersLoading ||
+                    teachers.length === 0
+                  }
                 >
 
                   <option value="">
-
                     {teachersLoading
-                      ? "Loading Teachers..."
+                      ? "Loading Teacher..."
                       : teachers.length === 0
-                        ? "No Teachers Found"
+                        ? "Teacher Not Found"
                         : "Select Employee"}
-
                   </option>
-
 
                   {teachers.map(
                     (teacher) => (
-
                       <option
-                        key={teacher._id}
-                        value={teacher.name}
+                        key={
+                          teacher._id ||
+                          teacher.id
+                        }
+                        value={
+                          teacher.name
+                        }
                       >
-
                         {teacher.name}
 
                         {teacher.department
                           ? ` - ${teacher.department}`
                           : ""}
-
                       </option>
-
                     )
                   )}
 
                 </select>
 
-
                 <div className="fuel-management-select-arrow">
-
                   <Icons.ChevronDown />
-
                 </div>
 
               </div>
 
             </div>
-
 
             {/* =================================================
                 PUMP
@@ -1190,24 +1132,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Pump Name{" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.FuelPump />
-
                 </div>
-
 
                 <select
                   className="fuel-management-input fuel-management-select"
@@ -1243,17 +1178,13 @@ const FuelManagement = () => {
 
                 </select>
 
-
                 <div className="fuel-management-select-arrow">
-
                   <Icons.ChevronDown />
-
                 </div>
 
               </div>
 
             </div>
-
 
             {/* =================================================
                 DATE
@@ -1262,24 +1193,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Date{" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.Calendar />
-
                 </div>
-
 
                 <input
                   type="date"
@@ -1294,7 +1218,6 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* =================================================
                 INVOICE
             ================================================= */}
@@ -1302,24 +1225,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Invoice No.{" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.FileText />
-
                 </div>
-
 
                 <input
                   type="text"
@@ -1335,7 +1251,6 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* =================================================
                 KM
             ================================================= */}
@@ -1343,24 +1258,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 KM (Odometer){" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.Gauge />
-
                 </div>
-
 
                 <input
                   type="number"
@@ -1372,7 +1280,6 @@ const FuelManagement = () => {
                   onChange={handleInputChange}
                 />
 
-
                 <span className="fuel-management-input-suffix">
                   km
                 </span>
@@ -1381,7 +1288,6 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* =================================================
                 RATE
             ================================================= */}
@@ -1389,24 +1295,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Rate per Litre (₹){" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.Rupee />
-
                 </div>
-
 
                 <input
                   type="number"
@@ -1419,7 +1318,6 @@ const FuelManagement = () => {
                   onChange={handleInputChange}
                 />
 
-
                 <span className="fuel-management-input-suffix">
                   /Ltr
                 </span>
@@ -1428,7 +1326,6 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* =================================================
                 VOLUME
             ================================================= */}
@@ -1436,24 +1333,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Volume (Litre){" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.Droplet />
-
                 </div>
-
 
                 <input
                   type="number"
@@ -1466,7 +1356,6 @@ const FuelManagement = () => {
                   onChange={handleInputChange}
                 />
 
-
                 <span className="fuel-management-input-suffix">
                   Ltr
                 </span>
@@ -1475,7 +1364,6 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* =================================================
                 AMOUNT
             ================================================= */}
@@ -1483,24 +1371,17 @@ const FuelManagement = () => {
             <div className="fuel-management-field">
 
               <label className="fuel-management-label">
-
                 Amount (₹){" "}
-
                 <span className="fuel-management-required">
                   *
                 </span>
-
               </label>
-
 
               <div className="fuel-management-input-wrapper">
 
                 <div className="fuel-management-input-icon">
-
                   <Icons.Rupee />
-
                 </div>
-
 
                 <input
                   type="text"
@@ -1519,7 +1400,6 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* =================================================
                 INFO
             ================================================= */}
@@ -1535,9 +1415,7 @@ const FuelManagement = () => {
 
             </div>
 
-
           </div>
-
 
           {/* =================================================
               ACTION BUTTONS
@@ -1553,7 +1431,6 @@ const FuelManagement = () => {
             >
               Reset
             </button>
-
 
             <button
               type="submit"
@@ -1581,7 +1458,6 @@ const FuelManagement = () => {
 
       </div>
 
-
       {/* =================================================
           FUEL LIST
       ================================================= */}
@@ -1600,7 +1476,6 @@ const FuelManagement = () => {
             Fuel Entry List
           </div>
 
-
           <div className="fuel-management-list-actions">
 
             {/* SEARCH */}
@@ -1613,11 +1488,8 @@ const FuelManagement = () => {
                   top: "11px",
                 }}
               >
-
                 <Icons.Search />
-
               </div>
-
 
               <input
                 type="text"
@@ -1633,21 +1505,18 @@ const FuelManagement = () => {
 
             </div>
 
-
             {/* FILTER */}
 
             <button
               type="button"
               className="fuel-management-btn fuel-management-btn-filter"
               onClick={() => {
-
                 setCurrentPage(1);
 
                 fetchFuelRecords(
                   1,
                   searchTerm
                 );
-
               }}
             >
 
@@ -1657,21 +1526,18 @@ const FuelManagement = () => {
 
             </button>
 
-
             {/* ADD */}
 
             <button
               type="button"
               className="fuel-management-btn fuel-management-btn-save"
               onClick={() => {
-
                 handleReset();
 
                 window.scrollTo({
                   top: 0,
                   behavior: "smooth",
                 });
-
               }}
             >
 
@@ -1684,7 +1550,6 @@ const FuelManagement = () => {
           </div>
 
         </div>
-
 
         {/* =================================================
             TABLE
@@ -1736,8 +1601,7 @@ const FuelManagement = () => {
 
                 <th
                   style={{
-                    textAlign:
-                      "center",
+                    textAlign: "center",
                   }}
                 >
                   Action
@@ -1746,7 +1610,6 @@ const FuelManagement = () => {
               </tr>
 
             </thead>
-
 
             <tbody>
 
@@ -1757,11 +1620,9 @@ const FuelManagement = () => {
                   <td
                     colSpan="10"
                     style={{
-                      textAlign:
-                        "center",
+                      textAlign: "center",
                       padding: "40px",
-                      color:
-                        "#94A3B8",
+                      color: "#94A3B8",
                     }}
                   >
                     Loading fuel entries...
@@ -1781,7 +1642,6 @@ const FuelManagement = () => {
                     >
 
                       <td>
-
                         {(
                           (
                             currentPage -
@@ -1791,84 +1651,61 @@ const FuelManagement = () => {
                         ) +
                           index +
                           1}
-
                       </td>
-
 
                       <td
                         style={{
                           fontWeight: 600,
                         }}
                       >
-
                         {item.employeeName ||
                           "N/A"}
-
                       </td>
-
 
                       <td>
                         {item.pumpName}
                       </td>
 
-
                       <td>
-
                         {formatDateDisplay(
                           item.date
                         )}
-
                       </td>
-
 
                       <td>
                         {item.invoiceNo}
                       </td>
 
-
                       <td>
-
                         {formatNum(
                           item.km
                         )}
-
                       </td>
 
-
                       <td>
-
                         {parseFloat(
                           item.rate ||
                             0
                         ).toFixed(2)}
-
                       </td>
 
-
                       <td>
-
                         {parseFloat(
                           item.volume ||
                             0
                         ).toFixed(2)}
-
                       </td>
-
 
                       <td
                         style={{
                           fontWeight: 600,
                         }}
                       >
-
                         ₹{" "}
-
                         {formatNum(
                           item.amount
                         )}
-
                       </td>
-
 
                       <td>
 
@@ -1891,11 +1728,8 @@ const FuelManagement = () => {
                                 item._id
                             }
                           >
-
                             <Icons.Edit />
-
                           </button>
-
 
                           {/* DELETE */}
 
@@ -1913,9 +1747,7 @@ const FuelManagement = () => {
                               item._id
                             }
                           >
-
                             <Icons.Trash />
-
                           </button>
 
                         </div>
@@ -1934,11 +1766,9 @@ const FuelManagement = () => {
                   <td
                     colSpan="10"
                     style={{
-                      textAlign:
-                        "center",
+                      textAlign: "center",
                       padding: "24px",
-                      color:
-                        "#94A3B8",
+                      color: "#94A3B8",
                     }}
                   >
                     No fuel entries found.
@@ -1953,7 +1783,6 @@ const FuelManagement = () => {
           </table>
 
         </div>
-
 
         {/* =================================================
             FOOTER
@@ -1996,7 +1825,6 @@ const FuelManagement = () => {
 
           </div>
 
-
           <div className="fuel-management-pagination">
 
             {/* PREVIOUS */}
@@ -2016,7 +1844,6 @@ const FuelManagement = () => {
             >
               &lt;
             </button>
-
 
             {/* PAGES */}
 
@@ -2038,14 +1865,11 @@ const FuelManagement = () => {
                     )
                   }
                 >
-
                   {page}
-
                 </button>
 
               )
             )}
-
 
             {/* NEXT */}
 
@@ -2074,7 +1898,6 @@ const FuelManagement = () => {
       </div>
 
     </div>
-
   );
 };
 

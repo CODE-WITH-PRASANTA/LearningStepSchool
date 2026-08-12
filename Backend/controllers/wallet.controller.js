@@ -16,6 +16,7 @@ const VALID_SOURCES = [
   "fee",
   "expense",
   "payroll",
+  "fuel",
   "otherIncome",
 ];
 

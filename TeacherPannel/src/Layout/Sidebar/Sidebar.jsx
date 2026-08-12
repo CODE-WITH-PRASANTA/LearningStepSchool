@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+
 import {
   FaHome,
   FaUser,
@@ -15,10 +16,6 @@ import {
   FaClock,
   FaUserClock,
   FaChevronDown,
-
-  // Existing
-  FaChalkboardTeacher,
-  FaNewspaper,
   FaUserGraduate,
   FaClipboardList,
   FaCommentDots,
@@ -29,20 +26,15 @@ import {
   FaQuoteLeft,
   FaImage,
   FaVideo,
-
-  // FaWallet,
   FaSearch,
   FaList,
-  // FaMoneyBillWave
-
-   FaBus,
+  FaBus,
   FaRoute,
   FaMapMarkerAlt,
   FaExchangeAlt,
   FaRoad,
   FaChartPie,
   FaFileAlt,
-  // FaUserGraduate,
   FaTachometerAlt,
   FaCog,
   FaGasPump,
@@ -51,78 +43,226 @@ import {
 import "./Sidebar.css";
 import API from "../../api/axios";
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
+const Sidebar = ({
+  sidebarOpen,
+  setSidebarOpen,
+}) => {
   const [permissions, setPermissions] = useState([]);
   const [openMenu, setOpenMenu] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
-  // 🔹 Load Permissions
-  useEffect(() => {
-    const loadUser = async () => {
-      try {
-        const res = await API.get("/teacher/me");
-        setPermissions(res.data.permissions || []);
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth <= 1024
+  );
 
-        console.log("Teacher Data:", res.data);
-        console.log("Permissions:", res.data.permissions);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    loadUser();
-  }, []);
+  /* =====================================================
+     SCREEN SIZE
+  ===================================================== */
 
-  // 🔍 Debug Permissions
-  useEffect(() => {
-    console.log("Permissions:", permissions);
-  }, [permissions]);
-
-  // 🔹 Handle screen resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1024);
+      const mobile =
+        window.innerWidth <= 1024;
+
+      setIsMobile(mobile);
+
+      /*
+        When changing from mobile to desktop,
+        remove mobile-only overlay behavior.
+      */
+      if (!mobile) {
+        setOpenMenu(null);
+      }
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
+
+    return () => {
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
+    };
   }, []);
 
-  // 🔐 Permission Check
-  const hasPermission = (perm) => {
-    if (!perm) return true;
-    if (permissions.includes("ALL")) return true;
-    return permissions.includes(perm);
+  /* =====================================================
+     LOAD TEACHER PERMISSIONS
+  ===================================================== */
+
+  useEffect(() => {
+    const loadTeacher = async () => {
+      try {
+        const response =
+          await API.get("/teacher/me");
+
+        const teacher =
+          response?.data || {};
+
+        setPermissions(
+          teacher?.permissions || []
+        );
+      } catch (error) {
+        console.log(
+          "Teacher permission error:",
+          error
+        );
+
+        try {
+          const storedTeacher =
+            localStorage.getItem("teacher");
+
+          if (storedTeacher) {
+            const teacher =
+              JSON.parse(
+                storedTeacher
+              );
+
+            setPermissions(
+              teacher?.permissions || []
+            );
+          }
+        } catch (storageError) {
+          console.log(
+            "Local teacher error:",
+            storageError
+          );
+        }
+      }
+    };
+
+    loadTeacher();
+  }, []);
+
+  /* =====================================================
+     LOCK BODY SCROLL WHEN MOBILE SIDEBAR OPEN
+  ===================================================== */
+
+  useEffect(() => {
+    if (isMobile && sidebarOpen) {
+      document.body.style.overflow =
+        "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sidebarOpen, isMobile]);
+
+  /* =====================================================
+     ESCAPE KEY CLOSE
+  ===================================================== */
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (
+        event.key === "Escape" &&
+        sidebarOpen
+      ) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
+
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
+    };
+  }, [
+    sidebarOpen,
+    setSidebarOpen,
+  ]);
+
+  /* =====================================================
+     PERMISSION CHECK
+  ===================================================== */
+
+  const hasPermission = (permission) => {
+    if (!permission) {
+      return true;
+    }
+
+    if (permissions.includes("ALL")) {
+      return true;
+    }
+
+    return permissions.includes(
+      permission
+    );
   };
 
-  // 🔽 Toggle submenu
+  /* =====================================================
+     SUBMENU TOGGLE
+  ===================================================== */
+
   const toggleMenu = (name) => {
-    setOpenMenu(openMenu === name ? null : name);
+    setOpenMenu((previous) =>
+      previous === name
+        ? null
+        : name
+    );
   };
 
-  // 📱 Auto close on mobile
+  /* =====================================================
+     MENU CLICK
+  ===================================================== */
+
   const handleClick = () => {
-    if (isMobile) setSidebarOpen(false);
+    /*
+      Only close the sidebar on mobile/tablet.
+
+      Desktop sidebar remains open.
+    */
+
+    if (isMobile) {
+      setOpenMenu(null);
+      setSidebarOpen(false);
+    }
   };
 
-  // 📊 MENU
-  const menu = [
-    { name: "Dashboard", path: "/", icon: <FaHome /> },
-    { name: "Profile", path: "/admin/profile", icon: <FaUser /> },
+  /* =====================================================
+     MENU
+  ===================================================== */
 
-    // Leave
+  const menu = [
+    {
+      name: "Dashboard",
+      path: "/",
+      icon: <FaHome />,
+    },
+
+    {
+      name: "Profile",
+      path: "/admin/profile",
+      icon: <FaUser />,
+    },
+
     {
       name: "Leave",
       icon: <FaPlaneDeparture />,
+
       submenu: [
         {
           name: "Apply Leave",
           path: "/apply/leave",
           icon: <FaClipboardCheck />,
         },
+
         {
           name: "Leave Request",
           path: "/leave/request",
           icon: <FaCalendarAlt />,
         },
+
         {
           name: "Leave Balance",
           path: "/leave/balance",
@@ -134,12 +274,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     {
       name: "Payroll",
       icon: <FaMoneyCheckAlt />,
+
       submenu: [
         {
           name: "Salary Details",
           path: "/salary/details",
           icon: <FaWallet />,
         },
+
         {
           name: "Payslips",
           path: "/pay/slips",
@@ -148,31 +290,35 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       ],
     },
 
-    // Attendance (Separate Menu)
     {
       name: "Attendance",
       icon: <FaCalendarCheck />,
+
       submenu: [
         {
           name: "Today's Attendance",
           path: "/attendance/today",
           icon: <FaUserClock />,
         },
+
         {
           name: "Monthly Attendance",
           path: "/attendance/monthly",
           icon: <FaCalendarAlt />,
         },
+
         {
           name: "Attendance History",
           path: "/attendance/history",
           icon: <FaHistory />,
         },
+
         {
           name: "Overtime Requests",
           path: "/attendance/overtime",
           icon: <FaBusinessTime />,
         },
+
         {
           name: "Shift Schedule",
           path: "/attendance/shift-schedule",
@@ -181,26 +327,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       ],
     },
 
-    // Continue your remaining menus...
-
-    { type: "section", label: "ERP Solution" },
+    {
+      type: "section",
+      label: "ERP Solution",
+    },
 
     {
       name: "Student Hub",
       icon: <FaUserGraduate />,
-      permission: "VIEW_STUDENT_DETAILS",
+      permission:
+        "VIEW_STUDENT_DETAILS",
+
       submenu: [
         {
           name: "Student Admission",
           path: "/student/admission",
           icon: <FaClipboardList />,
-          permission: "VIEW_STUDENT_DETAILS",
+          permission:
+            "VIEW_STUDENT_DETAILS",
         },
+
         {
           name: "Student Details",
-          path: "/student/admission/details",
+          path:
+            "/student/admission/details",
           icon: <FaUserTie />,
-          permission: "VIEW_STUDENT_DETAILS",
+          permission:
+            "VIEW_STUDENT_DETAILS",
         },
       ],
     },
@@ -209,24 +362,30 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       name: "Student Paytrack",
       icon: <FaMoneyBillWave />,
       permission: "FEE_MANAGEMENT",
+
       submenu: [
         {
           name: "Fee Collect",
           path: "/fee-collect",
           icon: <FaMoneyBillWave />,
-          permission: "FEE_MANAGEMENT",
+          permission:
+            "FEE_MANAGEMENT",
         },
+
         {
           name: "Fee Type",
           path: "/fee-type",
           icon: <FaLayerGroup />,
-          permission: "FEE_MANAGEMENT",
+          permission:
+            "FEE_MANAGEMENT",
         },
+
         {
           name: "Payment Receipt",
           path: "/paymentrecipt",
           icon: <FaClipboardList />,
-          permission: "FEE_MANAGEMENT",
+          permission:
+            "FEE_MANAGEMENT",
         },
       ],
     },
@@ -237,31 +396,41 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       icon: <FaBook />,
       permission: "SUBJECT_POST",
     },
+
     {
       name: "Classwise Subject",
       path: "/classwise-subject-post",
       icon: <FaLayerGroup />,
-      permission: "CLASSWISE_SUBJECT",
+      permission:
+        "CLASSWISE_SUBJECT",
     },
 
-    { type: "section", label: "Content Management" },
+    {
+      type: "section",
+      label: "Content Management",
+    },
 
     {
       name: "Blog Management",
       icon: <FaCommentDots />,
-      permission: "BLOG_MANAGEMENT",
+      permission:
+        "BLOG_MANAGEMENT",
+
       submenu: [
         {
           name: "Blog Post",
           path: "/blog-post",
           icon: <FaClipboardList />,
-          permission: "BLOG_MANAGEMENT",
+          permission:
+            "BLOG_MANAGEMENT",
         },
+
         {
           name: "Blog View",
           path: "/blog-view",
           icon: <FaBook />,
-          permission: "BLOG_MANAGEMENT",
+          permission:
+            "BLOG_MANAGEMENT",
         },
       ],
     },
@@ -270,62 +439,82 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       name: "Teacher Posting",
       path: "/teacher-posting",
       icon: <FaUserTie />,
-      permission: "TEACHER_POSTING",
+      permission:
+        "TEACHER_POSTING",
     },
+
     {
       name: "Award Management",
       path: "/award-management",
       icon: <FaLayerGroup />,
-      permission: "AWARD_MANAGEMENT",
+      permission:
+        "AWARD_MANAGEMENT",
     },
+
     {
       name: "School Fee & Info",
       path: "/schoolfee-info",
       icon: <FaMoneyBillWave />,
-      permission: "SCHOOLFEE_INFO",
+      permission:
+        "SCHOOLFEE_INFO",
     },
+
     {
       name: "Notice Management",
       path: "/notice-management",
       icon: <FaClipboardList />,
-      permission: "NOTICE_MANAGEMENT",
+      permission:
+        "NOTICE_MANAGEMENT",
     },
 
     {
       name: "Notification Management",
-      path: "/notification-management",
+      path:
+        "/notification-management",
       icon: <FaCommentDots />,
-      permission: "NOTIFICATION_MANAGEMENT",
+      permission:
+        "NOTIFICATION_MANAGEMENT",
     },
+
     {
       name: "Latest News Management",
       path: "/latest-news",
-      icon: <FaNewspaper />,
-      permission: "LATEST_NEWS_MANAGEMENT",
+      icon: <FaCommentDots />,
+      permission:
+        "LATEST_NEWS_MANAGEMENT",
     },
+
     {
       name: "Class Data Registry",
       path: "/class-data",
       icon: <FaLayerGroup />,
-      permission: "CLASS_DATA_REGISTRY",
+      permission:
+        "CLASS_DATA_REGISTRY",
     },
 
     {
       name: "Media Management",
       icon: <FaLayerGroup />,
-      permission: "MEDIA_MANAGEMENT",
+      permission:
+        "MEDIA_MANAGEMENT",
+
       submenu: [
         {
           name: "Photo Gallery",
-          path: "/media/photo-gallery",
+          path:
+            "/media/photo-gallery",
           icon: <FaImage />,
-          permission: "MEDIA_MANAGEMENT",
+          permission:
+            "MEDIA_MANAGEMENT",
         },
+
         {
           name: "Video Gallery",
-          path: "/media/video-gallery",
+          path:
+            "/media/video-gallery",
           icon: <FaVideo />,
-          permission: "MEDIA_MANAGEMENT",
+          permission:
+            "MEDIA_MANAGEMENT",
         },
       ],
     },
@@ -333,25 +522,35 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     {
       name: "Learning Management",
       icon: <FaBook />,
-      permission: "LEARNING_MANAGEMENT",
+      permission:
+        "LEARNING_MANAGEMENT",
+
       submenu: [
         {
           name: "Pre-Primary",
-          path: "/learning/pre-primary",
+          path:
+            "/learning/pre-primary",
           icon: <FaBook />,
-          permission: "LEARNING_MANAGEMENT",
+          permission:
+            "LEARNING_MANAGEMENT",
         },
+
         {
           name: "Primary",
-          path: "/learning/primary",
+          path:
+            "/learning/primary",
           icon: <FaBook />,
-          permission: "LEARNING_MANAGEMENT",
+          permission:
+            "LEARNING_MANAGEMENT",
         },
+
         {
           name: "Secondary",
-          path: "/learning/secondary",
+          path:
+            "/learning/secondary",
           icon: <FaBook />,
-          permission: "LEARNING_MANAGEMENT",
+          permission:
+            "LEARNING_MANAGEMENT",
         },
       ],
     },
@@ -360,45 +559,55 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       name: "Testimonials",
       path: "/testimonials",
       icon: <FaQuoteLeft />,
-      permission: "TESTIMONIALS_MANAGEMENT",
+      permission:
+        "TESTIMONIALS_MANAGEMENT",
     },
+
     {
       name: "Admission Management",
-      path: "/admission-management",
       icon: <FaUserGraduate />,
-      permission: "ADMISSION_MANAGEMENT",
+      permission:
+        "ADMISSION_MANAGEMENT",
 
       submenu: [
         {
           name: "Admission Survey",
           path: "/survey",
           icon: <FaUserGraduate />,
-          permission: "ADMISSION_MANAGEMENT",
+          permission:
+            "ADMISSION_MANAGEMENT",
         },
+
         {
           name: "Admission Data View",
           path: "/survey/data",
           icon: <FaUserGraduate />,
-          permission: "ADMISSION_MANAGEMENT",
+          permission:
+            "ADMISSION_MANAGEMENT",
         },
       ],
     },
+
     {
       name: "Event Management",
       path: "/event-management",
       icon: <FaCalendarAlt />,
-      permission: "EVENT_MANAGEMENT",
+      permission:
+        "EVENT_MANAGEMENT",
     },
+
     {
       name: "FAQ Posting",
       path: "/faq",
       icon: <FaCommentDots />,
       permission: "FAQ_POSTING",
     },
+
     {
       name: "Account & Expenses",
       icon: <FaMoneyBillWave />,
-      permission: "EXPENSE_MANAGEMENT",
+      permission:
+        "EXPENSE_MANAGEMENT",
 
       submenu: [
         {
@@ -412,28 +621,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           name: "Expense Entry",
           path: "/expense/details",
           icon: <FaMoneyBillWave />,
-          permission: "ADD_EXPENSE",
+          permission:
+            "ADD_EXPENSE",
         },
 
         {
           name: "Expense Explorer",
           path: "/expense-search",
           icon: <FaSearch />,
-          permission: "EXPENSE_SEARCH",
+          permission:
+            "EXPENSE_SEARCH",
         },
 
         {
           name: "Expense Categories",
           path: "/expense-head",
           icon: <FaList />,
-          permission: "EXPENSE_HEAD",
+          permission:
+            "EXPENSE_HEAD",
         },
 
         {
           name: "Expense Management",
-          path: "/expense-management",
+          path:
+            "/expense-management",
           icon: <FaMoneyBillWave />,
-          permission: "EXPENSE_MANAGEMENT",
+          permission:
+            "EXPENSE_MANAGEMENT",
         },
       ],
     },
@@ -441,200 +655,402 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     {
       name: "Transport",
       icon: <FaBus />,
-      permission: "TRANSPORT_MANAGEMENT",
+      permission:
+        "TRANSPORT_MANAGEMENT",
 
       submenu: [
         {
           name: "Transport Vehicle",
           path: "/vehicle",
           icon: <FaBus />,
-          permission: "TRANSPORT_VEHICLE",
+          permission:
+            "TRANSPORT_VEHICLE",
         },
 
         {
           name: "Transport Route",
           path: "/transport-route",
           icon: <FaRoute />,
-          permission: "TRANSPORT_ROUTE",
+          permission:
+            "TRANSPORT_ROUTE",
         },
 
         {
           name: "Transport Destination",
-          path: "/transport-destination",
+          path:
+            "/transport-destination",
           icon: <FaMapMarkerAlt />,
-          permission: "TRANSPORT_DESTINATION",
+          permission:
+            "TRANSPORT_DESTINATION",
         },
 
         {
           name: "Assign Routes",
           path: "/assign-route",
           icon: <FaExchangeAlt />,
-          permission: "ASSIGN_ROUTES",
+          permission:
+            "ASSIGN_ROUTES",
         },
 
         {
           name: "Vehicle Route",
           path: "/vehicle-route",
           icon: <FaRoad />,
-          permission: "VEHICLE_ROUTE",
+          permission:
+            "VEHICLE_ROUTE",
         },
 
         {
           name: "Transport Summary",
           path: "/transport-summary",
           icon: <FaChartPie />,
-          permission: "TRANSPORT_SUMMARY",
+          permission:
+            "TRANSPORT_SUMMARY",
         },
 
         {
           name: "Transport Vehicle Report",
-          path: "/transport-vehicle-report",
+          path:
+            "/transport-vehicle-report",
           icon: <FaFileAlt />,
-          permission: "TRANSPORT_VEHICLE_REPORT",
+          permission:
+            "TRANSPORT_VEHICLE_REPORT",
         },
 
         {
           name: "Transport Student Report",
-          path: "/transport-student-report",
+          path:
+            "/transport-student-report",
           icon: <FaUserGraduate />,
-          permission: "TRANSPORT_STUDENT_REPORT",
+          permission:
+            "TRANSPORT_STUDENT_REPORT",
         },
 
         {
           name: "Vehicle Dashboard",
-          path: "/vehicle-dashboard",
+          path:
+            "/vehicle-dashboard",
           icon: <FaTachometerAlt />,
-          permission: "VEHICLE_DASHBOARD",
+          permission:
+            "VEHICLE_DASHBOARD",
         },
 
         {
           name: "Vehicle KM",
           path: "/vehicle-km",
           icon: <FaRoad />,
-          permission: "VEHICLE_KM",
+          permission:
+            "VEHICLE_KM",
         },
 
         {
           name: "Vehicle Settings",
-          path: "/vehicle-settings",
+          path:
+            "/vehicle-settings",
           icon: <FaCog />,
-          permission: "VEHICLE_SETTINGS",
+          permission:
+            "VEHICLE_SETTINGS",
         },
 
         {
           name: "Fuel Management",
-          path: "/fuel-management",
+          path:
+            "/fuel-management",
           icon: <FaGasPump />,
-          permission: "FUEL_MANAGEMENT",
+          permission:
+            "FUEL_MANAGEMENT",
         },
       ],
     },
   ];
 
+  /* =====================================================
+     RENDER
+  ===================================================== */
+
   return (
     <>
+      {/* ================================================
+          MOBILE / TABLET OVERLAY
+      ================================================= */}
+
       {sidebarOpen && isMobile && (
         <div
           className="sidebar-overlay"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() =>
+            setSidebarOpen(false)
+          }
         />
       )}
 
-      <aside className={`sidebar ${sidebarOpen ? "active" : ""}`}>
+      {/* ================================================
+          SIDEBAR
+      ================================================= */}
+
+      <aside
+        className={`sidebar ${
+          sidebarOpen
+            ? "active"
+            : "closed"
+        }`}
+      >
         {/* TOP */}
+
         <div className="sidebar-top">
-          <div className="logo-box">A</div>
-          <div className="logo-text">
-            <h2>Teacher Panel</h2>
-            <p>Management System</p>
+
+          <div className="logo-box">
+            A
           </div>
+
+          <div className="logo-text">
+
+            <h2>
+              Teacher Panel
+            </h2>
+
+            <p>
+              Management System
+            </p>
+
+          </div>
+
         </div>
 
         {/* MENU */}
+
         <div className="sidebar-menu">
+
           {menu
             .filter((item) => {
-              if (item.type === "section") return true;
 
-              if (!item.submenu) return hasPermission(item.permission);
+              if (
+                item.type ===
+                "section"
+              ) {
+                return true;
+              }
 
-              const allowedSub = item.submenu.filter((sub) =>
-                hasPermission(sub.permission),
-              );
-
-              return allowedSub.length > 0;
-            })
-            .map((item, index) => {
-              if (item.type === "section") {
-                return (
-                  <div key={index} className="sidebar-section">
-                    {item.label}
-                  </div>
+              if (!item.submenu) {
+                return hasPermission(
+                  item.permission
                 );
               }
 
-              return item.submenu ? (
-                <div key={item.name}>
-                  <button
-                    className="menu-item"
-                    onClick={() => toggleMenu(item.name)}
+              const allowedSub =
+                item.submenu.filter(
+                  (sub) =>
+                    hasPermission(
+                      sub.permission
+                    )
+                );
+
+              return (
+                allowedSub.length > 0
+              );
+            })
+            .map(
+              (
+                item,
+                index
+              ) => {
+
+                /* ==================================
+                   SECTION
+                ================================== */
+
+                if (
+                  item.type ===
+                  "section"
+                ) {
+                  return (
+                    <div
+                      key={index}
+                      className="sidebar-section"
+                    >
+                      {item.label}
+                    </div>
+                  );
+                }
+
+                /* ==================================
+                   SUBMENU
+                ================================== */
+
+                if (
+                  item.submenu
+                ) {
+                  return (
+                    <div
+                      key={item.name}
+                    >
+
+                      <button
+                        type="button"
+                        className="menu-item"
+                        onClick={() =>
+                          toggleMenu(
+                            item.name
+                          )
+                        }
+                      >
+
+                        <div className="menu-left">
+
+                          <span className="menu-icon">
+                            {item.icon}
+                          </span>
+
+                          <span>
+                            {item.name}
+                          </span>
+
+                        </div>
+
+                        <FaChevronDown
+                          className={`arrow ${
+                            openMenu ===
+                            item.name
+                              ? "open"
+                              : ""
+                          }`}
+                        />
+
+                      </button>
+
+                      <div
+                        className={`submenu ${
+                          openMenu ===
+                          item.name
+                            ? "show"
+                            : ""
+                        }`}
+                      >
+
+                        {item.submenu
+                          .filter(
+                            (
+                              sub
+                            ) =>
+                              hasPermission(
+                                sub.permission
+                              )
+                          )
+                          .map(
+                            (
+                              sub
+                            ) => (
+                              <NavLink
+                                key={
+                                  sub.path
+                                }
+                                to={
+                                  sub.path
+                                }
+                                onClick={
+                                  handleClick
+                                }
+                                className={({
+                                  isActive,
+                                }) =>
+                                  isActive
+                                    ? "menu-item submenu-item active"
+                                    : "menu-item submenu-item"
+                                }
+                              >
+
+                                <div className="menu-left">
+
+                                  <span className="menu-icon">
+                                    {
+                                      sub.icon
+                                    }
+                                  </span>
+
+                                  <span>
+                                    {
+                                      sub.name
+                                    }
+                                  </span>
+
+                                </div>
+
+                              </NavLink>
+                            )
+                          )}
+
+                      </div>
+
+                    </div>
+                  );
+                }
+
+                /* ==================================
+                   NORMAL MENU
+                ================================== */
+
+                return (
+                  <NavLink
+                    key={
+                      item.name
+                    }
+                    to={
+                      item.path
+                    }
+                    onClick={
+                      handleClick
+                    }
+                    className={({
+                      isActive,
+                    }) =>
+                      isActive
+                        ? "menu-item active"
+                        : "menu-item"
+                    }
                   >
+
                     <div className="menu-left">
-                      <span className="menu-icon">{item.icon}</span>
-                      <span>{item.name}</span>
+
+                      <span className="menu-icon">
+                        {
+                          item.icon
+                        }
+                      </span>
+
+                      <span>
+                        {
+                          item.name
+                        }
+                      </span>
+
                     </div>
 
-                    <FaChevronDown
-                      className={`arrow ${openMenu === item.name ? "open" : ""}`}
-                    />
-                  </button>
+                  </NavLink>
+                );
+              }
+            )}
 
-                  <div
-                    className={`submenu ${openMenu === item.name ? "show" : ""}`}
-                  >
-                    {item.submenu
-                      .filter((sub) => hasPermission(sub.permission))
-                      .map((sub) => (
-                        <NavLink
-                          key={sub.path}
-                          to={sub.path}
-                          onClick={handleClick}
-                          className={({ isActive }) =>
-                            isActive
-                              ? "menu-item submenu-item active"
-                              : "menu-item submenu-item"
-                          }
-                        >
-                          <div className="menu-left">
-                            <span className="menu-icon">{sub.icon}</span>
-                            <span>{sub.name}</span>
-                          </div>
-                        </NavLink>
-                      ))}
-                  </div>
-                </div>
-              ) : (
-                <NavLink
-                  key={item.name}
-                  to={item.path}
-                  onClick={handleClick}
-                  className={({ isActive }) =>
-                    isActive ? "menu-item active" : "menu-item"
-                  }
-                >
-                  <div className="menu-left">
-                    {item.icon}
-                    <span>{item.name}</span>
-                  </div>
-                </NavLink>
-              );
-            })}
         </div>
 
         {/* FOOTER */}
+
         <div className="sidebar-footer">
-          <button className="logout-btn">Logout</button>
+
+          <button
+            type="button"
+            className="logout-btn"
+            onClick={() => {
+              if (isMobile) {
+                setSidebarOpen(
+                  false
+                );
+              }
+            }}
+          >
+            Logout
+          </button>
+
         </div>
+
       </aside>
     </>
   );
