@@ -14,14 +14,8 @@ const walletTransactionSchema = new mongoose.Schema(
 
     type: {
       type: String,
-
-      enum: [
-        "credit",
-        "debit",
-      ],
-
+      enum: ["credit", "debit"],
       required: true,
-
       index: true,
     },
 
@@ -31,9 +25,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     amount: {
       type: Number,
-
       required: true,
-
       min: 0,
     },
 
@@ -43,16 +35,8 @@ const walletTransactionSchema = new mongoose.Schema(
 
     source: {
       type: String,
-
-      enum: [
-        "fee",
-        "expense",
-        "payroll",
-        "otherIncome",
-      ],
-
+      enum: ["fee", "expense", "payroll", "otherIncome"],
       required: true,
-
       index: true,
     },
 
@@ -60,7 +44,6 @@ const walletTransactionSchema = new mongoose.Schema(
        REFERENCE ID
 
        Examples:
-
        fee       -> Fee document ID
        expense   -> Expense document ID
        payroll   -> Payroll document ID
@@ -69,9 +52,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     referenceId: {
       type: mongoose.Schema.Types.ObjectId,
-
       required: true,
-
       index: true,
     },
 
@@ -81,9 +62,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     description: {
       type: String,
-
       trim: true,
-
       default: "",
     },
 
@@ -93,9 +72,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     createdBy: {
       type: String,
-
       default: "Admin",
-
       trim: true,
     },
   },
@@ -105,66 +82,25 @@ const walletTransactionSchema = new mongoose.Schema(
   }
 );
 
-
 /* =========================================================
    INDEXES
 ========================================================= */
 
-/*
-  Latest transactions first.
-*/
-
+// Latest transactions first
 walletTransactionSchema.index({
   createdAt: -1,
 });
 
-
-/*
-  Useful for filtering:
-  credit + fee
-  debit + expense
-  debit + payroll
-*/
-
+// Useful for filtering: credit + fee, debit + expense, debit + payroll
 walletTransactionSchema.index({
   type: 1,
   source: 1,
 });
 
-
 /*
-  Useful for finding the wallet transaction
-  belonging to one particular expense/fee/payroll.
-
-  Example:
-
-  source = expense
-  referenceId = expense._id
-*/
-
-walletTransactionSchema.index({
-  source: 1,
-  referenceId: 1,
-});
-
-
-/*
-  IMPORTANT
-
-  Prevent duplicate wallet transactions
+  IMPORTANT: Prevent duplicate wallet transactions
   for the same source + reference.
-
-  Example:
-
-  expense ID = 123
-
-  Only one:
-
-  expense + 123
-
-  can exist.
 */
-
 walletTransactionSchema.index(
   {
     source: 1,
@@ -175,14 +111,10 @@ walletTransactionSchema.index(
   }
 );
 
-
 /* =========================================================
    MODEL
 ========================================================= */
 
 module.exports =
   mongoose.models.WalletTransaction ||
-  mongoose.model(
-    "WalletTransaction",
-    walletTransactionSchema
-  );
+  mongoose.model("WalletTransaction", walletTransactionSchema);
