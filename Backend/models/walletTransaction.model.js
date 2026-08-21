@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-/* =========================================================
-   WALLET TRANSACTION SCHEMA
-========================================================= */
 
 const walletTransactionSchema = new mongoose.Schema(
   {
@@ -18,7 +15,6 @@ const walletTransactionSchema = new mongoose.Schema(
       enum: ["credit", "debit"],
 
       required: true,
-
       index: true,
     },
 
@@ -28,9 +24,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     amount: {
       type: Number,
-
       required: true,
-
       min: 0,
     },
 
@@ -49,7 +43,6 @@ const walletTransactionSchema = new mongoose.Schema(
        REFERENCE ID
 
        Examples:
-
        fee       -> Fee document ID
        expense   -> Expense document ID
        payroll   -> Payroll document ID
@@ -58,9 +51,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     referenceId: {
       type: mongoose.Schema.Types.ObjectId,
-
       required: true,
-
       index: true,
     },
 
@@ -70,9 +61,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     description: {
       type: String,
-
       trim: true,
-
       default: "",
     },
 
@@ -82,9 +71,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     createdBy: {
       type: String,
-
       default: "Admin",
-
       trim: true,
     },
   },
@@ -98,10 +85,7 @@ const walletTransactionSchema = new mongoose.Schema(
    INDEXES
 ========================================================= */
 
-/*
-  Latest transactions first.
-*/
-
+// Latest transactions first
 walletTransactionSchema.index({
   createdAt: -1,
 });
@@ -138,18 +122,7 @@ walletTransactionSchema.index({
 
   Prevent duplicate wallet transactions
   for the same source + reference.
-
-  Example:
-
-  expense ID = 123
-
-  Only one:
-
-  expense + 123
-
-  can exist.
 */
-
 walletTransactionSchema.index(
   {
     source: 1,
