@@ -1,29 +1,31 @@
-/* ==========================================================================
-   Base & Typography Setup
-   ========================================================================== */
+/* =========================================================
+   FUEL MANAGEMENT
+   PREMIUM UI
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
 .fuel-management {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #F8F9FD;
+  width: 100%;
   min-height: 100vh;
   padding: 24px;
-  color: #1E293B;
-  box-sizing: border-box;
+  background: #f7f8fc;
+  color: #172033;
 }
 
-.fuel-management * {
-  box-sizing: border-box;
-}
 
-/* ==========================================================================
-   Top Header & Navigation
-   ========================================================================== */
+/* =========================================================
+   HEADER
+========================================================= */
+
 .fuel-management-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 16px;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
 }
 
 .fuel-management-title-group {
@@ -33,140 +35,148 @@
 }
 
 .fuel-management-header-icon {
-  width: 44px;
-  height: 44px;
-  background-color: #ECE8FF;
-  color: #6C38FF;
-  border-radius: 10px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  border-radius: 13px;
+  background: linear-gradient(
+    135deg,
+    #6c38ff,
+    #8b5cf6
+  );
+  color: #ffffff;
+  box-shadow:
+    0 8px 20px
+    rgba(108, 56, 255, 0.2);
 }
 
 .fuel-management-header-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #0F172A;
   margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.4px;
 }
 
 .fuel-management-header-subtitle {
-  font-size: 13px;
-  color: #64748B;
-  margin: 2px 0 0 0;
+  margin: 5px 0 0;
+  color: #8b95a7;
+  font-size: 12px;
 }
 
 .fuel-management-breadcrumbs {
-  font-size: 13px;
-  color: #64748B;
-  font-weight: 500;
+  color: #98a2b3;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .fuel-management-breadcrumbs span {
-  color: #6C38FF;
-  font-weight: 600;
+  color: #6c38ff;
+  font-weight: 700;
 }
 
-/* ==========================================================================
-   Card Component Container
-   ========================================================================== */
+
+/* =========================================================
+   CARD
+========================================================= */
+
 .fuel-management-card {
-  background: #FFFFFF;
-  border-radius: 12px;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  padding: 24px;
-  margin-bottom: 24px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 22px;
+  border: 1px solid #eaecf0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:
+    0 8px 30px
+    rgba(16, 24, 40, 0.045);
 }
 
 .fuel-management-card-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0F172A;
-  margin-bottom: 20px;
-  position: relative;
-  padding-bottom: 8px;
+  padding-bottom: 18px;
+  color: #1d2939;
+  font-size: 15px;
+  font-weight: 800;
 }
 
-.fuel-management-card-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 28px;
-  height: 3px;
-  background-color: #6C38FF;
-  border-radius: 2px;
-}
 
-/* ==========================================================================
-   Form Grid & Input Elements
-   ========================================================================== */
+/* =========================================================
+   FORM
+========================================================= */
+
 .fuel-management-form-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px 20px;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 18px;
 }
 
 .fuel-management-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  min-width: 0;
 }
 
 .fuel-management-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #334155;
+  display: block;
+  margin-bottom: 7px;
+  color: #475467;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .fuel-management-required {
-  color: #EF4444;
-  margin-left: 2px;
+  color: #ef4444;
 }
 
 .fuel-management-input-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
-  border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  background-color: #FFFFFF;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.fuel-management-input-wrapper:focus-within {
-  border-color: #6C38FF;
-  box-shadow: 0 0 0 3px rgba(108, 56, 255, 0.1);
+  width: 100%;
 }
 
 .fuel-management-input-icon {
   position: absolute;
+  z-index: 2;
   left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 
 .fuel-management-input {
   width: 100%;
-  height: 42px;
-  padding: 0 12px 0 38px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #1E293B;
+  height: 43px;
+  padding: 0 38px 0 40px;
+  border: 1px solid #d0d5dd;
+  border-radius: 9px;
   outline: none;
-  background: transparent;
+  background: #ffffff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 12px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-.fuel-management-input-suffix {
-  padding-right: 12px;
-  font-size: 13px;
-  color: #94A3B8;
-  font-weight: 500;
-  white-space: nowrap;
+.fuel-management-input::placeholder {
+  color: #b0b8c5;
+}
+
+.fuel-management-input:hover {
+  border-color: #b7bfcc;
+}
+
+.fuel-management-input:focus {
+  border-color: #7c55ff;
+  box-shadow:
+    0 0 0 3px
+    rgba(108, 56, 255, 0.08);
 }
 
 .fuel-management-select {
@@ -176,312 +186,905 @@
 
 .fuel-management-select-arrow {
   position: absolute;
-  right: 12px;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
+}
+
+.fuel-management-input-suffix {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #98a2b3;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   FUEL BILL
+========================================================= */
+
+.fuel-bill-field {
+  grid-column: span 2;
+}
+
+.fuel-bill-upload {
+  min-height: 86px;
   display: flex;
   align-items: center;
-}
-
-/* Informational Banner */
-.fuel-management-info-banner {
-  margin-top: 18px;
-  background-color: #F5F3FF;
-  border-radius: 8px;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: #5B21B6;
-  grid-column: 1 / -1;
-}
-
-/* Form Action Buttons */
-.fuel-management-form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.fuel-management-btn {
-  height: 40px;
-  padding: 0 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  gap: 13px;
+  padding: 13px 15px;
+  border: 1px dashed #c8bdfd;
+  border-radius: 11px;
+  background:
+    linear-gradient(
+      135deg,
+      #faf9ff,
+      #f7f5ff
+    );
   cursor: pointer;
-  display: inline-flex;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.fuel-bill-upload:hover {
+  border-color: #7c55ff;
+  background: #f8f6ff;
+  transform: translateY(-1px);
+}
+
+.fuel-bill-upload.has-file {
+  border-style: solid;
+  border-color: #a7f3d0;
+  background: #f0fdf7;
+}
+
+.fuel-bill-upload-icon {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  border: none;
+  border-radius: 11px;
+  background: #ede9fe;
+  color: #6c38ff;
+}
+
+.has-file .fuel-bill-upload-icon {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.fuel-bill-upload-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fuel-bill-upload-content strong {
+  overflow: hidden;
+  color: #344054;
+  font-size: 12px;
+  font-weight: 750;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.fuel-bill-upload-content span {
+  color: #98a2b3;
+  font-size: 10px;
+}
+
+.fuel-bill-remove {
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 7px;
+  background: #fee2e2;
+  color: #dc2626;
+  cursor: pointer;
+}
+
+.fuel-bill-remove:hover {
+  background: #fecaca;
+}
+
+.fuel-bill-existing {
+  display: block;
+  margin-top: 5px;
+  color: #16a34a;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.fuel-management-info-banner {
+  grid-column: span 2;
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid #ddd6fe;
+  border-radius: 9px;
+  background: #faf9ff;
+  color: #7c6bb4;
+  font-size: 11px;
+}
+
+.fuel-management-info-banner strong {
+  color: #6c38ff;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.fuel-management-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #f2f4f7;
+}
+
+.fuel-management-btn {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 15px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.fuel-management-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .fuel-management-btn-reset {
-  background-color: #F1F5F9;
-  color: #475569;
+  border: 1px solid #e4e7ec;
+  background: #ffffff;
+  color: #667085;
 }
 
 .fuel-management-btn-reset:hover {
-  background-color: #E2E8F0;
+  background: #f9fafb;
 }
 
 .fuel-management-btn-save {
-  background-color: #6C38FF;
-  color: #FFFFFF;
+  border: 1px solid transparent;
+  background: linear-gradient(
+    135deg,
+    #6c38ff,
+    #8055ff
+  );
+  color: #ffffff;
+  box-shadow:
+    0 6px 16px
+    rgba(108, 56, 255, 0.18);
 }
 
 .fuel-management-btn-save:hover {
-  background-color: #582AD6;
+  transform: translateY(-1px);
+  box-shadow:
+    0 9px 20px
+    rgba(108, 56, 255, 0.25);
 }
 
-/* ==========================================================================
-   Table Toolbar & Actions
-   ========================================================================== */
+
+/* =========================================================
+   LIST HEADER
+========================================================= */
+
 .fuel-management-list-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .fuel-management-list-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .fuel-management-search-wrapper {
   position: relative;
-  min-width: 240px;
+  width: 230px;
 }
 
 .fuel-management-search-input {
   width: 100%;
-  height: 38px;
+  height: 39px;
   padding: 0 12px 0 36px;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #d0d5dd;
   border-radius: 8px;
-  font-size: 13px;
   outline: none;
-  background-color: #FFFFFF;
-  transition: border-color 0.2s ease;
+  color: #344054;
+  font-family: inherit;
+  font-size: 11px;
 }
 
 .fuel-management-search-input:focus {
-  border-color: #6C38FF;
+  border-color: #7c55ff;
+  box-shadow:
+    0 0 0 3px
+    rgba(108, 56, 255, 0.07);
 }
 
 .fuel-management-btn-filter {
-  background-color: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  color: #334155;
-  height: 38px;
-  padding: 0 14px;
+  border: 1px solid #e4e7ec;
+  background: #ffffff;
+  color: #475467;
+}
+
+.fuel-management-btn-filter:hover,
+.fuel-management-btn-filter.active {
+  border-color: #cfc4ff;
+  background: #f8f6ff;
+  color: #6c38ff;
+}
+
+.fuel-filter-count {
+  width: 17px;
+  height: 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #6c38ff;
+  color: #ffffff;
+  font-size: 9px;
+}
+
+.fuel-excel-btn {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.fuel-excel-btn:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   FILTER PANEL
+========================================================= */
+
+.fuel-filter-panel {
+  margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid #e8e4ff;
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      135deg,
+      #fcfbff,
+      #f8f7ff
+    );
+  animation:
+    fuelFilterIn
+    0.2s ease;
+}
+
+@keyframes fuelFilterIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fuel-filter-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+
+.fuel-filter-panel-header h3 {
+  margin: 0 0 4px;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.fuel-filter-panel-header p {
+  margin: 0;
+  color: #98a2b3;
+  font-size: 10px;
+}
+
+.fuel-clear-filter-btn {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+  background: #fffafa;
+  color: #dc2626;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.fuel-clear-filter-btn:hover {
+  background: #fee2e2;
+}
+
+.fuel-filter-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.fuel-filter-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #475467;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.fuel-filter-group select,
+.fuel-filter-group input {
+  width: 100%;
+  height: 39px;
+  padding: 0 10px;
+  border: 1px solid #d0d5dd;
   border-radius: 8px;
-  font-weight: 500;
+  outline: none;
+  background: #ffffff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 11px;
 }
 
-.fuel-management-btn-filter:hover {
-  background-color: #F8FAFC;
+.fuel-filter-group select:focus,
+.fuel-filter-group input:focus {
+  border-color: #7c55ff;
+  box-shadow:
+    0 0 0 3px
+    rgba(108, 56, 255, 0.07);
 }
 
-/* ==========================================================================
-   Data Table Layout
-   ========================================================================== */
+.fuel-filter-input-wrap {
+  position: relative;
+}
+
+.fuel-filter-input-wrap span {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #98a2b3;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.fuel-filter-input-wrap input {
+  padding-left: 27px;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.fuel-summary-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 13px;
+  margin-bottom: 20px;
+}
+
+.fuel-summary-card {
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  background: #ffffff;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.fuel-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 9px 22px
+    rgba(16, 24, 40, 0.07);
+}
+
+.fuel-summary-icon {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+}
+
+.fuel-summary-icon.purple {
+  background: #ede9fe;
+  color: #6c38ff;
+}
+
+.fuel-summary-icon.green {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.fuel-summary-icon.blue {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.fuel-summary-icon.orange {
+  background: #ffedd5;
+  color: #ea580c;
+}
+
+.fuel-summary-card span {
+  display: block;
+  margin-bottom: 5px;
+  color: #98a2b3;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.fuel-summary-card strong {
+  display: block;
+  color: #1d2939;
+  font-size: 18px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
 .fuel-management-table-container {
   width: 100%;
   overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid #F1F5F9;
-  -webkit-overflow-scrolling: touch;
+  border: 1px solid #eaecf0;
+  border-radius: 11px;
 }
 
 .fuel-management-table {
   width: 100%;
+  min-width: 1150px;
   border-collapse: collapse;
+  background: #ffffff;
+}
+
+.fuel-management-table thead th {
+  height: 46px;
+  padding: 0 12px;
+  border-bottom: 1px solid #eaecf0;
+  background: #fafbfc;
+  color: #667085;
+  font-size: 10px;
+  font-weight: 800;
   text-align: left;
-  font-size: 13px;
-}
-
-.fuel-management-table th {
-  background-color: #F8FAFC;
-  color: #475569;
-  font-weight: 600;
-  padding: 12px 14px;
-  border-bottom: 1px solid #E2E8F0;
   white-space: nowrap;
 }
 
-.fuel-management-table td {
-  padding: 14px;
-  border-bottom: 1px solid #F1F5F9;
-  color: #334155;
+.fuel-management-table tbody td {
+  height: 53px;
+  padding: 0 12px;
+  border-bottom: 1px solid #f2f4f7;
+  color: #475467;
+  font-size: 10px;
   white-space: nowrap;
+}
+
+.fuel-management-table tbody tr {
+  transition: background 0.15s ease;
 }
 
 .fuel-management-table tbody tr:hover {
-  background-color: #FAFAFE;
+  background: #fbfaff;
 }
+
+.fuel-management-table tfoot td {
+  height: 55px;
+  padding: 0 12px;
+  border-top: 1px solid #ddd6fe;
+  background: #faf9ff;
+  color: #5b21b6;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.fuel-total-row td {
+  font-weight: 800 !important;
+}
+
+.fuel-amount-cell {
+  color: #5b21b6 !important;
+  font-weight: 800 !important;
+}
+
+.fuel-pump-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 210px;
+  overflow: hidden;
+  padding: 5px 8px;
+  border: 1px solid #e9e3ff;
+  border-radius: 6px;
+  background: #faf9ff;
+  color: #6c38ff;
+  text-overflow: ellipsis;
+}
+
+.fuel-bill-view-btn {
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 9px;
+  border: 1px solid #c7d2fe;
+  border-radius: 6px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.fuel-bill-view-btn:hover {
+  background: #e0e7ff;
+}
+
+.fuel-no-bill {
+  color: #98a2b3;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLE ACTIONS
+========================================================= */
 
 .fuel-management-table-actions {
   display: flex;
-  gap: 8px;
   justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
 .fuel-management-action-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid #E2E8F0;
-  background-color: #FFFFFF;
-  display: flex;
+  width: 31px;
+  height: 31px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 7px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.fuel-management-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.fuel-management-action-btn.edit {
+  border: 1px solid #ddd6fe;
+  background: #faf9ff;
 }
 
 .fuel-management-action-btn.edit:hover {
-  border-color: #6C38FF;
-  background-color: #F5F3FF;
+  background: #ede9fe;
 }
 
 .fuel-management-action-btn.delete {
-  border-color: #FEE2E2;
-  background-color: #FEF2F2;
+  border: 1px solid #fecaca;
+  background: #fffafa;
 }
 
 .fuel-management-action-btn.delete:hover {
-  background-color: #FEE2E2;
+  background: #fee2e2;
 }
 
-/* ==========================================================================
-   Table Footer & Pagination
-   ========================================================================== */
+.fuel-management-action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.fuel-table-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fuel-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #e5e7eb;
+  border-top-color: #6c38ff;
+  border-radius: 50%;
+  animation:
+    fuelSpin
+    0.7s linear infinite;
+}
+
+@keyframes fuelSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
 .fuel-management-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 18px;
-  flex-wrap: wrap;
-  gap: 12px;
-  font-size: 13px;
-  color: #64748B;
+  justify-content: space-between;
+  gap: 15px;
+  padding-top: 17px;
+  color: #98a2b3;
+  font-size: 10px;
 }
 
 .fuel-management-pagination {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .fuel-management-page-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid #E2E8F0;
-  background-color: #FFFFFF;
-  color: #334155;
+  min-width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid #e4e7ec;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #667085;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 650;
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+}
+
+.fuel-management-page-btn:hover:not(:disabled) {
+  border-color: #cfc4ff;
+  background: #faf9ff;
+  color: #6c38ff;
 }
 
 .fuel-management-page-btn.active {
-  background-color: #6C38FF;
-  color: #FFFFFF;
-  border-color: #6C38FF;
+  border-color: #6c38ff;
+  background: #6c38ff;
+  color: #ffffff;
+  box-shadow:
+    0 4px 10px
+    rgba(108, 56, 255, 0.2);
 }
 
-.fuel-management-page-btn:hover:not(.active) {
-  background-color: #F8FAFC;
+.fuel-management-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
-/* ==========================================================================
-   RESPONSIVE MEDIA QUERIES
-   ========================================================================== */
+.fuel-pagination-dots {
+  min-width: 25px;
+  text-align: center;
+  color: #98a2b3;
+}
 
-/* Medium Devices (Tablets & Small Laptops - up to 1024px) */
-@media (max-width: 1024px) {
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
   .fuel-management-form-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .fuel-summary-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .fuel-filter-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Mobile Devices (Tablets/Phones - up to 768px) */
-@media (max-width: 768px) {
+
+@media (max-width: 900px) {
   .fuel-management {
     padding: 16px;
   }
 
-  .fuel-management-card {
-    padding: 16px;
+  .fuel-management-header {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
-  .fuel-management-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .fuel-management-breadcrumbs {
+    white-space: normal;
+  }
+
+  .fuel-management-form-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .fuel-bill-field,
+  .fuel-management-info-banner {
+    grid-column: span 2;
   }
 
   .fuel-management-list-top {
+    align-items: flex-start;
     flex-direction: column;
-    align-items: stretch;
   }
 
   .fuel-management-list-actions {
     width: 100%;
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
   }
 
   .fuel-management-search-wrapper {
-    width: 100%;
-    min-width: 100%;
-  }
-
-  .fuel-management-btn-filter,
-  .fuel-management-list-actions .fuel-management-btn-save {
-    width: 100%;
-  }
-
-  .fuel-management-footer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    flex: 1;
+    min-width: 220px;
   }
 }
 
-/* Small Mobile Screens (Phones - up to 576px) */
-@media (max-width: 576px) {
+
+@media (max-width: 650px) {
+  .fuel-management {
+    padding: 10px;
+  }
+
+  .fuel-management-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
   .fuel-management-form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .fuel-bill-field,
+  .fuel-management-info-banner {
+    grid-column: span 1;
+  }
+
+  .fuel-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-filter-panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fuel-clear-filter-btn {
+    width: 100%;
+  }
+
+  .fuel-management-list-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .fuel-management-search-wrapper {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .fuel-management-list-actions
+    .fuel-management-btn {
+    width: 100%;
   }
 
   .fuel-management-form-actions {
     flex-direction: column-reverse;
   }
 
-  .fuel-management-btn {
+  .fuel-management-form-actions
+    .fuel-management-btn {
     width: 100%;
   }
 
-  .fuel-management-title-group {
-    align-items: flex-start;
+  .fuel-management-footer {
+    align-items: center;
+    flex-direction: column;
   }
 
   .fuel-management-header-title {
-    font-size: 18px;
+    font-size: 20px;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .fuel-management-list-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .fuel-management-search-wrapper {
+    grid-column: auto;
+  }
+
+  .fuel-management-header-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .fuel-summary-card strong {
+    font-size: 16px;
   }
 }

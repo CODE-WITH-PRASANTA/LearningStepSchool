@@ -9,35 +9,56 @@ const {
   getFuelSummary,
 } = require("../controllers/fuelController");
 
-const router = express.Router();
+const {
+  upload,
+  convertToWebp,
+} = require("../middleware/upload");
 
+const router =
+  express.Router();
 
 // =====================================================
 // FUEL ROUTES
 // =====================================================
 
-// Create
-router.post("/", createFuel);
+// Create Fuel + Fuel Bill
+router.post(
+  "/",
+  upload.single("fuelBill"),
+  convertToWebp,
+  createFuel
+);
 
-
-// Get all + search + pagination
-router.get("/", getAllFuel);
-
+// Get all + search + pagination + filters
+router.get(
+  "/",
+  getAllFuel
+);
 
 // Summary
-router.get("/summary", getFuelSummary);
-
+router.get(
+  "/summary",
+  getFuelSummary
+);
 
 // Get single
-router.get("/:id", getFuelById);
+router.get(
+  "/:id",
+  getFuelById
+);
 
-
-// Update
-router.put("/:id", updateFuel);
-
+// Update + optional Fuel Bill
+router.put(
+  "/:id",
+  upload.single("fuelBill"),
+  convertToWebp,
+  updateFuel
+);
 
 // Delete
-router.delete("/:id", deleteFuel);
-
+router.delete(
+  "/:id",
+  deleteFuel
+);
 
 module.exports = router;
