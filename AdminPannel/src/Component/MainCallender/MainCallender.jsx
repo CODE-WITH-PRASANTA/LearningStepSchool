@@ -2,11 +2,11 @@
 import React, { useMemo, useState } from "react";
 import "./MainCallender.css";
 
-const MainCallender = () => {
+const MainCallender = ({ events = [] }) => {
   const base = "MainCallender";
 
   const [view, setView] = useState("week"); // "month" | "week" | "day"
-  const [refDate, setRefDate] = useState(new Date(2026, 1, 22)); // Feb 22, 2026
+  const [refDate, setRefDate] = useState(new Date());
 
   const dowShort = useMemo(
     () => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -26,10 +26,11 @@ const MainCallender = () => {
     return x;
   };
 
-  const sameDay = (a, b) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
+  const getStartOfDay = (d) => {
+    const x = new Date(d);
+    x.setHours(0, 0, 0, 0);
+    return x;
+  };
 
   const monthName = (d) => d.toLocaleString("en-US", { month: "long" });
 
@@ -43,16 +44,16 @@ const MainCallender = () => {
     return arr;
   }, []);
 
-  // Demo events
-  const events = useMemo(
-    () => [
-      { id: 1, title: "Visit School", date: new Date(2026, 1, 9), color: "black" },
-      { id: 2, title: "Dcwed", date: new Date(2026, 2, 9), color: "magenta" },
-
-      { id: 3, title: "Visit School", date: new Date(2026, 1, 24), startH: 10, endH: 12, color: "black" },
-      { id: 4, title: "Meeting", date: new Date(2026, 1, 26), startH: 14, endH: 15, color: "blue" },
-    ],
-    []
+  const calendarEvents = useMemo(
+    () =>
+      events
+        .map((event) => ({
+          ...event,
+          date: new Date(event.date),
+          endDate: event.endDate ? new Date(event.endDate) : null,
+        }))
+        .filter((event) => !Number.isNaN(event.date.getTime())),
+    [events]
   );
 
   const headerTitle = useMemo(() => {
@@ -98,12 +99,24 @@ const MainCallender = () => {
 
   const dayCol = useMemo(() => [new Date(refDate)], [refDate]);
 
-  const monthEventsForCell = (d) =>
-    events.filter((e) => e.startH === undefined && sameDay(e.date, d));
+  const eventOccursOn = (event, date) => {
+    const start = getStartOfDay(event.date);
+    const end = event.endDate && !Number.isNaN(event.endDate.getTime())
+      ? getStartOfDay(event.endDate)
+      : start;
+    const current = getStartOfDay(date);
+
+    return current >= start && current <= end;
+  };
+
+  const eventsForDate = (date) =>
+    calendarEvents.filter((event) => eventOccursOn(event, date));
+
+  const monthEventsForCell = (date) => eventsForDate(date);
 
   const blocksForDate = (d) =>
-    events
-      .filter((e) => e.startH !== undefined && sameDay(e.date, d))
+    calendarEvents
+      .filter((e) => e.startH !== undefined && eventOccursOn(e, d))
       .map((e) => ({
         ...e,
         top: 40 + e.startH * 40,
@@ -186,7 +199,11 @@ const MainCallender = () => {
 
                       <div className={`${base}__mEvents`}>
                         {ev.map((e) => (
-                          <div key={e.id} className={`${base}__mEvent ${base}__mEvent--${e.color}`}>
+                          <div
+                            key={e.id}
+                            className={`${base}__mEvent`}
+                            style={{ backgroundColor: e.color || "#1e3a8a" }}
+                          >
                             {e.title}
                           </div>
                         ))}
@@ -236,7 +253,18 @@ const MainCallender = () => {
                       key={d.toDateString()}
                       className={`${base}__dayColumn ${isSat ? `${base}__dayColumn--sat` : ""}`}
                     >
-                      <div className={`${base}__allDayRow`} />
+                      <div className={`${base}__allDayRow`}>
+                        {eventsForDate(d).slice(0, 2).map((event) => (
+                          <div
+                            className={`${base}__allDayEvent`}
+                            key={event.id}
+                            style={{ backgroundColor: event.color || "#1e3a8a" }}
+                            title={event.title}
+                          >
+                            {event.title}
+                          </div>
+                        ))}
+                      </div>
                       {times.map((t) => (
                         <div key={t} className={`${base}__slot`} />
                       ))}
@@ -245,7 +273,11 @@ const MainCallender = () => {
                         <div
                           key={b.id}
                           className={`${base}__block ${base}__block--${b.color}`}
-                          style={{ top: b.top, height: b.height }}
+                          style={{
+                            top: b.top,
+                            height: b.height,
+                            backgroundColor: b.color || "#1e3a8a",
+                          }}
                         >
                           {b.title}
                         </div>

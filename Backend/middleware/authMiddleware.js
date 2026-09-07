@@ -1,19 +1,47 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = (req, res, next) => {
+const protect = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    let token = null;
 
-    if (!token) {
-      return res.status(401).json({ message: "No token" });
+    // Cookie
+    if (req.cookies?.token) {
+      token = req.cookies.token;
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Bearer token
+    if (
+      !token &&
+      req.headers.authorization?.startsWith("Bearer ")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
+    }
+
+    console.log("TOKEN RECEIVED:", token);
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Token not found",
+      });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
+
+    console.log("DECODED USER:", decoded);
 
     req.user = decoded;
 
     next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid token" });
+  } catch (error) {
+    console.error("JWT ERROR:", error.message);
+
+    return res.status(401).json({
+      message: "Invalid or expired token",
+    });
   }
 };
+
+module.exports = protect;

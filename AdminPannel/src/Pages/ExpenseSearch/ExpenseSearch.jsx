@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import "./ExpenseSearch.css";
@@ -22,6 +23,8 @@ import {
   FaEye,
   FaArrowRight,
   FaChartLine,
+  FaEdit,
+  FaDownload,
 } from "react-icons/fa";
 
 const ExpenseSearch = () => {
@@ -47,20 +50,15 @@ const ExpenseSearch = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [expenseHeads, setExpenseHeads] =
-    useState([]);
+  const [expenseHeads, setExpenseHeads] = useState([]);
 
-  const [expenses, setExpenses] =
-    useState([]);
+  const [expenses, setExpenses] = useState([]);
 
-  const [hasSearched, setHasSearched] =
-    useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const [itemsPerPage, setItemsPerPage] =
-    useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const [currentPage, setCurrentPage] =
-    useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const paymentModes = [
     "Cash",
@@ -80,8 +78,7 @@ const ExpenseSearch = () => {
 
   const fetchExpenseHeads = async () => {
     try {
-      const res =
-        await API.get("/expense-heads");
+      const res = await API.get("/expense-heads");
 
       setExpenseHeads(
         Array.isArray(res.data)
@@ -162,7 +159,9 @@ const ExpenseSearch = () => {
       const res =
         await API.get(
           "/expenses/search",
-          { params }
+          {
+            params,
+          }
         );
 
       const result =
@@ -419,11 +418,12 @@ const ExpenseSearch = () => {
      ACTIVE FILTERS
   ===================================================== */
 
-  const activeFilters = Object.entries(
-    form
-  ).filter(
-    ([, value]) => Boolean(value)
-  );
+  const activeFilters =
+    Object.entries(
+      form
+    ).filter(
+      ([, value]) => Boolean(value)
+    );
 
   /* =====================================================
      BILL URL
@@ -454,6 +454,357 @@ const ExpenseSearch = () => {
   };
 
   /* =====================================================
+     VIEW EXPENSE
+  ===================================================== */
+
+  const handleViewExpense = (item) => {
+    if (!item?._id) {
+      Swal.fire(
+        "Error",
+        "Expense ID is missing.",
+        "error"
+      );
+
+      return;
+    }
+
+    Swal.fire({
+      title:
+        item.name ||
+        "Expense Details",
+
+      html: `
+        <div
+          style="
+            text-align:left;
+            display:grid;
+            gap:10px;
+            font-size:14px;
+          "
+        >
+          <div>
+            <strong>Expense:</strong>
+            ${item.name || "-"}
+          </div>
+
+          <div>
+            <strong>Head:</strong>
+            ${item.head || "-"}
+          </div>
+
+          <div>
+            <strong>Account:</strong>
+            ${item.accountName || "-"}
+          </div>
+
+          <div>
+            <strong>Account Type:</strong>
+            ${item.accountType || "-"}
+          </div>
+
+          <div>
+            <strong>Invoice:</strong>
+            ${item.invoice || "-"}
+          </div>
+
+          <div>
+            <strong>Amount:</strong>
+            ${formatAmount(item.amount)}
+          </div>
+
+          <div>
+            <strong>Date:</strong>
+            ${formatDate(item.date)}
+          </div>
+
+          <div>
+            <strong>Payment:</strong>
+            ${item.paymentMode || "-"}
+          </div>
+
+          <div>
+            <strong>Description:</strong>
+            ${item.description || "-"}
+          </div>
+
+          ${
+            item.bill
+              ? `
+                <div>
+                  <strong>Bill:</strong>
+                  <a
+                    href="${getBillUrl(item.bill)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="
+                      color:#2563eb;
+                      font-weight:600;
+                      text-decoration:none;
+                      margin-left:5px;
+                    "
+                  >
+                    View Bill
+                  </a>
+                </div>
+              `
+              : `
+                <div>
+                  <strong>Bill:</strong>
+                  No Bill
+                </div>
+              `
+          }
+        </div>
+      `,
+
+      confirmButtonText:
+        "Close",
+
+      width: 520,
+
+      confirmButtonColor:
+        "#2563eb",
+    });
+  };
+
+  /* =====================================================
+     EDIT EXPENSE
+  ===================================================== */
+
+  const handleEditExpense = (
+    item
+  ) => {
+    if (!item?._id) {
+      Swal.fire(
+        "Error",
+        "Expense ID is missing.",
+        "error"
+      );
+
+      return;
+    }
+
+    /*
+      Keep the selected expense available
+      for AddExpense.
+    */
+
+    localStorage.setItem(
+      "editExpenseId",
+      item._id
+    );
+
+    localStorage.setItem(
+      "editExpenseData",
+      JSON.stringify(item)
+    );
+
+    navigate(
+      "/expense/details",
+      {
+        state: {
+          mode: "edit",
+          expenseId: item._id,
+          expense: item,
+        },
+      }
+    );
+  };
+
+  /* =====================================================
+     DOWNLOAD EXPENSE REPORT
+     Client-side CSV
+  ===================================================== */
+
+  const handleDownloadReport = (
+    item
+  ) => {
+    if (!item) {
+      Swal.fire(
+        "Error",
+        "Expense data is missing.",
+        "error"
+      );
+
+      return;
+    }
+
+    const escapeCsv = (
+      value
+    ) => {
+      const safeValue =
+        value === null ||
+        value === undefined
+          ? ""
+          : String(value);
+
+      return `"${safeValue.replace(
+        /"/g,
+        '""'
+      )}"`;
+    };
+
+    const rows = [
+      [
+        "Expense Report",
+      ],
+
+      [],
+
+      [
+        "Field",
+        "Details",
+      ],
+
+      [
+        "Expense Name",
+        item.name || "",
+      ],
+
+      [
+        "Expense Head",
+        item.head || "",
+      ],
+
+      [
+        "Account Name",
+        item.accountName || "",
+      ],
+
+      [
+        "Account Type",
+        item.accountType || "",
+      ],
+
+      [
+        "Invoice",
+        item.invoice || "",
+      ],
+
+      [
+        "Amount",
+        Number(
+          item.amount || 0
+        ).toFixed(2),
+      ],
+
+      [
+        "Date",
+        item.date
+          ? formatDate(
+              item.date
+            )
+          : "",
+      ],
+
+      [
+        "Payment Mode",
+        item.paymentMode || "",
+      ],
+
+      [
+        "Description",
+        item.description || "",
+      ],
+
+      [
+        "Bill",
+        item.bill
+          ? getBillUrl(
+              item.bill
+            )
+          : "No Bill",
+      ],
+
+      [
+        "Expense ID",
+        item._id || "",
+      ],
+    ];
+
+    const csv = rows
+      .map(
+        (row) =>
+          row
+            .map(
+              escapeCsv
+            )
+            .join(",")
+      )
+      .join("\r\n");
+
+    const blob =
+      new Blob(
+        [csv],
+        {
+          type:
+            "text/csv;charset=utf-8;",
+        }
+      );
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+    const safeName = (
+      item.name ||
+      "Expense_Report"
+    )
+      .replace(
+        /[^a-z0-9-_]+/gi,
+        "_"
+      )
+      .replace(
+        /^_+|_+$/g,
+        ""
+      );
+
+    link.href = url;
+
+    link.download =
+      `${
+        safeName ||
+        "Expense_Report"
+      }_${
+        item.invoice ||
+        item._id
+      }.csv`;
+
+    document.body.appendChild(
+      link
+    );
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(
+      url
+    );
+
+    Swal.fire({
+      icon: "success",
+
+      title:
+        "Report Downloaded",
+
+      text:
+        "Expense report downloaded successfully.",
+
+      timer: 1600,
+
+      showConfirmButton:
+        false,
+    });
+  };
+
+  /* =====================================================
      RENDER
   ===================================================== */
 
@@ -467,11 +818,9 @@ const ExpenseSearch = () => {
       <div
         className={`${base}__header`}
       >
-
         <div
           className={`${base}__headerLeft`}
         >
-
           <div
             className={`${base}__headerIcon`}
           >
@@ -479,7 +828,6 @@ const ExpenseSearch = () => {
           </div>
 
           <div>
-
             <div
               className={`${base}__eyebrow`}
             >
@@ -494,27 +842,35 @@ const ExpenseSearch = () => {
               className={`${base}__breadcrumb`}
             >
               Dashboard
-              <span>/</span>
+
+              <span>
+                /
+              </span>
+
               Expense
-              <span>/</span>
+
+              <span>
+                /
+              </span>
+
               Search
             </p>
-
           </div>
-
         </div>
 
         <button
           type="button"
           className={`${base}__backBtn`}
           onClick={() =>
-            navigate("/expense-list")
+            navigate(
+              "/expense-list"
+            )
           }
         >
           View All Expenses
+
           <FaArrowRight />
         </button>
-
       </div>
 
       {/* =================================================
@@ -524,15 +880,12 @@ const ExpenseSearch = () => {
       <div
         className={`${base}__card`}
       >
-
         <div
           className={`${base}__cardHeader`}
         >
-
           <div
             className={`${base}__cardTitle`}
           >
-
             <div
               className={`${base}__titleIcon`}
             >
@@ -540,7 +893,6 @@ const ExpenseSearch = () => {
             </div>
 
             <div>
-
               <h3>
                 Filter Expenses
               </h3>
@@ -549,29 +901,26 @@ const ExpenseSearch = () => {
                 Find expenses using
                 multiple filters
               </p>
-
             </div>
-
           </div>
 
           {activeFilters.length >
             0 && (
-
             <div
               className={`${base}__filterCount`}
             >
               <FaFilter />
-              {activeFilters.length}
-              {" "}
+
+              {
+                activeFilters.length
+              }{" "}
               Active Filter
               {activeFilters.length >
               1
                 ? "s"
                 : ""}
             </div>
-
           )}
-
         </div>
 
         <div
@@ -583,7 +932,6 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__group`}
           >
-
             <label>
               Expense Head
             </label>
@@ -591,7 +939,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__inputWrap`}
             >
-
               <FaReceipt />
 
               <select
@@ -605,7 +952,6 @@ const ExpenseSearch = () => {
                   0
                 }
               >
-
                 <option value="">
                   All Expense Heads
                 </option>
@@ -620,15 +966,14 @@ const ExpenseSearch = () => {
                         item.name
                       }
                     >
-                      {item.name}
+                      {
+                        item.name
+                      }
                     </option>
                   )
                 )}
-
               </select>
-
             </div>
-
           </div>
 
           {/* PAYMENT */}
@@ -636,7 +981,6 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__group`}
           >
-
             <label>
               Payment Mode
             </label>
@@ -644,7 +988,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__inputWrap`}
             >
-
               <FaCreditCard />
 
               <select
@@ -656,7 +999,6 @@ const ExpenseSearch = () => {
                   handleChange
                 }
               >
-
                 <option value="">
                   All Payment Modes
                 </option>
@@ -668,17 +1010,16 @@ const ExpenseSearch = () => {
                   ) => (
                     <option
                       key={i}
-                      value={item}
+                      value={
+                        item
+                      }
                     >
                       {item}
                     </option>
                   )
                 )}
-
               </select>
-
             </div>
-
           </div>
 
           {/* FROM */}
@@ -686,7 +1027,6 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__group`}
           >
-
             <label>
               Date From
             </label>
@@ -694,7 +1034,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__inputWrap`}
             >
-
               <FaCalendarAlt />
 
               <input
@@ -708,9 +1047,7 @@ const ExpenseSearch = () => {
                   form.to || ""
                 }
               />
-
             </div>
-
           </div>
 
           {/* TO */}
@@ -718,7 +1055,6 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__group`}
           >
-
             <label>
               Date To
             </label>
@@ -726,7 +1062,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__inputWrap`}
             >
-
               <FaCalendarAlt />
 
               <input
@@ -740,9 +1075,7 @@ const ExpenseSearch = () => {
                   form.from || ""
                 }
               />
-
             </div>
-
           </div>
 
           {/* SEARCH */}
@@ -750,7 +1083,6 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__group ${base}__searchGroup`}
           >
-
             <label>
               Search
             </label>
@@ -758,14 +1090,15 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__inputWrap`}
             >
-
               <FaSearch />
 
               <input
                 type="text"
                 name="text"
                 placeholder="Search name, invoice, account..."
-                value={form.text}
+                value={
+                  form.text
+                }
                 onChange={
                   handleChange
                 }
@@ -778,9 +1111,7 @@ const ExpenseSearch = () => {
                   }
                 }}
               />
-
             </div>
-
           </div>
 
           {/* BUTTONS */}
@@ -788,7 +1119,6 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__btnWrap`}
           >
-
             <button
               type="button"
               onClick={
@@ -800,21 +1130,21 @@ const ExpenseSearch = () => {
               }
               className={`${base}__btn`}
             >
-
               {loading ? (
                 <>
                   <span
                     className={`${base}__spinner`}
                   />
+
                   Searching...
                 </>
               ) : (
                 <>
                   <FaSearch />
+
                   Search Expenses
                 </>
               )}
-
             </button>
 
             <button
@@ -824,26 +1154,20 @@ const ExpenseSearch = () => {
               }
               className={`${base}__reset`}
             >
-
               <FaUndo />
 
               Reset
-
             </button>
-
           </div>
-
         </div>
 
         {/* ACTIVE FILTERS */}
 
         {activeFilters.length >
           0 && (
-
           <div
             className={`${base}__activeFilters`}
           >
-
             <span>
               Active:
             </span>
@@ -852,7 +1176,8 @@ const ExpenseSearch = () => {
               <span
                 className={`${base}__chip`}
               >
-                Head: {form.head}
+                Head:{" "}
+                {form.head}
               </span>
             )}
 
@@ -861,7 +1186,9 @@ const ExpenseSearch = () => {
                 className={`${base}__chip`}
               >
                 Payment:{" "}
-                {form.payment}
+                {
+                  form.payment
+                }
               </span>
             )}
 
@@ -892,14 +1219,14 @@ const ExpenseSearch = () => {
                 className={`${base}__chip`}
               >
                 Search: "
-                {form.text}"
+                {
+                  form.text
+                }
+                "
               </span>
             )}
-
           </div>
-
         )}
-
       </div>
 
       {/* =================================================
@@ -907,7 +1234,6 @@ const ExpenseSearch = () => {
       ================================================= */}
 
       {hasSearched && (
-
         <div
           className={`${base}__results`}
         >
@@ -925,7 +1251,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__statCard`}
             >
-
               <div
                 className={`${base}__statIcon blue`}
               >
@@ -935,21 +1260,20 @@ const ExpenseSearch = () => {
               <div
                 className={`${base}__statContent`}
               >
-
                 <span>
                   Matching Expenses
                 </span>
 
                 <strong>
-                  {expenses.length}
+                  {
+                    expenses.length
+                  }
                 </strong>
 
                 <small>
                   Records found
                 </small>
-
               </div>
-
             </div>
 
             {/* TOTAL AMOUNT */}
@@ -957,7 +1281,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__statCard primary`}
             >
-
               <div
                 className={`${base}__statIcon green`}
               >
@@ -967,7 +1290,6 @@ const ExpenseSearch = () => {
               <div
                 className={`${base}__statContent`}
               >
-
                 <span>
                   Total Amount
                 </span>
@@ -981,9 +1303,7 @@ const ExpenseSearch = () => {
                 <small>
                   Total filtered expense
                 </small>
-
               </div>
-
             </div>
 
             {/* BILLS */}
@@ -991,7 +1311,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__statCard`}
             >
-
               <div
                 className={`${base}__statIcon purple`}
               >
@@ -1001,7 +1320,6 @@ const ExpenseSearch = () => {
               <div
                 className={`${base}__statContent`}
               >
-
                 <span>
                   Bills Attached
                 </span>
@@ -1013,9 +1331,7 @@ const ExpenseSearch = () => {
                 <small>
                   Uploaded documents
                 </small>
-
               </div>
-
             </div>
 
             {/* AVERAGE */}
@@ -1023,7 +1339,6 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__statCard`}
             >
-
               <div
                 className={`${base}__statIcon orange`}
               >
@@ -1033,7 +1348,6 @@ const ExpenseSearch = () => {
               <div
                 className={`${base}__statContent`}
               >
-
                 <span>
                   Average Expense
                 </span>
@@ -1050,11 +1364,8 @@ const ExpenseSearch = () => {
                 <small>
                   Per expense
                 </small>
-
               </div>
-
             </div>
-
           </div>
 
           {/* =================================================
@@ -1070,9 +1381,7 @@ const ExpenseSearch = () => {
             <div
               className={`${base}__resultsHeader`}
             >
-
               <div>
-
                 <h3>
                   Search Results
                 </h3>
@@ -1090,13 +1399,11 @@ const ExpenseSearch = () => {
                       } expenses`
                     : "No matching expenses"}
                 </p>
-
               </div>
 
               <div
                 className={`${base}__resultControls`}
               >
-
                 <span>
                   Show
                 </span>
@@ -1109,7 +1416,6 @@ const ExpenseSearch = () => {
                     handleItemsPerPage
                   }
                 >
-
                   <option value={5}>
                     5
                   </option>
@@ -1129,15 +1435,12 @@ const ExpenseSearch = () => {
                   <option value={100}>
                     100
                   </option>
-
                 </select>
 
                 <span>
                   entries
                 </span>
-
               </div>
-
             </div>
 
             {/* =================================================
@@ -1145,11 +1448,9 @@ const ExpenseSearch = () => {
             ================================================= */}
 
             {loading ? (
-
               <div
                 className={`${base}__loading`}
               >
-
                 <div
                   className={`${base}__loadingSpinner`}
                 />
@@ -1162,16 +1463,12 @@ const ExpenseSearch = () => {
                   Please wait while we
                   fetch your results.
                 </span>
-
               </div>
-
             ) : expenses.length ===
               0 ? (
-
               <div
                 className={`${base}__empty`}
               >
-
                 <div
                   className={`${base}__emptyIcon`}
                 >
@@ -1195,25 +1492,19 @@ const ExpenseSearch = () => {
                   }
                 >
                   <FaUndo />
+
                   Clear Filters
                 </button>
-
               </div>
-
             ) : (
-
               <div
                 className={`${base}__tableWrap`}
               >
-
                 <table
                   className={`${base}__table`}
                 >
-
                   <thead>
-
                     <tr>
-
                       <th>
                         #
                       </th>
@@ -1246,27 +1537,32 @@ const ExpenseSearch = () => {
                         BILL
                       </th>
 
+                      <th
+                        style={{
+                          textAlign:
+                            "center",
+                          minWidth:
+                            "220px",
+                        }}
+                      >
+                        ACTIONS
+                      </th>
                     </tr>
-
                   </thead>
 
                   <tbody>
-
                     {currentExpenses.map(
                       (
                         item,
                         index
                       ) => (
-
                         <tr
                           key={
                             item._id ||
                             index
                           }
                         >
-
                           <td>
-
                             <span
                               className={`${base}__serial`}
                             >
@@ -1276,15 +1572,12 @@ const ExpenseSearch = () => {
                                 1
                               }
                             </span>
-
                           </td>
 
                           <td>
-
                             <div
                               className={`${base}__expenseCell`}
                             >
-
                               <div
                                 className={`${base}__expenseAvatar`}
                               >
@@ -1299,56 +1592,55 @@ const ExpenseSearch = () => {
                               </div>
 
                               <div>
-
                                 <strong>
-                                  {item.name ||
-                                    "Unnamed Expense"}
+                                  {
+                                    item.name ||
+                                    "Unnamed Expense"
+                                  }
                                 </strong>
 
                                 <span>
-                                  {item.head ||
-                                    "No Head"}
+                                  {
+                                    item.head ||
+                                    "No Head"
+                                  }
                                 </span>
-
                               </div>
-
                             </div>
-
                           </td>
 
                           <td>
-
                             <div
                               className={`${base}__accountCell`}
                             >
-
                               <strong>
-                                {item.accountName ||
-                                  "-"}
+                                {
+                                  item.accountName ||
+                                  "-"
+                                }
                               </strong>
 
                               <span>
-                                {item.accountType ||
-                                  "—"}
+                                {
+                                  item.accountType ||
+                                  "—"
+                                }
                               </span>
-
                             </div>
-
                           </td>
 
                           <td>
-
                             <span
                               className={`${base}__invoice`}
                             >
-                              {item.invoice ||
-                                "No Invoice"}
+                              {
+                                item.invoice ||
+                                "No Invoice"
+                              }
                             </span>
-
                           </td>
 
                           <td>
-
                             <strong
                               className={`${base}__amount`}
                             >
@@ -1356,27 +1648,21 @@ const ExpenseSearch = () => {
                                 item.amount
                               )}
                             </strong>
-
                           </td>
 
                           <td>
-
                             <div
                               className={`${base}__date`}
                             >
-
                               <FaCalendarAlt />
 
                               {formatDate(
                                 item.date
                               )}
-
                             </div>
-
                           </td>
 
                           <td>
-
                             <span
                               className={`${base}__payment ${base}__payment--${(
                                 item.paymentMode ||
@@ -1388,16 +1674,15 @@ const ExpenseSearch = () => {
                                   "-"
                                 )}`}
                             >
-                              {item.paymentMode ||
-                                "—"}
+                              {
+                                item.paymentMode ||
+                                "—"
+                              }
                             </span>
-
                           </td>
 
                           <td>
-
                             {item.bill ? (
-
                               <a
                                 href={getBillUrl(
                                   item.bill
@@ -1406,36 +1691,242 @@ const ExpenseSearch = () => {
                                 rel="noopener noreferrer"
                                 className={`${base}__bill`}
                               >
-
                                 <FaEye />
 
                                 View
-
                               </a>
-
                             ) : (
-
                               <span
                                 className={`${base}__noBill`}
                               >
                                 No Bill
                               </span>
-
                             )}
-
                           </td>
 
-                        </tr>
+                          {/* =================================================
+                              ACTIONS
+                          ================================================= */}
 
+                          <td
+                            style={{
+                              padding:
+                                "10px 12px",
+                              minWidth:
+                                "220px",
+                            }}
+                          >
+                            <div
+                              style={{
+                                display:
+                                  "flex",
+
+                                alignItems:
+                                  "center",
+
+                                justifyContent:
+                                  "center",
+
+                                gap: "7px",
+
+                                flexWrap:
+                                  "wrap",
+                              }}
+                            >
+
+                              {/* VIEW */}
+
+                              <button
+                                type="button"
+                                title="View Expense"
+                                aria-label="View Expense"
+                                onClick={() =>
+                                  handleViewExpense(
+                                    item
+                                  )
+                                }
+                                style={{
+                                  display:
+                                    "inline-flex",
+
+                                  alignItems:
+                                    "center",
+
+                                  justifyContent:
+                                    "center",
+
+                                  gap: "5px",
+
+                                  minWidth:
+                                    "62px",
+
+                                  height:
+                                    "34px",
+
+                                  padding:
+                                    "0 9px",
+
+                                  border:
+                                    "1px solid #dbeafe",
+
+                                  borderRadius:
+                                    "8px",
+
+                                  background:
+                                    "#eff6ff",
+
+                                  color:
+                                    "#2563eb",
+
+                                  fontSize:
+                                    "11px",
+
+                                  fontWeight:
+                                    700,
+
+                                  cursor:
+                                    "pointer",
+
+                                  transition:
+                                    "all 0.2s ease",
+                                }}
+                              >
+                                <FaEye />
+
+                                View
+                              </button>
+
+                              {/* EDIT */}
+
+                              <button
+                                type="button"
+                                title="Edit Expense"
+                                aria-label="Edit Expense"
+                                onClick={() =>
+                                  handleEditExpense(
+                                    item
+                                  )
+                                }
+                                style={{
+                                  display:
+                                    "inline-flex",
+
+                                  alignItems:
+                                    "center",
+
+                                  justifyContent:
+                                    "center",
+
+                                  gap: "5px",
+
+                                  minWidth:
+                                    "62px",
+
+                                  height:
+                                    "34px",
+
+                                  padding:
+                                    "0 9px",
+
+                                  border:
+                                    "1px solid #fde68a",
+
+                                  borderRadius:
+                                    "8px",
+
+                                  background:
+                                    "#fffbeb",
+
+                                  color:
+                                    "#b45309",
+
+                                  fontSize:
+                                    "11px",
+
+                                  fontWeight:
+                                    700,
+
+                                  cursor:
+                                    "pointer",
+
+                                  transition:
+                                    "all 0.2s ease",
+                                }}
+                              >
+                                <FaEdit />
+
+                                Edit
+                              </button>
+
+                              {/* DOWNLOAD REPORT */}
+
+                              <button
+                                type="button"
+                                title="Download Expense Report"
+                                aria-label="Download Expense Report"
+                                onClick={() =>
+                                  handleDownloadReport(
+                                    item
+                                  )
+                                }
+                                style={{
+                                  display:
+                                    "inline-flex",
+
+                                  alignItems:
+                                    "center",
+
+                                  justifyContent:
+                                    "center",
+
+                                  gap: "5px",
+
+                                  minWidth:
+                                    "74px",
+
+                                  height:
+                                    "34px",
+
+                                  padding:
+                                    "0 9px",
+
+                                  border:
+                                    "1px solid #a7f3d0",
+
+                                  borderRadius:
+                                    "8px",
+
+                                  background:
+                                    "#ecfdf5",
+
+                                  color:
+                                    "#047857",
+
+                                  fontSize:
+                                    "11px",
+
+                                  fontWeight:
+                                    700,
+
+                                  cursor:
+                                    "pointer",
+
+                                  transition:
+                                    "all 0.2s ease",
+                                }}
+                              >
+                                <FaDownload />
+
+                                Report
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
                       )
                     )}
-
                   </tbody>
-
                 </table>
-
               </div>
-
             )}
 
             {/* =================================================
@@ -1444,37 +1935,44 @@ const ExpenseSearch = () => {
 
             {expenses.length >
               0 && (
-
               <div
                 className={`${base}__pagination`}
               >
-
                 <div
                   className={`${base}__paginationInfo`}
                 >
                   Showing{" "}
+
                   <strong>
-                    {indexOfFirstItem +
-                      1}
+                    {
+                      indexOfFirstItem +
+                      1
+                    }
                   </strong>{" "}
+
                   to{" "}
+
                   <strong>
                     {Math.min(
                       indexOfLastItem,
                       expenses.length
                     )}
                   </strong>{" "}
+
                   of{" "}
+
                   <strong>
-                    {expenses.length}
+                    {
+                      expenses.length
+                    }
                   </strong>{" "}
+
                   entries
                 </div>
 
                 <div
                   className={`${base}__paginationControls`}
                 >
-
                   <button
                     type="button"
                     disabled={
@@ -1498,16 +1996,13 @@ const ExpenseSearch = () => {
                     ) =>
                       page ===
                       "..." ? (
-
                         <span
                           key={`dots-${index}`}
                           className={`${base}__dots`}
                         >
                           ...
                         </span>
-
                       ) : (
-
                         <button
                           key={page}
                           type="button"
@@ -1523,9 +2018,10 @@ const ExpenseSearch = () => {
                             )
                           }
                         >
-                          {page}
+                          {
+                            page
+                          }
                         </button>
-
                       )
                   )}
 
@@ -1544,17 +2040,11 @@ const ExpenseSearch = () => {
                   >
                     <FaChevronRight />
                   </button>
-
                 </div>
-
               </div>
-
             )}
-
           </div>
-
         </div>
-
       )}
 
       {/* =================================================
@@ -1562,11 +2052,9 @@ const ExpenseSearch = () => {
       ================================================= */}
 
       {!hasSearched && (
-
         <div
           className={`${base}__welcome`}
         >
-
           <div
             className={`${base}__welcomeIcon`}
           >
@@ -1587,28 +2075,26 @@ const ExpenseSearch = () => {
           <div
             className={`${base}__welcomeFeatures`}
           >
-
             <span>
               <FaFilter />
+
               Multiple Filters
             </span>
 
             <span>
               <FaMoneyBillWave />
+
               Total Amount
             </span>
 
             <span>
               <FaChartLine />
+
               Expense Insights
             </span>
-
           </div>
-
         </div>
-
       )}
-
     </div>
   );
 };

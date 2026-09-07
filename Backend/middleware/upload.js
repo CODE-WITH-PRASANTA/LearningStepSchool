@@ -35,24 +35,12 @@ const routeFolderMap = {
   "/pre-admission": "uploads/pre-admission",
   "/student-gatepass": "uploads/student-gatepass",
   "/fuel": "uploads/fuel",
-  /* =======================================================
-     EXISTING STUDENT LEAVE
-  ======================================================= */
 
+
+   "/auth": "uploads/admin",
+  
   "/student-leave": "uploads/student-leave",
-
-  /* =======================================================
-     EXISTING EXPENSE MANAGEMENT
-     DO NOT CHANGE THIS
-  ======================================================= */
-
   "/expense-management": "uploads/expense-management",
-
-  /* =======================================================
-     ADD EXPENSE
-     NEW SEPARATE FOLDER
-  ======================================================= */
-
   "/expenses": "uploads/add-expense",
 };
 

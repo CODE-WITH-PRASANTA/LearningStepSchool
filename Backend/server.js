@@ -94,7 +94,8 @@ const shiftPlanningRoutes = require("./routes/shiftPlanning.routes");
 const expenceMngRoutes = require("./routes/expenseMng.routes");
 const fuleRoutes = require('./routes/fuelRoutes')
 const holidayRoutes = require("./routes/holidayRoutes");
-// const fuleRoutes = require('./routes/fuelRoutes')
+const dashboardRoutes = require("./routes/dashboard.routes");
+const feeBalanceRoutes = require("./routes/Fee/feeBalance.routes");
 
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -198,6 +199,12 @@ app.use("/api/fee-group", feeGroupRoutes);
 app.use("/api/fee-head", feeHeadRoutes);
 app.use("/api/fee-structure", feeStructureRoutes);
 app.use("/api/fee-entry", feeEntryRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+
+app.use(
+  "/api/fee-balance",
+  feeBalanceRoutes
+);
 
 /* ================= 404 HANDLER ================= */
 
@@ -208,6 +215,7 @@ app.use((req, res) => {
     url: req.originalUrl,
   });
 });
+
 
 /* ================= SERVER ================= */
 
