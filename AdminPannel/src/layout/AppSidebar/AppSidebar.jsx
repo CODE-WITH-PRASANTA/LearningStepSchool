@@ -33,11 +33,19 @@ import {
   FiCpu,
 } from "react-icons/fi";
 import "./AppSidebar.css";
-
+import API, { IMAGE_URL } from "../../api/axios";
 /* Helper component for FiImage icon */
 function FiImage(props) {
   return (
-    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" height="1em" width="1em" {...props}>
+    <svg
+      stroke="currentColor"
+      fill="none"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      height="1em"
+      width="1em"
+      {...props}
+    >
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
       <circle cx="8.5" cy="8.5" r="1.5"></circle>
       <polyline points="21 15 16 10 5 21"></polyline>
@@ -514,11 +522,10 @@ const menu = [
         path: "/vehicle/setting",
       },
 
-       {
+      {
         label: "Fuel Management",
         path: "/fuel-management",
       },
-
     ],
   },
   {
@@ -542,18 +549,17 @@ const menu = [
         path: "/expense-head",
       },
 
-       {
+      {
         label: "Expense Management",
         path: "/expense-management",
       },
-
     ],
   },
 ];
 
 /* SPLIT MENU AT "School ERP Suite" SECTION */
 const erpSectionIndex = menu.findIndex(
-  (item) => item.type === "section" && item.label === "School ERP Suite"
+  (item) => item.type === "section" && item.label === "School ERP Suite",
 );
 
 const schoolManagementItems = menu.slice(0, erpSectionIndex);
@@ -566,11 +572,78 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
   const [openGroup, setOpenGroup] = useState(null);
   const [profileExpanded, setProfileExpanded] = useState(false);
-  
+  const [admin, setAdmin] = useState({
+    name: "Admin",
+    email: "",
+    role: "Administrator",
+    avatar: "",
+  });
   /* Main Root Dropdown Accordion States */
   const [mgmtOpen, setMgmtOpen] = useState(true);
   const [erpOpen, setErpOpen] = useState(true);
 
+  useEffect(() => {
+    const loadAdmin = async () => {
+      try {
+        // Load immediately from localStorage
+        const storedAdmin = localStorage.getItem("admin");
+
+        if (storedAdmin) {
+          const parsedAdmin = JSON.parse(storedAdmin);
+
+          setAdmin({
+            name: parsedAdmin?.name || "Admin",
+            email: parsedAdmin?.email || "",
+            role: parsedAdmin?.role || "Administrator",
+            avatar: parsedAdmin?.avatar || "",
+          });
+        }
+
+        // Get latest data from backend
+        const res = await API.get("/auth/profile");
+
+        const user = res.data.user;
+
+        if (user) {
+          const updatedAdmin = {
+            id: user._id || user.id,
+            name: user.name || "Admin",
+            email: user.email || "",
+            role: user.role || "Administrator",
+            avatar: user.avatar || "",
+          };
+
+          setAdmin(updatedAdmin);
+
+          localStorage.setItem(
+            "admin",
+            JSON.stringify({
+              ...user,
+              id: user._id || user.id,
+            }),
+          );
+        }
+      } catch (error) {
+        console.log("Unable to load admin profile:", error);
+      }
+    };
+
+    loadAdmin();
+  }, []);
+
+  const getAdminAvatar = () => {
+    if (!admin.avatar) {
+      return "";
+    }
+
+    if (admin.avatar.startsWith("http") || admin.avatar.startsWith("blob:")) {
+      return admin.avatar;
+    }
+
+    return `${IMAGE_URL}${admin.avatar}`;
+  };
+
+  const adminInitial = admin.name?.charAt(0)?.toUpperCase() || "A";
   // Auto-close sidebar drawer when navigating on mobile devices
   const handleNavClick = () => {
     if (window.innerWidth < 1024) {
@@ -582,7 +655,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
     const activeGroup = menu.find(
       (item) =>
         item.children &&
-        item.children.some((c) => location.pathname.startsWith(c.path))
+        item.children.some((c) => location.pathname.startsWith(c.path)),
     );
     if (activeGroup) {
       setOpenGroup(activeGroup.label);
@@ -629,9 +702,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
                 (sidebarOpen || mobileOpen) &&
                 setOpenGroup(isOpen ? null : item.label)
               }
-              className={`menu-item-button ${
-                isChildActive ? "is-active" : ""
-              }`}
+              className={`menu-item-button ${isChildActive ? "is-active" : ""}`}
             >
               {isChildActive && <span className="active-glow-pill" />}
 
@@ -690,9 +761,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
           style={{ textDecoration: "none" }}
         >
           {({ isActive }) => (
-            <div
-              className={`menu-item-link ${isActive ? "is-active" : ""}`}
-            >
+            <div className={`menu-item-link ${isActive ? "is-active" : ""}`}>
               {isActive && <span className="active-glow-pill" />}
 
               {Icon && (
@@ -749,7 +818,11 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4 }}
-            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
             <div className="logo-badge">
               <span className="logo-icon">🏫</span>
@@ -766,46 +839,112 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         </div>
 
         {/* 2. PROFILE CARD */}
+        {/* =====================================================
+    ADMIN PROFILE
+===================================================== */}
+
         <div className="sidebar-profile-wrapper">
           <div className="glass-card">
+            {/* PROFILE MAIN ROW */}
+
             <div
               onClick={() =>
-                (sidebarOpen || mobileOpen) && setProfileExpanded(!profileExpanded)
+                (sidebarOpen || mobileOpen) &&
+                setProfileExpanded(!profileExpanded)
               }
               className="profile-main-row"
             >
+              {/* AVATAR */}
+
               <div className="avatar-container">
-                <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-                  alt="Admin"
-                  className="profile-avatar"
-                />
-                <span className="online-dot"></span>
+                {getAdminAvatar() ? (
+                  <img
+                    src={getAdminAvatar()}
+                    alt={admin.name || "Admin"}
+                    className="profile-avatar"
+                  />
+                ) : (
+                  <div className="profile-avatar profile-avatar-placeholder">
+                    {adminInitial}
+                  </div>
+                )}
+
+                <span className="online-dot" />
               </div>
+
+              {/* ADMIN INFORMATION */}
 
               {(sidebarOpen || mobileOpen) && (
                 <div className="profile-info">
-                  <div>
-                    <h4 className="profile-name">Admin</h4>
-                    <p className="profile-role">Super Admin</p>
+                  <div className="profile-text">
+                    <h4 className="profile-name">{admin.name}</h4>
+
+                    <p className="profile-role">{admin.role}</p>
                   </div>
+
                   <FiChevronDown
-                    className={`chevron-icon ${profileExpanded ? "rotated" : ""}`}
+                    className={`chevron-icon ${
+                      profileExpanded ? "rotated" : ""
+                    }`}
                   />
                 </div>
               )}
             </div>
 
+            {/* PROFILE DROPDOWN */}
+
             <AnimatePresence>
               {(sidebarOpen || mobileOpen) && profileExpanded && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
+                  initial={{
+                    height: 0,
+                    opacity: 0,
+                  }}
+                  animate={{
+                    height: "auto",
+                    opacity: 1,
+                  }}
+                  exit={{
+                    height: 0,
+                    opacity: 0,
+                  }}
+                  transition={{
+                    duration: 0.25,
+                  }}
                   className="profile-dropdown-menu"
                 >
-                  <button className="profile-dropdown-item">👤 My Profile</button>
-                  <button className="profile-dropdown-item">🔔 Notifications</button>
+                  {/* EMAIL */}
+
+                  <div className="sidebar-admin-email">
+                    {admin.email || "Administrator Account"}
+                  </div>
+
+                  {/* PROFILE */}
+
+                  <button
+                    className="profile-dropdown-item"
+                    onClick={() => {
+                      navigate("/profile");
+                      setProfileExpanded(false);
+                    }}
+                  >
+                    👤 My Profile
+                  </button>
+
+                  {/* SETTINGS */}
+
+                  <button
+                    className="profile-dropdown-item"
+                    onClick={() => {
+                      navigate("/settings");
+                      setProfileExpanded(false);
+                    }}
+                  >
+                    ⚙️ Settings
+                  </button>
+
+                  {/* LOGOUT */}
+
                   <button
                     onClick={handleLogout}
                     className="profile-dropdown-item logout-text"
@@ -822,7 +961,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
         <nav className="sidebar-navigation sidebar-scroll">
           {/* MAIN DROPDOWN 1: SCHOOL MANAGEMENT */}
           <div className="main-category-block">
-            {(sidebarOpen || mobileOpen) ? (
+            {sidebarOpen || mobileOpen ? (
               <button
                 onClick={() => setMgmtOpen(!mgmtOpen)}
                 className={`main-category-btn ${mgmtOpen ? "is-open" : ""}`}
@@ -860,7 +999,7 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
 
           {/* MAIN DROPDOWN 2: SCHOOL ERP */}
           <div className="main-category-block">
-            {(sidebarOpen || mobileOpen) ? (
+            {sidebarOpen || mobileOpen ? (
               <button
                 onClick={() => setErpOpen(!erpOpen)}
                 className={`main-category-btn ${erpOpen ? "is-open" : ""}`}
@@ -902,7 +1041,9 @@ export default function Sidebar({ sidebarOpen, mobileOpen, setMobileOpen }) {
               <span className="trophy-icon">🏆</span>
               <div className="achievement-info">
                 <h5 className="achievement-title">Great Progress! 🎉</h5>
-                <p className="achievement-subtitle">Keep up the amazing work!</p>
+                <p className="achievement-subtitle">
+                  Keep up the amazing work!
+                </p>
               </div>
               <button className="achievement-btn">→</button>
             </div>

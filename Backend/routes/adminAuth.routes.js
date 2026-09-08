@@ -1,35 +1,80 @@
 const express = require("express");
+
 const {
   registerAdmin,
   loginAdmin,
   logoutAdmin,
-  updatePassword, // ✅ ADD THIS
+  getAdminProfile,
+  updateAdminProfile,
+  updatePassword,
 } = require("../controllers/adminAuth.controller");
 
 const protect = require("../middleware/authMiddleware");
 
+const {
+  upload,
+  convertToWebp,
+} = require("../middleware/upload");
+
 const router = express.Router();
 
-// ================= AUTH =================
+/* =====================================================
+   AUTH
+===================================================== */
 
-// Register (PUBLIC)
 router.post("/register", registerAdmin);
 
-// Login (PUBLIC)
 router.post("/login", loginAdmin);
 
-// Logout (PROTECTED)
-router.post("/logout", protect, logoutAdmin);
+router.post(
+  "/logout",
+  protect,
+  logoutAdmin
+);
 
-// ✅ UPDATE PASSWORD (PROTECTED)
-router.put("/update-password", protect, updatePassword);
+/* =====================================================
+   PROFILE
+===================================================== */
 
-// Protected test route
-router.get("/profile", protect, (req, res) => {
-  res.status(200).json({
-    message: "Authorized access ✅",
-    user: req.user,
-  });
-});
+// Get profile
+router.get(
+  "/profile",
+  protect,
+  getAdminProfile
+);
+
+// Update profile + avatar
+router.put(
+  "/profile",
+  protect,
+  upload.single("avatar"),
+  convertToWebp,
+  updateAdminProfile
+);
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+router.put(
+  "/update-password",
+  protect,
+  updatePassword
+);
+
+/* =====================================================
+   TEST
+===================================================== */
+
+router.get(
+  "/test",
+  protect,
+  (req, res) => {
+    res.status(200).json({
+      message: "Authorized access",
+      user: req.user,
+    });
+  }
+);
 
 module.exports = router;

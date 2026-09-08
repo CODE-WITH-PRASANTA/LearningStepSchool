@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
 import { Bar, Doughnut } from "react-chartjs-2";
 
 ChartJS.register(
@@ -22,19 +21,34 @@ ChartJS.register(
   Legend
 );
 
-const StudentBalance = () => {
+const currencyFormatter = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+  maximumFractionDigits: 0,
+});
+
+const asNumber = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+};
+
+const chartColors = ["#60a5fa", "#475569", "#a78bfa", "#f59e0b", "#14b8a6", "#f472b6"];
+
+const StudentBalance = ({ charts = {}, academicYear = "Current Academic Year" }) => {
+  const balanceByClass = charts.balanceByClass || [];
+  const feeSummary = charts.feeSummary || {};
+
   const balanceData = {
-    labels: ["7th", "5 Kidz"],
+    labels: balanceByClass.map((item) => item.label),
     datasets: [
       {
-        label: "Class",
-        data: [52700, 107700],
-        backgroundColor: [
-          "#60a5fa",
-          "#475569",
-        ],
+        label: "Outstanding balance",
+        data: balanceByClass.map((item) => asNumber(item.value)),
+        backgroundColor: balanceByClass.map(
+          (_, index) => chartColors[index % chartColors.length]
+        ),
         borderRadius: 10,
-        barThickness: 190,
+        maxBarThickness: 190,
       },
     ],
   };
@@ -42,85 +56,50 @@ const StudentBalance = () => {
   const balanceOptions = {
     responsive: true,
     maintainAspectRatio: false,
-
     plugins: {
       legend: {
         position: "bottom",
         labels: {
           usePointStyle: true,
           color: "#334155",
-          font: {
-            size: 14,
-            weight: "600",
-          },
+          font: { size: 14, weight: "600" },
         },
       },
-
       title: {
         display: true,
-        text: [
-          "School Management Software",
-          "Click the columns to view Section Wise",
-        ],
+        text: ["Outstanding fees by class", "Data updates with the dashboard"],
         color: "#334155",
-        font: {
-          size: 14,
-        },
+        font: { size: 14 },
       },
     },
-
     scales: {
       y: {
         beginAtZero: true,
-        max: 150000,
-
         ticks: {
           color: "#64748b",
-          callback: (value) =>
-            value >= 1000 ? `${value / 1000}k` : value,
+          callback: (value) => (value >= 1000 ? `${value / 1000}k` : value),
         },
-
-        grid: {
-          color: "#e5e7eb",
-        },
+        grid: { color: "#e5e7eb" },
       },
-
       x: {
-        ticks: {
-          color: "#334155",
-          font: {
-            weight: "700",
-          },
-        },
-
-        grid: {
-          display: false,
-        },
+        ticks: { color: "#334155", font: { weight: "700" } },
+        grid: { display: false },
       },
     },
   };
 
   const feeCollectionData = {
-    labels: [
-      "Assigned",
-      "Collected",
-      "Fine",
-      "Discount",
-      "Due",
-    ],
-
+    labels: ["Assigned", "Collected", "Fine", "Discount", "Due"],
     datasets: [
       {
-        data: [49, 11, 1, 1, 38],
-
-        backgroundColor: [
-          "#9333ea",
-          "#4ade80",
-          "#ef4444",
-          "#f59e0b",
-          "#9ec5d6",
+        data: [
+          asNumber(feeSummary.assigned),
+          asNumber(feeSummary.collected),
+          asNumber(feeSummary.fine),
+          asNumber(feeSummary.discount),
+          asNumber(feeSummary.due),
         ],
-
+        backgroundColor: ["#9333ea", "#4ade80", "#ef4444", "#f59e0b", "#9ec5d6"],
         borderColor: "#ffffff",
         borderWidth: 3,
       },
@@ -129,69 +108,45 @@ const StudentBalance = () => {
 
   return (
     <section className="StudentBalance">
-
-      {/* LEFT CARD */}
-
       <div className="StudentBalance_Card StudentBalance_BarCard">
-
         <div className="StudentBalance_Header">
-          <h2>
-            Student Balance Fee Chart (2026-27)
-          </h2>
+          <h2>Student Balance Fee Chart ({academicYear})</h2>
         </div>
 
         <div className="StudentBalance_BarWrap">
-          <Bar
-            data={balanceData}
-            options={balanceOptions}
-          />
+          <Bar data={balanceData} options={balanceOptions} />
         </div>
-
       </div>
 
-      {/* RIGHT CARD */}
-
       <div className="StudentBalance_Card">
-
         <div className="StudentBalance_Header">
-
           <div>
             <h2>Fee Collection Chart</h2>
-            <p>Academic Year : 2026-27</p>
+            <p>Academic Year: {academicYear}</p>
           </div>
 
           <span className="StudentBalance_Badge">
-            Today's Collection : 0
+            Today&apos;s Collection: {currencyFormatter.format(asNumber(feeSummary.todayCollection))}
           </span>
-
         </div>
 
         <div className="StudentBalance_DonutWrap">
-
           <Doughnut
             data={feeCollectionData}
             options={{
               responsive: true,
               maintainAspectRatio: false,
               cutout: "50%",
-
               plugins: {
                 legend: {
                   position: "top",
-
-                  labels: {
-                    boxWidth: 40,
-                    color: "#475569",
-                  },
+                  labels: { boxWidth: 40, color: "#475569" },
                 },
               },
             }}
           />
-
         </div>
-
       </div>
-
     </section>
   );
 };
