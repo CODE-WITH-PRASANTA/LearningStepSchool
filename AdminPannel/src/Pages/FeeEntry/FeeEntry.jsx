@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FeeEntry.css";
-import API from "../../api/axios";
+import API, { IMAGE_URL } from "../../api/axios";
 import { useRef } from "react";
 
 const FeeEntry = () => {
@@ -59,11 +59,20 @@ const FeeEntry = () => {
   const [totalPaid, setTotalPaid] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
 
-  const [academicYear, setAcademicYear] = useState("2026-27");
-
+  const [academicYear, setAcademicYear] = useState("");
+  const [previousSession, setPreviousSession] = useState("");
+  const [previousSessionDue, setPreviousSessionDue] = useState(0);
   const [paidMonths, setPaidMonths] = useState([]);
   const [feeHeadPayments, setFeeHeadPayments] = useState({});
   const [feeHeadMonths, setFeeHeadMonths] = useState({});
+
+  const [previousPaymentAmount, setPreviousPaymentAmount] = useState("");
+
+  const [previousPaymentMode, setPreviousPaymentMode] = useState("Cash");
+
+  const [previousPaymentRemark, setPreviousPaymentRemark] = useState("");
+
+  const [isPreviousPaymentSaving, setIsPreviousPaymentSaving] = useState(false);
 
   // --- RECEIPT STATEMENT RECORDS MATRIX ---
 
@@ -83,6 +92,81 @@ const FeeEntry = () => {
   });
   // const [grandTotal, setGrandTotal] = useState(0);
 
+  const normalizeAcademicYear = (session) => {
+    if (!session) return "";
+
+    const value = String(session).trim();
+
+    const match = value.match(/^(\d{4})-(\d{4})$/);
+
+    if (match) {
+      return `${match[1]}-${match[2].slice(-2)}`;
+    }
+
+    return value;
+  };
+
+  const getPreviousAcademicYear = (session) => {
+    if (!session) return "";
+
+    const normalized = normalizeAcademicYear(session);
+
+    const match = normalized.match(/^(\d{4})-(\d{2})$/);
+
+    if (!match) return "";
+
+    const startYear = Number(match[1]);
+
+    return `${startYear - 1}-${String(startYear).slice(-2)}`;
+  };
+
+  const refreshReceiptData = async () => {
+    if (!selectedStudent?._id || !academicYear) return;
+
+    try {
+      await loadPaymentHistory(selectedStudent._id, academicYear);
+
+      await loadAdvanceWallet(selectedStudent._id);
+
+      await loadPreviousSessionDue(selectedStudent._id, academicYear);
+    } catch (error) {
+      console.error("Receipt refresh error:", error);
+    }
+  };
+
+  const loadPreviousSessionDue = async (studentId, currentSession) => {
+    try {
+      const previousYear = getPreviousAcademicYear(currentSession);
+
+      setPreviousSession(previousYear);
+      setPreviousSessionDue(0);
+
+      if (!previousYear) {
+        return;
+      }
+
+      
+
+      const res = await API.get(
+        `/fee-balance/carry-forward/${studentId}/${currentSession}`,
+      );
+
+      
+
+      if (res.data.success) {
+        const carryForward = Number(res.data.carryForwardDue || 0);
+
+        setPreviousSessionDue(carryForward);
+      } else {
+        setPreviousSessionDue(0);
+      }
+    } catch (error) {
+      console.log("Previous session due error:", error);
+
+      setPreviousSessionDue(0);
+    }
+  };
+
   const loadAdvanceWallet = async (studentId) => {
     try {
       const res = await API.get(`/fee-entry/advance/${studentId}`);
@@ -94,7 +178,6 @@ const FeeEntry = () => {
       console.log(err);
     }
   };
-
   const handleSelectStudent = async (student) => {
     setSelectedStudent(student);
 
@@ -103,7 +186,47 @@ const FeeEntry = () => {
     setStudentSuggestions([]);
     setShowSearchResults(false);
 
-    await loadPaymentHistory(student._id);
+    // ==============================
+    // 1. GET STUDENT SESSION
+    // ==============================
+
+    const studentSession = normalizeAcademicYear(student.session);
+
+    setAcademicYear(studentSession);
+
+    // ==============================
+    // 2. CLEAR OLD DATA
+    // ==============================
+
+    setPreviousSession("");
+    setPreviousSessionDue(0);
+
+    setReceiptsList([]);
+    setPaidMonths([]);
+    setFeeHeadPayments({});
+    setFeeHeadMonths({});
+    setSelectedMonths([]);
+    setTotalPaid(0);
+    setTotalDiscount(0);
+    setDueAmount(0);
+    setPayableAmount(0);
+
+    // ==============================
+    // 3. CHECK PREVIOUS SESSION
+    // ==============================
+
+    await loadPreviousSessionDue(student._id, studentSession);
+
+    // ==============================
+    // 4. LOAD CURRENT SESSION
+    // ==============================
+
+    await loadPaymentHistory(student._id, studentSession);
+
+    // ==============================
+    // 5. LOAD ADVANCE
+    // ==============================
+
     await loadAdvanceWallet(student._id);
   };
 
@@ -205,8 +328,7 @@ const FeeEntry = () => {
           `/students/search/list?q=${encodeURIComponent(searchText)}`,
         );
 
-        console.log("SEARCH RESPONSE =>", response.data);
-        console.log("SETTING =>", response.data.data || response.data);
+       
         setStudentSuggestions(response.data || []);
         setShowSearchResults(true);
       } catch (error) {
@@ -255,16 +377,15 @@ const FeeEntry = () => {
           }
           // Annual
           else {
-            console.log("HEAD ID =>", head.id);
-            console.log("feeHeadPayments =>", feeHeadPayments);
+            
 
             const alreadyPaid = Number(feeHeadPayments[String(head.id)] || 0);
 
-            console.log("Already Paid =>", alreadyPaid);
+            
 
             dueAmount = Math.max(0, Number(head.amt || 0) - alreadyPaid);
 
-            console.log("Due Amount =>", dueAmount);
+           
           }
 
           // Amount allocated to this fee head
@@ -302,15 +423,20 @@ const FeeEntry = () => {
         remark: receiptRemark,
       };
 
-      console.log("PAYLOAD =>", payload);
+     
 
       const response = await API.post("/fee-entry/create", payload);
 
       if (response.data.success) {
-        await loadPaymentHistory(selectedStudent._id);
+        // 🔄 Refresh receipt/history data WITHOUT page reload
+        await refreshReceiptData();
 
-        // Reload student's advance wallet
-        await loadAdvanceWallet(selectedStudent._id);
+        // Clear current payment form
+        setTotalPaid(0);
+        setTotalDiscount(0);
+        setAdvanceUsed(0);
+        setSelectedMonths([]);
+        setReceiptRemark("");
 
         alert("Saved Successfully");
       }
@@ -343,21 +469,20 @@ const FeeEntry = () => {
       try {
         const searchClass = selectedStudent?.class?.replace(/\./g, "")?.trim();
 
-        console.log("Selected Class =>", selectedStudent?.class);
-        console.log("Search Class =>", searchClass);
+        
 
         const response = await API.get(
           `/fee-structure/all?search=${encodeURIComponent(searchClass)}`,
         );
 
-        console.log("Fee Structure Response =>", response.data);
+        
 
         if (response.data.success) {
           const allItems = response.data.data.flatMap(
             (structure) => structure.feeItems || [],
           );
 
-          console.log("Fee Items =>", allItems);
+          
 
           const formattedHeads = response.data.data.flatMap((structure) =>
             (structure.feeItems || []).map((item, index) => ({
@@ -377,10 +502,10 @@ const FeeEntry = () => {
             })),
           );
 
-          console.log("Formatted Heads =>", formattedHeads);
+         
 
           setFeeHeads(formattedHeads);
-          console.log("Fee Heads State =>", formattedHeads);
+         
         }
       } catch (error) {
         console.log(error);
@@ -390,29 +515,46 @@ const FeeEntry = () => {
     loadFeeStructure();
   }, [selectedStudent]);
 
-  const loadPaymentHistory = async (studentId) => {
+  const loadPaymentHistory = async (studentId, session) => {
     try {
+      const currentSession = normalizeAcademicYear(session);
+
       const res = await API.get(`/fee-entry/student/${studentId}`);
+
       if (res.data.success) {
-        const receipts = res.data.data;
+        const allReceipts = res.data.data || [];
+
+        // =====================================
+        // ONLY CURRENT SESSION RECEIPTS
+        // =====================================
+
+        const receipts = allReceipts.filter((receipt) => {
+          const receiptSession = normalizeAcademicYear(receipt.academicYear);
+
+          return receiptSession === currentSession;
+        });
+
+       
+
+        // =====================================
+        // CURRENT SESSION ONLY
+        // =====================================
 
         setReceiptsList(receipts);
 
-        // All paid months
         const months = receipts.flatMap((item) => item.installmentMonth || []);
 
         setPaidMonths([...new Set(months)]);
 
         const feeHeadPaidMap = {};
         const feeHeadMonthMap = {};
+
         receipts.forEach((receipt) => {
-          console.log("RECEIPT =>", receipt);
           receipt.feeHeads?.forEach((fee) => {
-            console.log("FULL FEE OBJECT =>", fee);
             const feeHeadId =
               fee.feeHeadId?._id || fee.feeHeadId || fee.feeHead;
 
-            console.log("FEE HEAD ID =>", feeHeadId);
+            if (!feeHeadId) return;
 
             if (!feeHeadPaidMap[feeHeadId]) {
               feeHeadPaidMap[feeHeadId] = 0;
@@ -426,10 +568,6 @@ const FeeEntry = () => {
               ...(receipt.installmentMonth || []),
             );
 
-            console.log(
-              "RECEIPT FEE HEADS =>",
-              JSON.stringify(receipts, null, 2),
-            );
             feeHeadPaidMap[feeHeadId] += Number(fee.amount || 0);
           });
         });
@@ -442,7 +580,122 @@ const FeeEntry = () => {
         setFeeHeadMonths(feeHeadMonthMap);
       }
     } catch (error) {
-      console.log(error);
+      console.log("Payment history error:", error);
+    }
+  };
+
+  const handlePreviousPayment = async () => {
+    try {
+      if (!selectedStudent?._id) {
+        alert("Please select a student first.");
+        return;
+      }
+
+      const amount = Number(previousPaymentAmount);
+
+      const previousDue = Number(previousSessionDue);
+
+      if (!previousSession) {
+        alert("Previous academic session not found.");
+        return;
+      }
+
+      if (!amount || amount <= 0) {
+        alert("Please enter a valid payment amount.");
+        return;
+      }
+
+      if (amount > previousDue) {
+        alert("Payment cannot be greater than previous session due.");
+        return;
+      }
+
+      setIsPreviousPaymentSaving(true);
+
+      /*
+      IMPORTANT:
+
+      This payment belongs to the PREVIOUS session.
+
+      Example:
+
+      Current session = 2026-27
+      Previous session = 2025-26
+
+      Payment:
+        ₹2000
+
+      appliedAcademicYear:
+        2025-26
+    */
+
+      const payload = {
+        studentId: selectedStudent._id,
+
+        studentName: `${selectedStudent.firstName || ""} ${
+          selectedStudent.lastName || ""
+        }`.trim(),
+
+        admissionNo: selectedStudent.admissionNo || "",
+
+        class: selectedStudent.class || "",
+
+        section: selectedStudent.section || "",
+
+        /*
+        Current session when payment is collected.
+      */
+        academicYear,
+
+        /*
+        Session against which payment is applied.
+      */
+        appliedAcademicYear: previousSession,
+
+        paymentType: "PREVIOUS_SESSION",
+
+        paidAmount: amount,
+
+        paymentMode: previousPaymentMode,
+
+        remark: previousPaymentRemark,
+      };
+
+     
+
+      const res = await API.post("/fee-entry/previous-payment", payload);
+
+      if (!res.data?.success) {
+        throw new Error(res.data?.message || "Previous payment failed");
+      }
+
+      alert("Previous session payment saved successfully.");
+
+      /*
+      Clear payment form.
+    */
+
+      setPreviousPaymentAmount("");
+
+      setPreviousPaymentRemark("");
+
+      setPreviousPaymentMode("Cash");
+
+      /*
+      Reload previous-session due.
+    */
+
+      await loadPreviousSessionDue(selectedStudent._id, academicYear);
+    } catch (error) {
+      console.error("Previous payment error:", error);
+
+      alert(
+        error?.response?.data?.message ||
+          error.message ||
+          "Failed to save previous payment.",
+      );
+    } finally {
+      setIsPreviousPaymentSaving(false);
     }
   };
 
@@ -481,12 +734,6 @@ const FeeEntry = () => {
       prev.map((head) => ({ ...head, checked: checkedStatus })),
     );
   };
-
-  // const selectStudentProfile = (student) => {
-  //   setSelectedStudent(student);
-  //   setSearchQuery(`${student.firstName} ${student.lastName}`);
-  //   setShowSearchResults(false);
-  // };
 
   const AvatarIcon = () => (
     <svg
@@ -577,12 +824,13 @@ const FeeEntry = () => {
   const availableMonths = monthsList.filter(
     (month) => !paidMonths.includes(month),
   );
+
   return (
     <div className="fee-dashboard-container">
       {/* HEADER SECTION WITH RESPONSIVE SEARCH */}
       <header className="fee-header-section">
-        <div className="search-wrapper" ref={searchRef}>
-          <span className="search-icon-wrapper">
+        <div className="searchs-wrapper" ref={searchRef}>
+          <span className="searchs-icon-wrapper">
             <svg
               width="18"
               height="18"
@@ -607,16 +855,16 @@ const FeeEntry = () => {
               setSearchText(e.target.value);
               setShowSearchResults(true);
             }}
-            className="search-input"
+            className="searchs-input"
           />
 
           {showSearchResults && searchText.length >= 2 && (
-            <div className="search-results-dropdown">
+            <div className="searchs-results-dropdown">
               {studentSuggestions.length > 0 ? (
                 studentSuggestions.map((student) => (
                   <div
                     key={student._id}
-                    className="search-result-item"
+                    className="searchs-result-item"
                     onClick={() => handleSelectStudent(student)}
                   >
                     <div>
@@ -633,7 +881,7 @@ const FeeEntry = () => {
                   </div>
                 ))
               ) : (
-                <div className="search-no-results">No records found.</div>
+                <div className="searchs-no-results">No records found.</div>
               )}
             </div>
           )}
@@ -646,7 +894,18 @@ const FeeEntry = () => {
         <section className="student-profile-card">
           <div className="profile-inner">
             <div className="profile-avatar-box">
-              <AvatarIcon />
+              {selectedStudent?.studentPhoto ? (
+                <img
+                  src={`${IMAGE_URL}${selectedStudent.studentPhoto}`}
+                  alt="Student"
+                  className="student-profile-image"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : (
+                <AvatarIcon />
+              )}
             </div>
             <div className="profile-info-grid">
               <div className="info-group">
@@ -736,7 +995,33 @@ const FeeEntry = () => {
               <span>Total Processed Payments</span>
               <strong>{receiptsList.length}</strong>
             </div>
+            {selectedStudent && (
+              <>
+                <div className="status-row">
+                  <span>
+                    Previous Session Due
+                    {previousSession && ` (${previousSession})`}
+                  </span>
 
+                  <strong
+                    style={{
+                      color: previousSessionDue > 0 ? "#ef4444" : "#16a34a",
+                    }}
+                  >
+                    ₹{Number(previousSessionDue).toFixed(2)}
+                  </strong>
+                </div>
+
+                <div className="status-row">
+                  <span>
+                    Current Session
+                    {academicYear && ` (${academicYear})`}
+                  </span>
+
+                  <strong>Fresh</strong>
+                </div>
+              </>
+            )}
             <div className="status-row">
               <span>Total Paid Amount</span>
               <strong style={{ color: "#16a34a" }}>
@@ -797,22 +1082,92 @@ const FeeEntry = () => {
           </div>
 
           <div className="history-list">
-            {receiptsList.map((rec) => (
-              <div key={rec._id} className="history-item">
+            {receiptsList.length === 0 ? (
+              <div className="history-item">
                 <div className="history-item-meta">
-                  <strong>Receipt #{rec.receiptNo}</strong>
-
-                  <p>
-                    {rec.paymentMode} • {rec.installmentMonth?.join(", ")}
-                  </p>
+                  <strong>No Payment Found</strong>
+                  <p>No payment has been recorded yet.</p>
                 </div>
-
-                <div className="history-item-amt">₹{rec.paidAmount}</div>
               </div>
-            ))}
+            ) : (
+              receiptsList.map((rec) => {
+                const paymentType = rec.paymentType || "CURRENT_SESSION";
+
+                const isPrevious = paymentType === "PREVIOUS_SESSION";
+
+                const isAdvance = paymentType === "ADVANCE";
+
+                const paymentTypeLabel = isPrevious
+                  ? "Previous Session Payment"
+                  : isAdvance
+                    ? "Advance Payment"
+                    : "Current Session Payment";
+
+                const appliedSession =
+                  rec.appliedAcademicYear || rec.academicYear || "";
+
+                const months =
+                  Array.isArray(rec.installmentMonth) &&
+                  rec.installmentMonth.length > 0
+                    ? rec.installmentMonth.join(", ")
+                    : "No Installment";
+
+                return (
+                  <div key={rec._id} className="history-item">
+                    <div className="history-item-meta">
+                      <strong>Receipt #{rec.receiptNo}</strong>
+
+                      <p>
+                        {rec.paymentMode} • {months}
+                      </p>
+
+                      {/* PAYMENT TYPE */}
+
+                      <span
+                        style={{
+                          display: "inline-block",
+                          marginTop: "5px",
+                          padding: "4px 8px",
+                          borderRadius: "6px",
+                          fontSize: "11px",
+                          fontWeight: 700,
+                          background: isPrevious
+                            ? "#fff1f2"
+                            : isAdvance
+                              ? "#ecfdf5"
+                              : "#eff6ff",
+                          color: isPrevious
+                            ? "#dc2626"
+                            : isAdvance
+                              ? "#059669"
+                              : "#2563eb",
+                        }}
+                      >
+                        {paymentTypeLabel}
+                      </span>
+
+                      {/* APPLIED SESSION */}
+
+                      <p
+                        style={{
+                          marginTop: "5px",
+                          fontSize: "12px",
+                          color: "#64748b",
+                        }}
+                      >
+                        Applied Session: <strong>{appliedSession}</strong>
+                      </p>
+                    </div>
+
+                    <div className="history-item-amt">
+                      ₹{Number(rec.paidAmount || 0).toFixed(2)}
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
-        
       </section>
       {/* LOWER INTERACTIVE SPLIT: MONTHS AND HEAD-WISE CALCULATION MATRIX */}
       <section className="bottom-interactive-split">
@@ -1164,20 +1519,219 @@ const FeeEntry = () => {
             </div>
           )}
 
+          {/* =========================================================
+      PREVIOUS SESSION PAYMENT
+  ========================================================= */}
+
+          {selectedStudent && previousSessionDue > 0 && (
+            <div
+              className="previous-payment-section"
+              style={{
+                marginTop: "20px",
+                marginBottom: "20px",
+                padding: "18px",
+                border: "1px solid #e2e8f0",
+                borderRadius: "12px",
+                background: "#fff",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "16px",
+                }}
+              >
+                <div>
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: "18px",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Previous Session Payment
+                  </h3>
+
+                  <span
+                    style={{
+                      display: "block",
+                      marginTop: "5px",
+                      fontSize: "13px",
+                      color: "#64748b",
+                    }}
+                  >
+                    Payment against previous session only
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    padding: "8px 14px",
+                    borderRadius: "8px",
+                    background: "#fff1f2",
+                    color: "#ef4444",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                  }}
+                >
+                  Due: ₹{Number(previousSessionDue).toFixed(2)}
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns:
+                    "minmax(180px, 1fr) minmax(180px, 1fr) minmax(180px, 1fr) auto",
+                  gap: "14px",
+                  alignItems: "end",
+                }}
+              >
+                {/* PREVIOUS SESSION */}
+
+                <div className="summary-field-box">
+                  <label>Previous Session</label>
+
+                  <input
+                    type="text"
+                    value={previousSession || "No Previous Session"}
+                    readOnly
+                  />
+                </div>
+
+                {/* PAYMENT AMOUNT */}
+
+                <div className="summary-field-box">
+                  <label>Previous Payment</label>
+
+                  <input
+                    type="number"
+                    min="0"
+                    max={previousSessionDue}
+                    step="0.01"
+                    value={previousPaymentAmount}
+                    placeholder="Enter amount"
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+
+                      if (value < 0) {
+                        setPreviousPaymentAmount(0);
+                        return;
+                      }
+
+                      if (value > previousSessionDue) {
+                        setPreviousPaymentAmount(previousSessionDue);
+                        return;
+                      }
+
+                      setPreviousPaymentAmount(e.target.value);
+                    }}
+                  />
+                </div>
+
+                {/* PAYMENT MODE */}
+
+                <div className="summary-field-box">
+                  <label>Payment Mode</label>
+
+                  <select
+                    value={previousPaymentMode}
+                    onChange={(e) => setPreviousPaymentMode(e.target.value)}
+                  >
+                    <option value="Cash">Cash</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Card</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                    <option value="Cheque">Cheque</option>
+                  </select>
+                </div>
+
+                {/* PAY BUTTON */}
+
+                <button
+                  type="button"
+                  className="btn-save-main"
+                  disabled={
+                    isPreviousPaymentSaving ||
+                    !previousPaymentAmount ||
+                    Number(previousPaymentAmount) <= 0 ||
+                    Number(previousPaymentAmount) > Number(previousSessionDue)
+                  }
+                  onClick={handlePreviousPayment}
+                >
+                  {isPreviousPaymentSaving ? "Saving..." : "Pay Previous Due"}
+                </button>
+              </div>
+
+              {/* REMARK */}
+
+              <div
+                style={{
+                  marginTop: "14px",
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Previous payment remark..."
+                  className="receipt-remark-input"
+                  value={previousPaymentRemark}
+                  onChange={(e) => setPreviousPaymentRemark(e.target.value)}
+                />
+              </div>
+
+              {/* QUICK FULL PAYMENT */}
+
+              <div
+                style={{
+                  marginTop: "12px",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() =>
+                    setPreviousPaymentAmount(
+                      Number(previousSessionDue).toFixed(2),
+                    )
+                  }
+                  style={{
+                    border: "1px solid #cbd5e1",
+                    background: "#f8fafc",
+                    padding: "7px 12px",
+                    borderRadius: "7px",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                  }}
+                >
+                  Pay Full Previous Due
+                </button>
+
+                <span
+                  style={{
+                    fontSize: "13px",
+                    color: "#64748b",
+                  }}
+                >
+                  Maximum ₹{Number(previousSessionDue).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* FLUID RESPONSIBLE CALCULATION SUM FIELDS GRID */}
           <div className="calculation-summary-row">
             <div className="summary-field-box">
               <label>Academic Year</label>
 
-              <select
-                value={academicYear}
-                onChange={(e) => setAcademicYear(e.target.value)}
-              >
-                <option value="2024-25">2024-25</option>
-                <option value="2025-26">2025-26</option>
-                <option value="2026-27">2026-27</option>
-                <option value="2027-28">2027-28</option>
-              </select>
+              <div className="fee-session-display">
+                <span>Student Session</span>
+
+                <strong>{academicYear || "No Session"}</strong>
+              </div>
             </div>
             <div className="summary-field-box">
               <label>Grand Total</label>

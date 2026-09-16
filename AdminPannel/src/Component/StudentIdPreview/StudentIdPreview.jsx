@@ -1,15 +1,21 @@
 import React from "react";
 import "./StudentIdPreview.css";
+
 import { FaPrint, FaArrowLeft, FaGlobe } from "react-icons/fa";
+
 import { IMAGE_URL } from "../../api/axios";
 
 const StudentIdPreview = ({ students, onBack, onPrint }) => {
+  /* =====================================================
+     STUDENT PHOTO URL
+  ===================================================== */
+
   const getStudentPhoto = (student) => {
     const photo = student.photo || student.studentPhoto;
 
     if (!photo) return "";
 
-    if (/^https?:\/\//i.test(photo)) {
+    if (/^https?:\/\/+/i.test(photo)) {
       return photo;
     }
 
@@ -27,12 +33,16 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
 
         <div className="id-preview-title">
           <h2>Student ID Card Preview</h2>
-          <p>Preview & Print Student Identity Cards</p>
+
+          <p>
+            Preview & Print Student Identity Cards
+          </p>
         </div>
 
         <div className="id-preview-actions">
 
           <button
+            type="button"
             className="id-btn-back"
             onClick={onBack}
           >
@@ -41,6 +51,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
           </button>
 
           <button
+            type="button"
             className="id-btn-print"
             onClick={onPrint}
           >
@@ -83,15 +94,13 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                     THE LEARNING STEP SCHOOL
                   </h3>
 
+                  {/* 6HVX+F2V REMOVED */}
                   <p className="ref-school-address">
-                    6HVX+F2V, Tehla Bypass Alwar Road ,
-                    Rajgarh, Thana, Rajasthan 301408
+                    Tehla Bypass Alwar Road, Rajgarh, Thana,
+                    Rajasthan 301408
                   </p>
 
-                  <p className="ref-school-website">
-                    <FaGlobe className="ref-web-icon" />
-                    learningstepschool.in
-                  </p>
+                  {/* TOP WEBSITE REMOVED */}
 
                 </div>
 
@@ -131,12 +140,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                           student.studentName ||
                           "Student"
                         }
-
-                        /*
-                         * Important:
-                         * These inline styles make sure the image
-                         * itself always fills the circle.
-                         */
                         style={{
                           width: "100%",
                           height: "100%",
@@ -166,7 +169,9 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
               <div className="ref-name-pill-wrapper">
 
                 <div className="ref-name-pill">
+
                   {student.name || student.studentName}
+
                 </div>
 
               </div>
@@ -183,36 +188,44 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                     label: "Father's Name",
                     value: student.fatherName,
                   },
+
                   {
                     label: "Mother's Name",
                     value: student.motherName,
                   },
+
                   {
                     label: "Admi. No.",
                     value: student.admissionNo || "N/A",
                   },
+
                   {
                     label: "Session",
                     value: student.session || "2026-2027",
                   },
+
                   {
                     label: "Class",
                     value: `${student.class || student.className || ""} ${
                       student.section || ""
                     }`.trim(),
                   },
+
                   {
                     label: "Date of Birth",
                     value: student.dob,
                   },
+
                   {
                     label: "Address",
                     value: student.address,
                   },
+
                   {
                     label: "Contact No.",
                     value: student.phone,
                   },
+
                 ].map((item, index) => (
 
                   <div
@@ -249,11 +262,23 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
 
 
               {/* =================================================
-                  FOOTER
+                  UPDATED FOOTER
               ================================================= */}
 
               <div className="ref-card-footer">
-                School Contact - +91 70146 27894
+
+                <div className="ref-footer-contact">
+                  School Contact - +91 9887868746 | +91 7014627849
+                </div>
+
+                <div className="ref-footer-web">
+                  Web:- learningstepschool.in
+                </div>
+
+                <div className="ref-footer-email">
+                  Email:- learningstep19@gmail.com
+                </div>
+
               </div>
 
             </div>

@@ -267,15 +267,61 @@
 }
 
 /* Red Footer Bar */
+/* ==========================================================
+   RED FOOTER BAR
+========================================================== */
+
 .ref-card-footer {
   background-color: #b21f35;
   color: #ffffff;
+
   text-align: center;
-  padding: 7px 10px;
-  font-size: 0.76rem;
+
+  padding: 6px 8px 7px;
+
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.2px;
+
+  line-height: 1.35;
+
+  letter-spacing: 0.1px;
+
   margin-top: auto;
+
+  flex-shrink: 0;
+}
+
+
+/* ==========================================================
+   FOOTER CONTACT
+========================================================== */
+
+.ref-footer-contact {
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   FOOTER WEBSITE
+========================================================== */
+
+.ref-footer-web {
+  font-size: 0.65rem;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+
+/* ==========================================================
+   FOOTER EMAIL
+========================================================== */
+
+.ref-footer-email {
+  font-size: 0.63rem;
+  font-weight: 600;
+  margin-top: 1px;
 }
 
 /* Print Formatting */

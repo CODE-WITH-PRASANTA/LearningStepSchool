@@ -1,6 +1,10 @@
+const mongoose = require("mongoose");
+
 const Student = require("../models/sudentAdmission.model");
+
 const { deleteImageFile } = require("../middleware/upload");
 
+const { closeStudentAcademicSession } = require("./Fee/feeBalance.controller");
 /* ================= HELPER ================= */
 
 const getFilePath = (file) => {
@@ -34,8 +38,14 @@ const getPublicFileUrl = (req, filePath) => {
 const formatStudentForIdCard = (req, student, session) => {
   const data = student.toJSON();
   const studentName = [data.firstName, data.lastName].filter(Boolean).join(" ");
-  const address = data.currentAddress || data.permanentAddress || data.guardianAddress || "";
-  const phone = data.mobile || data.fatherPhone || data.motherPhone || data.guardianPhone || "";
+  const address =
+    data.currentAddress || data.permanentAddress || data.guardianAddress || "";
+  const phone =
+    data.mobile ||
+    data.fatherPhone ||
+    data.motherPhone ||
+    data.guardianPhone ||
+    "";
 
   return {
     _id: data._id,
@@ -76,12 +86,16 @@ exports.createStudent = async (req, res) => {
     const student = new Student({
       ...req.body,
 
-      // ✅ FIXED FILES
+      // ✅ Admission Session
+      session: req.body.session?.trim() || "",
+
+      // ✅ Student Files
       studentPhoto: getFilePath(req.files?.studentPhoto),
       fatherPhoto: getFilePath(req.files?.fatherPhoto),
       motherPhoto: getFilePath(req.files?.motherPhoto),
       guardianPhoto: getFilePath(req.files?.guardianPhoto),
 
+      // ✅ Documents
       documents: {
         reportCard: getFilePath(req.files?.reportCard),
         tc: getFilePath(req.files?.tc),
@@ -134,7 +148,8 @@ exports.getStudents = async (req, res) => {
 
 exports.getStudentIdCards = async (req, res) => {
   try {
-    const { session, className, section, house, category, gender, transport } = req.query;
+    const { session, className, section, house, category, gender, transport } =
+      req.query;
 
     const query = {};
 
@@ -144,10 +159,7 @@ exports.getStudentIdCards = async (req, res) => {
     if (category) query.category = category;
     if (gender) query.gender = gender;
     if (transport) {
-      query.$or = [
-        { routeList: transport },
-        { busStop: transport },
-      ];
+      query.$or = [{ routeList: transport }, { busStop: transport }];
     }
 
     const students = await Student.find(query).sort({
@@ -160,7 +172,9 @@ exports.getStudentIdCards = async (req, res) => {
     res.json({
       success: true,
       count: students.length,
-      data: students.map((student) => formatStudentForIdCard(req, student, session)),
+      data: students.map((student) =>
+        formatStudentForIdCard(req, student, session),
+      ),
     });
   } catch (error) {
     res.status(500).json({
@@ -230,7 +244,7 @@ exports.searchStudents = async (req, res) => {
         firstName
         lastName
         class
-
+        session
         studentPhoto
 
         fatherName
@@ -244,7 +258,6 @@ exports.searchStudents = async (req, res) => {
         guardianName
         guardianMobile
         guardianPhoto
-
         address
       `,
       )
@@ -274,6 +287,12 @@ exports.updateStudent = async (req, res) => {
     parseStudentBehaviour(req.body);
 
     const updateData = { ...req.body };
+
+    /* ================= SESSION ================= */
+
+    if (req.body.session !== undefined) {
+      updateData.session = req.body.session;
+    }
 
     /* ================= PHOTO ================= */
 
@@ -323,10 +342,15 @@ exports.updateStudent = async (req, res) => {
 
     updateData.documents = documents;
 
+    /* ================= UPDATE DATABASE ================= */
+
     const updatedStudent = await Student.findByIdAndUpdate(
       req.params.id,
       updateData,
-      { new: true },
+      {
+        new: true,
+        runValidators: true,
+      },
     );
 
     res.json({
@@ -335,6 +359,8 @@ exports.updateStudent = async (req, res) => {
       data: updatedStudent,
     });
   } catch (error) {
+    console.error("UPDATE STUDENT ERROR:", error);
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -374,6 +400,337 @@ exports.deleteStudent = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+/* ================= PROMOTE STUDENTS ================= */
+
+/* =========================================================
+   PROMOTE STUDENTS
+========================================================= */
+
+exports.promoteStudents = async (req, res) => {
+  try {
+    const {
+      studentIds,
+      currentSession,
+      currentClass,
+      currentDivision,
+      promoteSession,
+      promoteClass,
+      promoteDivision,
+    } = req.body;
+
+    /* =====================================================
+       VALIDATION
+    ===================================================== */
+
+    if (!Array.isArray(studentIds) || studentIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Please select at least one student.",
+      });
+    }
+
+    if (
+      !currentSession ||
+      !promoteSession ||
+      !promoteClass ||
+      !promoteDivision
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Current session, promotion session, class and section are required.",
+      });
+    }
+
+    /* =====================================================
+       NORMALIZE SESSION
+    ===================================================== */
+
+    const normalizeSession = (value) => {
+      if (!value) return "";
+
+      const session = String(value).trim();
+
+      const match = session.match(/^(\d{4})-(\d{2}|\d{4})$/);
+
+      if (!match) {
+        return session.toLowerCase().replace(/\s+/g, "");
+      }
+
+      const startYear = match[1];
+      const endYear = match[2];
+
+      if (endYear.length === 2) {
+        return `${startYear}-${endYear}`;
+      }
+
+      return `${startYear}-${endYear.slice(-2)}`;
+    };
+
+    /* =====================================================
+       NORMALIZE CLASS / SECTION
+    ===================================================== */
+
+    const normalizeField = (value) => {
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value).trim().toLowerCase().replace(/\s+/g, " ");
+    };
+
+    /* =====================================================
+       SAME SESSION CHECK
+    ===================================================== */
+
+    if (normalizeSession(currentSession) === normalizeSession(promoteSession)) {
+      return res.status(400).json({
+        success: false,
+        message: "Current session and promotion session must be different.",
+      });
+    }
+
+    /* =====================================================
+       SAME CLASS + SECTION CHECK
+    ===================================================== */
+
+    if (
+      currentClass &&
+      currentDivision &&
+      normalizeField(currentClass) === normalizeField(promoteClass) &&
+      normalizeField(currentDivision) === normalizeField(promoteDivision)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Student cannot be promoted to the same class and section.",
+      });
+    }
+
+    /* =====================================================
+       REMOVE DUPLICATE IDS
+    ===================================================== */
+
+    const uniqueStudentIds = [...new Set(studentIds.map((id) => String(id)))];
+
+    /* =====================================================
+       VALIDATE OBJECT IDS
+    ===================================================== */
+
+    for (const studentId of uniqueStudentIds) {
+      if (!mongoose.Types.ObjectId.isValid(studentId)) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid student ID: ${studentId}`,
+        });
+      }
+    }
+
+    /* =====================================================
+       FIND STUDENTS
+    ===================================================== */
+
+    const students = await Student.find({
+      _id: {
+        $in: uniqueStudentIds,
+      },
+    });
+
+    if (students.length !== uniqueStudentIds.length) {
+      return res.status(404).json({
+        success: false,
+        message: "One or more selected students were not found.",
+      });
+    }
+
+    /* =====================================================
+       CLOSE + PROMOTE
+    ===================================================== */
+
+    const closedSessions = [];
+
+    const promotedStudents = [];
+
+    for (const student of students) {
+      /* ===================================================
+         CHECK CURRENT SESSION
+      =================================================== */
+
+      if (
+        normalizeSession(student.session) !== normalizeSession(currentSession)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: `${student.firstName || "Student"} does not belong to current session ${currentSession}.`,
+        });
+      }
+
+      /* ===================================================
+         CHECK CURRENT CLASS
+      =================================================== */
+
+      if (
+        currentClass &&
+        normalizeField(student.class) !== normalizeField(currentClass)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: `${student.firstName || "Student"} does not belong to class ${currentClass}.`,
+        });
+      }
+
+      /* ===================================================
+         CHECK CURRENT SECTION
+      =================================================== */
+
+      if (
+        currentDivision &&
+        normalizeField(student.section) !== normalizeField(currentDivision)
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: `${student.firstName || "Student"} does not belong to section ${currentDivision}.`,
+        });
+      }
+
+      /* ===================================================
+         STEP 1
+         CLOSE OLD ACADEMIC YEAR
+
+         This calls:
+
+         calculateSessionBalance()
+         ↓
+         FeeBalance
+         ↓
+         closingDue
+         ↓
+         isClosed = true
+      =================================================== */
+
+      const feeBalance = await closeStudentAcademicSession(
+        student._id,
+        currentSession,
+      );
+
+      /* ===================================================
+         STEP 2
+         PROMOTE STUDENT
+      =================================================== */
+
+      const updatedStudent = await Student.findByIdAndUpdate(
+        student._id,
+        {
+          $set: {
+            session: promoteSession,
+
+            class: promoteClass,
+
+            section: promoteDivision,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
+
+      if (!updatedStudent) {
+        throw new Error(`Failed to promote student ${student._id}`);
+      }
+
+      /* ===================================================
+         CLOSING INFORMATION
+      =================================================== */
+
+      closedSessions.push({
+        studentId: student._id,
+
+        admissionNo: student.admissionNo || "",
+
+        studentName: [student.firstName, student.lastName]
+          .filter(Boolean)
+          .join(" "),
+
+        academicYear: feeBalance.academicYear,
+
+        totalFee: Number(feeBalance.totalFee || 0),
+
+        totalPaid: Number(feeBalance.totalPaid || 0),
+
+        totalDiscount: Number(feeBalance.totalDiscount || 0),
+
+        closingDue: Number(feeBalance.closingDue || 0),
+
+        isClosed: feeBalance.isClosed,
+
+        closedAt: feeBalance.closedAt,
+      });
+
+      /* ===================================================
+         PROMOTION INFORMATION
+      =================================================== */
+
+      promotedStudents.push({
+        studentId: updatedStudent._id,
+
+        admissionNo: updatedStudent.admissionNo || "",
+
+        studentName: [updatedStudent.firstName, updatedStudent.lastName]
+          .filter(Boolean)
+          .join(" "),
+
+        previousSession: currentSession,
+
+        newSession: promoteSession,
+
+        previousClass: currentClass,
+
+        newClass: promoteClass,
+
+        previousDivision: currentDivision,
+
+        newDivision: promoteDivision,
+      });
+    }
+
+    /* =====================================================
+       RESPONSE
+    ===================================================== */
+
+    return res.status(200).json({
+      success: true,
+
+      message: `${promotedStudents.length} student${
+        promotedStudents.length > 1 ? "s" : ""
+      } promoted successfully and ${currentSession} academic year closed.`,
+
+      data: {
+        promotedCount: promotedStudents.length,
+
+        currentSession,
+
+        promoteSession,
+
+        promoteClass,
+
+        promoteDivision,
+
+        closedSessions,
+
+        promotedStudents,
+      },
+    });
+  } catch (error) {
+    console.error("PROMOTE STUDENTS ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+
+      message: error.message || "Failed to promote students.",
     });
   }
 };

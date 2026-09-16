@@ -1,6 +1,22 @@
 const Fuel = require("../models/Fuel");
 const Wallet = require("../models/walletTransaction.model");
 
+const {
+  deleteImageFile,
+} = require("../middleware/upload");
+
+
+// =====================================================
+// HELPERS
+// =====================================================
+
+const normalizeInvoice = (invoiceNo) => {
+  return String(invoiceNo || "")
+    .trim()
+    .toUpperCase();
+};
+
+
 // =====================================================
 // CREATE FUEL ENTRY
 // =====================================================
@@ -16,6 +32,7 @@ const createFuel = async (req, res) => {
       rate,
       volume,
     } = req.body;
+
 
     // =================================================
     // VALIDATION
@@ -49,12 +66,30 @@ const createFuel = async (req, res) => {
       });
     }
 
+
     // =================================================
-    // DUPLICATE INVOICE
+    // FUEL BILL REQUIRED
+    // =================================================
+
+    if (!req.body.fuelBill) {
+      return res.status(400).json({
+        success: false,
+        message: "Fuel bill is required",
+      });
+    }
+
+
+    // =================================================
+    // NORMALIZE INVOICE
     // =================================================
 
     const normalizedInvoice =
-      invoiceNo.trim().toUpperCase();
+      normalizeInvoice(invoiceNo);
+
+
+    // =================================================
+    // DUPLICATE INVOICE
+    // =================================================
 
     const existingInvoice =
       await Fuel.findOne({
@@ -69,6 +104,7 @@ const createFuel = async (req, res) => {
       });
     }
 
+
     // =================================================
     // CALCULATE VALUES
     // =================================================
@@ -82,32 +118,50 @@ const createFuel = async (req, res) => {
     const numericVolume =
       Number(volume) || 0;
 
-    const amount = Number(
-      (
-        numericRate *
-        numericVolume
-      ).toFixed(2)
-    );
+    const amount =
+      Number(
+        (
+          numericRate *
+          numericVolume
+        ).toFixed(2)
+      );
+
 
     // =================================================
     // CREATE FUEL
     // =================================================
 
-    const fuel = await Fuel.create({
-      employeeName,
-      pumpName,
-      date,
-      invoiceNo:
-        normalizedInvoice,
+    const fuel =
+      await Fuel.create({
+        employeeName:
+          employeeName.trim(),
 
-      km: numericKm,
+        pumpName:
+          pumpName.trim(),
 
-      rate: numericRate,
+        date,
 
-      volume: numericVolume,
+        invoiceNo:
+          normalizedInvoice,
 
-      amount,
-    });
+        km: numericKm,
+
+        rate: numericRate,
+
+        volume: numericVolume,
+
+        amount,
+
+        fuelBill:
+          req.body.fuelBill || "",
+
+        fuelBillOriginalName:
+          req.file?.originalname || "",
+
+        fuelBillMimeType:
+          req.file?.mimetype || "",
+      });
+
 
     // =================================================
     // CREATE WALLET DEBIT
@@ -141,14 +195,20 @@ const createFuel = async (req, res) => {
         walletError
       );
 
-      // -----------------------------------------------
-      // IMPORTANT
-      // If wallet creation fails, remove fuel entry
-      // -----------------------------------------------
 
+      // Rollback fuel
       await Fuel.findByIdAndDelete(
         fuel._id
       );
+
+
+      // Delete uploaded bill
+      if (fuel.fuelBill) {
+        deleteImageFile(
+          fuel.fuelBill
+        );
+      }
+
 
       return res.status(500).json({
         success: false,
@@ -158,6 +218,7 @@ const createFuel = async (req, res) => {
           walletError.message,
       });
     }
+
 
     // =================================================
     // RESPONSE
@@ -190,63 +251,159 @@ const createFuel = async (req, res) => {
   }
 };
 
+
 // =====================================================
 // GET ALL FUEL ENTRIES
 // =====================================================
 
-const getAllFuel = async (req, res) => {
+const getAllFuel = async (
+  req,
+  res
+) => {
   try {
     const {
       search = "",
+      employeeName = "",
+      pumpName = "",
+      fromDate = "",
+      toDate = "",
+      minAmount = "",
+      maxAmount = "",
       page = 1,
       limit = 10,
     } = req.query;
 
+
     const pageNumber =
-      Math.max(Number(page), 1);
+      Math.max(
+        Number(page) || 1,
+        1
+      );
 
     const limitNumber =
-      Math.max(Number(limit), 1);
+      Math.max(
+        Number(limit) || 10,
+        1
+      );
 
     const skip =
       (pageNumber - 1) *
       limitNumber;
 
-    let query = {};
+
+    // =================================================
+    // QUERY
+    // =================================================
+
+    const query = {};
+
 
     // =================================================
     // SEARCH
     // =================================================
 
     if (search.trim()) {
-      query = {
-        $or: [
-          {
-            employeeName: {
-              $regex:
-                search.trim(),
-              $options: "i",
-            },
+      query.$or = [
+        {
+          employeeName: {
+            $regex:
+              search.trim(),
+            $options: "i",
           },
+        },
 
-          {
-            pumpName: {
-              $regex:
-                search.trim(),
-              $options: "i",
-            },
+        {
+          pumpName: {
+            $regex:
+              search.trim(),
+            $options: "i",
           },
+        },
 
-          {
-            invoiceNo: {
-              $regex:
-                search.trim(),
-              $options: "i",
-            },
+        {
+          invoiceNo: {
+            $regex:
+              search.trim(),
+            $options: "i",
           },
-        ],
+        },
+      ];
+    }
+
+
+    // =================================================
+    // EMPLOYEE FILTER
+    // =================================================
+
+    if (employeeName.trim()) {
+      query.employeeName = {
+        $regex:
+          employeeName.trim(),
+        $options: "i",
       };
     }
+
+
+    // =================================================
+    // PUMP FILTER
+    // =================================================
+
+    if (pumpName.trim()) {
+      query.pumpName = {
+        $regex:
+          pumpName.trim(),
+        $options: "i",
+      };
+    }
+
+
+    // =================================================
+    // DATE FILTER
+    // =================================================
+
+    if (
+      fromDate ||
+      toDate
+    ) {
+      query.date = {};
+
+      if (fromDate) {
+        query.date.$gte =
+          new Date(
+            `${fromDate}T00:00:00`
+          );
+      }
+
+      if (toDate) {
+        query.date.$lte =
+          new Date(
+            `${toDate}T23:59:59.999`
+          );
+      }
+    }
+
+
+    // =================================================
+    // AMOUNT FILTER
+    // =================================================
+
+    if (
+      minAmount !== "" ||
+      maxAmount !== ""
+    ) {
+      query.amount = {};
+
+      if (minAmount !== "") {
+        query.amount.$gte =
+          Number(minAmount);
+      }
+
+      if (maxAmount !== "") {
+        query.amount.$lte =
+          Number(maxAmount);
+      }
+    }
+
 
     // =================================================
     // TOTAL
@@ -257,6 +414,7 @@ const getAllFuel = async (req, res) => {
         query
       );
 
+
     // =================================================
     // DATA
     // =================================================
@@ -264,10 +422,50 @@ const getAllFuel = async (req, res) => {
     const fuels =
       await Fuel.find(query)
         .sort({
+          date: -1,
           createdAt: -1,
         })
         .skip(skip)
         .limit(limitNumber);
+
+
+    // =================================================
+    // FILTERED TOTALS
+    // =================================================
+
+    const totals =
+      await Fuel.aggregate([
+        {
+          $match: query,
+        },
+
+        {
+          $group: {
+            _id: null,
+
+            totalAmount: {
+              $sum: "$amount",
+            },
+
+            totalVolume: {
+              $sum: "$volume",
+            },
+
+            totalKM: {
+              $sum: "$km",
+            },
+          },
+        },
+      ]);
+
+
+    const totalData =
+      totals[0] || {
+        totalAmount: 0,
+        totalVolume: 0,
+        totalKM: 0,
+      };
+
 
     // =================================================
     // RESPONSE
@@ -277,6 +475,26 @@ const getAllFuel = async (req, res) => {
       success: true,
 
       data: fuels,
+
+      totals: {
+        totalAmount:
+          Number(
+            totalData.totalAmount ||
+              0
+          ).toFixed(2),
+
+        totalVolume:
+          Number(
+            totalData.totalVolume ||
+              0
+          ).toFixed(2),
+
+        totalKM:
+          Number(
+            totalData.totalKM ||
+              0
+          ).toFixed(2),
+      },
 
       pagination: {
         total,
@@ -301,13 +519,16 @@ const getAllFuel = async (req, res) => {
 
     return res.status(500).json({
       success: false,
+
       message:
         "Failed to fetch fuel entries",
+
       error:
         error.message,
     });
   }
 };
+
 
 // =====================================================
 // GET SINGLE FUEL
@@ -344,13 +565,16 @@ const getFuelById = async (
 
     return res.status(500).json({
       success: false,
+
       message:
         "Failed to fetch fuel entry",
+
       error:
         error.message,
     });
   }
 };
+
 
 // =====================================================
 // UPDATE FUEL ENTRY
@@ -371,6 +595,11 @@ const updateFuel = async (
       volume,
     } = req.body;
 
+
+    // =================================================
+    // FIND
+    // =================================================
+
     const fuel =
       await Fuel.findById(
         req.params.id
@@ -384,16 +613,18 @@ const updateFuel = async (
       });
     }
 
+
     // =================================================
     // NORMALIZE INVOICE
     // =================================================
 
     const normalizedInvoice =
       invoiceNo
-        ? invoiceNo
-            .trim()
-            .toUpperCase()
+        ? normalizeInvoice(
+            invoiceNo
+          )
         : fuel.invoiceNo;
+
 
     // =================================================
     // DUPLICATE INVOICE
@@ -417,11 +648,13 @@ const updateFuel = async (
       if (duplicate) {
         return res.status(409).json({
           success: false,
+
           message:
             "Invoice number already exists",
         });
       }
     }
+
 
     // =================================================
     // OLD AMOUNT
@@ -431,6 +664,15 @@ const updateFuel = async (
       Number(
         fuel.amount || 0
       );
+
+
+    // =================================================
+    // OLD BILL
+    // =================================================
+
+    const oldFuelBill =
+      fuel.fuelBill;
+
 
     // =================================================
     // UPDATE VALUES
@@ -466,6 +708,7 @@ const updateFuel = async (
         ? Number(volume) || 0
         : fuel.volume;
 
+
     // =================================================
     // NEW AMOUNT
     // =================================================
@@ -485,11 +728,47 @@ const updateFuel = async (
     fuel.amount =
       newAmount;
 
+
     // =================================================
-    // SAVE FUEL
+    // NEW FUEL BILL
+    // =================================================
+
+    if (req.body.fuelBill) {
+      fuel.fuelBill =
+        req.body.fuelBill;
+
+      fuel.fuelBillOriginalName =
+        req.file?.originalname ||
+        fuel.fuelBillOriginalName;
+
+      fuel.fuelBillMimeType =
+        req.file?.mimetype ||
+        fuel.fuelBillMimeType;
+    }
+
+
+    // =================================================
+    // SAVE
     // =================================================
 
     await fuel.save();
+
+
+    // =================================================
+    // DELETE OLD BILL
+    // =================================================
+
+    if (
+      req.body.fuelBill &&
+      oldFuelBill &&
+      oldFuelBill !==
+        req.body.fuelBill
+    ) {
+      deleteImageFile(
+        oldFuelBill
+      );
+    }
+
 
     // =================================================
     // UPDATE WALLET
@@ -503,6 +782,7 @@ const updateFuel = async (
           fuel._id,
       });
 
+
     if (walletTransaction) {
       walletTransaction.amount =
         newAmount;
@@ -511,11 +791,8 @@ const updateFuel = async (
         `Fuel expense - Invoice ${normalizedInvoice}`;
 
       await walletTransaction.save();
+
     } else {
-      // -----------------------------------------------
-      // If old fuel has no wallet transaction,
-      // create one
-      // -----------------------------------------------
 
       await Wallet.create({
         type: "debit",
@@ -536,6 +813,7 @@ const updateFuel = async (
           "Admin",
       });
     }
+
 
     // =================================================
     // RESPONSE
@@ -562,13 +840,16 @@ const updateFuel = async (
 
     return res.status(500).json({
       success: false,
+
       message:
         "Failed to update fuel entry",
+
       error:
         error.message,
     });
   }
 };
+
 
 // =====================================================
 // DELETE FUEL
@@ -587,10 +868,12 @@ const deleteFuel = async (
     if (!fuel) {
       return res.status(404).json({
         success: false,
+
         message:
           "Fuel entry not found",
       });
     }
+
 
     // =================================================
     // DELETE WALLET TRANSACTION
@@ -603,6 +886,18 @@ const deleteFuel = async (
         fuel._id,
     });
 
+
+    // =================================================
+    // DELETE FUEL BILL
+    // =================================================
+
+    if (fuel.fuelBill) {
+      deleteImageFile(
+        fuel.fuelBill
+      );
+    }
+
+
     // =================================================
     // DELETE FUEL
     // =================================================
@@ -611,11 +906,12 @@ const deleteFuel = async (
       req.params.id
     );
 
+
     return res.status(200).json({
       success: true,
 
       message:
-        "Fuel entry and wallet transaction deleted successfully",
+        "Fuel entry, fuel bill and wallet transaction deleted successfully",
     });
 
   } catch (error) {
@@ -626,13 +922,16 @@ const deleteFuel = async (
 
     return res.status(500).json({
       success: false,
+
       message:
         "Failed to delete fuel entry",
+
       error:
         error.message,
     });
   }
 };
+
 
 // =====================================================
 // FUEL SUMMARY
@@ -668,6 +967,7 @@ const getFuelSummary = async (
         },
       ]);
 
+
     const data =
       summary[0] || {
         totalEntries: 0,
@@ -675,6 +975,7 @@ const getFuelSummary = async (
         totalAmount: 0,
         totalKM: 0,
       };
+
 
     return res.status(200).json({
       success: true,
@@ -708,13 +1009,16 @@ const getFuelSummary = async (
 
     return res.status(500).json({
       success: false,
+
       message:
         "Failed to get fuel summary",
+
       error:
         error.message,
     });
   }
 };
+
 
 // =====================================================
 // EXPORTS

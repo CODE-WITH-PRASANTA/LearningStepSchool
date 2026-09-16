@@ -4,11 +4,12 @@ import API, { IMAGE_URL } from "../../api/axios";
 import { Download } from "lucide-react";
 import "./StudentAdmission.css";
 import { useNavigate } from "react-router-dom";
-import DownloadFrom from '../../assets/ApplicationForm.pdf.pdf'
+import DownloadFrom from "../../assets/ApplicationForm.pdf";
 
 const initialFormState = {
   admissionNo: "",
   class: "",
+  session: "",
   section: "",
   rollNumber: "",
   biometricId: "",
@@ -92,21 +93,30 @@ export default function StudentAdmission() {
   useEffect(() => {
     const id = localStorage.getItem("editStudentId");
 
-    if (!id) return;
+    // CREATE MODE
+    if (!id) {
+      setFormData(initialFormState);
+      setFiles({});
+      setEditId(null);
+      return;
+    }
 
+    // EDIT MODE
     const loadStudent = async () => {
       try {
-        const res = await API.get(`/students/${id}`);
+        setLoading(true);
 
+        const res = await API.get(`/students/${id}`);
         const studentData = res.data?.data || res.data;
 
         setFormData({
           ...initialFormState,
           ...studentData,
 
-          // 🔥 ADD THIS LINE
+          // Always make sure documents is an object
           documents: studentData.documents || {},
 
+          // Always make sure behaviour is an array
           studentBehaviour: Array.isArray(studentData.studentBehaviour)
             ? studentData.studentBehaviour
             : studentData.studentBehaviour
@@ -114,9 +124,21 @@ export default function StudentAdmission() {
               : [],
         });
 
+        // IMPORTANT:
+        // New file selection must start empty.
+        setFiles({});
+
         setEditId(id);
       } catch (error) {
         console.error("Edit load error:", error);
+
+        // If student cannot be loaded, clear everything
+        setFormData(initialFormState);
+        setFiles({});
+        setEditId(null);
+        localStorage.removeItem("editStudentId");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -235,10 +257,7 @@ export default function StudentAdmission() {
         (route) => route.routeName === formData.routeList,
       );
 
-      return (
-        routeName === formData.routeList ||
-        routeId === selectedRoute?._id
-      );
+      return routeName === formData.routeList || routeId === selectedRoute?._id;
     })
     .map((destination) => ({
       value: destination.destination,
@@ -275,8 +294,11 @@ export default function StudentAdmission() {
 
   const handleSubmit = async () => {
     try {
+      /* ================= REQUIRED VALIDATION ================= */
+
       if (
         !formData.admissionNo ||
+        !formData.session ||
         !formData.class ||
         !formData.section ||
         !formData.firstName ||
@@ -286,6 +308,8 @@ export default function StudentAdmission() {
         alert("Please fill all required fields");
         return;
       }
+
+      /* ================= FILE SIZE VALIDATION ================= */
 
       for (const file of Object.values(files)) {
         if (file && file.size > 2 * 1024 * 1024) {
@@ -297,6 +321,9 @@ export default function StudentAdmission() {
       setLoading(true);
 
       const data = new FormData();
+
+      /* ================= FORM DATA ================= */
+
       Object.keys(formData).forEach((key) => {
         const value = formData[key];
 
@@ -304,12 +331,19 @@ export default function StudentAdmission() {
           if (Array.isArray(value)) {
             data.append(key, JSON.stringify(value));
           } else if (value === null) {
-            data.append(key, ""); // 🔥 FIX
-          } else {
+            data.append(key, "");
+          } else if (
+            key !== "studentPhoto" &&
+            key !== "fatherPhoto" &&
+            key !== "motherPhoto" &&
+            key !== "guardianPhoto"
+          ) {
             data.append(key, value);
           }
         }
       });
+
+      /* ================= NEW FILES ================= */
 
       Object.keys(files).forEach((key) => {
         if (files[key]) {
@@ -317,7 +351,9 @@ export default function StudentAdmission() {
         }
       });
 
-      /* ================= CREATE OR UPDATE ================= */
+      /* =====================================================
+       UPDATE STUDENT
+    ===================================================== */
 
       if (editId) {
         await API.put(`/students/${editId}`, data, {
@@ -328,24 +364,45 @@ export default function StudentAdmission() {
 
         alert("Student Updated Successfully");
 
+        /* 🔥 VERY IMPORTANT */
         localStorage.removeItem("editStudentId");
-        navigate("/student/admission/details");
-      } else {
-        await API.post("/students", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
 
-        alert("Student Created Successfully");
+        /* Clear React state */
+        setFormData(initialFormState);
+        setFiles({});
+        setEditId(null);
+
+        /* Go back to student details */
+        navigate("/student/admission/details");
+
+        return;
       }
 
+      /* =====================================================
+       CREATE STUDENT
+    ===================================================== */
+
+      await API.post("/students", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Student Created Successfully");
+
+      /* 🔥 VERY IMPORTANT
+       Remove old edit ID after CREATE also
+    */
+      localStorage.removeItem("editStudentId");
+
+      /* Clear React state */
       setFormData(initialFormState);
       setFiles({});
       setEditId(null);
     } catch (error) {
-      console.error(error);
-      alert("Error saving student");
+      console.error("Student save error:", error);
+
+      alert(error?.response?.data?.message || "Error saving student");
     } finally {
       setLoading(false);
     }
@@ -359,20 +416,20 @@ export default function StudentAdmission() {
           <h1 className="Student-Admission-Title">
             {editId ? "Edit Student" : "Student Admission"}
           </h1>
-         <button
-          className="Student-Admission-DownloadBtn"
-          onClick={() => {
-            const link = document.createElement("a");
-            link.href = DownloadFrom;
-            link.download = "ApplicationForm.pdf";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }}
-        >
-          <Download size={18} />
-          Download Form
-        </button>
+          <button
+            className="Student-Admission-DownloadBtn"
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = DownloadFrom;
+              link.download = "ApplicationForm.pdf";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
+          >
+            <Download size={18} />
+            Download Form
+          </button>
         </div>
 
         {/* ================= STUDENT DETAILS ================= */}
@@ -384,6 +441,19 @@ export default function StudentAdmission() {
                   label="Admission No *"
                   name="admissionNo"
                   value={formData.admissionNo}
+                  onChange={handleChange}
+                />
+                <FormSelect
+                  label="Admission Session *"
+                  name="session"
+                  value={formData.session}
+                  options={[
+                    "2025-2026",
+                    "2026-2027",
+                    "2027-2028",
+                    "2028-2029",
+                    "2029-2030",
+                  ]}
                   onChange={handleChange}
                 />
 
@@ -954,9 +1024,7 @@ export default function StudentAdmission() {
 
           <div className="Student-Admission-TransportInfo">
             {formData.routeList ? (
-              <span>
-                Showing bus stops linked with {formData.routeList}.
-              </span>
+              <span>Showing bus stops linked with {formData.routeList}.</span>
             ) : (
               <span>Select a route to narrow bus stops.</span>
             )}
