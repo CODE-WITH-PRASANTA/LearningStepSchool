@@ -1,64 +1,52 @@
 /* =========================================================
-   STUDENT ID CARD
-   EXACT SIZE: 86.4mm × 54mm
+   CONTAINER & PREVIEW
 ========================================================= */
-
 .id-preview-container {
   width: 100%;
   min-height: 100vh;
   padding: 24px;
-  background: #f3f6f5;
+  background: #f0f3f6;
   font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
 }
-
-
-/* =========================================================
-   TOOLBAR
-========================================================= */
 
 .id-preview-toolbar {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 22px;
-  margin-bottom: 30px;
+  padding: 16px 24px;
+  margin-bottom: 28px;
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 }
 
 .id-preview-title h2 {
   margin: 0;
-  color: #222222;
-  font-size: 24px;
-  font-weight: 900;
+  color: #1a1a1a;
+  font-size: 22px;
+  font-weight: 800;
 }
 
 .id-preview-title p {
-  margin: 5px 0 0;
-  color: #777777;
+  margin: 4px 0 0;
+  color: #666666;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .id-preview-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
-
-
-/* =========================================================
-   TOOLBAR BUTTONS
-========================================================= */
 
 .id-btn-back,
 .id-btn-print {
-  height: 42px;
-  display: flex;
+  height: 40px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
@@ -67,739 +55,326 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 800;
-  transition: 0.25s ease;
+  font-weight: 700;
+  transition: all 0.2s ease;
 }
 
 .id-btn-back {
-  background: #eeeeee;
+  background: #e9ecef;
   color: #333333;
 }
 
 .id-btn-back:hover {
-  background: #dddddd;
+  background: #dde2e6;
 }
 
 .id-btn-print {
-  background: #b21f35;
+  background: #8e1529;
   color: #ffffff;
-  box-shadow: 0 5px 14px rgba(178, 31, 53, 0.25);
+  box-shadow: 0 4px 12px rgba(142, 21, 41, 0.25);
 }
 
 .id-btn-print:hover {
-  background: #991b30;
+  background: #731021;
   transform: translateY(-1px);
 }
 
-
 /* =========================================================
-   PRINT AREA
+   GRID LAYOUT
 ========================================================= */
-
 .id-print-area {
   width: 100%;
 }
-
-
-/* =========================================================
-   CARD GRID
-========================================================= */
 
 .id-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 86.4mm);
   justify-content: center;
-  gap: 28px;
+  gap: 26px;
 }
 
-
 /* =========================================================
-   ID CARD
-   86.4mm × 54mm
+   EXACT ID CARD (86.4mm × 54mm)
 ========================================================= */
-
 .exact-ref-card {
   width: 86.4mm !important;
   height: 54mm !important;
-
   min-width: 86.4mm !important;
   max-width: 86.4mm !important;
-
   min-height: 54mm !important;
   max-height: 54mm !important;
 
   position: relative;
-
   display: flex;
   flex-direction: column;
-
-  overflow: hidden;
-
   background: #ffffff;
-
-  border: 0.3mm solid #d8d8d8;
-
-  border-radius: 3mm;
-
-  box-shadow:
-    0 5px 18px rgba(0, 0, 0, 0.16);
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  color: #151515;
-
+  border-radius: 3.8mm;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000000;
+  -webkit-font-smoothing: antialiased;
 }
-
 
 /* =========================================================
    HEADER
 ========================================================= */
-
 .ref-card-header {
   width: 100%;
-
-  height: 13mm;
-  min-height: 13mm;
-
-  position: relative;
-
+  height: 13.5mm;
+  min-height: 13.5mm;
+  background: #8e1529;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  flex-shrink: 0;
-
-  padding: 1.2mm 3mm;
-
-  background:
-    linear-gradient(
-      135deg,
-      #a9142f 0%,
-      #bd1f3b 50%,
-      #a9142f 100%
-    );
-
-  color: #ffffff;
-
+  text-align: center;
+  padding: 0 2mm;
   box-sizing: border-box;
-
-  z-index: 5;
-
-  border-radius: 2.6mm 2.6mm 0 0;
+  flex-shrink: 0;
 }
-
-
-/* =========================================================
-   HEADER TEXT
-========================================================= */
 
 .ref-header-text {
   width: 100%;
-  padding-top: 1.2mm;
-  text-align: center;
 }
 
 .ref-school-title {
   margin: 0;
-
   color: #ffffff;
-
-  font-size: 14px;
-
+  font-size: 13.5px;
   font-weight: 900;
-
-  letter-spacing: 0.15px;
-
-  line-height: 1;
-
+  letter-spacing: 0.3px;
+  line-height: 1.1;
   text-transform: uppercase;
-
   white-space: nowrap;
 }
 
 .ref-school-address {
-  margin: 1.5mm 0 0;
-
+  margin: 1.3mm 0 0;
   color: #ffffff;
-
-  font-size: 6.4px;
-
-  font-weight: 800;
-
+  font-size: 6.8px;
+  font-weight: 700;
   line-height: 1;
-
   white-space: nowrap;
 }
 
-
 /* =========================================================
-   MAIN CONTENT
+   MAIN CARD BODY
 ========================================================= */
-
 .ref-card-content {
   width: 100%;
-
-  height: 35mm;
-  min-height: 35mm;
-
+  height: 35.5mm;
+  min-height: 35.5mm;
   position: relative;
-
   display: flex;
-
-  flex-shrink: 0;
-
-  padding: 2.3mm 3mm 1mm;
-
+  padding: 2mm 3mm 1.5mm;
   background: #ffffff;
-
   box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-
 /* =========================================================
-   PHOTO SECTION
+   PHOTO + STUDENT ID SECTION
 ========================================================= */
-
 .ref-photo-section {
-  width: 27mm;
-  min-width: 27mm;
-
-  height: 100%;
-
+  width: 25.5mm;
+  min-width: 25.5mm;
   display: flex;
-
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-
-  padding-right: 2mm;
-
+  justify-content: flex-start;
   box-sizing: border-box;
-
-  z-index: 3;
 }
-
-
-/* =========================================================
-   PHOTO FRAME
-========================================================= */
 
 .ref-photo-frame {
   width: 21mm;
-  height: 21mm;
-
+  height: 22.8mm;
   min-width: 21mm;
-  min-height: 21mm;
-
+  min-height: 22.8mm;
   position: relative;
-
+  background: #ececec;
+  border: 0.7mm solid #8e1529;
+  border-radius: 2.8mm;
   overflow: hidden;
-
-  border-radius: 2.5mm;
-
-  background: #eeeeee;
-
-  border: 0.8mm solid #ffffff;
-
-  outline: 0.4mm solid #d99aa5;
-
-  box-shadow:
-    0 1.2mm 3mm rgba(0, 0, 0, 0.18);
-
   box-sizing: border-box;
 }
 
-
-/* =========================================================
-   PHOTO
-========================================================= */
-
 .ref-photo-frame img {
-  position: absolute !important;
-
-  top: 0 !important;
-  left: 0 !important;
-
-  width: 100% !important;
-  height: 100% !important;
-
-  min-width: 100% !important;
-  min-height: 100% !important;
-
-  max-width: none !important;
-  max-height: none !important;
-
-  display: block !important;
-
-  margin: 0 !important;
-  padding: 0 !important;
-
-  border: 0 !important;
-
-  border-radius: 1.8mm !important;
-
-  object-fit: cover !important;
-
-  object-position: center center !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-
-
-/* =========================================================
-   PHOTO PLACEHOLDER
-========================================================= */
 
 .ref-photo-placeholder {
   width: 100%;
   height: 100%;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  background: #eeeeee;
-
-  color: #888888;
-
-  font-size: 5.5px;
-
-  font-weight: 900;
-
-  letter-spacing: 0.5px;
-
-  border-radius: 1.8mm;
-}
-
-
-/* =========================================================
-   RIGHT DETAILS
-========================================================= */
-
-.ref-details-section {
-  flex: 1;
-
-  min-width: 0;
-
-  height: 100%;
-
-  display: flex;
-
-  flex-direction: column;
-
-  padding: 0 0 0 1.5mm;
-
-  box-sizing: border-box;
-
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   STUDENT ID CARD TITLE
-   Rounded / pill-style
-========================================================= */
-
-.ref-details-title {
-  width: 100%;
-  max-width: 43mm;
-  height: 5.5mm;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: #b21f35;
-  color: #ffffff;
-
-  font-size: 7.6px;
+  color: #707070;
+  font-size: 6.5px;
   font-weight: 900;
-  letter-spacing: 0.65px;
-
-  /* FULL CURVE ON BOTH SIDES */
-  border-radius: 999px;
-
-  margin-bottom: 1.3mm;
-  padding: 0 3mm;
-
-  box-shadow: 0 1mm 2mm rgba(178, 31, 53, 0.18);
-
-  box-sizing: border-box;
+  letter-spacing: 0.4px;
 }
 
-
-/* =========================================================
-   NORMAL DATA ROW
-========================================================= */
-
-.ref-data-row {
-  width: 100%;
-
-  min-width: 0;
-
-  height: 4.15mm;
-  min-height: 4.15mm;
-
-  display: flex;
-
-  align-items: center;
-
+/* SMALL BOLD STUDENT ID DIRECTLY UNDER PHOTO */
+.ref-student-id-label {
+  margin-top: 1.4mm;
+  font-size: 5.3px;
+  font-weight: 900;
+  color: #000000;
+  text-align: center;
   white-space: nowrap;
-
+  letter-spacing: 0.1px;
   line-height: 1;
 }
 
-
 /* =========================================================
-   NAME ROW
+   RIGHT DETAILS SECTION
 ========================================================= */
-
-.ref-name-row {
-  height: 4.4mm;
-  min-height: 4.4mm;
+.ref-details-section {
+  flex: 1;
+  min-width: 0;
+  padding-left: 2.5mm;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
+/* PILL HEADER */
+.ref-details-title {
+  width: 100%;
+  max-width: 34mm;
+  height: 4.8mm;
+  background: #8e1529;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  border-radius: 999px;
+  margin-bottom: 1.5mm;
+  text-transform: uppercase;
+  box-sizing: border-box;
+}
 
-/* =========================================================
-   LABEL
-========================================================= */
+/* DATA ROWS */
+.ref-data-row {
+  width: 100%;
+  height: 4.1mm;
+  min-height: 4.1mm;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  line-height: 1;
+}
 
 .ref-data-label {
-  width: 13.5mm;
-
-  min-width: 13.5mm;
-  max-width: 13.5mm;
-
-  color: #333333;
-
-  font-size: 7.3px;
-
+  width: 12mm;
+  min-width: 12mm;
+  max-width: 12mm;
+  font-size: 8.2px;
   font-weight: 900;
-
-  white-space: nowrap;
+  color: #000000;
 }
 
-
-/* =========================================================
-   COLON
-========================================================= */
-
 .ref-data-colon {
-  width: 2mm;
-
-  min-width: 2mm;
-
-  color: #222222;
-
-  font-size: 7.5px;
-
+  width: 2.2mm;
+  min-width: 2.2mm;
+  font-size: 8.2px;
   font-weight: 900;
-
+  color: #000000;
   text-align: left;
 }
 
-
-/* =========================================================
-   VALUE
-========================================================= */
-
 .ref-data-value {
   flex: 1;
-
   min-width: 0;
-
-  display: block;
-
-  color: #050505;
-
-  font-size: 7.5px;
-
+  font-size: 8.2px;
   font-weight: 900;
-
-  line-height: 1;
-
+  color: #000000;
   white-space: nowrap;
-
-  overflow: visible;
-
-  text-overflow: clip;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
 }
 
-
-/* =========================================================
-   CLASS + SECTION
-   SAME HORIZONTAL LINE
-========================================================= */
-
-.ref-class-section-row {
-  width: 100%;
-
-  height: 4.3mm;
-  min-height: 4.3mm;
-
+/* CLASS & SECTION IN ONE ROW */
+.ref-class-sec-row {
   display: flex;
-
   align-items: center;
-
-  gap: 3mm;
-
-  white-space: nowrap;
 }
 
-
-.ref-small-data {
+.ref-inline-field {
   display: flex;
-
   align-items: center;
-
   white-space: nowrap;
-
-  line-height: 1;
 }
 
+.ref-inline-field:first-child {
+  width: 23mm;
+}
 
-.ref-small-label {
-  color: #333333;
-
-  font-size: 7.3px;
-
+.ref-sec-label {
+  width: 11.5mm;
+  min-width: 11.5mm;
+  font-size: 8.2px;
   font-weight: 900;
+  color: #000000;
 }
-
-
-.ref-small-colon {
-  margin-left: 1.6mm;
-
-  margin-right: 1.5mm;
-
-  color: #222222;
-
-  font-size: 7.5px;
-
-  font-weight: 900;
-}
-
-
-.ref-small-value {
-  color: #050505;
-
-  font-size: 7.5px;
-
-  font-weight: 900;
-}
-
-
-/* =========================================================
-   ADDRESS
-========================================================= */
-
-.ref-address-row {
-  margin-top: 0.4mm;
-}
-
 
 .ref-address-row .ref-data-value {
-  font-size: 6.8px;
-
-  font-weight: 900;
-
-  white-space: nowrap;
-
-  overflow: visible;
+  text-transform: lowercase;
 }
 
-
-/* =========================================================
-   PRINCIPAL
-========================================================= */
-
+/* PRINCIPAL SIGN */
 .ref-principal {
   position: absolute;
-
   right: 3mm;
-
-  bottom: 0.8mm;
-
-  color: #222222;
-
-  font-size: 6.5px;
-
+  bottom: 0.5mm;
+  font-size: 7.2px;
   font-weight: 900;
-
+  color: #000000;
   line-height: 1;
-
-  z-index: 8;
 }
-
 
 /* =========================================================
    FOOTER
 ========================================================= */
-
 .ref-card-footer {
   width: 100%;
-
-  height: 6mm;
-  min-height: 6mm;
-
-  flex-shrink: 0;
-
+  height: 5mm;
+  min-height: 5mm;
+  background: #8e1529;
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  gap: 2.2mm;
-
-  padding: 0 2.5mm;
-
-  background:
-    linear-gradient(
-      135deg,
-      #a9142f 0%,
-      #b91f3b 50%,
-      #a9142f 100%
-    );
-
-  color: #ffffff;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 5.9px;
-
-  font-weight: 900;
-
-  line-height: 1;
-
-  letter-spacing: 0.05px;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
+  padding: 0 2mm;
   box-sizing: border-box;
-
-  z-index: 20;
-
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-
-  border-radius: 0 0 2.6mm 2.6mm;
-}
-
-
-/* =========================================================
-   FOOTER TEXT
-========================================================= */
-
-.ref-card-footer span {
-  display: block;
-
   flex-shrink: 0;
+}
 
-  color: #ffffff;
-
-  font-size: 5.9px;
-
+.footer-item {
+  font-size: 6.5px;
   font-weight: 900;
-
-  line-height: 1;
-
+  color: #ffffff;
   white-space: nowrap;
-
-  text-shadow:
-    0 0.2px 0 rgba(0, 0, 0, 0.18);
+  display: inline-block;
 }
 
-
-/* =========================================================
-   FOOTER SEPARATORS
-========================================================= */
-
-.ref-card-footer span + span {
-  padding-left: 2.5mm;
-
-  border-left:
-    0.2mm solid
-    rgba(255, 255, 255, 0.65);
+.footer-item + .footer-item {
+  margin-left: 2.8mm;
+  padding-left: 2.8mm;
+  border-left: 0.25mm solid rgba(255, 255, 255, 0.7);
 }
 
-
 /* =========================================================
-   MOBILE PREVIEW
+   PRINT CONFIGURATION
 ========================================================= */
-
-@media (max-width: 768px) {
-
-  .id-preview-container {
-    padding: 12px;
-  }
-
-  .id-preview-toolbar {
-    flex-direction: column;
-
-    align-items: stretch;
-
-    gap: 15px;
-
-    padding: 15px;
-  }
-
-  .id-preview-title {
-    text-align: center;
-  }
-
-  .id-preview-title h2 {
-    font-size: 20px;
-  }
-
-  .id-preview-actions {
-    width: 100%;
-  }
-
-  .id-btn-back,
-  .id-btn-print {
-    flex: 1;
-  }
-
-  .id-card-grid {
-    grid-template-columns:
-      repeat(auto-fill, 86.4mm);
-
-    gap: 20px;
-  }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 430px) {
-
-  .id-preview-actions {
-    flex-direction: column;
-  }
-
-  .id-btn-back,
-  .id-btn-print {
-    width: 100%;
-  }
-}
-
-
-/* =========================================================
-   PRINT
-========================================================= */
-
 @media print {
-
   @page {
     size: A4 portrait;
     margin: 8mm;
@@ -827,139 +402,39 @@
 
   .id-print-area {
     position: absolute;
-
     top: 0;
     left: 0;
-
     width: 100%;
-
     margin: 0;
     padding: 0;
   }
 
-
-  /* =====================================================
-     TWO CARDS PER ROW ON A4
-  ===================================================== */
-
   .id-card-grid {
     display: grid !important;
-
-    grid-template-columns:
-      repeat(2, 86.4mm) !important;
-
+    grid-template-columns: repeat(2, 86.4mm) !important;
     column-gap: 8mm !important;
-
     row-gap: 8mm !important;
-
     justify-content: center !important;
-
     align-items: start !important;
   }
 
-
-  /* =====================================================
-     EXACT PHYSICAL SIZE
-  ===================================================== */
-
   .exact-ref-card {
-    width: 86.4mm !important;
-    height: 54mm !important;
-
-    min-width: 86.4mm !important;
-    max-width: 86.4mm !important;
-
-    min-height: 54mm !important;
-    max-height: 54mm !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    border-radius: 3mm !important;
-
     box-shadow: none !important;
-
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-  }
-
-
-  /* =====================================================
-     PRINT COLORS
-  ===================================================== */
-
-  .ref-card-header,
-  .ref-details-title,
-  .ref-card-footer {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  .ref-card-header {
-    background: #b21f35 !important;
-  }
-
-  .ref-details-title {
-    background: #b21f35 !important;
-  }
-
+  .ref-card-header,
+  .ref-details-title,
   .ref-card-footer {
-    background: #b21f35 !important;
-
-    color: #ffffff !important;
-
-    font-size: 5.9px !important;
-
-    font-weight: 900 !important;
+    background: #8e1529 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-
-  .ref-card-footer span {
-    color: #ffffff !important;
-
-    font-size: 5.9px !important;
-
-    font-weight: 900 !important;
-  }
-
-
-  /* =====================================================
-     PHOTO PRINT
-  ===================================================== */
 
   .ref-photo-frame {
-    width: 21mm !important;
-    height: 21mm !important;
-
-    min-width: 21mm !important;
-    min-height: 21mm !important;
-
-    max-width: 21mm !important;
-    max-height: 21mm !important;
-
-    overflow: hidden !important;
-
-    border-radius: 2.5mm !important;
-  }
-
-  .ref-photo-frame img {
-    position: absolute !important;
-
-    top: 0 !important;
-    left: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    min-width: 100% !important;
-    min-height: 100% !important;
-
-    max-width: none !important;
-    max-height: none !important;
-
-    object-fit: cover !important;
-
-    object-position: center center !important;
-
-    border-radius: 1.8mm !important;
+    border-color: #8e1529 !important;
   }
 }
