@@ -5,7 +5,6 @@ import { FaPrint, FaArrowLeft } from "react-icons/fa";
 import { IMAGE_URL } from "../../api/axios";
 
 const StudentIdPreview = ({ students, onBack, onPrint }) => {
-
   /* =====================================================
      STUDENT PHOTO URL
   ===================================================== */
@@ -22,7 +21,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
     return `${IMAGE_URL}/${photo.replace(/^\/+/, "")}`;
   };
 
-
   /* =====================================================
      DATE FORMAT
      YYYY-MM-DD -> DD/MM/YY
@@ -32,7 +30,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
     if (!dateValue) return "N/A";
 
     const value = String(dateValue);
-
     const parts = value.split("-");
 
     if (parts.length === 3) {
@@ -57,7 +54,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
     return `${day}/${month}/${year}`;
   };
 
-
   return (
     <div className="id-preview-container">
 
@@ -68,15 +64,12 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
       <div className="id-preview-toolbar no-print">
 
         <div className="id-preview-title">
-
           <h2>Student ID Card Preview</h2>
 
           <p>
             Preview & Print Student Identity Cards
           </p>
-
         </div>
-
 
         <div className="id-preview-actions">
 
@@ -89,7 +82,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
             Back
           </button>
 
-
           <button
             type="button"
             className="id-btn-print"
@@ -100,7 +92,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
           </button>
 
         </div>
-
       </div>
 
 
@@ -128,13 +119,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
 
               <div className="ref-card-header">
 
-                {/* ID BADGE */}
-
-               
-
-
-                {/* SCHOOL NAME */}
-
                 <div className="ref-header-text">
 
                   <h3 className="ref-school-title">
@@ -156,7 +140,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
               ================================================= */}
 
               <div className="ref-card-content">
-
 
                 {/* =================================================
                     LEFT PHOTO
@@ -196,7 +179,6 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
 
                 <div className="ref-details-section">
 
-
                   {/* STUDENT ID CARD TITLE */}
 
                   <div className="ref-details-title">
@@ -204,9 +186,28 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                   </div>
 
 
-                  {/* =============================================
-                      FATHER
-                  ============================================= */}
+                  {/* STUDENT NAME */}
+
+                  <div className="ref-data-row ref-name-row">
+
+                    <span className="ref-data-label">
+                      Name
+                    </span>
+
+                    <span className="ref-data-colon">
+                      :
+                    </span>
+
+                    <strong className="ref-data-value">
+                      {student.name ||
+                        student.studentName ||
+                        "N/A"}
+                    </strong>
+
+                  </div>
+
+
+                  {/* FATHER */}
 
                   <div className="ref-data-row">
 
@@ -225,9 +226,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                   </div>
 
 
-                  {/* =============================================
-                      MOTHER
-                  ============================================= */}
+                  {/* MOTHER */}
 
                   <div className="ref-data-row">
 
@@ -246,53 +245,51 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                   </div>
 
 
-                  {/* =============================================
-                      CLASS
-                  ============================================= */}
+                  {/* =================================================
+                      CLASS + SECTION SAME LINE
+                  ================================================= */}
 
-                  <div className="ref-data-row">
+                  <div className="ref-class-section-row">
 
-                    <span className="ref-data-label">
-                      Class
-                    </span>
+                    <div className="ref-small-data">
 
-                    <span className="ref-data-colon">
-                      :
-                    </span>
+                      <span className="ref-small-label">
+                        Class
+                      </span>
 
-                    <strong className="ref-data-value">
-                      {student.class ||
-                        student.className ||
-                        "N/A"}
-                    </strong>
+                      <span className="ref-small-colon">
+                        :
+                      </span>
+
+                      <strong className="ref-small-value">
+                        {student.class ||
+                          student.className ||
+                          "N/A"}
+                      </strong>
+
+                    </div>
+
+
+                    <div className="ref-small-data">
+
+                      <span className="ref-small-label">
+                        Section
+                      </span>
+
+                      <span className="ref-small-colon">
+                        :
+                      </span>
+
+                      <strong className="ref-small-value">
+                        {student.section || "N/A"}
+                      </strong>
+
+                    </div>
 
                   </div>
 
 
-                  {/* =============================================
-                      SECTION
-                  ============================================= */}
-
-                  <div className="ref-data-row">
-
-                    <span className="ref-data-label">
-                      Section
-                    </span>
-
-                    <span className="ref-data-colon">
-                      :
-                    </span>
-
-                    <strong className="ref-data-value">
-                      {student.section || "N/A"}
-                    </strong>
-
-                  </div>
-
-
-                  {/* =============================================
-                      DATE OF BIRTH
-                  ============================================= */}
+                  {/* DATE OF BIRTH */}
 
                   <div className="ref-data-row">
 
@@ -311,9 +308,7 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
                   </div>
 
 
-                  {/* =============================================
-                      ADDRESS
-                  ============================================= */}
+                  {/* ADDRESS */}
 
                   <div className="ref-data-row ref-address-row">
 
@@ -348,29 +343,26 @@ const StudentIdPreview = ({ students, onBack, onPrint }) => {
               {/* =================================================
                   FOOTER
               ================================================= */}
-{/* =================================================
-    FOOTER
-================================================= */}
 
-<div className="ref-card-footer">
+              <div className="ref-card-footer">
 
-  <span className="footer-contact">
-    Contact: +91 9887868746
-  </span>
+                <span className="footer-contact">
+                  Contact: +91 9887868746
+                </span>
 
-  <span className="footer-phone">
-    +91 7014627849
-  </span>
+                <span className="footer-phone">
+                  +91 7014627849
+                </span>
 
-  <span className="footer-web">
-    learningstepschool.in
-  </span>
+                <span className="footer-web">
+                  learningstepschool.in
+                </span>
 
-  <span className="footer-email">
-    learningstep19@gmail.com
-  </span>
+                <span className="footer-email">
+                  learningstep19@gmail.com
+                </span>
 
-</div>
+              </div>
 
             </div>
 
