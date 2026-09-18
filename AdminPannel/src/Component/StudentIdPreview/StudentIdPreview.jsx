@@ -4,9 +4,13 @@ import "./StudentIdPreview.css";
 import { FaPrint, FaArrowLeft } from "react-icons/fa";
 import { IMAGE_URL } from "../../api/axios";
 
+// Static Asset Imports
+import abstractBg from "../../Assets/mainicard.png";
+import signatureImg from "../../Assets/sign-pri.png";
+
 const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
   /* =====================================================
-     STUDENT PHOTO URL
+      STUDENT PHOTO URL
   ===================================================== */
   const getStudentPhoto = (student) => {
     const photo = student.photo || student.studentPhoto;
@@ -20,8 +24,7 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
   };
 
   /* =====================================================
-     GENERATE FORMATTED STUDENT ID FROM SESSION & ADMISSION NO
-     Example: Session "2024-2025" + Admission "1001" -> "2024-LS-1001"
+      GENERATE FORMATTED STUDENT ID
   ===================================================== */
   const getFormattedStudentId = (student) => {
     const sessionStr = String(student.session || "");
@@ -54,7 +57,7 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
   };
 
   /* =====================================================
-     DATE FORMAT: YYYY-MM-DD -> DD/MM/YYYY (Full Year)
+      DATE FORMAT: YYYY-MM-DD -> DD/MM/YYYY
   ===================================================== */
   const formatDate = (dateValue) => {
     if (!dateValue) return "N/A";
@@ -62,7 +65,6 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
     const value = String(dateValue).trim();
     const parts = value.split("-");
 
-    // Standard HTML date picker format: YYYY-MM-DD
     if (parts.length === 3) {
       const [year, month, day] = parts;
       const fullYear = year.length === 2 ? `20${year}` : year;
@@ -115,10 +117,17 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
               `${student.firstName || ""} ${student.lastName || ""}`.trim() ||
               "N/A";
 
+            const fullAddress =
+              student.currentAddress ||
+              student.permanentAddress ||
+              student.address ||
+              "N/A";
+
             return (
               <div
                 className="exact-ref-card"
                 key={student._id || student.id || formattedStudentId}
+                style={{ backgroundImage: `url(${abstractBg})` }}
               >
                 {/* HEADER */}
                 <div className="ref-card-header">
@@ -127,14 +136,14 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
                       THE LEARNING STEP SCHOOL
                     </h3>
                     <p className="ref-school-address">
-                      Tehla Bypass Alwar Road, Rajgarh, Thana, Rajasthan 301408
+                      Tehla Bypass Alwar Road, Rajgarh, Rajasthan 301408
                     </p>
                   </div>
                 </div>
 
                 {/* MAIN CONTENT */}
                 <div className="ref-card-content">
-                  {/* LEFT PHOTO + ID */}
+                  {/* LEFT PHOTO + ID + ADDRESS */}
                   <div className="ref-photo-section">
                     <div className="ref-photo-frame">
                       {getStudentPhoto(student) ? (
@@ -146,8 +155,18 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
                         <div className="ref-photo-placeholder">PHOTO</div>
                       )}
                     </div>
+
+                    {/* BOLD STUDENT ID UNDER PHOTO */}
                     <div className="ref-student-id-label">
                       STUDENT ID: {formattedStudentId}
+                    </div>
+
+                    {/* ADDRESS DIRECTLY UNDER STUDENT ID */}
+                    <div className="ref-under-id-address">
+                      <span className="address-label">Address:</span>
+                      <span className="address-val" title={fullAddress}>
+                        {fullAddress}
+                      </span>
                     </div>
                   </div>
 
@@ -198,7 +217,7 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
                       </div>
                     </div>
 
-                    {/* D.O.B (FULL YEAR DD/MM/YYYY) */}
+                    {/* D.O.B */}
                     <div className="ref-data-row">
                       <span className="ref-data-label">D.O.B.</span>
                       <span className="ref-data-colon">:</span>
@@ -206,22 +225,17 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
                         {formatDate(student.dob)}
                       </span>
                     </div>
-
-                    {/* ADDRESS */}
-                    <div className="ref-data-row ref-address-row">
-                      <span className="ref-data-label">Address</span>
-                      <span className="ref-data-colon">:</span>
-                      <span className="ref-data-value">
-                        {student.currentAddress ||
-                          student.permanentAddress ||
-                          student.address ||
-                          "N/A"}
-                      </span>
-                    </div>
                   </div>
 
-                  {/* PRINCIPAL SIGN */}
-                  <div className="ref-principal">Principal</div>
+                  {/* PRINCIPAL SIGNATURE + LABEL */}
+                  <div className="ref-principal-signature">
+                    <img
+                      src={signatureImg}
+                      alt="Signature"
+                      className="signature-overlay"
+                    />
+                    <span className="signature-label">Principal</span>
+                  </div>
                 </div>
 
                 {/* FOOTER */}
