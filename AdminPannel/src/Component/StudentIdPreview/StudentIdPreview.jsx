@@ -123,6 +123,8 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
               student.address ||
               "N/A";
 
+            const studentPhotoUrl = getStudentPhoto(student);
+
             return (
               <div
                 className="exact-ref-card"
@@ -146,10 +148,14 @@ const StudentIdPreview = ({ students = [], onBack, onPrint }) => {
                   {/* LEFT PHOTO + ID + ADDRESS */}
                   <div className="ref-photo-section">
                     <div className="ref-photo-frame">
-                      {getStudentPhoto(student) ? (
-                        <img
-                          src={getStudentPhoto(student)}
-                          alt={fullName}
+                      {studentPhotoUrl ? (
+                        <div
+                          className="ref-photo-img"
+                          style={{
+                            backgroundImage: `url("${studentPhotoUrl}")`,
+                          }}
+                          role="img"
+                          aria-label={fullName}
                         />
                       ) : (
                         <div className="ref-photo-placeholder">PHOTO</div>

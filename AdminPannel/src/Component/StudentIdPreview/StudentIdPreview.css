@@ -153,7 +153,7 @@
 }
 
 .ref-school-address {
-  margin: 1mm ;
+  margin: 1mm 0 0;
   color: rgba(255, 255, 255, 0.95);
   font-size: 7.5px;
   font-weight: 700;
@@ -173,7 +173,6 @@
   padding: 1.8mm 2.6mm 1.2mm;
   box-sizing: border-box;
   flex-shrink: 0;
-  /* Light overlay to keep text clear over any background */
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(1.5px);
 }
@@ -197,19 +196,28 @@
   width: 21mm;
   height: 22mm;
   min-width: 21mm;
+  max-width: 21mm;
   min-height: 22mm;
+  max-height: 22mm;
   position: relative;
   background: #eaeaea;
   border: 0.65mm solid #8e1529;
   border-radius: 2.2mm;
   overflow: hidden;
   box-sizing: border-box;
+
+  /* Force composite clipping boundaries */
+  transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
 }
 
-.ref-photo-frame img {
+.ref-photo-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
   display: block;
 }
 
@@ -373,7 +381,6 @@
   position: absolute;
   right: 2.5mm;
   bottom: 0.5mm;
- 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -382,11 +389,10 @@
 }
 
 .signature-overlay {
-  /* Increased dimensions */
   width: 22mm;
   height: 10mm;
   object-fit: contain;
-  margin-bottom: -2mm; /* Keeps the signature closely overlapping/sitting on the label */
+  margin-bottom: -2mm;
   transform: rotate(-3deg);
   filter: contrast(115%);
 }
@@ -398,6 +404,7 @@
   line-height: 1;
   text-align: center;
 }
+
 /* =========================================================
    FOOTER
 ========================================================= */
@@ -498,7 +505,30 @@
     print-color-adjust: exact !important;
   }
 
+  /* Strict Frame & Clipping Enforcement on Print */
   .ref-photo-frame {
-    border-color: #8e1529 !important;
+    width: 21mm !important;
+    height: 22mm !important;
+    min-width: 21mm !important;
+    max-width: 21mm !important;
+    min-height: 22mm !important;
+    max-height: 22mm !important;
+    border: 0.65mm solid #8e1529 !important;
+    border-radius: 2.2mm !important;
+    overflow: hidden !important;
+    position: relative !important;
+    transform: translateZ(0) !important;
+    -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+    mask-image: radial-gradient(white, black) !important;
+  }
+
+  .ref-photo-img {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
