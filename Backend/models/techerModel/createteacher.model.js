@@ -1,21 +1,72 @@
 
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  contact: String, // ✅ NEW
-  department: String, // ✅ NEW
-  image: String, // ✅ NEW (store path)
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-  password: String,
-  role: {
-    type: String,
-    
-    enum: ["admin", "teacher"],
-    default: "teacher",
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+
+    contact: {
+      type: String,
+      default: "",
+    },
+
+    department: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    designation: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    image: {
+      type: String,
+      default: "",
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+
+    role: {
+      type: String,
+      enum: ["admin", "teacher"],
+      default: "teacher",
+    },
+
+    // FIX: Store the teacher's account status in MongoDB.
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+      lowercase: true,
+      trim: true,
+    },
+
+    permissions: {
+      type: [String],
+      default: [],
+    },
   },
-  permissions: [String], // optional (for custom override)
-}, { timestamps: true });
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("User", userSchema);

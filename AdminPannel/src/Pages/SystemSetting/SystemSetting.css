@@ -9,7 +9,146 @@
   background: #f4f7fc;
   min-height: 100vh;
 }
+/* =========================================================
+   DESCRIPTION EDITOR
+========================================================= */
 
+.ss-description-field {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.ss-required-mark {
+  color: #ef4444;
+}
+
+.ss-description-editor {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ss-description-editor.ss-editor-focused {
+  border-color: #6c38ff;
+  box-shadow: 0 0 0 3px rgba(108, 56, 255, 0.1);
+}
+
+.ss-editor-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px;
+  border-bottom: 1px solid #e8edf3;
+  background: #f8fafc;
+}
+
+.ss-editor-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.ss-editor-toolbar-btn:hover {
+  border-color: #ddd6fe;
+  background: #ede9fe;
+  color: #6c38ff;
+}
+
+.ss-editor-content {
+  min-height: 150px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 14px 16px;
+  outline: none;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.ss-editor-content:empty::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.ss-editor-content p {
+  margin: 0 0 10px;
+}
+
+.ss-editor-content ul,
+.ss-editor-content ol {
+  padding-left: 24px;
+  margin: 8px 0;
+}
+
+.ss-editor-content:focus {
+  outline: none;
+}
+
+/* =========================================================
+   DESCRIPTION TABLE PREVIEW
+========================================================= */
+
+.ss-description-preview {
+  max-width: 320px;
+  max-height: 120px;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ss-description-preview p {
+  margin: 0 0 6px;
+}
+
+.ss-description-preview ul,
+.ss-description-preview ol {
+  padding-left: 20px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+  .ss-description-field {
+    grid-column: 1 / -1;
+  }
+
+  .ss-editor-toolbar {
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .ss-editor-toolbar-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ss-editor-content {
+    min-height: 130px;
+    padding: 12px;
+  }
+
+  .ss-description-preview {
+    max-width: 220px;
+  }
+}
 /* =============================================
    SECTION 2: FORM SECTION
    ============================================= */

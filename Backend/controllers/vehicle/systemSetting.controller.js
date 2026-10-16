@@ -1,11 +1,37 @@
+
 const SystemSetting = require("../../models/Vehicle/systemSetting.model");
 
 // ================= CREATE =================
 exports.createSystemSetting = async (req, res) => {
   try {
-    const exists = await SystemSetting.findOne({
-      vehicle: req.body.vehicle,
-    });
+    const {
+      vehicle,
+      minMileage,
+      dieselRate,
+      minDailyKm,
+      maxDailyKm,
+      description,
+    } = req.body;
+
+    if (!vehicle) {
+      return res.status(400).json({
+        success: false,
+        message: "Please select a vehicle.",
+      });
+    }
+
+    if (
+      minDailyKm !== undefined &&
+      maxDailyKm !== undefined &&
+      Number(maxDailyKm) < Number(minDailyKm)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Maximum daily KM cannot be less than minimum daily KM.",
+      });
+    }
+
+    const exists = await SystemSetting.findOne({ vehicle });
 
     if (exists) {
       return res.status(400).json({
@@ -14,37 +40,76 @@ exports.createSystemSetting = async (req, res) => {
       });
     }
 
-    const setting = await SystemSetting.create(req.body);
+    const setting = await SystemSetting.create({
+      vehicle,
+      minMileage,
+      dieselRate,
+      minDailyKm,
+      maxDailyKm,
+      description: description || "",
+    });
 
-    res.status(201).json({
+    const populatedSetting = await SystemSetting.findById(setting._id)
+      .populate("vehicle", "vehicleNo vehicleType driver");
+
+    return res.status(201).json({
       success: true,
       message: "System Setting Saved Successfully",
-      data: setting,
+      data: populatedSetting,
     });
   } catch (error) {
-    res.status(500).json({
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Setting already exists for this vehicle.",
+      });
+    }
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
   }
 };
 
-// ================= GET =================
+// ================= GET ALL =================
 exports.getSystemSetting = async (req, res) => {
   try {
-    const settings = await SystemSetting.find().populate(
-      "vehicle",
-      "vehicleNo",
-    );
+    const settings = await SystemSetting.find()
+      .populate("vehicle", "vehicleNo vehicleType driver")
+      .sort({ createdAt: -1 });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: settings,
     });
-
-    
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ================= GET BY ID =================
+exports.getSystemSettingById = async (req, res) => {
+  try {
+    const setting = await SystemSetting.findById(req.params.id)
+      .populate("vehicle", "vehicleNo vehicleType driver");
+
+    if (!setting) {
+      return res.status(404).json({
+        success: false,
+        message: "System Setting not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: setting,
+    });
+  } catch (error) {
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -54,14 +119,62 @@ exports.getSystemSetting = async (req, res) => {
 // ================= UPDATE =================
 exports.updateSystemSetting = async (req, res) => {
   try {
+    const {
+      vehicle,
+      minMileage,
+      dieselRate,
+      minDailyKm,
+      maxDailyKm,
+      description,
+    } = req.body;
+
+    if (
+      minDailyKm !== undefined &&
+      maxDailyKm !== undefined &&
+      Number(maxDailyKm) < Number(minDailyKm)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Maximum daily KM cannot be less than minimum daily KM.",
+      });
+    }
+
+    // Prevent assigning a vehicle already used by another setting.
+    if (vehicle) {
+      const duplicate = await SystemSetting.findOne({
+        vehicle,
+        _id: { $ne: req.params.id },
+      });
+
+      if (duplicate) {
+        return res.status(400).json({
+          success: false,
+          message: "Setting already exists for this vehicle.",
+        });
+      }
+    }
+
+    const updateData = {};
+
+    if (vehicle !== undefined) updateData.vehicle = vehicle;
+    if (minMileage !== undefined) updateData.minMileage = minMileage;
+    if (dieselRate !== undefined) updateData.dieselRate = dieselRate;
+    if (minDailyKm !== undefined) updateData.minDailyKm = minDailyKm;
+    if (maxDailyKm !== undefined) updateData.maxDailyKm = maxDailyKm;
+
+    // Save the description, including an intentionally empty string.
+    if (description !== undefined) {
+      updateData.description = description;
+    }
+
     const setting = await SystemSetting.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      { $set: updateData },
       {
         new: true,
         runValidators: true,
-      },
-    ).populate("vehicle", "vehicleNo");
+      }
+    ).populate("vehicle", "vehicleNo vehicleType driver");
 
     if (!setting) {
       return res.status(404).json({
@@ -70,13 +183,20 @@ exports.updateSystemSetting = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "System Setting Updated Successfully",
       data: setting,
     });
   } catch (error) {
-    res.status(500).json({
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Setting already exists for this vehicle.",
+      });
+    }
+
+    return res.status(500).json({
       success: false,
       message: error.message,
     });
@@ -95,12 +215,12 @@ exports.deleteSystemSetting = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Deleted Successfully",
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });

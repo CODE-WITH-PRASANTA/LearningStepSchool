@@ -29,15 +29,27 @@ const CreateTeacher = () => {
 
   const dropdownRef = useRef(null);
 
+  // Normalize status values returned by APIs that may use either `status`
+  // or boolean `isActive` / `active` fields.
+  const getTeacherStatus = (teacher) => {
+    if (teacher?.isActive === false || teacher?.active === false) return "inactive";
+    const value = String(teacher?.status ?? "active").trim().toLowerCase();
+    return ["inactive", "in-active", "disabled", "deactivated", "false", "0"].includes(value)
+      ? "inactive"
+      : "active";
+  };
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     contact: "",
     department: "",
+    designation: "",
     image: null,
     imageUrl: "",
     permissions: [],
+    status: "active",
   });
 
   const [loading, setLoading] = useState(false);
@@ -58,19 +70,8 @@ const CreateTeacher = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
 
-  const departments = [
-    "CSE",
-    "IT",
-    "ECE",
-    "EEE",
-    "MECH",
-    "CIVIL",
-    "BBA",
-    "MBA",
-    "MCA",
-    "PHD",
-  ];
 
   /* =====================================================
      IMAGE
@@ -335,13 +336,19 @@ const CreateTeacher = () => {
       );
       formData.append(
         "department",
-        form.department
+        form.department.trim()
+      );
+      formData.append(
+        "designation",
+        form.designation.trim()
       );
 
       formData.append(
         "permissions",
         JSON.stringify(form.permissions)
       );
+      // Backend must accept and persist this field.
+      formData.append("status", form.status || "active");
 
       if (form.image) {
         formData.append(
@@ -424,12 +431,13 @@ const CreateTeacher = () => {
       email: teacher.email || "",
       password: "",
       contact: teacher.contact || "",
-      department:
-        teacher.department || "",
+      department: teacher.department || "",
+      designation: teacher.designation || "",
       image: null,
       imageUrl: teacher.image || "",
       permissions:
         teacher.permissions || [],
+      status: getTeacherStatus(teacher),
     });
 
     setEditId(teacher._id);
@@ -450,9 +458,11 @@ const CreateTeacher = () => {
       password: "",
       contact: "",
       department: "",
+      designation: "",
       image: null,
       imageUrl: "",
       permissions: [],
+      status: "active",
     });
 
     setImagePreview("");
@@ -571,6 +581,9 @@ const CreateTeacher = () => {
           .includes(search) ||
         teacher?.department
           ?.toLowerCase()
+          .includes(search) ||
+        teacher?.designation
+          ?.toLowerCase()
           .includes(search)
     );
   }, [teachers, query]);
@@ -643,13 +656,14 @@ const CreateTeacher = () => {
   ===================================================== */
 
   const activeTeachers = teachers.filter(
-    (teacher) =>
-      !getActiveLeave(teacher._id)
+    (teacher) => getTeacherStatus(teacher) === "active"
   ).length;
 
-  const leaveTeachers =
-    teachers.length -
-    activeTeachers;
+  const inactiveTeachers = teachers.length - activeTeachers;
+
+  const leaveTeachers = teachers.filter(
+    (teacher) => getTeacherStatus(teacher) === "active" && Boolean(getActiveLeave(teacher._id))
+  ).length;
 
   /* =====================================================
      RENDER
@@ -844,7 +858,7 @@ const CreateTeacher = () => {
 
             <input
               type="text"
-              placeholder="Search teacher, email or department..."
+              placeholder="Search teacher, email, department or designation..."
               value={query}
               onChange={(e) =>
                 setQuery(
@@ -949,18 +963,21 @@ const CreateTeacher = () => {
                     <div className="teacher-card-top">
 
                       <div
-                        className={`teacher-status ${
-                          activeLeave
-                            ? "leave"
-                            : "active"
-                        }`}
-                      >
-                        <span />
-                        {activeLeave
-                          ? "On Leave"
-                          : "Active"}
-                      </div>
-
+  className={`teacher-status ${
+    getTeacherStatus(teacher) === "inactive"
+      ? "inactive"
+      : getActiveLeave(teacher._id)
+      ? "leave"
+      : "active"
+  }`}
+>
+  <span />
+  {getTeacherStatus(teacher) === "inactive"
+    ? "Inactive"
+    : getActiveLeave(teacher._id)
+    ? "On Leave"
+    : "Active"}
+</div>
                       <div className="teacher-menu-wrap">
 
                         <button
@@ -1034,6 +1051,8 @@ const CreateTeacher = () => {
                               teacher.name
                             }
                             loading="lazy"
+                            onClick={() => setPreviewImage(getImageSrc(teacher.image))}
+                            style={{ cursor: "zoom-in" }}
                             onError={(
                               e
                             ) => {
@@ -1085,7 +1104,7 @@ const CreateTeacher = () => {
 
                       <span className="teacher-role">
                         <FiBriefcase />
-                        Teacher
+                        {teacher.designation || "Teacher"}
                       </span>
 
                     </div>
@@ -1130,6 +1149,20 @@ const CreateTeacher = () => {
                           <span>Department</span>
                           <strong>
                             {teacher.department ||
+                              "Not assigned"}
+                          </strong>
+                        </div>
+                      </div>
+
+                      <div className="teacher-info-row">
+                        <div className="teacher-info-icon">
+                          <FiBriefcase />
+                        </div>
+
+                        <div>
+                          <span>Designation</span>
+                          <strong>
+                            {teacher.designation ||
                               "Not assigned"}
                           </strong>
                         </div>
@@ -1382,52 +1415,40 @@ const CreateTeacher = () => {
                     </div>
 
                     <div className="teacher-field">
-
-                      <label>
+                      <label htmlFor="teacher-department">
                         Department
                       </label>
 
                       <div className="field-input">
-
                         <FiBookOpen />
-
-                        <select
+                        <input
+                          id="teacher-department"
+                          type="text"
                           name="department"
-                          value={
-                            form.department
-                          }
-                          onChange={
-                            handleChange
-                          }
-                        >
-                          <option value="">
-                            Select Department
-                          </option>
-
-                          {departments.map(
-                            (
-                              department
-                            ) => (
-                              <option
-                                key={
-                                  department
-                                }
-                                value={
-                                  department
-                                }
-                              >
-                                {
-                                  department
-                                }
-                              </option>
-                            )
-                          )}
-                        </select>
-
-                        <FiChevronDown className="select-arrow" />
-
+                          value={form.department}
+                          onChange={handleChange}
+                          placeholder="Enter department (e.g. CSE, Science, Accounts)"
+                          autoComplete="organization-title"
+                        />
                       </div>
+                    </div>
 
+                    <div className="teacher-field">
+                      <label htmlFor="teacher-designation">
+                        Designation
+                      </label>
+
+                      <div className="field-input">
+                        <FiBriefcase />
+                        <input
+                          id="teacher-designation"
+                          type="text"
+                          name="designation"
+                          value={form.designation}
+                          onChange={handleChange}
+                          placeholder="Enter designation (e.g. HOD, Assistant Professor)"
+                        />
+                      </div>
                     </div>
 
                     <div className="teacher-field">
@@ -1464,6 +1485,26 @@ const CreateTeacher = () => {
 
                       </div>
 
+                    </div>
+
+                    <div className="teacher-field">
+                      <label htmlFor="teacher-status">Account Status</label>
+                      <div className="field-input teacher-status-field">
+                        <FiShield />
+                        <select
+                          id="teacher-status"
+                          name="status"
+                          value={form.status || "active"}
+                          onChange={handleChange}
+                          disabled={loading}
+                        >
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                      </div>
+                      <small className="teacher-status-help">
+                        Inactive teachers are marked inactive in this directory. Login blocking also requires backend authentication checks.
+                      </small>
                     </div>
 
                   </div>
@@ -1889,6 +1930,28 @@ const CreateTeacher = () => {
 
           </div>
 
+        </div>
+      )}
+
+      {previewImage && (
+        <div
+          className="teacher-image-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Teacher profile image"
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) setPreviewImage("");
+          }}
+        >
+          <button
+            type="button"
+            className="teacher-image-close"
+            aria-label="Close image preview"
+            onClick={() => setPreviewImage("")}
+          >
+            <FiX />
+          </button>
+          <img src={previewImage} alt="Teacher full-size profile" className="teacher-image-large" />
         </div>
       )}
     </div>
